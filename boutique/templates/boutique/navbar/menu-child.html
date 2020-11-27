@@ -1,0 +1,9 @@
+{% load menu_tags %}
+
+<ul class="sub-menu">
+  {% for child in children %}
+    <li>
+      <a class="dropdown-item nav-link nav_item" href="{{ child.attr.redirect_url|default:child.get_absolute_url }}">{{ child.get_menu_title }}</a>
+    </li>
+  {% endfor %}
+</ul>

@@ -1,0 +1,46 @@
+{% load static thumbnail cms_tags i18n boutique_tags %}
+
+<!-- BEGIN: infolettre -->
+<section class="newslatter-section ptb180">
+  {% if instance.image %}
+    {% thumbnail instance.image "1026x745" crop="scale" as thumb %}
+    <div class="newslatter-bg" style="background-image:url({{thumb.url}})"></div>
+  {% endif %}
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-12">
+        {% if instance.title or instance.subtitle %}
+          <div class="title-bl text-center bg-nl-icon">
+            {% if instance.title %}
+              <div class="title wow fadeIn animated">
+                {{instance.title}}
+              </div>
+            {% endif %}
+            {% if instance.subtitle %}
+              <div class="subtitle color-17">
+                {{instance.subtitle}}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+        {% if instance.text %}
+          <div class="subscribe-text">
+            {{instance.text}}
+          </div>
+        {% endif %}
+        <form action="#" class="default-form">
+          <div class="d-inline-block">
+            <input type="text" class="default-input" placeholder="Votre nom">
+          </div>
+          <div class="d-inline-block">
+            <input type="email" class="default-input" placeholder="Votre courriel">
+          </div>
+          <div class="submit-btn">
+            <input type="submit" class="btn pink" value="{{instance.label}}">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- END: infolettre -->

@@ -1,0 +1,86 @@
+{% load static cms_tags menu_tags sekizai_tags i18n thumbnail boutique_tags dmodules_tags %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}D-Shop{% endblock %} - {% get_setting 'CLIENT_TITLE' %}</title>
+    <!--Metadata-->
+    <meta name="robots" content="{{ ROBOTS_META_TAGS }}" />
+    <meta name="description" content="{% block meta-description %}{% endblock %}" />
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <meta data-dm="dmodules" data-stage="{% get_setting 'STAGE' %}" />
+    {% block main-favicon %}
+      <!--Favicons-->
+      <link rel="apple-touch-icon" sizes="180x180" href="{% static 'boutique/icons/apple-touch-icon.png' %}">
+      <link rel="icon" type="image/png" sizes="512x512" href="{% static 'boutique/icons/android-chrome-512x512.png' %}">
+      <link rel="icon" type="image/png" sizes="192x192" href="{% static 'boutique/icons/android-chrome-192x192.png' %}">
+      <link rel="shortcut icon" href="{% static 'boutique/icons/favicon.ico' %}">
+      <link rel="manifest" href="{% static 'boutique/icons/site.webmanifest' %}">
+    {% endblock main-favicon %}
+    {% block main-head %}
+      <!-- Font -->
+      <link rel="stylesheet" href="{% static 'boutique/fonts/css/font-awesome.min.css' %}" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,500,600,700,800,900|Material+Icons" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css" />
+      <!-- Bootstrap -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    {% endblock main-head %}
+    <!-- Head -->
+    {% block head %}{% endblock head %}
+    <!-- Style -->
+    {% render_block "css" %}
+    <link rel="stylesheet" type="text/css" href="{% static 'boutique/css/drawer.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'boutique/css/dmodules.css' %}" />
+  </head>
+  <body class="drawer drawer--right">
+    {% cms_toolbar %}
+    {% include "boutique/pages/navbar.html" %}
+    {% block drawer %}
+      <div class="dm-drawer">
+        <div class="drawer-nav">
+          <div class="drawer-menu dm-drawer-cart">
+            {% include "boutique/pages/drawer-cart.html" %}
+          </div>
+          <div class="drawer-menu dm-drawer-user">
+            {% include "boutique/pages/drawer-user.html" %}
+          </div>
+        </div>
+      </div>
+    {% endblock drawer %}
+    <!-- BEGIN: header -->
+    {% block main-header %}{% endblock main-header %}
+    <!-- END: header -->
+    <!-- BEGIN: main -->
+    <main>
+      {% block breadcrumb %}{% endblock %}
+      {% block main-content %}
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h1>En construction</h1>
+              <p class="lead">Cette page n'a pas encore de contenue.</p>
+            </div>
+          </div>
+        </div>
+      {% endblock main-content %}
+    </main>
+    <!-- END: main -->
+    <!-- BEGIN: footer -->
+    {% block main-footer %}{% endblock main-footer %}
+    <!-- END: footer -->
+    <!-- BEGIN: snackbar -->
+    <div id="snackbar"></div>
+    <!-- END: snackbar -->
+    <!-- Scripts -->
+    {% block main-foot %}
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    {% endblock main-foot %}
+    <!---->
+    <script src="{% static 'boutique/js/iscroll.min.js' %}"></script>
+    <script src="{% static 'boutique/js/drawer.min.js' %}"></script>
+    <script src="{% static 'boutique/js/dmodules.js' %}"></script>
+    {% render_block "js" %}
+  </body>
+</html>

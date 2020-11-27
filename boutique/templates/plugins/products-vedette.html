@@ -1,0 +1,73 @@
+ {% load static thumbnail cms_tags i18n boutique_tags %}
+
+<!-- BEGIN: en vedette -->
+  <section class="popular-section ptb180">
+    <div class="container">
+      {% if instance.title or instance.text %}
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="title-bl text-center">
+              {% if instance.title %}
+                <div class="title wow fadeIn animated">
+                  {{instance.title}}
+                </div>
+              {% endif %}
+              {% if instance.text %}
+                <div class="subtitle color-15">
+                  {{instance.text|safe}}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      <div class="row">
+        <div class="popular-slider arrow-1 items-container">
+          {% dm_get_products_vedette as products %}
+          {% for product in products %}
+            <div class="slider-item item-container">
+              <div class="shop-item">
+                <a href="{{product.get_absolute_url}}" class="item-img">
+                  {% if product.images.first %}
+                    {% thumbnail product.images.first 510x510 crop as thumb %}
+                    <img src="{{thumb.url}}" alt="" class="img-fluid">
+                  {% else %}
+                    <img src="https://via.placeholder.com/510" alt="" class="img-fluid">
+                  {% endif %}
+                </a>
+                <div class="item-bottom-container">
+                  <div class="item-meta table">
+                    <div class="d-table-row">
+                      <div class="item-price text-right">
+                        <span>{{product.unit_price}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="item-bottom-box equal-height">
+                    <a href="{{product.get_absolute_url}}" class="item-title">
+                      {{product.product_name}}
+                    </a>
+                    <div class="item-desc">
+                      {{product.caption|truncatewords_html:18}}
+                    </div>
+                  </div>
+                  <div class="add-to-cart">
+                    {% if product.is_soumission %}
+                      <a href="/" class="dm-add2soumission btn" data-product="{{product.slug}}">Mettre en soumission</a>
+                    {% else %}
+                      <a href="/" class="dm-add2cart btn" data-product="{{product.slug}}">Ajouter au panier</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% empty %}
+            <div class="text-center">
+              <p>(aucun produit)</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END: en vedette -->

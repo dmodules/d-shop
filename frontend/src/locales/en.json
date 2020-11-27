@@ -1,0 +1,67 @@
+{
+  "Suivant": "Next",
+  "Precedent": "Previous",
+  "Modifier": "Edit",
+  "Continuer": "Continue",
+
+  "Madame": "Mr",
+  "Monsieur": "Mrs",
+  "Preferepasrepondre": "Prefer not to answer",
+
+  "Cechampsesrrequis": "This field is required.",
+
+  "Profil": "Profile",
+  "Salutation": "Salutation",
+  "Prenom": "First Name",
+  "Nomdefamille": "Last Name",
+  "Courriel": "Email",
+
+  "Commander": "Order",
+  "Connexion": "Login",
+  "Inscription": "Register",
+  "Continuereninvite": "Continue as a guest",
+  "Votrecourriel": "Your Email",
+  "Motdepasse": "Password",
+  "Motdepasseconfirmation": "Password Confirmation",
+  "Resterconnecte": "Stay logged in",
+  "Seconnecter": "Log in",
+  "Sinscrire": "Sign in",
+
+  "Client": "Customer",
+  "Livraison": "Shipping",
+  "Facturation": "Billing",
+  "Paiement": "Payment",
+  "Detailsduclient": "Customer's Details",
+
+  "Methodesdexpedition": "Shipping's Methods",
+  "Nomethodesdexpedition": "No available shipping's method",
+  "Adressedelivraison": "Shipping Address",
+  "Nomcomplet": "Full Name",
+  "Adresse": "Address Line 1",
+  "Adressesuite": "Address Line 2",
+  "Pays": "Country",
+  "Province": "State / Province",
+  "Ville": "City",
+  "Codepostal": "Postal Code",
+
+  "Methodesdepaiement": "Billing's Methods",
+  "Adressedefacturation": "Billing's Address",
+  "Utiliserladressedelivraison": "Use Shipping's Address as Billing's Address",
+
+  "Methodedelivraison": "Shipping's Method",
+  "Methodedepaiement": "Billing's Method",
+  "Resumedevotrecommande": "Order's Details",
+  "Quantite": "Quantity",
+  "Produit": "Product",
+  "Prix": "Price",
+  "Total": "Total",
+  "produit": "product",
+  "produits": "products",
+  "Soustotal": "Subtotal :",
+  "Resumedevotrefacture": "Bill's Details",
+  "Jailuetjaccepte": "I've read and accept Terms and Conditions",
+  "Payeretcommander": "Pay and Order",
+
+  "Votrepanierestvide": "Your cart is empty",
+  "Retourneralaccueil": "Return to home"
+}

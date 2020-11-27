@@ -1,0 +1,67 @@
+{
+  "Suivant": "Suivant",
+  "Precedent": "Précédent",
+  "Modifier": "Modifier",
+  "Continuer": "Continuer",
+
+  "Madame": "Madame",
+  "Monsieur": "Monsieur",
+  "Preferepasrepondre": "Préfère ne pas répondre",
+  
+  "Cechampsesrrequis": "Ce champs est requis.",
+
+  "Profil": "Profil",
+  "Salutation": "Salutation",
+  "Prenom": "Prénom",
+  "Nomdefamille": "Nom de famille",
+  "Courriel": "Courriel",
+
+  "Commander": "Commander",
+  "Connexion": "Connexion",
+  "Inscription": "Inscription",
+  "Continuereninvite": "Continuer en tant qu'invité",
+  "Votrecourriel": "Votre courriel",
+  "Motdepasse": "Mot de passe",
+  "Motdepasseconfirmation": "Confirmation du mot de passe",
+  "Resterconnecte": "Rester connecté",
+  "Seconnecter": "Se connecter",
+  "Sinscrire": "S'inscrire",
+
+  "Client": "Client",
+  "Livraison": "Livraison",
+  "Facturation": "Facturation",
+  "Paiement": "Paiement",
+  "Detailsduclient": "Détails du client",
+
+  "Methodesdexpedition": "Méthodes d'expédition",
+  "Nomethodesdexpedition": "Aucune méthode d'expédition disponible",
+  "Adressedelivraison": "Adresse de livraison",
+  "Nomcomplet": "Nom complet",
+  "Adresse": "Address",
+  "Adressesuite": "Address (suite)",
+  "Pays": "Pays",
+  "Province": "Province",
+  "Ville": "Ville",
+  "Codepostal": "Code postal",
+
+  "Methodesdepaiement": "Méthodes de paiement",
+  "Adressedefacturation": "Adresse de facturation",
+  "Utiliserladressedelivraison": "Utiliser l'adresse de livraison pour la facturation",
+
+  "Methodedelivraison": "Méthode de livraison",
+  "Methodedepaiement": "Méthode de paiement",
+  "Resumedevotrecommande": "Résumé de votre commande",
+  "Quantite": "Quantité",
+  "Produit": "Produit",
+  "Prix": "Prix",
+  "Total": "Total",
+  "produit": "produit",
+  "produits": "produits",
+  "Soustotal": "Sous-total :",
+  "Resumedevotrefacture": "Résumé de votre facture",
+  "Jailuetjaccepte": "J'ai lu et j'accepte les Termes et conditions",
+  "Payeretcommander": "Payer et commander",
+
+  "Votrepanierestvide": "Votre panier est vide",
+  "Retourneralaccueil": "Retourner à l'accueil"
+}
