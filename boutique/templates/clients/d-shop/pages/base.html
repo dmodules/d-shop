@@ -1,6 +1,10 @@
 {% extends "boutique/pages/base.html" %}
 {% load static thumbnail cms_tags i18n sekizai_tags boutique_tags %}
 
+{% block head %}
+  <link rel="stylesheet" type="text/css" href="{% static 'clients/d-shop/css/style.css' %}" />
+{% endblock head %}
+
 {% block main-header %}header{% endblock main-header %}
 
 {% block main-content %}
@@ -10,5 +14,3 @@
   main bot
 
 {% endblock main-content %}
-
-{% block main-footer %}footer{% endblock main-footer %}

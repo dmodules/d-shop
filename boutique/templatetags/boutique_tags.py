@@ -56,7 +56,8 @@ def dm_get_products_by_category(k,offset,limit):
 @register.simple_tag
 def dm_get_products_vedette():
   result = Product.objects.filter(active=True, is_vedette=True).order_by('-id')
-  print(result)
+  for r in result:
+    print(r.order)
   return result
 
 @register.simple_tag

@@ -522,3 +522,49 @@ if STAGE == 'local':
       'STATS_FILE': '/app/frontend/webpack-dev.json',
     }
   }
+
+#######################################################################
+# Admin Reordering
+
+MIDDLEWARE.extend([
+  "dmodules.middleware.AdminReorderMiddleware"
+])
+ADMIN_REORDER = (
+  {
+    "app":"shop",
+    "label":"Site",
+    "models":[
+      "sites.Site",
+      "cms.Page",
+      "shop.CustomerProxy",
+      "boutique.dmAlertPublicitaire"
+    ]
+  },
+  {
+    "app":"boutique",
+    "label":"Boutique",
+    "models":[
+      "boutique.ProductCategory",
+      "boutique.Product",
+      {"model":"boutique.Order", "label":_("Commandes")},
+      #{"model":"boutique.Cart", "label":_("Carts")},
+      #{"model":"boutique.ShippingAddress", "label":_("Adresses de livraison")},
+      #{"model":"boutique.BillingAddress", "label":_("Adresses de facturation")},
+      "boutique.ShippingManagement",
+      "boutique.CanadaTaxManagement",
+    ]
+  },
+  {
+    "app":"post_office",
+    "label":"Envoi de courriels",
+    "models":[
+      "shop.Notification",
+      {"model":"post_office.EmailTemplate", "label":_("Gabarits de courriel")},
+      {"model":"post_office.Email", "label":_("Courriels envoyés")},
+      "post_office.Log"
+    ]
+  },
+  {
+    "app":"filer"
+  },
+)

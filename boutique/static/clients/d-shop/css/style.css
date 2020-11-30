@@ -1,0 +1,35 @@
+
+
+a{
+  color:#458d91;
+  text-decoration:none;
+  transition:color 0.3s;
+}
+a:hover{
+  color:#000;
+  text-decoration:none;
+}
+
+.widget_links li a:hover,
+.contact_info_light li a:hover,
+.footer_link li a:hover,
+.social_icons li a:hover,
+.footer-copyright a:hover{
+	color: #458d91;
+}
+
+.topnav a:hover,
+.topnav .drawer-toggle:hover{
+  color:#458d91;
+}
+
+.navbar .navbar-nav > li:hover > a,
+.light_skin.transparent_header.nav-fixed .navbar .navbar-nav > li:hover > a,
+.transparent_header.nav-fixed .light_skin .navbar .navbar-nav > li:hover > a {
+	color: #458d91;
+}
+
+.product-card .name a:hover,
+.product-card .price{
+  color:#458d91;
+}

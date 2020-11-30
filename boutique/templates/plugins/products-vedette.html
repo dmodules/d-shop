@@ -1,61 +1,52 @@
  {% load static thumbnail cms_tags i18n boutique_tags %}
 
 <!-- BEGIN: en vedette -->
-  <section class="popular-section ptb180">
+  <section class="section-vedette">
     <div class="container">
       {% if instance.title or instance.text %}
         <div class="row">
-          <div class="col-xl-12">
-            <div class="title-bl text-center">
-              {% if instance.title %}
-                <div class="title wow fadeIn animated">
-                  {{instance.title}}
-                </div>
-              {% endif %}
-              {% if instance.text %}
-                <div class="subtitle color-15">
-                  {{instance.text|safe}}
-                </div>
-              {% endif %}
-            </div>
+          <div class="col-12">
+            {% if instance.title %}
+              <h2 class="title">
+                {{instance.title}}
+              </h2>
+            {% endif %}
+            {% if instance.text %}
+              <div class="subtitle">
+                {{instance.text|safe}}
+              </div>
+            {% endif %}
           </div>
         </div>
       {% endif %}
-      <div class="row">
-        <div class="popular-slider arrow-1 items-container">
+      <div class="row carousel-vedette">
+        <div class="product_slider carousel_slider owl-carousel owl-theme nav_style1" data-loop="true" data-dots="false" data-nav="true" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "1199":{"items": "4"}}'>
           {% dm_get_products_vedette as products %}
           {% for product in products %}
-            <div class="slider-item item-container">
-              <div class="shop-item">
+            <div class="item" id="produitno{{forloop.counter}}">
+              <div class="product-card">
                 <a href="{{product.get_absolute_url}}" class="item-img">
-                  {% if product.images.first %}
+                  {% if product.main_image %}
+                    {% thumbnail product.main_image 510x510 crop as thumb %}
+                    <img src="{{thumb.url}}" alt="" class="img-fluid">
+                  {% elif product.images.first %}
                     {% thumbnail product.images.first 510x510 crop as thumb %}
                     <img src="{{thumb.url}}" alt="" class="img-fluid">
                   {% else %}
                     <img src="https://via.placeholder.com/510" alt="" class="img-fluid">
                   {% endif %}
                 </a>
-                <div class="item-bottom-container">
-                  <div class="item-meta table">
-                    <div class="d-table-row">
-                      <div class="item-price text-right">
-                        <span>{{product.unit_price}}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="item-bottom-box equal-height">
-                    <a href="{{product.get_absolute_url}}" class="item-title">
+                <div class="info">
+                  <h3 class="name">
+                    <a href="{{product.get_absolute_url}}">
                       {{product.product_name}}
                     </a>
-                    <div class="item-desc">
-                      {{product.caption|truncatewords_html:18}}
-                    </div>
-                  </div>
-                  <div class="add-to-cart">
-                    {% if product.is_soumission %}
-                      <a href="/" class="dm-add2soumission btn" data-product="{{product.slug}}">Mettre en soumission</a>
+                  </h3>
+                  <div class="price">
+                    {% if product.variants %}
+                      <span>{{product.variants.first.unit_price}}</span>
                     {% else %}
-                      <a href="/" class="dm-add2cart btn" data-product="{{product.slug}}">Ajouter au panier</a>
+                      <span>{{product.unit_price}}</span>
                     {% endif %}
                   </div>
                 </div>

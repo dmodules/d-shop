@@ -1,8 +1,14 @@
+html{
+  background-color:#202325;
+}
 body{
+  background-color:#fbfbfb;
   min-width:300px;
 }
+
+/* ===--- Topnav ---=== */
 .topnav{
-  background-color:#000;
+  background-color:#202325;
   color:#fff;
   font-size:20px;
   line-height:46px;
@@ -12,7 +18,7 @@ body{
   top:0;
   left:0;
   right:0;
-  z-index:1000;
+  z-index:1042;
   padding:0 1rem;
 }
 .topnav .col-6{
@@ -47,6 +53,8 @@ body{
   display:inline-block;
   width:100%;
 }
+
+/* ===--- Drawer ---=== */
 .drawer-toggle #dm-cart-items,
 .drawer-toggle #dm-soumission-items{
   background-color: #41b6e6;
@@ -213,7 +221,7 @@ body{
 }
 .dm-drawer-inner #drawer-items-list a.dm-item-delete,
 .dm-drawer-inner #drawer-soumission-list a.dm-item-delete{
-  color:#f0592b;
+  color:#41b6e6;
   position:absolute;
   top:0;
   right:-18px;
@@ -270,31 +278,52 @@ body{
   text-decoration:underline;
 }
 
-/**/
-ul.list-3 li.dm-produits-category-haschildren{
-  position:relative;
-}
-ul.list-3 li.dm-produits-category-haschildren > a{
-  width:calc(100% - 70px);
-}
-ul.list-3 li.dm-produits-category-haschildren .toggle{
-  background-color:#f7f6fa;
-  color:#758987;
-  line-height:24px;
+/* ===--- Section Vedette ---=== */
+.section-vedette{
   text-align:center;
-  display:inline-block;
-  width:24px;
-  height:24px;
-  position:absolute;
-  top:10px;
-  right:0;
+  padding:80px 0;
 }
-ul.list-3 li.dm-produits-category-haschildren .toggle:hover{
-  background-color:#41b6e6;
-  color:#fff;
-  cursor:pointer;
+.section-vedette h2{
+  color:#292b2c;
+  font-size:2rem;
+  font-weight:700;
 }
 
+/**/
+.product-card{
+  background-color:#fff;
+  box-shadow:0 0 7px rgba(0,0,0,0.1);
+  margin:5px;
+}
+.product-card .info{
+  text-align:left;
+  padding:15px;
+}
+.product-card .name{
+  font-family:'Roboto', sans-serif;
+  font-size:1.1rem;
+  font-weight:500;
+  line-height:120%;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
+  display:block;
+  width:100%;
+  transition:color 0.3s;
+  margin:0 0 1rem;
+}
+.product-card .name a{
+  color:#292b2c;
+}
+.product-card .name a:hover{
+  color:#41b6e6;
+}
+.product-card .price{
+  color:#41b6e6;
+  font-weight:600;
+}
+
+/* ===--- Categories ---=== */
 .dm-produits-category-submenu{
   display:none;
 }

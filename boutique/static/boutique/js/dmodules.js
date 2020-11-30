@@ -358,17 +358,17 @@ $(document).ready(function() {
     $('.topnav').css({"top":"46px"});
     $('.drawer-overlay').css({"top":"92px"});
     $('.drawer-nav').css({"height":"calc(100vh - 92px)","top":"92px"});
-    $('.header-wrapper.fixed-top').css({"top":"92px"});
+    $('.header_wrap.fixed-top').css({"top":"92px"});
   } else if ($('.topnav').length) {
     $('html').css({"margin-top":"0"});
     $('body').css({"padding-top":"46px"});
     $('.drawer-overlay').css({"top":"46px"});
     $('.drawer-nav').css({"height":"calc(100vh - 46px)","top":"46px"});
-    $('.header-wrapper.fixed-top').css({"top":"46px"});
+    $('.header_wrap.fixed-top').css({"top":"46px"});
   } else if ($('#cms-top').length) {
     $('html').css({"margin-top":"0"});
     $('body').css({"padding-top":"46px"});
-    $('.header-wrapper.fixed-top').css({"top":"46px"});
+    $('.header_wrap.fixed-top').css({"top":"46px"});
   }
   if ($('#app').length) {
     $('.drawer-toggle.dm-soumission').hide()

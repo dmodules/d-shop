@@ -294,6 +294,11 @@ class ProductDefaultAdmin(InvalidateProductCacheMixin, SortableAdminMixin, Trans
     (_("Properties"), {
       'fields': [],
     }),
+    (_("Image Principale"), {
+      'fields': [
+        'main_image'
+      ]
+    })
   )
   inlines = [ProductImageInline]
   prepopulated_fields = {'slug': ['product_code']}
@@ -319,6 +324,11 @@ class ProductVariableAdmin(InvalidateProductCacheMixin, SortableAdminMixin, Tran
     (_("Properties"), {
         'fields': ["width"],
     }),
+    (_("Image Principale"), {
+      'fields': [
+        'main_image'
+      ]
+    })
   ]
   #filter_horizontal = ['cms_pages']
   inlines = [ProductImageInline, ProductVariableVariantInline]
