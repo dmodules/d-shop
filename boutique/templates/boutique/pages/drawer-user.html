@@ -1,13 +1,15 @@
+{% load cms_tags %}
+
 {% if customer.is_authenticated %}
   <div class="dm-drawer-inner">
     <h2 class="drawer-title mb-1">Mon compte</h2>
     <div class="dm-drawer-user-account">
-      <ul class="list-3">
+      <ul class="list">
         <li>
           <a href="/commande/profil/">Profil</a>
         </li>
         <li>
-          <a href="/vos-commandes/">Vos commandes</a>
+          <a href="{% page_url 'orders' %}">Vos commandes</a>
         </li>
         <li>
           <a href="#" onclick="return dmDrawerDoLogout()">Se déconnecter</a>
@@ -20,10 +22,10 @@
     <h2 class="drawer-title mb-3">Mon compte</h2>
     <div class="dm-drawer-user-tabs">
       <div class="dm-drawer-tabs-login">
-        <a href="#" class="btn blue disabled" onclick="return dmDrawerTabUserLogin()">Connexion</a>
+        <a href="#" class="btn disabled" onclick="return dmDrawerTabUserLogin()">Connexion</a>
       </div>
       <div class="dm-drawer-tabs-register">
-        <a href="#" class="btn blue" onclick="return dmDrawerTabUserRegister()">Inscription</a>
+        <a href="#" class="btn" onclick="return dmDrawerTabUserRegister()">Inscription</a>
       </div>
     </div>
     <div class="dm-drawer-user-logs">
@@ -33,7 +35,7 @@
           <input id="dm-drawer-form-login-password" name="password" placeholder="Mot de passe" type="password" class="default-input" />
           <div class="dm-drawer-logs-login-error" style="display:none;"></div>
         </form>
-        <a href="#" class="btn pink d-block" onclick="return dmDrawerDoLogin()">Se connecter</a>
+        <a href="/" class="btn btn-fill-out btn-addtocart" onclick="return dmDrawerDoLogin()">Se connecter</a>
       </div>
       <div class="dm-drawer-logs-register">
         <form id="dm-drawer-form-register" class="default-form">
@@ -42,7 +44,7 @@
           <input id="dm-drawer-form-register-password2" placeholder="Confirmation du mot de passe" type="password" class="default-input" />
         </form>
         <div class="dm-drawer-logs-register-error" style="display:none;"></div>
-        <a href="#" class="btn pink d-block" onclick="return dmDrawerDoRegister()">S'inscrire</a>
+        <a href="/" class="btn btn-fill-out btn-addtocart" onclick="return dmDrawerDoRegister()">S'inscrire</a>
       </div>
     </div>
   </div>

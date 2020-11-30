@@ -1,0 +1,17 @@
+{% load static cms_tags thumbnail %}
+
+<div class="col-md-6">
+  <div class="single_banner">
+    {% if instance.image %}
+      {% thumbnail instance.image "540x300" crop upscale as thumb %}
+      <img src="{{thumb.url}}" alt="" />
+    {% else %}
+      <img src="{% static 'boutique/shopwise/images/shop_banner_img1.jpg' %}" alt="" />
+    {% endif %}
+    <div class="single_banner_info">
+      <h5 class="single_bn_title1">{% if instance.text %}{{instance.text}}{% endif %}</h5>
+      <h3 class="single_bn_title">{% if instance.title %}{{instance.title}}{% endif %}</h3>
+      {% if instance.btn_label %}<a href="{% if instance.btn_url %}{{instance.btn_url}}{% else %}#{% endif %}" class="single_bn_link">{{instance.btn_label}}</a>{% endif %}
+    </div>
+  </div>
+</div>

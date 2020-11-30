@@ -1696,7 +1696,8 @@ footer .widget_title,
 .ajax_quick_view .product_share > span {
 	margin-right: 10px;
 }
-.shop_container.list .product .rating_wrap,.shop_container.list .product_price {
+.shop_container.list .product .rating_wrap,
+.shop_container.list .product_price {
 	float: none;
 }
 .shop_container.list .product .rating_wrap {

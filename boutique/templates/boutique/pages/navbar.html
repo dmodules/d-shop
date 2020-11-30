@@ -4,14 +4,14 @@
   {% block topnav %}
     <div class="topnav">
       <div class="row">
-        <div class="col-1 col-md-3 col-lg-3 text-left">
+        <div class="col-1 col-md-3 col-lg-3 py-0 my-0 text-left">
           <span>
             <a href="https://www.facebook.com/d-modules/" target="_blank">
               <i class="fab fa-facebook" aria-hidden="true"></i>
             </a>
           </span>
         </div>
-        <div class="d-none d-md-block col-md-4 col-lg-6 text-center">
+        <div class="d-none d-md-block col-md-4 col-lg-6 py-0 my-0 text-center">
           {% get_alertpublicitaire as alerts %}
           {% for alert in alerts %}
             <span class="notif">
@@ -19,7 +19,7 @@
             </span>
           {% endfor %}
         </div>
-        <div class="col-11 col-md-5 col-lg-3 text-right">
+        <div class="col-11 col-md-5 col-lg-3 py-0 my-0 text-right">
           <span class="drawer-toggle" data-dm="user">
             <i class="fa fa-user"></i>
           </span>

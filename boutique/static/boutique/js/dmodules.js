@@ -283,13 +283,13 @@ function loadMoreProduits(category = null) {
 
 //* ===---   Filtres   ---=== *//
 
-$('.size-box').on('change', function( ){
+$('.filters-box').on('change', function( ){
   if ($(this).children('input').attr('name') !== 'tous') {
-    $('.size-box.dm-tous').removeClass('checked')
-    $('.size-box.dm-tous').children('input').prop("checked", false)
+    $('.filters-box.dm-tous').removeClass('checked')
+    $('.filters-box.dm-tous').children('input').prop("checked", false)
   } else {
-    $('.size-box:not(.dm-tous)').removeClass('checked')
-    $('.size-box:not(.dm-tous)').children('input').prop("checked", false)
+    $('.filters-box:not(.dm-tous)').removeClass('checked')
+    $('.filters-box:not(.dm-tous)').children('input').prop("checked", false)
   }
   //
   if ($(this).hasClass('checked')) {
@@ -302,8 +302,8 @@ $('.size-box').on('change', function( ){
 })
 
 function doProductsByFilters() {
-  $('.produits .item-container').hide()
-  $('.size-box').each(function() {
+  $('.shop_container .produit').hide()
+  $('.filters-box').each(function() {
     if ($(this).children('input').prop('checked')) {
       showProduit($(this).children('input').attr('name'))
     }
@@ -311,7 +311,7 @@ function doProductsByFilters() {
 }
 
 function showProduit(filter) {
-  $('.produits .item-container').each(function() {
+  $('.shop_container .produit').each(function() {
     if ($(this).data('filters').indexOf(filter) >= 0) {
       $(this).show()
     }

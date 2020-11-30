@@ -36,11 +36,15 @@ INSTALLED_APPS.extend([
   'fsm_admin',
   'adminsortable2',
   # ===---
+  'webpack_loader',
+  # ===---
   'rest_framework',
   'rest_framework.authtoken',
   'rest_auth',
   'post_office',
+  # ===---
   'stripe',
+  # ===---
   'shop',
   'boutique',
   'dmodules'
@@ -88,33 +92,32 @@ MIDDLEWARE.extend([
 ])
 
 STAGE = os.getenv('STAGE', 'local').lower()
-
-CLIENTNAME = os.getenv('SITE_NAME', 'testCLIENTNAME').lower()
+CLIENT_SLUG = os.getenv('SITE_NAME', 'd-shop').lower()
 
 #######################################################################
 # Actual Shop Settings
 
 SHOP_APP_LABEL = 'boutique'
-CLIENT_SLUG = 'd-shop'
+SITE_ID = 1
+
 CLIENT_TITLE = "D-Shop"
 ADMINS = [("D-Modules", 'info@d-modules.com')]
 SHOP_VENDOR_EMAIL = 'info@d-modules.com'
-SITE_ID = 1
 
 if STAGE == "live":
   SITE_URL = "https://d-shop.us.aldryn.io"
 elif STAGE == "test":
   SITE_URL = "https://d-shop-stage.us.aldryn.io"
-elif STAGE == 'local':
+elif STAGE == "local":
   SITE_URL = "http://localhost:8000"
 
 ############################################
 # Templates Settings
 
 CMS_TEMPLATES = [
-  ("clients/{}/pages/default.html".format(CLIENT_SLUG.lower()), "Par défaut"),
-  ("clients/{}/pages/accueil.html".format(CLIENT_SLUG.lower()), "Page: Accueil"),
-  ("clients/{}/pages/produits.html".format(CLIENT_SLUG.lower()), "Page: Produits"),
+  ("clients/{}/pages/default.html".format(CLIENT_SLUG), "Par défaut"),
+  ("clients/{}/pages/accueil.html".format(CLIENT_SLUG), "Page: Accueil"),
+  ("clients/{}/pages/produits.html".format(CLIENT_SLUG), "Page: Produits"),
 ]
 
 #######################################################################
@@ -129,6 +132,9 @@ DEFAULT_FROM_EMAIL = 'noreply@d-modules.com'
 DEFAULT_TO_EMAIL = 'mariechristine@d-modules.com'
 EMAIL_REPLY_TO = 'info@d-modules.com'
 EMAIL_BACKEND = 'post_office.EmailBackend'
+
+MAILCHIMP_KEY = '1111111111111111111-11'
+MAILCHIMP_LISTID = '1111111111'
 
 #######################################################################
 # Stripe Settings
@@ -547,6 +553,7 @@ ADMIN_REORDER = (
     "label":"Boutique",
     "models":[
       "boutique.ProductCategory",
+      "boutique.ProductFilter",
       "boutique.Product",
       {"model":"boutique.Order", "label":_("Commandes")},
       #{"model":"boutique.Cart", "label":_("Carts")},

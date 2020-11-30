@@ -29,3 +29,4 @@ django-webpack-loader==0.6.0
 stripe==2.55.0
 # extras
 django-colorfield==0.3.0
+mailchimp3==3.0.7

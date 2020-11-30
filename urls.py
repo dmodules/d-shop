@@ -18,6 +18,7 @@ from rest_framework import routers
 from shop.views.catalog import ProductListView
 from shop.views.cart import CartViewSet
 
+from boutique.views import mailchimp
 from boutique.views import CustomerView, LoadProduits, ShippingMethodsView, BillingMethodsView
 from boutique.views import TestPaymentView, StripePaymentView, StripeCheckout, StripePaymentCancelView
 
@@ -28,6 +29,8 @@ def render_robots(request):
     return HttpResponse('User-Agent: *\n%s: /\n' % permission, content_type='text/plain')
 
 urlpatterns = [
+
+    url(r'^infolettre/$', mailchimp),
 
     url(r'^robots\.txt$', render_robots),
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
@@ -49,8 +52,8 @@ urlpatterns = [
 
     url(r'^admin', admin.site.urls),
 
-    url(r'^produits/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', TemplateView.as_view(template_name='boutique/pages/produits.html')),
-    url(r'^produits/', TemplateView.as_view(template_name='boutique/pages/produits.html')),
+    url(r'^produits/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', TemplateView.as_view(template_name='clients/{}/pages/produits.html'.format(settings.CLIENT_SLUG))),
+    url(r'^produits/', TemplateView.as_view(template_name='clients/{}/pages/produits.html'.format(settings.CLIENT_SLUG))),
 
     ############################
     # ===--- FRONTEND   ---=== #
@@ -69,7 +72,7 @@ urlpatterns = [
     url(r'css/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'css')}),
     url(r'fonts/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'fonts')}),
     # ===---
-    url(r'^commande/', TemplateView.as_view(template_name='boutique/pages/app.html')),
+    url(r'^commande/', TemplateView.as_view(template_name='clients/{}/pages/app.html'.format(settings.CLIENT_SLUG))),
     ############################
     # ===------------------=== #
     ############################

@@ -342,6 +342,7 @@ class ProductFilter(models.Model):
 class Product(CMSPageReferenceMixin, TranslatableModelMixin, BaseProduct):
   product_name = models.CharField(_("Nom du produit"), max_length=255)
   slug = models.SlugField(_("Slug"), unique=True)
+  categories = models.ManyToManyField(ProductCategory, verbose_name=_("Catégories"))
   is_vedette = models.BooleanField(_("En vedette ?"), default=False)
   caption = TranslatedField()
   description = TranslatedField()
@@ -487,6 +488,10 @@ class dmProductsVedette(CMSPlugin):
   title = models.CharField(verbose_name=_("Titre"), max_length=100, null=True, blank=True)
   text = HTMLField(verbose_name=_("Texte"), configuration='CKEDITOR_SETTINGS_DMPLUGIN', null=True, blank=True)
 
+class dmProductsByCategory(CMSPlugin):
+  title = models.CharField(verbose_name=_("Titre"), max_length=100, null=True, blank=True)
+  text = HTMLField(verbose_name=_("Texte"), configuration='CKEDITOR_SETTINGS_DMPLUGIN', null=True, blank=True)
+
 # ===---
 
 class dmBlocEntete(CMSPlugin):
@@ -548,6 +553,17 @@ class dmBlocEtapesChild(CMSPlugin):
   image = models.ImageField(verbose_name=_("Image"), null=True, blank=True, help_text=_("Dimension : 160x160."))
   title = models.CharField(verbose_name=_("Titre"), max_length=100, null=True, blank=True)
   text = models.CharField(verbose_name=_("Texte"), max_length=200, null=True, blank=True)
+
+class dmBlockSalesParent(CMSPlugin):
+  title = models.CharField(verbose_name=_("Titre"), max_length=100, null=True, blank=True)
+  text = HTMLField(verbose_name=_("Texte"), configuration='CKEDITOR_SETTINGS_DMPLUGIN', null=True, blank=True)
+
+class dmBlockSalesChild(CMSPlugin):
+  title = models.CharField(verbose_name=_("Titre"), max_length=100, null=True, blank=True)
+  text = models.CharField(verbose_name=_("Texte"), max_length=100, null=True, blank=True)
+  btn_label = models.CharField(verbose_name=_("Button's Label"), max_length=25, null=True, blank=True)
+  btn_url = models.CharField(verbose_name=_("Button's URL"), max_length=255, null=True, blank=True)
+  image = models.ImageField(verbose_name="Image", null=True, blank=True)
 
 #######################################################################
 # Canada Taxes

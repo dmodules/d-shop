@@ -1,7 +1,9 @@
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
+from django.template.loader import select_template
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
-from .models import dmBlocEntete, dmBlocTextMedia, dmBlocEnteteVideo, dmBlocSliderParent, dmBlocSliderChild, dmProductsCategories, dmProductsVedette, dmBlocContact, dmInfolettre, dmBlocEtapesParent, dmBlocEtapesChild
+from .models import dmBlocEntete, dmBlocTextMedia, dmBlocEnteteVideo, dmBlocSliderParent, dmBlocSliderChild, dmProductsCategories, dmProductsVedette, dmProductsByCategory, dmBlocContact, dmInfolettre, dmBlocEtapesParent, dmBlocEtapesChild, dmBlockSalesParent, dmBlockSalesChild
 
 class BoutiquePlugin(CMSPluginBase):
   module = 'A Boutique Plugin'
@@ -134,9 +136,65 @@ class dmProductsCategoriesPlugin(BoutiquePlugin):
 class dmProductsVedettePlugin(BoutiquePlugin):
   name = _("Produits Vedette")
   model = dmProductsVedette
-  render_template = 'plugins/products-vedette.html'
   allow_children = False
 
   def render(self, context, instance, placeholder):
     context = super(dmProductsVedettePlugin, self).render(context, instance, placeholder)
     return context
+
+  def get_render_template(self, context, instance, placeholder):
+    return select_template([
+      'clients/{}/plugins/products-vedette.html'.format(settings.CLIENT_SLUG),
+      'plugins/products-vedette.html'
+    ])
+
+@plugin_pool.register_plugin
+class dmProductsByCategpryPlugin(BoutiquePlugin):
+  name = _("Produits par catégorie")
+  model = dmProductsByCategory
+  allow_children = False
+
+  def render(self, context, instance, placeholder):
+    context = super(dmProductsByCategpryPlugin, self).render(context, instance, placeholder)
+    return context
+
+  def get_render_template(self, context, instance, placeholder):
+    return select_template([
+      'clients/{}/plugins/products-by-category.html'.format(settings.CLIENT_SLUG),
+      'plugins/products-by-category.html'
+    ])
+
+@plugin_pool.register_plugin
+class dmBlockSalesParentPlugin(BoutiquePlugin):
+  name = _("Bloc vente")
+  model = dmBlockSalesParent
+  allow_children = True
+  child_classes = ['dmBlockSalesChildPlugin']
+
+  def render(self, context, instance, placeholder):
+    context = super(dmBlockSalesParentPlugin, self).render(context, instance, placeholder)
+    return context
+
+  def get_render_template(self, context, instance, placeholder):
+    return select_template([
+      'clients/{}/plugins/block-sales-parent.html'.format(settings.CLIENT_SLUG),
+      'plugins/block-sales-parent.html'
+    ])
+
+@plugin_pool.register_plugin
+class dmBlockSalesChildPlugin(BoutiquePlugin):
+  name = _("Élément du bloc vente")
+  model = dmBlockSalesChild
+  allow_children = False
+  require_parent = True
+  parent_classes = ['dmBlockSalesParentPlugin']
+
+  def render(self, context, instance, placeholder):
+    context = super(dmBlockSalesChildPlugin, self).render(context, instance, placeholder)
+    return context
+
+  def get_render_template(self, context, instance, placeholder):
+    return select_template([
+      'clients/{}/plugins/block-sales-child.html'.format(settings.CLIENT_SLUG),
+      'plugins/block-sales-child.html'
+    ])

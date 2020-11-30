@@ -23,7 +23,7 @@
         <div class="product_slider carousel_slider owl-carousel owl-theme nav_style1" data-loop="true" data-dots="false" data-nav="true" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "1199":{"items": "4"}}'>
           {% dm_get_products_vedette as products %}
           {% for product in products %}
-            <div class="item" id="produitno{{forloop.counter}}">
+            <div class="item" id="produitvedetteno{{forloop.counter}}">
               <div class="product-card">
                 <a href="{{product.get_absolute_url}}" class="item-img">
                   {% if product.main_image %}

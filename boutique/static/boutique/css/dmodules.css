@@ -249,6 +249,7 @@ body{
   margin:0 0 0 0.5rem;
 }
 .dm-drawer-user-tabs .btn{
+  background-color:#41b6e6;
   width:100%;
   min-width:10px;
   padding:30px 5px;
@@ -261,20 +262,22 @@ body{
   color:#f00;
   margin:1rem 0 2rem;
 }
-.dm-drawer-user-account .list-3{
+.dm-drawer-user-account .list{
   text-align:left;
+  list-style:none;
 }
-.dm-drawer-user-account .list-3 li{
+.dm-drawer-user-account .list li{
   border:0;
 }
-.dm-drawer-user-account .list-3 li + li{
+.dm-drawer-user-account .list li + li{
   border-top:1px solid #dad6e3;
 }
-.dm-drawer-user-account .list-3 li a{
+.dm-drawer-user-account .list li a{
   display:inline-block;
   width:70%;
+  padding:1rem;
 }
-.dm-drawer-user-account .list-3 li a:hover{
+.dm-drawer-user-account .list li a:hover{
   text-decoration:underline;
 }
 

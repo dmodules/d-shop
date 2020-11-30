@@ -10,6 +10,10 @@ a:hover{
   text-decoration:none;
 }
 
+.bg_default{
+  background-color:#458d91!important;
+}
+
 .widget_links li a:hover,
 .contact_info_light li a:hover,
 .footer_link li a:hover,
@@ -29,7 +33,56 @@ a:hover{
 	color: #458d91;
 }
 
+/* ===--- Drawer ---=== */
+.dm-drawer-user-tabs .btn{
+  background-color:#fff;
+  border:1px solid #CED4DA;
+  color:#458d91;
+}
+.dm-drawer-user-tabs .btn.disabled{
+  background-color:#458d91;
+  color:#fff;
+  opacity:1;
+}
+.dm-drawer-total{
+  background-color:#fff;
+  border:1px solid #CED4DA;
+  color:#458d91;
+}
+
+/* ===--- Plugins ---=== */
+.section-infolettre > .section{
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:cover;
+}
+.section-infolettre .heading_s1 p:last-child{
+  margin-bottom:0;
+}
+
 .product-card .name a:hover,
 .product-card .price{
   color:#458d91;
+}
+
+.widget_categories li a:hover,
+.widget_archive li a:hover{
+  color:#458d91;
+}
+
+/* ===--- Filtres ---=== */
+.products-filters .filters-boxes .filters-box.checked .filters-text {
+  background-color: #458d91;
+  color: #fff;
+}
+.products-filters .filters-boxes .filters-box:hover .filters-text {
+  background-color: #458d91;
+  color: #fff;
+}
+.products-filters .filters-boxes .filters-box.checked:hover  .filters-text {
+  background-color: #458d91;
+  color: #000;
+}
+.products-filters .filters-boxes .filters-box .filters-text {
+  background-color: #f7f8fb;
 }

@@ -1,6 +1,7 @@
 import re
 import json
-
+from django.contrib import messages
+from mailchimp3 import MailChimp
 from django.utils.translation import ugettext_lazy as _, get_language_from_request
 from ipware.ip import get_client_ip as get_ip
 from django.http import HttpResponse
@@ -11,26 +12,20 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 from easy_thumbnails.files import get_thumbnailer
 from django.template.defaultfilters import slugify
-
 from shop.models.defaults.customer import Customer
-
 from boutique.transition import transition_change_notification
-
 from boutique.models import Product
-
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response as RestResponse
-
 from shop.payment.modifiers import PaymentModifier
 from shop.payment.providers import PaymentProvider
-
 from shop.modifiers.pool import cart_modifiers_pool
-
 from shop.models.order import OrderModel
 from shop.models.order import OrderPayment
 from shop.money import MoneyMaker
 from settings import STRIPE_KEY, STRIPE_ACCOUNT_ID, SITE_URL
+from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
 from .models import StripeOrderData
 import stripe
 
@@ -292,3 +287,21 @@ def make_stored_request(request):
     'remote_ip': get_ip(request),
     'user_agent': request.META.get('HTTP_USER_AGENT'),
   }
+
+def mailchimp(request):
+  client = MailChimp(mc_api=MAILCHIMP_KEY)
+  email = request.POST.get('email_infolettre','')
+  calcul = request.POST.get('calcul_infolettre','')
+  if calcul == '6':
+    try:
+      client.lists.members.create(MAILCHIMP_LISTID, {
+        'email_address': email,
+        'status': 'subscribed',
+      })
+      messages.success(request, 'Vous avez bien été ajouté à notre liste de courriels')
+    except:
+      messages.error(request, 'Oups, il y a un problème avec votre inscription')
+      redirect('/')
+  else:
+    messages.error(request, 'La réponse du calcul est mauvaise')
+  return redirect('/')

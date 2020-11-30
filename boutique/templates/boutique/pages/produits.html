@@ -4,22 +4,24 @@
 {% block title %}Produits{% endblock %}
 
 {% block breadcrumb %}
-  <section class="page-name">
-    <div class="container">
-      <div class="row">
-        <div class="col-xl-12 name-wrapper">
-          <div class="page-title">
-            {% if request.resolver_match.kwargs.category_id %}
+  <section class="section-breadcrumb">
+    <div class="breadcrumb_section bg_gray page-title-mini mb-4">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <div class="page-title">
+              {% if request.resolver_match.kwargs.category_id %}
               {% dm_get_category request.resolver_match.kwargs.category_id as current_category %}
-              <h1>{{current_category.name}}</h1>
-            {% else %}
-              <h1>{% trans "Products" %}</h1>
-            {% endif %}
+                <h1>{{current_category.name}}</h1>
+              {% else %}
+                <h1>{% trans "Products" %}</h1>
+              {% endif %}
+            </div>
           </div>
-          <div class="breadcrumbs">
+          <div class="col-md-6">
             {% if request.resolver_match.kwargs.category_id %}
               <div class="breadcrumbs-item">
-                <a href="/produits">{% trans "Products" %}</a>
+                <a href="{% page_url 'produits' %}">{% trans "Products" %}</a>
               </div>
             {% endif %}
           </div>
