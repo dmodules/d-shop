@@ -89,6 +89,8 @@ MIDDLEWARE.extend([
 
 STAGE = os.getenv('STAGE', 'local').lower()
 
+CLIENTNAME = os.getenv('SITE_NAME', 'testCLIENTNAME').lower()
+
 #######################################################################
 # Actual Shop Settings
 
