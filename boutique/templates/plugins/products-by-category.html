@@ -38,29 +38,43 @@
                 {% dm_get_products_by_category category.id 0 8 as products %}
                 {% for product in products.products %}
                   <div class="col-lg-3 col-md-4 col-6" id="produitno{{forloop.counter}}">
-                    <div class="product-card">
-                      <a href="{{product.get_absolute_url}}" class="item-img">
-                        {% if product.main_image %}
-                          {% thumbnail product.main_image 510x510 crop as thumb %}
-                          <img src="{{thumb.url}}" alt="" class="img-fluid">
-                        {% elif product.images.first %}
-                          {% thumbnail product.images.first 510x510 crop as thumb %}
-                          <img src="{{thumb.url}}" alt="" class="img-fluid">
-                        {% else %}
-                          <img src="https://via.placeholder.com/510" alt="" class="img-fluid">
-                        {% endif %}
-                      </a>
-                      <div class="info">
-                        <h3 class="name">
-                          <a href="{{product.get_absolute_url}}">
-                            {{product.product_name}}
-                          </a>
-                        </h3>
-                        <div class="price">
-                          {% if product.variants %}
-                            <span>{{product.variants.first.unit_price}}</span>
+                    <div class="product">
+                      <div class="product_img">
+                        <a href="{{product.get_absolute_url}}">
+                          {% if product.main_image %}
+                            {% thumbnail product.main_image 540x600 crop upscale as thumb %}
+                            <img src="{{thumb.url}}" alt="{{product.product_name}}">
+                          {% elif product.images.first %}
+                            {% thumbnail product.images.first 540x600 crop upscale as thumb %}
+                            <img src="{{thumb.url}}" alt="{{product.product_name}}">
                           {% else %}
-                            <span>{{product.unit_price}}</span>
+                            <img src="{% static 'boutique/shopwise/images/product_img1.jpg' %}" alt="{{product.product_name}}">
+                          {% endif %}
+                        </a>
+                        <div class="product_action_box">
+                          <ul class="list_none pr_action_btn">
+                            <li>
+                              <a href="{{product.get_absolute_url}}"><i class="ti-info-alt"></i></a>
+                            </li>
+                            {% if product.variants %}{% else%}
+                              <li>
+                                <a href="/" class="dm-add2cart btn" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
+                              </li>
+                            {% endif %}
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="product_info text-left">
+                        <h6 class="product_title"><a href="{{product.get_absolute_url}}">{{product.product_name}}</a></h6>
+                        <div class="product_price">
+                          {% if product.variants %}
+                            <span class="price">{{product.variants.first.unit_price}}</span>
+                          {% else %}
+                            {% product_discount_price product.id as real_price %}
+                            <span class="price">{{real_price}}</span>
+                            {% if real_price != product.unit_price %}
+                              <del>{{product.unit_price}}</del>
+                            {% endif %}
                           {% endif %}
                         </div>
                       </div>

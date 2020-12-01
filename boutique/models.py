@@ -1,5 +1,6 @@
 from cms import __version__ as CMS_VERSION
 from django.utils.translation import ugettext_lazy as _
+import pytz
 from cms.models import CMSPlugin
 from filer.fields import image
 from filer.fields.file import FilerFileField
@@ -391,12 +392,29 @@ class ProductDefault(AvailableProductMixin, Product):
     verbose_name_plural = _("Produits par défaut")
 
   def get_price(self, request):
+    today = pytz.utc.localize(datetime.utcnow())
+    all_discounts = dmRabaisPerCategory.objects.filter(Q(categories__in=self.categories.all()) & Q(is_active=True) & (Q(valid_from__isnull=True) | Q(valid_from__lte=today)) & (Q(valid_until__isnull=True) | Q(valid_until__gt=today)))
+    if all_discounts.count() > 0:
+      r = self.unit_price
+      for d in all_discounts:
+        if d.amount is not None:
+          r = Money(Decimal(r) - Decimal(d.amount))
+        elif d.percent is not None:
+          pourcent = Decimal(d.percent) / Decimal('100')
+          discount = Money(Decimal(self.unit_price) * pourcent)
+          r = r - discount
+    else:
+      r = self.unit_price
+    if Decimal(r) < 0:
+      r = Money(0)
+    return r
+
+  def get_realprice(self):
     return self.unit_price
 
 # ===---
 
 class ProductVariable(Product):
-  width = models.DecimalField(_("Width"), max_digits=4, decimal_places=1)
   multilingual = TranslatedFields(description=HTMLField(verbose_name=_("Description"), configuration='CKEDITOR_SETTINGS_DESCRIPTION', help_text=_("Description longue.")))
 
   class Meta:
@@ -447,14 +465,51 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
   product = models.ForeignKey(ProductVariable, on_delete=models.CASCADE, verbose_name=_("Produit"), related_name='variants')
   product_code = models.CharField(_("Product code"),max_length=255, unique=True)
   unit_price = MoneyField(_("Unit price"), decimal_places=3, help_text=_("Net price for this product"))
-  storage = models.PositiveIntegerField(_("Internal Storage"))
   quantity = models.PositiveIntegerField(_("Quantity"), default=0, validators=[MinValueValidator(0)], help_text=_("Available quantity in stock"))
 
   def __str__(self):
-    return _("{product} with {storage} GB").format(product=self.product, storage=self.storage)
+    return _("{product}").format(product=self.product)
 
   def get_price(self, request):
+    today = pytz.utc.localize(datetime.utcnow())
+    all_discounts = dmRabaisPerCategory.objects.filter(Q(categories__in=self.categories.all()) & Q(is_active=True) & (Q(valid_from__isnull=True) | Q(valid_from__lte=today)) & (Q(valid_until__isnull=True) | Q(valid_until__gt=today)))
+    if all_discounts.count() > 0:
+      r = self.unit_price
+      for d in all_discounts:
+        if d.amount is not None:
+          r = Money(Decimal(r) - Decimal(d.amount))
+        elif d.percent is not None:
+          pourcent = Decimal(d.percent) / Decimal('100')
+          discount = Money(Decimal(self.unit_price) * pourcent)
+          r = r - discount
+    else:
+      r = self.unit_price
+    if Decimal(r) < 0:
+      r = Money(0)
+    return r
+
+  def get_realprice(self):
     return self.unit_price
+
+#######################################################################
+# Rabais
+#######################################################################
+
+class dmRabaisPerCategory(models.Model):
+  name = models.CharField(_('Nom'), max_length=100)
+  amount = models.DecimalField(verbose_name=_("Montant fixe"), max_digits=30, decimal_places=3, blank=True, null=True, help_text=_("Un montant fixe à retirer du prix original, laisser vide pour privilégier le pourcentage."))
+  percent = models.PositiveSmallIntegerField(verbose_name=_("Pourcentage"), blank=True, null=True, help_text=_("Un pourcentage à retirer du prix original, ne sera pas utilisé s'il y a un montant dans 'Montant fixe'."))
+  is_active = models.BooleanField(_('Actif'), default=True)
+  valid_from = models.DateTimeField(_('Date de début'), default=datetime.now)
+  valid_until = models.DateTimeField(_('Date de fin'), blank=True, null=True)
+  categories = models.ManyToManyField(ProductCategory, related_name="rabaispercategory", verbose_name=_("Categories"))
+
+  class Meta:
+    verbose_name = _('Rabais par catégorie')
+    verbose_name_plural = _('Rabais par catégorie')
+
+  def __str__(self):
+    return self.name
 
 #######################################################################
 # Alerte Publicitaire

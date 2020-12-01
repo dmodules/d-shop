@@ -5357,11 +5357,8 @@ footer .widget_title {
     margin-bottom: 15px;
 }
 .pr_detail .rating_wrap {
-    float: right;
+  float: right;
 	margin-top: 7px;
-}
-.pr_detail .product_price {
-    float: left;
 }
 .pr_detail .price {
     vertical-align: middle;
@@ -5665,6 +5662,12 @@ footer .widget_title {
 .shop_container.list .product .product_title {
 	font-size: 20px;
 	margin-bottom: 15px;
+}
+.product .product_title a {
+	color:#202325;
+}
+.product .product_title a:hover {
+	color:#205cc0;
 }
 .shop_container.list .product_info {
 	overflow: hidden;
@@ -6544,7 +6547,7 @@ footer .widget_recent_post .post_img img {
 }
 .tab-style1 .nav-tabs li.nav-item a.active, .tab-style1 .nav-tabs li.nav-item a.active:hover,
 .tab-style2 .nav-tabs li.nav-item a.active, .tab-style2 .nav-tabs li.nav-item a.active:hover {
-	color: #458d91;
+	color: #495057;
 }
 .tab-style2 .nav-tabs li.nav-item a {
 	padding: 0px 15px;

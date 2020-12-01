@@ -1,23 +1,7 @@
-{% extends "boutique/pages/default.html" %}
-{% load cms_tags sekizai_tags %}
+{% load dmodules_tags %}
 
-{% block title %}{{ product.product_name }}{% endblock %}
+{% get_setting 'CLIENT_SLUG' as client %}
 
-{% block breadcrumb %}{% with extra_ance=product.product_name %}
-	{% include "shop/breadcrumb/default.html" %}
-{% endwith %}{% endblock %}
-
-{% block main-content %}
-<div class="container">
-	<div class="row">
-		<div class="col">
-			<h1>{% render_model product "product_name" %}</h1>
-			{# the first `render_placeholder` is only required for editing the page #}
-			{% render_placeholder product.placeholder %}{% render_placeholder product.placeholder as product_details %}
-			{% if not product_details %}
-			<p class="lead">Edit this page, then switch into <em>Structure</em> mode and add plugins to placeholder <code> {{ product.placeholder.slot }} </code>.</p>
-			{% endif %}
-		</div>
-	</div>
-</div>
-{% endblock main-content %}
+{% with "clients/"|add:client|add:"/catalog/product-detail.html" as path %}
+  {% include path %}
+{% endwith %}

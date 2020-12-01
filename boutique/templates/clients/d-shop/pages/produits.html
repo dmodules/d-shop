@@ -88,7 +88,14 @@
                     </a>
                     <div class="product_action_box">
                       <ul class="list_none pr_action_btn">
-                        <li><a href="{{product.get_absolute_url}}"><i class="ti-info-alt"></i></a></li>
+                        <li>
+                          <a href="{{product.get_absolute_url}}"><i class="ti-info-alt"></i></a>
+                        </li>
+                        {% if product.variants %}{% else%}
+                          <li>
+                            <a href="/" class="dm-add2cart btn" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
+                          </li>
+                        {% endif %}
                       </ul>
                     </div>
                   </div>
@@ -98,9 +105,12 @@
                       {% if product.variants %}
                         <span class="price">{{product.variants.first.unit_price}}</span>
                       {% else %}
-                        <span class="price">{{product.unit_price}}</span>
+                        {% product_discount_price product.id as real_price %}
+                        <span class="price">{{real_price}}</span>
+                        {% if real_price != product.unit_price %}
+                          <del>{{product.unit_price}}</del>
+                        {% endif %}
                       {% endif %}
-                      <del style="display:none;">-</del>
                     </div>
                     <div class="pr_desc">
                       <p>{{product.caption}}</p>

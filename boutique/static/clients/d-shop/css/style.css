@@ -64,10 +64,21 @@ a:hover{
 .product-card .price{
   color:#458d91;
 }
+.product .product_title a {
+	color:#202325;
+}
+.product .product_title a:hover {
+	color:#458d91;
+}
 
 .widget_categories li a:hover,
 .widget_archive li a:hover{
   color:#458d91;
+}
+
+.tab-style1 .nav-tabs li.nav-item a.active, .tab-style1 .nav-tabs li.nav-item a.active:hover,
+.tab-style2 .nav-tabs li.nav-item a.active, .tab-style2 .nav-tabs li.nav-item a.active:hover {
+	color: #495057;
 }
 
 /* ===--- Filtres ---=== */

@@ -613,33 +613,7 @@ PAGE JS
 			});
 		});
 	});
-	
-	/*===================================*
-    19.MAP JS
-    *===================================*/	
-	if ($("#map").length > 0){
-		google.maps.event.addDomListener(window, 'load', init);
-	}
-	
-	var map_selector = $('#map');
-	function init() {
-		
-		var mapOptions = {
-			zoom: map_selector.data("zoom"),
-			mapTypeControl: false,
-			center: new google.maps.LatLng(map_selector.data("latitude"), map_selector.data("longitude")), // New York
-		  };
-		var mapElement = document.getElementById('map');
-		var map = new google.maps.Map(mapElement, mapOptions);
-		var marker = new google.maps.Marker({
-			position: new google.maps.LatLng(map_selector.data("latitude"), map_selector.data("longitude")),
-			map: map,
-			icon: map_selector.data("icon"),
-			
-			title: map_selector.data("title"),
-		});
-		marker.setAnimation(google.maps.Animation.BOUNCE);
-	}	
+
 
 	
 	/*===================================*

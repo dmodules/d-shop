@@ -118,6 +118,7 @@ CMS_TEMPLATES = [
   ("clients/{}/pages/default.html".format(CLIENT_SLUG), "Par défaut"),
   ("clients/{}/pages/accueil.html".format(CLIENT_SLUG), "Page: Accueil"),
   ("clients/{}/pages/produits.html".format(CLIENT_SLUG), "Page: Produits"),
+  ("clients/{}/pages/contact.html".format(CLIENT_SLUG), "Page: Contact"),
 ]
 
 #######################################################################
@@ -552,6 +553,7 @@ ADMIN_REORDER = (
     "app":"boutique",
     "label":"Boutique",
     "models":[
+      "boutique.dmRabaisPerCategory",
       "boutique.ProductCategory",
       "boutique.ProductFilter",
       "boutique.Product",
