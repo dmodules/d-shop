@@ -34,6 +34,10 @@ a:hover{
 }
 
 /* ===--- Drawer ---=== */
+.drawer-toggle #dm-cart-items,
+.drawer-toggle #dm-soumission-items{
+  background-color:#458d91;
+}
 .dm-drawer-user-tabs .btn{
   background-color:#fff;
   border:1px solid #CED4DA;
@@ -43,6 +47,14 @@ a:hover{
   background-color:#458d91;
   color:#fff;
   opacity:1;
+}
+.dm-drawer-inner #drawer-items-list .col-8 a,
+.dm-drawer-inner #drawer-soumission-list .col-8 a{
+  color:#458d91;
+}
+.dm-drawer-inner #drawer-items-list .col-8 a:hover,
+.dm-drawer-inner #drawer-soumission-list .col-8 a:hover{
+  color:#202325;
 }
 .dm-drawer-total{
   background-color:#fff;
