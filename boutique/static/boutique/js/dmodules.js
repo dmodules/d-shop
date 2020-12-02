@@ -16,6 +16,10 @@ const i18n = {
   products: {
     fr: "produits",
     en: "products"
+  },
+  voirplus: {
+    fr: "Voir plus",
+    en: "See more"
   }
 }
 
@@ -136,150 +140,9 @@ function getPanier() {
   })
 }
 
-/**/
-
-function showAdd2soumissionSnack() {
-  $('#snackbar').text('Produit ajouté à la soumission')
-  $('#snackbar').addClass('show')
-  setTimeout(function () {
-    $('#snackbar').removeClass('show')
-  }, 3000)
-}
-
-function dm_add2soumission(k) {
-  let endpoint = $(k).data("product")
-  let quantity = 0
-  $.get(site + i18n.product[lang] + "/" + endpoint + "/add-to-cart", function(getResult) {
-    getResult.quantity = quantity
-    $.post(shop + "cart/", getResult, function() {
-      showAdd2soumissionSnack()
-      getSoumission()
-    })
-  })
-}
-
-function dm_delete2soumission(endpoint) {
-  $.ajax({
-    url: shop + "watch/" + endpoint,
-    type: "DELETE",
-    success: function() {
-      getSoumission()
-    }
-  })
-  return false
-}
-
-function getSoumission() {
-  $.get(shop + "watch/", function(getResult) {
-    if (getResult.items.length >= 1) {
-      $("#dm-soumission-items").show()
-      $("#dm-soumission-items").text(getResult.items.length)
-      if (getResult.num_items > 1) {
-        $("#drawer-soumission-count").text(getResult.num_items + " " + i18n.products[lang])
-      } else {
-        $("#drawer-soumission-count").text(getResult.num_items + " " + i18n.product[lang])
-      }
-      if (getResult.items.length >= 1) {
-        let itemlist = "<ul>"
-        getResult.items.forEach((item) => {
-          itemlist += "<li>"
-          itemlist += "<div class='container-fluid'><div class='row'>"
-          itemlist += "<div class='col-3'>"
-          itemlist += item.summary.media
-          itemlist += "</div>"
-          itemlist += "<div class='col-8 text-left'>"
-          itemlist += "<div><a href='"+item.summary.product_url+"'>" + item.summary.product_name + "</a></div>"
-          itemlist += "<a href='#' class='dm-item-delete' onclick='return dm_delete2soumission("+JSON.stringify(item.url.split("/cart/")[1])+")'>X</a>"
-          itemlist += "</div>"
-          itemlist += "</div></div>"
-          itemlist += "</li>"
-          $("#drawer-soumission-list").html(itemlist)
-        })
-        itemlist += "</ul>"
-        $(".btn-soumission").removeClass("disabled")
-      } else {
-        $("#dm-soumission-items").hide()
-        $("#dm-soumission-items").text("0")
-        $("#drawer-soumission-count").text("0 " + i18n.product[lang])
-        $("#drawer-soumission-list").html('')
-        $(".btn-soumission").addClass("disabled")
-      }
-    } else {
-      $("#dm-soumission-items").hide()
-      $("#dm-soumission-items").text("0")
-      $("#drawer-soumission-count").text("0 " + i18n.product[lang])
-      $("#drawer-soumission-list").html('')
-      $(".btn-soumission").addClass("disabled")
-    }
-  })
-}
-
 /* ======================================================== //
 // ===---    Produits Scripts                        ---=== //
 // ======================================================== */
-
-//* ===---   Load More   ---=== *//
-
-function loadMoreProduits(category = null) {
-  let offset = $('.dm-btn-more').data('offset')
-  let limit = $('.dm-btn-more').data('limit')
-  let cat = ''
-  if (category) {
-    cat = '&category='+category
-  }
-  // ===---
-  $.get("/api/v1/moreproduits/?offset="+offset+'&limit='+limit+cat, function(getResult) {
-    let r = ''
-    getResult.products.forEach((product) => {
-      r = ''
-      r += '<div class="item-container col-md-6" data-filters="tous'
-      if (product.filters) {
-        r += ' ' + product.filters
-      }
-      r += '">'
-      r += '<div class="shop-item">'
-      r += '<a href="'+product.url+'" class="item-img">'
-      if (product.image) {
-        r += '<img src="'+product.image+'" alt="" class="img-fluid">'
-      } else {
-        r += '<img src="https://via.placeholder.com/510" alt="" class="img-fluid">'
-      }
-      r += '</a>'
-      r += '<div class="item-bottom-container">'
-      r += '<div class="item-meta table">'
-      r += '<div class="d-table-row">'
-      r += '<div class="item-price text-right">'
-      r += '<span>'+product.price+'</span>'
-      r += '</div>'
-      r += '</div>'
-      r += '</div>'
-      r += '<div class="item-bottom-box equal-height">'
-      r += '<a href="'+product.url+'" class="item-title">'
-      r += product.name
-      r += '</a>'
-      r += '<div class="item-desc">'
-      r += product.caption
-      r += '</div>'
-      r += '</div>'
-      r += '<div class="add-to-cart">'
-      r += '<a href="#" class="dm-add2cart btn" data-product="'+product.slug+'">Ajouter au panier</a>'
-      r += '</div>'
-      r += '</div>'
-      r += '</div>'
-      r += '</div>'
-      $(".produits").append(r)
-    })
-    if (getResult.next === 0) {
-      $('.dm-btn-more').hide()
-    }
-  }).then(function() {
-    setClickBtn()
-    doProductsByFilters()
-    $('.dm-btn-more').data('offset', offset + limit)
-  })
-  // ===---
-  return false
-}
 
 //* ===---   Filtres   ---=== *//
 
@@ -350,7 +213,6 @@ $(document).ready(function() {
       }
     })
     getPanier();
-    getSoumission();
   }
   if ($('#cms-top').length && $('.topnav').length) {
     $('html').css({"margin-top":"0"});

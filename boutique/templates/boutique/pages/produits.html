@@ -63,7 +63,7 @@
           <div class="items-container">
             <div class="row produits">
               {% for product in products.products %}
-                <div class="item-container col-md-6" data-filters="tous{% for filter in product.product_filters.all %} {{filter.name|slugify}}{% endfor %}">
+                <div class="item-container col-md-6" data-filters="tous{% for filter in product.filters.all %} {{filter.name|slugify}}{% endfor %}">
                   <div class="shop-item">
                     <a href="{{product.get_absolute_url}}" class="item-img">
                       {% if product.images.first %}

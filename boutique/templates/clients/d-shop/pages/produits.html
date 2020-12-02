@@ -65,14 +65,14 @@
               </div>
             </div>
           </div>
-          <div class="row shop_container grid">
+          <div class="row shop_container grid produits">
             {% if request.resolver_match.kwargs.category_id %}
-              {% dm_get_products_by_category request.resolver_match.kwargs.category_id 0 8 as products %}
+              {% dm_get_products_by_category request.resolver_match.kwargs.category_id 0 9 as products %}
             {% else %}
-              {% dm_get_all_products 0 8 as products %}
+              {% dm_get_all_products 0 9 as products %}
             {% endif %}
             {% for product in products.products %}
-              <div class="produit col-md-4 col-6" data-filters="tous{% for filter in product.product_filters.all %} {{filter.name|slugify}}{% endfor %}">
+              <div class="produit col-md-4 col-6" data-filters="tous{% for filter in product.filters.all %} {{filter.name|slugify}}{% endfor %}">
                 <div class="product">
                   <div class="product_img">
                     <a href="{{product.get_absolute_url}}">
@@ -93,7 +93,7 @@
                         </li>
                         {% if product.variants %}{% else%}
                           <li>
-                            <a href="/" class="dm-add2cart btn" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
+                            <a href="/" class="dm-add2cart btn" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
                           </li>
                         {% endif %}
                       </ul>
@@ -124,14 +124,25 @@
                 </div>
               </div>
             {% empty %}
-              <div class="col-md-4 col-6">
+              <div class="col-12">
                 <div class="product">
                   <div class="product_info">
-                    <h6 class="product_title mb-0">Aucun produit</h6>
+                    <h6 class="product_title mb-0">{% trans 'Aucun produit' %}</h6>
                   </div>
                 </div>
               </div>
             {% endfor %}
+          </div>
+          <div class="row">
+            {% if products.next > 0 %}
+              <div class="col-12 pt-5 text-center">
+                {% if request.resolver_match.kwargs.category_id %}
+                  <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits('{{request.resolver_match.kwargs.category_id}}')" data-offset="10" data-limit="9">Voir plus de produits</a>
+                {% else %}
+                  <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits()" data-offset="10" data-limit="9">Voir plus de produits</a>
+                {% endif %}
+              </div>
+            {% endif %}
           </div>
         </div>
         <div class="col-lg-3 order-lg-first mt-4 pt-2 mt-lg-0 pt-lg-0">

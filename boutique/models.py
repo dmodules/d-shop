@@ -344,6 +344,7 @@ class Product(CMSPageReferenceMixin, TranslatableModelMixin, BaseProduct):
   product_name = models.CharField(_("Nom du produit"), max_length=255)
   slug = models.SlugField(_("Slug"), unique=True)
   categories = models.ManyToManyField(ProductCategory, verbose_name=_("Catégories"))
+  filters = models.ManyToManyField(ProductFilter, verbose_name=_("Filtres"))
   is_vedette = models.BooleanField(_("En vedette ?"), default=False)
   caption = TranslatedField()
   description = TranslatedField()

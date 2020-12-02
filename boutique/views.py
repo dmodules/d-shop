@@ -176,17 +176,25 @@ class LoadProduits(APIView):
       data = {}
       data['name'] = produit.product_name
       data['url'] = produit.get_absolute_url()
-      data['price'] = produit.unit_price
       data['caption'] = strip_tags(Truncator(produit.caption).words(18))
       data['slug'] = produit.slug
-      if produit.images.first():
-        data['image'] = get_thumbnailer(produit.images.first()).get_thumbnail({'size': (510, 510), 'crop': True, 'upscale': True}).url
+      if produit.main_image:
+        data['image'] = get_thumbnailer(produit.main_image).get_thumbnail({'size': (540, 600), 'crop': True, 'upscale': True}).url
+      elif produit.images.first():
+        data['image'] = get_thumbnailer(produit.images.first()).get_thumbnail({'size': (540, 600), 'crop': True, 'upscale': True}).url
       else:
         data['image'] = None
-      if produit.product_filters.all():
-        data['filters'] = " ".join([ slugify(d.name) for d in produit.product_filters.all() ])
+      if produit.filters.all():
+        data['filters'] = " ".join([ slugify(d.name) for d in produit.filters.all() ])
       else:
         data['filters'] = None
+      if hasattr(produit, 'variants'):
+        data['variants'] = True
+        data['price'] = produit.variants.first().unit_price
+      else:
+        data['price'] = produit.get_price(request)
+        data['realprice'] = produit.unit_price
+        data['variants'] = False
       all_produits.append(data)
     # ===---
     result = {
