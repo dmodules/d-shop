@@ -93,7 +93,20 @@
                 </div>
               </div>
               <hr />
-              //
+              <div class="cart_extra">
+                <div class="cart-product-quantity">
+                  <div class="quantity">
+                    <input type="button" value="-" class="minus" onclick="quantityMinus()" />
+                    <input type="number" name="quantity" value="1" title="Qty" class="qty input-num" min="1" max="99" />
+                    <input type="button" value="+" class="plus" onclick="quantityPlus()" />
+                  </div>
+                </div>
+                <div class="cart_btn">
+                  <a href="#" class="btn btn-fill-out btn-add2cart dm-add2cart" data-product="{{product.slug}}" data-quantity="1">
+                    <i class="icon-basket-loaded"></i>{% trans "Add to cart" %}
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>

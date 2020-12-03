@@ -1,7 +1,7 @@
 {% load i18n static cascade_tags sekizai_tags dmodules_tags %}
 {% load render_plugin from cascade_tags %}
 
-<div class="container py-1">
+<div class="container py-5">
   <div class="row py-1">
     <div class="col py-1">
 
@@ -19,7 +19,7 @@
             <div class="service-item item-content">
               <div class="service-content-box text-left py-3 px-4">
                 <h5 class="service-title">{% trans "Shipping Address" %}</h5>
-                <div class="py-2 px-4">
+                <div class="py-2 pl-1 pr-4">
                   <pre class="text-left">{{ data.shipping_address_text }}</pre>
                 </div>
                 <div class="text-primary">{% trans "Shipping Method" %}: {{ data.active_shipping_method.label }}</div>
@@ -30,7 +30,7 @@
             <div class="service-item item-content">
               <div class="service-content-box text-left py-3 px-4">
                 <h5 class="service-title">{% trans "Billing Address" %}</h5>
-                <div class="py-2 px-4">
+                <div class="py-2 pl-1 pr-4">
                   <pre class="text-left pa-2">{{ data.billing_address_text }}</pre>
                 </div>
                 <div class="text-primary">{% trans "Payment Method" %}: {{ data.active_payment_method.label }}</div>

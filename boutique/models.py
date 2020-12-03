@@ -22,7 +22,7 @@ from shop.money.fields import MoneyField
 from shop.models.product import BaseProduct, BaseProductManager, AvailableProductMixin
 from shop.models.defaults.cart import Cart
 from shop.models.defaults.cart_item import CartItem
-from shop.models.defaults.order_item import OrderItem
+from shop.models.order import BaseOrderItem
 from shop.models.defaults.order import Order
 from shop.models.defaults.mapping import ProductPage, ProductImage
 from shop.models.address import BaseShippingAddress, BaseBillingAddress
@@ -33,7 +33,16 @@ from django.utils.six.moves.urllib.parse import urljoin
 from .stripe_tax import create_tax, update_tax
 from shop.models.order import OrderPayment
 
-__all__ = ['Cart', 'CartItem', 'Order', 'OrderItem', 'Customer']
+__all__ = ['Cart', 'CartItem', 'Order', 'Customer']
+
+class OrderItem(BaseOrderItem):
+  quantity = models.PositiveIntegerField(_("Ordered quantity"))
+  variables = JSONField(verbose_name=_("Données"))
+
+  def populate_from_cart_item(self, cart_item, request):
+    super().populate_from_cart_item(cart_item, request)
+    self.variables = cart_item.extra
+    self.save()
 
 class CMSPageReferenceMixin(object):
   category_fields = ['cms_pages']
@@ -473,7 +482,7 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
 
   def get_price(self, request):
     today = pytz.utc.localize(datetime.utcnow())
-    all_discounts = dmRabaisPerCategory.objects.filter(Q(categories__in=self.categories.all()) & Q(is_active=True) & (Q(valid_from__isnull=True) | Q(valid_from__lte=today)) & (Q(valid_until__isnull=True) | Q(valid_until__gt=today)))
+    all_discounts = dmRabaisPerCategory.objects.filter(Q(categories__in=self.product.categories.all()) & Q(is_active=True) & (Q(valid_from__isnull=True) | Q(valid_from__lte=today)) & (Q(valid_until__isnull=True) | Q(valid_until__gt=today)))
     if all_discounts.count() > 0:
       r = self.unit_price
       for d in all_discounts:
@@ -578,12 +587,14 @@ class dmBlocSliderChild(CMSPlugin):
   ]
   title = models.CharField(verbose_name=_("Titre"), max_length=100, null=True, blank=True)
   subtitle = models.CharField(verbose_name=_("Sous-titre"), max_length=200, null=True, blank=True)
-  title_color = ColorField(verbose_name=_("Couleur du titre"), default="#ffffff", null=False, blank=False)
-  title_shadow = ColorField(verbose_name=_("Couleur d'ombre du titre"), default="#45a5a0", null=False, blank=False)
-  subtitle_color = ColorField(verbose_name=_("Couleur du sous-titre"), default="#ffffff", null=False, blank=False)
-  position_text = models.PositiveSmallIntegerField(verbose_name=_("Position du texte"), choices=CHOICE_POS_TEXT,default=3)
-  bg_color = ColorField(verbose_name=_("Couleur de fond"), default="#f7f6fa", null=False, blank=False)
-  image = models.ImageField(verbose_name=_("Image"), null=True, blank=True, help_text=_("Dimension : 1920x961. Laisser vide pour ne pas afficher d'image."))
+  title_color = ColorField(verbose_name=_("Couleur du titre"), null=True, blank=True)
+  subtitle_color = ColorField(verbose_name=_("Couleur du sous-titre"), null=True, blank=True)
+  position_text = models.PositiveSmallIntegerField(verbose_name=_("Position du texte"), choices=CHOICE_POS_TEXT, default=3)
+  btn_label = models.CharField(verbose_name=_("Nom du lien"), max_length=30, null=True, blank=True)
+  btn_url = models.CharField(verbose_name=_("Adresse URL du lien"), max_length=1000, blank=True, null=True)
+  btn_blank = models.BooleanField(verbose_name=_("Le lien s'ouvre dans un nouvel onglet ?"), default=False)
+  bg_color = ColorField(verbose_name=_("Couleur de fond"), null=True, blank=True)
+  image = models.ImageField(verbose_name=_("Image"), null=True, blank=True, help_text=_("Laisser vide pour ne pas afficher d'image."))
 
 class dmBlocContact(CMSPlugin):
   horaire_top = models.CharField(verbose_name=_("Horaire - Haut"), max_length=50, null=False, blank=False)
@@ -632,7 +643,7 @@ class CanadaTaxManagement(models.Model):
                  for t in ['Alberta', 'British Columbia', 'Manitoba',
                            'New-Brunswick', 'Newfoundland and Labrador',
                            'Northwest Territories', 'Nova Scotia', 'Nunavut',
-                           'Ontario', 'Prince Edward Island', 'Québec',
+                           'Ontario', 'Prince Edward Island', 'Quebec',
                            'Saskatchewan', 'Yukon']],
         max_length=60,
         unique=True,

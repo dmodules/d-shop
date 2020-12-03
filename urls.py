@@ -18,7 +18,7 @@ from rest_framework import routers
 from shop.views.catalog import ProductListView
 from shop.views.cart import CartViewSet
 
-from boutique.views import mailchimp
+from boutique.views import mailchimp, sendemail
 from boutique.views import CustomerView, LoadProduits, ShippingMethodsView, BillingMethodsView
 from boutique.views import TestPaymentView, StripePaymentView, StripeCheckout, StripePaymentCancelView
 
@@ -31,6 +31,7 @@ def render_robots(request):
 urlpatterns = [
 
     url(r'^infolettre/$', mailchimp),
+    url(r'^sendemail/$', sendemail),
 
     url(r'^robots\.txt$', render_robots),
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
@@ -51,6 +52,8 @@ urlpatterns = [
 ] + aldryn_addons.urls.patterns() + i18n_patterns(
 
     url(r'^admin', admin.site.urls),
+
+    url(r'^message-envoye/', TemplateView.as_view(template_name='clients/{}/pages/message-envoye.html'.format(settings.CLIENT_SLUG))),
 
     url(r'^produits/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', TemplateView.as_view(template_name='clients/{}/pages/produits.html'.format(settings.CLIENT_SLUG))),
     url(r'^produits/', TemplateView.as_view(template_name='clients/{}/pages/produits.html'.format(settings.CLIENT_SLUG))),

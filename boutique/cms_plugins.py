@@ -49,7 +49,6 @@ class dmBlocEnteteVideoPlugin(BoutiquePlugin):
 class dmBlocSliderParentPlugin(BoutiquePlugin):
   name = _("Bloc slider")
   model = dmBlocSliderParent
-  render_template = 'plugins/bloc-slider-parent.html'
   allow_children = True
   child_classes = ['dmBlocSliderChildPlugin']
 
@@ -57,18 +56,52 @@ class dmBlocSliderParentPlugin(BoutiquePlugin):
     context = super(dmBlocSliderParentPlugin, self).render(context, instance, placeholder)
     return context
 
+  def get_render_template(self, context, instance, placeholder):
+    return select_template([
+      'clients/{}/plugins/bloc-slider-parent.html'.format(settings.CLIENT_SLUG),
+      'plugins/bloc-slider-parent.html'
+    ])
+
 @plugin_pool.register_plugin
 class dmBlocSliderChildPlugin(BoutiquePlugin):
-    name = _("Élément du bloc slider")
-    model = dmBlocSliderChild
-    render_template = 'plugins/bloc-slider-child.html'
-    allow_children = False
-    require_parent = True
-    parent_classes = ['dmBlocSliderParentPlugin']
+  name = _("Élément du bloc slider")
+  model = dmBlocSliderChild
+  allow_children = False
+  require_parent = True
+  parent_classes = ['dmBlocSliderParentPlugin']
+  fieldsets = [
+    (_('Textes'), {
+      'fields': [
+        ('title', 'title_color'),
+        ('subtitle', 'subtitle_color'),
+        'position_text'
+      ]
+    }),
+    (_('Fond'), {
+      'fields': [
+        'bg_color',
+        'image'
+      ]
+    }),
+    (_('Lien'), {
+      'classes': ('collapse',),
+      'fields': [
+        'btn_label',
+        'btn_url',
+        'btn_blank',
+      ]
+    })
+  ]
 
-    def render(self, context, instance, placeholder):
-        context = super(dmBlocSliderChildPlugin, self).render(context, instance, placeholder)
-        return context
+  def render(self, context, instance, placeholder):
+    context = super(dmBlocSliderChildPlugin, self).render(context, instance, placeholder)
+    return context
+
+  def get_render_template(self, context, instance, placeholder):
+    return select_template([
+      'clients/{}/plugins/bloc-slider-child.html'.format(settings.CLIENT_SLUG),
+      'plugins/bloc-slider-child.html'
+    ])
 
 @plugin_pool.register_plugin
 class dmBlocEtapesParentPlugin(BoutiquePlugin):

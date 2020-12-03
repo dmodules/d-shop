@@ -11,7 +11,6 @@ from .payment import TestPayment
 from .payment import StripePayment
 from .payment import SquarePayment
 from decimal import Decimal
-from shop.serializers.cart import ExtraCartRow
 
 from shop.conf import app_settings
 from shop.modifiers.base import BaseCartModifier
@@ -21,8 +20,11 @@ from boutique.models import ShippingManagement
 class PrimaryCartModifier(DefaultCartModifier):
   def process_cart_item(self, cart_item, request):
     variant = cart_item.product.get_product_variant(product_code=cart_item.product_code)
-    cart_item.unit_price = variant.unit_price
+    cart_item.unit_price = variant.get_price(request)
     cart_item.line_total = cart_item.unit_price * cart_item.quantity
+    cart_item.extra["variables"] = {
+      _("Code du produit"): cart_item.product_code
+    }
     return super(DefaultCartModifier, self).process_cart_item(cart_item, request)
 
 class FreeShippingModifier(ShippingModifier):
@@ -248,11 +250,3 @@ class CanadaTaxModifier(BaseCartModifier):
         pass
     cart.extra_rows[self.identifier] = ExtraCartRow(instance)
     cart.total += amount
-
-  def add_extra_cart_item_row(self, cart_item, request):
-    amount = cart_item.line_total * self.taxes
-    instance = {
-      # 'label': _("{}% VAT incl.").format(app_settings.VALUE_ADDED_TAX),
-      # 'amount': amount,
-    }
-    cart_item.extra_rows[self.identifier] = ExtraCartRow(instance)

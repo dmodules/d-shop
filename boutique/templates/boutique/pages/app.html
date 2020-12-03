@@ -1,23 +1,7 @@
-{% extends 'boutique/pages/base.html' %}
-{% load render_bundle from webpack_loader %}
-{% load static sekizai_tags %}
+{% load dmodules_tags %}
 
-{% block head %}
-  {% render_bundle 'chunk-vendors' %}
-{% endblock head %}
+{% get_setting 'CLIENT_SLUG' as client %}
 
-{% block main-content %}
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <noscript>
-          <strong>Une erreur est survenue.</strong>
-        </noscript>
-        <div id="app">
-          <app></app>
-        </div>
-      </div>
-    </div>
-  </div>
-  {% render_bundle 'app' %}
-{% endblock %}
+{% with "clients/"|add:client|add:"/pages/app.html" as path %}
+  {% include path %}
+{% endwith %}

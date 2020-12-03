@@ -479,7 +479,7 @@
                                   </v-list-item-title>
                                 </v-list-item-content>
                                 <v-list-item-action>
-                                  <v-list-item-title class="font-weight-black">
+                                  <v-list-item-title class="font-weight-bold">
                                     <span v-text="formPayment.subtotal"></span>
                                   </v-list-item-title>
                                 </v-list-item-action>
@@ -491,7 +491,7 @@
                                   </v-list-item-title>
                                 </v-list-item-content>
                                 <v-list-item-action>
-                                  <v-list-item-title class="font-weight-black">
+                                  <v-list-item-title class="font-weight-bold">
                                     <span v-text="item.amount"></span>
                                   </v-list-item-title>
                                 </v-list-item-action>
@@ -504,7 +504,7 @@
                                   </v-list-item-title>
                                 </v-list-item-content>
                                 <v-list-item-action>
-                                  <v-list-item-title class="font-weight-black">
+                                  <v-list-item-title class="font-weight-bold">
                                     <span v-text="formPayment.total"></span>
                                   </v-list-item-title>
                                 </v-list-item-action>

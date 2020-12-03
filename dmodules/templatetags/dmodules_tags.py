@@ -11,7 +11,7 @@ def get_setting(name):
 
 @register.filter
 def ts_to_str(timestamp):
-  ts = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%fZ")
+  ts = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%f-05:00")
   return ts
 
 @register.filter

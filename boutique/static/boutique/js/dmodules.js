@@ -35,9 +35,20 @@ function setClickBtn() {
     dm_add2cart(this)
   })
 
-  $(".dm-add2soumission").on("click", function(event) {
+  $(".dm-add2cart-variant").on("click", function(event) {
     event.preventDefault()
-    dm_add2soumission(this)
+    dm_add2cart_variant(this)
+  })
+
+  $(".dm-variants-select select").on("change", function(event) {
+    let price = $(".dm-variants-select option:selected").data("price")
+    let dprice = $(".dm-variants-select option:selected").data("dprice")
+    if (price != dprice) {
+      $(".product_price").html("<span class=\"price\">"+dprice+"</span><del>"+price+"</del>")
+    } else {
+      $(".product_price").html("<span class=\"price\">"+price+"</span>")
+    }
+    $(".btn-add2cart").removeClass("disabled")
   })
       
   $(".down-arrow").on("click", function() {quantityMinus()})
@@ -47,14 +58,14 @@ function setClickBtn() {
 function quantityMinus() {
   if ($(".input-num").val() > parseInt($(".input-num").attr('min'))) {
     $(".input-num").val(+$(".input-num").val() - 1)
-    $(".dm-add2cart").data("quantity", $(".input-num").val())
+    $(".btn-add2cart").data("quantity", $(".input-num").val())
   }
 }
 
 function quantityPlus() {
   if ($(".input-num").val() < parseInt($(".input-num").attr('max').replace(',','').replace('.',''))) {
     $(".input-num").val(+$(".input-num").val() + 1)
-    $(".dm-add2cart").data("quantity", $(".input-num").val())
+    $(".btn-add2cart").data("quantity", $(".input-num").val())
   }
 }
 
@@ -92,8 +103,28 @@ function dm_delete2cart(endpoint) {
   return false
 }
 
+function dm_add2cart_variant(k) {
+  let endpoint = $(k).data("product")
+  let quantity = 1
+  let variant = $('.dm-variants-select option.choix:selected').val()
+  console.log("variant : " + variant)
+  if ($(k).data("quantity")) {
+    quantity = $(k).data("quantity")
+  }
+  if (variant) {
+    $.get(site + i18n.product[lang] + "/" + endpoint + "/add-productvariable-to-cart?product_code="+variant, function(getResult) {
+      getResult.quantity = quantity
+      getResult.product_code = variant
+      $.post(shop + "cart/", getResult, function() {
+        showAdd2cartSnack()
+        getPanier()
+      })
+    })
+  }
+}
+
 function getPanier() {
-  $.get(shop + "cart/fetch-dropdown/", function(getResult) {
+  $.get(shop + "cart/", function(getResult) {
     if (getResult.num_items) {
       $("#dm-cart-items").show()
       $("#dm-cart-items").text(getResult.total_quantity)

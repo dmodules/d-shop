@@ -6,7 +6,6 @@ from parler.admin import TranslatableAdmin
 from filer.models import ThumbnailOption
 from cms.admin.placeholderadmin import PlaceholderAdminMixin, FrontendEditableAdminMixin
 from shop.admin.defaults import customer
-from shop.admin.defaults.order import OrderAdmin
 from shop.models.defaults.order import Order
 from shop.models.cart import CartModel, CartItemModel
 from shop.admin.order import BaseOrderAdmin, PrintInvoiceAdminMixin
@@ -15,6 +14,8 @@ from shop.admin.product import CMSPageAsCategoryMixin, UnitPriceMixin, ProductIm
 from polymorphic.admin import (PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter)
 from shop.money import Money
 from decimal import Decimal
+
+from shop.admin.order import OrderItemInline
 
 from boutique.models import dmAlertPublicitaire
 from boutique.models import dmRabaisPerCategory
@@ -228,7 +229,7 @@ __all__ = ['customer']
 
 @admin.register(CanadaTaxManagement)
 class CanadaTaxManagementAdmin(admin.ModelAdmin):
-  list_display = ['state','gst', 'pst', 'qst', 'hst']
+  list_display = ['state', 'hst', 'gst', 'pst', 'qst']
 
 @admin.register(ShippingManagement)
 class ShippingManagementAdmin(admin.ModelAdmin):
@@ -251,8 +252,27 @@ class ShippingAddressAdmin(admin.ModelAdmin):
 class BillingAddressAdmin(admin.ModelAdmin):
   pass
 
+class dmOrderItemInline(OrderItemInline):
+  fields = [
+    ('product_code', 'unit_price', 'line_total',),
+    ('quantity',),
+    'get_variables',
+    #'extra',
+    #'render_as_html_extra',
+  ]
+  readonly_fields = ['product_code', 'quantity', 'unit_price', 'line_total', 'get_variables']
+
+  def get_variables(self, obj):
+    dd = obj.variables["variables"]
+    r = ""
+    for k, v in dd.items():
+      r = r + k.upper() + " : " + v + "\n"
+    return r
+  get_variables.short_description = _("Données")
+
 @admin.register(Order)
 class OrderAdmin(PrintInvoiceAdminMixin, BaseOrderAdmin):
+  inlines = [dmOrderItemInline]
 
   class Meta:
     verbose_name = _("Commande")

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-30 09:42-0500\n"
+"POT-Creation-Date: 2020-12-02 15:19-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,813 +18,817 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: boutique/admin.py:29 boutique/models.py:64
+#: boutique/admin.py:32 boutique/models.py:65
 msgid "Afghanistan"
 msgstr ""
 
-#: boutique/admin.py:30 boutique/models.py:65
+#: boutique/admin.py:33 boutique/models.py:66
 msgid "Afrique du Sud"
 msgstr ""
 
-#: boutique/admin.py:31 boutique/models.py:66
+#: boutique/admin.py:34 boutique/models.py:67
 msgid "Albanie"
 msgstr ""
 
-#: boutique/admin.py:32 boutique/models.py:67
+#: boutique/admin.py:35 boutique/models.py:68
 msgid "Algérie"
 msgstr ""
 
-#: boutique/admin.py:33 boutique/models.py:68
+#: boutique/admin.py:36 boutique/models.py:69
 msgid "Allemagne"
 msgstr ""
 
-#: boutique/admin.py:34 boutique/models.py:69
+#: boutique/admin.py:37 boutique/models.py:70
 msgid "Andorre"
 msgstr ""
 
-#: boutique/admin.py:35 boutique/models.py:70
+#: boutique/admin.py:38 boutique/models.py:71
 msgid "Angola"
 msgstr ""
 
-#: boutique/admin.py:36 boutique/models.py:71
+#: boutique/admin.py:39 boutique/models.py:72
 msgid "Antigua-et-Barbuda"
 msgstr ""
 
-#: boutique/admin.py:37 boutique/models.py:72
+#: boutique/admin.py:40 boutique/models.py:73
 msgid "Arabie saoudite"
 msgstr ""
 
-#: boutique/admin.py:38 boutique/models.py:73
+#: boutique/admin.py:41 boutique/models.py:74
 msgid "Argentine"
 msgstr ""
 
-#: boutique/admin.py:39 boutique/models.py:74
+#: boutique/admin.py:42 boutique/models.py:75
 msgid "Arménie"
 msgstr ""
 
-#: boutique/admin.py:40 boutique/models.py:75
+#: boutique/admin.py:43 boutique/models.py:76
 msgid "Australie"
 msgstr ""
 
-#: boutique/admin.py:41 boutique/models.py:76
+#: boutique/admin.py:44 boutique/models.py:77
 msgid "Autriche"
 msgstr ""
 
-#: boutique/admin.py:42 boutique/models.py:77
+#: boutique/admin.py:45 boutique/models.py:78
 msgid "Azerbaïdjan"
 msgstr ""
 
-#: boutique/admin.py:43 boutique/models.py:78
+#: boutique/admin.py:46 boutique/models.py:79
 msgid "Bahamas"
 msgstr ""
 
-#: boutique/admin.py:44 boutique/models.py:79
+#: boutique/admin.py:47 boutique/models.py:80
 msgid "Bahreïn"
 msgstr ""
 
-#: boutique/admin.py:45 boutique/models.py:80
+#: boutique/admin.py:48 boutique/models.py:81
 msgid "Bangladesh"
 msgstr ""
 
-#: boutique/admin.py:46 boutique/models.py:81
+#: boutique/admin.py:49 boutique/models.py:82
 msgid "Barbade"
 msgstr ""
 
-#: boutique/admin.py:47 boutique/models.py:82
+#: boutique/admin.py:50 boutique/models.py:83
 msgid "Biélorussie"
 msgstr ""
 
-#: boutique/admin.py:48 boutique/models.py:83
+#: boutique/admin.py:51 boutique/models.py:84
 msgid "Belgique"
 msgstr ""
 
-#: boutique/admin.py:49 boutique/models.py:84
+#: boutique/admin.py:52 boutique/models.py:85
 msgid "Belize"
 msgstr ""
 
-#: boutique/admin.py:50 boutique/models.py:85
+#: boutique/admin.py:53 boutique/models.py:86
 msgid "Bénin"
 msgstr ""
 
-#: boutique/admin.py:51 boutique/models.py:86
+#: boutique/admin.py:54 boutique/models.py:87
 msgid "Bhoutan"
 msgstr ""
 
-#: boutique/admin.py:52 boutique/models.py:87
+#: boutique/admin.py:55 boutique/models.py:88
 msgid "Bolivie"
 msgstr ""
 
-#: boutique/admin.py:53 boutique/models.py:88
+#: boutique/admin.py:56 boutique/models.py:89
 msgid "Bosnie-Herzégovine"
 msgstr ""
 
-#: boutique/admin.py:54 boutique/models.py:89
+#: boutique/admin.py:57 boutique/models.py:90
 msgid "Botswana"
 msgstr ""
 
-#: boutique/admin.py:55 boutique/models.py:90
+#: boutique/admin.py:58 boutique/models.py:91
 msgid "Brésil"
 msgstr ""
 
-#: boutique/admin.py:56 boutique/models.py:91
+#: boutique/admin.py:59 boutique/models.py:92
 msgid "Brunei"
 msgstr ""
 
-#: boutique/admin.py:57 boutique/models.py:92
+#: boutique/admin.py:60 boutique/models.py:93
 msgid "Bulgarie"
 msgstr ""
 
-#: boutique/admin.py:58 boutique/models.py:93
+#: boutique/admin.py:61 boutique/models.py:94
 msgid "Burkina Faso"
 msgstr ""
 
-#: boutique/admin.py:59 boutique/models.py:94
+#: boutique/admin.py:62 boutique/models.py:95
 msgid "Burundi"
 msgstr ""
 
-#: boutique/admin.py:60 boutique/models.py:95
+#: boutique/admin.py:63 boutique/models.py:96
 msgid "Cambodge"
 msgstr ""
 
-#: boutique/admin.py:61 boutique/models.py:96
+#: boutique/admin.py:64 boutique/models.py:97
 msgid "Cameroun"
 msgstr ""
 
-#: boutique/admin.py:62 boutique/models.py:97
+#: boutique/admin.py:65 boutique/models.py:98
 msgid "Canada"
 msgstr ""
 
-#: boutique/admin.py:63 boutique/models.py:98
+#: boutique/admin.py:66 boutique/models.py:99
 msgid "Cap-Vert"
 msgstr ""
 
-#: boutique/admin.py:64 boutique/models.py:99
+#: boutique/admin.py:67 boutique/models.py:100
 msgid "République centrafricaine"
 msgstr ""
 
-#: boutique/admin.py:65 boutique/models.py:100
+#: boutique/admin.py:68 boutique/models.py:101
 msgid "Chili"
 msgstr ""
 
-#: boutique/admin.py:66 boutique/models.py:101
+#: boutique/admin.py:69 boutique/models.py:102
 msgid "Chine"
 msgstr ""
 
-#: boutique/admin.py:67 boutique/models.py:102
+#: boutique/admin.py:70 boutique/models.py:103
 msgid "Chypre (pays)"
 msgstr ""
 
-#: boutique/admin.py:68 boutique/models.py:103
+#: boutique/admin.py:71 boutique/models.py:104
 msgid "Colombie"
 msgstr ""
 
-#: boutique/admin.py:69 boutique/models.py:104
+#: boutique/admin.py:72 boutique/models.py:105
 msgid "Comores (pays)"
 msgstr ""
 
-#: boutique/admin.py:70 boutique/models.py:105
+#: boutique/admin.py:73 boutique/models.py:106
 msgid "République du Congo"
 msgstr ""
 
-#: boutique/admin.py:71 boutique/models.py:106
+#: boutique/admin.py:74 boutique/models.py:107
 msgid "République démocratique du Congo"
 msgstr ""
 
-#: boutique/admin.py:72 boutique/models.py:107
+#: boutique/admin.py:75 boutique/models.py:108
 msgid "Corée du Sud"
 msgstr ""
 
-#: boutique/admin.py:73 boutique/models.py:108
+#: boutique/admin.py:76 boutique/models.py:109
 msgid "Corée du Nord"
 msgstr ""
 
-#: boutique/admin.py:74 boutique/models.py:109
+#: boutique/admin.py:77 boutique/models.py:110
 msgid "Costa Rica"
 msgstr ""
 
-#: boutique/admin.py:75 boutique/models.py:110
+#: boutique/admin.py:78 boutique/models.py:111
 msgid "Côte d'Ivoire"
 msgstr ""
 
-#: boutique/admin.py:76 boutique/models.py:111
+#: boutique/admin.py:79 boutique/models.py:112
 msgid "Croatie"
 msgstr ""
 
-#: boutique/admin.py:77 boutique/models.py:112
+#: boutique/admin.py:80 boutique/models.py:113
 msgid "Cuba"
 msgstr ""
 
-#: boutique/admin.py:78 boutique/models.py:113
+#: boutique/admin.py:81 boutique/models.py:114
 msgid "Danemark"
 msgstr ""
 
-#: boutique/admin.py:79 boutique/models.py:114
+#: boutique/admin.py:82 boutique/models.py:115
 msgid "Djibouti"
 msgstr ""
 
-#: boutique/admin.py:80 boutique/models.py:115
+#: boutique/admin.py:83 boutique/models.py:116
 msgid "République dominicaine"
 msgstr ""
 
-#: boutique/admin.py:81 boutique/models.py:116
+#: boutique/admin.py:84 boutique/models.py:117
 msgid "Dominique"
 msgstr ""
 
-#: boutique/admin.py:82 boutique/models.py:117
+#: boutique/admin.py:85 boutique/models.py:118
 msgid "Égypte"
 msgstr ""
 
-#: boutique/admin.py:83 boutique/models.py:118
+#: boutique/admin.py:86 boutique/models.py:119
 msgid "Salvador"
 msgstr ""
 
-#: boutique/admin.py:84 boutique/models.py:119
+#: boutique/admin.py:87 boutique/models.py:120
 msgid "Émirats arabes unis"
 msgstr ""
 
-#: boutique/admin.py:85 boutique/models.py:120
+#: boutique/admin.py:88 boutique/models.py:121
 msgid "Équateur (pays)"
 msgstr ""
 
-#: boutique/admin.py:86 boutique/models.py:121
+#: boutique/admin.py:89 boutique/models.py:122
 msgid "Érythrée"
 msgstr ""
 
-#: boutique/admin.py:87 boutique/models.py:122
+#: boutique/admin.py:90 boutique/models.py:123
 msgid "Espagne"
 msgstr ""
 
-#: boutique/admin.py:88 boutique/models.py:123
+#: boutique/admin.py:91 boutique/models.py:124
 msgid "Estonie"
 msgstr ""
 
-#: boutique/admin.py:89 boutique/models.py:124
+#: boutique/admin.py:92 boutique/models.py:125
 msgid "États-Unis"
 msgstr ""
 
-#: boutique/admin.py:90 boutique/models.py:125
+#: boutique/admin.py:93 boutique/models.py:126
 msgid "Éthiopie"
 msgstr ""
 
-#: boutique/admin.py:91 boutique/models.py:126
+#: boutique/admin.py:94 boutique/models.py:127
 msgid "Fidji"
 msgstr ""
 
-#: boutique/admin.py:92 boutique/models.py:127
+#: boutique/admin.py:95 boutique/models.py:128
 msgid "Finlande"
 msgstr ""
 
-#: boutique/admin.py:93 boutique/models.py:128
+#: boutique/admin.py:96 boutique/models.py:129
 msgid "France"
 msgstr ""
 
-#: boutique/admin.py:94 boutique/models.py:129
+#: boutique/admin.py:97 boutique/models.py:130
 msgid "Gabon"
 msgstr ""
 
-#: boutique/admin.py:95 boutique/models.py:130
+#: boutique/admin.py:98 boutique/models.py:131
 msgid "Gambie"
 msgstr ""
 
-#: boutique/admin.py:96 boutique/models.py:131
+#: boutique/admin.py:99 boutique/models.py:132
 msgid "Géorgie (pays)"
 msgstr ""
 
-#: boutique/admin.py:97 boutique/models.py:132
+#: boutique/admin.py:100 boutique/models.py:133
 msgid "Ghana"
 msgstr ""
 
-#: boutique/admin.py:98 boutique/models.py:133
+#: boutique/admin.py:101 boutique/models.py:134
 msgid "Grèce"
 msgstr ""
 
-#: boutique/admin.py:99 boutique/models.py:134
+#: boutique/admin.py:102 boutique/models.py:135
 msgid "Grenade (pays)"
 msgstr ""
 
-#: boutique/admin.py:100 boutique/models.py:135
+#: boutique/admin.py:103 boutique/models.py:136
 msgid "Guatemala"
 msgstr ""
 
-#: boutique/admin.py:101 boutique/models.py:136
+#: boutique/admin.py:104 boutique/models.py:137
 msgid "Guinée"
 msgstr ""
 
-#: boutique/admin.py:102 boutique/models.py:137
+#: boutique/admin.py:105 boutique/models.py:138
 msgid "Guinée-Bissau"
 msgstr ""
 
-#: boutique/admin.py:103 boutique/models.py:138
+#: boutique/admin.py:106 boutique/models.py:139
 msgid "Guinée équatoriale"
 msgstr ""
 
-#: boutique/admin.py:104 boutique/models.py:139
+#: boutique/admin.py:107 boutique/models.py:140
 msgid "Guyana"
 msgstr ""
 
-#: boutique/admin.py:105 boutique/models.py:140
+#: boutique/admin.py:108 boutique/models.py:141
 msgid "Haïti"
 msgstr ""
 
-#: boutique/admin.py:106 boutique/models.py:141
+#: boutique/admin.py:109 boutique/models.py:142
 msgid "Honduras"
 msgstr ""
 
-#: boutique/admin.py:107 boutique/models.py:142
+#: boutique/admin.py:110 boutique/models.py:143
 msgid "Hongrie"
 msgstr ""
 
-#: boutique/admin.py:108 boutique/models.py:143
+#: boutique/admin.py:111 boutique/models.py:144
 msgid "Inde"
 msgstr ""
 
-#: boutique/admin.py:109 boutique/models.py:144
+#: boutique/admin.py:112 boutique/models.py:145
 msgid "Indonésie"
 msgstr ""
 
-#: boutique/admin.py:110 boutique/models.py:145
+#: boutique/admin.py:113 boutique/models.py:146
 msgid "Iran"
 msgstr ""
 
-#: boutique/admin.py:111 boutique/models.py:146
+#: boutique/admin.py:114 boutique/models.py:147
 msgid "Irak"
 msgstr ""
 
-#: boutique/admin.py:112 boutique/models.py:147
+#: boutique/admin.py:115 boutique/models.py:148
 msgid "Irlande (pays)"
 msgstr ""
 
-#: boutique/admin.py:113 boutique/models.py:148
+#: boutique/admin.py:116 boutique/models.py:149
 msgid "Islande"
 msgstr ""
 
-#: boutique/admin.py:114 boutique/models.py:149
+#: boutique/admin.py:117 boutique/models.py:150
 msgid "Israël"
 msgstr ""
 
-#: boutique/admin.py:115 boutique/models.py:150
+#: boutique/admin.py:118 boutique/models.py:151
 msgid "Italie"
 msgstr ""
 
-#: boutique/admin.py:116 boutique/models.py:151
+#: boutique/admin.py:119 boutique/models.py:152
 msgid "Jamaïque"
 msgstr ""
 
-#: boutique/admin.py:117 boutique/models.py:152
+#: boutique/admin.py:120 boutique/models.py:153
 msgid "Japon"
 msgstr ""
 
-#: boutique/admin.py:118 boutique/models.py:153
+#: boutique/admin.py:121 boutique/models.py:154
 msgid "Jordanie"
 msgstr ""
 
-#: boutique/admin.py:119 boutique/models.py:154
+#: boutique/admin.py:122 boutique/models.py:155
 msgid "Kazakhstan"
 msgstr ""
 
-#: boutique/admin.py:120 boutique/models.py:155
+#: boutique/admin.py:123 boutique/models.py:156
 msgid "Kenya"
 msgstr ""
 
-#: boutique/admin.py:121 boutique/models.py:156
+#: boutique/admin.py:124 boutique/models.py:157
 msgid "Kirghizistan"
 msgstr ""
 
-#: boutique/admin.py:122 boutique/models.py:157
+#: boutique/admin.py:125 boutique/models.py:158
 msgid "Kiribati"
 msgstr ""
 
-#: boutique/admin.py:123 boutique/models.py:158
+#: boutique/admin.py:126 boutique/models.py:159
 msgid "Koweït"
 msgstr ""
 
-#: boutique/admin.py:124 boutique/models.py:159
+#: boutique/admin.py:127 boutique/models.py:160
 msgid "Laos"
 msgstr ""
 
-#: boutique/admin.py:125 boutique/models.py:160
+#: boutique/admin.py:128 boutique/models.py:161
 msgid "Lesotho"
 msgstr ""
 
-#: boutique/admin.py:126 boutique/models.py:161
+#: boutique/admin.py:129 boutique/models.py:162
 msgid "Lettonie"
 msgstr ""
 
-#: boutique/admin.py:127 boutique/models.py:162
+#: boutique/admin.py:130 boutique/models.py:163
 msgid "Liban"
 msgstr ""
 
-#: boutique/admin.py:128 boutique/models.py:163
+#: boutique/admin.py:131 boutique/models.py:164
 msgid "Liberia"
 msgstr ""
 
-#: boutique/admin.py:129 boutique/models.py:164
+#: boutique/admin.py:132 boutique/models.py:165
 msgid "Libye"
 msgstr ""
 
-#: boutique/admin.py:130 boutique/models.py:165
+#: boutique/admin.py:133 boutique/models.py:166
 msgid "Liechtenstein"
 msgstr ""
 
-#: boutique/admin.py:131 boutique/models.py:166
+#: boutique/admin.py:134 boutique/models.py:167
 msgid "Lituanie"
 msgstr ""
 
-#: boutique/admin.py:132 boutique/models.py:167
+#: boutique/admin.py:135 boutique/models.py:168
 msgid "Luxembourg (pays)"
 msgstr ""
 
-#: boutique/admin.py:133 boutique/models.py:168
+#: boutique/admin.py:136 boutique/models.py:169
 msgid "Macédoine du Nord"
 msgstr ""
 
-#: boutique/admin.py:134 boutique/models.py:169
+#: boutique/admin.py:137 boutique/models.py:170
 msgid "Madagascar"
 msgstr ""
 
-#: boutique/admin.py:135 boutique/models.py:170
+#: boutique/admin.py:138 boutique/models.py:171
 msgid "Malaisie"
 msgstr ""
 
-#: boutique/admin.py:136 boutique/models.py:171
+#: boutique/admin.py:139 boutique/models.py:172
 msgid "Malawi"
 msgstr ""
 
-#: boutique/admin.py:137 boutique/models.py:172
+#: boutique/admin.py:140 boutique/models.py:173
 msgid "Maldives"
 msgstr ""
 
-#: boutique/admin.py:138 boutique/models.py:173
+#: boutique/admin.py:141 boutique/models.py:174
 msgid "Mali"
 msgstr ""
 
-#: boutique/admin.py:139 boutique/models.py:174
+#: boutique/admin.py:142 boutique/models.py:175
 msgid "Malte"
 msgstr ""
 
-#: boutique/admin.py:140 boutique/models.py:175
+#: boutique/admin.py:143 boutique/models.py:176
 msgid "Maroc"
 msgstr ""
 
-#: boutique/admin.py:141 boutique/models.py:176
+#: boutique/admin.py:144 boutique/models.py:177
 msgid "Îles Marshall (pays)"
 msgstr ""
 
-#: boutique/admin.py:142 boutique/models.py:177
+#: boutique/admin.py:145 boutique/models.py:178
 msgid "Maurice (pays)"
 msgstr ""
 
-#: boutique/admin.py:143 boutique/models.py:178
+#: boutique/admin.py:146 boutique/models.py:179
 msgid "Mauritanie"
 msgstr ""
 
-#: boutique/admin.py:144 boutique/models.py:179
+#: boutique/admin.py:147 boutique/models.py:180
 msgid "Mexique"
 msgstr ""
 
-#: boutique/admin.py:145 boutique/models.py:180
+#: boutique/admin.py:148 boutique/models.py:181
 msgid "États fédérés de Micronésie (pays)"
 msgstr ""
 
-#: boutique/admin.py:146 boutique/models.py:181
+#: boutique/admin.py:149 boutique/models.py:182
 msgid "Moldavie"
 msgstr ""
 
-#: boutique/admin.py:147 boutique/models.py:182
+#: boutique/admin.py:150 boutique/models.py:183
 msgid "Monaco"
 msgstr ""
 
-#: boutique/admin.py:148 boutique/models.py:183
+#: boutique/admin.py:151 boutique/models.py:184
 msgid "Mongolie"
 msgstr ""
 
-#: boutique/admin.py:149 boutique/models.py:184
+#: boutique/admin.py:152 boutique/models.py:185
 msgid "Monténégro"
 msgstr ""
 
-#: boutique/admin.py:150 boutique/models.py:185
+#: boutique/admin.py:153 boutique/models.py:186
 msgid "Mozambique"
 msgstr ""
 
-#: boutique/admin.py:151 boutique/models.py:186
+#: boutique/admin.py:154 boutique/models.py:187
 msgid "Birmanie"
 msgstr ""
 
-#: boutique/admin.py:152 boutique/models.py:187
+#: boutique/admin.py:155 boutique/models.py:188
 msgid "Namibie"
 msgstr ""
 
-#: boutique/admin.py:153 boutique/models.py:188
+#: boutique/admin.py:156 boutique/models.py:189
 msgid "Nauru"
 msgstr ""
 
-#: boutique/admin.py:154 boutique/models.py:189
+#: boutique/admin.py:157 boutique/models.py:190
 msgid "Népal"
 msgstr ""
 
-#: boutique/admin.py:155 boutique/models.py:190
+#: boutique/admin.py:158 boutique/models.py:191
 msgid "Nicaragua"
 msgstr ""
 
-#: boutique/admin.py:156 boutique/models.py:191
+#: boutique/admin.py:159 boutique/models.py:192
 msgid "Niger"
 msgstr ""
 
-#: boutique/admin.py:157 boutique/models.py:192
+#: boutique/admin.py:160 boutique/models.py:193
 msgid "Nigeria"
 msgstr ""
 
-#: boutique/admin.py:158 boutique/models.py:193
+#: boutique/admin.py:161 boutique/models.py:194
 msgid "Norvège"
 msgstr ""
 
-#: boutique/admin.py:159 boutique/models.py:194
+#: boutique/admin.py:162 boutique/models.py:195
 msgid "Nouvelle-Zélande"
 msgstr ""
 
-#: boutique/admin.py:160 boutique/models.py:195
+#: boutique/admin.py:163 boutique/models.py:196
 msgid "Oman"
 msgstr ""
 
-#: boutique/admin.py:161 boutique/models.py:196
+#: boutique/admin.py:164 boutique/models.py:197
 msgid "Ouganda"
 msgstr ""
 
-#: boutique/admin.py:162 boutique/models.py:197
+#: boutique/admin.py:165 boutique/models.py:198
 msgid "Ouzbékistan"
 msgstr ""
 
-#: boutique/admin.py:163 boutique/models.py:198
+#: boutique/admin.py:166 boutique/models.py:199
 msgid "Pakistan"
 msgstr ""
 
-#: boutique/admin.py:164 boutique/models.py:199
+#: boutique/admin.py:167 boutique/models.py:200
 msgid "Palaos"
 msgstr ""
 
-#: boutique/admin.py:165 boutique/models.py:200
+#: boutique/admin.py:168 boutique/models.py:201
 msgid "Panama"
 msgstr ""
 
-#: boutique/admin.py:166 boutique/models.py:201
+#: boutique/admin.py:169 boutique/models.py:202
 msgid "Papouasie-Nouvelle-Guinée"
 msgstr ""
 
-#: boutique/admin.py:167 boutique/models.py:202
+#: boutique/admin.py:170 boutique/models.py:203
 msgid "Paraguay"
 msgstr ""
 
-#: boutique/admin.py:168 boutique/models.py:203
+#: boutique/admin.py:171 boutique/models.py:204
 msgid "Pays-Bas"
 msgstr ""
 
-#: boutique/admin.py:169 boutique/models.py:204
+#: boutique/admin.py:172 boutique/models.py:205
 msgid "Pérou"
 msgstr ""
 
-#: boutique/admin.py:170 boutique/models.py:205
+#: boutique/admin.py:173 boutique/models.py:206
 msgid "Philippines"
 msgstr ""
 
-#: boutique/admin.py:171 boutique/models.py:206
+#: boutique/admin.py:174 boutique/models.py:207
 msgid "Pologne"
 msgstr ""
 
-#: boutique/admin.py:172 boutique/models.py:207
+#: boutique/admin.py:175 boutique/models.py:208
 msgid "Portugal"
 msgstr ""
 
-#: boutique/admin.py:173 boutique/models.py:208
+#: boutique/admin.py:176 boutique/models.py:209
 msgid "Qatar"
 msgstr ""
 
-#: boutique/admin.py:174 boutique/models.py:209
+#: boutique/admin.py:177 boutique/models.py:210
 msgid "Roumanie"
 msgstr ""
 
-#: boutique/admin.py:175 boutique/models.py:210
+#: boutique/admin.py:178 boutique/models.py:211
 msgid "Royaume-Uni"
 msgstr ""
 
-#: boutique/admin.py:176 boutique/models.py:211
+#: boutique/admin.py:179 boutique/models.py:212
 msgid "Russie"
 msgstr ""
 
-#: boutique/admin.py:177 boutique/models.py:212
+#: boutique/admin.py:180 boutique/models.py:213
 msgid "Rwanda"
 msgstr ""
 
-#: boutique/admin.py:178 boutique/models.py:213
+#: boutique/admin.py:181 boutique/models.py:214
 msgid "Saint-Christophe-et-Niévès"
 msgstr ""
 
-#: boutique/admin.py:179 boutique/models.py:214
+#: boutique/admin.py:182 boutique/models.py:215
 msgid "Saint-Marin"
 msgstr ""
 
-#: boutique/admin.py:180 boutique/models.py:215
+#: boutique/admin.py:183 boutique/models.py:216
 msgid "Saint-Vincent-et-les-Grenadines"
 msgstr ""
 
-#: boutique/admin.py:181 boutique/models.py:216
+#: boutique/admin.py:184 boutique/models.py:217
 msgid "Sainte-Lucie"
 msgstr ""
 
-#: boutique/admin.py:182 boutique/models.py:217
+#: boutique/admin.py:185 boutique/models.py:218
 msgid "Salomon"
 msgstr ""
 
-#: boutique/admin.py:183 boutique/models.py:218
+#: boutique/admin.py:186 boutique/models.py:219
 msgid "Samoa"
 msgstr ""
 
-#: boutique/admin.py:184 boutique/models.py:219
+#: boutique/admin.py:187 boutique/models.py:220
 msgid "Sao Tomé-et-Principe"
 msgstr ""
 
-#: boutique/admin.py:185 boutique/models.py:220
+#: boutique/admin.py:188 boutique/models.py:221
 msgid "Sénégal"
 msgstr ""
 
-#: boutique/admin.py:186 boutique/models.py:221
+#: boutique/admin.py:189 boutique/models.py:222
 msgid "Serbie"
 msgstr ""
 
-#: boutique/admin.py:187 boutique/models.py:222
+#: boutique/admin.py:190 boutique/models.py:223
 msgid "Seychelles"
 msgstr ""
 
-#: boutique/admin.py:188 boutique/models.py:223
+#: boutique/admin.py:191 boutique/models.py:224
 msgid "Sierra Leone"
 msgstr ""
 
-#: boutique/admin.py:189 boutique/models.py:224
+#: boutique/admin.py:192 boutique/models.py:225
 msgid "Singapour"
 msgstr ""
 
-#: boutique/admin.py:190 boutique/models.py:225
+#: boutique/admin.py:193 boutique/models.py:226
 msgid "Slovaquie"
 msgstr ""
 
-#: boutique/admin.py:191 boutique/models.py:226
+#: boutique/admin.py:194 boutique/models.py:227
 msgid "Slovénie"
 msgstr ""
 
-#: boutique/admin.py:192 boutique/models.py:227
+#: boutique/admin.py:195 boutique/models.py:228
 msgid "Somalie"
 msgstr ""
 
-#: boutique/admin.py:193 boutique/models.py:228
+#: boutique/admin.py:196 boutique/models.py:229
 msgid "Soudan"
 msgstr ""
 
-#: boutique/admin.py:194 boutique/models.py:229
+#: boutique/admin.py:197 boutique/models.py:230
 msgid "Soudan du Sud"
 msgstr ""
 
-#: boutique/admin.py:195 boutique/models.py:230
+#: boutique/admin.py:198 boutique/models.py:231
 msgid "Sri Lanka"
 msgstr ""
 
-#: boutique/admin.py:196 boutique/models.py:231
+#: boutique/admin.py:199 boutique/models.py:232
 msgid "Suède"
 msgstr ""
 
-#: boutique/admin.py:197 boutique/models.py:232
+#: boutique/admin.py:200 boutique/models.py:233
 msgid "Suisse"
 msgstr ""
 
-#: boutique/admin.py:198 boutique/models.py:233
+#: boutique/admin.py:201 boutique/models.py:234
 msgid "Suriname"
 msgstr ""
 
-#: boutique/admin.py:199 boutique/models.py:234
+#: boutique/admin.py:202 boutique/models.py:235
 msgid "Eswatini"
 msgstr ""
 
-#: boutique/admin.py:200 boutique/models.py:235
+#: boutique/admin.py:203 boutique/models.py:236
 msgid "Syrie"
 msgstr ""
 
-#: boutique/admin.py:201 boutique/models.py:236
+#: boutique/admin.py:204 boutique/models.py:237
 msgid "Tadjikistan"
 msgstr ""
 
-#: boutique/admin.py:202 boutique/models.py:237
+#: boutique/admin.py:205 boutique/models.py:238
 msgid "Tanzanie"
 msgstr ""
 
-#: boutique/admin.py:203 boutique/models.py:238
+#: boutique/admin.py:206 boutique/models.py:239
 msgid "Tchad"
 msgstr ""
 
-#: boutique/admin.py:204 boutique/models.py:239
+#: boutique/admin.py:207 boutique/models.py:240
 msgid "Tchéquie"
 msgstr ""
 
-#: boutique/admin.py:205 boutique/models.py:240
+#: boutique/admin.py:208 boutique/models.py:241
 msgid "Thaïlande"
 msgstr ""
 
-#: boutique/admin.py:206 boutique/models.py:241
+#: boutique/admin.py:209 boutique/models.py:242
 msgid "Timor oriental"
 msgstr ""
 
-#: boutique/admin.py:207 boutique/models.py:242
+#: boutique/admin.py:210 boutique/models.py:243
 msgid "Togo"
 msgstr ""
 
-#: boutique/admin.py:208 boutique/models.py:243
+#: boutique/admin.py:211 boutique/models.py:244
 msgid "Tonga"
 msgstr ""
 
-#: boutique/admin.py:209 boutique/models.py:244
+#: boutique/admin.py:212 boutique/models.py:245
 msgid "Trinité-et-Tobago"
 msgstr ""
 
-#: boutique/admin.py:210 boutique/models.py:245
+#: boutique/admin.py:213 boutique/models.py:246
 msgid "Tunisie"
 msgstr ""
 
-#: boutique/admin.py:211 boutique/models.py:246
+#: boutique/admin.py:214 boutique/models.py:247
 msgid "Turkménistan"
 msgstr ""
 
-#: boutique/admin.py:212 boutique/models.py:247
+#: boutique/admin.py:215 boutique/models.py:248
 msgid "Turquie"
 msgstr ""
 
-#: boutique/admin.py:213 boutique/models.py:248
+#: boutique/admin.py:216 boutique/models.py:249
 msgid "Tuvalu"
 msgstr ""
 
-#: boutique/admin.py:214 boutique/models.py:249
+#: boutique/admin.py:217 boutique/models.py:250
 msgid "Ukraine"
 msgstr ""
 
-#: boutique/admin.py:215 boutique/models.py:250
+#: boutique/admin.py:218 boutique/models.py:251
 msgid "Uruguay"
 msgstr ""
 
-#: boutique/admin.py:216 boutique/models.py:251
+#: boutique/admin.py:219 boutique/models.py:252
 msgid "Vanuatu"
 msgstr ""
 
-#: boutique/admin.py:217 boutique/models.py:252
+#: boutique/admin.py:220 boutique/models.py:253
 msgid "Venezuela"
 msgstr ""
 
-#: boutique/admin.py:218 boutique/models.py:253
+#: boutique/admin.py:221 boutique/models.py:254
 msgid "Viêt Nam"
 msgstr ""
 
-#: boutique/admin.py:219 boutique/models.py:254
+#: boutique/admin.py:222 boutique/models.py:255
 msgid "Yémen"
 msgstr ""
 
-#: boutique/admin.py:220 boutique/models.py:255
+#: boutique/admin.py:223 boutique/models.py:256
 msgid "Zambie"
 msgstr ""
 
-#: boutique/admin.py:221 boutique/models.py:256
+#: boutique/admin.py:224 boutique/models.py:257
 msgid "Zimbabwe"
 msgstr ""
 
-#: boutique/admin.py:255
+#: boutique/admin.py:258
 msgid "Commande"
 msgstr ""
 
-#: boutique/admin.py:256 settings.py:554
+#: boutique/admin.py:259 settings.py:560
 msgid "Commandes"
 msgstr ""
 
-#: boutique/admin.py:291 boutique/admin.py:322
-msgid "Translatable Fields"
-msgstr "Champs traduisibles"
-
-#: boutique/admin.py:294 boutique/admin.py:325 boutique/models.py:345
-msgid "Catégories"
+#: boutique/admin.py:283 boutique/admin.py:284 boutique/admin.py:309
+msgid "Rabais"
 msgstr ""
 
-#: boutique/admin.py:297 boutique/admin.py:328
-msgid "Image Principale"
-msgstr ""
-
-#: boutique/admin.py:341
-msgid "Text Index"
-msgstr ""
-
-#: boutique/admin.py:357
-msgid "Price starting at"
-msgstr "Prix débutant par"
-
-#: boutique/admin.py:371
+#: boutique/admin.py:313 boutique/admin.py:416
 msgid "Début"
 msgstr ""
 
-#: boutique/admin.py:375
+#: boutique/admin.py:317 boutique/admin.py:420
 msgid "Fin"
 msgstr ""
+
+#: boutique/admin.py:336 boutique/admin.py:367
+msgid "Translatable Fields"
+msgstr "Champs traduisibles"
+
+#: boutique/admin.py:339 boutique/admin.py:370 boutique/models.py:346
+msgid "Catégories"
+msgstr ""
+
+#: boutique/admin.py:342 boutique/admin.py:373
+msgid "Image Principale"
+msgstr ""
+
+#: boutique/admin.py:386
+msgid "Text Index"
+msgstr ""
+
+#: boutique/admin.py:402
+msgid "Price starting at"
+msgstr "Prix débutant par"
 
 #: boutique/apps.py:13
 msgid "My Shop"
@@ -866,7 +870,7 @@ msgstr ""
 msgid "Bloc infolettre"
 msgstr ""
 
-#: boutique/cms_plugins.py:126 boutique/models.py:310
+#: boutique/cms_plugins.py:126 boutique/models.py:311
 msgid "Catégories de produit"
 msgstr ""
 
@@ -886,387 +890,416 @@ msgstr ""
 msgid "Élément du bloc vente"
 msgstr ""
 
-#: boutique/models.py:260 boutique/models.py:280
+#: boutique/models.py:261 boutique/models.py:281
 msgid "Nom complet"
 msgstr ""
 
-#: boutique/models.py:261 boutique/models.py:281
+#: boutique/models.py:262 boutique/models.py:282
 msgid "Adresse 1"
 msgstr ""
 
-#: boutique/models.py:262 boutique/models.py:282
+#: boutique/models.py:263 boutique/models.py:283
 msgid "Adresse 2"
 msgstr ""
 
-#: boutique/models.py:263 boutique/models.py:283
+#: boutique/models.py:264 boutique/models.py:284
 msgid "Pays"
 msgstr ""
 
-#: boutique/models.py:264 boutique/models.py:284 boutique/models.py:574
+#: boutique/models.py:265 boutique/models.py:285 boutique/models.py:630
 msgid "Province"
 msgstr ""
 
-#: boutique/models.py:265 boutique/models.py:285
+#: boutique/models.py:266 boutique/models.py:286
 msgid "Ville"
 msgstr ""
 
-#: boutique/models.py:266 boutique/models.py:286
+#: boutique/models.py:267 boutique/models.py:287
 msgid "Code postal"
 msgstr ""
 
-#: boutique/models.py:269 boutique/templates/boutique/order/detail.html:21
+#: boutique/models.py:270 boutique/templates/boutique/order/detail.html:21
 msgid "Shipping Address"
 msgstr "Adresse d'expédition"
 
-#: boutique/models.py:270
+#: boutique/models.py:271
 msgid "Shipping Addresses"
 msgstr "Adresses d'expédition"
 
-#: boutique/models.py:289 boutique/templates/boutique/order/detail.html:32
+#: boutique/models.py:290 boutique/templates/boutique/order/detail.html:32
 msgid "Billing Address"
 msgstr "Adresse de facturation"
 
-#: boutique/models.py:290
+#: boutique/models.py:291
 msgid "Billing Addresses"
 msgstr "Adresses de facturation"
 
-#: boutique/models.py:304
+#: boutique/models.py:305
 msgid "Nom de la catégorie"
 msgstr ""
 
-#: boutique/models.py:305
+#: boutique/models.py:306
 msgid "Catégorie parente"
 msgstr ""
 
-#: boutique/models.py:306 boutique/models.py:328
+#: boutique/models.py:307 boutique/models.py:329
 msgid "Ordre"
 msgstr ""
 
-#: boutique/models.py:309
+#: boutique/models.py:310
 msgid "Catégorie de produit"
 msgstr ""
 
-#: boutique/models.py:327
+#: boutique/models.py:328
 msgid "Nom du filtre"
 msgstr ""
 
-#: boutique/models.py:331
+#: boutique/models.py:332
 msgid "Filtre de produit"
 msgstr ""
 
-#: boutique/models.py:332
+#: boutique/models.py:333
 msgid "Filtres de produit"
 msgstr ""
 
-#: boutique/models.py:343
+#: boutique/models.py:344
 msgid "Nom du produit"
 msgstr ""
 
-#: boutique/models.py:344
+#: boutique/models.py:345
 msgid "Slug"
 msgstr ""
 
-#: boutique/models.py:346
+#: boutique/models.py:347
+msgid "Filtres"
+msgstr ""
+
+#: boutique/models.py:348
 msgid "En vedette ?"
 msgstr ""
 
-#: boutique/models.py:349
+#: boutique/models.py:351
 msgid "Sort by"
 msgstr "Réorganiser par"
 
-#: boutique/models.py:351
+#: boutique/models.py:353
 msgid "Image principale"
 msgstr ""
 
-#: boutique/models.py:355
+#: boutique/models.py:357
 msgid "Product"
 msgstr "Produit"
 
-#: boutique/models.py:356 boutique/templates/boutique/pages/produits.html:16
-#: boutique/templates/boutique/pages/produits.html:22
-#: boutique/templates/clients/d-shop/pages/produits.html:16
-#: boutique/templates/clients/d-shop/pages/produits.html:22
+#: boutique/models.py:358 boutique/templates/boutique/pages/produits.html:17
+#: boutique/templates/boutique/pages/produits.html:24
+#: boutique/templates/clients/d-shop/pages/produits.html:17
+#: boutique/templates/clients/d-shop/pages/produits.html:24
 msgid "Products"
 msgstr "Produits"
 
-#: boutique/models.py:375
+#: boutique/models.py:377
 msgid "Caption"
 msgstr "Légende"
 
-#: boutique/models.py:375
+#: boutique/models.py:377
 msgid "Description courte."
 msgstr ""
 
-#: boutique/models.py:376 boutique/models.py:387 boutique/models.py:400
+#: boutique/models.py:378 boutique/models.py:389 boutique/models.py:419
 msgid "Description"
 msgstr ""
 
-#: boutique/models.py:376 boutique/models.py:387 boutique/models.py:400
+#: boutique/models.py:378 boutique/models.py:389 boutique/models.py:419
 msgid "Description longue."
 msgstr ""
 
-#: boutique/models.py:384
+#: boutique/models.py:386
 msgid "Code du produit"
 msgstr ""
 
-#: boutique/models.py:384
+#: boutique/models.py:386
 msgid "Un code unique."
 msgstr ""
 
-#: boutique/models.py:385 boutique/models.py:449
+#: boutique/models.py:387 boutique/models.py:468
 msgid "Unit price"
 msgstr "Prix unitaire"
 
-#: boutique/models.py:385 boutique/models.py:449
+#: boutique/models.py:387 boutique/models.py:468
 msgid "Net price for this product"
 msgstr "Prix net du produit"
 
-#: boutique/models.py:386 boutique/models.py:451
+#: boutique/models.py:388 boutique/models.py:469
 msgid "Quantity"
 msgstr "Quantité"
 
-#: boutique/models.py:386 boutique/models.py:451
+#: boutique/models.py:388 boutique/models.py:469
 msgid "Available quantity in stock"
 msgstr "Quantité disponible"
 
-#: boutique/models.py:390
+#: boutique/models.py:392
 msgid "Produit par défaut"
 msgstr ""
 
-#: boutique/models.py:391
+#: boutique/models.py:393
 msgid "Produits par défaut"
 msgstr ""
 
-#: boutique/models.py:399
-msgid "Width"
-msgstr ""
-
-#: boutique/models.py:403
+#: boutique/models.py:422
 msgid "Produit variable"
 msgstr ""
 
-#: boutique/models.py:404
+#: boutique/models.py:423
 msgid "Produits variables"
 msgstr ""
 
-#: boutique/models.py:447
+#: boutique/models.py:466
 msgid "Produit"
 msgstr ""
 
-#: boutique/models.py:448
+#: boutique/models.py:467
 msgid "Product code"
 msgstr "Code du produit"
 
-#: boutique/models.py:450
-msgid "Internal Storage"
+#: boutique/models.py:472
+#, fuzzy, python-brace-format
+#| msgid "Product"
+msgid "{product}"
+msgstr "Produit"
+
+#: boutique/models.py:500
+msgid "Nom"
 msgstr ""
 
-#: boutique/models.py:454
-#, python-brace-format
-msgid "{product} with {storage} GB"
+#: boutique/models.py:501
+msgid "Montant fixe"
 msgstr ""
 
-#: boutique/models.py:464 boutique/models.py:484 boutique/models.py:489
-#: boutique/models.py:493 boutique/models.py:507 boutique/models.py:544
-#: boutique/models.py:555 boutique/models.py:559 boutique/models.py:563
+#: boutique/models.py:501
+msgid ""
+"Un montant fixe à retirer du prix original, laisser vide pour privilégier le "
+"pourcentage."
+msgstr ""
+
+#: boutique/models.py:502
+msgid "Pourcentage"
+msgstr ""
+
+#: boutique/models.py:502
+msgid ""
+"Un pourcentage à retirer du prix original, ne sera pas utilisé s'il y a un "
+"montant dans 'Montant fixe'."
+msgstr ""
+
+#: boutique/models.py:503 boutique/models.py:523
+msgid "Actif"
+msgstr ""
+
+#: boutique/models.py:504 boutique/models.py:524
+msgid "Date de début"
+msgstr ""
+
+#: boutique/models.py:505 boutique/models.py:525
+msgid "Date de fin"
+msgstr ""
+
+#: boutique/models.py:506 boutique/templates/boutique/pages/produits.html:120
+msgid "Categories"
+msgstr "Catégories"
+
+#: boutique/models.py:509 boutique/models.py:510
+msgid "Rabais par catégorie"
+msgstr ""
+
+#: boutique/models.py:520 boutique/models.py:540 boutique/models.py:545
+#: boutique/models.py:549 boutique/models.py:563 boutique/models.py:600
+#: boutique/models.py:611 boutique/models.py:615 boutique/models.py:619
 msgid "Texte"
 msgstr ""
 
-#: boutique/models.py:464
+#: boutique/models.py:520
 msgid "Maximum de 75 caractères."
 msgstr ""
 
-#: boutique/models.py:465
+#: boutique/models.py:521
 msgid "Lien URL"
 msgstr ""
 
-#: boutique/models.py:465
+#: boutique/models.py:521
 msgid ""
 "Exemple: https://www.test.com. Laissez vide pour ne pas utiliser de lien."
 msgstr ""
 
-#: boutique/models.py:466
+#: boutique/models.py:522
 msgid "Ouvrir le lien dans un nouvel onglet ?"
 msgstr ""
 
-#: boutique/models.py:467
-msgid "Actif"
-msgstr ""
-
-#: boutique/models.py:468
-msgid "Date de début"
-msgstr ""
-
-#: boutique/models.py:469
-msgid "Date de fin"
-msgstr ""
-
-#: boutique/models.py:472
+#: boutique/models.py:528
 msgid "Alerte publicitaire"
 msgstr ""
 
-#: boutique/models.py:473
+#: boutique/models.py:529
 msgid "Alertes publicitaires"
 msgstr ""
 
-#: boutique/models.py:483 boutique/models.py:488 boutique/models.py:492
-#: boutique/models.py:498 boutique/models.py:505 boutique/models.py:523
-#: boutique/models.py:542 boutique/models.py:549 boutique/models.py:554
-#: boutique/models.py:558 boutique/models.py:562
+#: boutique/models.py:539 boutique/models.py:544 boutique/models.py:548
+#: boutique/models.py:554 boutique/models.py:561 boutique/models.py:579
+#: boutique/models.py:598 boutique/models.py:605 boutique/models.py:610
+#: boutique/models.py:614 boutique/models.py:618
 msgid "Titre"
 msgstr ""
 
-#: boutique/models.py:485 boutique/models.py:539 boutique/models.py:545
+#: boutique/models.py:541 boutique/models.py:595 boutique/models.py:601
 msgid "Texte du bouton"
 msgstr ""
 
-#: boutique/models.py:502 boutique/models.py:519
+#: boutique/models.py:558 boutique/models.py:575
 msgid "Gauche"
 msgstr ""
 
-#: boutique/models.py:503 boutique/models.py:521
+#: boutique/models.py:559 boutique/models.py:577
 msgid "Droite"
 msgstr ""
 
-#: boutique/models.py:506 boutique/models.py:524 boutique/models.py:543
-#: boutique/models.py:550
+#: boutique/models.py:562 boutique/models.py:580 boutique/models.py:599
+#: boutique/models.py:606
 msgid "Sous-titre"
 msgstr ""
 
-#: boutique/models.py:508 boutique/models.py:530 boutique/models.py:546
-#: boutique/models.py:553
+#: boutique/models.py:564 boutique/models.py:586 boutique/models.py:602
+#: boutique/models.py:609
 msgid "Image"
 msgstr ""
 
-#: boutique/models.py:508
+#: boutique/models.py:564
 msgid "Dimension : 398x531. Laisser vide pour ne pas afficher d'image."
 msgstr ""
 
-#: boutique/models.py:509
+#: boutique/models.py:565
 msgid "Position de l'image"
 msgstr ""
 
-#: boutique/models.py:512
+#: boutique/models.py:568
 msgid "Fichier vidéo"
 msgstr ""
 
-#: boutique/models.py:520
+#: boutique/models.py:576
 msgid "Centre"
 msgstr ""
 
-#: boutique/models.py:525
+#: boutique/models.py:581
 msgid "Couleur du titre"
 msgstr ""
 
-#: boutique/models.py:526
+#: boutique/models.py:582
 msgid "Couleur d'ombre du titre"
 msgstr ""
 
-#: boutique/models.py:527
+#: boutique/models.py:583
 msgid "Couleur du sous-titre"
 msgstr ""
 
-#: boutique/models.py:528
+#: boutique/models.py:584
 msgid "Position du texte"
 msgstr ""
 
-#: boutique/models.py:529
+#: boutique/models.py:585
 msgid "Couleur de fond"
 msgstr ""
 
-#: boutique/models.py:530
+#: boutique/models.py:586
 msgid "Dimension : 1920x961. Laisser vide pour ne pas afficher d'image."
 msgstr ""
 
-#: boutique/models.py:533
+#: boutique/models.py:589
 msgid "Horaire - Haut"
 msgstr ""
 
-#: boutique/models.py:534
+#: boutique/models.py:590
 msgid "Horaire - Bas"
 msgstr ""
 
-#: boutique/models.py:535
+#: boutique/models.py:591
 msgid "Téléphone - Haut"
 msgstr ""
 
-#: boutique/models.py:536
+#: boutique/models.py:592
 msgid "Téléphone - Bas"
 msgstr ""
 
-#: boutique/models.py:537
+#: boutique/models.py:593
 msgid "Adresse - Haut"
 msgstr ""
 
-#: boutique/models.py:538
+#: boutique/models.py:594
 msgid "Adresse - Bas"
 msgstr ""
 
-#: boutique/models.py:553
+#: boutique/models.py:609
 msgid "Dimension : 160x160."
 msgstr ""
 
-#: boutique/models.py:564
+#: boutique/models.py:620
 msgid "Button's Label"
 msgstr "Texte du bouton"
 
-#: boutique/models.py:565
+#: boutique/models.py:621
 msgid "Button's URL"
 msgstr "URL du bouton"
 
-#: boutique/models.py:608
+#: boutique/models.py:664
 msgid "Taxe canadienne"
 msgstr ""
 
-#: boutique/models.py:609
+#: boutique/models.py:665
 msgid "Taxes canadiennes"
 msgstr ""
 
-#: boutique/models.py:628
+#: boutique/models.py:684
 msgid "Envoi postal (gratuit)"
 msgstr ""
 
-#: boutique/models.py:629
+#: boutique/models.py:685
 msgid "Envoi postal (standard)"
 msgstr ""
 
-#: boutique/models.py:630
+#: boutique/models.py:686
 msgid "Envoi postal (express)"
 msgstr ""
 
-#: boutique/models.py:632
+#: boutique/models.py:688
 msgid "Nom de la méthode d'expédition"
 msgstr ""
 
-#: boutique/models.py:633
+#: boutique/models.py:689
 msgid "Identifiant"
 msgstr ""
 
-#: boutique/models.py:634 boutique/models.py:643
+#: boutique/models.py:690 boutique/models.py:699
 msgid "Prix"
 msgstr ""
 
-#: boutique/models.py:634
+#: boutique/models.py:690
 msgid "Un prix fixe ajouté au prix total du panier."
 msgstr ""
 
-#: boutique/models.py:637
+#: boutique/models.py:693
 msgid "Méthode d'expédition"
 msgstr ""
 
-#: boutique/models.py:638
+#: boutique/models.py:694
 msgid "Méthodes d'expédition"
 msgstr ""
 
-#: boutique/models.py:651
+#: boutique/models.py:707
 msgid "URL de réception"
 msgstr ""
 
-#: boutique/models.py:652
+#: boutique/models.py:708
 msgid "Stripe données"
 msgstr ""
 
-#: boutique/models.py:653
+#: boutique/models.py:709
 msgid "Stripe de la facture"
 msgstr ""
 
@@ -1352,11 +1385,11 @@ msgstr "Connexion"
 
 #: boutique/templates/boutique/navbar/login-logout.html:82
 msgid "Password Forgotten?"
-msgstr ""
+msgstr "Mot de passe oublié ?"
 
 #: boutique/templates/boutique/navbar/login-logout.html:85
 msgid "Register Yourself"
-msgstr ""
+msgstr "Inscription"
 
 #: boutique/templates/boutique/order/detail.html:10
 msgid "Order"
@@ -1369,11 +1402,11 @@ msgstr "de"
 
 #: boutique/templates/boutique/order/detail.html:12
 msgid "Paid using Stripe"
-msgstr ""
+msgstr "Payé avec Stripe"
 
 #: boutique/templates/boutique/order/detail.html:25
 msgid "Shipping Method"
-msgstr ""
+msgstr "Méthode d'envoi"
 
 #: boutique/templates/boutique/order/detail.html:36
 msgid "Payment Method"
@@ -1408,31 +1441,45 @@ msgstr ""
 "Au cas où vous auriez déjà commandé sur ce site, veuillez vous <a href="
 "\"%(login_url)s\">connecter</a> puis réessayer."
 
-#: boutique/templates/boutique/pages/produits.html:118
-msgid "Categories"
-msgstr "Catégories"
+#: boutique/templates/clients/d-shop/pages/message-envoye.html:9
+msgid "Message envoyé !"
+msgstr ""
 
-#: boutique/templates/clients/d-shop/pages/produits.html:108
+#: boutique/templates/clients/d-shop/pages/message-envoye.html:10
+msgid ""
+"Votre message a été envoyé avec succès, <br />nous vous répondrons le plus "
+"tôt possible."
+msgstr ""
+
+#: boutique/templates/clients/d-shop/pages/message-envoye.html:11
+msgid "Merci !"
+msgstr ""
+
+#: boutique/templates/clients/d-shop/pages/produits.html:122
 msgid "Voir plus"
 msgstr ""
 
-#: settings.py:386
+#: boutique/templates/clients/d-shop/pages/produits.html:132
+msgid "Aucun produit"
+msgstr ""
+
+#: settings.py:391
 msgid "Product Heading"
 msgstr "Entête de produit"
 
-#: settings.py:390
+#: settings.py:395
 msgid "Default"
 msgstr "Par défaut"
 
-#: settings.py:391
+#: settings.py:396
 msgid "Add Commodity to Cart"
 msgstr "Ajouter au panier"
 
-#: settings.py:567
+#: settings.py:573
 msgid "Gabarits de courriel"
 msgstr ""
 
-#: settings.py:568
+#: settings.py:574
 msgid "Courriels envoyés"
 msgstr ""
 
@@ -1452,3 +1499,18 @@ msgstr ""
 #: templates/cms/plugins/widgets/ckeditor.html:33
 msgid "Standard Plugins"
 msgstr ""
+
+#:
+msgid "Payment confirmed"
+msgstr "Paiement confirmé"
+
+#:
+msgid "Ordered quantity"
+msgstr "Quantité"
+
+#:
+msgid "Order item"
+msgstr "Produit commandé"
+#:
+msgid "Order items"
+msgstr "Produits commandés"

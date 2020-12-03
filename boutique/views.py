@@ -24,6 +24,9 @@ from shop.modifiers.pool import cart_modifiers_pool
 from shop.models.order import OrderModel
 from shop.models.order import OrderPayment
 from shop.money import MoneyMaker
+from django.core.management import call_command
+from django.core.mail import send_mail
+from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL
 from settings import STRIPE_KEY, STRIPE_ACCOUNT_ID, SITE_URL
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
 from .models import StripeOrderData
@@ -313,3 +316,18 @@ def mailchimp(request):
   else:
     messages.error(request, 'La réponse du calcul est mauvaise')
   return redirect('/')
+
+def sendemail(request):
+  send_mail(
+    'Message du formulaire de contact de votre site web',
+    'Bonjour, voici le message:\n\nNom: ' + request.POST.get('name') + '\nCourriel: ' 
+                                        + request.POST.get('email') + '\nTéléphone: ' 
+                                        + request.POST.get('phone') + '\nSujet: '
+                                        + request.POST.get('subject') + '\nMessage:\n'
+                                        + request.POST.get('message'),
+    DEFAULT_FROM_EMAIL,
+    [DEFAULT_TO_EMAIL],
+    fail_silently=False,
+  )
+  call_command('send_queued_mail')
+  return redirect('/message-envoye/')

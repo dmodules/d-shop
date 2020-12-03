@@ -37,6 +37,7 @@ INSTALLED_APPS.extend([
   'adminsortable2',
   # ===---
   'webpack_loader',
+  'colorfield',
   # ===---
   'rest_framework',
   'rest_framework.authtoken',
@@ -57,12 +58,13 @@ SHOP_VALUE_ADDED_TAX = Decimal(0)
 SHOP_DEFAULT_CURRENCY = 'CAD'
 
 SHOP_CART_MODIFIERS = [
-  'shop.modifiers.defaults.DefaultCartModifier',
-  #'boutique.modifiers.FreeShippingModifier',
-  #'boutique.modifiers.StandardShippingModifier',
-  #'boutique.modifiers.ExpressShippingModifier',
-  #'boutique.modifiers.CanadaTaxModifier',
-  #'boutique.modifiers.TestPaymentModifier',
+  #'shop.modifiers.defaults.DefaultCartModifier',
+  'boutique.modifiers.PrimaryCartModifier',
+  'boutique.modifiers.FreeShippingModifier',
+  'boutique.modifiers.StandardShippingModifier',
+  'boutique.modifiers.ExpressShippingModifier',
+  'boutique.modifiers.CanadaTaxModifier',
+  'boutique.modifiers.TestPaymentModifier',
   #'boutique.modifiers.SquarePaymentModifier',
   #'boutique.modifiers.StripePaymentModifier',
 ]
@@ -558,7 +560,7 @@ ADMIN_REORDER = (
       "boutique.ProductFilter",
       "boutique.Product",
       {"model":"boutique.Order", "label":_("Commandes")},
-      #{"model":"boutique.Cart", "label":_("Carts")},
+      {"model":"boutique.Cart", "label":_("Carts")},
       #{"model":"boutique.ShippingAddress", "label":_("Adresses de livraison")},
       #{"model":"boutique.BillingAddress", "label":_("Adresses de facturation")},
       "boutique.ShippingManagement",
