@@ -1,7 +1,15 @@
 {% extends "clients/d-shop/pages/base.html" %}
 {% load static cms_tags i18n thumbnail sekizai_tags boutique_tags %}
 
-{% block title %}Produits{% endblock %}
+{% block title %}
+  {% if request.resolver_match.kwargs.category_id %}
+    {% dm_get_category request.resolver_match.kwargs.category_id as current_category %}
+    {{current_category.name}}
+  {% else %}
+    Produits
+  {% endif %}
+{% endblock %}
+{% block meta-description %}{% page_attribute "meta_description" %}{% endblock %}
 
 {% block breadcrumb %}
   <section class="section-breadcrumb">
@@ -11,7 +19,7 @@
           <div class="col-md-6">
             <div class="page-title">
               {% if request.resolver_match.kwargs.category_id %}
-              {% dm_get_category request.resolver_match.kwargs.category_id as current_category %}
+                {% dm_get_category request.resolver_match.kwargs.category_id as current_category %}
                 <h1>{{current_category.name}}</h1>
               {% else %}
                 <h1>{% trans "Products" %}</h1>
