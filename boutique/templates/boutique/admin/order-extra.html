@@ -1,0 +1,15 @@
+{% load i18n %}
+{% for row in rows %}
+  <div style="margin-bottom:0.5rem;">
+    <span style="font-weight:900;margin-right:0.5rem;">{{ row.1.label }} :</span><span>{{ row.1.amount }}</span>
+  </div>
+{% endfor %}
+<div style="margin-bottom:0.5rem;">
+  <span style="font-weight:900;margin-right:0.5rem;">{% trans "Shipping" %} :</span><span>{{ shipping_modifier|default:"–" }}</span>
+</div>
+<div style="margin-bottom:0.5rem;">
+  <span style="font-weight:900;margin-right:0.5rem;">{% trans "Payment" %} :</span><span>{{ payment_modifier|default:"–" }}</span>
+</div>
+<div style="margin-bottom:0.5rem;">
+  <span style="font-weight:900;margin-right:0.5rem;">{% trans "Annotation" %} :</span><span>{{ annotation|default:"–" }}</span>
+</div>

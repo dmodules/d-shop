@@ -1514,3 +1514,10 @@ msgstr "Produit commandé"
 #:
 msgid "Order items"
 msgstr "Produits commandés"
+
+#:
+msgid "State"
+msgstr "Status"
+#:
+msgid "Is fully paid"
+msgstr "Payé"

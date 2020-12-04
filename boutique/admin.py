@@ -280,11 +280,57 @@ class dmOrderItemInline(OrderItemInline):
 
 @admin.register(Order)
 class OrderAdmin(PrintInvoiceAdminMixin, BaseOrderAdmin):
+  list_filter = []
+  fields = [
+    'get_ordernumber',
+    'get_customer_link',
+    'get_status',
+    'get_date',
+    #'updated_at',
+    'get_subtotal',
+    'get_total',
+    'is_fully_paid',
+    'render_as_html_extra'
+  ]
+  readonly_fields = ['get_ordernumber', 'get_status', 'get_date', 'get_total', 'get_subtotal', 'get_customer_link', 'get_outstanding_amount', 'updated_at', 'render_as_html_extra', 'stored_request', 'is_fully_paid']
   inlines = [dmOrderItemInline]
 
   class Meta:
     verbose_name = _("Commande")
     verbose_name_plural = _("Commandes")
+
+  def get_queryset(self, request):
+    print(self)
+    return super(OrderAdmin, self).get_queryset(request).filter(status="payment_confirmed")
+
+  def get_ordernumber(self, obj):
+    return obj.get_number()
+  get_ordernumber.short_description = _("Numéro")
+
+  def get_status(self, obj):
+    return obj._transition_targets.get(obj.status, obj.status)
+  get_status.short_description = _("Status")
+
+  def get_date(self, obj):
+    return obj.created_at.strftime("%d-%m-%Y, %H:%M:%S")
+  get_date.short_description = _("Créée le")
+
+  def get_subtotal(self, obj):
+    return str(obj.subtotal)
+  get_subtotal.short_description = _("Sous-total")
+
+  def get_total(self, obj):
+    return str(obj.total)
+  get_total.short_description = _("Total")
+
+  def is_fully_paid(self, obj):
+    return obj.is_fully_paid()
+  is_fully_paid.short_description = _("Is fully paid")
+  is_fully_paid.boolean = True
+
+  def render_as_html_extra(self, obj):
+    return self.extra_template.render(obj.extra)
+  render_as_html_extra.short_description = _("Détails")
 
   def has_delete_permission(self, request, obj=None):
     return False
