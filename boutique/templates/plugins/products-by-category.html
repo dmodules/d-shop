@@ -58,7 +58,7 @@
                             </li>
                             {% if product.variants %}{% else%}
                               <li>
-                                <a href="/" class="dm-add2cart btn" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
+                                <a href="/" class="btn" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
                               </li>
                             {% endif %}
                           </ul>

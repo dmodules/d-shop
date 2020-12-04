@@ -17,13 +17,15 @@ from shop.modifiers.base import BaseCartModifier
 from boutique.models import CanadaTaxManagement, ShippingAddress
 from boutique.models import ShippingManagement
 
+# AJOUTER LES PROPRIÉTÉS DES VARIANTES DANS "VARIABLES" DE "EXTRA"
+
 class PrimaryCartModifier(DefaultCartModifier):
   def process_cart_item(self, cart_item, request):
     variant = cart_item.product.get_product_variant(product_code=cart_item.product_code)
     cart_item.unit_price = variant.get_price(request)
     cart_item.line_total = cart_item.unit_price * cart_item.quantity
     cart_item.extra["variables"] = {
-      _("Code du produit"): cart_item.product_code
+      "code": cart_item.product_code
     }
     return super(DefaultCartModifier, self).process_cart_item(cart_item, request)
 

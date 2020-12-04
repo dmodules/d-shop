@@ -21,7 +21,6 @@ class AddProductVariableToCartSerializer(AddToCartSerializer):
       'product_code': variant.product_code,
       'unit_price': variant.unit_price,
       'is_in_cart': bool(product.is_in_cart(cart, product_code=variant.product_code)),
-      'extra': {'extra': '-'},
       'availability': variant.get_availability(request)
     }
     return instance

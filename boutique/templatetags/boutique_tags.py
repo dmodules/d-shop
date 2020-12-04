@@ -76,18 +76,8 @@ def dm_get_products_vedette():
   return result
 
 @register.simple_tag
-def dm_get_categories_all():
-  result = ProductCategory.objects.all()
-  return result
-
-@register.simple_tag
 def dm_get_categories_parents():
   result = ProductCategory.objects.filter(parent=None)
-  return result
-
-@register.simple_tag
-def dm_get_nextoffset(k, limit):
-  result = int(k) + int(limit)
   return result
 
 # Alerts publicitaires

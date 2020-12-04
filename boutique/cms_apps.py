@@ -25,8 +25,8 @@ class CatalogListApp(CatalogListCMSApp):
       url(r'^(?P<slug>[\w-]+)', ProductRetrieveView.as_view(use_modal_dialog=False)),
       url(r'^', ProductListView.as_view(filter_backends=filter_backends)),
     ]
-
 apphook_pool.register(CatalogListApp)
+
 apphook_pool.register(OrderApp)
 apphook_pool.register(PasswordResetApp)
 

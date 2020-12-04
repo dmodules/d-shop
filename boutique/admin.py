@@ -235,6 +235,18 @@ class CanadaTaxManagementAdmin(admin.ModelAdmin):
 class ShippingManagementAdmin(admin.ModelAdmin):
   list_display = ['name', 'get_price', 'identifier']
 
+@admin.register(ShippingAddress)
+class ShippingAddressAdmin(admin.ModelAdmin):
+  pass
+
+@admin.register(BillingAddress)
+class BillingAddressAdmin(admin.ModelAdmin):
+  pass
+
+#######################################################################
+# Panier
+#######################################################################
+
 class CartItemModelInline(admin.TabularInline):
   model = CartItemModel
   extra = 0
@@ -244,13 +256,9 @@ class BaseCartAdmin(admin.ModelAdmin):
   list_display = ['pk','customer']
   inlines = [CartItemModelInline]
 
-@admin.register(ShippingAddress)
-class ShippingAddressAdmin(admin.ModelAdmin):
-  pass
-
-@admin.register(BillingAddress)
-class BillingAddressAdmin(admin.ModelAdmin):
-  pass
+#######################################################################
+# Commande
+#######################################################################
 
 class dmOrderItemInline(OrderItemInline):
   fields = [

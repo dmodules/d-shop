@@ -33,6 +33,7 @@ INSTALLED_APPS.extend([
   'cmsplugin_cascade.icon',
   'cmsplugin_cascade.segmentation',
   # ===---
+  #'django_elasticsearch_dsl',
   'fsm_admin',
   'adminsortable2',
   # ===---
@@ -58,15 +59,16 @@ SHOP_VALUE_ADDED_TAX = Decimal(0)
 SHOP_DEFAULT_CURRENCY = 'CAD'
 
 SHOP_CART_MODIFIERS = [
-  #'shop.modifiers.defaults.DefaultCartModifier',
   'boutique.modifiers.PrimaryCartModifier',
+  'boutique.modifiers.CanadaTaxModifier',
+  # ===--- shipping methods
   'boutique.modifiers.FreeShippingModifier',
   'boutique.modifiers.StandardShippingModifier',
   'boutique.modifiers.ExpressShippingModifier',
-  'boutique.modifiers.CanadaTaxModifier',
-  'boutique.modifiers.TestPaymentModifier',
+  # ===--- payment providers
+  #'boutique.modifiers.TestPaymentModifier',
+  'boutique.modifiers.StripePaymentModifier',
   #'boutique.modifiers.SquarePaymentModifier',
-  #'boutique.modifiers.StripePaymentModifier',
 ]
 
 SHOP_ORDER_WORKFLOWS = [
@@ -144,7 +146,7 @@ MAILCHIMP_LISTID = '1111111111'
 
 STRIPE_KEY = "sk_test_yWfrqAfo9CX6aixqmDoqzeFU"
 STRIPE_SECRET_KEY = STRIPE_KEY
-STRIPE_ACCOUNT_ID="acct_1DB3G8GqDfDq6eXv"
+STRIPE_ACCOUNT_ID = "acct_1DB3G8GqDfDq6eXv"
 
 #######################################################################
 # Paths Settings
@@ -511,6 +513,17 @@ CKEDITOR_SETTINGS_DMBLOCKPLUGIN = {
 SELECT2_CSS = 'node_modules/select2/dist/css/select2.min.css'
 SELECT2_JS = 'node_modules/select2/dist/js/select2.min.js'
 SELECT2_I18N_PATH = 'node_modules/select2/dist/js/i18n'
+
+#######################################################################
+# Full index text search settings
+
+ELASTICSEARCH_HOST = os.getenv('ELASTICSEARCH_HOST', 'localhost')
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': '{}:9200'.format(ELASTICSEARCH_HOST)
+    },
+}
 
 #######################################################################
 # Frontend Settings

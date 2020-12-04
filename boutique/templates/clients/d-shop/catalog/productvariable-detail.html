@@ -124,22 +124,28 @@
             <div class="large_divider clearfix"></div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-12">
-            <div class="tab-style3">
-              <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item">
-                  <a class="nav-link active" id="Description-tab" data-toggle="tab" href="#Description" role="tab" aria-controls="Description" aria-selected="true">Description</a>
-                </li>
-              </ul>
-              <div class="tab-content shop_info_tab">
-                <div class="tab-pane fade show active" id="Description" role="tabpanel" aria-labelledby="Description-tab">
-                  {{ product.description|safe }}
+        {% if product.description %}
+          <div class="row">
+            <div class="col-12">
+              <div class="tab-style3">
+                <ul class="nav nav-tabs" role="tablist">
+                  {% if product.description %}
+                    <li class="nav-item">
+                      <a class="nav-link active" id="Description-tab" data-toggle="tab" href="#Description" role="tab" aria-controls="Description" aria-selected="true">Description</a>
+                    </li>
+                  {% endif %}
+                </ul>
+                <div class="tab-content shop_info_tab">
+                  {% if product.description %}
+                    <div class="tab-pane fade show active" id="Description" role="tabpanel" aria-labelledby="Description-tab">
+                      {{ product.description|safe }}
+                    </div>
+                  {% endif %}
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        {% endif %}
         <div class="row">
           <div class="col-12">
             <div class="small_divider"></div>
@@ -174,8 +180,19 @@
                       <h6 class="product_title"><a href="{{related.get_absolute_url}}">{{related.product_name|truncatechars:45}}</a>
                       </h6>
                       <div class="product_price">
-                        <span class="price">{{related.unit_price}}</span>
-                        <del style="display:none;">-</del>
+                        {% if related.variants %}
+                          {% product_variant_discount_price related.variants.first.id as real_price %}
+                          <span class="price">{{real_price}}</span>
+                          {% if real_price != related.variants.first.unit_price %}
+                            <del>{{related.variants.first.unit_price}}</del>
+                          {% endif %}
+                        {% else %}
+                          {% product_discount_price related.id as real_price %}
+                          <span class="price">{{real_price}}</span>
+                          {% if real_price != related.unit_price %}
+                            <del>{{related.unit_price}}</del>
+                          {% endif %}
+                        {% endif %}
                       </div>
                     </div>
                   </div>
