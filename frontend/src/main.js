@@ -30,14 +30,14 @@ Vue.prototype.$axios = axios
 const stage = document.querySelector('meta[data-dm="dmodules"]') ? document.querySelector('meta[data-dm="dmodules"]').dataset.stage : 'live'
 if (process.env.NODE_ENV === "production") {
   if (stage === "live") {
-    Vue.prototype.$web_url = 'https://pe-jan.us.aldryn.io'
-    Vue.prototype.$app_url = 'https://pe-jan.us.aldryn.io/commande'
-    Vue.prototype.$api_url = 'https://pe-jan.us.aldryn.io/shop/api'
+    Vue.prototype.$web_url = 'https://d-shop.us.aldryn.io'
+    Vue.prototype.$app_url = 'https://d-shop.us.aldryn.io/commande'
+    Vue.prototype.$api_url = 'https://d-shop.us.aldryn.io/shop/api'
   }
   else {
-    Vue.prototype.$web_url = 'https://pe-jan-stage.us.aldryn.io'
-    Vue.prototype.$app_url = 'https://pe-jan-stage.us.aldryn.io/commande'
-    Vue.prototype.$api_url = 'https://pe-jan-stage.us.aldryn.io/shop/api'
+    Vue.prototype.$web_url = 'https://d-shop-stage.us.aldryn.io'
+    Vue.prototype.$app_url = 'https://d-shop-stage.us.aldryn.io/commande'
+    Vue.prototype.$api_url = 'https://d-shop-stage.us.aldryn.io/shop/api'
   }
 } else {
   Vue.prototype.$web_url = 'http://localhost:8000'
