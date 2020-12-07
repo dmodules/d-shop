@@ -1,10 +1,26 @@
 {% extends "boutique/pages/base.html" %}
-{% load static cms_tags i18n sekizai_tags %}
+{% load static cms_tags i18n sekizai_tags boutique_tags %}
 
-{% block title %}{% page_attribute "page_title" %}{% endblock %}
-{% block meta-description %}{% page_attribute "meta_description" %}{% endblock %}
+{% block title %}{% page_attribute "page_title" %} - Diamond{% endblock %}
+
+{% block head %}
+  {{ block.super }}
+  {% addtoblock "js" %}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7TypZFTl4Z3gVtikNOdGSfNTpnmq-ahQ"></script>
+  {% endaddtoblock %}
+{% endblock head %}
+
+{% block header %}
+  {% include "boutique/pages/navbar.html" %}
+{% endblock header %}
+
+
+{% block breadcrumb %}
+  {% placeholder "Breadcrumb" %}
+{% endblock breadcrumb %}
 
 {% block main-content %}
+  {% dm_get_site_contacts as contacts %}
   <div class="section pb_70">
     <div class="container">
       <div class="row">
@@ -15,7 +31,7 @@
             </div>
             <div class="contact_text">
               <span>Adresse</span>
-              <p>336 Boul. Marcotte, G8H 1Z6, Roberval (QC) Canada</p>
+              <p>{{contacts.address}}</p>
             </div>
           </div>
         </div>
@@ -26,8 +42,11 @@
             </div>
             <div class="contact_text">
               <span>Courriel</span>
-              <p><a href="mailto:info@d-modules.com">info@d-modules.com</a></p>
-              <p></p>
+              <p>
+                <br />
+                <a href="mailto:{{contacts.email}}">{{contacts.email}}</a>
+                <br /><br />
+              </p>
             </div>
           </div>
         </div>
@@ -38,24 +57,28 @@
             </div>
             <div class="contact_text">
               <span>Téléphone</span>
-              <p><a href="tel:18556515155">1-855-651-5155</a></p>
-              <p></p>
+              <p>
+                <br />
+                <a href="tel:{{contacts.phone|make_phone}}">{{contacts.phone}}</a>
+                <br /><br />
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <div class="section pt-0">
     <div class="container">
       <div class="row">
         <div class="col-lg-6">
           <div class="heading_s1">
-            <h1>Contactez-nous</h1>
+            <h2>Contactez-nous</h2>
           </div>
           <p class="leads">Remplissez ce formulaire pour nous contacter.</p>
           <div class="field_form dm-contact">
-            <form method="post" name="enq" action="/sendemail/">
+            <form method="post" name="enq" action="/fr/sendemail/">
               {% csrf_token %}
               <div class="row">
                 <div class="form-group col-md-6">

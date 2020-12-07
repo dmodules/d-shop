@@ -17,7 +17,7 @@ from decimal import Decimal
 
 from shop.admin.order import OrderItemInline
 
-from boutique.models import dmSite, dmSiteSocial
+from boutique.models import dmSite, dmSiteContact, dmSiteSocial
 from boutique.models import dmAlertPublicitaire
 from boutique.models import dmRabaisPerCategory
 from boutique.models import CanadaTaxManagement, ShippingManagement, StripeOrderData
@@ -232,6 +232,11 @@ __all__ = ['customer']
 # Site
 #######################################################################
 
+class dmSiteContactInline(admin.TabularInline):
+  model = dmSiteContact
+  extra = 1
+  max_num = 1
+
 class dmSiteSocialInline(admin.TabularInline):
   model = dmSiteSocial
   extra = 1
@@ -239,7 +244,7 @@ class dmSiteSocialInline(admin.TabularInline):
 @admin.register(dmSite)
 class dmSiteAdmin(admin.ModelAdmin):
   list_display = ['get_name', 'site']
-  inlines = [dmSiteSocialInline]
+  inlines = [dmSiteContactInline, dmSiteSocialInline]
 
   def get_name(self, obj):
     return obj.site.name

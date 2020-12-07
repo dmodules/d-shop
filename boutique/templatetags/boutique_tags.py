@@ -18,9 +18,19 @@ from boutique.models import dmAlertPublicitaire
 register = template.Library()
 
 @register.simple_tag
-def dm_get_socials():
+def dm_get_site_contacts():
+  result = dmSite.objects.first()
+  return result.contacts.first()
+
+@register.simple_tag
+def dm_get_site_socials():
   result = dmSite.objects.first()
   return result.social.all()
+
+@register.filter
+def make_phone(k):
+  result = int(''.join(c for c in k if c.isdigit()))
+  return "+1" + str(result)
 
 @register.simple_tag
 def dm_get_products_all():

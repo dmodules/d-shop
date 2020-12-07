@@ -20,6 +20,7 @@
 {% endblock breadcrumb %}
 
 {% block main-content %}
+  {% dm_get_site_contacts as contacts %}
   <div class="section pb_70">
     <div class="container">
       <div class="row">
@@ -30,7 +31,7 @@
             </div>
             <div class="contact_text">
               <span>Adresse</span>
-              <p>336 Boul. Marcotte, G8H 1Z6, Roberval (QC) Canada</p>
+              <p>{{contacts.address}}</p>
             </div>
           </div>
         </div>
@@ -41,7 +42,7 @@
             </div>
             <div class="contact_text">
               <span>Courriel</span>
-              <a href="mailto:info@d-modules.com">info@d-modules.com </a>
+              <a href="mailto:{{contacts.email}}">{{contacts.email}} </a>
             </div>
           </div>
         </div>
@@ -52,7 +53,7 @@
             </div>
             <div class="contact_text">
               <span>Téléphone</span>
-              <p><a href="tel:18556515155">1-855-651-5155</a></p>
+              <p><a href="tel:{{contacts.phone|make_phone}}">{{contacts.phone}}</a></p>
             </div>
           </div>
         </div>

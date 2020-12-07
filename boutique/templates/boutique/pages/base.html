@@ -103,7 +103,7 @@
                 </div>
                 <div class="widget">
                   <ul class="social_icons social_white">
-                    {% dm_get_socials as socials %}
+                    {% dm_get_site_socials as socials %}
                     {% for social in socials %}
                       <li><a href="{{social.url}}" target="_blank"><i class="{% if social.social == 1 %}ion-social-facebook{% elif social.social == 2 %}ion-social-instagram{% elif social.social == 3 %}ion-social-youtube{% endif %}"></i></a></li>
                     {% endfor %}
@@ -140,20 +140,21 @@
                 </div>
               </div>
               <div class="col-lg-3 col-md-4 col-sm-6">
+                {% dm_get_site_contacts as contacts %}
                 <div class="widget">
                   <h6 class="widget_title">Contact</h6>
                   <ul class="contact_info contact_info_light">
                     <li>
                       <i class="ti-location-pin"></i>
-                      <p>1138 Boulevard du Sacré Coeur, Suite 201<br />Saint-Félicien QC G8K 2R2<br />Québec, Canada</p>
+                      <p>{{contacts.address}}</p>
                     </li>
                     <li>
                       <i class="ti-email"></i>
-                      <a href="mailto:info@d-modules.com">info@d-modules.com</a>
+                      <a href="mailto:{{contacts.email}}">{{contacts.email}}</a>
                     </li>
                     <li>
                       <i class="ti-mobile"></i>
-                      <p><a href="tel:+14186130825">418-613-0825</a></p>
+                      <p><a href="tel:{{contacts.phone|make_phone}}">{{contacts.phone}}</a></p>
                     </li>
                   </ul>
                 </div>

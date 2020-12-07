@@ -555,6 +555,19 @@ class dmSite(models.Model):
   def __str__(self):
     return self.site.name
 
+class dmSiteContact(models.Model):
+  site = models.ForeignKey(dmSite, on_delete=models.CASCADE, related_name="contacts")
+  phone = models.CharField(verbose_name=_("Téléphone"), max_length=25, blank=True, null=True)
+  email = models.CharField(verbose_name=_("Courriel"), max_length=1000, blank=True, null=True)
+  address = models.CharField(verbose_name=_("Adresse"), max_length=1000, blank=True, null=True)
+
+  class Meta:
+    verbose_name = _("Contacts")
+    verbose_name_plural = _("Contacts")
+
+  def __str__(self):
+    return 'Contacts'
+
 class dmSiteSocial(models.Model):
   CHOIX_SOCIALS = [
     (1, "Facebook"),
