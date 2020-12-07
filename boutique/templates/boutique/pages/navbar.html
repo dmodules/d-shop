@@ -5,11 +5,14 @@
     <div class="topnav">
       <div class="row">
         <div class="col-1 col-md-3 col-lg-3 py-0 my-0 text-left">
-          <span>
-            <a href="https://www.facebook.com/d-modules/" target="_blank">
-              <i class="icon-social-facebook" aria-hidden="true"></i>
-            </a>
-          </span>
+          {% dm_get_socials as socials %}
+          {% for social in socials %}
+            <span>
+              <a href="{{social.url}}" target="_blank">
+                <i class="{% if social.social == 1 %}icon-social-facebook{% elif social.social == 2 %}ion-social-instagram{% elif social.social == 3 %}icon-social-youtube{% endif %}" aria-hidden="true"></i>
+              </a>
+            </span>
+          {% endfor %}
         </div>
         <div class="d-none d-md-block col-md-4 col-lg-6 py-0 my-0 text-center">
           {% get_alertpublicitaire as alerts %}

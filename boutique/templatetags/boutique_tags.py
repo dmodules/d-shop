@@ -8,6 +8,7 @@ from datetime import datetime
 from shop.money import Money
 from decimal import Decimal
 
+from boutique.models import dmSite
 from boutique.models import Product
 from boutique.models import ProductVariableVariant
 from boutique.models import ProductCategory, ProductFilter
@@ -15,6 +16,11 @@ from boutique.models import dmRabaisPerCategory
 from boutique.models import dmAlertPublicitaire
 
 register = template.Library()
+
+@register.simple_tag
+def dm_get_socials():
+  result = dmSite.objects.first()
+  return result.social.all()
 
 @register.simple_tag
 def dm_get_products_all():

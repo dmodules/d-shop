@@ -1,5 +1,6 @@
 from cms import __version__ as CMS_VERSION
 from django.utils.translation import ugettext_lazy as _
+from django.contrib import sites
 import pytz
 from cms.models import CMSPlugin
 from filer.fields import image
@@ -544,6 +545,38 @@ class dmAlertPublicitaire(models.Model):
 # Plugins
 #######################################################################
 
+class dmSite(models.Model):
+  site = models.ForeignKey(sites.models.Site, on_delete=models.CASCADE)
+
+  class Meta:
+    verbose_name = _("Site")
+    verbose_name_plural = _("Site")
+
+  def __str__(self):
+    return self.site.name
+
+class dmSiteSocial(models.Model):
+  CHOIX_SOCIALS = [
+    (1, "Facebook"),
+    (2, "Instagram"),
+    (3, "Youtube")
+  ]
+
+  site = models.ForeignKey(dmSite, on_delete=models.CASCADE, related_name="social")
+  social = models.PositiveSmallIntegerField(verbose_name=_("Réseau social"), choices=CHOIX_SOCIALS, default=1)
+  url = models.CharField(verbose_name=_("Lien vers le réseau"), max_length=1000)
+
+  class Meta:
+    verbose_name = _("Réseau social")
+    verbose_name_plural = _("Réseaux sociaux")
+
+  def __str__(self):
+    return self.url
+
+#######################################################################
+# Plugins
+#######################################################################
+
 class dmProductsCategories(CMSPlugin):
   title = models.CharField(verbose_name=_("Titre"), max_length=100, null=True, blank=True)
   text = HTMLField(verbose_name=_("Texte"), configuration='CKEDITOR_SETTINGS_DMPLUGIN', null=True, blank=True)
@@ -628,8 +661,22 @@ class dmBlockSalesParent(CMSPlugin):
 class dmBlockSalesChild(CMSPlugin):
   title = models.CharField(verbose_name=_("Titre"), max_length=100, null=True, blank=True)
   text = models.CharField(verbose_name=_("Texte"), max_length=100, null=True, blank=True)
+  txt_color = ColorField(verbose_name=_("Couleur du texte"), default="#292b2c")
   btn_label = models.CharField(verbose_name=_("Button's Label"), max_length=25, null=True, blank=True)
   btn_url = models.CharField(verbose_name=_("Button's URL"), max_length=255, null=True, blank=True)
+  bg_color = ColorField(verbose_name=_("Couleur de fond"), default="#f2f2f3")
+  image = models.ImageField(verbose_name="Image", null=True, blank=True)
+
+class dmBlockCalltoaction(CMSPlugin):
+  title = models.CharField(verbose_name=_("Titre"), max_length=100, null=True, blank=True)
+  subtitle = models.CharField(verbose_name=_("Sous-titre"), max_length=100, null=True, blank=True)
+  text = models.CharField(verbose_name=_("Texte"), max_length=100, null=True, blank=True)
+  title_color = ColorField(verbose_name=_("Couleur du titre"), default="#292b2c")
+  subtitle_color = ColorField(verbose_name=_("Couleur du sous-titre"), default="#292b2c")
+  text_color = ColorField(verbose_name=_("Couleur du texte"), default="#292b2c")
+  btn_label = models.CharField(verbose_name=_("Button's Label"), max_length=25, null=True, blank=True)
+  btn_url = models.CharField(verbose_name=_("Button's URL"), max_length=255, null=True, blank=True)
+  bg_color = ColorField(verbose_name=_("Couleur de fond"), null=True, blank=True)
   image = models.ImageField(verbose_name="Image", null=True, blank=True)
 
 #######################################################################

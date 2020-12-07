@@ -558,7 +558,8 @@ ADMIN_REORDER = (
     "app":"shop",
     "label":"Site",
     "models":[
-      "sites.Site",
+      #"sites.Site",
+      "boutique.dmSite",
       "cms.Page",
       "shop.CustomerProxy",
       "boutique.dmAlertPublicitaire"

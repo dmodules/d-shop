@@ -3,7 +3,7 @@ from django.conf import settings
 from django.template.loader import select_template
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
-from .models import dmBlocEntete, dmBlocTextMedia, dmBlocEnteteVideo, dmBlocSliderParent, dmBlocSliderChild, dmProductsCategories, dmProductsVedette, dmProductsByCategory, dmBlocContact, dmInfolettre, dmBlocEtapesParent, dmBlocEtapesChild, dmBlockSalesParent, dmBlockSalesChild
+from .models import dmBlocEntete, dmBlocTextMedia, dmBlocEnteteVideo, dmBlocSliderParent, dmBlocSliderChild, dmProductsCategories, dmProductsVedette, dmProductsByCategory, dmBlocContact, dmInfolettre, dmBlocEtapesParent, dmBlocEtapesChild, dmBlockSalesParent, dmBlockSalesChild, dmBlockCalltoaction
 
 class BoutiquePlugin(CMSPluginBase):
   module = 'A Boutique Plugin'
@@ -127,6 +127,22 @@ class dmBlocEtapesChildPlugin(BoutiquePlugin):
     def render(self, context, instance, placeholder):
         context = super(dmBlocEtapesChildPlugin, self).render(context, instance, placeholder)
         return context
+
+@plugin_pool.register_plugin
+class dmCalltoactionPlugin(BoutiquePlugin):
+  name = _("Bloc call to action")
+  model = dmBlockCalltoaction
+  allow_children = False
+
+  def render(self, context, instance, placeholder):
+    context = super(dmCalltoactionPlugin, self).render(context, instance, placeholder)
+    return context
+
+  def get_render_template(self, context, instance, placeholder):
+    return select_template([
+      'clients/{}/plugins/bloc-calltoaction.html'.format(settings.CLIENT_SLUG),
+      'plugins/bloc-calltoaction.html'
+    ])
 
 @plugin_pool.register_plugin
 class dmBlocContactPlugin(BoutiquePlugin):

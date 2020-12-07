@@ -17,6 +17,7 @@ from decimal import Decimal
 
 from shop.admin.order import OrderItemInline
 
+from boutique.models import dmSite, dmSiteSocial
 from boutique.models import dmAlertPublicitaire
 from boutique.models import dmRabaisPerCategory
 from boutique.models import CanadaTaxManagement, ShippingManagement, StripeOrderData
@@ -226,6 +227,27 @@ COUNTRIES_FR = [
 ]
 
 __all__ = ['customer']
+
+#######################################################################
+# Site
+#######################################################################
+
+class dmSiteSocialInline(admin.TabularInline):
+  model = dmSiteSocial
+  extra = 1
+
+@admin.register(dmSite)
+class dmSiteAdmin(admin.ModelAdmin):
+  list_display = ['get_name', 'site']
+  inlines = [dmSiteSocialInline]
+
+  def get_name(self, obj):
+    return obj.site.name
+  get_name.short_description = _("Nom")
+
+#######################################################################
+# Billing and Shipping
+#######################################################################
 
 @admin.register(CanadaTaxManagement)
 class CanadaTaxManagementAdmin(admin.ModelAdmin):
