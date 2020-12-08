@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import redirect
 from django.shortcuts import render
 
-from settings import STRIPE_KEY, SITE_URL
+from settings import STRIPE_SECRET_KEY, SITE_URL
 
 from shop.money import MoneyMaker
 from shop.models.order import OrderModel
@@ -16,7 +16,7 @@ from boutique.transition import transition_change_notification
 
 from .models import StripeOrderData
 
-stripe.api_key = STRIPE_KEY
+stripe.api_key = STRIPE_SECRET_KEY
 
 #######################################################################
 # ===---   Stripe                                              ---=== #

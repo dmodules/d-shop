@@ -1,7 +1,10 @@
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 
-from .stripe_tax import create_tax, update_tax
+try:
+  from dmBillingStripe.stripe_tax import create_tax
+except:
+  pass
 
 #######################################################################
 # Canada Taxes

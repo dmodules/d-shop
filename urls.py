@@ -18,26 +18,23 @@ from rest_framework import routers
 from shop.views.catalog import ProductListView
 from shop.views.cart import CartViewSet
 
-from boutique.views import mailchimp, sendemail
 from boutique.views import CustomerView, LoadProduits, ShippingMethodsView, BillingMethodsView
 from boutique.views import TestPaymentView
 
-sitemaps = {'cmspages': CMSSitemap, 'products': ProductSitemap}
+sitemaps = {"cmspages": CMSSitemap, "products": ProductSitemap}
 
 def render_robots(request):
-    permission = 'noindex' in settings.ROBOTS_META_TAGS and 'Disallow' or 'Allow'
-    return HttpResponse('User-Agent: *\n%s: /\n' % permission, content_type='text/plain')
+  permission = "noindex" in settings.ROBOTS_META_TAGS and "Disallow" or "Allow"
+  return HttpResponse("User-Agent: *\n%s: /\n" % permission, content_type="text/plain")
 
 urlpatterns = [
 
-  url(r'^billing-stripe/', include('dshop.dmBillingStripe.urls')),
-
-  url(r'^infolettre/$', mailchimp),
-  url(r'^sendemail/$', sendemail),
-
   url(r'^robots\.txt$', render_robots),
-  url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
-  url(r'^shop/', include('shop.urls')),
+  url(r'^sitemap\.xml$', sitemap, {"sitemaps": sitemaps}, name="sitemap"),
+
+  url(r'^shop/', include("shop.urls")),
+  url(r'^billing-stripe/', include("dshop.dmBillingStripe.urls")),
+  url(r'^contact/', include("dshop.dmContact.urls")),
 
   url(r'^api/v1/products-list/$', ProductListView.as_view()),
 
@@ -50,35 +47,35 @@ urlpatterns = [
 
 ] + aldryn_addons.urls.patterns() + i18n_patterns(
 
-    url(r'^admin', admin.site.urls),
+  url(r'^admin', admin.site.urls),
 
-    url(r'^message-envoye/', TemplateView.as_view(template_name='clients/{}/pages/message-envoye.html'.format(settings.CLIENT_SLUG))),
+  url(r'^message-envoye/', TemplateView.as_view(template_name="clients/{}/pages/message-envoye.html".format(settings.CLIENT_SLUG))),
 
-    url(r'^produits/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', TemplateView.as_view(template_name='clients/{}/pages/produits.html'.format(settings.CLIENT_SLUG))),
-    url(r'^produits/', TemplateView.as_view(template_name='clients/{}/pages/produits.html'.format(settings.CLIENT_SLUG))),
+  url(r'^produits/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', TemplateView.as_view(template_name='clients/{}/pages/produits.html'.format(settings.CLIENT_SLUG))),
+  url(r'^produits/', TemplateView.as_view(template_name='clients/{}/pages/produits.html'.format(settings.CLIENT_SLUG))),
 
-    ############################
-    # ===--- FRONTEND   ---=== #
-    ############################
-    url(r'^commande/media/(?!uploads)/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'media')}),
-    url(r'^commande/icons/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'icons')}),
-    url(r'^commande/img/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'img')}),
-    url(r'^commande/js/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'js')}),
-    url(r'^commande/css/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'css')}),
-    url(r'^commande/fonts/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'fonts')}),
-    # ===---
-    url(r'media/(?!uploads)/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'media')}),
-    url(r'icons/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'icons')}),
-    url(r'img/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'img')}),
-    url(r'js/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'js')}),
-    url(r'css/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'css')}),
-    url(r'fonts/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'fonts')}),
-    # ===---
-    url(r'^commande/', TemplateView.as_view(template_name='clients/{}/pages/app.html'.format(settings.CLIENT_SLUG))),
-    ############################
-    # ===------------------=== #
-    ############################
+  ############################
+  # ===--- FRONTEND   ---=== #
+  ############################
+  url(r'^commande/media/(?!uploads)/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'media')}),
+  url(r'^commande/icons/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'icons')}),
+  url(r'^commande/img/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'img')}),
+  url(r'^commande/js/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'js')}),
+  url(r'^commande/css/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'css')}),
+  url(r'^commande/fonts/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'fonts')}),
+  # ===---
+  url(r'media/(?!uploads)/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'media')}),
+  url(r'icons/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'icons')}),
+  url(r'img/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'img')}),
+  url(r'js/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'js')}),
+  url(r'css/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'css')}),
+  url(r'fonts/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'fonts')}),
+  # ===---
+  url(r'^commande/', TemplateView.as_view(template_name='clients/{}/pages/app.html'.format(settings.CLIENT_SLUG))),
+  ############################
+  # ===------------------=== #
+  ############################
 
-    # MUST be the last entry!
-    *aldryn_addons.urls.i18n_patterns()
+  # MUST be the last entry!
+  *aldryn_addons.urls.i18n_patterns()
 )

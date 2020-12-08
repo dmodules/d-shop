@@ -2,7 +2,7 @@ import stripe
 
 from django.utils.translation import ugettext_lazy as _
 from decimal import Decimal
-from settings import STRIPE_KEY, SITE_URL
+from settings import STRIPE_SECRET_KEY, SITE_URL
 
 from rest_framework.exceptions import ValidationError
 
@@ -11,7 +11,7 @@ from shop.models.order import OrderModel
 
 from dshop.dmTaxes.models import CanadaTaxManagement
 
-stripe.api_key = STRIPE_KEY
+stripe.api_key = STRIPE_SECRET_KEY
 
 #######################################################################
 # ===---   StripePayment                                       ---=== #

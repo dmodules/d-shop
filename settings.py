@@ -48,6 +48,7 @@ INSTALLED_APPS.extend([
   "stripe",
   # ===---
   "dshop.dmBillingStripe",
+  "dshop.dmContact",
   "dshop.dmShipping",
   "dshop.dmTaxes",
   # ===---
@@ -133,24 +134,24 @@ CMS_TEMPLATES = [
 #######################################################################
 # Email Settings
 
-EMAIL_HOST = 'smtp.mandrillapp.com'
+EMAIL_HOST = "smtp.mandrillapp.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'mcote@d-modules.com'
-EMAIL_HOST_PASSWORD = '15163f93-6766-42b0-b239-6c707093642e'
-DEFAULT_FROM_EMAIL = 'noreply@d-modules.com'
-DEFAULT_TO_EMAIL = 'mariechristine@d-modules.com'
-EMAIL_REPLY_TO = 'info@d-modules.com'
-EMAIL_BACKEND = 'post_office.EmailBackend'
+EMAIL_HOST_USER = "mcote@d-modules.com"
+EMAIL_HOST_PASSWORD = "15163f93-6766-42b0-b239-6c707093642e"
+DEFAULT_FROM_EMAIL = "noreply@d-modules.com"
+DEFAULT_TO_EMAIL = "mariechristine@d-modules.com"
+EMAIL_REPLY_TO = "info@d-modules.com"
+EMAIL_BACKEND = "post_office.EmailBackend"
 
-MAILCHIMP_KEY = '1111111111111111111-11'
-MAILCHIMP_LISTID = '1111111111'
+MAILCHIMP_KEY = "1111111111111111111-11"
+MAILCHIMP_LISTID = "1111111111"
 
 #######################################################################
 # Stripe Settings
 
-STRIPE_KEY = "sk_test_yWfrqAfo9CX6aixqmDoqzeFU"
-STRIPE_SECRET_KEY = STRIPE_KEY
+STRIPE_PUBLIC_KEY = "pk_test_oho8Q2pjlnLsmNSkXRT21wi2"
+STRIPE_SECRET_KEY = "sk_test_yWfrqAfo9CX6aixqmDoqzeFU"
 STRIPE_ACCOUNT_ID = "acct_1DB3G8GqDfDq6eXv"
 
 #######################################################################
@@ -213,6 +214,8 @@ CMS_LANGUAGES = {
 
 #######################################################################
 #
+
+ROBOTS_META_TAGS = ["Allow"]
 
 TEMPLATES = [{
   'BACKEND': 'django.template.backends.django.DjangoTemplates',
