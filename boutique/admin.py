@@ -490,7 +490,7 @@ class ProductVariableAdmin(InvalidateProductCacheMixin, SortableAdminMixin, Tran
 class ProductAdmin(PolymorphicSortableAdminMixin, PolymorphicParentModelAdmin):
   base_model = Product
   child_models = [ProductDefault, ProductVariable]
-  list_display = ['product_name', 'get_price', 'product_type', 'is_vedette', 'active']
+  list_display = ['product_name', 'get_price', 'product_type', "get_quantity", 'is_vedette', 'active']
   list_display_links = ['product_name']
   search_fields = ['product_name']
   list_filter = [PolymorphicChildModelFilter, CMSPageFilter]
@@ -499,8 +499,19 @@ class ProductAdmin(PolymorphicSortableAdminMixin, PolymorphicParentModelAdmin):
 
   def get_price(self, obj):
     return str(obj.get_real_instance().get_price(None))
-
   get_price.short_description = _("Price starting at")
+
+  def get_quantity(self, obj):
+    result = obj.get_real_instance()
+    try:
+      d = []
+      for v in result.variants.all():
+        d.append(str(v.quantity))
+      result = ', '.join(d)
+    except:
+      result = result.quantity
+    return str(result)
+  get_quantity.short_description = _("Quantity")
 
 #######################################################################
 # Alerte Publicitaire
