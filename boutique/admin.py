@@ -20,7 +20,6 @@ from shop.admin.order import OrderItemInline
 from boutique.models import dmSite, dmSiteContact, dmSiteSocial
 from boutique.models import dmAlertPublicitaire
 from boutique.models import dmRabaisPerCategory
-from boutique.models import CanadaTaxManagement, ShippingManagement, StripeOrderData
 from boutique.models import BillingAddress, ShippingAddress
 from boutique.models import ProductCategory, ProductFilter
 from boutique.models import Product
@@ -253,14 +252,6 @@ class dmSiteAdmin(admin.ModelAdmin):
 #######################################################################
 # Billing and Shipping
 #######################################################################
-
-@admin.register(CanadaTaxManagement)
-class CanadaTaxManagementAdmin(admin.ModelAdmin):
-  list_display = ['state', 'hst', 'gst', 'pst', 'qst']
-
-@admin.register(ShippingManagement)
-class ShippingManagementAdmin(admin.ModelAdmin):
-  list_display = ['name', 'get_price', 'identifier']
 
 @admin.register(ShippingAddress)
 class ShippingAddressAdmin(admin.ModelAdmin):
@@ -530,13 +521,3 @@ class dmAlertPublicitaireAdmin(admin.ModelAdmin):
   def get_fin(self, obj):
     return obj.valid_until
   get_fin.short_description = _("Fin")
-
-#######################################################################
-# Stripe
-#######################################################################
-
-@admin.register(StripeOrderData)
-class StripeOrderDataAdmin(admin.ModelAdmin):
-  list_display = ['order_payment', 'receipt_url', ]
-
-

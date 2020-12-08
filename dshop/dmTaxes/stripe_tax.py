@@ -1,5 +1,4 @@
 import stripe
-
 from settings import STRIPE_KEY
 
 stripe.api_key = STRIPE_KEY

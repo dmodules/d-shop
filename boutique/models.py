@@ -11,7 +11,6 @@ from datetime import datetime
 from decimal import Decimal
 from django.core.validators import MinValueValidator
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
 from djangocms_text_ckeditor.fields import HTMLField
 from polymorphic.query import PolymorphicQuerySet
 from parler.managers import TranslatableManager, TranslatableQuerySet
@@ -31,8 +30,6 @@ from shop.models.defaults.customer import Customer
 from django.db.models import Q
 from distutils.version import LooseVersion
 from django.utils.six.moves.urllib.parse import urljoin
-from .stripe_tax import create_tax, update_tax
-from shop.models.order import OrderPayment
 
 __all__ = ['Cart', 'CartItem', 'Order', 'Customer']
 
@@ -691,93 +688,3 @@ class dmBlockCalltoaction(CMSPlugin):
   btn_url = models.CharField(verbose_name=_("Button's URL"), max_length=255, null=True, blank=True)
   bg_color = ColorField(verbose_name=_("Couleur de fond"), null=True, blank=True)
   image = models.ImageField(verbose_name="Image", null=True, blank=True)
-
-#######################################################################
-# Canada Taxes
-#######################################################################
-
-class CanadaTaxManagement(models.Model):
-    state = models.CharField(
-        _("Province"),
-        choices=[2 * ('{}'.format(t),)
-                 for t in ['Alberta', 'British Columbia', 'Manitoba',
-                           'New-Brunswick', 'Newfoundland and Labrador',
-                           'Northwest Territories', 'Nova Scotia', 'Nunavut',
-                           'Ontario', 'Prince Edward Island', 'Quebec',
-                           'Saskatchewan', 'Yukon']],
-        max_length=60,
-        unique=True,
-
-    )
-    hst = models.DecimalField(
-        max_digits=5,
-        decimal_places=3,
-        null=True, blank=True)
-    gst = models.DecimalField(
-        max_digits=5,
-        decimal_places=3,
-        null=True, blank=True)
-    pst = models.DecimalField(
-        max_digits=5,
-        decimal_places=3,
-        null=True, blank=True)
-    qst = models.DecimalField(
-        max_digits=5,
-        decimal_places=3,
-        null=True, blank=True)
-
-    stripe_hst = models.CharField(max_length=50, null=True, blank=True)
-    stripe_gst = models.CharField(max_length=50, null=True, blank=True)
-    stripe_pst = models.CharField(max_length=50, null=True, blank=True)
-    stripe_qst = models.CharField(max_length=50, null=True, blank=True)
-
-    class Meta:
-        verbose_name = _("Taxe canadienne")
-        verbose_name_plural = _("Taxes canadiennes")
-
-    def __str__(self):
-        return self.state
-
-    def save(self, *args, **kwargs):
-
-        if self._state.adding:
-            hst, gst, pst, qst = create_tax(self)
-            self.stripe_hst = hst
-            self.stripe_gst = gst
-            self.stripe_pst = pst
-            self.stripe_qst = qst
-        #else:
-        #    update_tax(self)
-        super(CanadaTaxManagement, self).save(*args, **kwargs)
-
-class ShippingManagement(models.Model):
-  CHOICE_IDENTIFIER = [
-    ('free-shipping', _('Envoi postal (gratuit)')),
-    ('standard-shipping', _('Envoi postal (standard)')),
-    ('express-shipping', _('Envoi postal (express)')),
-  ]
-  name = models.CharField(verbose_name=_("Nom de la méthode d'expédition"), max_length=255, blank=False, null=False)
-  identifier = models.CharField(verbose_name=_("Identifiant"), max_length=100, choices=CHOICE_IDENTIFIER, default='free-shipping', unique=True, blank=False, null=False)
-  price = models.DecimalField(_("Prix"), max_digits=30, decimal_places=3, help_text=_("Un prix fixe ajouté au prix total du panier."))
-
-  class Meta:
-    verbose_name = _("Méthode d'expédition")
-    verbose_name_plural = _("Méthodes d'expédition")
-
-  def get_price(self):
-      return str(self.price)
-
-  get_price.short_description = _("Prix")
-
-#######################################################################
-# Stripe
-#######################################################################
-
-class StripeOrderData(models.Model):
-  order_payment = models.OneToOneField(OrderPayment, on_delete=models.CASCADE, primary_key=True,)
-  receipt_url = models.CharField(verbose_name=_("URL de réception"), max_length=150)
-  stripe_session_data = models.TextField(verbose_name=_("Stripe données"))
-  stripe_payment_data = models.TextField(verbose_name=_("Stripe de la facture"))
-
-  def __str__(self):
-    return str(self.order_payment)

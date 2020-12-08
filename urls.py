@@ -20,7 +20,7 @@ from shop.views.cart import CartViewSet
 
 from boutique.views import mailchimp, sendemail
 from boutique.views import CustomerView, LoadProduits, ShippingMethodsView, BillingMethodsView
-from boutique.views import TestPaymentView, StripePaymentView, StripeCheckout, StripePaymentCancelView
+from boutique.views import TestPaymentView
 
 sitemaps = {'cmspages': CMSSitemap, 'products': ProductSitemap}
 
@@ -30,24 +30,23 @@ def render_robots(request):
 
 urlpatterns = [
 
-    url(r'^infolettre/$', mailchimp),
-    url(r'^sendemail/$', sendemail),
+  url(r'^billing-stripe/', include('dshop.dmBillingStripe.urls')),
 
-    url(r'^robots\.txt$', render_robots),
-    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
-    url(r'^shop/', include('shop.urls')),
+  url(r'^infolettre/$', mailchimp),
+  url(r'^sendemail/$', sendemail),
 
-    url(r'^api/v1/products-list/$', ProductListView.as_view()),
+  url(r'^robots\.txt$', render_robots),
+  url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
+  url(r'^shop/', include('shop.urls')),
 
-    url(r'^api/fe/customer/$', CustomerView.as_view()),
-    url(r'^api/fe/moreproduits/$', LoadProduits.as_view()),
-    url(r'^api/fe/shipping-methods/$', ShippingMethodsView.as_view()),
-    url(r'^api/fe/billing-methods/$', BillingMethodsView.as_view()),
+  url(r'^api/v1/products-list/$', ProductListView.as_view()),
 
-    url(r'^test-payment/$', TestPaymentView),
-    url(r'^stripe-checkout/$', StripeCheckout),
-    url(r'^stripe-payment/$', StripePaymentView),
-    url(r'^stripe-cancel/$', StripePaymentCancelView),
+  url(r'^api/fe/customer/$', CustomerView.as_view()),
+  url(r'^api/fe/moreproduits/$', LoadProduits.as_view()),
+  url(r'^api/fe/shipping-methods/$', ShippingMethodsView.as_view()),
+  url(r'^api/fe/billing-methods/$', BillingMethodsView.as_view()),
+
+  url(r'^test-payment/$', TestPaymentView),
 
 ] + aldryn_addons.urls.patterns() + i18n_patterns(
 

@@ -1,101 +1,39 @@
 import re
 import json
-from django.contrib import messages
+
 from mailchimp3 import MailChimp
-from django.utils.translation import ugettext_lazy as _, get_language_from_request
+from easy_thumbnails.files import get_thumbnailer
 from ipware.ip import get_client_ip as get_ip
-from django.http import HttpResponse
+
+from django.contrib import messages
+from django.utils.translation import ugettext_lazy as _, get_language_from_request
 from django.utils.html import strip_tags
 from django.utils.text import Truncator
-from django.db.models import Q
 from django.shortcuts import redirect
 from django.shortcuts import render
-from easy_thumbnails.files import get_thumbnailer
+from django.http import HttpResponse
+from django.db.models import Q
 from django.template.defaultfilters import slugify
-from shop.models.defaults.customer import Customer
-from boutique.transition import transition_change_notification
-from boutique.models import Product
+from django.core.management import call_command
+from django.core.mail import send_mail
+
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response as RestResponse
+
+from shop.models.defaults.customer import Customer
 from shop.payment.modifiers import PaymentModifier
 from shop.payment.providers import PaymentProvider
 from shop.modifiers.pool import cart_modifiers_pool
 from shop.models.order import OrderModel
 from shop.models.order import OrderPayment
 from shop.money import MoneyMaker
-from django.core.management import call_command
-from django.core.mail import send_mail
+
+from boutique.transition import transition_change_notification
+from boutique.models import Product
+
 from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL
-from settings import STRIPE_KEY, STRIPE_ACCOUNT_ID, SITE_URL
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
-from .models import StripeOrderData
-import stripe
-
-stripe.api_key = STRIPE_KEY
-account_id= STRIPE_ACCOUNT_ID
-
-#######################################################################
-# ===---   StripePaymentView                                   ---=== #
-#######################################################################
-
-def StripeCheckout(request):
-
-  referenceId = request.GET.get('referenceId', None)
-  session_id = request.GET.get('session')
-
-  order = OrderModel.objects.get(number=re.sub('\D', '', referenceId))
-  order.extra['session_id'] = session_id
-  order.save()
-  return render(request, 'stripe.html',  {'CHECKOUT_SESSION_ID':session_id})
-
-def StripePaymentCancelView(request):
-
-  return redirect('/commande/')
-
-def StripePaymentView(request):  #Stripe Success View
-  print("Stripe Payment View")
-
-  referenceId = request.GET.get('referenceId', None)
-
-  if referenceId is not None:
-    order = OrderModel.objects.get(number=re.sub('\D', '', referenceId))
-    transactionId = ''
-    try:
-      Money = MoneyMaker(order.currency)
-      amount = Money(order._total)
-
-      order_payment = OrderPayment.objects.create(
-                       order=order,
-                       amount=amount,
-                       transaction_id=transactionId,
-                       payment_method='Carte de crédit (Stripe)'
-                      )
-
-      try:
-          session_id = order.extra['session_id']
-          session = stripe.checkout.Session.retrieve(session_id)
-          payment_intent_id = session.payment_intent
-          payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
-          receipt_url = payment_intent.charges.data[0].receipt_url
-          
-      except Exception as e:
-          print(e)
-
-      stripe_data_obj = StripeOrderData.objects.create(order_payment=order_payment,
-                                              receipt_url = receipt_url,
-                                              stripe_session_data = str(session),
-                                              stripe_payment_data =  str(payment_intent))
-      order.acknowledge_payment()
-      transition_change_notification(order)
-      order.save()
-      return redirect(order.get_absolute_url())
-    except:
-      order.cancel_order()
-      order.save()
-      return redirect('/commande/')
-  else:
-    return redirect('/commande/')
 
 #######################################################################
 # ===---   TestPaymentView                                     ---=== #

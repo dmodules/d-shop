@@ -26,49 +26,54 @@ from decimal import Decimal
 from django.utils.translation import ugettext_lazy as _
 
 INSTALLED_APPS.extend([
-  'cmsplugin_cascade',
-  'cmsplugin_cascade.clipboard',
-  'cmsplugin_cascade.sharable',
-  'cmsplugin_cascade.extra_fields',
-  'cmsplugin_cascade.icon',
-  'cmsplugin_cascade.segmentation',
+  "cmsplugin_cascade",
+  "cmsplugin_cascade.clipboard",
+  "cmsplugin_cascade.sharable",
+  "cmsplugin_cascade.extra_fields",
+  "cmsplugin_cascade.icon",
+  "cmsplugin_cascade.segmentation",
   # ===---
   #'django_elasticsearch_dsl',
-  'fsm_admin',
-  'adminsortable2',
+  "fsm_admin",
+  "adminsortable2",
   # ===---
-  'webpack_loader',
-  'colorfield',
+  "webpack_loader",
+  "colorfield",
   # ===---
-  'rest_framework',
-  'rest_framework.authtoken',
-  'rest_auth',
-  'post_office',
+  "rest_framework",
+  "rest_framework.authtoken",
+  "rest_auth",
+  "post_office",
   # ===---
-  'stripe',
+  "stripe",
   # ===---
-  'shop',
-  'boutique',
-  'dmodules'
+  "dshop.dmBillingStripe",
+  "dshop.dmShipping",
+  "dshop.dmTaxes",
+  # ===---
+  "shop",
+  "boutique",
+  "dmodules"
 ])
 
 ############################################
 # Shop Payments and Order Settings
 
 SHOP_VALUE_ADDED_TAX = Decimal(0)
-SHOP_DEFAULT_CURRENCY = 'CAD'
+SHOP_DEFAULT_CURRENCY = "CAD"
 
 SHOP_CART_MODIFIERS = [
-  'boutique.modifiers.PrimaryCartModifier',
-  'boutique.modifiers.CanadaTaxModifier',
+  "boutique.modifiers.PrimaryCartModifier",
+  # ===--- taxes methods
+  "dshop.dmTaxes.modifiers.CanadaTaxModifier",
   # ===--- shipping methods
-  'boutique.modifiers.FreeShippingModifier',
-  'boutique.modifiers.StandardShippingModifier',
-  'boutique.modifiers.ExpressShippingModifier',
+  "dshop.dmShipping.modifiers.FreeShippingModifier",
+  "dshop.dmShipping.modifiers.StandardShippingModifier",
+  "dshop.dmShipping.modifiers.ExpressShippingModifier",
   # ===--- payment providers
-  #'boutique.modifiers.TestPaymentModifier',
-  'boutique.modifiers.StripePaymentModifier',
-  #'boutique.modifiers.SquarePaymentModifier',
+  #"boutique.modifiers.TestPaymentModifier",
+  "dshop.dmBillingStripe.modifiers.StripePaymentModifier",
+  #"boutique.modifiers.SquarePaymentModifier",
 ]
 
 SHOP_ORDER_WORKFLOWS = [
@@ -559,7 +564,7 @@ ADMIN_REORDER = (
   },
   {
     "app":"boutique",
-    "label":"Boutique",
+    "label": _("Boutique"),
     "models":[
       "boutique.dmRabaisPerCategory",
       "boutique.ProductCategory",
@@ -569,13 +574,25 @@ ADMIN_REORDER = (
       {"model":"boutique.Cart", "label":_("Carts")},
       #{"model":"boutique.ShippingAddress", "label":_("Adresses de livraison")},
       #{"model":"boutique.BillingAddress", "label":_("Adresses de facturation")},
-      "boutique.ShippingManagement",
-      "boutique.CanadaTaxManagement",
+    ]
+  },
+  {
+    "app": "boutique",
+    "label": _("Livraison"),
+    "models": [
+      "dmShipping.ShippingManagement",
+    ]
+  },
+  {
+    "app": "dmTaxes",
+    "label": _("Taxes"),
+    "models":[
+      "dmTaxes.CanadaTaxManagement",
     ]
   },
   {
     "app":"post_office",
-    "label":"Envoi de courriels",
+    "label": _("Envoi de courriels"),
     "models":[
       "shop.Notification",
       {"model":"post_office.EmailTemplate", "label":_("Gabarits de courriel")},
