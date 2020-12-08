@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
-class dmContactConfig(AppConfig):
-  name = "dshop.dmContact"
-  verbose_name = _("Contact")
+class dmRabaisConfig(AppConfig):
+  name = "dshop.dmRabais"
+  verbose_name = _("Rabais")

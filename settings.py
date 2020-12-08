@@ -49,6 +49,7 @@ INSTALLED_APPS.extend([
   # ===---
   "dshop.dmBillingStripe",
   "dshop.dmContact",
+  "dshop.dmRabais",
   "dshop.dmShipping",
   "dshop.dmTaxes",
   # ===---
@@ -577,6 +578,13 @@ ADMIN_REORDER = (
       {"model":"boutique.Cart", "label":_("Carts")},
       #{"model":"boutique.ShippingAddress", "label":_("Adresses de livraison")},
       #{"model":"boutique.BillingAddress", "label":_("Adresses de facturation")},
+    ]
+  },
+  {
+    "app": "dmRabais",
+    "label": _("Rabais"),
+    "models": [
+      "dmRabais.dmRabaisPerCategory",
     ]
   },
   {
