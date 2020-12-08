@@ -278,7 +278,7 @@ class CartItemModelInline(admin.TabularInline):
   model = CartItemModel
   extra = 0
 
-@admin.register(CartModel)
+#@admin.register(CartModel)
 class BaseCartAdmin(admin.ModelAdmin):
   list_display = ['pk','customer']
   inlines = [CartItemModelInline]
