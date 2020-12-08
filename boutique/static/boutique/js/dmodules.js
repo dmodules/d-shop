@@ -161,7 +161,7 @@ function getPanier() {
         $("#drawer-items-list").html('')
         $(".btn-order").addClass("disabled")
       }
-      $("#dm-drawer-price").text(getResult.total)
+      $("#dm-drawer-price").text(getResult.subtotal)
     } else {
       $("#dm-cart-items").hide()
       $("#dm-cart-items").text("0")
