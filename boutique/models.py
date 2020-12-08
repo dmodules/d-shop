@@ -360,7 +360,7 @@ class Product(CMSPageReferenceMixin, TranslatableModelMixin, BaseProduct):
   description = TranslatedField()
   order = models.PositiveIntegerField(_("Sort by"), db_index=True)
   cms_pages = models.ManyToManyField('cms.Page', through=ProductPage)
-  main_image = image.FilerImageField(verbose_name=_("Image principale"), on_delete=models.CASCADE, related_name="main_image", null=True, blank=True)
+  main_image = image.FilerImageField(verbose_name=_("Image principale"), on_delete=models.SET_NULL, related_name="main_image", null=True, blank=True)
   images = models.ManyToManyField('filer.Image', through=ProductImage)
 
   class Meta:
