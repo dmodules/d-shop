@@ -1,0 +1,18 @@
+{% extends "boutique/pages/base.html" %}
+{% load static thumbnail cms_tags i18n sekizai_tags boutique_tags %}
+
+{% block head %}
+  <link rel="stylesheet" type="text/css" href="{% static 'clients/d-shop/css/style.css' %}" />
+{% endblock head %}
+
+{% block main-header %}{% endblock main-header %}
+
+{% block main-content %}
+
+  {% block content %}{% endblock content %}
+
+{% endblock main-content %}
+
+{% block foot %}
+  <script src="{% static 'clients/d-shop/js/scripts.js' %}"></script>
+{% endblock foot %}

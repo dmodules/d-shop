@@ -1,0 +1,7 @@
+{% load dmodules_tags %}
+
+{% get_setting 'CLIENT_SLUG' as client %}
+
+{% with "clients/"|add:client|add:"/500.html" as path %}
+  {% include path %}
+{% endwith %}
