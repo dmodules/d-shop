@@ -1,35 +1,42 @@
-from cms import __version__ as CMS_VERSION
-from django.utils.translation import ugettext_lazy as _
-from django.contrib import sites
 import pytz
+
+from decimal import Decimal
+from datetime import datetime
 from cms.models import CMSPlugin
+from colorfield.fields import ColorField
+from polymorphic.query import PolymorphicQuerySet
+
 from filer.fields import image
 from filer.fields.file import FilerFileField
-from shop.models.fields import JSONField
-from colorfield.fields import ColorField
-from datetime import datetime
-from decimal import Decimal
-from django.core.validators import MinValueValidator
-from django.db import models
-from djangocms_text_ckeditor.fields import HTMLField
-from polymorphic.query import PolymorphicQuerySet
+
+from parler.fields import TranslatedField
 from parler.managers import TranslatableManager, TranslatableQuerySet
 from parler.models import TranslatableModelMixin, TranslatedFieldsModel, TranslatedFields
-from parler.fields import TranslatedField
-from cms.models.fields import PlaceholderField
+
+from django.db import models
+from django.db.models import Q
+from django.contrib import sites
+from django.core.validators import MinValueValidator
+from djangocms_text_ckeditor.fields import HTMLField
+from django.utils.six.moves.urllib.parse import urljoin
+from django.utils.translation import ugettext_lazy as _
+
 from shop.money import Money, MoneyMaker
 from shop.money.fields import MoneyField
-from shop.models.product import BaseProduct, BaseProductManager, AvailableProductMixin
+from shop.models.address import BaseShippingAddress, BaseBillingAddress
 from shop.models.defaults.cart import Cart
 from shop.models.defaults.cart_item import CartItem
-from shop.models.order import BaseOrderItem
-from shop.models.defaults.order import Order
-from shop.models.defaults.mapping import ProductPage, ProductImage
-from shop.models.address import BaseShippingAddress, BaseBillingAddress
 from shop.models.defaults.customer import Customer
-from django.db.models import Q
-from distutils.version import LooseVersion
-from django.utils.six.moves.urllib.parse import urljoin
+from shop.models.defaults.mapping import ProductPage, ProductImage
+from shop.models.defaults.order import Order
+from shop.models.fields import JSONField
+from shop.models.order import BaseOrderItem
+from shop.models.product import BaseProduct, BaseProductManager, AvailableProductMixin
+
+try:
+  from apps.dmRabais import dmRabaisPerCategory
+except:
+  dmRabaisPerCategory = None
 
 __all__ = ['Cart', 'CartItem', 'Order', 'Customer']
 
@@ -46,10 +53,7 @@ class CMSPageReferenceMixin(object):
   category_fields = ['cms_pages']
 
   def get_absolute_url(self):
-    if LooseVersion(CMS_VERSION) < LooseVersion('3.5'):
-      cms_page = self.cms_pages.order_by('depth').last()
-    else:
-      cms_page = self.cms_pages.order_by('node__path').last()
+    cms_page = self.cms_pages.order_by('node__path').last()
     if cms_page is None:
       return urljoin('/produit/', self.slug)
     return urljoin(cms_page.get_absolute_url(), self.slug)
@@ -400,22 +404,25 @@ class ProductDefault(AvailableProductMixin, Product):
     verbose_name_plural = _("Produits par défaut")
 
   def get_price(self, request):
-    today = pytz.utc.localize(datetime.utcnow())
-    all_discounts = dmRabaisPerCategory.objects.filter(Q(categories__in=self.categories.all()) & Q(is_active=True) & (Q(valid_from__isnull=True) | Q(valid_from__lte=today)) & (Q(valid_until__isnull=True) | Q(valid_until__gt=today)))
-    if all_discounts.count() > 0:
-      r = self.unit_price
-      for d in all_discounts:
-        if d.amount is not None:
-          r = Money(Decimal(r) - Decimal(d.amount))
-        elif d.percent is not None:
-          pourcent = Decimal(d.percent) / Decimal('100')
-          discount = Money(Decimal(self.unit_price) * pourcent)
-          r = r - discount
+    if dmRabaisPerCategory is not None:
+      today = pytz.utc.localize(datetime.utcnow())
+      all_discounts = dmRabaisPerCategory.objects.filter(Q(categories__in=self.categories.all()) & Q(is_active=True) & (Q(valid_from__isnull=True) | Q(valid_from__lte=today)) & (Q(valid_until__isnull=True) | Q(valid_until__gt=today)))
+      if all_discounts.count() > 0:
+        r = self.unit_price
+        for d in all_discounts:
+          if d.amount is not None:
+            r = Money(Decimal(r) - Decimal(d.amount))
+          elif d.percent is not None:
+            pourcent = Decimal(d.percent) / Decimal('100')
+            discount = Money(Decimal(self.unit_price) * pourcent)
+            r = r - discount
+      else:
+        r = self.unit_price
+      if Decimal(r) < 0:
+        r = Money(0)
+      return r
     else:
-      r = self.unit_price
-    if Decimal(r) < 0:
-      r = Money(0)
-    return r
+      return self.unit_price
 
   def get_realprice(self):
     return self.unit_price
@@ -479,22 +486,25 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
     return _("{product}").format(product=self.product)
 
   def get_price(self, request):
-    today = pytz.utc.localize(datetime.utcnow())
-    all_discounts = dmRabaisPerCategory.objects.filter(Q(categories__in=self.product.categories.all()) & Q(is_active=True) & (Q(valid_from__isnull=True) | Q(valid_from__lte=today)) & (Q(valid_until__isnull=True) | Q(valid_until__gt=today)))
-    if all_discounts.count() > 0:
-      r = self.unit_price
-      for d in all_discounts:
-        if d.amount is not None:
-          r = Money(Decimal(r) - Decimal(d.amount))
-        elif d.percent is not None:
-          pourcent = Decimal(d.percent) / Decimal('100')
-          discount = Money(Decimal(self.unit_price) * pourcent)
-          r = r - discount
+    if dmRabaisPerCategory is not None:
+      today = pytz.utc.localize(datetime.utcnow())
+      all_discounts = dmRabaisPerCategory.objects.filter(Q(categories__in=self.product.categories.all()) & Q(is_active=True) & (Q(valid_from__isnull=True) | Q(valid_from__lte=today)) & (Q(valid_until__isnull=True) | Q(valid_until__gt=today)))
+      if all_discounts.count() > 0:
+        r = self.unit_price
+        for d in all_discounts:
+          if d.amount is not None:
+            r = Money(Decimal(r) - Decimal(d.amount))
+          elif d.percent is not None:
+            pourcent = Decimal(d.percent) / Decimal('100')
+            discount = Money(Decimal(self.unit_price) * pourcent)
+            r = r - discount
+      else:
+        r = self.unit_price
+      if Decimal(r) < 0:
+        r = Money(0)
+      return r
     else:
-      r = self.unit_price
-    if Decimal(r) < 0:
-      r = Money(0)
-    return r
+      return self.unit_price
 
   def get_realprice(self):
     return self.unit_price
