@@ -48,7 +48,7 @@
                             {% thumbnail product.images.first 540x600 crop upscale as thumb %}
                             <img src="{{thumb.url}}" alt="{{product.product_name}}">
                           {% else %}
-                            <img src="{% static 'boutique/shopwise/images/product_img1.jpg' %}" alt="{{product.product_name}}">
+                            <img src="{% static 'dshop/shopwise/images/product_img1.jpg' %}" alt="{{product.product_name}}">
                           {% endif %}
                         </a>
                         <div class="product_action_box">

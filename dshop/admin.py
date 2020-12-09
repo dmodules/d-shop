@@ -429,7 +429,7 @@ class ProductVariableAdmin(InvalidateProductCacheMixin, SortableAdminMixin, Tran
   prepopulated_fields = {'slug': ['product_name']}
 
   def render_text_index(self, instance):
-    template = get_template('search/indexes/boutique/commodity_text.txt')
+    template = get_template('search/indexes/dshop/commodity_text.txt')
     return template.render(Context({'object': instance}))
   render_text_index.short_description = _("Text Index")
 

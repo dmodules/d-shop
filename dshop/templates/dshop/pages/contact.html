@@ -1,4 +1,4 @@
-{% extends "boutique/pages/base.html" %}
+{% extends "dshop/pages/base.html" %}
 {% load static cms_tags i18n sekizai_tags %}
 
 {% block title %}{% page_attribute "page_title" %} - Diamond{% endblock %}
@@ -11,7 +11,7 @@
 {% endblock head %}
 
 {% block header %}
-  {% include "boutique/pages/navbar.html" %}
+  {% include "dshop/pages/navbar.html" %}
 {% endblock header %}
 
 
@@ -100,7 +100,7 @@
         </div>
         
         <div class="col-lg-6 pt-2 pt-lg-0 mt-4 mt-lg-0">
-          <div id="map" class="contact_map2" data-zoom="12" data-latitude="48.5031632" data-longitude="-72.2226054" data-icon="{% static 'boutique/shopwise/images/marker.png' %}"></div>
+          <div id="map" class="contact_map2" data-zoom="12" data-latitude="48.5031632" data-longitude="-72.2226054" data-icon="{% static 'dshop/shopwise/images/marker.png' %}"></div>
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 
 try:
-  from dmBillingStripe.stripe_tax import create_tax
+  from apps.dmBillingStripe.stripe_tax import create_tax
 except:
   pass
 
