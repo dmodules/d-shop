@@ -37,7 +37,7 @@ urlpatterns = [
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
     url(r'^shop/', include('shop.urls')),
 
-    url(r'^api/v1/products-list/$', ProductListView.as_view()),
+    url(r'^api/v1/products-list/$', ProductListView.as_view(), name='product-list'),
 
     url(r'^api/fe/customer/$', CustomerView.as_view()),
     url(r'^api/fe/moreproduits/$', LoadProduits.as_view()),
