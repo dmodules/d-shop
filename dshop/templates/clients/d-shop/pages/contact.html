@@ -1,0 +1,133 @@
+{% extends "clients/d-shop/pages/base.html" %}
+{% load static cms_tags i18n sekizai_tags dshop_tags %}
+
+{% block title %}{% page_attribute "page_title" %} - Diamond{% endblock %}
+
+{% block head %}
+  {{ block.super }}
+  {% addtoblock "js" %}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7TypZFTl4Z3gVtikNOdGSfNTpnmq-ahQ"></script>
+  {% endaddtoblock %}
+{% endblock head %}
+
+{% block main-content %}
+  {% dm_get_site_contacts as contacts %}
+  <div class="section pb_70">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-4 col-md-6">
+          <div class="contact_wrap contact_style3">
+            <div class="contact_icon">
+              <i class="linearicons-map2"></i>
+            </div>
+            <div class="contact_text">
+              <span>Adresse</span>
+              <p>{{contacts.address}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-6">
+          <div class="contact_wrap contact_style3">
+            <div class="contact_icon">
+              <i class="linearicons-envelope-open"></i>
+            </div>
+            <div class="contact_text">
+              <span>Courriel</span>
+              <p>
+                <br />
+                <a href="mailto:{{contacts.email}}">{{contacts.email}}</a>
+                <br /><br />
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-6">
+          <div class="contact_wrap contact_style3">
+            <div class="contact_icon">
+              <i class="linearicons-tablet2"></i>
+            </div>
+            <div class="contact_text">
+              <span>Téléphone</span>
+              <p>
+                <br />
+                <a href="tel:{{contacts.phone|phone_canadian}}">{{contacts.phone}}</a>
+                <br /><br />
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section pt-0">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="heading_s1">
+            <h2>Contactez-nous</h2>
+          </div>
+          <p class="leads">Remplissez ce formulaire pour nous contacter.</p>
+          <div class="field_form dm-contact">
+            <form method="post" name="enq" action="/contact/formulaire/">
+              {% csrf_token %}
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <input required placeholder="Nom" id="name" class="form-control" name="name" type="text">
+                </div>
+                <div class="form-group col-md-6">
+                  <input required placeholder="Courriel" id="email" class="form-control" name="email" type="email">
+                </div>
+                <div class="form-group col-md-6">
+                  <input required placeholder="Téléphone" id="phone" class="form-control" name="phone">
+                </div>
+                <div class="form-group col-md-6">
+                  <input placeholder="Sujet" id="subject" class="form-control" name="subject">
+                </div>
+                <div class="form-group col-md-12">
+                  <textarea required placeholder="Message" id="description" class="form-control" name="message" rows="4"></textarea>
+                </div>
+                <div class="col-md-12">
+                  <button type="submit" title="Envoyer" class="btn btn-fill-out" id="submitButton" name="submit" value="Submit">Envoyer</button>
+                </div>
+                <div class="col-md-12">
+                  <div id="alert-msg" class="alert-msg text-center"></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-6 pt-2 pt-lg-0 mt-4 mt-lg-0">
+          <div id="map" class="contact_map2" data-zoom="12" data-latitude="48.5031632" data-longitude="-72.2226054" data-icon="{% static 'boutique/shopwise/images/marker.png' %}"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock main-content %}
+
+{% block foot %}
+  {{ block.super }}
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7TypZFTl4Z3gVtikNOdGSfNTpnmq-ahQ"></script>
+  <script type="text/javascript">
+    if ($("#map").length > 0){
+      google.maps.event.addDomListener(window, 'load', init);
+    }
+    var map_selector = $('#map');
+    function init() {
+      var mapOptions = {
+        zoom: map_selector.data("zoom"),
+        mapTypeControl: false,
+        center: new google.maps.LatLng(map_selector.data("latitude"), map_selector.data("longitude")), // New York
+      };
+      var mapElement = document.getElementById('map');
+      var map = new google.maps.Map(mapElement, mapOptions);
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(map_selector.data("latitude"), map_selector.data("longitude")),
+        map: map,
+        icon: map_selector.data("icon"),
+        title: map_selector.data("title"),
+      });
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+    }	
+  </script>
+{% endblock foot %}

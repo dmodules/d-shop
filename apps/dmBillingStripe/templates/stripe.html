@@ -1,0 +1,11 @@
+{% load dshop_tags %}
+
+<script src="https://js.stripe.com/v3"></script>
+<script>
+  (function() {
+    var stripe = Stripe("{% get_setting 'STRIPE_PUBLIC_KEY' %}");
+    stripe.redirectToCheckout({
+      sessionId: "{{CHECKOUT_SESSION_ID}}"
+    }).then(function (result) {});
+  })();
+</script>

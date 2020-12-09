@@ -12,14 +12,14 @@ from django.views.static import serve
 from django.http import HttpResponse
 from django.contrib.sitemaps.views import sitemap
 from cms.sitemaps import CMSSitemap
-from boutique.sitemap import ProductSitemap
+from dshop.sitemap import ProductSitemap
 
 from rest_framework import routers
 from shop.views.catalog import ProductListView
 from shop.views.cart import CartViewSet
 
-from boutique.views import CustomerView, LoadProduits, ShippingMethodsView, BillingMethodsView
-from boutique.views import TestPaymentView
+from dshop.views import CustomerView, LoadProduits, ShippingMethodsView, BillingMethodsView
+from dshop.views import TestPaymentView
 
 sitemaps = {"cmspages": CMSSitemap, "products": ProductSitemap}
 
@@ -33,8 +33,8 @@ urlpatterns = [
   url(r'^sitemap\.xml$', sitemap, {"sitemaps": sitemaps}, name="sitemap"),
 
   url(r'^shop/', include("shop.urls")),
-  url(r'^billing-stripe/', include("dshop.dmBillingStripe.urls")),
-  url(r'^contact/', include("dshop.dmContact.urls")),
+  url(r'^billing-stripe/', include("apps.dmBillingStripe.urls")),
+  url(r'^contact/', include("apps.dmContact.urls")),
 
   url(r'^api/v1/products-list/$', ProductListView.as_view()),
 

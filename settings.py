@@ -47,15 +47,15 @@ INSTALLED_APPS.extend([
   # ===---
   "stripe",
   # ===---
-  "dshop.dmBillingStripe",
-  "dshop.dmContact",
-  "dshop.dmRabais",
-  "dshop.dmShipping",
-  "dshop.dmTaxes",
+  "apps.dmAdvertising",
+  "apps.dmBillingStripe",
+  "apps.dmContact",
+  "apps.dmRabais",
+  "apps.dmShipping",
+  "apps.dmTaxes",
   # ===---
   "shop",
-  "boutique",
-  "dmodules"
+  "dshop"
 ])
 
 ############################################
@@ -65,27 +65,24 @@ SHOP_VALUE_ADDED_TAX = Decimal(0)
 SHOP_DEFAULT_CURRENCY = "CAD"
 
 SHOP_CART_MODIFIERS = [
-  "boutique.modifiers.PrimaryCartModifier",
+  "dshop.modifiers.PrimaryCartModifier",
   # ===--- taxes methods
-  "dshop.dmTaxes.modifiers.CanadaTaxModifier",
+  "apps.dmTaxes.modifiers.CanadaTaxModifier",
   # ===--- shipping methods
-  "dshop.dmShipping.modifiers.FreeShippingModifier",
-  "dshop.dmShipping.modifiers.StandardShippingModifier",
-  "dshop.dmShipping.modifiers.ExpressShippingModifier",
+  "apps.dmShipping.modifiers.FreeShippingModifier",
+  "apps.dmShipping.modifiers.StandardShippingModifier",
+  "apps.dmShipping.modifiers.ExpressShippingModifier",
   # ===--- payment providers
-  #"boutique.modifiers.TestPaymentModifier",
-  "dshop.dmBillingStripe.modifiers.StripePaymentModifier",
-  #"boutique.modifiers.SquarePaymentModifier",
+  #"dshop.modifiers.TestPaymentModifier",
+  "apps.dmBillingStripe.modifiers.StripePaymentModifier"
 ]
 
 SHOP_ORDER_WORKFLOWS = [
-  'shop.payment.workflows.ManualPaymentWorkflowMixin',
-  #'shop.payment.workflows.CancelOrderWorkflowMixin',
-  #'shop.shipping.workflows.SimpleShippingWorkflowMixin',
+  "shop.payment.workflows.ManualPaymentWorkflowMixin"
 ]
 
 SHOP_CASCADE_FORMS = {
-  'CustomerForm': 'boutique.forms.CustomerForm',
+  "CustomerForm": "dshop.forms.CustomerForm",
 }
 
 ############################################
@@ -102,17 +99,17 @@ MIDDLEWARE.extend([
   'cms.middleware.toolbar.ToolbarMiddleware',
 ])
 
-STAGE = os.getenv('STAGE', 'local').lower()
-CLIENT_SLUG = os.getenv('SITE_NAME', 'd-shop').lower()
+STAGE = os.getenv("STAGE", "local").lower()
+CLIENT_SLUG = os.getenv("SITE_NAME", "d-shop").lower()
 
 #######################################################################
 # Actual Shop Settings
 
-SHOP_APP_LABEL = 'boutique'
+SHOP_APP_LABEL = "dshop"
 SITE_ID = 1
 
 CLIENT_TITLE = "D-Shop"
-ADMINS = [("D-Modules", 'info@d-modules.com')]
+ADMINS = [("D-Modules", "info@d-modules.com")]
 SHOP_VENDOR_EMAIL = 'mariechristine@d-modules.com'
 
 if STAGE == "live":
@@ -397,8 +394,7 @@ CMSPLUGIN_CASCADE = {
         ],
         # required to purchase real estate
         'ShopAddToCartPlugin': [
-            (None, _("Default")),
-            ('boutique/catalog/commodity-add2cart.html', _("Add Commodity to Cart")),
+          (None, _("Default"))
         ],
     },
     'plugins_with_sharables': {
@@ -552,7 +548,7 @@ if STAGE == 'local':
 # Admin Reordering
 
 MIDDLEWARE.extend([
-  "dmodules.middleware.AdminReorderMiddleware"
+  "dshop.middleware.AdminReorderMiddleware"
 ])
 ADMIN_REORDER = (
   {
@@ -560,24 +556,29 @@ ADMIN_REORDER = (
     "label":"Site",
     "models":[
       #"sites.Site",
-      "boutique.dmSite",
+      "dshop.dmSite",
       "cms.Page",
-      "shop.CustomerProxy",
-      "boutique.dmAlertPublicitaire"
+      "shop.CustomerProxy"
     ]
   },
   {
-    "app":"boutique",
+    "app": "dmAdvertising",
+    "label": _("Alertes publicitaires"),
+    "models": [
+      "dmAdvertising.dmAdvertisingTopBanner",
+    ]
+  },
+  {
+    "app": "dshop",
     "label": _("Boutique"),
-    "models":[
-      "boutique.dmRabaisPerCategory",
-      "boutique.ProductCategory",
-      "boutique.ProductFilter",
-      "boutique.Product",
-      {"model":"boutique.Order", "label":_("Commandes")},
-      {"model":"boutique.Cart", "label":_("Carts")},
-      #{"model":"boutique.ShippingAddress", "label":_("Adresses de livraison")},
-      #{"model":"boutique.BillingAddress", "label":_("Adresses de facturation")},
+    "models": [
+      "dshop.ProductCategory",
+      "dshop.ProductFilter",
+      "dshop.Product",
+      {"model": "dshop.Order", "label":_("Commandes")},
+      {"model": "dshop.Cart", "label":_("Carts")},
+      #{"model": "dshop.ShippingAddress", "label":_("Adresses de livraison")},
+      #{"model": "dshop.BillingAddress", "label":_("Adresses de facturation")},
     ]
   },
   {
@@ -588,7 +589,7 @@ ADMIN_REORDER = (
     ]
   },
   {
-    "app": "boutique",
+    "app": "dshop",
     "label": _("Livraison"),
     "models": [
       "dmShipping.ShippingManagement",
@@ -602,12 +603,12 @@ ADMIN_REORDER = (
     ]
   },
   {
-    "app":"post_office",
+    "app": "post_office",
     "label": _("Envoi de courriels"),
-    "models":[
+    "models": [
       "shop.Notification",
-      {"model":"post_office.EmailTemplate", "label":_("Gabarits de courriel")},
-      {"model":"post_office.Email", "label":_("Courriels envoyés")},
+      {"model": "post_office.EmailTemplate", "label": _("Gabarits de courriel")},
+      {"model": "post_office.Email", "label": _("Courriels envoyés")},
       "post_office.Log"
     ]
   },

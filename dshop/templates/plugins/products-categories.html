@@ -1,0 +1,74 @@
+{% load static thumbnail cms_tags i18n dshop_tags %}
+
+<!-- BEGIN: catégories -->
+<section class="collection ptb180">
+  <div class="container">
+    {% if instance.title or instance.text or instance.label %}
+      <div class="row">
+        {% if instance.title or instance.text %}
+          <div class="col-xl-6 col-lg-6 text-left">
+            <div class="title-bl">
+              {% if instance.title %}
+                <div class="title wow fadeIn animated">
+                  {{instance.title}}
+                </div>
+              {% endif %}
+              {% if instance.text %}
+                <div class="subtitle color-6">
+                  {{instance.text}}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+        {% if instance.label %}
+          <div class="col-xl-6 col-lg-6 view-btn text-right align-self-center">
+            <div class="d-inline-block">
+              <a href="/produits" class="btn blue">
+                {{instance.label}}
+              </a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+    <div class="row">
+      <div class="print-collection-slider print-coll-item arrow-1">
+        {% dm_get_categories_parents as categories %}
+        {% for category in categories %}
+          <div class="collection-item">
+            {% with category.get_products.first as product %}
+              {% if product and product.images.first %}
+                {% thumbnail product.images.first 540x540 crop="crop" as thumb %}
+                <div class="print-coll-img">
+                  <img src="{{thumb.url}}" alt="{{category.name}}">
+                </div>
+              {% else %}
+                <div class="print-coll-img">
+                  <img src="https://via.placeholder.com/540x540" alt="{{category.name}}">
+                </div>
+              {% endif %}
+            {% endwith %}
+            <div class="print-coll-bottom equal-height">
+              <a href="#" class="print-title">
+                {{category.name}}
+              </a>
+              <div class="print-coll-meta">
+                {% with category.get_products.count as count %}
+                  {% if count > 1 %}
+                    <span>{{count}} produits</span>
+                  {% elif count > 0 %}
+                    <span>{{count}} produit</span>
+                  {% else %}
+                    <span>Aucun produit</span>
+                  {% endif %}
+                {% endwith %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+<!-- END: catégories -->

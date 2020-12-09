@@ -1,0 +1,211 @@
+{% load static cms_tags menu_tags sekizai_tags i18n thumbnail dshop_tags %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}D-Shop{% endblock %} - {% get_setting 'CLIENT_TITLE' %}</title>
+    <!--Metadata-->
+    <meta name="robots" content="{{ ROBOTS_META_TAGS }}" />
+    <meta name="description" content="{% block meta-description %}{% endblock %}" />
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <meta data-dm="dmodules" data-stage="{% get_setting 'STAGE' %}" />
+    {% block main-favicon %}
+      <!--Favicons-->
+      <link rel="apple-touch-icon" sizes="180x180" href="{% static 'boutique/icons/apple-touch-icon.png' %}">
+      <link rel="icon" type="image/png" sizes="512x512" href="{% static 'boutique/icons/android-chrome-512x512.png' %}">
+      <link rel="icon" type="image/png" sizes="192x192" href="{% static 'boutique/icons/android-chrome-192x192.png' %}">
+      <link rel="shortcut icon" href="{% static 'boutique/icons/favicon.ico' %}">
+      <link rel="manifest" href="{% static 'boutique/icons/site.webmanifest' %}">
+    {% endblock main-favicon %}
+    {% block main-head %}
+      <!-- Fonts -->
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css" />
+      <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap" rel="stylesheet" />
+      <link rel="stylesheet" href="{% static 'boutique/shopwise/css/animate.css' %}" />
+      <link rel="stylesheet" href="{% static 'boutique/shopwise/bootstrap/css/bootstrap.min.css' %}" />
+      <!-- Icon's Fonts -->
+      <link rel="stylesheet" href="{% static 'boutique/shopwise/css/all.min.css' %}" />
+      <link rel="stylesheet" href="{% static 'boutique/shopwise/css/ionicons.min.css' %}" />
+      <link rel="stylesheet" href="{% static 'boutique/shopwise/css/themify-icons.css' %}" />
+      <link rel="stylesheet" href="{% static 'boutique/shopwise/css/linearicons.css' %}" />
+      <link rel="stylesheet" href="{% static 'boutique/shopwise/css/flaticon.css' %}" />
+      <link rel="stylesheet" href="{% static 'boutique/shopwise/css/simple-line-icons.css' %}" />
+      <!--- owl carousel CSS-->
+      <link rel="stylesheet" href="{% static 'boutique/shopwise/owlcarousel/css/owl.carousel.min.css' %}" />
+      <link rel="stylesheet" href="{% static 'boutique/shopwise/owlcarousel/css/owl.theme.css' %}" />
+      <link rel="stylesheet" href="{% static 'boutique/shopwise/owlcarousel/css/owl.theme.default.min.css' %}" />
+      <!-- Magnific Popup CSS -->
+      <link rel="stylesheet" href="{% static 'boutique/shopwise/css/magnific-popup.css' %}" />
+      <!-- Slick CSS -->
+      <link rel="stylesheet" href="{% static 'boutique/shopwise/css/slick.css' %}" />
+      <link rel="stylesheet" href="{% static 'boutique/shopwise/css/slick-theme.css' %}" />
+      <link rel="stylesheet" href="{% static 'boutique/shopwise/css/style.css' %}" />
+      <link rel="stylesheet" href="{% static 'boutique/shopwise/css/responsive.css' %}" />
+      <!-- -->
+      <script src="{% static 'boutique/shopwise/js/jquery-1.12.4.min.js' %}"></script>
+    {% endblock main-head %}
+    <!-- Style -->
+    {% render_block "css" %}
+    <link rel="stylesheet" type="text/css" href="{% static 'boutique/css/drawer.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'boutique/css/dmodules.css' %}" />
+    <!-- Head -->
+    {% block vue-head %}{% endblock vue-head %}
+    {% block head %}{% endblock head %}
+  </head>
+  <body class="drawer drawer--right">
+    {% cms_toolbar %}
+    {% block navbar %}
+      {% include "boutique/navbar/navbar.html" %}
+    {% endblock navbar %}
+    {% block drawer %}
+      <div class="dm-drawer">
+        <div class="drawer-nav">
+          <div class="drawer-menu dm-drawer-cart">
+            {% include "boutique/pages/drawer-cart.html" %}
+          </div>
+          <div class="drawer-menu dm-drawer-user">
+            {% include "boutique/pages/drawer-user.html" %}
+          </div>
+        </div>
+      </div>
+    {% endblock drawer %}
+    <!-- BEGIN: header -->
+    {% block main-header %}{% endblock main-header %}
+    <!-- END: header -->
+    <!-- BEGIN: main -->
+    <main>
+      {% block breadcrumb %}{% endblock %}
+      {% block main-content %}
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h1>En construction</h1>
+              <p class="lead">Cette page n'a pas encore de contenue.</p>
+            </div>
+          </div>
+        </div>
+      {% endblock main-content %}
+    </main>
+    <!-- END: main -->
+    <!-- BEGIN: footer -->
+    {% block main-footer %}
+      <footer class="footer_dark">
+        <div class="footer_top">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="widget">
+                  <div class="footer_logo">
+                    <a href="/"><img src="{% static 'boutique/img/logo-dark.png' %}" alt="logo" /></a>
+                  </div>
+                  {% static_placeholder "Footer" %}
+                </div>
+                <div class="widget">
+                  <ul class="social_icons social_white">
+                    {% dm_get_site_socials as socials %}
+                    {% for social in socials %}
+                      <li><a href="{{social.url}}" target="_blank"><i class="{% if social.social == 1 %}ion-social-facebook{% elif social.social == 2 %}ion-social-instagram{% elif social.social == 3 %}ion-social-youtube{% endif %}"></i></a></li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-3 col-sm-6">
+                <div class="widget">
+                  <h6 class="widget_title">Liens Utiles</h6>
+                  <ul class="widget_links">
+                    {% show_menu 0 100 100 100 %}
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-3 col-sm-6">
+                <div class="widget">
+                  <h6 class="widget_title">Catégories</h6>
+                  <ul class="widget_links">
+                    {% dm_get_categories_parents as categories %}
+                    {% for category in categories %}
+                      <li><a href="/produits/{{category.id}}-{{category.name|slugify}}">{{category.name}}</a></li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-sm-6">
+                <div class="widget">
+                  <h6 class="widget_title">Mon compte</h6>
+                  <ul class="widget_links">
+                    <li><a href="/compte/connexion/">Me connecter</a></li>
+                    <li><a href="{% page_url 'orders' %}">Mes commandes</a></li>
+                    <li><a href="/utilisateur/profil/">Profil</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-4 col-sm-6">
+                {% dm_get_site_contacts as contacts %}
+                <div class="widget">
+                  <h6 class="widget_title">Contact</h6>
+                  <ul class="contact_info contact_info_light">
+                    <li>
+                      <i class="ti-location-pin"></i>
+                      <p>{{contacts.address}}</p>
+                    </li>
+                    <li>
+                      <i class="ti-email"></i>
+                      <a href="mailto:{{contacts.email}}">{{contacts.email}}</a>
+                    </li>
+                    <li>
+                      <i class="ti-mobile"></i>
+                      <p><a href="tel:{{contacts.phone|phone_canadian}}">{{contacts.phone}}</a></p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom_footer border-top-tran">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <p class="mb-md-0 text-center text-md-left">&copy; 2020 {% get_setting 'CLIENT_TITLE' %}. Tous droits réservés. Site créé par <a href="https://www.d-modules.com" target="_blank">D-Modules</a>.</p>
+              </div>
+              <div class="col-md-6">
+                <ul class="footer_payment text-center text-lg-right">
+                  <li><img src="{% static 'boutique/img/visa.png' %}" alt="visa" /></li>
+                  <li><img src="{% static 'boutique/img/master_card.png' %}" alt="master_card" /></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    {% endblock main-footer %}
+    <!-- END: footer -->
+    <div id="snackbar"></div>
+    <!-- Scripts -->
+    {% block main-foot %}
+      <script src="{% static 'boutique/shopwise/js/popper.min.js' %}"></script>
+      <script src="{% static 'boutique/shopwise/bootstrap/js/bootstrap.min.js' %}"></script>
+      <script src="{% static 'boutique/shopwise/owlcarousel/js/owl.carousel.min.js' %}"></script>
+      <script src="{% static 'boutique/shopwise/js/magnific-popup.min.js' %}"></script>
+      <script src="{% static 'boutique/shopwise/js/waypoints.min.js' %}"></script>
+      <script src="{% static 'boutique/shopwise/js/parallax.js' %}"></script>
+      <script src="{% static 'boutique/shopwise/js/jquery.countdown.min.js' %}"></script>
+      <script src="{% static 'boutique/shopwise/js/Hoverparallax.min.js' %}"></script>
+      <script src="{% static 'boutique/shopwise/js/imagesloaded.pkgd.min.js' %}"></script>
+      <script src="{% static 'boutique/shopwise/js/isotope.min.js' %}"></script>
+      <script src="{% static 'boutique/shopwise/js/jquery.appear.js' %}"></script>
+      <script src="{% static 'boutique/shopwise/js/jquery.dd.min.js' %}"></script>
+      <script src="{% static 'boutique/shopwise/js/slick.min.js' %}"></script>
+      <script src="{% static 'boutique/shopwise/js/jquery.elevatezoom.js' %}"></script>
+      <script src="{% static 'boutique/shopwise/js/scripts.js' %}"></script>
+    {% endblock main-foot %}
+    <!---->
+    <script src="{% static 'boutique/js/iscroll.min.js' %}"></script>
+    <script src="{% static 'boutique/js/drawer.min.js' %}"></script>
+    <script src="{% static 'boutique/js/dmodules.js' %}"></script>
+    {% render_block "js" %}
+    {% block foot %}{% endblock foot %}
+  </body>
+</html>
