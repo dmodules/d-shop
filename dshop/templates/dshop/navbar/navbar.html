@@ -1,0 +1,52 @@
+{% load static i18n menu_tags dshop_tags dmadvertising_tags %}
+
+{% spaceless %}
+  {% block topnav %}
+    <div class="topnav">
+      <div class="row">
+        <div class="col-1 col-md-6 py-0 my-0 text-left">
+          {% dm_get_site_socials as socials %}
+          {% for social in socials %}
+            <span>
+              <a href="{{social.url}}" target="_blank">
+                <i class="{% if social.social == 1 %}icon-social-facebook{% elif social.social == 2 %}ion-social-instagram{% elif social.social == 3 %}icon-social-youtube{% endif %}" aria-hidden="true"></i>
+              </a>
+            </span>
+          {% endfor %}
+        </div>
+        <div class="col-11 col-md-6 py-0 my-0 text-right">
+          <span class="drawer-toggle" data-dm="user">
+            <i class="icon-user"></i>
+          </span>
+          <span class="drawer-toggle dm-cart" data-dm="cart">
+            <i class="icon-basket-loaded"></i>
+            <span id="dm-cart-items">0</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  {% endblock topnav %}
+  {% block tophead %}
+    <header class="header_wrap fixed-top header_with_topbar">
+      <div class="bottom_header dark_skin main_menu_uppercase">
+        <div class="container">
+          <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" href="/">
+              <img class="logo_dark" src="{% static 'dshop/img/logo-light.png' %}" alt="logo" />
+              <img class="logo_light" src="{% static 'dshop/img/logo-dark.png' %}" alt="logo" />
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-expanded="false">
+              <span class="ion-android-menu"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+              <ul class="navbar-nav">
+                {% show_menu 0 100 100 100 'dshop/navbar/menu-parent.html' %}
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+  {% endblock tophead %}
+{% endspaceless %}

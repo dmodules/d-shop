@@ -1,0 +1,19 @@
+{% extends "dshop/pages/base.html" %}
+{% load static cms_tags i18n sekizai_tags %}
+
+{% block title %}{% page_attribute "page_title" %}{% endblock %}
+
+{% block breadcrumb %}{% endblock breadcrumb %}
+
+{% block main-content %}
+  {% placeholder "Main Content" inherit or %}
+    <div class="container py-5">
+      <div class="row py-5">
+        <div class="col text-center py-5">
+          <h1>Page en construction</h1>
+          <p class="lead">Cette page est en construction.<br />Revenez plus tard. :)</p>
+        </div>
+      </div>
+    </div>
+  {% endplaceholder %}
+{% endblock main-content %}

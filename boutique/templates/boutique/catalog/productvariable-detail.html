@@ -1,7 +1,0 @@
-{% load dmodules_tags %}
-
-{% get_setting 'CLIENT_SLUG' as client %}
-
-{% with "clients/"|add:client|add:"/catalog/productvariable-detail.html" as path %}
-  {% include path %}
-{% endwith %}

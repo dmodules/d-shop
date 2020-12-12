@@ -26,59 +26,63 @@ from decimal import Decimal
 from django.utils.translation import ugettext_lazy as _
 
 INSTALLED_APPS.extend([
-  'cmsplugin_cascade',
-  'cmsplugin_cascade.clipboard',
-  'cmsplugin_cascade.sharable',
-  'cmsplugin_cascade.extra_fields',
-  'cmsplugin_cascade.icon',
-  'cmsplugin_cascade.segmentation',
+  "cmsplugin_cascade",
+  "cmsplugin_cascade.clipboard",
+  "cmsplugin_cascade.sharable",
+  "cmsplugin_cascade.extra_fields",
+  "cmsplugin_cascade.icon",
+  "cmsplugin_cascade.segmentation",
   # ===---
   #'django_elasticsearch_dsl',
-  'fsm_admin',
-  'adminsortable2',
+  "fsm_admin",
+  "adminsortable2",
   # ===---
-  'webpack_loader',
-  'colorfield',
+  "webpack_loader",
+  "colorfield",
   # ===---
-  'rest_framework',
-  'rest_framework.authtoken',
-  'rest_auth',
-  'post_office',
+  "rest_framework",
+  "rest_framework.authtoken",
+  "rest_auth",
+  "post_office",
   # ===---
-  'stripe',
+  "stripe",
   # ===---
-  'shop',
-  'boutique',
-  'dmodules'
+  "apps.dmAdvertising",
+  "apps.dmBillingStripe",
+  "apps.dmContact",
+  "apps.dmRabais",
+  "apps.dmShipping",
+  "apps.dmTaxes",
+  # ===---
+  "shop",
+  "dshop"
 ])
 
 ############################################
 # Shop Payments and Order Settings
 
 SHOP_VALUE_ADDED_TAX = Decimal(0)
-SHOP_DEFAULT_CURRENCY = 'CAD'
+SHOP_DEFAULT_CURRENCY = "CAD"
 
 SHOP_CART_MODIFIERS = [
-  'boutique.modifiers.PrimaryCartModifier',
-  'boutique.modifiers.CanadaTaxModifier',
+  "dshop.modifiers.PrimaryCartModifier",
+  # ===--- taxes methods
+  "apps.dmTaxes.modifiers.CanadaTaxModifier",
   # ===--- shipping methods
-  'boutique.modifiers.FreeShippingModifier',
-  'boutique.modifiers.StandardShippingModifier',
-  'boutique.modifiers.ExpressShippingModifier',
+  "apps.dmShipping.modifiers.FreeShippingModifier",
+  "apps.dmShipping.modifiers.StandardShippingModifier",
+  "apps.dmShipping.modifiers.ExpressShippingModifier",
   # ===--- payment providers
-  #'boutique.modifiers.TestPaymentModifier',
-  'boutique.modifiers.StripePaymentModifier',
-  #'boutique.modifiers.SquarePaymentModifier',
+  #"dshop.modifiers.TestPaymentModifier",
+  "apps.dmBillingStripe.modifiers.StripePaymentModifier"
 ]
 
 SHOP_ORDER_WORKFLOWS = [
-  'shop.payment.workflows.ManualPaymentWorkflowMixin',
-  #'shop.payment.workflows.CancelOrderWorkflowMixin',
-  #'shop.shipping.workflows.SimpleShippingWorkflowMixin',
+  "shop.payment.workflows.ManualPaymentWorkflowMixin"
 ]
 
 SHOP_CASCADE_FORMS = {
-  'CustomerForm': 'boutique.forms.CustomerForm',
+  "CustomerForm": "dshop.forms.CustomerForm",
 }
 
 ############################################
@@ -95,17 +99,17 @@ MIDDLEWARE.extend([
   'cms.middleware.toolbar.ToolbarMiddleware',
 ])
 
-STAGE = os.getenv('STAGE', 'local').lower()
-CLIENT_SLUG = os.getenv('SITE_NAME', 'd-shop').lower()
+STAGE = os.getenv("STAGE", "local").lower()
+CLIENT_SLUG = os.getenv("SITE_NAME", "d-shop").lower()
 
 #######################################################################
 # Actual Shop Settings
 
-SHOP_APP_LABEL = 'boutique'
+SHOP_APP_LABEL = "dshop"
 SITE_ID = 1
 
 CLIENT_TITLE = "D-Shop"
-ADMINS = [("D-Modules", 'info@d-modules.com')]
+ADMINS = [("D-Modules", "info@d-modules.com")]
 SHOP_VENDOR_EMAIL = 'mariechristine@d-modules.com'
 
 if STAGE == "live":
@@ -128,24 +132,24 @@ CMS_TEMPLATES = [
 #######################################################################
 # Email Settings
 
-EMAIL_HOST = 'smtp.mandrillapp.com'
+EMAIL_HOST = "smtp.mandrillapp.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'mcote@d-modules.com'
-EMAIL_HOST_PASSWORD = '15163f93-6766-42b0-b239-6c707093642e'
-DEFAULT_FROM_EMAIL = 'noreply@d-modules.com'
-DEFAULT_TO_EMAIL = 'mariechristine@d-modules.com'
-EMAIL_REPLY_TO = 'info@d-modules.com'
-EMAIL_BACKEND = 'post_office.EmailBackend'
+EMAIL_HOST_USER = "mcote@d-modules.com"
+EMAIL_HOST_PASSWORD = "15163f93-6766-42b0-b239-6c707093642e"
+DEFAULT_FROM_EMAIL = "noreply@d-modules.com"
+DEFAULT_TO_EMAIL = "mariechristine@d-modules.com"
+EMAIL_REPLY_TO = "info@d-modules.com"
+EMAIL_BACKEND = "post_office.EmailBackend"
 
-MAILCHIMP_KEY = '1111111111111111111-11'
-MAILCHIMP_LISTID = '1111111111'
+MAILCHIMP_KEY = "1111111111111111111-11"
+MAILCHIMP_LISTID = "1111111111"
 
 #######################################################################
 # Stripe Settings
 
-STRIPE_KEY = "sk_test_yWfrqAfo9CX6aixqmDoqzeFU"
-STRIPE_SECRET_KEY = STRIPE_KEY
+STRIPE_PUBLIC_KEY = "pk_test_oho8Q2pjlnLsmNSkXRT21wi2"
+STRIPE_SECRET_KEY = "sk_test_yWfrqAfo9CX6aixqmDoqzeFU"
 STRIPE_ACCOUNT_ID = "acct_1DB3G8GqDfDq6eXv"
 
 #######################################################################
@@ -208,6 +212,8 @@ CMS_LANGUAGES = {
 
 #######################################################################
 #
+
+ROBOTS_META_TAGS = ["Allow"]
 
 TEMPLATES = [{
   'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -388,8 +394,7 @@ CMSPLUGIN_CASCADE = {
         ],
         # required to purchase real estate
         'ShopAddToCartPlugin': [
-            (None, _("Default")),
-            ('boutique/catalog/commodity-add2cart.html', _("Add Commodity to Cart")),
+          (None, _("Default"))
         ],
     },
     'plugins_with_sharables': {
@@ -543,7 +548,7 @@ if STAGE == 'local':
 # Admin Reordering
 
 MIDDLEWARE.extend([
-  "dmodules.middleware.AdminReorderMiddleware"
+  "dshop.middleware.AdminReorderMiddleware"
 ])
 ADMIN_REORDER = (
   {
@@ -551,35 +556,59 @@ ADMIN_REORDER = (
     "label":"Site",
     "models":[
       #"sites.Site",
-      "boutique.dmSite",
+      "dshop.dmSite",
       "cms.Page",
-      "shop.CustomerProxy",
-      "boutique.dmAlertPublicitaire"
+      "shop.CustomerProxy"
     ]
   },
   {
-    "app":"boutique",
-    "label":"Boutique",
-    "models":[
-      "boutique.dmRabaisPerCategory",
-      "boutique.ProductCategory",
-      "boutique.ProductFilter",
-      "boutique.Product",
-      {"model":"boutique.Order", "label":_("Commandes")},
-      {"model":"boutique.Cart", "label":_("Carts")},
-      #{"model":"boutique.ShippingAddress", "label":_("Adresses de livraison")},
-      #{"model":"boutique.BillingAddress", "label":_("Adresses de facturation")},
-      "boutique.ShippingManagement",
-      "boutique.CanadaTaxManagement",
+    "app": "dmAdvertising",
+    "label": _("Alertes publicitaires"),
+    "models": [
+      "dmAdvertising.dmAdvertisingTopBanner",
     ]
   },
   {
-    "app":"post_office",
-    "label":"Envoi de courriels",
+    "app": "dshop",
+    "label": _("Boutique"),
+    "models": [
+      "dshop.ProductCategory",
+      "dshop.ProductFilter",
+      "dshop.Product",
+      {"model": "dshop.Order", "label":_("Commandes")},
+      {"model": "dshop.Cart", "label":_("Carts")},
+      #{"model": "dshop.ShippingAddress", "label":_("Adresses de livraison")},
+      #{"model": "dshop.BillingAddress", "label":_("Adresses de facturation")},
+    ]
+  },
+  {
+    "app": "dmRabais",
+    "label": _("Rabais"),
+    "models": [
+      "dmRabais.dmRabaisPerCategory",
+    ]
+  },
+  {
+    "app": "dshop",
+    "label": _("Livraison"),
+    "models": [
+      "dmShipping.ShippingManagement",
+    ]
+  },
+  {
+    "app": "dmTaxes",
+    "label": _("Taxes"),
     "models":[
+      "dmTaxes.CanadaTaxManagement",
+    ]
+  },
+  {
+    "app": "post_office",
+    "label": _("Envoi de courriels"),
+    "models": [
       "shop.Notification",
-      {"model":"post_office.EmailTemplate", "label":_("Gabarits de courriel")},
-      {"model":"post_office.Email", "label":_("Courriels envoyés")},
+      {"model": "post_office.EmailTemplate", "label": _("Gabarits de courriel")},
+      {"model": "post_office.Email", "label": _("Courriels envoyés")},
       "post_office.Log"
     ]
   },

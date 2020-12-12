@@ -1,0 +1,153 @@
+{% extends "dshop/pages/base.html" %}
+{% load static cms_tags i18n thumbnail sekizai_tags dshop_tags %}
+
+{% block title %}Produits{% endblock %}
+
+{% block breadcrumb %}
+  <section class="section-breadcrumb">
+    <div class="breadcrumb_section bg_gray page-title-mini mb-4">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <div class="page-title">
+              {% if request.resolver_match.kwargs.category_id %}
+              {% dm_get_category request.resolver_match.kwargs.category_id as current_category %}
+                <h1>{{current_category.name}}</h1>
+              {% else %}
+                <h1>{% trans "Products" %}</h1>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            {% if request.resolver_match.kwargs.category_id %}
+              <div class="breadcrumbs-item">
+                <a href="{% page_url 'produits' %}">{% trans "Products" %}</a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock breadcrumb %}
+
+{% block main-content %}
+  <section class="pt50 pb180">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-lg-8 col-xl-8 order-first order-lg-12">
+          <div class="shop-container d-table w-100">
+            <div class="d-table-row">
+              <div class="d-table-cell text-right size-widget">
+                <div class="size-boxes">
+                  <label class="size-box dm-tous checked">
+                    <input type="checkbox" name="tous" checked>
+                    <div class="size-text">Tous</div>
+                  </label>
+                  {% dm_get_filters_all as filters %}
+                  {% for filter in filters %}
+                    <label class="size-box">
+                        <input type="checkbox" name="{{filter.name|slugify}}">
+                        <div class="size-text">{{filter.name}}</div>
+                    </label>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% if request.resolver_match.kwargs.category_id %}
+            {% dm_get_products_by_category request.resolver_match.kwargs.category_id 0 8 as products %}
+          {% else %}
+            {% dm_get_all_products 0 8 as products %}
+          {% endif %}
+          <div class="items-container">
+            <div class="row produits">
+              {% for product in products.products %}
+                <div class="item-container col-md-6" data-filters="tous{% for filter in product.filters.all %} {{filter.name|slugify}}{% endfor %}">
+                  <div class="shop-item">
+                    <a href="{{product.get_absolute_url}}" class="item-img">
+                      {% if product.images.first %}
+                        {% thumbnail product.images.first 510x510 crop upscale as thumb %}
+                        <img src="{{thumb.url}}" alt="{{product.product_name}}" class="img-fluid">
+                      {% else %}
+                        <img src="https://via.placeholder.com/510" alt="{{product.product_name}}" class="img-fluid">
+                      {% endif %}
+                    </a>
+                    <div class="item-bottom-container">
+                      <div class="item-meta table">
+                        <div class="d-table-row">
+                          <div class="item-price text-right">
+                            {% if product.is_soumission %}<span>À partir de </span>{% endif %}
+                            <span>{{product.unit_price}}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="item-bottom-box equal-height">
+                        <a href="{{product.get_absolute_url}}" class="item-title">
+                          {{product.product_name}}
+                        </a>
+                        <div class="item-desc">
+                          {{product.caption|truncatewords_html:18}}
+                        </div>
+                      </div>
+                      <div class="add-to-cart">
+                        {% if product.is_soumission %}
+                          <a href="/" class="dm-add2soumission btn" data-product="{{product.slug}}">Mettre en soumission</a>
+                        {% else %}
+                          <a href="/" class="dm-add2cart btn" data-product="{{product.slug}}">Ajouter au panier</a>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% if products.next > 0 %}
+            <div class="col-lg-12 pt-5 text-center">
+              {% if request.resolver_match.kwargs.category_id %}
+                <a href="#" class="btn blue dm-btn-more" onclick="return loadMoreProduits('{{request.resolver_match.kwargs.category_id}}')" data-offset="9" data-limit="8">Voir plus de produits</a>
+              {% else %}
+                <a href="#" class="btn blue dm-btn-more" onclick="return loadMoreProduits()" data-offset="9" data-limit="8">Voir plus de produits</a>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="left-sidebar col-xl-4 col-lg-4 col-md-12">
+          <div class="sidebar-wrapper">
+            <div class="widget category-widget">
+              <div class="widget-title">
+                {% trans 'Categories' %}
+              </div>
+              <div class="widget-wrapper">
+                <ul class="list-3">
+                  {% dm_get_categories_parents as categories %}
+                  {% for categorie in categories %}
+                    {% dm_get_category_by_category categorie.id as child_categories %}
+                    <li{% if child_categories %} class="dm-produits-category-haschildren"{% endif %}>
+                      <a href="/produits/{{categorie.id}}-{{categorie.name|slugify}}">
+                        {{categorie.name}}
+                      </a>
+                      {% if child_categories %}<span class="toggle" onclick="toggleMenuCategory(this)">+</span>{% endif %}
+                      {% if child_categories %}
+                        <ul class="dm-produits-category-submenu">
+                          {% for child_category in child_categories %}
+                            <li>
+                              <a href="/produits/{{child_category.id}}-{{child_category.name|slugify}}">
+                                {{child_category.name}}
+                              </a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock main-content %}
