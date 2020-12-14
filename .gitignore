@@ -26,3 +26,5 @@ Thumbs.db
 /static_collected
 /node_modules
 # </DEFAULT>
+
+.vscode
