@@ -25,7 +25,7 @@ register = template.Library()
 @register.filter
 def ts_to_str(timestamp):
     """Timestamp to string"""
-    ts = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%f-05:00")
+    ts = datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%f-05:00")
     return ts
 
 
