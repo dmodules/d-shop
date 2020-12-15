@@ -33,7 +33,6 @@ INSTALLED_APPS.extend([
   "cmsplugin_cascade.icon",
   "cmsplugin_cascade.segmentation",
   # ===---
-  #'django_elasticsearch_dsl',
   "fsm_admin",
   "adminsortable2",
   # ===---
@@ -72,8 +71,10 @@ SHOP_CART_MODIFIERS = [
   "apps.dmShipping.modifiers.FreeShippingModifier",
   "apps.dmShipping.modifiers.StandardShippingModifier",
   "apps.dmShipping.modifiers.ExpressShippingModifier",
+  "apps.dmShipping.modifiers.StandardShippingWithSeparatorModifier",
+  "apps.dmShipping.modifiers.ExpressShippingWithSeparatorModifier",
   # ===--- payment providers
-  #"dshop.modifiers.TestPaymentModifier",
+  # "dshop.modifiers.TestPaymentModifier",
   "apps.dmBillingStripe.modifiers.StripePaymentModifier"
 ]
 
