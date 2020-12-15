@@ -205,7 +205,7 @@
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
         })
         .then(() => {
-          // self.setAuth()
+          self.setAuth()
           self.$set(self, 'isLoadingLogin', false)
         })
         .catch((apiFail) => {
