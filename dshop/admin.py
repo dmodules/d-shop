@@ -422,7 +422,7 @@ class ProductDefaultAdmin(InvalidateProductCacheMixin, SortableAdminMixin, Trans
             'fields': ['caption', 'description'],
         }),
         (_("Catégories et filtres"), {
-            'fields': ["categories, filters"],
+            'fields': ["categories", "filters"],
         }),
         (_("Image Principale"), {
             'fields': [
@@ -431,7 +431,7 @@ class ProductDefaultAdmin(InvalidateProductCacheMixin, SortableAdminMixin, Trans
         })
     )
     inlines = [ProductImageInline]
-    filter_horizontal = ["categories"]
+    filter_horizontal = ["categories", "filters"]
     prepopulated_fields = {'slug': ['product_code']}
 
 
@@ -455,7 +455,7 @@ class ProductVariableAdmin(InvalidateProductCacheMixin, SortableAdminMixin, Tran
             'fields': ['caption', 'description'],
         }),
         (_("Catégories et filtres"), {
-            'fields': ["categories, filters"],
+            'fields': ["categories", "filters"],
         }),
         (_("Image Principale"), {
             'fields': [
@@ -463,7 +463,7 @@ class ProductVariableAdmin(InvalidateProductCacheMixin, SortableAdminMixin, Tran
             ]
         })
     ]
-    filter_horizontal = ["categories"]
+    filter_horizontal = ["categories", "filters"]
     inlines = [ProductImageInline, ProductVariableVariantInline]
     prepopulated_fields = {'slug': ['product_name']}
 
