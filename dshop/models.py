@@ -1,5 +1,5 @@
 import pytz
-import xml
+import re
 from decimal import Decimal
 from datetime import datetime
 from cms.models import CMSPlugin
@@ -42,6 +42,7 @@ except:
 
 __all__ = ['Cart', 'CartItem', 'Order', 'Customer']
 
+TAG_RE = re.compile(r'<[^>]+>')
 
 class OrderItem(BaseOrderItem):
     quantity = models.PositiveIntegerField(_("Ordered quantity"))
@@ -508,16 +509,10 @@ class Product(CMSPageReferenceMixin, TranslatableModelMixin, BaseProduct):
 
     objects = ProductManager()
 
-    lookup_fields = ['product_name__icontains']
+    lookup_fields = ['product_name__icontains', 'description__icontains']
 
     def __str__(self):
         return self.product_name
-
-    @property
-    def get_description(self):
-        desc = self.description.strip()
-        desc = ''.join(xml.etree.ElementTree.fromstring(desc).itertext())
-        return desc
 
     @property
     def sample_image(self):
@@ -593,6 +588,13 @@ class ProductDefault(AvailableProductMixin, Product):
         verbose_name = _("Produit par défaut")
         verbose_name_plural = _("Produits par défaut")
 
+    @property
+    def get_description(self):
+        if self.description:
+            desc = TAG_RE.sub('', self.description)
+            return desc
+        return ''
+
     def get_price(self, request):
         if dmRabaisPerCategory is not None:
             today = pytz.utc.localize(datetime.utcnow())
@@ -639,6 +641,13 @@ class ProductVariable(Product):
         verbose_name_plural = _("Produits variables")
 
     default_manager = ProductManager()
+
+    @property
+    def get_description(self):
+        if self.description:
+            desc = TAG_RE.sub('', self.description)
+            return desc
+        return ''
 
     def get_price(self, request):
         if not hasattr(self, '_price'):
