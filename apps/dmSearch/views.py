@@ -7,7 +7,7 @@ def search_product(request):
 
     q = request.GET.get('q', '')
     if q is '':
-        return JsonResponse()
+        return JsonResponse({})
     all_results = SearchQuerySet().filter(content=q)
 
     products = [result.pk for result in all_results]
