@@ -1,5 +1,5 @@
 import pytz
-
+import xml
 from decimal import Decimal
 from datetime import datetime
 from cms.models import CMSPlugin
@@ -512,6 +512,12 @@ class Product(CMSPageReferenceMixin, TranslatableModelMixin, BaseProduct):
 
     def __str__(self):
         return self.product_name
+
+    @property
+    def get_description(self):
+        desc = self.description.strip()
+        desc = ''.join(xml.etree.ElementTree.fromstring(desc).itertext())
+        return desc
 
     @property
     def sample_image(self):
