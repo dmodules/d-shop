@@ -21,6 +21,8 @@ from shop.views.cart import CartViewSet
 from dshop.views import CustomerView, LoadProduits, ShippingMethodsView, BillingMethodsView
 from dshop.views import TestPaymentView
 
+from apps.dmSearch.views import *
+
 sitemaps = {"cmspages": CMSSitemap, "products": ProductSitemap}
 
 def render_robots(request):
@@ -44,6 +46,8 @@ urlpatterns = [
   url(r'^api/fe/billing-methods/$', BillingMethodsView.as_view()),
 
   url(r'^test-payment/$', TestPaymentView),
+
+  url(r'^search-product/$', search_product),
 
 ] + aldryn_addons.urls.patterns() + i18n_patterns(
 
