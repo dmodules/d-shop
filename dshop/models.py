@@ -627,7 +627,8 @@ class ProductDefault(AvailableProductMixin, Product):
                         r = r - discount
         # ===--- GET PROMOCODE
         if dmPromoCode is not None:
-            if request.user.is_authenticated:
+            pass
+            '''if request.user.is_authenticated:
                 today = pytz.utc.localize(datetime.utcnow())
                 all_codes = dmCustomerPromoCode.objects.filter(
                     (Q(promocode__categories=None) | Q(
@@ -654,7 +655,7 @@ class ProductDefault(AvailableProductMixin, Product):
                         elif d.promocode.percent is not None:
                             pourcent = Decimal(d.promocode.percent) / Decimal('100')
                             discount = Money(Decimal(self.unit_price) * pourcent)
-                            r = r - discount
+                            r = r - discount'''
         if Decimal(r) <= 0:
             r = Money(0)
         return r
