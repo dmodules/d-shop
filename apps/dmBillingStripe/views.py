@@ -5,12 +5,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import redirect
 from django.shortcuts import render
 
-from settings import STRIPE_SECRET_KEY, SITE_URL
+from settings import STRIPE_SECRET_KEY
 
 from shop.money import MoneyMaker
 from shop.models.order import OrderModel
 from shop.models.order import OrderPayment
-from shop.models.defaults.customer import Customer
 
 from dshop.transition import transition_change_notification
 
@@ -26,7 +25,7 @@ stripe.api_key = STRIPE_SECRET_KEY
 def StripeCheckout(request):
     referenceId = request.GET.get("referenceId", None)
     session_id = request.GET.get("session")
-    order = OrderModel.objects.get(number=re.sub("\D", "", referenceId))
+    order = OrderModel.objects.get(number=re.sub(r"\D", "", referenceId))
     order.extra["session_id"] = session_id
     order.save()
     return render(request, "stripe.html",  {"CHECKOUT_SESSION_ID": session_id})
@@ -39,7 +38,7 @@ def StripePaymentCancelView(request):
 def StripePaymentView(request):
     referenceId = request.GET.get("referenceId", None)
     if referenceId is not None:
-        order = OrderModel.objects.get(number=re.sub("\D", "", referenceId))
+        order = OrderModel.objects.get(number=re.sub(r"\D", "", referenceId))
         transactionId = ""
         try:
             Money = MoneyMaker(order.currency)

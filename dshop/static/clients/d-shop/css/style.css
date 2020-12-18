@@ -163,6 +163,10 @@ a:hover{
   background:transparent;
   color:#458d91;
 }
+#app.theme--light .v-card,
+#app.theme--light .v-stepper{
+    background:transparent;
+}
 #app.theme--light .v-menu__content{
   background:#fff;
 }

@@ -9,6 +9,10 @@
   "Preferepasrepondre": "Préfère ne pas répondre",
   
   "Cechampsesrrequis": "Ce champs est requis.",
+  "Anerroroccured": "Une erreur est survenue.",
+  "Codenotexist": "Ce code est expiré.",
+  "Codealreadyused": "Vous avez déjà utilisé ce code.",
+  "Codeaddedsuccess": "Code ajouté avec succès !",
 
   "Profil": "Profil",
   "Salutation": "Salutation",
@@ -63,5 +67,10 @@
   "Payeretcommander": "Payer et commander",
 
   "Votrepanierestvide": "Votre panier est vide",
-  "Retourneralaccueil": "Retourner à l'accueil"
+  "Retourneralaccueil": "Retourner à l'accueil",
+
+  "PromoCodes": "Codes promotionnels",
+  "AppliedPromoCodes": "Codes promotionnels appliqués",
+  "Enteryourcodehere": "Entrer votre code ici",
+  "Add": "Ajouter"
 }
