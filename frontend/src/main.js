@@ -27,23 +27,11 @@ Vue.prototype.$axios = axios
 /* ================================================================= //
 // ===--- prototype variables -----------------------------------=== //
 // ================================================================= */
-const stage = document.querySelector('meta[data-dm="dmodules"]') ? document.querySelector('meta[data-dm="dmodules"]').dataset.stage : 'live'
-if (process.env.NODE_ENV === "production") {
-  if (stage === "live") {
-    Vue.prototype.$web_url = 'https://d-shop.us.aldryn.io'
-    Vue.prototype.$app_url = 'https://d-shop.us.aldryn.io/commande'
-    Vue.prototype.$api_url = 'https://d-shop.us.aldryn.io/shop/api'
-  }
-  else {
-    Vue.prototype.$web_url = 'https://d-shop-stage.us.aldryn.io'
-    Vue.prototype.$app_url = 'https://d-shop-stage.us.aldryn.io/commande'
-    Vue.prototype.$api_url = 'https://d-shop-stage.us.aldryn.io/shop/api'
-  }
-} else {
-  Vue.prototype.$web_url = 'http://localhost:8000'
-  Vue.prototype.$app_url = 'http://localhost:8000/app'
-  Vue.prototype.$api_url = 'http://localhost:8000/shop/api'
-}
+// const stage = document.querySelector('meta[data-dm="dmodules"]') ? document.querySelector('meta[data-dm="dmodules"]').dataset.stage : 'live'
+Vue.prototype.$web_url = window.location.origin
+Vue.prototype.$app_url = window.location.origin+'/commande'
+Vue.prototype.$shp_url = window.location.origin+'/shop'
+Vue.prototype.$api_url = window.location.origin+'/shop/api'
 /* ================================================================= //
 // ===--- vuetify -----------------------------------------------=== //
 // ================================================================= */
