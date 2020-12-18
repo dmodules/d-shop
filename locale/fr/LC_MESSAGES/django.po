@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-15 09:13-0500\n"
+"POT-Creation-Date: 2020-12-15 12:35-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: apps/dmAdvertising/admin.py:18 apps/dmRabais/admin.py:46
+#: apps/dmAdvertising/admin.py:18 apps/dmRabais/admin.py:53
+#: apps/dmRabais/admin.py:98
 msgid "Début"
 msgstr ""
 
-#: apps/dmAdvertising/admin.py:22 apps/dmRabais/admin.py:50
+#: apps/dmAdvertising/admin.py:22 apps/dmRabais/admin.py:57
+#: apps/dmRabais/admin.py:102
 msgid "Fin"
 msgstr ""
 
@@ -30,10 +32,10 @@ msgstr ""
 msgid "Alertes Publicitaires"
 msgstr ""
 
-#: apps/dmAdvertising/models.py:13 dshop/models.py:838 dshop/models.py:847
-#: dshop/models.py:854 dshop/models.py:874 dshop/models.py:941
-#: dshop/models.py:960 dshop/models.py:967 dshop/models.py:974
-#: dshop/models.py:991
+#: apps/dmAdvertising/models.py:13 dshop/models.py:845 dshop/models.py:854
+#: dshop/models.py:861 dshop/models.py:881 dshop/models.py:948
+#: dshop/models.py:967 dshop/models.py:974 dshop/models.py:981
+#: dshop/models.py:998
 msgid "Texte"
 msgstr ""
 
@@ -54,15 +56,15 @@ msgstr ""
 msgid "Ouvrir le lien dans un nouvel onglet ?"
 msgstr ""
 
-#: apps/dmAdvertising/models.py:29 apps/dmRabais/models.py:16
+#: apps/dmAdvertising/models.py:29 apps/dmRabais/models.py:37
 msgid "Actif"
 msgstr ""
 
-#: apps/dmAdvertising/models.py:33 apps/dmRabais/models.py:17
+#: apps/dmAdvertising/models.py:33 apps/dmRabais/models.py:41
 msgid "Date de début"
 msgstr ""
 
-#: apps/dmAdvertising/models.py:37 apps/dmRabais/models.py:18
+#: apps/dmAdvertising/models.py:37 apps/dmRabais/models.py:45
 msgid "Date de fin"
 msgstr ""
 
@@ -122,48 +124,108 @@ msgstr ""
 msgid "La réponse du calcul est incorrecte."
 msgstr ""
 
-#: apps/dmRabais/admin.py:16 apps/dmRabais/admin.py:17
-#: apps/dmRabais/admin.py:42 apps/dmRabais/apps.py:6 settings.py:585
+#: apps/dmRabais/admin.py:49 apps/dmRabais/apps.py:7 settings.py:587
 msgid "Rabais"
 msgstr ""
 
-#: apps/dmRabais/models.py:13 dshop/admin.py:262
-msgid "Nom"
+#: apps/dmRabais/admin.py:77
+msgid "Limitations"
 msgstr ""
 
-#: apps/dmRabais/models.py:14
-msgid "Montant fixe"
-msgstr ""
+#: apps/dmRabais/models.py:19 apps/dmRabais/models.py:71
+#: apps/dmShipping/models.py:36
+msgid "Name"
+msgstr "Nom"
 
-#: apps/dmRabais/models.py:14
+#: apps/dmRabais/models.py:23 apps/dmRabais/models.py:84
+msgid "Amount"
+msgstr "Montant"
+
+#: apps/dmRabais/models.py:28 apps/dmRabais/models.py:89
 msgid ""
 "Un montant fixe à retirer du prix original, laisser vide pour privilégier le "
 "pourcentage."
 msgstr ""
 
-#: apps/dmRabais/models.py:15
-msgid "Pourcentage"
-msgstr ""
+#: apps/dmRabais/models.py:31 apps/dmRabais/models.py:92
+msgid "Percent"
+msgstr "Pourcentage"
 
-#: apps/dmRabais/models.py:15
+#: apps/dmRabais/models.py:34 apps/dmRabais/models.py:95
 msgid ""
 "Un pourcentage à retirer du prix original, ne sera pas utilisé s'il y a un "
 "montant dans 'Montant fixe'."
 msgstr ""
 
-#: apps/dmRabais/models.py:19 dshop/templates/dshop/pages/produits.html:120
+#: apps/dmRabais/models.py:52 apps/dmRabais/models.py:121
+#: dshop/templates/dshop/pages/produits.html:120
 msgid "Categories"
 msgstr "Catégories"
 
-#: apps/dmRabais/models.py:22 apps/dmRabais/models.py:23
+#: apps/dmRabais/models.py:56 apps/dmRabais/models.py:57
 msgid "Rabais par catégorie"
 msgstr ""
+
+#: apps/dmRabais/models.py:77
+msgid "Code"
+msgstr "Code"
+
+#: apps/dmRabais/models.py:81
+msgid "Leave blank to auto-generate a random code."
+msgstr "Laissez vide pour généré automatiquement un code aléatoire."
+
+#: apps/dmRabais/models.py:98
+msgid "Active"
+msgstr "Actif"
+
+#: apps/dmRabais/models.py:102
+msgid "Start at"
+msgstr "Début"
+
+#: apps/dmRabais/models.py:106
+msgid "End at"
+msgstr "Fin"
+
+#: apps/dmRabais/models.py:109
+msgid ""
+"Leave blank if you doesn't want this code to expire after a specific time."
+msgstr "Laissez vide si vous ne voulez pas que le code expire après un certain temps."
+
+#: apps/dmRabais/models.py:112
+msgid "Number of Customer"
+msgstr "Nombre de clients"
+
+#: apps/dmRabais/models.py:116
+msgid ""
+"Leave to 0 if you doesn't want this code to expire after a specific number "
+"of customer's uses."
+msgstr "Laissez à 0 si vous ne voulez pas que le code expire après un nombre spécifique d'utilisation."
+
+#: apps/dmRabais/models.py:122 apps/dmRabais/models.py:128
+msgid "Leave blank if you want to apply to all product."
+msgstr "Laissez vide si vous voulez appliquer à tous les produits."
+
+#: apps/dmRabais/models.py:127 dshop/models.py:506
+#: dshop/templates/clients/d-shop/pages/produits.html:25
+#: dshop/templates/clients/d-shop/pages/produits.html:32
+#: dshop/templates/dshop/pages/produits.html:17
+#: dshop/templates/dshop/pages/produits.html:24
+msgid "Products"
+msgstr "Produits"
+
+#: apps/dmRabais/models.py:132
+msgid "Promo Code"
+msgstr "Code promotionnel"
+
+#: apps/dmRabais/models.py:133
+msgid "Promo Codes"
+msgstr "Codes promotionnels"
 
 #: apps/dmShipping/admin.py:23
 msgid "With Separator Settings"
 msgstr "Paramètres avec un séparateur"
 
-#: apps/dmShipping/apps.py:6 settings.py:592
+#: apps/dmShipping/apps.py:6 settings.py:595
 msgid "Livraison"
 msgstr ""
 
@@ -186,10 +248,6 @@ msgstr "Envoi postal avec séparateur (standard)"
 #: apps/dmShipping/models.py:31
 msgid "Postal shipping with separator (express)"
 msgstr "Envoi postal avec séparateur (express)"
-
-#: apps/dmShipping/models.py:36
-msgid "Name"
-msgstr "Nom"
 
 #: apps/dmShipping/models.py:42
 msgid "Identifier"
@@ -215,7 +273,9 @@ msgstr "Montant de séparation"
 msgid ""
 "The amount of the cart price to separate the shipping price before and after "
 "it."
-msgstr "Le montant du prix du panier à atteindre pour séparer le prix de livraison avant et après celui-ci."
+msgstr ""
+"Le montant du prix du panier à atteindre pour séparer le prix de livraison "
+"avant et après celui-ci."
 
 #: apps/dmShipping/models.py:69
 msgid "After price"
@@ -225,7 +285,9 @@ msgstr "Prix après le séparateur"
 msgid ""
 "The price to replace the original shipping price if the separator's amount "
 "has been reached."
-msgstr "Le prix qui remplacera le prix origine de livraison lorsque le montant de séparation sera atteint."
+msgstr ""
+"Le prix qui remplacera le prix origine de livraison lorsque le montant de "
+"séparation sera atteint."
 
 #: apps/dmShipping/models.py:78 dshop/templates/dshop/order/detail.html:25
 msgid "Shipping Method"
@@ -235,12 +297,13 @@ msgstr "Méthode livraison"
 msgid "Shipping Methods"
 msgstr "Méthodes de livraison"
 
-#: apps/dmShipping/modifiers.py:28 apps/dmShipping/modifiers.py:50
-#: apps/dmShipping/modifiers.py:72
+#: apps/dmShipping/modifiers.py:35 apps/dmShipping/modifiers.py:73
+#: apps/dmShipping/modifiers.py:111 apps/dmShipping/modifiers.py:149
+#: apps/dmShipping/modifiers.py:187
 msgid "Shipping costs"
 msgstr "Prix d'expédition"
 
-#: apps/dmTaxes/apps.py:6 settings.py:599
+#: apps/dmTaxes/apps.py:6 settings.py:602
 msgid "Taxes"
 msgstr ""
 
@@ -1053,6 +1116,10 @@ msgstr ""
 msgid "Zimbabwe"
 msgstr ""
 
+#: dshop/admin.py:262
+msgid "Nom"
+msgstr ""
+
 #: dshop/admin.py:316 dshop/models.py:48
 msgid "Données"
 msgstr ""
@@ -1061,7 +1128,7 @@ msgstr ""
 msgid "Commande"
 msgstr ""
 
-#: dshop/admin.py:350 settings.py:577
+#: dshop/admin.py:350 settings.py:579
 msgid "Commandes"
 msgstr ""
 
@@ -1113,11 +1180,11 @@ msgstr ""
 msgid "Price starting at"
 msgstr "Prix débutant par"
 
-#: dshop/admin.py:508 dshop/models.py:573 dshop/models.py:699
+#: dshop/admin.py:508 dshop/models.py:573 dshop/models.py:706
 msgid "Quantity"
 msgstr "Quantité"
 
-#: dshop/apps.py:8 settings.py:572
+#: dshop/apps.py:8 settings.py:574
 msgid "Boutique"
 msgstr ""
 
@@ -1297,13 +1364,6 @@ msgstr ""
 msgid "Product"
 msgstr "Produit"
 
-#: dshop/models.py:506 dshop/templates/clients/d-shop/pages/produits.html:25
-#: dshop/templates/clients/d-shop/pages/produits.html:32
-#: dshop/templates/dshop/pages/produits.html:17
-#: dshop/templates/dshop/pages/produits.html:24
-msgid "Products"
-msgstr "Produits"
-
 #: dshop/models.py:536
 msgid "Caption"
 msgstr "Légende"
@@ -1312,11 +1372,11 @@ msgstr "Légende"
 msgid "Description courte."
 msgstr ""
 
-#: dshop/models.py:543 dshop/models.py:580 dshop/models.py:625
+#: dshop/models.py:543 dshop/models.py:580 dshop/models.py:632
 msgid "Description"
 msgstr ""
 
-#: dshop/models.py:547 dshop/models.py:582 dshop/models.py:627
+#: dshop/models.py:547 dshop/models.py:582 dshop/models.py:634
 msgid "Description longue."
 msgstr ""
 
@@ -1328,15 +1388,15 @@ msgstr ""
 msgid "Un code unique."
 msgstr ""
 
-#: dshop/models.py:568 dshop/models.py:694
+#: dshop/models.py:568 dshop/models.py:701
 msgid "Unit price"
 msgstr "Prix unitaire"
 
-#: dshop/models.py:570 dshop/models.py:696
+#: dshop/models.py:570 dshop/models.py:703
 msgid "Net price for this product"
 msgstr "Prix net du produit"
 
-#: dshop/models.py:576 dshop/models.py:702
+#: dshop/models.py:576 dshop/models.py:709
 msgid "Available quantity in stock"
 msgstr "Quantité disponible"
 
@@ -1348,172 +1408,173 @@ msgstr ""
 msgid "Produits par défaut"
 msgstr ""
 
-#: dshop/models.py:632
+#: dshop/models.py:639
 msgid "Produit variable"
 msgstr ""
 
-#: dshop/models.py:633
+#: dshop/models.py:640
 msgid "Produits variables"
 msgstr ""
 
-#: dshop/models.py:685
+#: dshop/models.py:692
 msgid "Produit"
 msgstr ""
 
-#: dshop/models.py:689
+#: dshop/models.py:696
 msgid "Product code"
 msgstr "Code du produit"
 
-#: dshop/models.py:706
+#: dshop/models.py:713
+#, python-brace-format
 msgid "{product}"
 msgstr "{product}"
 
-#: dshop/models.py:748 dshop/models.py:749
+#: dshop/models.py:755 dshop/models.py:756
 msgid "Site"
 msgstr ""
 
-#: dshop/models.py:768
+#: dshop/models.py:775
 msgid "Téléphone"
 msgstr ""
 
-#: dshop/models.py:774
+#: dshop/models.py:781
 msgid "Courriel"
 msgstr ""
 
-#: dshop/models.py:780
+#: dshop/models.py:787
 msgid "Adresse"
 msgstr ""
 
-#: dshop/models.py:787 dshop/models.py:788
+#: dshop/models.py:794 dshop/models.py:795
 msgid "Contacts"
 msgstr ""
 
-#: dshop/models.py:813 dshop/models.py:823
+#: dshop/models.py:820 dshop/models.py:830
 msgid "Réseau social"
 msgstr ""
 
-#: dshop/models.py:818
+#: dshop/models.py:825
 msgid "Lien vers le réseau"
 msgstr ""
 
-#: dshop/models.py:824
+#: dshop/models.py:831
 msgid "Réseaux sociaux"
 msgstr ""
 
-#: dshop/models.py:836 dshop/models.py:845 dshop/models.py:852
-#: dshop/models.py:861 dshop/models.py:870 dshop/models.py:897
-#: dshop/models.py:937 dshop/models.py:949 dshop/models.py:958
-#: dshop/models.py:965 dshop/models.py:972 dshop/models.py:987
+#: dshop/models.py:843 dshop/models.py:852 dshop/models.py:859
+#: dshop/models.py:868 dshop/models.py:877 dshop/models.py:904
+#: dshop/models.py:944 dshop/models.py:956 dshop/models.py:965
+#: dshop/models.py:972 dshop/models.py:979 dshop/models.py:994
 msgid "Titre"
 msgstr ""
 
-#: dshop/models.py:839 dshop/models.py:932 dshop/models.py:942
+#: dshop/models.py:846 dshop/models.py:939 dshop/models.py:949
 msgid "Texte du bouton"
 msgstr ""
 
-#: dshop/models.py:866 dshop/models.py:892
+#: dshop/models.py:873 dshop/models.py:899
 msgid "Gauche"
 msgstr ""
 
-#: dshop/models.py:867 dshop/models.py:894
+#: dshop/models.py:874 dshop/models.py:901
 msgid "Droite"
 msgstr ""
 
-#: dshop/models.py:872 dshop/models.py:899 dshop/models.py:939
-#: dshop/models.py:951 dshop/models.py:989
+#: dshop/models.py:879 dshop/models.py:906 dshop/models.py:946
+#: dshop/models.py:958 dshop/models.py:996
 msgid "Sous-titre"
 msgstr ""
 
-#: dshop/models.py:875 dshop/models.py:914 dshop/models.py:944
-#: dshop/models.py:956
+#: dshop/models.py:882 dshop/models.py:921 dshop/models.py:951
+#: dshop/models.py:963
 msgid "Image"
 msgstr ""
 
-#: dshop/models.py:876
+#: dshop/models.py:883
 msgid "Dimension : 398x531. Laisser vide pour ne pas afficher d'image."
 msgstr ""
 
-#: dshop/models.py:878
+#: dshop/models.py:885
 msgid "Position de l'image"
 msgstr ""
 
-#: dshop/models.py:883
+#: dshop/models.py:890
 msgid "Fichier vidéo"
 msgstr ""
 
-#: dshop/models.py:893
+#: dshop/models.py:900
 msgid "Centre"
 msgstr ""
 
-#: dshop/models.py:901 dshop/models.py:993
+#: dshop/models.py:908 dshop/models.py:1000
 msgid "Couleur du titre"
 msgstr ""
 
-#: dshop/models.py:903 dshop/models.py:995
+#: dshop/models.py:910 dshop/models.py:1002
 msgid "Couleur du sous-titre"
 msgstr ""
 
-#: dshop/models.py:905
+#: dshop/models.py:912
 msgid "Position du texte"
 msgstr ""
 
-#: dshop/models.py:907
+#: dshop/models.py:914
 msgid "Nom du lien"
 msgstr ""
 
-#: dshop/models.py:909
+#: dshop/models.py:916
 msgid "Adresse URL du lien"
 msgstr ""
 
-#: dshop/models.py:911
+#: dshop/models.py:918
 msgid "Le lien s'ouvre dans un nouvel onglet ?"
 msgstr ""
 
-#: dshop/models.py:913 dshop/models.py:981 dshop/models.py:1003
+#: dshop/models.py:920 dshop/models.py:988 dshop/models.py:1010
 msgid "Couleur de fond"
 msgstr ""
 
-#: dshop/models.py:915
+#: dshop/models.py:922
 msgid "Laisser vide pour ne pas afficher d'image."
 msgstr ""
 
-#: dshop/models.py:920
+#: dshop/models.py:927
 msgid "Horaire - Haut"
 msgstr ""
 
-#: dshop/models.py:922
+#: dshop/models.py:929
 msgid "Horaire - Bas"
 msgstr ""
 
-#: dshop/models.py:924
+#: dshop/models.py:931
 msgid "Téléphone - Haut"
 msgstr ""
 
-#: dshop/models.py:926
+#: dshop/models.py:933
 msgid "Téléphone - Bas"
 msgstr ""
 
-#: dshop/models.py:928
+#: dshop/models.py:935
 msgid "Adresse - Haut"
 msgstr ""
 
-#: dshop/models.py:930
+#: dshop/models.py:937
 msgid "Adresse - Bas"
 msgstr ""
 
-#: dshop/models.py:956
+#: dshop/models.py:963
 msgid "Dimension : 160x160."
 msgstr ""
 
-#: dshop/models.py:976 dshop/models.py:997
+#: dshop/models.py:983 dshop/models.py:1004
 msgid "Couleur du texte"
 msgstr ""
 
-#: dshop/models.py:978 dshop/models.py:999
+#: dshop/models.py:985 dshop/models.py:1006
 msgid "Button's Label"
 msgstr "Texte du bouton"
 
-#: dshop/models.py:980 dshop/models.py:1001
+#: dshop/models.py:987 dshop/models.py:1008
 msgid "Button's URL"
 msgstr "URL du bouton"
 
@@ -1708,31 +1769,31 @@ msgstr ""
 "Au cas où vous auriez déjà commandé sur ce site, veuillez vous <a href="
 "\"%(login_url)s\">connecter</a> puis réessayer."
 
-#: settings.py:392
+#: settings.py:394
 msgid "Product Heading"
 msgstr "Entête de produit"
 
-#: settings.py:396
+#: settings.py:398
 msgid "Default"
 msgstr "Par défaut"
 
-#: settings.py:565
+#: settings.py:567
 msgid "Alertes publicitaires"
 msgstr ""
 
-#: settings.py:578
+#: settings.py:580
 msgid "Carts"
 msgstr "Paniers"
 
-#: settings.py:606
+#: settings.py:609
 msgid "Envoi de courriels"
 msgstr ""
 
-#: settings.py:609
+#: settings.py:612
 msgid "Gabarits de courriel"
 msgstr ""
 
-#: settings.py:610
+#: settings.py:613
 msgid "Courriels envoyés"
 msgstr ""
 
@@ -1752,4 +1813,3 @@ msgstr ""
 #: templates/cms/plugins/widgets/ckeditor.html:33
 msgid "Standard Plugins"
 msgstr ""
-

@@ -9,6 +9,10 @@
   "Preferepasrepondre": "Prefer not to answer",
 
   "Cechampsesrrequis": "This field is required.",
+  "Anerroroccured": "An error occured.",
+  "Codenotexist": "This code is expired.",
+  "Codealreadyused": "You've already claimed this code.",
+  "Codeaddedsuccess": "Code added successfully!",
 
   "Profil": "Profile",
   "Salutation": "Salutation",
@@ -63,5 +67,10 @@
   "Payeretcommander": "Pay and Order",
 
   "Votrepanierestvide": "Your cart is empty",
-  "Retourneralaccueil": "Return to home"
+  "Retourneralaccueil": "Return to home",
+
+  "PromoCodes": "Promo Codes",
+  "AppliedPromoCodes": "Applied Promo Codes",
+  "Enteryourcodehere": "Enter your code here",
+  "Add": "Add"
 }

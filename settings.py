@@ -54,7 +54,7 @@ INSTALLED_APPS.extend([
   "apps.dmTaxes",
   # ===---
   "shop",
-  "dshop"
+  "dshop",
 ])
 
 ############################################
@@ -577,7 +577,7 @@ ADMIN_REORDER = (
       "dshop.ProductFilter",
       "dshop.Product",
       {"model": "dshop.Order", "label":_("Commandes")},
-      {"model": "dshop.Cart", "label":_("Carts")},
+      # {"model": "dshop.Cart", "label":_("Carts")},
       #{"model": "dshop.ShippingAddress", "label":_("Adresses de livraison")},
       #{"model": "dshop.BillingAddress", "label":_("Adresses de facturation")},
     ]
@@ -586,7 +586,9 @@ ADMIN_REORDER = (
     "app": "dmRabais",
     "label": _("Rabais"),
     "models": [
-      "dmRabais.dmRabaisPerCategory",
+        "dmRabais.dmRabaisPerCategory",
+        "dmRabais.dmPromoCode",
+        # "dmRabais.dmCustomerPromoCode"
     ]
   },
   {
