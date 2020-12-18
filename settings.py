@@ -45,6 +45,7 @@ INSTALLED_APPS.extend([
   "post_office",
   # ===---
   "stripe",
+  "haystack",
   # ===---
   "apps.dmAdvertising",
   "apps.dmBillingStripe",
@@ -52,6 +53,7 @@ INSTALLED_APPS.extend([
   "apps.dmRabais",
   "apps.dmShipping",
   "apps.dmTaxes",
+  "apps.dmSearch",
   # ===---
   "shop",
   "dshop",
@@ -619,3 +621,9 @@ ADMIN_REORDER = (
     "app":"filer"
   },
 )
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    },
+}
