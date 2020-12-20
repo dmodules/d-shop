@@ -23,6 +23,7 @@ aldryn_addons.settings.load(locals())
 import os
 import six
 from decimal import Decimal
+from slugify import slugify
 from django.utils.translation import ugettext_lazy as _
 
 INSTALLED_APPS.extend([
@@ -101,7 +102,7 @@ MIDDLEWARE.extend([
 ])
 
 STAGE = os.getenv("STAGE", "local").lower()
-CLIENT_SLUG = os.getenv("SITE_NAME", "d-shop").lower()
+CLIENT_SLUG = slugify(os.getenv("SITE_NAME", "d-shop").lower())
 
 #######################################################################
 # Actual Shop Settings
