@@ -13,8 +13,7 @@ class FreeShippingModifier(ShippingModifier):
 
     def get_choice(self):
         sm = ShippingManagement.objects.filter(
-            identifier=self.identifier
-        ).first()
+            identifier=self.identifier).first()
         if sm:
             return (self.identifier, sm.name)
         return (None, None)
@@ -22,14 +21,12 @@ class FreeShippingModifier(ShippingModifier):
     def add_extra_cart_row(self, cart, request):
         # ===---
         shipping_modifiers = cart_modifiers_pool.get_shipping_modifiers()
-        if not self.is_active(
-            cart.extra.get("shipping_modifier")
-        ) and len(shipping_modifiers) > 1:
+        if not self.is_active(cart.extra.get(
+                "shipping_modifier")) and len(shipping_modifiers) > 1:
             return
         # ===---
         sm = ShippingManagement.objects.filter(
-            identifier=self.identifier
-        ).first()
+            identifier=self.identifier).first()
         if sm:
             amount = Money("0")
             instance = {"label": _("Shipping costs"), "amount": amount}
@@ -42,8 +39,7 @@ class StandardShippingModifier(ShippingModifier):
 
     def get_choice(self):
         sm = ShippingManagement.objects.filter(
-            identifier=self.identifier
-        ).first()
+            identifier=self.identifier).first()
         if sm:
             return (self.identifier, sm.name)
         return (None, None)
@@ -51,22 +47,16 @@ class StandardShippingModifier(ShippingModifier):
     def add_extra_cart_row(self, cart, request):
         # ===---
         shipping_modifiers = cart_modifiers_pool.get_shipping_modifiers()
-        if not self.is_active(
-            cart.extra.get("shipping_modifier")
-        ) and len(shipping_modifiers) > 1:
+        if not self.is_active(cart.extra.get(
+                "shipping_modifier")) and len(shipping_modifiers) > 1:
             return
         # ===---
         sm = ShippingManagement.objects.filter(
-            identifier=self.identifier
-        ).first()
-        cp = float(
-            str(cart.subtotal).split(" ")[1].replace(",", ".")
-        )
+            identifier=self.identifier).first()
+        cp = float(str(cart.subtotal).split(" ")[1].replace(",", "."))
         if sm:
-            if (sm.use_separator and
-                    sm.separator is not None and
-                    sm.price_after is not None and
-                    cp >= sm.separator):
+            if (sm.use_separator and sm.separator is not None
+                    and sm.price_after is not None and cp >= sm.separator):
                 amount = Money(sm.price_after)
             else:
                 amount = Money(sm.price)
@@ -80,8 +70,7 @@ class ExpressShippingModifier(ShippingModifier):
 
     def get_choice(self):
         sm = ShippingManagement.objects.filter(
-            identifier=self.identifier
-        ).first()
+            identifier=self.identifier).first()
         if sm:
             return (self.identifier, sm.name)
         return (None, None)
@@ -89,22 +78,16 @@ class ExpressShippingModifier(ShippingModifier):
     def add_extra_cart_row(self, cart, request):
         # ===---
         shipping_modifiers = cart_modifiers_pool.get_shipping_modifiers()
-        if not self.is_active(
-            cart.extra.get("shipping_modifier")
-        ) and len(shipping_modifiers) > 1:
+        if not self.is_active(cart.extra.get(
+                "shipping_modifier")) and len(shipping_modifiers) > 1:
             return
         # ===---
         sm = ShippingManagement.objects.filter(
-            identifier=self.identifier
-        ).first()
-        cp = float(
-            str(cart.subtotal).split(" ")[1].replace(",", ".")
-        )
+            identifier=self.identifier).first()
+        cp = float(str(cart.subtotal).split(" ")[1].replace(",", "."))
         if sm:
-            if (sm.use_separator and
-                    sm.separator is not None and
-                    sm.price_after is not None and
-                    cp >= sm.separator):
+            if (sm.use_separator and sm.separator is not None
+                    and sm.price_after is not None and cp >= sm.separator):
                 amount = Money(sm.price_after)
             else:
                 amount = Money(sm.price)
@@ -118,8 +101,7 @@ class StandardShippingWithSeparatorModifier(ShippingModifier):
 
     def get_choice(self):
         sm = ShippingManagement.objects.filter(
-            identifier=self.identifier
-        ).first()
+            identifier=self.identifier).first()
         if sm:
             return (self.identifier, sm.name)
         return (None, None)
@@ -127,22 +109,16 @@ class StandardShippingWithSeparatorModifier(ShippingModifier):
     def add_extra_cart_row(self, cart, request):
         # ===---
         shipping_modifiers = cart_modifiers_pool.get_shipping_modifiers()
-        if not self.is_active(
-            cart.extra.get("shipping_modifier")
-        ) and len(shipping_modifiers) > 1:
+        if not self.is_active(cart.extra.get(
+                "shipping_modifier")) and len(shipping_modifiers) > 1:
             return
         # ===---
         sm = ShippingManagement.objects.filter(
-            identifier=self.identifier
-        ).first()
-        cp = float(
-            str(cart.subtotal).split(" ")[1].replace(",", ".")
-        )
+            identifier=self.identifier).first()
+        cp = float(str(cart.subtotal).split(" ")[1].replace(",", "."))
         if sm:
-            if (sm.use_separator and
-                    sm.separator is not None and
-                    sm.price_after is not None and
-                    cp >= sm.separator):
+            if (sm.use_separator and sm.separator is not None
+                    and sm.price_after is not None and cp >= sm.separator):
                 amount = Money(sm.price_after)
             else:
                 amount = Money(sm.price)
@@ -156,8 +132,7 @@ class ExpressShippingWithSeparatorModifier(ShippingModifier):
 
     def get_choice(self):
         sm = ShippingManagement.objects.filter(
-            identifier=self.identifier
-        ).first()
+            identifier=self.identifier).first()
         if sm:
             return (self.identifier, sm.name)
         return (None, None)
@@ -165,22 +140,16 @@ class ExpressShippingWithSeparatorModifier(ShippingModifier):
     def add_extra_cart_row(self, cart, request):
         # ===---
         shipping_modifiers = cart_modifiers_pool.get_shipping_modifiers()
-        if not self.is_active(
-            cart.extra.get("shipping_modifier")
-        ) and len(shipping_modifiers) > 1:
+        if not self.is_active(cart.extra.get(
+                "shipping_modifier")) and len(shipping_modifiers) > 1:
             return
         # ===---
         sm = ShippingManagement.objects.filter(
-            identifier=self.identifier
-        ).first()
-        cp = float(
-            str(cart.subtotal).split(" ")[1].replace(",", ".")
-        )
+            identifier=self.identifier).first()
+        cp = float(str(cart.subtotal).split(" ")[1].replace(",", "."))
         if sm:
-            if (sm.use_separator and
-                    sm.separator is not None and
-                    sm.price_after is not None and
-                    cp >= sm.separator):
+            if (sm.use_separator and sm.separator is not None
+                    and sm.price_after is not None and cp >= sm.separator):
                 amount = Money(sm.price_after)
             else:
                 amount = Money(sm.price)

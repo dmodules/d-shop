@@ -13,7 +13,6 @@ class CatalogListApp(CatalogListCMSApp):
     """
     Create a useable list of urls with Product's slug.
     """
-
     def get_urls(self, page=None, language=None, **kwargs):
         from shop.views.catalog import AddToCartView
         from shop.views.catalog import ProductListView, ProductRetrieveView
@@ -26,14 +25,14 @@ class CatalogListApp(CatalogListCMSApp):
         filter_backends.extend(api_settings.DEFAULT_FILTER_BACKENDS)
         return [
             url(r'^(?P<slug>[\w-]+)/add-to-cart', AddToCartView.as_view()),
-            url(r'^(?P<slug>[\w-]+)/add-productvariable-to-cart', AddToCartView.as_view(
-                serializer_class=AddProductVariableToCartSerializer,
-            )),
+            url(
+                r'^(?P<slug>[\w-]+)/add-productvariable-to-cart',
+                AddToCartView.as_view(
+                    serializer_class=AddProductVariableToCartSerializer, )),
             url(r'^(?P<slug>[\w-]+)',
                 ProductRetrieveView.as_view(use_modal_dialog=False)),
-            url(r'^', ProductListView.as_view(
-                filter_backends=filter_backends
-            )),
+            url(r'^',
+                ProductListView.as_view(filter_backends=filter_backends)),
         ]
 
 

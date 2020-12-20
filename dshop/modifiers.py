@@ -18,10 +18,10 @@ class PrimaryCartModifier(DefaultCartModifier):
             product_code=cart_item.product_code)
         cart_item.unit_price = variant.get_price(request)
         cart_item.line_total = cart_item.unit_price * cart_item.quantity
-        cart_item.extra["variables"] = {
-            "code": cart_item.product_code
-        }
-        return super(DefaultCartModifier, self).process_cart_item(cart_item, request)
+        cart_item.extra["variables"] = {"code": cart_item.product_code}
+        return super(DefaultCartModifier,
+                     self).process_cart_item(cart_item, request)
+
 
 #######################################################################
 # ===---   Payments: Test                                      ---=== #

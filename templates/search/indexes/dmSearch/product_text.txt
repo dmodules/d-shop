@@ -1,0 +1,2 @@
+{{ object.product_name }}
+{{ object.description }}

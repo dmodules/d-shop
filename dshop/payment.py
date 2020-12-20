@@ -67,4 +67,5 @@ class TestPayment(PaymentProvider):
             return js_expression
         except:
             raise ValidationError(
-                _("Une erreur est survenue lors de la création de votre commande."))
+                _("Une erreur est survenue lors de la création de votre commande."
+                  ))

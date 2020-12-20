@@ -15,7 +15,6 @@ class AdminReorderMiddleware(MiddlewareMixin):
     """
     Used to reorder admin panel.
     """
-
     def init_config(self, request, app_list):
         self.request = request
         self.app_list = app_list
@@ -24,7 +23,8 @@ class AdminReorderMiddleware(MiddlewareMixin):
             raise ImproperlyConfigured('ADMIN_REORDER config is not defined.')
         if not isinstance(self.config, (tuple, list)):
             raise ImproperlyConfigured(
-                'ADMIN_REORDER config parameter must be tuple or list. Got {config}'.format(config=self.config))
+                'ADMIN_REORDER config parameter must be tuple or list. Got {config}'
+                .format(config=self.config))
         admin_index = admin.site.index(request)
         try:
             app_list = admin_index.context_data['app_list']
@@ -48,7 +48,8 @@ class AdminReorderMiddleware(MiddlewareMixin):
     def make_app(self, app_config):
         if not isinstance(app_config, (dict, string_types)):
             raise TypeError(
-                'ADMIN_REORDER list item must be dict or string. Got %s' % repr(app_config))
+                'ADMIN_REORDER list item must be dict or string. Got %s' %
+                repr(app_config))
         if isinstance(app_config, string_types):
             return self.find_app(app_config)
         else:
@@ -67,7 +68,8 @@ class AdminReorderMiddleware(MiddlewareMixin):
     def process_app(self, app_config):
         if 'app' not in app_config:
             raise NameError(
-                'ADMIN_REORDER list item must define a "app" name. Got %s' % repr(app_config))
+                'ADMIN_REORDER list item must define a "app" name. Got %s' %
+                repr(app_config))
         app = self.find_app(app_config['app'])
         if app:
             app = deepcopy(app)
@@ -85,7 +87,8 @@ class AdminReorderMiddleware(MiddlewareMixin):
     def process_models(self, models_config):
         if not isinstance(models_config, (dict, list, tuple)):
             raise TypeError(
-                '"models" config for ADMIN_REORDER list item must be dict or list/tuple. Got %s' % repr(models_config))
+                '"models" config for ADMIN_REORDER list item must be dict or list/tuple. Got %s'
+                % repr(models_config))
         ordered_models_list = []
         for model_config in models_config:
             model = None
@@ -103,7 +106,10 @@ class AdminReorderMiddleware(MiddlewareMixin):
                 return model
 
     def process_model(self, model_config):
-        for key in ('model', 'label', ):
+        for key in (
+                'model',
+                'label',
+        ):
             if key not in model_config:
                 return
         model = self.find_model(model_config['model'])
@@ -116,7 +122,9 @@ class AdminReorderMiddleware(MiddlewareMixin):
             url = resolve(request.path_info)
         except Resolver404:
             return response
-        if not url.app_name == 'admin' and url.url_name not in ['index', 'app_list']:
+        if not url.app_name == 'admin' and url.url_name not in [
+                'index', 'app_list'
+        ]:
             return response
         try:
             app_list = response.context_data['app_list']
