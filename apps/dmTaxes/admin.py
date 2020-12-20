@@ -7,6 +7,7 @@ from .models import CanadaTaxManagement
 # Canada Tax Management
 #######################################################################
 
+
 @admin.register(CanadaTaxManagement)
 class CanadaTaxManagementAdmin(admin.ModelAdmin):
-  list_display = ['state', 'hst', 'gst', 'pst', 'qst']
+    list_display = ['state', 'hst', 'gst', 'pst', 'qst']

@@ -17,7 +17,8 @@ class dshopConfig(AppConfig):
         from cms.templatetags import cms_tags
 
         # add JSONField to the map of customized serializers
-        ModelSerializer.serializer_field_mapping[JSONField] = JSONSerializerField
+        ModelSerializer.serializer_field_mapping[
+            JSONField] = JSONSerializerField
 
         # perform some sanity checks
         ForeignKeyBuilder.check_for_pending_mappings()

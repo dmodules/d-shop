@@ -1,7 +1,7 @@
-
 from django.http import JsonResponse
 from haystack.query import SearchQuerySet
 from .serializers import *
+
 
 def search_product(request):
 
@@ -25,6 +25,7 @@ def search_product(request):
 
     query = query1 | query2
     serializer_context = {'request': request}
-    serializer = ProductSerializer(query, context=serializer_context, many=True)
+    serializer = ProductSerializer(query,
+                                   context=serializer_context,
+                                   many=True)
     return JsonResponse(serializer.data, safe=False)
-

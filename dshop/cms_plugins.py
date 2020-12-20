@@ -19,6 +19,7 @@ from .models import dmBlockCalltoaction
 class BoutiquePlugin(CMSPluginBase):
     module = 'A Boutique Plugin'
 
+
 #######################################################################
 # Plugin: Site
 #######################################################################
@@ -32,8 +33,8 @@ class dmBlocEntetePlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocEntetePlugin, self).render(
-            context, instance, placeholder)
+        context = super(dmBlocEntetePlugin,
+                        self).render(context, instance, placeholder)
         return context
 
 
@@ -45,8 +46,8 @@ class dmBlocTextMediaPlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocTextMediaPlugin, self).render(
-            context, instance, placeholder)
+        context = super(dmBlocTextMediaPlugin,
+                        self).render(context, instance, placeholder)
         return context
 
 
@@ -58,8 +59,8 @@ class dmBlocEnteteVideoPlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocEnteteVideoPlugin, self).render(
-            context, instance, placeholder)
+        context = super(dmBlocEnteteVideoPlugin,
+                        self).render(context, instance, placeholder)
         return context
 
 
@@ -71,15 +72,14 @@ class dmBlocSliderParentPlugin(BoutiquePlugin):
     child_classes = ['dmBlocSliderChildPlugin']
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocSliderParentPlugin, self).render(
-            context, instance, placeholder)
+        context = super(dmBlocSliderParentPlugin,
+                        self).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
             'clients/{}/plugins/bloc-slider-parent.html'.format(
-                settings.CLIENT_SLUG),
-            'plugins/bloc-slider-parent.html'
+                settings.CLIENT_SLUG), 'plugins/bloc-slider-parent.html'
         ])
 
 
@@ -90,40 +90,30 @@ class dmBlocSliderChildPlugin(BoutiquePlugin):
     allow_children = False
     require_parent = True
     parent_classes = ['dmBlocSliderParentPlugin']
-    fieldsets = [
-        (_('Textes'), {
-            'fields': [
-                ('title', 'title_color'),
-                ('subtitle', 'subtitle_color'),
-                'position_text'
-            ]
-        }),
-        (_('Fond'), {
-            'fields': [
-                'bg_color',
-                'image'
-            ]
-        }),
-        (_('Lien'), {
-            'classes': ('collapse',),
-            'fields': [
-                'btn_label',
-                'btn_url',
-                'btn_blank',
-            ]
-        })
-    ]
+    fieldsets = [(_('Textes'), {
+        'fields': [('title', 'title_color'), ('subtitle', 'subtitle_color'),
+                   'position_text']
+    }), (_('Fond'), {
+        'fields': ['bg_color', 'image']
+    }),
+                 (_('Lien'), {
+                     'classes': ('collapse', ),
+                     'fields': [
+                         'btn_label',
+                         'btn_url',
+                         'btn_blank',
+                     ]
+                 })]
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocSliderChildPlugin, self).render(
-            context, instance, placeholder)
+        context = super(dmBlocSliderChildPlugin,
+                        self).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
             'clients/{}/plugins/bloc-slider-child.html'.format(
-                settings.CLIENT_SLUG),
-            'plugins/bloc-slider-child.html'
+                settings.CLIENT_SLUG), 'plugins/bloc-slider-child.html'
         ])
 
 
@@ -136,8 +126,8 @@ class dmBlocEtapesParentPlugin(BoutiquePlugin):
     child_classes = ['dmBlocEtapesChildPlugin']
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocEtapesParentPlugin, self).render(
-            context, instance, placeholder)
+        context = super(dmBlocEtapesParentPlugin,
+                        self).render(context, instance, placeholder)
         return context
 
 
@@ -151,8 +141,8 @@ class dmBlocEtapesChildPlugin(BoutiquePlugin):
     parent_classes = ['dmBlocEtapesParentPlugin']
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocEtapesChildPlugin, self).render(
-            context, instance, placeholder)
+        context = super(dmBlocEtapesChildPlugin,
+                        self).render(context, instance, placeholder)
         return context
 
 
@@ -163,15 +153,14 @@ class dmCalltoactionPlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmCalltoactionPlugin, self).render(
-            context, instance, placeholder)
+        context = super(dmCalltoactionPlugin,
+                        self).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
             'clients/{}/plugins/bloc-calltoaction.html'.format(
-                settings.CLIENT_SLUG),
-            'plugins/bloc-calltoaction.html'
+                settings.CLIENT_SLUG), 'plugins/bloc-calltoaction.html'
         ])
 
 
@@ -183,8 +172,8 @@ class dmBlocContactPlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocContactPlugin, self).render(
-            context, instance, placeholder)
+        context = super(dmBlocContactPlugin,
+                        self).render(context, instance, placeholder)
         return context
 
 
@@ -196,9 +185,10 @@ class dmInfolettrePlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmInfolettrePlugin, self).render(
-            context, instance, placeholder)
+        context = super(dmInfolettrePlugin,
+                        self).render(context, instance, placeholder)
         return context
+
 
 #######################################################################
 # Plugin: Boutique
@@ -213,8 +203,8 @@ class dmProductsCategoriesPlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmProductsCategoriesPlugin, self).render(
-            context, instance, placeholder)
+        context = super(dmProductsCategoriesPlugin,
+                        self).render(context, instance, placeholder)
         return context
 
 
@@ -225,15 +215,14 @@ class dmProductsVedettePlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmProductsVedettePlugin, self).render(
-            context, instance, placeholder)
+        context = super(dmProductsVedettePlugin,
+                        self).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
             'clients/{}/plugins/products-vedette.html'.format(
-                settings.CLIENT_SLUG),
-            'plugins/products-vedette.html'
+                settings.CLIENT_SLUG), 'plugins/products-vedette.html'
         ])
 
 
@@ -244,15 +233,14 @@ class dmProductsByCategpryPlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmProductsByCategpryPlugin, self).render(
-            context, instance, placeholder)
+        context = super(dmProductsByCategpryPlugin,
+                        self).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
             'clients/{}/plugins/products-by-category.html'.format(
-                settings.CLIENT_SLUG),
-            'plugins/products-by-category.html'
+                settings.CLIENT_SLUG), 'plugins/products-by-category.html'
         ])
 
 
@@ -264,15 +252,14 @@ class dmBlockSalesParentPlugin(BoutiquePlugin):
     child_classes = ['dmBlockSalesChildPlugin']
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlockSalesParentPlugin, self).render(
-            context, instance, placeholder)
+        context = super(dmBlockSalesParentPlugin,
+                        self).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
             'clients/{}/plugins/block-sales-parent.html'.format(
-                settings.CLIENT_SLUG),
-            'plugins/block-sales-parent.html'
+                settings.CLIENT_SLUG), 'plugins/block-sales-parent.html'
         ])
 
 
@@ -285,13 +272,12 @@ class dmBlockSalesChildPlugin(BoutiquePlugin):
     parent_classes = ['dmBlockSalesParentPlugin']
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlockSalesChildPlugin, self).render(
-            context, instance, placeholder)
+        context = super(dmBlockSalesChildPlugin,
+                        self).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
             'clients/{}/plugins/block-sales-child.html'.format(
-                settings.CLIENT_SLUG),
-            'plugins/block-sales-child.html'
+                settings.CLIENT_SLUG), 'plugins/block-sales-child.html'
         ])

@@ -28,7 +28,7 @@ def StripeCheckout(request):
     order = OrderModel.objects.get(number=re.sub(r"\D", "", referenceId))
     order.extra["session_id"] = session_id
     order.save()
-    return render(request, "stripe.html",  {"CHECKOUT_SESSION_ID": session_id})
+    return render(request, "stripe.html", {"CHECKOUT_SESSION_ID": session_id})
 
 
 def StripePaymentCancelView(request):
@@ -47,15 +47,13 @@ def StripePaymentView(request):
                 order=order,
                 amount=amount,
                 transaction_id=transactionId,
-                payment_method=_("Carte de crédit (Stripe)")
-            )
+                payment_method=_("Carte de crédit (Stripe)"))
             try:
                 session_id = order.extra["session_id"]
                 session = stripe.checkout.Session.retrieve(session_id)
                 payment_intent_id = session.payment_intent
                 payment_intent = stripe.PaymentIntent.retrieve(
-                    payment_intent_id
-                )
+                    payment_intent_id)
                 receipt_url = payment_intent.charges.data[0].receipt_url
             except Exception as e:
                 print(e)
@@ -63,8 +61,7 @@ def StripePaymentView(request):
                 order_payment=order_payment,
                 receipt_url=receipt_url,
                 stripe_session_data=str(session),
-                stripe_payment_data=str(payment_intent)
-            )
+                stripe_payment_data=str(payment_intent))
             order.acknowledge_payment()
             transition_change_notification(order)
             order.save()

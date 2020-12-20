@@ -87,8 +87,7 @@ def TestPaymentView(request):
                 order=order,
                 amount=amount,
                 transaction_id=transactionId,
-                payment_method='Test (mode développement)'
-            )
+                payment_method='Test (mode développement)')
             order.acknowledge_payment()
             order.save()
             return redirect(order.get_absolute_url())
@@ -98,6 +97,7 @@ def TestPaymentView(request):
             return redirect('/commande/')
     else:
         return redirect('/commande/')
+
 
 #######################################################################
 # ===---   Views used in products                              ---=== #
@@ -127,15 +127,23 @@ class LoadProduits(APIView):
         limit = int(request.GET.get('limit', 2))
         if category is not None:
             category = int(category)
-            products = Product.objects.filter(Q(categories=k) | Q(categories__parent=k) | Q(categories__parent__parent=k) | Q(
-                categories__parent__parent__parent=k), active=True).order_by('id')[offset:offset+limit]
-            next_products = Product.objects.filter(Q(categories=k) | Q(categories__parent=k) | Q(categories__parent__parent=k) | Q(
-                categories__parent__parent__parent=k), active=True).order_by('id')[offset+limit:offset+limit+limit].count()
+            products = Product.objects.filter(
+                Q(categories=k) | Q(categories__parent=k)
+                | Q(categories__parent__parent=k)
+                | Q(categories__parent__parent__parent=k),
+                active=True).order_by('id')[offset:offset + limit]
+            next_products = Product.objects.filter(
+                Q(categories=k) | Q(categories__parent=k)
+                | Q(categories__parent__parent=k)
+                | Q(categories__parent__parent__parent=k),
+                active=True).order_by('id')[offset + limit:offset + limit +
+                                            limit].count()
         else:
-            products = Product.objects.filter(active=True).order_by('id')[
-                offset:offset+limit]
-            next_products = Product.objects.filter(active=True).order_by(
-                'id')[offset+limit:offset+limit+limit].count()
+            products = Product.objects.filter(
+                active=True).order_by('id')[offset:offset + limit]
+            next_products = Product.objects.filter(
+                active=True).order_by('id')[offset + limit:offset + limit +
+                                            limit].count()
         # ===---
         all_produits = []
         for produit in products:
@@ -145,11 +153,19 @@ class LoadProduits(APIView):
             data['caption'] = strip_tags(Truncator(produit.caption).words(18))
             data['slug'] = produit.slug
             if produit.main_image:
-                data['image'] = get_thumbnailer(produit.main_image).get_thumbnail(
-                    {'size': (540, 600), 'crop': True, 'upscale': True}).url
+                data['image'] = get_thumbnailer(
+                    produit.main_image).get_thumbnail({
+                        'size': (540, 600),
+                        'crop': True,
+                        'upscale': True
+                    }).url
             elif produit.images.first():
-                data['image'] = get_thumbnailer(produit.images.first()).get_thumbnail(
-                    {'size': (540, 600), 'crop': True, 'upscale': True}).url
+                data['image'] = get_thumbnailer(
+                    produit.images.first()).get_thumbnail({
+                        'size': (540, 600),
+                        'crop': True,
+                        'upscale': True
+                    }).url
             else:
                 data['image'] = None
             if produit.filters.all():
@@ -166,11 +182,9 @@ class LoadProduits(APIView):
                 data['variants'] = False
             all_produits.append(data)
         # ===---
-        result = {
-            "products": all_produits,
-            "next": next_products
-        }
+        result = {"products": all_produits, "next": next_products}
         return RestResponse(result)
+
 
 #######################################################################
 # ===---   Views used in frontend                              ---=== #
@@ -211,12 +225,16 @@ class CustomerView(APIView):
                     "plugin_order": 1,
                     "active_priority": 1,
                     "name": aso.name if aso.name is not None else "",
-                    "address1": aso.address1 if aso.address1 is not None else "",
-                    "address2": aso.address2 if aso.address2 is not None else "",
+                    "address1":
+                    aso.address1 if aso.address1 is not None else "",
+                    "address2":
+                    aso.address2 if aso.address2 is not None else "",
                     "country": aso.country if aso.country is not None else "",
-                    "province": aso.province if aso.province is not None else "",
+                    "province":
+                    aso.province if aso.province is not None else "",
                     "city": aso.city if aso.city is not None else "",
-                    "zip_code": aso.zip_code if aso.zip_code is not None else "",
+                    "zip_code":
+                    aso.zip_code if aso.zip_code is not None else "",
                     "siblings_summary": []
                 }
             else:
@@ -231,12 +249,16 @@ class CustomerView(APIView):
                     "active_priority": 1,
                     "use_primary_address": False,
                     "name": abo.name if abo.name is not None else "",
-                    "address1": abo.address1 if abo.address1 is not None else "",
-                    "address2": abo.address2 if abo.address2 is not None else "",
+                    "address1":
+                    abo.address1 if abo.address1 is not None else "",
+                    "address2":
+                    abo.address2 if abo.address2 is not None else "",
                     "country": abo.country if abo.country is not None else "",
-                    "province": abo.province if abo.province is not None else "",
+                    "province":
+                    abo.province if abo.province is not None else "",
                     "city": abo.city if abo.city is not None else "",
-                    "zip_code": abo.zip_code if abo.zip_code is not None else "",
+                    "zip_code":
+                    abo.zip_code if abo.zip_code is not None else "",
                     "siblings_summary": []
                 }
             else:
@@ -247,8 +269,10 @@ class CustomerView(APIView):
             ###############
             return RestResponse({
                 "customer": customer,
-                "address_shipping": address_shipping if address_shipping is not None else {},
-                "address_billing": address_billing if address_billing is not None else {}
+                "address_shipping":
+                address_shipping if address_shipping is not None else {},
+                "address_billing":
+                address_billing if address_billing is not None else {}
             })
             ###############
         else:
@@ -282,8 +306,10 @@ class ShippingMethodsView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
-        result = [m.get_choice()
-                  for m in cart_modifiers_pool.get_shipping_modifiers()]
+        result = [
+            m.get_choice()
+            for m in cart_modifiers_pool.get_shipping_modifiers()
+        ]
         return RestResponse({"shipping_methods": result})
 
 
@@ -301,8 +327,10 @@ class BillingMethodsView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
-        result = [m.get_choice()
-                  for m in cart_modifiers_pool.get_payment_modifiers()]
+        result = [
+            m.get_choice()
+            for m in cart_modifiers_pool.get_payment_modifiers()
+        ]
         return RestResponse({"billing_methods": result})
 
 
@@ -340,10 +368,11 @@ def mailchimp(request):
                 'status': 'subscribed',
             })
             messages.success(
-                request, 'Vous avez bien été ajouté à notre liste de courriels')
+                request,
+                'Vous avez bien été ajouté à notre liste de courriels')
         except:
-            messages.error(
-                request, 'Oups, il y a un problème avec votre inscription')
+            messages.error(request,
+                           'Oups, il y a un problème avec votre inscription')
             redirect('/')
     else:
         messages.error(request, 'La réponse du calcul est mauvaise')
@@ -363,12 +392,10 @@ def sendemail(request):
 
     send_mail(
         'Message du formulaire de contact de votre site web',
-        'Bonjour, voici le message:\n\nNom: ' +
-        request.POST.get('name') + '\nCourriel: '
-        + request.POST.get('email') + '\nTéléphone: '
-        + request.POST.get('phone') + '\nSujet: '
-        + request.POST.get('subject') + '\nMessage:\n'
-        + request.POST.get('message'),
+        'Bonjour, voici le message:\n\nNom: ' + request.POST.get('name') +
+        '\nCourriel: ' + request.POST.get('email') + '\nTéléphone: ' +
+        request.POST.get('phone') + '\nSujet: ' + request.POST.get('subject') +
+        '\nMessage:\n' + request.POST.get('message'),
         DEFAULT_FROM_EMAIL,
         [DEFAULT_TO_EMAIL],
         fail_silently=False,

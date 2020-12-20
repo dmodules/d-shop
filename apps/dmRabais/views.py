@@ -35,16 +35,13 @@ class PromoCodesCreate(APIView):
                 try:
                     promocode = dmPromoCode.objects.get(code=data)
                     usercodes = dmCustomerPromoCode.objects.filter(
-                        customer=request.user.customer,
-                        promocode=promocode
-                    )
+                        customer=request.user.customer, promocode=promocode)
                     if usercodes.count() > 0:
                         return RestResponse({"valid": "already"})
                     else:
                         dmCustomerPromoCode.objects.create(
                             customer=request.user.customer,
-                            promocode=promocode
-                        )
+                            promocode=promocode)
                         return RestResponse({"valid": True})
                 except Exception:
                     return RestResponse({"valid": False})
@@ -66,8 +63,7 @@ class PromoCodesList(APIView):
         if request.user.is_authenticated:
             try:
                 all_promo = dmCustomerPromoCode.objects.filter(
-                    customer=request.user.customer
-                )
+                    customer=request.user.customer)
                 promolist = []
                 for p in all_promo:
                     if p.promocode.valid_until is not None:
@@ -80,15 +76,10 @@ class PromoCodesList(APIView):
                     datas["is_expired"] = p.is_expired
                     promolist.append(datas)
                 ###############
-                return RestResponse({
-                    "valid": True,
-                    "promolist": promolist
-                })
+                return RestResponse({"valid": True, "promolist": promolist})
             except Exception as e:
                 print(e)
-                return RestResponse({
-                    "valid": False
-                })
+                return RestResponse({"valid": False})
         else:
             return RestResponse({"valid": False})
 
@@ -104,20 +95,17 @@ class PromoCodesList(APIView):
                         pcode = p["product_code"]
                         if pmodel == "productdefault":
                             cproduct = ProductDefault.objects.get(
-                                product_code=pcode
-                            )
+                                product_code=pcode)
                             for pc in cproduct.get_promocodes(request):
                                 all_promocodes.append(pc.promocode.name)
                         if pmodel == "productvariable":
                             cproduct = ProductVariableVariant.objects.get(
-                                product_code=pcode
-                            )
+                                product_code=pcode)
                             for pc in cproduct.get_promocodes(request):
                                 all_promocodes.append(pc.promocode.name)
             try:
                 all_promo = dmCustomerPromoCode.objects.filter(
-                    customer=request.user.customer
-                )
+                    customer=request.user.customer)
                 promolist = []
                 for p in all_promo:
                     if p.promocode.valid_until is not None:
@@ -131,15 +119,10 @@ class PromoCodesList(APIView):
                         datas["is_expired"] = p.is_expired
                         promolist.append(datas)
                 ###############
-                return RestResponse({
-                    "valid": True,
-                    "promolist": promolist
-                })
+                return RestResponse({"valid": True, "promolist": promolist})
             except Exception as e:
                 print(e)
-                return RestResponse({
-                    "valid": False
-                })
+                return RestResponse({"valid": False})
         else:
             return RestResponse({"valid": False})
 
@@ -163,8 +146,7 @@ class PromoCodesOff(APIView):
                             try:
                                 cpc = dmCustomerPromoCode.objects.get(
                                     customer=request.user.customer,
-                                    promocode__name=p
-                                )
+                                    promocode__name=p)
                                 cpc.is_expired = True
                                 cpc.save()
                             except Exception as e:
@@ -172,8 +154,6 @@ class PromoCodesOff(APIView):
                     return RestResponse({"valid": True})
                 except Exception as e:
                     print(e)
-                    return RestResponse({
-                        "valid": False
-                    })
+                    return RestResponse({"valid": False})
         else:
             return RestResponse({"valid": False})
