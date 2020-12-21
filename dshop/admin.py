@@ -34,6 +34,7 @@ from dshop.models import ProductCategory, ProductFilter
 from dshop.models import Product
 from dshop.models import ProductDefault
 from dshop.models import ProductVariable, ProductVariableVariant
+from dshop.models import FeatureList
 
 admin.site.site_header = "Administration"
 admin.site.unregister(ThumbnailOption)
@@ -408,6 +409,7 @@ class ProductFilterAdmin(admin.ModelAdmin):
 @admin.register(ProductDefault)
 class ProductDefaultAdmin(InvalidateProductCacheMixin, SortableAdminMixin, TranslatableAdmin, FrontendEditableAdminMixin, PlaceholderAdminMixin, PolymorphicChildModelAdmin):
     base_model = Product
+    readonly_fields = ('slug',)
     fieldsets = (
         (None, {
             'fields': [
@@ -432,7 +434,7 @@ class ProductDefaultAdmin(InvalidateProductCacheMixin, SortableAdminMixin, Trans
     )
     inlines = [ProductImageInline]
     filter_horizontal = ["categories", "filters"]
-    prepopulated_fields = {'slug': ['product_code']}
+    #prepopulated_fields = {'slug': ['product_code']}
 
 
 class ProductVariableVariantInline(admin.TabularInline):
@@ -443,6 +445,7 @@ class ProductVariableVariantInline(admin.TabularInline):
 @admin.register(ProductVariable)
 class ProductVariableAdmin(InvalidateProductCacheMixin, SortableAdminMixin, TranslatableAdmin, FrontendEditableAdminMixin, PlaceholderAdminMixin, PolymorphicChildModelAdmin):
     base_model = Product
+    readonly_fields = ('slug',)
     fieldsets = [
         (None, {
             'fields': [
@@ -465,7 +468,7 @@ class ProductVariableAdmin(InvalidateProductCacheMixin, SortableAdminMixin, Tran
     ]
     filter_horizontal = ["categories", "filters"]
     inlines = [ProductImageInline, ProductVariableVariantInline]
-    prepopulated_fields = {'slug': ['product_name']}
+    #prepopulated_fields = {'slug': ['product_name']}
 
     def render_text_index(self, instance):
         template = get_template('search/indexes/dshop/commodity_text.txt')
@@ -506,3 +509,10 @@ class ProductAdmin(PolymorphicSortableAdminMixin, PolymorphicParentModelAdmin):
             result = result.quantity
         return str(result)
     get_quantity.short_description = _("Quantity")
+
+
+@admin.register(FeatureList)
+class FeatureListAdmin(admin.ModelAdmin):
+
+    list_display = ('feature_name', 'is_enabled',)
+    list_editable = ('is_enabled',)

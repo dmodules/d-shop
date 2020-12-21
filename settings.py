@@ -600,6 +600,7 @@ ADMIN_REORDER = (
         "label":
         _("Boutique"),
         "models": [
+            "dshop.FeatureList",
             "dshop.ProductCategory",
             "dshop.ProductFilter",
             "dshop.Product",

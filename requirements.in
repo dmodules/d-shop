@@ -32,3 +32,4 @@ django-colorfield==0.3.0
 mailchimp3==3.0.7
 django-haystack==3.0
 python-slugify==4.0.1
+django-autoslug==1.9.8
