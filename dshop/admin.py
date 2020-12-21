@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.template.context import Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
+from admin_ordering.admin import OrderableAdmin
 
 from cms.admin.placeholderadmin import PlaceholderAdminMixin
 from cms.admin.placeholderadmin import FrontendEditableAdminMixin
@@ -393,8 +394,10 @@ class OrderAdmin(PrintInvoiceAdminMixin, BaseOrderAdmin):
 
 @admin.register(ProductCategory)
 class ProductCategoryAdmin(admin.ModelAdmin):
+    ordering_field = "order"
     list_display = ['name', 'parent', 'order']
     list_filter = ['parent']
+    list_editable = ["order"]
 
 
 @admin.register(ProductFilter)
