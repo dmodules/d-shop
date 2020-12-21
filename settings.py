@@ -103,7 +103,7 @@ MIDDLEWARE.extend([
 ])
 
 STAGE = os.getenv("STAGE", "local").lower()
-CLIENT_SLUG = slugify(os.getenv("SITE_NAME", "d-shop").lower())
+CLIENT_SLUG = slugify(os.getenv("SITE_NAME", "default").lower())
 
 #######################################################################
 # Actual Shop Settings
@@ -125,8 +125,12 @@ elif STAGE == "local":
 ############################################
 # Templates Settings
 
+TEMPLATE_DIR = "/app/apps/dmTheme/templates/{}/pages/".format(CLIENT_SLUG)
+STATIC_CLIENT_DIR = "/app/apps/dmTheme/static/{}/".format(CLIENT_SLUG)
+
+
 CMS_TEMPLATES_DIR: {
-    "/app/templates/clients/{}/pages/".format(CLIENT_SLUG),
+    TEMPLATE_DIR
 }
 
 #######################################################################
@@ -160,7 +164,7 @@ PROJECT_ROOT = os.path.dirname(__file__)
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_collected')
 STATIC_URL = os.environ.get('STATIC_URL', '/static/')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), STATIC_CLIENT_DIR ]
 
 #######################################################################
 # Internationalization
