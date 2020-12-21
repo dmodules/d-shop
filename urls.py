@@ -52,10 +52,10 @@ urlpatterns = [
 
   url(r'^admin', admin.site.urls),
 
-  url(r'^message-envoye/', TemplateView.as_view(template_name="/app/apps/dmTheme/templates/{}/pages/message-envoye.html".format(settings.CLIENT_SLUG))),
+  url(r'^message-envoye/', TemplateView.as_view(template_name="/app/apps/dmTheme/templates/theme/{}/pages/message-envoye.html".format(settings.CLIENT_SLUG))),
 
-  url(r'^produits/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', TemplateView.as_view(template_name='/app/apps/dmTheme/templates/{}/pages/produits.html'.format(settings.CLIENT_SLUG))),
-  url(r'^produits/', TemplateView.as_view(template_name='/app/apps/dmTheme/templates/{}/pages/produits.html'.format(settings.CLIENT_SLUG))),
+  url(r'^produits/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', TemplateView.as_view(template_name='/app/apps/dmTheme/templates/theme/{}/pages/produits.html'.format(settings.CLIENT_SLUG))),
+  url(r'^produits/', TemplateView.as_view(template_name='/app/apps/dmTheme/templates/theme/{}/pages/produits.html'.format(settings.CLIENT_SLUG))),
 
   ############################
   # ===--- FRONTEND   ---=== #
@@ -74,7 +74,7 @@ urlpatterns = [
   url(r'css/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'css')}),
   url(r'fonts/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'fonts')}),
   # ===---
-  url(r'^commande/', TemplateView.as_view(template_name='/app/apps/dmTheme/templates/{}/pages/app.html'.format(settings.CLIENT_SLUG))),
+  url(r'^commande/', TemplateView.as_view(template_name='/app/apps/dmTheme/templates/theme/{}/pages/app.html'.format(settings.CLIENT_SLUG))),
   ############################
   # ===------------------=== #
   ############################

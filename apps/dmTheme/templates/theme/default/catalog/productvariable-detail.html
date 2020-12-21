@@ -1,4 +1,4 @@
-{% extends "/app/apps/dmTheme/templates/default/catalog/product-detail.html" %}
+{% extends "/app/apps/dmTheme/templates/theme/default/catalog/product-detail.html" %}
 {% load static i18n cms_tags thumbnail dshop_tags dmrabais_tags %}
 
 {% block breadcrumb %}
@@ -79,7 +79,7 @@
                 <h4 class="product_title">{% render_model product "product_name" %}</h4>
                 <div class="product_price">
                   {% if product.variants %}
-                    <span class="price">{{product.variants.first.unit_price}}</span>
+                    <span class="price">-</span>
                   {% else %}
                     {% product_discount_price product.id as real_price %}
                     <span class="price">{{real_price}}</span>
@@ -89,11 +89,20 @@
                   {% endif %}
                 </div>
                 <div class="pr_desc">
-                  {{ product.caption|safe }}
+                  {{product.caption|safe}}
                 </div>
               </div>
               <hr />
               <div class="cart_extra">
+                <div class="dm-variants-select">
+                  <select class="form-control" name="product_code">
+                    <option disabled selected>Choisir</option>
+                    {% for v in product.variants.all %}
+                      {% product_variant_discount_price v.id as real_price %}
+                      <option class="choix" value="{{v.product_code}}" data-dprice="{{real_price}}" data-price="{{v.unit_price}}">{{v.product_code}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
                 <div class="cart-product-quantity">
                   <div class="quantity">
                     <input type="button" value="-" class="minus" onclick="quantityMinus()" />
@@ -102,7 +111,7 @@
                   </div>
                 </div>
                 <div class="cart_btn">
-                  <a href="#" class="btn btn-fill-out btn-add2cart dm-add2cart" data-product="{{product.slug}}" data-quantity="1">
+                  <a href="#" class="btn btn-fill-out btn-add2cart dm-add2cart-variant disabled" data-product="{{product.slug}}" data-quantity="1" data-variant="{{product.variants.first.product_code}}">
                     <i class="icon-basket-loaded"></i>{% trans "Add to cart" %}
                   </a>
                 </div>

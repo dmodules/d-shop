@@ -103,7 +103,7 @@ MIDDLEWARE.extend([
 ])
 
 STAGE = os.getenv("STAGE", "local").lower()
-CLIENT_SLUG = slugify(os.getenv("SITE_NAME", "default").lower())
+CLIENT_SLUG = slugify(os.getenv("CLIENT_SLUG", "default").lower())
 
 #######################################################################
 # Actual Shop Settings
@@ -125,8 +125,8 @@ elif STAGE == "local":
 ############################################
 # Templates Settings
 
-TEMPLATE_DIR = "/app/apps/dmTheme/templates/{}/pages/".format(CLIENT_SLUG)
-STATIC_CLIENT_DIR = "/app/apps/dmTheme/static/{}/".format(CLIENT_SLUG)
+TEMPLATE_DIR = "/app/apps/dmTheme/templates/theme//{}/pages/".format(CLIENT_SLUG)
+STATIC_CLIENT_DIR = "/app/apps/dmTheme/static/theme/{}/".format(CLIENT_SLUG)
 
 
 CMS_TEMPLATES_DIR: {
