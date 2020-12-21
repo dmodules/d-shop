@@ -55,6 +55,7 @@ INSTALLED_APPS.extend([
     "apps.dmShipping",
     "apps.dmTaxes",
     "apps.dmSearch",
+    "apps.dmTheme",
     # ===---
     "shop",
     "dshop",
@@ -622,6 +623,13 @@ ADMIN_REORDER = (
             "dmRabais.dmRabaisPerCategory",
             "dmRabais.dmPromoCode",
             # "dmRabais.dmCustomerPromoCode"
+        ]
+    },
+    {
+        "app": "dmTheme",
+        "label": _("Theme Management"),
+        "models": [
+            "dmTheme.ThemeManagement",
         ]
     },
     {
