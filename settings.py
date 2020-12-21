@@ -133,6 +133,14 @@ CMS_TEMPLATES_DIR: {
     TEMPLATE_DIR
 }
 
+#CMS_TEMPLATES = [
+#  ("theme/{}/pages/default.html".format(CLIENT_SLUG), "Par défaut"),
+#  ("theme/{}/pages/accueil.html".format(CLIENT_SLUG), "Page: Accueil"),
+#  ("theme/{}/pages/produits.html".format(CLIENT_SLUG), "Page: Produits"),
+#  ("theme/{}/pages/contact.html".format(CLIENT_SLUG), "Page: Contact"),
+#]
+
+
 #######################################################################
 # Email Settings
 
