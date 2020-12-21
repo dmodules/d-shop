@@ -125,11 +125,21 @@ elif STAGE == "local":
 ############################################
 # Templates Settings
 
-TEMPLATE_DIR = "/app/apps/dmTheme/templates/theme//{}/pages/".format(
-    CLIENT_SLUG)
+TEMPLATE_DIR = "/app/apps/dmTheme/templates/theme/{}/pages/".format(CLIENT_SLUG)
 STATIC_CLIENT_DIR = "/app/apps/dmTheme/static/theme/{}/".format(CLIENT_SLUG)
 
-CMS_TEMPLATES_DIR: {TEMPLATE_DIR}
+
+#CMS_TEMPLATES_DIR: {
+#    TEMPLATE_DIR
+#}
+
+CMS_TEMPLATES = [
+  ("theme/{}/pages/default.html".format(CLIENT_SLUG), "Par défaut"),
+  ("theme/{}/pages/accueil.html".format(CLIENT_SLUG), "Page: Accueil"),
+  ("theme/{}/pages/produits.html".format(CLIENT_SLUG), "Page: Produits"),
+  ("theme/{}/pages/contact.html".format(CLIENT_SLUG), "Page: Contact"),
+]
+
 
 #######################################################################
 # Email Settings
@@ -162,7 +172,7 @@ PROJECT_ROOT = os.path.dirname(__file__)
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_collected')
 STATIC_URL = os.environ.get('STATIC_URL', '/static/')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), STATIC_CLIENT_DIR]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), STATIC_CLIENT_DIR ]
 
 #######################################################################
 # Internationalization
