@@ -125,13 +125,8 @@ elif STAGE == "local":
 ############################################
 # Templates Settings
 
-TEMPLATE_DIR = "/app/apps/dmTheme/templates/theme/{}/pages/".format(
-    THEME_SLUG)
+TEMPLATE_DIR = "/app/apps/dmTheme/templates/theme/{}/pages/".format(THEME_SLUG)
 STATIC_CLIENT_DIR = "/app/apps/dmTheme/static/theme/{}/".format(THEME_SLUG)
-
-#CMS_TEMPLATES_DIR: {
-#    TEMPLATE_DIR
-#}
 
 CMS_TEMPLATES = [
     ("theme/{}/pages/default.html".format(THEME_SLUG), "Par défaut"),
@@ -388,15 +383,6 @@ from django.urls import reverse_lazy
 from django.utils.text import format_lazy
 from cmsplugin_cascade.bootstrap4.mixins import BootstrapUtilities
 from cmsplugin_cascade.extra_fields.config import PluginExtraFieldsConfig
-
-CMS_PLACEHOLDER_CONF = {
-    'Breadcrumb': {
-        'plugins': ['BreadcrumbPlugin'],
-        'parent_classes': {
-            'BreadcrumbPlugin': None
-        },
-    }
-}
 
 CMSPLUGIN_CASCADE_PLUGINS = [
     'cmsplugin_cascade.bootstrap4',

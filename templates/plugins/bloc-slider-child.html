@@ -1,57 +1,24 @@
-{% load static thumbnail cms_tags i18n %}
+{% load static cms_tags thumbnail %}
 
-<div{% if counter == 1 %} data-first="1"{% endif %} data-slide-duration="0" data-id="{{counter}}" class="n2-ss-slide n2-ss-canvas n2-ow  n2-ss-slide-{{counter}}"{% if instance.image %}{% else %} style="background-color:{{instance.bg_color}};"{% endif %}>
-  <div class="n2-ss-slide-background n2-ow" data-mode="fill">
-    {% if instance.image %}
-      {% thumbnail instance.image "1920x961" as thumb %}
-      <img data-hash="2a796c0f7c45e1a58eaebbd49a1b503e" data-desktop="{{thumb.url}}" data-blur="0" data-opacity="100" data-x="50" data-y="0" src="{{thumb.url}}" alt="" />
-    {% endif %}
-  </div>
-  <div class="n2-ss-layers-container n2-ow" data-csstextalign="center">
-    <div class="n2-ss-layer n2-ow n2-ss-layer-needsize" style="left:0px;top:0px;width:150px;height:150px;overflow:visible;"
-    data-pm="absolute" data-responsiveposition="1" data-desktopportraitleft="0" data-tabletportraitleft="0"
-    data-mobileportraitleft="0" data-desktopportraittop="0" data-tabletportraittop="8" data-mobileportraittop="11"
-    data-responsivesize="1" data-desktopportraitwidth="150" data-tabletportraitwidth="1200"
-    data-mobileportraitwidth="1200" data-desktopportraitheight="150" data-tabletportraitheight="516"
-    data-mobileportraitheight="521" data-desktopportraitalign="center" data-tabletportraitalign="center"
-    data-mobileportraitalign="center" data-desktopportraitvalign="middle" data-tabletportraitvalign="middle"
-    data-mobileportraitvalign="middle" data-parentid="" data-desktopportraitparentalign="center"
-    data-desktopportraitparentvalign="middle" data-sstype="layer" data-rotation="0" data-desktopportrait="0"
-    data-desktoplandscape="1" data-tabletportrait="1" data-tabletlandscape="1" data-mobileportrait="1"
-    data-mobilelandscape="1" data-adaptivefont="0" data-desktopportraitfontsize="100" data-plugin="rendered">
-      {% if instance.image %}
-        {% thumbnail instance.image "1920x961" as thumb %}
-        <span class="n2-ow" style="display:inline-block;vertical-align:top;width:100%;height:100%;background: URL({{thumb.url}}) no-repeat;background-size:cover;background-position: 50% 50%;"></span>
-      {% endif %}
-    </div>
-    {% if instance.title %}
-      <div class="n2-ss-layer n2-ow" style="{% if instance.position_text == 1 %}left:-264px;{% endif %}{% if instance.position_text == 2 %}left:0;{% endif %}{% if instance.position_text == 3 %}left:264px;{% endif %}top:12px;width:672px;height:auto;overflow:visible;" data-pm="absolute" data-responsiveposition="1" data-desktopportraitleft="{% if instance.position_text == 1 %}-264{% endif %}{% if instance.position_text == 2 %}0{% endif %}{% if instance.position_text == 3 %}264{% endif %}" data-tabletportraitleft="0" data-mobileportraitleft="0" data-desktopportraittop="12" data-tabletportraittop="-19" data-mobileportraittop="77" data-responsivesize="1" data-desktopportraitwidth="672" data-tabletportraitwidth="1200" data-mobileportraitwidth="1200" data-desktopportraitheight="auto" data-desktopportraitalign="center" data-tabletportraitalign="center" data-mobileportraitalign="center" data-desktopportraitvalign="middle" data-tabletportraitvalign="middle" data-mobileportraitvalign="middle" data-parentid="" data-desktopportraitparentalign="center" data-desktopportraitparentvalign="middle" data-sstype="layer" data-rotation="0" data-animations="eyJzcGVjaWFsWmVybyI6MCwiaW4iOlt7Im5hbWUiOiJSaWdodCBmYWRlIiwib3BhY2l0eSI6MCwieCI6LTQwMH1dfQ==" data-desktopportrait="1" data-desktoplandscape="1" data-tabletportrait="1" data-tabletlandscape="1" data-mobileportrait="1" data-mobilelandscape="1" data-adaptivefont="1" data-desktopportraitfontsize="100" data-tabletportraitfontsize="80" data-mobileportraitfontsize="55" data-plugin="rendered">
-        <div id="n2-ss-2item2" class="n2-font-549207c6e5185626febbf5869ec8c698-hover n2-ow" style="color:{{instance.title_color}};text-shadow:0 10px 0 {{instance.title_shadow}};display:block;">
-          {{instance.title}}
+{% if instance.image %}
+  {% thumbnail instance.image "1920x500" crop upscale as thumb %}
+  <div class="carousel-item background_bg{% if loop %} active{% endif %}" data-img-src="{{thumb.url}}">
+{% else %}
+  <div class="carousel-item background_bg" style="background-color:{{instance.bg_color}};">
+{% endif %}
+  <div class="banner_slide_content">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="banner_content overflow-hidden" style="text-align:{% if instance.position_text == 1 %}left{% elif instance.position_text == 2 %}center{% elif instance.position_text == 2 %}right{% endif %};">
+            <h5 class="mb-3 staggered-animation" data-animation="slideInLeft" data-animation-delay="0.5s" style="{% if instance.subtitle_color %}color:{{instance.subtitle_color}};{% endif %}">{% if instance.subtitle %}{{instance.subtitle}}{% endif %}</h5>
+            <h2 class="staggered-animation" data-animation="slideInLeft" data-animation-delay="1s" style="{% if instance.title_color %}color:{{instance.title_color}};{% endif %}">{% if instance.title %}{{instance.title}}{% endif %}</h2>
+            {% if instance.btn_label %}
+              <a class="btn btn-fill-out rounded-0 staggered-animation text-uppercase" href="{% if instance.btn_url %}{{instance.btn_url}}{% else %}#{% endif %}"{% if instance.btn_blank %} target="_blank"{% endif %} data-animation="slideInLeft" data-animation-delay="1.5s">{{instance.btn_label}}</a>
+            {% endif %}
+          </div>
         </div>
       </div>
-    {% endif %}
-    <div class="n2-ss-layer n2-ow" style="{% if instance.position_text == 1 %}left:-264px;{% endif %}{% if instance.position_text == 2 %}left:0;{% endif %}{% if instance.position_text == 3 %}left:264px;{% endif %}top:-85px;width:672px;height:auto;overflow:visible;"
-    data-pm="absolute" data-responsiveposition="1" data-desktopportraitleft="{% if instance.position_text == 1 %}-264{% endif %}{% if instance.position_text == 2 %}0{% endif %}{% if instance.position_text == 3 %}264{% endif %}" data-tabletportraitleft="0"
-    data-mobileportraitleft="0" data-desktopportraittop="-85" data-tabletportraittop="-154"
-    data-mobileportraittop="-43" data-responsivesize="1" data-desktopportraitwidth="672"
-    data-tabletportraitwidth="1200" data-mobileportraitwidth="1058" data-desktopportraitheight="auto"
-    data-tabletportraitheight="auto" data-desktopportraitalign="center" data-tabletportraitalign="center"
-    data-mobileportraitalign="center" data-desktopportraitvalign="middle" data-tabletportraitvalign="middle"
-    data-mobileportraitvalign="middle" data-parentid="" data-desktopportraitparentalign="center"
-    data-desktopportraitparentvalign="middle" data-sstype="layer" data-rotation="0" data-animations="eyJzcGVjaWFsWmVybyI6MCwiaW4iOlt7Im5hbWUiOiJSaWdodCBmYWRlIiwib3BhY2l0eSI6MCwieCI6LTQwMH1dfQ==" data-desktopportrait="1" data-desktoplandscape="1" data-tabletportrait="1" data-tabletlandscape="1" data-mobileportrait="1" data-mobilelandscape="1" data-adaptivefont="1" data-desktopportraitfontsize="100"
-    data-tabletportraitfontsize="80" data-mobileportraitfontsize="80" data-plugin="rendered">
-      {% if instance.subtitle %}
-        <div class="n2-ss-mobile n2-ow n2-ow-all">
-        <p class="n2-font-68cd5099286b748be8c7421f41a91289-paragraph n2-ow" style="color:{{instance.subtitle_color}};">{{instance.subtitle}}</p>
-        </div>
-        <div class="n2-ss-tablet n2-ow n2-ow-all">
-          <p class="n2-font-68cd5099286b748be8c7421f41a91289-paragraph n2-ow" style="color:{{instance.subtitle_color}};">{{instance.subtitle}}</p>
-        </div>
-        <div class="n2-ow n2-ow-all n2-ss-desktop">
-          <p class="n2-font-68cd5099286b748be8c7421f41a91289-paragraph n2-ow" style="color:{{instance.subtitle_color}};">{{instance.subtitle}}</p>
-        </div>
-      {% endif %}
     </div>
   </div>
 </div>

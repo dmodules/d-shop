@@ -1,0 +1,78 @@
+ {% load static thumbnail cms_tags i18n dshop_tags dmrabais_tags %}
+
+<!-- BEGIN: en vedette -->
+  <section class="section-vedette">
+    <div class="container">
+      {% if instance.title or instance.text %}
+        <div class="row">
+          <div class="col-12">
+            {% if instance.title %}
+              <h2 class="title">
+                {{instance.title}}
+              </h2>
+            {% endif %}
+            {% if instance.text %}
+              <div class="subtitle">
+                {{instance.text|safe}}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+      <div class="row carousel-vedette">
+        <div class="product_slider carousel_slider owl-carousel owl-theme nav_style1" data-loop="true" data-dots="false" data-nav="true" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "1199":{"items": "4"}}'>
+          {% dm_get_products_vedette as products %}
+          {% for product in products %}
+            <div class="item" id="produitvedetteno{{forloop.counter}}">
+              <div class="product">
+                <div class="product_img">
+                  <a href="{{product.get_absolute_url}}">
+                    {% if product.main_image %}
+                      {% thumbnail product.main_image 540x600 crop upscale as thumb %}
+                      <img src="{{thumb.url}}" alt="{{product.product_name}}">
+                    {% elif product.images.first %}
+                      {% thumbnail product.images.first 540x600 crop upscale as thumb %}
+                      <img src="{{thumb.url}}" alt="{{product.product_name}}">
+                    {% else %}
+                      <img src="{% static 'dshop/shopwise/images/product_img1.jpg' %}" alt="{{product.product_name}}">
+                    {% endif %}
+                  </a>
+                  <div class="product_action_box">
+                    <ul class="list_none pr_action_btn">
+                      <li>
+                        <a href="{{product.get_absolute_url}}"><i class="ti-info-alt"></i></a>
+                      </li>
+                      {% if product.variants %}{% else%}
+                        <li>
+                          <a href="/" class="btn" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
+                        </li>
+                      {% endif %}
+                    </ul>
+                  </div>
+                </div>
+                <div class="product_info text-left">
+                  <h6 class="product_title"><a href="{{product.get_absolute_url}}">{{product.product_name}}</a></h6>
+                  <div class="product_price">
+                    {% if product.variants %}
+                      <span class="price">{{product.variants.first.unit_price}}</span>
+                    {% else %}
+                      {% product_discount_price product.id as real_price %}
+                      <span class="price">{{real_price}}</span>
+                      {% if real_price != product.unit_price %}
+                        <del>{{product.unit_price}}</del>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% empty %}
+            <div class="text-center">
+              <p>(aucun produit)</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END: en vedette -->

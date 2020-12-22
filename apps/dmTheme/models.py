@@ -15,7 +15,7 @@ class ThemeManagement(models.Model):
     active = models.BooleanField(
         verbose_name=('Active'),
         default=False
-    )   
+    )
 
     class Meta:
         verbose_name = _("Theme Setting")
@@ -23,4 +23,3 @@ class ThemeManagement(models.Model):
 
     def __str__(self):
         return self.theme
-

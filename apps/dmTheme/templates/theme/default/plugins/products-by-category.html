@@ -1,0 +1,96 @@
+{% load static thumbnail cms_tags i18n dshop_tags dmrabais_tags %}
+
+<!-- BEGIN: par catégorie -->
+<section class="section-parcategorie">
+  <div class="container mt-5 text-center">
+    {% if instance.title or instance.text %}
+      <div class="row">
+        <div class="col-12">
+          {% if instance.title %}
+            <h2 class="title">
+              {{instance.title}}
+            </h2>
+          {% endif %}
+          {% if instance.text %}
+            <div class="subtitle">
+              {{instance.text|safe}}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+    <div class="row">
+      <div class="col-12">
+        <div class="tab-style1">
+          <ul class="nav nav-tabs justify-content-center" role="tablist">
+            {% dm_get_categories_parents as categories %}
+            {% for category in categories %}
+              <li class="nav-item">
+                <a class="nav-link{% if forloop.first %}  active{% endif %}" id="tab{{forloop.counter}}-tab" data-toggle="tab" href="#tab{{forloop.counter}}" role="tab" aria-controls="tab{{forloop.counter}}" aria-selected="true">{{category.name}}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="tab-content">
+          {% for category in categories %}
+            <div class="tab-pane fade{% if forloop.first %} show active{% endif %}" id="tab{{forloop.counter}}" role="tabpanel" aria-labelledby="tab{{forloop.counter}}-tab">
+              <div class="row shop_container">
+                {% dm_get_products_by_category category.id 0 8 as products %}
+                {% for product in products.products %}
+                  <div class="col-lg-3 col-md-4 col-6" id="produitno{{forloop.counter}}">
+                    <div class="product">
+                      <div class="product_img">
+                        <a href="{{product.get_absolute_url}}">
+                          {% if product.main_image %}
+                            {% thumbnail product.main_image 540x600 crop upscale as thumb %}
+                            <img src="{{thumb.url}}" alt="{{product.product_name}}">
+                          {% elif product.images.first %}
+                            {% thumbnail product.images.first 540x600 crop upscale as thumb %}
+                            <img src="{{thumb.url}}" alt="{{product.product_name}}">
+                          {% else %}
+                            <img src="{% static 'dshop/shopwise/images/product_img1.jpg' %}" alt="{{product.product_name}}">
+                          {% endif %}
+                        </a>
+                        <div class="product_action_box">
+                          <ul class="list_none pr_action_btn">
+                            <li>
+                              <a href="{{product.get_absolute_url}}"><i class="ti-info-alt"></i></a>
+                            </li>
+                            {% if product.variants %}{% else%}
+                              <li>
+                                <a href="/" class="btn" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
+                              </li>
+                            {% endif %}
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="product_info text-left">
+                        <h6 class="product_title"><a href="{{product.get_absolute_url}}">{{product.product_name}}</a></h6>
+                        <div class="product_price">
+                          {% if product.variants %}
+                            <span class="price">{{product.variants.first.unit_price}}</span>
+                          {% else %}
+                            {% product_discount_price product.id as real_price %}
+                            <span class="price">{{real_price}}</span>
+                            {% if real_price != product.unit_price %}
+                              <del>{{product.unit_price}}</del>
+                            {% endif %}
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% empty %}
+                  <div class="col-12 text-center py-5">
+                    (aucun produit)
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- END: par catégorie -->

@@ -3,13 +3,6 @@
 
 {% block title %}{% page_attribute "page_title" %} - Diamond{% endblock %}
 
-{% block head %}
-  {{ block.super }}
-  {% addtoblock "js" %}
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7TypZFTl4Z3gVtikNOdGSfNTpnmq-ahQ"></script>
-  {% endaddtoblock %}
-{% endblock head %}
-
 {% block main-content %}
   {% dm_get_site_contacts as contacts %}
   <div class="section pb_70">
