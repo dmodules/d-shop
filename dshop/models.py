@@ -332,13 +332,11 @@ class Product(CMSPageReferenceMixin, TranslatableModelMixin, BaseProduct):
     categories = models.ManyToManyField(
         ProductCategory,
         verbose_name=_("Catégories"),
-        null=True,
         blank=True
     )
     filters = models.ManyToManyField(
         ProductFilter,
         verbose_name=_("Filtres"),
-        null=True,
         blank=True
     )
     is_vedette = models.BooleanField(
