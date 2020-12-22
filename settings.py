@@ -595,6 +595,7 @@ ADMIN_REORDER = (
         "models": [
             #"sites.Site",
             "dshop.dmSite",
+            "dmTheme.ThemeManagement",
             "cms.Page",
             "shop.CustomerProxy"
         ]

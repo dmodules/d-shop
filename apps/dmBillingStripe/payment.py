@@ -14,10 +14,6 @@ from apps.dmTaxes.models import CanadaTaxManagement
 
 stripe.api_key = STRIPE_SECRET_KEY
 
-SITE_LINK = str(Site.objects.first().domain)
-if not SITE_LINK.startswith("http"):
-    SITE_LINK = "https://" + SITE_LINK
-
 #######################################################################
 # ===---   StripePayment                                       ---=== #
 #######################################################################
@@ -28,6 +24,11 @@ class StripePayment(PaymentProvider):
 
     def get_payment_request(self, cart, request):
         print('Do Stripe Payment Request')
+        #
+        SITE_LINK = str(Site.objects.first().domain)
+        if not SITE_LINK.startswith("http"):
+            SITE_LINK = "https://" + SITE_LINK
+        #
         try:
             order = OrderModel.objects.create_from_cart(cart, request)
             referenceId = order.get_number()
