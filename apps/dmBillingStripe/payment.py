@@ -1,6 +1,7 @@
 import stripe
 
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.sites.models import Site
 from decimal import Decimal
 from settings import STRIPE_SECRET_KEY
 
