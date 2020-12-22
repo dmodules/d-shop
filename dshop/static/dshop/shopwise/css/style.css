@@ -1193,10 +1193,16 @@ button:focus {
 .transparent_header.nav-fixed .light_skin .navbar .navbar-nav > li > a{
 	color: #000;
 }
-.navbar .navbar-nav > li:hover > a,
-.light_skin.transparent_header.nav-fixed .navbar .navbar-nav > li:hover > a,
-.transparent_header.nav-fixed .light_skin .navbar .navbar-nav > li:hover > a {
-	color: #41b6e6;
+.navbar .navbar-nav > li:hover > a:not(.dm-menu-split),
+.light_skin.transparent_header.nav-fixed .navbar .navbar-nav > li:hover > a:not(.dm-menu-split),
+.transparent_header.nav-fixed .light_skin .navbar .navbar-nav > li:hover > a:not(.dm-menu-split) {
+	color: #458d91;
+}
+
+.navbar .navbar-nav > li > a.dm-menu-split:hover,
+.light_skin.transparent_header.nav-fixed .navbar .navbar-nav > li > a.dm-menu-split:hover,
+.transparent_header.nav-fixed .light_skin .navbar .navbar-nav > li > a.dm-menu-split:hover {
+	color: #458d91;
 }
 .light_skin .navbar .navbar-nav .dropdown-item,
 .light_skin .navbar .navbar-nav .dropdown-header {

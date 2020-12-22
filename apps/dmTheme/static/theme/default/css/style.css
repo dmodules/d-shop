@@ -30,9 +30,15 @@ a:hover{
   color:#458d91;
 }
 
-.navbar .navbar-nav > li:hover > a,
-.light_skin.transparent_header.nav-fixed .navbar .navbar-nav > li:hover > a,
-.transparent_header.nav-fixed .light_skin .navbar .navbar-nav > li:hover > a {
+.navbar .navbar-nav > li:hover > a:not(.dm-menu-split),
+.light_skin.transparent_header.nav-fixed .navbar .navbar-nav > li:hover > a:not(.dm-menu-split),
+.transparent_header.nav-fixed .light_skin .navbar .navbar-nav > li:hover > a:not(.dm-menu-split) {
+	color: #458d91;
+}
+
+.navbar .navbar-nav > li > a.dm-menu-split:hover,
+.light_skin.transparent_header.nav-fixed .navbar .navbar-nav > li > a.dm-menu-split:hover,
+.transparent_header.nav-fixed .light_skin .navbar .navbar-nav > li > a.dm-menu-split:hover {
 	color: #458d91;
 }
 

@@ -82,7 +82,6 @@ PAGE JS
 	});
 	
   //Show Hide dropdown-menu Main navigation 
-  /*
 	$( document ).on('ready', function () {
 		$( '.dropdown-menu a.dropdown-toggler' ).on( 'click', function () {
 			//var $el = $( this );
@@ -101,7 +100,7 @@ PAGE JS
 			
 			return false;
 		});
-	});*/
+	});
 	
 	//Hide Navbar Dropdown After Click On Links
 	var navBar = $(".header_wrap");

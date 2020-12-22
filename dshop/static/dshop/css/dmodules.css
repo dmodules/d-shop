@@ -284,6 +284,25 @@ body{
   text-decoration:underline;
 }
 
+/* ===--- Main Menu ---=== */
+.dm-menu-split{
+    display:inline-block;
+}
+.dm-menu-split.dropdown-toggler{
+    float:right;
+    display:inline-block;
+    width:32px;
+    height:37px;
+    position:absolute;
+    top:0;
+    right:8px;
+}
+.dm-menu-split.dropdown-toggler::after{
+    right:auto;
+    padding:0 8px;
+    margin:0;
+}
+
 /* ===--- Section Vedette ---=== */
 .section-vedette{
   text-align:center;
