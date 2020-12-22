@@ -1020,8 +1020,21 @@ export default {
         this.$set(this, "isLoading", false)
         this.$set(this, "listPromoCodes", [])
         // ===---
+        let p = []
+        if (products) {
+            products.forEach((item) => {
+                p.push({
+                    product_code: item.product_code,
+                    summary: {
+                        product_model: item.summary.product_model
+                    }
+                })
+            })
+        } else {
+            p = this.listProducts
+        }
         let datas = {
-            products: products ? products : this.listProducts
+            products: p
         }
         // ===---
         this.$axios.post(this.$web_url + "/discount/promocodes/?p="+JSON.stringify(datas), datas, { headers: { "Content-Type": "application/json", Accept: "application/json"}})
