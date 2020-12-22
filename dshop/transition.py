@@ -63,7 +63,7 @@ def transition_change_notification(order, miniorder=None):
         language = order.stored_request.get('language')
         context = {
             'customer': customer_serializer.data,
-            'order': order_serializer.data,
+            'order': miniorder,
             'ABSOLUTE_BASE_URI':
             emulated_request.build_absolute_uri().rstrip('/'),
             'render_language': language,
