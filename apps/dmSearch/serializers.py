@@ -1,19 +1,17 @@
-
 from rest_framework import serializers
 from dshop.models import Product, ProductCategory, ProductFilter
 
 
 class ProductFilterSerializer(serializers.ModelSerializer):
-
     class Meta:
-         model = ProductFilter
-         fields = '__all__'
+        model = ProductFilter
+        fields = '__all__'
+
 
 class ProductCategorySerializer(serializers.ModelSerializer):
-
     class Meta:
-         model = ProductCategory
-         fields = '__all__'
+        model = ProductCategory
+        fields = '__all__'
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -24,7 +22,11 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        exclude = ('cms_pages', 'images', 'polymorphic_ctype',  )
+        exclude = (
+            'cms_pages',
+            'images',
+            'polymorphic_ctype',
+        )
 
     def get_description(self, obj):
         return obj.get_description

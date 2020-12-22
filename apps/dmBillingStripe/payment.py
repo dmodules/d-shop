@@ -50,8 +50,7 @@ class StripePayment(PaymentProvider):
                     for d in order.extra['rows']:
                         if d[0] == mod:
                             shipping_cost = order.extra['rows'][
-                                order.extra['rows'].index(d)
-                            ][1]['charge']
+                                order.extra['rows'].index(d)][1]['charge']
             except Exception as e:
                 print(e)
                 shipping_cost = order.extra['rows'][order.extra['rows'].index(
@@ -70,7 +69,7 @@ class StripePayment(PaymentProvider):
                     "name": str(item['product_name']),
                     "quantity": str(item['quantity']),
                     "currency": "cad",
-                    "amount": str(int(item['_unit_price']*100))
+                    "amount": str(int(item['_unit_price'] * 100))
                 }
                 line_items.append(line_data)
             # Create shipping cost line data
@@ -86,14 +85,17 @@ class StripePayment(PaymentProvider):
             for d in order.extra['rows']:
                 if d[0] in ["data1", "data2", "data3", "data4"]:
                     line_data = {
-                        "name": d[1]['label'],
-                        "quantity": 1,
-                        "currency": "cad",
-                        "amount": int(
+                        "name":
+                        d[1]['label'],
+                        "quantity":
+                        1,
+                        "currency":
+                        "cad",
+                        "amount":
+                        int(
                             float(".".join(
-                                d[1]['amount'].split(' ')[1].split(',')
-                            ))*100
-                        )
+                                d[1]['amount'].split(' ')[1].split(','))) *
+                            100)
                     }
                     line_items.append(line_data)
             session = stripe.checkout.Session.create(
@@ -110,4 +112,5 @@ class StripePayment(PaymentProvider):
         except Exception as e:
             print(e)
             raise ValidationError(
-                _("Une erreur est survenue lors de la création de votre commande."))
+                _("Une erreur est survenue lors de la création de votre commande."
+                  ))

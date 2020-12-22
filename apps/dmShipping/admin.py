@@ -3,7 +3,6 @@ from django.contrib import admin
 
 from .models import ShippingManagement
 
-
 #######################################################################
 # Shipping Management
 #######################################################################
@@ -12,19 +11,12 @@ from .models import ShippingManagement
 @admin.register(ShippingManagement)
 class ShippingManagementAdmin(admin.ModelAdmin):
     list_display = ["name", "get_price", "identifier", "use_separator"]
-    fieldsets = (
-        (None, {
-            "fields": [
-                "identifier",
-                "name",
-                "price",
-            ],
-        }),
-        (_("With Separator Settings"), {
-            "fields": [
-                "use_separator",
-                "separator",
-                "price_after"
-            ],
-        })
-    )
+    fieldsets = ((None, {
+        "fields": [
+            "identifier",
+            "name",
+            "price",
+        ],
+    }), (_("With Separator Settings"), {
+        "fields": ["use_separator", "separator", "price_after"],
+    }))

@@ -1,12 +1,12 @@
-{% extends "clients/d-shop/pages/default.html" %}
+{% extends "/app/apps/dmTheme/templates/theme/default/pages/default.html" %}
 {% load i18n cms_tags %}
 
 {% block main-content %}
   <div class="container py-5">
     <div class="row py-5">
       <div class="col text-center py-5">
-        <h1>{% trans 'Page introuvable' %}</h1>
-        <p>{% trans 'La page que vous cherchez n\'existe pas ou plus.' %}</p>
+        <h1>{% trans 'Erreur interne' %}</h1>
+        <p>{% trans 'Une erreur est survenue, veuillez réessayer plus tard.' %}</p>
         <p><a href="/">{% trans 'Retour à l\'accueil' %}</a></p>
       </div>
     </div>
