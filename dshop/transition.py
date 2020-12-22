@@ -39,7 +39,7 @@ class EmulateHttpRequest(HttpRequest):
         self.current_page = None
 
 
-def transition_change_notification(order):
+def transition_change_notification(order, miniorder=None):
     """
     A function to prepare an email to be queued if a notification exist
     in the admin panel for the current transition of the :param order.

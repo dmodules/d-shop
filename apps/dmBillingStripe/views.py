@@ -63,7 +63,29 @@ def StripePaymentView(request):
                 stripe_session_data=str(session),
                 stripe_payment_data=str(payment_intent))
             order.acknowledge_payment()
-            transition_change_notification(order)
+            try:
+                items = []
+                for i in order.items.all():
+                    datas = {}
+                    datas["quantity"] = i.quantity
+                    datas["summary"] = {}
+                    datas["summary"]["product_name"] = str(i)
+                    datas["line_total"] = i.line_total
+                    items.append(datas)
+                miniorder = {
+                    "number": str(referenceId),
+                    "url": "/vos-commandes/"+str(referenceId)+"/"+str(order.token),
+                    "items": items,
+                    "extra": order.extra,
+                    "total": order.total
+                }
+                transition_change_notification(
+                    order,
+                    miniorder
+                )
+            except Exception as e:
+                print("When : transition_change_notification")
+                print(e)
             order.save()
             return redirect(order.get_absolute_url())
         except Exception as e:
