@@ -84,7 +84,6 @@ function dm_add2cart(k) {
     quantity = $(k).data("quantity")
   }
   $.get(site + i18n.product[lang] + "/" + endpoint + "/add-to-cart", function(getResult) {
-    console.log(getResult)
     getResult.product_code = getResult.product_code.toString()
     getResult.quantity = quantity
     $.post(shop + "cart/", getResult, function() {
@@ -109,7 +108,6 @@ function dm_add2cart_variant(k) {
   let endpoint = $(k).data("product")
   let quantity = 1
   let variant = $('.dm-variants-select option.choix:selected').val()
-  console.log("variant : " + variant)
   if ($(k).data("quantity")) {
     quantity = $(k).data("quantity")
   }

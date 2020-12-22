@@ -90,7 +90,8 @@
             // ===---   setAuth                                   ---=== //
             // ========================================================= */
             setAuth() {
-                this.$set(this, "isAuth", true);
+                this.$set(this, "isAuth", true)
+                this.setPromoCodes()
             },
             /* ========================================================= //
             // ===---   setPromoCodes                             ---=== //
@@ -98,15 +99,15 @@
             setPromoCodes () {
                 let self = this
                 this.$set(this, 'isLoading', false)
+                this.$set(this, 'listPromo', [])
+                // ===---
                 this.$axios.get(this.$web_url+'/discount/promocodes/', {
                     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
                 })
                 .then((apiSuccess) => {
                     self.$set(self, 'listPromo', apiSuccess.data.promolist)
                 })
-                .then((apiFail) => {
-                    console.log(apiFail)
-                })
+                .catch(() => {})
             },
             doPromoCode () {
                 let self = this
