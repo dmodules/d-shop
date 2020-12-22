@@ -122,8 +122,6 @@ elif STAGE == "test":
 elif STAGE == "local":
     SITE_URL = "http://localhost:8000"
 
-CLIENT_URL = os.getenv("CLIENT_URL", SITE_URL)
-
 ############################################
 # Templates Settings
 
