@@ -4,6 +4,7 @@ import stripe
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.db import transaction
 
 from settings import STRIPE_SECRET_KEY
 
@@ -12,6 +13,7 @@ from shop.models.order import OrderModel
 from shop.models.order import OrderPayment
 
 from dshop.transition import transition_change_notification
+from dshop.models import Product
 
 from .models import StripeOrderData
 
@@ -32,8 +34,21 @@ def StripeCheckout(request):
 
 
 def StripePaymentCancelView(request):
-    return redirect("/vos-commandes/")
-
+    referenceId = request.GET.get("referenceId", None)
+    if referenceId is not None:
+        order = OrderModel.objects.get(number=re.sub(r"\D", "", referenceId))
+        cart = order.customer.cart
+        order.readd_to_cart(cart)
+        try:
+            with transaction.atomic():
+                for item in cart.items.all():
+                    db_product = Product.objects.get(id=item.product_id)
+                    db_product.quantity += item.quantity
+                    db_product.save()
+        except Exception as e:
+            print("Error to update quantity")
+            #!TODO
+    return redirect("/")
 
 def StripePaymentView(request):
     referenceId = request.GET.get("referenceId", None)
