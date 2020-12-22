@@ -113,7 +113,7 @@ SITE_ID = 1
 
 CLIENT_TITLE = "D-Shop"
 ADMINS = [("D-Modules", "info@d-modules.com")]
-SHOP_VENDOR_EMAIL = 'mariechristine@d-modules.com'
+SHOP_VENDOR_EMAIL = 'info@d-modules.com'
 
 if STAGE == "live":
     SITE_URL = "https://d-shop.us.aldryn.io"

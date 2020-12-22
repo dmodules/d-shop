@@ -39,7 +39,7 @@ class EmulateHttpRequest(HttpRequest):
         self.current_page = None
 
 
-def transition_change_notification(order):
+def transition_change_notification(order, miniorder=None):
     """
     A function to prepare an email to be queued if a notification exist
     in the admin panel for the current transition of the :param order.
@@ -63,7 +63,7 @@ def transition_change_notification(order):
         language = order.stored_request.get('language')
         context = {
             'customer': customer_serializer.data,
-            'order': order_serializer.data,
+            'order': miniorder,
             'ABSOLUTE_BASE_URI':
             emulated_request.build_absolute_uri().rstrip('/'),
             'render_language': language,
