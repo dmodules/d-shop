@@ -1,8 +1,9 @@
 import stripe
 
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.sites.models import Site
 from decimal import Decimal
-from settings import STRIPE_SECRET_KEY, SITE_URL
+from settings import STRIPE_SECRET_KEY
 
 from rest_framework.exceptions import ValidationError
 
@@ -12,6 +13,10 @@ from shop.models.order import OrderModel
 from apps.dmTaxes.models import CanadaTaxManagement
 
 stripe.api_key = STRIPE_SECRET_KEY
+
+SITE_LINK = str(Site.objects.first().domain)
+if not SITE_LINK.startswith("http"):
+    SITE_LINK = "https://" + SITE_LINK
 
 #######################################################################
 # ===---   StripePayment                                       ---=== #
@@ -57,7 +62,7 @@ class StripePayment(PaymentProvider):
                     d)][1]['amount']
                 shipping_cost = shipping_cost.split(' ')[1].split(',')[0]
                 shipping_cost = int(shipping_cost) * 100
-            site = SITE_URL
+            site = SITE_LINK
             success_url = site + \
                 "/billing-stripe/payment/?referenceId="+str(referenceId)
             cancel_url = site + \

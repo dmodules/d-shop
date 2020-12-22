@@ -1813,3 +1813,10 @@ msgstr ""
 #: templates/cms/plugins/widgets/ckeditor.html:33
 msgid "Standard Plugins"
 msgstr ""
+
+#:
+msgid "Profile"
+msgstr "Profil"
+#:
+msgid "My Orders"
+msgstr "Mes commandes"

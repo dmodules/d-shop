@@ -8,55 +8,60 @@
             </v-row>
         </div>
         <div v-else class="container">
-            <v-row>
-                <v-col cols="12" class="text-left">
-                    <h2>{{$i18n.t('PromoCodes')}}</h2>
-                </v-col>
-            </v-row>
-            <v-form v-model="formCode">
+            <div v-if="isAuth">
                 <v-row>
-                    <v-col cols="12" md="10" class="text-left">
-                        <v-text-field
-                            v-model="newCode"
-                            :label="$i18n.t('Enteryourcodehere')"
-                            placeholder=" "
-                            :rules="[v => !!v || $i18n.t('Cechampsesrrequis')]"
-                            :error-messages="hasErrorNewCode"
-                            required
-                            filled
-                            @keydown="hasErrorNewCode = null"
-                        />
-                    </v-col>
-                    <v-col cols="12" md="2" class="text-left">
-                        <v-btn tile color="primary" class="btn btn-block" @click="doPromoCode()">{{$i18n.t('Add')}}</v-btn>
+                    <v-col cols="12" class="text-left">
+                        <h2>{{$i18n.t('PromoCodes')}}</h2>
                     </v-col>
                 </v-row>
-            </v-form>
-            <v-row v-if="hasError || hasSuccess">
-                <v-col cols="12">
-                    <v-alert v-if="hasError" text type="error">
-                        <div v-html="hasError"></div>
-                    </v-alert>
-                    <v-alert v-if="hasSuccess" text type="success">
-                        <div v-html="hasSuccess"></div>
-                    </v-alert>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col cols="12" class="text-left">
-                    <v-list dense two-line>
-                        <template v-for="(item, n) in listPromo">
-                            <v-list-item :key="'item'+n" v-if="!item.is_expired">
-                                <v-list-item-content>
-                                    <v-list-item-title v-text="item.name"></v-list-item-title>
-                                    <v-list-item-subtitle v-if="item.is_expired">Utilisé</v-list-item-subtitle>
-                                </v-list-item-content>
-                            </v-list-item>
-                            <v-divider v-if="n < listPromo.length && !item.is_expired" :key="'divider'+n" />
-                        </template>
-                    </v-list>
-                </v-col>
-            </v-row>
+                <v-form v-model="formCode">
+                    <v-row>
+                        <v-col cols="12" md="10" class="text-left">
+                            <v-text-field
+                                v-model="newCode"
+                                :label="$i18n.t('Enteryourcodehere')"
+                                placeholder=" "
+                                :rules="[v => !!v || $i18n.t('Cechampsesrrequis')]"
+                                :error-messages="hasErrorNewCode"
+                                required
+                                filled
+                                @keydown="hasErrorNewCode = null"
+                            />
+                        </v-col>
+                        <v-col cols="12" md="2" class="text-left">
+                            <v-btn tile color="primary" class="btn btn-block" @click="doPromoCode()">{{$i18n.t('Add')}}</v-btn>
+                        </v-col>
+                    </v-row>
+                </v-form>
+                <v-row v-if="hasError || hasSuccess">
+                    <v-col cols="12">
+                        <v-alert v-if="hasError" text type="error">
+                            <div v-html="hasError"></div>
+                        </v-alert>
+                        <v-alert v-if="hasSuccess" text type="success">
+                            <div v-html="hasSuccess"></div>
+                        </v-alert>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="12" class="text-left">
+                        <v-list dense two-line>
+                            <template v-for="(item, n) in listPromo">
+                                <v-list-item :key="'item'+n" v-if="!item.is_expired">
+                                    <v-list-item-content>
+                                        <v-list-item-title v-text="item.name"></v-list-item-title>
+                                        <v-list-item-subtitle v-if="item.is_expired">Utilisé</v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
+                                <v-divider v-if="n < listPromo.length && !item.is_expired" :key="'divider'+n" />
+                            </template>
+                        </v-list>
+                    </v-col>
+                </v-row>
+            </div>
+            <div v-else>
+                <dm-auth @is-auth="setAuth()" />
+            </div>
         </div>
     </div>
 </template>
@@ -64,8 +69,12 @@
 <script>
     export default {
         name: 'PromoCodes',
+        components: {
+            dmAuth: () => import("@/components/Auth.vue"),
+        },
         data: () => ({
             isLoading: true,
+            isAuth: false,
             listPromo: [],
             newCode: '',
             formCode: false,
@@ -74,10 +83,18 @@
             hasErrorNewCode: null
         }),
         mounted () {
-            // this.doPromoCode()
             this.setPromoCodes()
         },
         methods: {
+            /* ========================================================= //
+            // ===---   setAuth                                   ---=== //
+            // ========================================================= */
+            setAuth() {
+                this.$set(this, "isAuth", true);
+            },
+            /* ========================================================= //
+            // ===---   setPromoCodes                             ---=== //
+            // ========================================================= */
             setPromoCodes () {
                 let self = this
                 this.$set(this, 'isLoading', false)

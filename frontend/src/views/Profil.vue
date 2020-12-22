@@ -8,81 +8,86 @@
       </v-row>
     </div>
     <div v-else class="container">
-      <v-row>
-        <v-col cols="12" class="text-left">
-          <h2>{{$i18n.t('Profil')}}</h2>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12">
-          <v-form v-model="formProfil.valid">
+        <div v-if="isAuth">
             <v-row>
-              <v-col cols="12" md="6">
-                <v-select
-                  v-model="formProfil.customer.salutation"
-                  :label="$i18n.t('Salutation')"
-                  placeholder=" "
-                  :items="listSalutation"
-                  :rules="[v => !!v || $i18n.t('Cechampsesrrequis')]"
-                  :error-messages="formError.customer.salutation"
-                  required
-                  filled
-                  attach
-                  @keydown="formError.customer.salutation = null"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="formProfil.customer.email"
-                  :label="$i18n.t('Courriel')"
-                  placeholder=" "
-                  :rules="[v => !!v || $i18n.t('Cechampsesrrequis')]"
-                  :error-messages="formError.customer.email"
-                  required
-                  filled
-                  @keydown="formError.customer.email = null"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="formProfil.customer.first_name"
-                  :label="$i18n.t('Prenom')"
-                  placeholder=" "
-                  :rules="[v => !!v || $i18n.t('Cechampsesrrequis')]"
-                  :error-messages="formError.customer.first_name"
-                  required
-                  filled
-                  @keydown="formError.customer.first_name = null"
-                />
-              </v-col>
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="formProfil.customer.last_name"
-                  :label="$i18n.t('Nomdefamille')"
-                  placeholder=" "
-                  :rules="[v => !!v || $i18n.t('Cechampsesrrequis')]"
-                  :error-messages="formError.customer.last_name"
-                  required
-                  filled
-                  @keydown="formError.customer.last_name = null"
-                />
-              </v-col>
-            </v-row>
-            <v-row v-if="formProfil.success">
-              <v-col cols="12">
-                <v-alert text color="success">
-                  <div v-html="formProfil.success"></div>
-                </v-alert>
-              </v-col>
+                <v-col cols="12" class="text-left">
+                <h2>{{$i18n.t('Profil')}}</h2>
+                </v-col>
             </v-row>
             <v-row>
-              <v-col cols="12">
-                <v-btn tile color="primary" :disabled="!formProfil.valid" @click="setUpload()">{{$i18n.t('Modifier')}}</v-btn>
-              </v-col>
+                <v-col cols="12">
+                <v-form v-model="formProfil.valid">
+                    <v-row>
+                    <v-col cols="12" md="6">
+                        <v-select
+                        v-model="formProfil.customer.salutation"
+                        :label="$i18n.t('Salutation')"
+                        placeholder=" "
+                        :items="listSalutation"
+                        :rules="[v => !!v || $i18n.t('Cechampsesrrequis')]"
+                        :error-messages="formError.customer.salutation"
+                        required
+                        filled
+                        attach
+                        @keydown="formError.customer.salutation = null"
+                        />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <v-text-field
+                        v-model="formProfil.customer.email"
+                        :label="$i18n.t('Courriel')"
+                        placeholder=" "
+                        :rules="[v => !!v || $i18n.t('Cechampsesrrequis')]"
+                        :error-messages="formError.customer.email"
+                        required
+                        filled
+                        @keydown="formError.customer.email = null"
+                        />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <v-text-field
+                        v-model="formProfil.customer.first_name"
+                        :label="$i18n.t('Prenom')"
+                        placeholder=" "
+                        :rules="[v => !!v || $i18n.t('Cechampsesrrequis')]"
+                        :error-messages="formError.customer.first_name"
+                        required
+                        filled
+                        @keydown="formError.customer.first_name = null"
+                        />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <v-text-field
+                        v-model="formProfil.customer.last_name"
+                        :label="$i18n.t('Nomdefamille')"
+                        placeholder=" "
+                        :rules="[v => !!v || $i18n.t('Cechampsesrrequis')]"
+                        :error-messages="formError.customer.last_name"
+                        required
+                        filled
+                        @keydown="formError.customer.last_name = null"
+                        />
+                    </v-col>
+                    </v-row>
+                    <v-row v-if="formProfil.success">
+                    <v-col cols="12">
+                        <v-alert text color="success">
+                        <div v-html="formProfil.success"></div>
+                        </v-alert>
+                    </v-col>
+                    </v-row>
+                    <v-row>
+                    <v-col cols="12">
+                        <v-btn tile color="primary" :disabled="!formProfil.valid" @click="setUpload()">{{$i18n.t('Modifier')}}</v-btn>
+                    </v-col>
+                    </v-row>
+                </v-form>
+                </v-col>
             </v-row>
-          </v-form>
-        </v-col>
-      </v-row>
+        </div>
+        <div v-else>
+            <dm-auth @is-auth="setAuth()" />
+        </div>
     </div>
   </div>
 </template>
@@ -90,9 +95,13 @@
 <script>
   export default {
     name: 'Profil',
+    components: {
+        dmAuth: () => import("@/components/Auth.vue"),
+    },
     data: () => ({
       isLoading: true,
       isLoadingProfil: false,
+      isAuth: false,
       listSalutation: [],
       formProfil: {
         valid: false,
@@ -123,6 +132,12 @@
       this.getCustomer()
     },
     methods: {
+        /* ========================================================= //
+        // ===---   setAuth                                   ---=== //
+        // ========================================================= */
+        setAuth() {
+            this.$set(this, "isAuth", true);
+        },
       /* =========================================================== //
       // ===---   getCustomer                                 ---=== //
       // =========================================================== */

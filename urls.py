@@ -21,8 +21,6 @@ from shop.views.cart import CartViewSet
 from dshop.views import CustomerView, LoadProduits, ShippingMethodsView, BillingMethodsView
 from dshop.views import TestPaymentView
 
-from apps.dmSearch.views import *
-
 sitemaps = {"cmspages": CMSSitemap, "products": ProductSitemap}
 
 def render_robots(request):
@@ -38,6 +36,8 @@ urlpatterns = [
   url(r'^billing-stripe/', include("apps.dmBillingStripe.urls")),
   url(r'^contact/', include("apps.dmContact.urls")),
   url(r'^discount/', include("apps.dmRabais.urls")),
+  url(r'^search/', include("apps.dmSearch.urls")),
+  url(r'^theme/', include("apps.dmTheme.urls")),
 
   url(r'^api/v1/products-list/$', ProductListView.as_view()),
 
@@ -48,16 +48,14 @@ urlpatterns = [
 
   url(r'^test-payment/$', TestPaymentView),
 
-  url(r'^search-product/$', search_product),
-
 ] + aldryn_addons.urls.patterns() + i18n_patterns(
 
   url(r'^admin', admin.site.urls),
 
-  url(r'^message-envoye/', TemplateView.as_view(template_name="clients/{}/pages/message-envoye.html".format(settings.CLIENT_SLUG))),
+  url(r'^message-envoye/', TemplateView.as_view(template_name="/app/apps/dmTheme/templates/theme/{}/pages/message-envoye.html".format(settings.THEME_SLUG))),
 
-  url(r'^produits/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', TemplateView.as_view(template_name='clients/{}/pages/produits.html'.format(settings.CLIENT_SLUG))),
-  url(r'^produits/', TemplateView.as_view(template_name='clients/{}/pages/produits.html'.format(settings.CLIENT_SLUG))),
+  url(r'^produits/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', TemplateView.as_view(template_name='/app/apps/dmTheme/templates/theme/{}/pages/produits.html'.format(settings.THEME_SLUG))),
+  url(r'^produits/', TemplateView.as_view(template_name='/app/apps/dmTheme/templates/theme/{}/pages/produits.html'.format(settings.THEME_SLUG))),
 
   ############################
   # ===--- FRONTEND   ---=== #
@@ -76,7 +74,7 @@ urlpatterns = [
   url(r'css/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'css')}),
   url(r'fonts/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'fonts')}),
   # ===---
-  url(r'^commande/', TemplateView.as_view(template_name='clients/{}/pages/app.html'.format(settings.CLIENT_SLUG))),
+  url(r'^commande/', TemplateView.as_view(template_name='/app/apps/dmTheme/templates/theme/{}/pages/app.html'.format(settings.THEME_SLUG))),
   ############################
   # ===------------------=== #
   ############################

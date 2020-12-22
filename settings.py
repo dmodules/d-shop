@@ -55,6 +55,7 @@ INSTALLED_APPS.extend([
     "apps.dmShipping",
     "apps.dmTaxes",
     "apps.dmSearch",
+    "apps.dmTheme",
     # ===---
     "shop",
     "dshop",
@@ -102,7 +103,7 @@ MIDDLEWARE.extend([
 ])
 
 STAGE = os.getenv("STAGE", "local").lower()
-CLIENT_SLUG = slugify(os.getenv("SITE_NAME", "d-shop").lower())
+THEME_SLUG = slugify(os.getenv("THEME_SLUG", "default").lower())
 
 #######################################################################
 # Actual Shop Settings
@@ -124,9 +125,20 @@ elif STAGE == "local":
 ############################################
 # Templates Settings
 
-CMS_TEMPLATES_DIR: {
-    "/app/templates/clients/{}/pages/".format(CLIENT_SLUG),
-}
+TEMPLATE_DIR = "/app/apps/dmTheme/templates/theme/{}/pages/".format(
+    THEME_SLUG)
+STATIC_CLIENT_DIR = "/app/apps/dmTheme/static/theme/{}/".format(THEME_SLUG)
+
+#CMS_TEMPLATES_DIR: {
+#    TEMPLATE_DIR
+#}
+
+CMS_TEMPLATES = [
+    ("theme/{}/pages/default.html".format(THEME_SLUG), "Par défaut"),
+    ("theme/{}/pages/accueil.html".format(THEME_SLUG), "Page: Accueil"),
+    ("theme/{}/pages/produits.html".format(THEME_SLUG), "Page: Produits"),
+    ("theme/{}/pages/contact.html".format(THEME_SLUG), "Page: Contact"),
+]
 
 #######################################################################
 # Email Settings
@@ -159,7 +171,7 @@ PROJECT_ROOT = os.path.dirname(__file__)
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_collected')
 STATIC_URL = os.environ.get('STATIC_URL', '/static/')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), STATIC_CLIENT_DIR]
 
 #######################################################################
 # Internationalization
@@ -600,6 +612,7 @@ ADMIN_REORDER = (
         "label":
         _("Boutique"),
         "models": [
+            "dshop.FeatureList",
             "dshop.ProductCategory",
             "dshop.ProductFilter",
             "dshop.Product",
@@ -621,6 +634,13 @@ ADMIN_REORDER = (
             "dmRabais.dmRabaisPerCategory",
             "dmRabais.dmPromoCode",
             # "dmRabais.dmCustomerPromoCode"
+        ]
+    },
+    {
+        "app": "dmTheme",
+        "label": _("Theme Management"),
+        "models": [
+            "dmTheme.ThemeManagement",
         ]
     },
     {

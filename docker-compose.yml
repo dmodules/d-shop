@@ -20,3 +20,5 @@ services:
       POSTGRES_HOST_AUTH_METHOD: "trust"
     volumes:
       - ".:/app:rw"
+    ports:
+      - "5435:5432"

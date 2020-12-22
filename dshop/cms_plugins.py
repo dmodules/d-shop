@@ -78,8 +78,8 @@ class dmBlocSliderParentPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            'clients/{}/plugins/bloc-slider-parent.html'.format(
-                settings.CLIENT_SLUG), 'plugins/bloc-slider-parent.html'
+            '/app/apps/dmTheme/templates/theme/{}/plugins/bloc-slider-parent.html'.format(
+                settings.THEME_SLUG), 'plugins/bloc-slider-parent.html'
         ])
 
 
@@ -112,8 +112,8 @@ class dmBlocSliderChildPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            'clients/{}/plugins/bloc-slider-child.html'.format(
-                settings.CLIENT_SLUG), 'plugins/bloc-slider-child.html'
+            '/app/apps/dmTheme/templates/theme/{}/plugins/bloc-slider-child.html'.format(
+                settings.THEME_SLUG), 'plugins/bloc-slider-child.html'
         ])
 
 
@@ -159,8 +159,8 @@ class dmCalltoactionPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            'clients/{}/plugins/bloc-calltoaction.html'.format(
-                settings.CLIENT_SLUG), 'plugins/bloc-calltoaction.html'
+            '/app/apps/dmTheme/templates/theme/{}/plugins/bloc-calltoaction.html'.format(
+                settings.THEME_SLUG), 'plugins/bloc-calltoaction.html'
         ])
 
 
@@ -221,8 +221,8 @@ class dmProductsVedettePlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            'clients/{}/plugins/products-vedette.html'.format(
-                settings.CLIENT_SLUG), 'plugins/products-vedette.html'
+            '/app/apps/dmTheme/templates/theme/{}/plugins/products-vedette.html'.format(
+                settings.THEME_SLUG), 'plugins/products-vedette.html'
         ])
 
 
@@ -239,8 +239,8 @@ class dmProductsByCategpryPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            'clients/{}/plugins/products-by-category.html'.format(
-                settings.CLIENT_SLUG), 'plugins/products-by-category.html'
+            '/app/apps/dmTheme/templates/theme/{}/plugins/products-by-category.html'.format(
+                settings.THEME_SLUG), 'plugins/products-by-category.html'
         ])
 
 
@@ -258,8 +258,8 @@ class dmBlockSalesParentPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            'clients/{}/plugins/block-sales-parent.html'.format(
-                settings.CLIENT_SLUG), 'plugins/block-sales-parent.html'
+            '/app/apps/dmTheme/templates/theme/{}/plugins/block-sales-parent.html'.format(
+                settings.THEME_SLUG), 'plugins/block-sales-parent.html'
         ])
 
 
@@ -278,6 +278,6 @@ class dmBlockSalesChildPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            'clients/{}/plugins/block-sales-child.html'.format(
-                settings.CLIENT_SLUG), 'plugins/block-sales-child.html'
+            '/app/apps/dmTheme/templates/theme/{}/plugins/block-sales-child.html'.format(
+                settings.THEME_SLUG), 'plugins/block-sales-child.html'
         ])

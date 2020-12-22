@@ -268,9 +268,11 @@ $(document).ready(function() {
   if ($('#app').length) {
     $('.drawer-toggle.dm-soumission').hide()
     $('.drawer-toggle.dm-cart').hide()
+    $('.drawer-toggle.dm-user').hide()
   } else {
     $('.drawer-toggle.dm-soumission').show()
     $('.drawer-toggle.dm-cart').show()
+    $('.drawer-toggle.dm-user').show()
   }
 });
 

@@ -32,7 +32,7 @@ def StripeCheckout(request):
 
 
 def StripePaymentCancelView(request):
-    return redirect("/commande/")
+    return redirect("/vos-commandes/")
 
 
 def StripePaymentView(request):
@@ -66,8 +66,9 @@ def StripePaymentView(request):
             transition_change_notification(order)
             order.save()
             return redirect(order.get_absolute_url())
-        except:
+        except Exception as e:
+            print(e)
             order.save()
-            return redirect("/commande/")
+            return redirect("/vos-commandes/")
     else:
-        return redirect("/commande/")
+        return redirect("/vos-commandes/")

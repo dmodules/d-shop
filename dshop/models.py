@@ -21,6 +21,7 @@ from django.core.validators import MinValueValidator
 from djangocms_text_ckeditor.fields import HTMLField
 from django.utils.six.moves.urllib.parse import urljoin
 from django.utils.translation import ugettext_lazy as _
+from autoslug import AutoSlugField
 
 from shop.money import Money, MoneyMaker
 from shop.money.fields import MoneyField
@@ -321,18 +322,29 @@ class Product(CMSPageReferenceMixin, TranslatableModelMixin, BaseProduct):
     """
     A basic model to handle polymorphic Product
     """
-
-    product_name = models.CharField(_("Nom du produit"), max_length=255)
-    slug = models.SlugField(_("Slug"), unique=True)
-    categories = models.ManyToManyField(ProductCategory,
-                                        verbose_name=_("Catégories"),
-                                        null=True,
-                                        blank=True)
-    filters = models.ManyToManyField(ProductFilter,
-                                     verbose_name=_("Filtres"),
-                                     null=True,
-                                     blank=True)
-    is_vedette = models.BooleanField(_("En vedette ?"), default=False)
+    product_name = models.CharField(
+        _("Nom du produit"),
+        max_length=255
+    )
+    slug = AutoSlugField(populate_from='product_name',
+                         unique=True
+    )
+    categories = models.ManyToManyField(
+        ProductCategory,
+        verbose_name=_("Catégories"),
+        null=True,
+        blank=True
+    )
+    filters = models.ManyToManyField(
+        ProductFilter,
+        verbose_name=_("Filtres"),
+        null=True,
+        blank=True
+    )
+    is_vedette = models.BooleanField(
+        _("En vedette ?"),
+        default=False
+    )
     caption = TranslatedField()
     description = TranslatedField()
     order = models.PositiveIntegerField(_("Sort by"), db_index=True)
@@ -1022,3 +1034,12 @@ class dmBlockCalltoaction(CMSPlugin):
                           null=True,
                           blank=True)
     image = models.ImageField(verbose_name="Image", null=True, blank=True)
+
+
+class FeatureList(models.Model):
+
+    feature_name = models.CharField(verbose_name=_('Feature Name'),
+                                    max_length=100)
+    is_enabled = models.BooleanField(verbose_name=_('Is FeatureEemable?'),
+                                     default=False)
+
