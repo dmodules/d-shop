@@ -376,6 +376,16 @@ function dmDrawerDoLogout() {
   return false
 }
 
+/* ===--- Search ---=== */
+
+function doSearch() {
+    let query = $("#q").val()
+    if (query) {
+        window.location = "/search/?q="+query
+    }
+    return false
+}
+
 /* ======================================================== //
 // ===---    @ 2020 D-Modules                        ---=== //
 // ======================================================== */

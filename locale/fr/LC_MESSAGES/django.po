@@ -1874,5 +1874,11 @@ msgstr ""
 "Au cas où vous auriez déjà commandé sur ce site, veuillez vous <a href="
 "\"%(login_url)s\">connecter</a> puis réessayer."
 
-#~ msgid "Carts"
-#~ msgstr "Paniers"
+msgid "See product"
+msgstr "Voir le produit"
+
+msgid "Products found:"
+msgstr "Produits trouvés :"
+
+msgid "No product found"
+msgstr "Aucun produit trouvé"

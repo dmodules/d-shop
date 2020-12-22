@@ -1,31 +1,52 @@
-from django.http import JsonResponse
-from haystack.query import SearchQuerySet
-from .serializers import *
+# from haystack.query import SearchQuerySet
+import json
+from django.http import HttpResponse
+from django.template import loader
+from django.conf import settings
+
+from .serializers import ProductSerializer
+
+from dshop.models import Product
 
 
 def search_product(request):
-
-    q = request.GET.get('q', '')
-    if q is '':
-        return JsonResponse({})
-    #Temperory don't use this for less products
-    #all_results = SearchQuerySet().filter(content=q)
-
-    #products = [result.pk for result in all_results]
-    #products = Product.objects.filter(id__in=products)
-
-    #Search from name
-    query1 = Product.objects.filter(product_name__contains=q)
-    q2 = []
-    #Search from description
-    for product in Product.objects.all():
-        if q in product.get_description:
-            q2.append(product.id)
-    query2 = Product.objects.filter(id__in=q2)
-
-    query = query1 | query2
-    serializer_context = {'request': request}
-    serializer = ProductSerializer(query,
-                                   context=serializer_context,
-                                   many=True)
-    return JsonResponse(serializer.data, safe=False)
+    q = request.GET.get('q', None)
+    template = loader.get_template(
+        "theme/{}/pages/search.html".format(settings.THEME_SLUG)
+    )
+    if q is not None:
+        # Search from name
+        query1 = Product.objects.filter(product_name__icontains=q)
+        # Search from caption
+        q2 = []
+        for product in Product.objects.all():
+            if q in product.get_caption:
+                q2.append(product.id)
+        query2 = Product.objects.filter(id__in=q2)
+        # Search from description
+        q3 = []
+        for product in Product.objects.all():
+            if q in product.get_description:
+                q3.append(product.id)
+        query3 = Product.objects.filter(id__in=q3)
+        # Render
+        query = query1 | query2 | query3
+        serializer_context = {'request': request}
+        serializer = ProductSerializer(
+            query,
+            context=serializer_context,
+            many=True
+        )
+        products = []
+        for p in serializer.data:
+            products.append(Product.objects.get(
+                id=json.loads(json.dumps(p))["id"]
+            ))
+        context = {
+            "query": q,
+            "products": products,
+            "count": len(products)
+        }
+        return HttpResponse(template.render(context, request))
+    else:
+        return HttpResponse(template.render({}, request))
