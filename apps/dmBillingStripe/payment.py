@@ -2,7 +2,7 @@ import stripe
 
 from django.utils.translation import ugettext_lazy as _
 from decimal import Decimal
-from settings import STRIPE_SECRET_KEY, SITE_URL
+from settings import STRIPE_SECRET_KEY, CLIENT_URL
 
 from rest_framework.exceptions import ValidationError
 
@@ -57,7 +57,7 @@ class StripePayment(PaymentProvider):
                     d)][1]['amount']
                 shipping_cost = shipping_cost.split(' ')[1].split(',')[0]
                 shipping_cost = int(shipping_cost) * 100
-            site = SITE_URL
+            site = CLIENT_URL
             success_url = site + \
                 "/billing-stripe/payment/?referenceId="+str(referenceId)
             cancel_url = site + \
