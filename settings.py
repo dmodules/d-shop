@@ -103,7 +103,7 @@ MIDDLEWARE.extend([
 ])
 
 STAGE = os.getenv("STAGE", "local").lower()
-CLIENT_SLUG = slugify(os.getenv("CLIENT_SLUG", "default").lower())
+THEME_SLUG = slugify(os.getenv("THEME_SLUG", "default").lower())
 
 #######################################################################
 # Actual Shop Settings
@@ -126,18 +126,18 @@ elif STAGE == "local":
 # Templates Settings
 
 TEMPLATE_DIR = "/app/apps/dmTheme/templates/theme/{}/pages/".format(
-    CLIENT_SLUG)
-STATIC_CLIENT_DIR = "/app/apps/dmTheme/static/theme/{}/".format(CLIENT_SLUG)
+    THEME_SLUG)
+STATIC_CLIENT_DIR = "/app/apps/dmTheme/static/theme/{}/".format(THEME_SLUG)
 
 #CMS_TEMPLATES_DIR: {
 #    TEMPLATE_DIR
 #}
 
 CMS_TEMPLATES = [
-    ("theme/{}/pages/default.html".format(CLIENT_SLUG), "Par défaut"),
-    ("theme/{}/pages/accueil.html".format(CLIENT_SLUG), "Page: Accueil"),
-    ("theme/{}/pages/produits.html".format(CLIENT_SLUG), "Page: Produits"),
-    ("theme/{}/pages/contact.html".format(CLIENT_SLUG), "Page: Contact"),
+    ("theme/{}/pages/default.html".format(THEME_SLUG), "Par défaut"),
+    ("theme/{}/pages/accueil.html".format(THEME_SLUG), "Page: Accueil"),
+    ("theme/{}/pages/produits.html".format(THEME_SLUG), "Page: Produits"),
+    ("theme/{}/pages/contact.html".format(THEME_SLUG), "Page: Contact"),
 ]
 
 #######################################################################
