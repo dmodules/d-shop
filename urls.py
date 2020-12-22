@@ -36,7 +36,6 @@ urlpatterns = [
   url(r'^billing-stripe/', include("apps.dmBillingStripe.urls")),
   url(r'^contact/', include("apps.dmContact.urls")),
   url(r'^discount/', include("apps.dmRabais.urls")),
-  url(r'^search/', include("apps.dmSearch.urls")),
   url(r'^theme/', include("apps.dmTheme.urls")),
 
   url(r'^api/v1/products-list/$', ProductListView.as_view()),
@@ -56,6 +55,8 @@ urlpatterns = [
 
   url(r'^produits/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', TemplateView.as_view(template_name='/app/apps/dmTheme/templates/theme/{}/pages/produits.html'.format(settings.THEME_SLUG))),
   url(r'^produits/', TemplateView.as_view(template_name='/app/apps/dmTheme/templates/theme/{}/pages/produits.html'.format(settings.THEME_SLUG))),
+  
+  url(r'^search/', include("apps.dmSearch.urls")),
 
   ############################
   # ===--- FRONTEND   ---=== #

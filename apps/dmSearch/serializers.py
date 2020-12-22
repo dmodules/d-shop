@@ -28,5 +28,8 @@ class ProductSerializer(serializers.ModelSerializer):
             'polymorphic_ctype',
         )
 
+    def get_caption(self, obj):
+        return obj.get_caption
+
     def get_description(self, obj):
         return obj.get_description

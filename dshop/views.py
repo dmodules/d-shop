@@ -1,5 +1,4 @@
 import re
-import json
 
 from mailchimp3 import MailChimp
 from easy_thumbnails.files import get_thumbnailer
@@ -10,8 +9,6 @@ from django.utils.translation import ugettext_lazy as _, get_language_from_reque
 from django.utils.html import strip_tags
 from django.utils.text import Truncator
 from django.shortcuts import redirect
-from django.shortcuts import render
-from django.http import HttpResponse
 from django.db.models import Q
 from django.template.defaultfilters import slugify
 from django.core.management import call_command
@@ -21,15 +18,11 @@ from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response as RestResponse
 
-from shop.models.defaults.customer import Customer
-from shop.payment.modifiers import PaymentModifier
-from shop.payment.providers import PaymentProvider
 from shop.modifiers.pool import cart_modifiers_pool
 from shop.models.order import OrderModel
 from shop.models.order import OrderPayment
 from shop.money import MoneyMaker
 
-from dshop.transition import transition_change_notification
 from dshop.models import Product
 
 from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL

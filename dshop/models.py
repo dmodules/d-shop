@@ -430,6 +430,13 @@ class ProductDefault(AvailableProductMixin, Product):
         verbose_name_plural = _("Produits par défaut")
 
     @property
+    def get_caption(self):
+        if self.caption:
+            c = TAG_RE.sub('', self.caption)
+            return c
+        return ''
+
+    @property
     def get_description(self):
         if self.description:
             desc = TAG_RE.sub('', self.description)
@@ -527,6 +534,13 @@ class ProductVariable(Product):
         verbose_name_plural = _("Produits variables")
 
     default_manager = ProductManager()
+
+    @property
+    def get_caption(self):
+        if self.caption:
+            c = TAG_RE.sub('', self.caption)
+            return c
+        return ''
 
     @property
     def get_description(self):
