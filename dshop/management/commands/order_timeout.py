@@ -51,7 +51,7 @@ class Command(BaseCommand):
 
             #Deacivate payment link
             print('Deactivate payment link')
-            if o.extra['payment_modifier'] == 'stripe-payment':
+            if order.extra['payment_modifier'] == 'stripe-payment':
                 try:
                     session_id = order.extra["session_id"]
                     session = stripe.checkout.Session.retrieve(session_id)
