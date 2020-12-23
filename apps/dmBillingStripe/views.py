@@ -52,6 +52,9 @@ def StripePaymentCancelView(request):
                             pv = db_product.variants.get(product_code=p_code)
                             pv.quantity += item.quantity
                             pv.save()
+                #Param to identify order is cancel
+                order.extra['cancel'] = '1'
+                order.save()
             except Exception as e:
                 print("Error to update quantity")
                 #!TODO
