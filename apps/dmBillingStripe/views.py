@@ -13,7 +13,7 @@ from shop.models.order import OrderModel
 from shop.models.order import OrderPayment
 
 from dshop.transition import transition_change_notification
-from dshop.models import Product
+from dshop.models import Product, ProductDefault
 
 from .models import StripeOrderData
 
@@ -42,9 +42,15 @@ def StripePaymentCancelView(request):
         try:
             with transaction.atomic():
                 for item in cart.items.all():
-                    db_product = Product.objects.get(id=item.product_id)
-                    db_product.quantity += item.quantity
-                    db_product.save()
+                    db_product = item.product
+                    if type(db_product) == ProductDefault:
+                        db_product.quantity += item.quantity
+                        db_product.save()
+                    else:
+                        p_code = item.product_code
+                        pv = db_product.variants.get(product_code=p_code)
+                        pv.quantity += item.quantity
+                        pv.save()
         except Exception as e:
             print("Error to update quantity")
             #!TODO
