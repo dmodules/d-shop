@@ -37,23 +37,24 @@ def StripePaymentCancelView(request):
     referenceId = request.GET.get("referenceId", None)
     if referenceId is not None:
         order = OrderModel.objects.get(number=re.sub(r"\D", "", referenceId))
-        cart = order.customer.cart
-        order.readd_to_cart(cart)
-        try:
-            with transaction.atomic():
-                for item in cart.items.all():
-                    db_product = item.product
-                    if type(db_product) == ProductDefault:
-                        db_product.quantity += item.quantity
-                        db_product.save()
-                    else:
-                        p_code = item.product_code
-                        pv = db_product.variants.get(product_code=p_code)
-                        pv.quantity += item.quantity
-                        pv.save()
-        except Exception as e:
-            print("Error to update quantity")
-            #!TODO
+        if 'cancel' not in order.extra:
+            cart = order.customer.cart
+            order.readd_to_cart(cart)
+            try:
+                with transaction.atomic():
+                    for item in cart.items.all():
+                        db_product = item.product
+                        if type(db_product) == ProductDefault:
+                            db_product.quantity += item.quantity
+                            db_product.save()
+                        else:
+                            p_code = item.product_code
+                            pv = db_product.variants.get(product_code=p_code)
+                            pv.quantity += item.quantity
+                            pv.save()
+            except Exception as e:
+                print("Error to update quantity")
+                #!TODO
     return redirect("/")
 
 def StripePaymentView(request):
