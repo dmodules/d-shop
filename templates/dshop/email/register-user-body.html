@@ -1,6 +1,7 @@
-{% extends "shop/email/register-user-body.html" %}
-{% load post_office %}
+{% load dshop_tags %}
 
-{% block email-logo %}
-<img src="{% inline_image 'dshop/img/logo-dark.png' %}" width="200" style="margin: 20px auto; display: block;" />
-{% endblock %}
+{% get_setting 'THEME_SLUG' as client %}
+
+{% with "/app/apps/dmTheme/templates/theme/"|add:client|add:"/email/register-user-body.html" as path %}
+  {% include path %}
+{% endwith %}

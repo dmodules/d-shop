@@ -7,7 +7,7 @@ def get_css(request):
 
     theme = request.GET.get('theme', '')
 
-    #Search for active theme
+    # Search for active theme
     if theme:
         theme = ThemeManagement.objects.filter(theme=theme).first()
     else:

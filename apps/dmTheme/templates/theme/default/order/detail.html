@@ -1,0 +1,105 @@
+{% load i18n static cascade_tags sekizai_tags dshop_tags %}
+{% load render_plugin from cascade_tags %}
+
+<div class="container py-5">
+  <div class="row py-1">
+    <div class="col py-1">
+
+      {% block shop-order-title %}
+        <div class="d-flex align-items-center flex-wrap">
+          <h4 class="text-nowrap">{% trans "Order" %} {{ data.number }}</h4>
+          <div class="text-nowrap ml-3">{% trans "from" context "order-detail" %} <span>{{ data.created_at|ts_to_str }}</span></div>
+          <div class="ml-auto lead badge badge-primary">{% if data.status == 'Paid using Stripe' %}{% trans "Paid using Stripe" %}{% else %}{{data.status}}{% endif %}</div>
+        </div>
+      {% endblock %}
+
+      {% block shop-order-delivery %}
+        <div class="row mb-3">
+          <div class="col-12 col-lg-6 my-2">
+            <div class="service-item item-content">
+              <div class="service-content-box text-left py-3 px-4">
+                <h5 class="service-title">{% trans "Shipping Address" %}</h5>
+                <div class="py-2 pl-1 pr-4">
+                  <pre class="text-left">{{ data.shipping_address_text }}</pre>
+                </div>
+                <div class="text-primary">{% trans "Shipping Method" %}: {{ data.active_shipping_method.label }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6 my-2">
+            <div class="service-item item-content">
+              <div class="service-content-box text-left py-3 px-4">
+                <h5 class="service-title">{% trans "Billing Address" %}</h5>
+                <div class="py-2 pl-1 pr-4">
+                  <pre class="text-left pa-2">{{ data.billing_address_text }}</pre>
+                </div>
+                <div class="text-primary">{% trans "Payment Method" %}: {{ data.active_payment_method.label }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endblock %}
+
+      {% block shop-order-head %}
+      <h4>{% trans "Ordered Items" %}</h4>
+      {% endblock shop-order-head %}
+
+      {% block shop-order-body %}
+        {% for item in data.items %}
+      <div class="shop-list-item row border-top py-2">
+        <div class="col-12 col-md-6">
+          <div class="row align-items-center flex-nowrap">
+            <div class="col-2 text-right">
+              {{ item.quantity }}<span class="px-1">&times;</span>
+            </div>
+            <div class="col-10">{{ item.summary.media }}</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="row text-nowrap flex-nowrap lead">
+            <div class="col-6 text-right">{{ item.unit_price }}</div>
+            <div class="col-4 col-md-6 text-right">{{ item.line_total }}</div>
+          </div>
+          {% for _, extra_row in item.extra.rows %}
+          <div class="row text-muted text-nowrap flex-nowrap">
+            <div class="col-6 text-right">{{ extra_row.label }}</div>
+            <div class="col-4 col-md-6 text-right">{{ extra_row.amount }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+        {% endfor %}
+      {% endblock shop-order-body %}
+
+      {% block shop-order-foot %}
+      <div class="row mb-3">
+        <div class="col-12 col-md-6 border-top order-md-last">
+          <div class="row py-2 lead">
+            <div class="col-6 text-right text-nowrap">
+              {% trans "Subtotal" %}
+            </div>
+            <div class="col-4 col-md-6 text-right text-nowrap">
+              {{ data.subtotal }}
+            </div>
+          </div>
+        {% for key, extra_row in data.extra.rows %}
+          <div class="row py-2">
+            <div class="col-6 text-right text-nowrap">{{ extra_row.label }}</div>
+            <div class="col-4 col-md-6 text-right text-nowrap">{{ extra_row.amount }}</div>
+          </div>
+        {% endfor %}
+          <div class="row py-2 shop-double-border lead font-weight-bold">
+            <div class="col-6 text-right text-nowrap">{% trans "Total" %}</div>
+            <div class="col-4 col-md-6 text-right text-nowrap">{{ data.total }}</div>
+          </div>
+        {% if instance.right_extension %}{% render_plugin instance.right_extension %}{% endif %}
+        </div>
+        <div class="col-12 col-md-6">
+        {% if instance.left_extension %}{% render_plugin instance.left_extension %}{% endif %}
+        </div>
+      </div>
+      {% endblock shop-order-foot %}
+
+    </div>
+  </div>
+</div>

@@ -1,54 +1,23 @@
-{% load static thumbnail cms_tags i18n %}
+{% load static cms_tags %}
 
-<!-- SLIDER START -->
-  <section>
-    <div class="n2-section-smartslider">
-      <div id="n2-ss-2-align" class="n2-ss-align">
-        <div class="n2-padding">
-          <div id="n2-ss-2" data-creator="Smart Slider 3" class="n2-ss-slider n2-ow n2-has-hover n2notransition n2-ss-load-fade" data-minFontSizedesktopPortrait="1" data-minFontSizedesktopLandscape="1" data-minFontSizetabletPortrait="1" data-minFontSizetabletLandscape="1" data-minFontSizemobilePortrait="1" data-minFontSizemobileLandscape="1" style="font-size: 16px;" data-fontsize="16">
-            <div class="n2-ss-slider-1 n2-ss-swipe-element n2-ow">
-              <div class="n2-ss-slider-2 n2-ow">
-                <div class="n2-ss-slider-3 n2-ow">
-                  <div class="n2-ss-slide-backgrounds"></div>
-                  {% for plugin in instance.child_plugin_instances %}
-                    {% with forloop.counter as counter %}
-                      {% render_plugin plugin %}
-                    {% endwith %}
-                  {% endfor %}
-                </div>
-              </div>
-              <div data-ssleft="0+60" data-sstop="height/2-previousheight/2" id="n2-ss-2-arrow-previous" class="n2-ss-widget n2-ss-widget-display-desktop nextend-arrow nextend-arrow-animated n2-ow nextend-arrow-animated-horizontal nextend-arrow-previous n2-ib" style="position: absolute;" role="button" aria-label="Previous slide" tabindex="0">
-                <div class="n2-style-d7a463f72ac0d49c0202e08c423ae5d7-heading-active  n2-resize">
-                  <img class="n2-ow" data-no-lazy="1" data-hack="data-lazy-src" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjEuNTggMjMuNThsLTcuOTYyLTcuNTgzIDcuODYtNy40ODVjLjMyLS4yNjIuNTIyLS42NS41MjItMS4wODNDMjIgNi42NCAyMS4zMjggNiAyMC41IDZjLS40MDMgMC0uNzY4LjE1LTEuMDM4LjM5OGwtLjAwNC0uMDA0LTkgOC41N3YuMDAyYy0uMjgyLjI2LS40NTguNjI0LS40NTggMS4wMjhWMTZjMCAuNDA0LjE3Ni43Ny40NiAxLjAzaC0uMDAybDkgOC41N2MuMjcuMjQ3LjYzOC40IDEuMDQyLjQuODMgMCAxLjUtLjY0IDEuNS0xLjQzIDAtLjM4NC0uMTYtLjczMy0uNDItLjk5eiIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iMC44IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=" alt="previous arrow" />
-                </div>
-                <div class="n2-style-d7a463f72ac0d49c0202e08c423ae5d7-heading-active  n2-active n2-resize">
-                  <img class="n2-ow" data-no-lazy="1" data-hack="data-lazy-src" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjEuNTggMjMuNThsLTcuOTYyLTcuNTgzIDcuODYtNy40ODVjLjMyLS4yNjIuNTIyLS42NS41MjItMS4wODNDMjIgNi42NCAyMS4zMjggNiAyMC41IDZjLS40MDMgMC0uNzY4LjE1LTEuMDM4LjM5OGwtLjAwNC0uMDA0LTkgOC41N3YuMDAyYy0uMjgyLjI2LS40NTguNjI0LS40NTggMS4wMjhWMTZjMCAuNDA0LjE3Ni43Ny40NiAxLjAzaC0uMDAybDkgOC41N2MuMjcuMjQ3LjYzOC40IDEuMDQyLjQuODMgMCAxLjUtLjY0IDEuNS0xLjQzIDAtLjM4NC0uMTYtLjczMy0uNDItLjk5eiIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iMC44IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=" alt="previous arrow" />
-                </div>
-              </div>
-              <div data-ssright="0+60" data-sstop="height/2-nextheight/2" id="n2-ss-2-arrow-next" class="n2-ss-widget n2-ss-widget-display-desktop nextend-arrow nextend-arrow-animated n2-ow nextend-arrow-animated-horizontal nextend-arrow-next n2-ib" style="position: absolute;" role="button" aria-label="Next slide" tabindex="0">
-                <div class="n2-style-d7a463f72ac0d49c0202e08c423ae5d7-heading-active  n2-resize">
-                  <img class="n2-ow"
-                  data-no-lazy="1" data-hack="data-lazy-src" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjIgMTUuOTk3di0uMDAzYzAtLjQwNC0uMTc2LS43NjgtLjQ2LTEuMDI4aC4wMDJsLTktOC41NzItLjAwNC4wMDRDMTIuMjY4IDYuMTUgMTEuOTAyIDYgMTEuNSA2Yy0uODMgMC0xLjUuNjQtMS41IDEuNDMgMCAuNDMyLjIwMy44Mi41MjMgMS4wODJsNy44NiA3LjQ4NS03Ljk2MyA3LjU4M2MtLjI2LjI1Ny0uNDIuNjA2LS40Mi45OSAwIC43OS42NyAxLjQzIDEuNSAxLjQzLjQwNCAwIC43Ny0uMTUzIDEuMDQtLjRsOS4wMDItOC41N3YtLjAwMmMuMjgyLS4yNi40NTgtLjYyNC40NTgtMS4wMjh2LS4wMDN6IiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjgiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==" alt="next arrow" />
-                </div>
-                <div class="n2-style-d7a463f72ac0d49c0202e08c423ae5d7-heading-active  n2-active n2-resize">
-                  <img class="n2-ow" data-no-lazy="1" data-hack="data-lazy-src" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjIgMTUuOTk3di0uMDAzYzAtLjQwNC0uMTc2LS43NjgtLjQ2LTEuMDI4aC4wMDJsLTktOC41NzItLjAwNC4wMDRDMTIuMjY4IDYuMTUgMTEuOTAyIDYgMTEuNSA2Yy0uODMgMC0xLjUuNjQtMS41IDEuNDMgMCAuNDMyLjIwMy44Mi41MjMgMS4wODJsNy44NiA3LjQ4NS03Ljk2MyA3LjU4M2MtLjI2LjI1Ny0uNDIuNjA2LS40Mi45OSAwIC43OS42NyAxLjQzIDEuNSAxLjQzLjQwNCAwIC43Ny0uMTUzIDEuMDQtLjRsOS4wMDItOC41N3YtLjAwMmMuMjgyLS4yNi40NTgtLjYyNC40NTgtMS4wMjh2LS4wMDN6IiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjgiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==" alt="next arrow" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="n2-clear"></div>
-          <div id="n2-ss-2-spinner" style="display: none;">
-            <div>
-              <div class="n2-ss-spinner-simple-white-container">
-                <div class="n2-ss-spinner-simple-white"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="n2-ss-2-placeholder" style="position: relative;z-index:2;background-color:RGBA(0,0,0,0);max-height:3000px; background-color:RGBA(255,255,255,0);"><img
-        style="width: 100%; max-width:3000px; display: block;opacity:0;" class="n2-ow" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMCIgd2lkdGg9IjEyMDAiIGhlaWdodD0iNTAwIiA+PC9zdmc+"
-        alt="Slider" /></div>
+<div class="banner_section slide_medium shop_banner_slider staggered-animation-wrap">
+  <div id="mainslider" class="carousel slide carousel-fade light_arrow" data-ride="carousel">
+    <div class="carousel-inner">
+      {% for plugin in instance.child_plugin_instances %}
+        {% if forloop.first %}
+          {% with loop='first' %}
+            {% render_plugin plugin %}
+          {% endwith %}
+        {% else %}
+          {% render_plugin plugin %}
+        {% endif %}
+      {% endfor %}
     </div>
-  </section>
-<!-- SLIDER END -->
+    {% for plugin in instance.child_plugin_instances %}
+      {% if forloop.counter == 2 %}
+        <a class="carousel-control-prev" href="#mainslider" role="button" data-slide="prev"><i class="ion-chevron-left"></i></a>
+        <a class="carousel-control-next" href="#mainslider" role="button" data-slide="next"><i class="ion-chevron-right"></i></a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>

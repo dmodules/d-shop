@@ -1,6 +1,7 @@
-{% extends "shop/print/delivery-note.html" %}
-{% load static %}
+{% load dshop_tags %}
 
-{% block header %}
-<img src="{% static 'dshop/django-shop-logo.svg' %}" class="shop-logo" alt="django-SHOP" height="45">
-{% endblock %}
+{% get_setting 'THEME_SLUG' as client %}
+
+{% with "/app/apps/dmTheme/templates/theme/"|add:client|add:"/print/delivery-note.html" as path %}
+  {% include path %}
+{% endwith %}

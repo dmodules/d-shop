@@ -885,7 +885,11 @@ export default {
   },
   methods: {
     setAuth() {
-      this.$set(this, "isAuth", true);
+        this.$set(this, "isAuth", true);
+        this.getCustomer();
+        this.getShippingMethods();
+        this.getBillingMethods();
+        this.getPromoCodes();
     },
     /* =========================================================== //
     // ===---   getCustomer                                 ---=== //
@@ -957,7 +961,8 @@ export default {
     // ===---   getShippingMethods                          ---=== //
     // =========================================================== */
     getShippingMethods() {
-      let self = this;
+      let self = this
+      this.$set(this.formChoix, 'shippingMethods', [])
       // ===--- BEGIN: axios
       this.$axios
         .get(this.$web_url + "/api/fe/shipping-methods/", {
@@ -990,6 +995,7 @@ export default {
     // =========================================================== */
     getBillingMethods() {
       let self = this;
+      this.$set(this.formChoix, 'billingMethods', [])
       // ===--- BEGIN: axios
       this.$axios
         .get(this.$web_url + "/api/fe/billing-methods/", {

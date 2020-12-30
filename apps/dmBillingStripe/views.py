@@ -13,7 +13,7 @@ from shop.models.order import OrderModel
 from shop.models.order import OrderPayment
 
 from dshop.transition import transition_change_notification
-from dshop.models import Product
+from dshop.models import Product, ProductDefault
 
 from .models import StripeOrderData
 
@@ -37,17 +37,27 @@ def StripePaymentCancelView(request):
     referenceId = request.GET.get("referenceId", None)
     if referenceId is not None:
         order = OrderModel.objects.get(number=re.sub(r"\D", "", referenceId))
-        cart = order.customer.cart
-        order.readd_to_cart(cart)
-        try:
-            with transaction.atomic():
-                for item in cart.items.all():
-                    db_product = Product.objects.get(id=item.product_id)
-                    db_product.quantity += item.quantity
-                    db_product.save()
-        except Exception as e:
-            print("Error to update quantity")
-            #!TODO
+        if 'cancel' not in order.extra:
+            cart = order.customer.cart
+            order.readd_to_cart(cart)
+            try:
+                with transaction.atomic():
+                    for item in cart.items.all():
+                        db_product = item.product
+                        if type(db_product) == ProductDefault:
+                            db_product.quantity += item.quantity
+                            db_product.save()
+                        else:
+                            p_code = item.product_code
+                            pv = db_product.variants.get(product_code=p_code)
+                            pv.quantity += item.quantity
+                            pv.save()
+                #Param to identify order is cancel
+                order.extra['cancel'] = '1'
+                order.save()
+            except Exception as e:
+                print("Error to update quantity")
+                #!TODO
     return redirect("/")
 
 def StripePaymentView(request):

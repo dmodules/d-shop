@@ -439,6 +439,8 @@
     methods: {
       setAuth () {
         this.$set(this, 'isAuth', true)
+        this.getCustomer()
+        this.getShippingMethods()
       },
       /* =========================================================== //
       // ===---   getCustomer                                 ---=== //
@@ -471,6 +473,7 @@
       // =========================================================== */
       getShippingMethods () {
         let self = this
+        this.$set(this.formChoix, 'shippingMethods', [])
         // ===--- BEGIN: axios
         this.$axios.get(this.$web_url+'/api/fe/shipping-methods/', {
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }

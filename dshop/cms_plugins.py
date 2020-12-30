@@ -29,7 +29,6 @@ class BoutiquePlugin(CMSPluginBase):
 class dmBlocEntetePlugin(BoutiquePlugin):
     name = _("Entête de page")
     model = dmBlocEntete
-    render_template = 'plugins/bloc-entete.html'
     allow_children = False
 
     def render(self, context, instance, placeholder):
@@ -37,12 +36,17 @@ class dmBlocEntetePlugin(BoutiquePlugin):
                         self).render(context, instance, placeholder)
         return context
 
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            '/app/apps/dmTheme/templates/theme/{}/plugins/bloc-entete.html'.format(
+                settings.THEME_SLUG), 'plugins/bloc-entete.html'
+        ])
+
 
 @plugin_pool.register_plugin
 class dmBlocTextMediaPlugin(BoutiquePlugin):
     name = _("Bloc Texte avec média")
     model = dmBlocTextMedia
-    render_template = 'plugins/bloc-textmedia.html'
     allow_children = False
 
     def render(self, context, instance, placeholder):
@@ -50,18 +54,29 @@ class dmBlocTextMediaPlugin(BoutiquePlugin):
                         self).render(context, instance, placeholder)
         return context
 
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            '/app/apps/dmTheme/templates/theme/{}/plugins/bloc-textmedia.html'.format(
+                settings.THEME_SLUG), 'plugins/bloc-textmedia.html'
+        ])
+
 
 @plugin_pool.register_plugin
 class dmBlocEnteteVideoPlugin(BoutiquePlugin):
     name = _("Bloc d'entête avec vidéo")
     model = dmBlocEnteteVideo
-    render_template = 'plugins/bloc-entete-video.html'
     allow_children = False
 
     def render(self, context, instance, placeholder):
         context = super(dmBlocEnteteVideoPlugin,
                         self).render(context, instance, placeholder)
         return context
+
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            '/app/apps/dmTheme/templates/theme/{}/plugins/bloc-entete-video.html'.format(
+                settings.THEME_SLUG), 'plugins/bloc-entete-video.html'
+        ])
 
 
 @plugin_pool.register_plugin
@@ -121,7 +136,6 @@ class dmBlocSliderChildPlugin(BoutiquePlugin):
 class dmBlocEtapesParentPlugin(BoutiquePlugin):
     name = _("Bloc d'étapes")
     model = dmBlocEtapesParent
-    render_template = 'plugins/bloc-etapes-parent.html'
     allow_children = True
     child_classes = ['dmBlocEtapesChildPlugin']
 
@@ -130,12 +144,17 @@ class dmBlocEtapesParentPlugin(BoutiquePlugin):
                         self).render(context, instance, placeholder)
         return context
 
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            '/app/apps/dmTheme/templates/theme/{}/plugins/bloc-etapes-parent.html'.format(
+                settings.THEME_SLUG), 'plugins/bloc-etapes-parent.html'
+        ])
+
 
 @plugin_pool.register_plugin
 class dmBlocEtapesChildPlugin(BoutiquePlugin):
     name = _("Élément du bloc d'étapes")
     model = dmBlocEtapesChild
-    render_template = 'plugins/bloc-etapes-child.html'
     allow_children = False
     require_parent = True
     parent_classes = ['dmBlocEtapesParentPlugin']
@@ -144,6 +163,12 @@ class dmBlocEtapesChildPlugin(BoutiquePlugin):
         context = super(dmBlocEtapesChildPlugin,
                         self).render(context, instance, placeholder)
         return context
+
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            '/app/apps/dmTheme/templates/theme/{}/plugins/bloc-etapes-child.html'.format(
+                settings.THEME_SLUG), 'plugins/bloc-etapes-child.html'
+        ])
 
 
 @plugin_pool.register_plugin
@@ -168,7 +193,6 @@ class dmCalltoactionPlugin(BoutiquePlugin):
 class dmBlocContactPlugin(BoutiquePlugin):
     name = _("Bloc contact")
     model = dmBlocContact
-    render_template = 'plugins/bloc-contact.html'
     allow_children = False
 
     def render(self, context, instance, placeholder):
@@ -176,18 +200,29 @@ class dmBlocContactPlugin(BoutiquePlugin):
                         self).render(context, instance, placeholder)
         return context
 
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            '/app/apps/dmTheme/templates/theme/{}/plugins/bloc-infolettre.html'.format(
+                settings.THEME_SLUG), 'plugins/bloc-infolettre.html'
+        ])
+
 
 @plugin_pool.register_plugin
 class dmInfolettrePlugin(BoutiquePlugin):
     name = _("Bloc infolettre")
     model = dmInfolettre
-    render_template = 'plugins/bloc-infolettre.html'
     allow_children = False
 
     def render(self, context, instance, placeholder):
         context = super(dmInfolettrePlugin,
                         self).render(context, instance, placeholder)
         return context
+
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            '/app/apps/dmTheme/templates/theme/{}/plugins/bloc-infolettre.html'.format(
+                settings.THEME_SLUG), 'plugins/bloc-infolettre.html'
+        ])
 
 
 #######################################################################
@@ -199,13 +234,18 @@ class dmInfolettrePlugin(BoutiquePlugin):
 class dmProductsCategoriesPlugin(BoutiquePlugin):
     name = _("Catégories de produit")
     model = dmProductsCategories
-    render_template = 'plugins/products-categories.html'
     allow_children = False
 
     def render(self, context, instance, placeholder):
         context = super(dmProductsCategoriesPlugin,
                         self).render(context, instance, placeholder)
         return context
+
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            '/app/apps/dmTheme/templates/theme/{}/plugins/products-categories.html'.format(
+                settings.THEME_SLUG), 'plugins/products-categories.html'
+        ])
 
 
 @plugin_pool.register_plugin
