@@ -2,13 +2,13 @@
 
 Open source platform to build simple but robust e-commerce website. 
 
-- Features
+# Features
 
 * Stock management
 * Promo code
 
-- Basic configurations
+# Basic configurations
 
-- Setup new project in Divio
+# Setup new project in Divio
 
-- Commercial support
+# Commercial support
