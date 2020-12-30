@@ -1,15 +1,23 @@
 ##########
-D-Shop - Simple e-commerce build on top of Django-Shop and Django-CMS
+D-Shop - Simple e-commerce platform build with Django-Shop and Django-CMS
 ##########
 
-Open source platform to build simple but robust e-commerce website. 
+Open source platform to build simple but robust e-commerce website using Python.
 
 ********
 Features
 ********
 
 * Stock management
-* Promo code
+* Promo code by products or by categories
+* Top messages
+* Themes management
+* CMS to edit your pages (Django CMS)
+* Shipping management
+* Canada taxs
+* Email notifications
+* Payment with Stripe
+* Payment with Square
 
 ********
 Basic configurations
