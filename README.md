@@ -2,7 +2,9 @@
 
 Open source platform to build simple but robust e-commerce website. 
 
-# Features
+********
+Features
+********
 
 * Stock management
 * Promo code
