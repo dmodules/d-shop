@@ -9,8 +9,20 @@ Features
 * Stock management
 * Promo code
 
-# Basic configurations
+********
+Basic configurations
+********
 
-# Setup new project in Divio
+Lorem ipsum
 
-# Commercial support
+********
+Setup new project in Divio
+********
+
+Lorem ipsum
+
+********
+Commercial support
+********
+
+Lorem ipsum
