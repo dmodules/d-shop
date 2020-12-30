@@ -36,4 +36,4 @@ Lorem ipsum
 Commercial support
 ********
 
-Lorem ipsum
+For any commercial support to install D-Shop, fix bugs or develop new features you can contact `D-Modules <https://www.d-modules.com>`_
