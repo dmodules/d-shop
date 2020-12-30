@@ -13,7 +13,7 @@ Features
 * Promo code by products or by categories
 * Top messages
 * Themes management
-* CMS to edit your pages (Django CMS)
+* CMS to edit your pages (`Django CMS <https://www.django-cms.org/>`_)
 * Shipping management
 * Canada taxs
 * Email notifications
@@ -21,13 +21,13 @@ Features
 * Payment with Square
 
 ********
-Basic configurations
+Configurations
 ********
 
 Lorem ipsum
 
 ********
-Setup new project in Divio
+Installation
 ********
 
 Lorem ipsum
