@@ -38,12 +38,12 @@ urlpatterns = [
   url(r'^discount/', include("apps.dmRabais.urls")),
   url(r'^theme/', include("apps.dmTheme.urls")),
 
-  url(r'^api/v1/products-list/$', ProductListView.as_view()),
+  url(r'^api/v1/products-list/$', ProductListView.as_view(), name='product-list'),
 
-  url(r'^api/fe/customer/$', CustomerView.as_view()),
-  url(r'^api/fe/moreproduits/$', LoadProduits.as_view()),
-  url(r'^api/fe/shipping-methods/$', ShippingMethodsView.as_view()),
-  url(r'^api/fe/billing-methods/$', BillingMethodsView.as_view()),
+  url(r'^api/fe/customer/$', CustomerView.as_view(), name='customer'),
+  url(r'^api/fe/moreproduits/$', LoadProduits.as_view(), name='moreproducts'),
+  url(r'^api/fe/shipping-methods/$', ShippingMethodsView.as_view(), name='shipping-method'),
+  url(r'^api/fe/billing-methods/$', BillingMethodsView.as_view(), name='billing-method'),
 
   url(r'^test-payment/$', TestPaymentView),
 
@@ -54,7 +54,7 @@ urlpatterns = [
   url(r'^message-envoye/', TemplateView.as_view(template_name="/app/apps/dmTheme/templates/theme/{}/pages/message-envoye.html".format(settings.THEME_SLUG))),
 
   url(r'^produits/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', TemplateView.as_view(template_name='/app/apps/dmTheme/templates/theme/{}/pages/produits.html'.format(settings.THEME_SLUG))),
-  url(r'^produits/', TemplateView.as_view(template_name='/app/apps/dmTheme/templates/theme/{}/pages/produits.html'.format(settings.THEME_SLUG))),
+  url(r'^produits/', TemplateView.as_view(template_name='/app/apps/dmTheme/templates/theme/{}/pages/produits.html'.format(settings.THEME_SLUG)), name='produits'),
   
   url(r'^search/', include("apps.dmSearch.urls")),
 
