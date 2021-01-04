@@ -1,11 +1,8 @@
 from django.db import IntegrityError
 from django.test import TestCase, Client
 from django.urls import reverse
-
-from rest_framework import status
-
 from dshop.models import Product
-from dshop.utils_test import category, filter_p, product
+from dshop.utils_test import filter_p, category, product
 
 
 class ProductCartTest(TestCase):
@@ -13,7 +10,7 @@ class ProductCartTest(TestCase):
     def setUp(self):
         cat = category()
         filt = filter_p()
-        prod = product(filt, cat)
+        product(filt, cat)
         self.client = Client()
 
     def test_product_list(self):
@@ -76,16 +73,12 @@ class ProductModelTest(TestCase):
         self.client = Client()
 
     def test_same_product(self):
-        data = {
-            'product_name': 'Capsicum',
-            'product_code': 'caps',
-            'slug': 'capsicum',
-            'unit_price': 1.00,
-            'quantity': 100,
-            'order': 0,
-            'caption': 'Capsicum'
-        }
-        prod = product(None, None, data)
+
+        data = {'product_name': 'Capsicum', 'product_code': 'caps',
+                'slug': 'capsicum', 'unit_price': 1.00,
+                'quantity': 100, 'order': 0,
+                'caption': 'Capsicum'}
+        product(None, None, data)
         # We should get integrity error
         self.assertEqual(IntegrityError, product(None, None, data))
 
@@ -116,17 +109,14 @@ class DShopAPITest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
-'''class DShopTemplateTest(TestCase):
+class DShopTemplateTest(TestCase):
+
+    fixtures = ['1.json']
 
     def setUp(self):
         self.client = Client()
 
     def test_home_page(self):
-        response = self.client.get('http://localhost:8000/fr/')
+        response = self.client.get('/')
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_product_page(self):
-        response = self.client.get(reverse('produits'))
-
-        self.assertEqual(response.status_code, status.HTTP_200_OK)'''
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
