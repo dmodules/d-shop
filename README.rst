@@ -15,7 +15,7 @@ Features
 * Themes management
 * CMS to edit your pages (`Django CMS <https://www.django-cms.org/>`_)
 * Shipping management
-* Canada taxs
+* Canada taxes
 * Email notifications
 * Payment with Stripe
 * Payment with Square
