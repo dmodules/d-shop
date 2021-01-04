@@ -1,18 +1,17 @@
-import json
-from django.core.management import call_command
 from django.contrib.auth.models import AnonymousUser
+from django.core.management import call_command
 from django.db import models
 from django.http.request import HttpRequest
 from django.utils.six.moves.urllib.parse import urlparse
+
 from post_office import mail
 from post_office.models import EmailTemplate
+
 from shop.conf import app_settings
 from shop.models.order import BaseOrder
 from shop.models.notification import Notification
 from shop.serializers.delivery import DeliverySerializer
-from shop.serializers.order import OrderDetailSerializer
 from shop.signals import email_queued
-from settings import SHOP_VENDOR_EMAIL
 
 
 class EmulateHttpRequest(HttpRequest):
@@ -50,8 +49,7 @@ def transition_change_notification(order, miniorder=None):
     if not isinstance(order, BaseOrder):
         raise TypeError("Object order must inherit from class BaseOrder")
     emails_in_queue = False
-    for notification in Notification.objects.filter(
-            transition_target=order.status):
+    for notification in Notification.objects.filter(transition_target=order.status):
         recipient = notification.get_recipient(order)
         if recipient is None:
             continue
@@ -59,7 +57,9 @@ def transition_change_notification(order, miniorder=None):
                                               order.stored_request)
         customer_serializer = app_settings.CUSTOMER_SERIALIZER(order.customer)
         render_context = {'request': emulated_request, 'render_label': 'email'}
-        order_serializer = OrderDetailSerializer(order, context=render_context)
+        # order_serializer = OrderDetailSerializer(
+        #    order, context=render_context
+        # )
         language = order.stored_request.get('language')
         context = {
             'customer': customer_serializer.data,
@@ -83,12 +83,14 @@ def transition_change_notification(order, miniorder=None):
         for notiatt in notification.notificationattachment_set.all():
             attachments[notiatt.attachment.
                         original_filename] = notiatt.attachment.file.file
-        mail.send(recipient,
-                  template=template,
-                  context=context,
-                  attachments=attachments,
-                  render_on_delivery=True)
+        mail.send(
+            recipient,
+            template=template,
+            context=context,
+            attachments=attachments,
+            render_on_delivery=True
+        )
         emails_in_queue = True
     if emails_in_queue:
         email_queued()
-        call_command('send_queued_mail')
+        call_command("send_queued_mail")

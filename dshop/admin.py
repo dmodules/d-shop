@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.template.context import Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
-from admin_ordering.admin import OrderableAdmin
 
 from cms.admin.placeholderadmin import PlaceholderAdminMixin
 from cms.admin.placeholderadmin import FrontendEditableAdminMixin
@@ -410,7 +409,14 @@ class ProductFilterAdmin(admin.ModelAdmin):
 
 
 @admin.register(ProductDefault)
-class ProductDefaultAdmin(InvalidateProductCacheMixin, SortableAdminMixin, TranslatableAdmin, FrontendEditableAdminMixin, PlaceholderAdminMixin, PolymorphicChildModelAdmin):
+class ProductDefaultAdmin(
+    InvalidateProductCacheMixin,
+    SortableAdminMixin,
+    TranslatableAdmin,
+    FrontendEditableAdminMixin,
+    PlaceholderAdminMixin,
+    PolymorphicChildModelAdmin
+):
     base_model = Product
     readonly_fields = ('slug',)
     fieldsets = (
@@ -437,7 +443,7 @@ class ProductDefaultAdmin(InvalidateProductCacheMixin, SortableAdminMixin, Trans
     )
     inlines = [ProductImageInline]
     filter_horizontal = ["categories", "filters"]
-    #prepopulated_fields = {'slug': ['product_code']}
+    # prepopulated_fields = {'slug': ['product_code']}
 
 
 class ProductVariableVariantInline(admin.TabularInline):
@@ -446,7 +452,14 @@ class ProductVariableVariantInline(admin.TabularInline):
 
 
 @admin.register(ProductVariable)
-class ProductVariableAdmin(InvalidateProductCacheMixin, SortableAdminMixin, TranslatableAdmin, FrontendEditableAdminMixin, PlaceholderAdminMixin, PolymorphicChildModelAdmin):
+class ProductVariableAdmin(
+    InvalidateProductCacheMixin,
+    SortableAdminMixin,
+    TranslatableAdmin,
+    FrontendEditableAdminMixin,
+    PlaceholderAdminMixin,
+    PolymorphicChildModelAdmin
+):
     base_model = Product
     readonly_fields = ('slug',)
     fieldsets = [
@@ -471,7 +484,7 @@ class ProductVariableAdmin(InvalidateProductCacheMixin, SortableAdminMixin, Tran
     ]
     filter_horizontal = ["categories", "filters"]
     inlines = [ProductImageInline, ProductVariableVariantInline]
-    #prepopulated_fields = {'slug': ['product_name']}
+    # prepopulated_fields = {'slug': ['product_name']}
 
     def render_text_index(self, instance):
         template = get_template('search/indexes/dshop/commodity_text.txt')
@@ -508,7 +521,8 @@ class ProductAdmin(PolymorphicSortableAdminMixin, PolymorphicParentModelAdmin):
             for v in result.variants.all():
                 d.append(str(v.quantity))
             result = ', '.join(d)
-        except:
+        except Exception as e:
+            print(e)
             result = result.quantity
         return str(result)
     get_quantity.short_description = _("Quantity")

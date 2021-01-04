@@ -10,30 +10,39 @@ from datetime import datetime
 
 class dmAdvertisingTopBanner(models.Model):
     """Model for Advertising Alert on a banner on top of the website"""
-    text = models.CharField(verbose_name=_("Texte"),
-                            max_length=75,
-                            help_text=_("Maximum de 75 caractères."))
+    text = models.CharField(
+        verbose_name=_("Text"),
+        max_length=75,
+        help_text=_("Maximum 75 characters.")
+    )
     link = models.CharField(
-        verbose_name=_("Lien URL"),
+        verbose_name=_("URL"),
         max_length=1000,
         blank=True,
         null=True,
-        help_text=
-        _("Exemple: https://www.test.com. Laissez vide pour ne pas utiliser de lien."
-          ))
+        help_text=_("Example: https://www.test.com. Leave blank to not use link.")
+    )
     open_blank = models.BooleanField(
-        verbose_name=_("Ouvrir le lien dans un nouvel onglet ?"),
-        default=False)
-    is_active = models.BooleanField(verbose_name=_("Actif"), default=True)
-    valid_from = models.DateTimeField(verbose_name=_("Date de début"),
-                                      default=datetime.now)
-    valid_until = models.DateTimeField(verbose_name=_("Date de fin"),
-                                       blank=True,
-                                       null=True)
+        verbose_name=_("Open on a new tab?"),
+        default=False
+    )
+    is_active = models.BooleanField(
+        verbose_name=_("Active"),
+        default=True
+    )
+    valid_from = models.DateTimeField(
+        verbose_name=_("Start at"),
+        default=datetime.now
+    )
+    valid_until = models.DateTimeField(
+        verbose_name=_("End at"),
+        blank=True,
+        null=True
+    )
 
     class Meta:
-        verbose_name = _("Banderole d'entête publicitaire")
-        verbose_name_plural = _("Banderoles d'entête publicitaires")
+        verbose_name = _("Advertising Top Banner")
+        verbose_name_plural = _("Advertising Top Banners")
 
     def __str__(self):
         return self.text

@@ -5,7 +5,7 @@ from easy_thumbnails.files import get_thumbnailer
 from ipware.ip import get_client_ip as get_ip
 
 from django.contrib import messages
-from django.utils.translation import ugettext_lazy as _, get_language_from_request
+from django.utils.translation import get_language_from_request
 from django.utils.html import strip_tags
 from django.utils.text import Truncator
 from django.shortcuts import redirect
@@ -72,7 +72,7 @@ def TestPaymentView(request):
     transactionId = request.GET.get('transactionId', None)
 
     if referenceId is not None and transactionId is not None:
-        order = OrderModel.objects.get(number=re.sub('\D', '', referenceId))
+        order = OrderModel.objects.get(number=re.sub(r'\D', '', referenceId))
         try:
             Money = MoneyMaker(order.currency)
             amount = Money(order._total)
@@ -84,7 +84,8 @@ def TestPaymentView(request):
             order.acknowledge_payment()
             order.save()
             return redirect(order.get_absolute_url())
-        except:
+        except Exception as e:
+            print(e)
             order.cancel_order()
             order.save()
             return redirect('/commande/')
@@ -121,22 +122,22 @@ class LoadProduits(APIView):
         if category is not None:
             category = int(category)
             products = Product.objects.filter(
-                Q(categories=k) | Q(categories__parent=k)
-                | Q(categories__parent__parent=k)
-                | Q(categories__parent__parent__parent=k),
+                Q(categories=category) | Q(categories__parent=category)
+                | Q(categories__parent__parent=category)
+                | Q(categories__parent__parent__parent=category),
                 active=True).order_by('id')[offset:offset + limit]
             next_products = Product.objects.filter(
-                Q(categories=k) | Q(categories__parent=k)
-                | Q(categories__parent__parent=k)
-                | Q(categories__parent__parent__parent=k),
-                active=True).order_by('id')[offset + limit:offset + limit +
-                                            limit].count()
+                Q(categories=category) | Q(categories__parent=category)
+                | Q(categories__parent__parent=category)
+                | Q(categories__parent__parent__parent=category),
+                active=True).order_by('id')[offset + limit:offset + limit
+                                            + limit].count()
         else:
             products = Product.objects.filter(
                 active=True).order_by('id')[offset:offset + limit]
             next_products = Product.objects.filter(
-                active=True).order_by('id')[offset + limit:offset + limit +
-                                            limit].count()
+                active=True).order_by('id')[offset + limit:offset + limit
+                                            + limit].count()
         # ===---
         all_produits = []
         for produit in products:
@@ -363,7 +364,8 @@ def mailchimp(request):
             messages.success(
                 request,
                 'Vous avez bien été ajouté à notre liste de courriels')
-        except:
+        except Exception as e:
+            print(e)
             messages.error(request,
                            'Oups, il y a un problème avec votre inscription')
             redirect('/')
@@ -385,10 +387,10 @@ def sendemail(request):
 
     send_mail(
         'Message du formulaire de contact de votre site web',
-        'Bonjour, voici le message:\n\nNom: ' + request.POST.get('name') +
-        '\nCourriel: ' + request.POST.get('email') + '\nTéléphone: ' +
-        request.POST.get('phone') + '\nSujet: ' + request.POST.get('subject') +
-        '\nMessage:\n' + request.POST.get('message'),
+        'Bonjour, voici le message:\n\nNom: ' + request.POST.get('name')
+        + '\nCourriel: ' + request.POST.get('email') + '\nTéléphone: '
+        + request.POST.get('phone') + '\nSujet: ' + request.POST.get('subject')
+        + '\nMessage:\n' + request.POST.get('message'),
         DEFAULT_FROM_EMAIL,
         [DEFAULT_TO_EMAIL],
         fail_silently=False,

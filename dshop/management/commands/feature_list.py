@@ -23,20 +23,21 @@ class Command(BaseCommand):
                 print('+--------------------------------------------------------+')
 
             while True:
-                inp = input("Enter Feature ID to Toggle (c to cancle): ") 
+                inp = input("Enter Feature ID to Toggle (c to cancle): ")
                 if inp == 'c':
                     break
                 try:
                     if inp.isdigit():
                         feature = FeatureList.objects.get(id=int(inp))
                         if feature.is_enabled:
-                            feature.is_enabled=False
+                            feature.is_enabled = False
                         else:
-                            feature.is_enabled=True
+                            feature.is_enabled = True
                         feature.save()
                         break
                 except Exception as e:
+                    print(e)
                     print('Enter Valid Choice')
-            
+
             if inp == 'c':
                 break

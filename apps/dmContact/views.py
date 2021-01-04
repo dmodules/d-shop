@@ -17,12 +17,12 @@ from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
 def formulaire(request):
     send_mail(
         "Message du formulaire de contact de votre site web",
-        "Bonjour, voici le message:\n\n" + "Nom : " +
-        request.POST.get("name", "-") + "\n" + "Courriel : " +
-        request.POST.get("email", "-") + "\n" + "Téléphone : " +
-        request.POST.get("phone", "-") + "\n" + "Sujet : " +
-        request.POST.get("subject", "-") + "\n" + "Message :\n\n" +
-        request.POST.get("message", "-"),
+        "Bonjour, voici le message:\n\n" + "Nom : "
+        + request.POST.get("name", "-") + "\n" + "Courriel : "
+        + request.POST.get("email", "-") + "\n" + "Téléphone : "
+        + request.POST.get("phone", "-") + "\n" + "Sujet : "
+        + request.POST.get("subject", "-") + "\n" + "Message :\n\n"
+        + request.POST.get("message", "-"),
         DEFAULT_FROM_EMAIL,
         [DEFAULT_TO_EMAIL],
         fail_silently=False,
@@ -48,11 +48,13 @@ def infolettre_mailchimp(request):
             })
             messages.success(
                 request,
-                _("Vous avez bien été ajouté à notre liste de courriels."))
-        except:
+                _("You've been successfully added to our newsletter.")
+            )
+        except Exception as e:
+            print(e)
             messages.error(
-                request, _("Oups, il y a un problème avec votre inscription."))
+                request, _("Something went wrong, sorry."))
             redirect("/")
     else:
-        messages.error(request, _("La réponse du calcul est incorrecte."))
+        messages.error(request, _("Your answer is wrong."))
     return redirect("/")

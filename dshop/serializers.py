@@ -1,6 +1,5 @@
 from shop.models.cart import CartModel
 from shop.serializers.defaults.catalog import AddToCartSerializer
-import json
 
 
 class AddProductVariableToCartSerializer(AddToCartSerializer):

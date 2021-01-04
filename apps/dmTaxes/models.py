@@ -3,7 +3,7 @@ from django.db import models
 
 try:
     from apps.dmBillingStripe.stripe_tax import create_tax
-except:
+except ImportError:
     pass
 
 #######################################################################
@@ -23,31 +23,56 @@ class CanadaTaxManagement(models.Model):
             ]
         ],
         max_length=60,
-        unique=True)
-    hst = models.DecimalField(max_digits=5,
-                              decimal_places=3,
-                              null=True,
-                              blank=True)
-    gst = models.DecimalField(max_digits=5,
-                              decimal_places=3,
-                              null=True,
-                              blank=True)
-    pst = models.DecimalField(max_digits=5,
-                              decimal_places=3,
-                              null=True,
-                              blank=True)
-    qst = models.DecimalField(max_digits=5,
-                              decimal_places=3,
-                              null=True,
-                              blank=True)
-    stripe_hst = models.CharField(max_length=50, null=True, blank=True)
-    stripe_gst = models.CharField(max_length=50, null=True, blank=True)
-    stripe_pst = models.CharField(max_length=50, null=True, blank=True)
-    stripe_qst = models.CharField(max_length=50, null=True, blank=True)
+        unique=True
+    )
+    hst = models.DecimalField(
+        max_digits=5,
+        decimal_places=3,
+        null=True,
+        blank=True
+    )
+    gst = models.DecimalField(
+        max_digits=5,
+        decimal_places=3,
+        null=True,
+        blank=True
+    )
+    pst = models.DecimalField(
+        max_digits=5,
+        decimal_places=3,
+        null=True,
+        blank=True
+    )
+    qst = models.DecimalField(
+        max_digits=5,
+        decimal_places=3,
+        null=True,
+        blank=True
+    )
+    stripe_hst = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True
+    )
+    stripe_gst = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True
+    )
+    stripe_pst = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True
+    )
+    stripe_qst = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True
+    )
 
     class Meta:
-        verbose_name = _("Taxe canadienne")
-        verbose_name_plural = _("Taxes canadiennes")
+        verbose_name = _("Canadian Tax")
+        verbose_name_plural = _("Canadian Taxes")
 
     def __str__(self):
         return self.state

@@ -1,5 +1,18 @@
+import os
+import six
+
+from decimal import Decimal
+from slugify import slugify
+
+from django.urls import reverse_lazy
+from django.utils.text import format_lazy
+from django.utils.translation import ugettext_lazy as _
+
+from cmsplugin_cascade.bootstrap4.mixins import BootstrapUtilities
+from cmsplugin_cascade.extra_fields.config import PluginExtraFieldsConfig
+
 INSTALLED_ADDONS = [
-    # <INSTALLED_ADDONS>  # Warning: text inside the INSTALLED_ADDONS tags is auto-generated. Manual changes will be overwritten.
+    # <INSTALLED_ADDONS>
     'aldryn-addons',
     'aldryn-django',
     'aldryn-sso',
@@ -17,16 +30,10 @@ INSTALLED_ADDONS = [
     # </INSTALLED_ADDONS>
 ]
 
-import aldryn_addons.settings
+import aldryn_addons.settings  # noqa: E402
 aldryn_addons.settings.load(locals())
 
-import os
-import six
-from decimal import Decimal
-from slugify import slugify
-from django.utils.translation import ugettext_lazy as _
-
-INSTALLED_APPS.extend([
+INSTALLED_APPS.extend([  # noqa: F821
     "cmsplugin_cascade",
     "cmsplugin_cascade.clipboard",
     "cmsplugin_cascade.sharable",
@@ -91,7 +98,7 @@ SHOP_CASCADE_FORMS = {
 ############################################
 # Middleware Settings
 
-MIDDLEWARE.extend([
+MIDDLEWARE.extend([  # noqa: F821
     'shop.middleware.CustomerMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.gzip.GZipMiddleware',
@@ -113,7 +120,7 @@ SITE_ID = 1
 
 CLIENT_TITLE = "D-Shop"
 ADMINS = [("D-Modules", "info@d-modules.com")]
-SHOP_VENDOR_EMAIL = 'info@d-modules.com'
+SHOP_VENDOR_EMAIL = "info@d-modules.com"
 
 if STAGE == "live":
     SITE_URL = "https://d-shop.us.aldryn.io"
@@ -138,25 +145,28 @@ CMS_TEMPLATES = [
 #######################################################################
 # Email Settings
 
-EMAIL_HOST = "smtp.mandrillapp.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "mcote@d-modules.com"
-EMAIL_HOST_PASSWORD = "15163f93-6766-42b0-b239-6c707093642e"
-DEFAULT_FROM_EMAIL = "noreply@d-modules.com"
-DEFAULT_TO_EMAIL = "mariechristine@d-modules.com"
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+DEFAULT_TO_EMAIL = os.getenv("DEFAULT_TO_EMAIL")
 EMAIL_REPLY_TO = "info@d-modules.com"
 EMAIL_BACKEND = "post_office.EmailBackend"
 
-MAILCHIMP_KEY = "1111111111111111111-11"
-MAILCHIMP_LISTID = "1111111111"
+#######################################################################
+# Mailchimp Settings
+
+MAILCHIMP_KEY = os.getenv("MAILCHIMP_KEY")
+MAILCHIMP_LISTID = os.getenv("MAILCHIMP_LISTID")
 
 #######################################################################
 # Stripe Settings
 
-STRIPE_PUBLIC_KEY = "pk_test_oho8Q2pjlnLsmNSkXRT21wi2"
-STRIPE_SECRET_KEY = "sk_test_yWfrqAfo9CX6aixqmDoqzeFU"
-STRIPE_ACCOUNT_ID = "acct_1DB3G8GqDfDq6eXv"
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY")
+STRIPE_ACCOUNT_ID = os.getenv("STRIPE_ACCOUNT_ID")
 
 #######################################################################
 # Paths Settings
@@ -164,14 +174,14 @@ STRIPE_ACCOUNT_ID = "acct_1DB3G8GqDfDq6eXv"
 BASE_DIR = os.path.dirname(__file__)
 PROJECT_ROOT = os.path.dirname(__file__)
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_collected')
-STATIC_URL = os.environ.get('STATIC_URL', '/static/')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), STATIC_CLIENT_DIR]
+STATIC_ROOT = os.path.join(BASE_DIR, "static_collected")
+STATIC_URL = os.environ.get("STATIC_URL", "/static/")
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), STATIC_CLIENT_DIR]
 
 #######################################################################
 # Internationalization
 
-TIME_ZONE = 'America/Toronto'
+TIME_ZONE = os.getenv("TIME_ZONE", "America/Toronto")
 USE_TZ = True
 
 USE_I18N = True
@@ -288,7 +298,7 @@ CACHES = {
     }
 }
 
-REDIS_HOST = os.getenv('REDIS_HOST')
+REDIS_HOST = os.getenv("REDIS_HOST")
 if REDIS_HOST:
     SESSION_ENGINE = 'redis_sessions.session'
     SESSION_REDIS = {
@@ -306,7 +316,7 @@ if REDIS_HOST:
         }
     }
     CACHE_MIDDLEWARE_ALIAS = 'default'
-    CACHE_MIDDLEWARE_SECONDS = 1  #3600
+    CACHE_MIDDLEWARE_SECONDS = 1  # 3600
 else:
     SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
@@ -378,11 +388,6 @@ REST_AUTH_SERIALIZERS = {
 
 ############################################
 # settings for django-cms and its plugins
-
-from django.urls import reverse_lazy
-from django.utils.text import format_lazy
-from cmsplugin_cascade.bootstrap4.mixins import BootstrapUtilities
-from cmsplugin_cascade.extra_fields.config import PluginExtraFieldsConfig
 
 CMSPLUGIN_CASCADE_PLUGINS = [
     'cmsplugin_cascade.bootstrap4',
@@ -456,15 +461,17 @@ CKEDITOR_SETTINGS = {
     '{{ language }}',
     'skin':
     'moono-lisa',
-    'toolbar_CMS':
-    [['Undo', 'Redo'], ['cmsplugins', '-', 'ShowBlocks'], ['Format'],
-     ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'], '/',
-     [
-         'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
-         'Superscript', '-', 'RemoveFormat'
-     ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-     ['HorizontalRule'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
-     ['Source']],
+    'toolbar_CMS': [
+        ['Undo', 'Redo'],
+        ['cmsplugins', '-', 'ShowBlocks'],
+        ['Format'],
+        ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'],
+        '/',
+        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+        ['HorizontalRule'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+        ['Source']
+    ],
     'stylesSet':
     format_lazy('default:{}', reverse_lazy('admin:cascade_texteditor_config')),
 }
@@ -476,11 +483,12 @@ CKEDITOR_SETTINGS_CAPTION = {
     'moono-lisa',
     'height':
     70,
-    'toolbar_HTMLField': [['Undo', 'Redo'], ['Format', 'Styles'],
-                          [
-                              'Bold', 'Italic', 'Underline', '-', 'Subscript',
-                              'Superscript', '-', 'RemoveFormat'
-                          ], ['Source']],
+    'toolbar_HTMLField': [
+        ['Undo', 'Redo'],
+        ['Format', 'Styles'],
+        ['Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+        ['Source']
+    ],
 }
 
 CKEDITOR_SETTINGS_DESCRIPTION = {
@@ -490,15 +498,19 @@ CKEDITOR_SETTINGS_DESCRIPTION = {
     'moono-lisa',
     'height':
     250,
-    'toolbar_HTMLField':
-    [['Undo', 'Redo'], ['cmsplugins', '-', 'ShowBlocks'], ['Format', 'Styles'],
-     ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'],
-     ['Maximize', ''], '/',
-     [
-         'Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-',
-         'RemoveFormat'
-     ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight'], ['HorizontalRule'],
-     ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'], ['Source']],
+    'toolbar_HTMLField': [
+        ['Undo', 'Redo'],
+        ['cmsplugins', '-', 'ShowBlocks'],
+        ['Format', 'Styles'],
+        ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'],
+        ['Maximize', ''],
+        '/',
+        ['Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+        ['JustifyLeft', 'JustifyCenter', 'JustifyRight'],
+        ['HorizontalRule'],
+        ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+        ['Source']
+    ]
 }
 
 CKEDITOR_SETTINGS_DMPLUGIN = {
@@ -508,11 +520,12 @@ CKEDITOR_SETTINGS_DMPLUGIN = {
     'moono-lisa',
     'height':
     70,
-    'toolbar_HTMLField': [['Undo', 'Redo'], ['TextColor', 'BGColor'],
-                          [
-                              'Bold', 'Italic', 'Underline', '-', 'Subscript',
-                              'Superscript', '-', 'RemoveFormat'
-                          ], ['Source']],
+    'toolbar_HTMLField': [
+        ['Undo', 'Redo'],
+        ['TextColor', 'BGColor'],
+        ['Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+        ['Source']
+    ]
 }
 
 CKEDITOR_SETTINGS_DMBLOCKPLUGIN = {
@@ -522,13 +535,15 @@ CKEDITOR_SETTINGS_DMBLOCKPLUGIN = {
     'moono-lisa',
     'height':
     70,
-    'toolbar_HTMLField':
-    [['Undo', 'Redo'], ['Format', 'Styles'], ['TextColor', 'BGColor'],
-     [
-         'Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-',
-         'RemoveFormat'
-     ], ['HorizontalRule'],
-     ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'], ['Source']],
+    'toolbar_HTMLField': [
+        ['Undo', 'Redo'],
+        ['Format', 'Styles'],
+        ['TextColor', 'BGColor'],
+        ['Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+        ['HorizontalRule'],
+        ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+        ['Source']
+    ]
 }
 
 SELECT2_CSS = 'node_modules/select2/dist/css/select2.min.css'
@@ -538,7 +553,7 @@ SELECT2_I18N_PATH = 'node_modules/select2/dist/js/i18n'
 #######################################################################
 # Full index text search settings
 
-ELASTICSEARCH_HOST = os.getenv('ELASTICSEARCH_HOST', 'localhost')
+ELASTICSEARCH_HOST = os.getenv("ELASTICSEARCH_HOST", "localhost")
 
 ELASTICSEARCH_DSL = {
     'default': {
@@ -571,7 +586,7 @@ if STAGE == 'local':
 #######################################################################
 # Admin Reordering
 
-MIDDLEWARE.extend(["dshop.middleware.AdminReorderMiddleware"])
+MIDDLEWARE.extend(["dshop.middleware.AdminReorderMiddleware"])  # noqa: F821
 ADMIN_REORDER = (
     {
         "app":
@@ -579,7 +594,7 @@ ADMIN_REORDER = (
         "label":
         "Site",
         "models": [
-            #"sites.Site",
+            # "sites.Site",
             "dshop.dmSite",
             "dmTheme.ThemeManagement",
             "cms.Page",
@@ -608,8 +623,8 @@ ADMIN_REORDER = (
                 "label": _("Commandes")
             },
             # {"model": "dshop.Cart", "label":_("Carts")},
-            #{"model": "dshop.ShippingAddress", "label":_("Adresses de livraison")},
-            #{"model": "dshop.BillingAddress", "label":_("Adresses de facturation")},
+            # {"model": "dshop.ShippingAddress", "label":_("Adresses de livraison")},
+            # {"model": "dshop.BillingAddress", "label":_("Adresses de facturation")},
         ]
     },
     {
@@ -665,7 +680,7 @@ ADMIN_REORDER = (
 )
 
 HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    "default": {
+        "ENGINE": "haystack.backends.simple_backend.SimpleEngine",
     },
 }

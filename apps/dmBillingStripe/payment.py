@@ -99,9 +99,8 @@ class StripePayment(PaymentProvider):
                         "cad",
                         "amount":
                         int(
-                            float(".".join(
-                                d[1]['amount'].split(' ')[1].split(','))) *
-                            100)
+                            float(".".join(d[1]['amount'].split(' ')[1].split(','))) * 100
+                        )
                     }
                     line_items.append(line_data)
             session = stripe.checkout.Session.create(

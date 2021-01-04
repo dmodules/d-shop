@@ -13,7 +13,7 @@ from shop.models.order import OrderModel
 from shop.models.order import OrderPayment
 
 from dshop.transition import transition_change_notification
-from dshop.models import Product, ProductDefault
+from dshop.models import ProductDefault
 
 from .models import StripeOrderData
 
@@ -52,12 +52,13 @@ def StripePaymentCancelView(request):
                             pv = db_product.variants.get(product_code=p_code)
                             pv.quantity += item.quantity
                             pv.save()
-                #Param to identify order is cancel
+                # Param to identify order is cancel
                 order.extra['cancel'] = '1'
                 order.save()
             except Exception as e:
                 print("Error to update quantity")
-                #!TODO
+                print(e)
+                # !TODO
     return redirect("/")
 
 def StripePaymentView(request):

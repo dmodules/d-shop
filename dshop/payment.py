@@ -1,7 +1,6 @@
 import uuid
 
 from django.utils.translation import ugettext_lazy as _
-from decimal import Decimal
 
 from rest_framework.exceptions import ValidationError
 
@@ -14,10 +13,10 @@ from shop.models.order import OrderModel
 
 
 class TestPayment(PaymentProvider):
-    namespace = 'test-payment'
+    namespace = "test-payment"
 
     def get_payment_request(self, cart, request):
-        print('do Test payment request')
+        print("do Test payment request")
 
         ###########################################
         # THIS IS AN EXAMPLE PAYMENT PROVIDER
@@ -65,7 +64,8 @@ class TestPayment(PaymentProvider):
                 str(referenceId)+'&transactionId='+str(transactionId)
             js_expression = 'window.location.href="{}";'.format(redirect_url)
             return js_expression
-        except:
+        except Exception as e:
+            print(e)
             raise ValidationError(
                 _("Une erreur est survenue lors de la création de votre commande."
                   ))

@@ -57,13 +57,24 @@ class dmRabaisPerCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(dmPromoCode)
 class dmPromoCodeAdmin(admin.ModelAdmin):
-    fieldsets = [(None, {
-        "fields": ["name", "code", "is_active", "amount", "percent"]
-    }),
-                 (_("Limitations"), {
-                     "fields": [("valid_from", "valid_until"), "valid_uses",
-                                "categories", "products"]
-                 })]
+    fieldsets = [
+        (None, {
+            "fields": [
+                "name",
+                "code",
+                "is_active",
+                "amount",
+                "percent"]
+        }),
+        (_("Limitations"), {
+            "fields": [
+                ("valid_from", "valid_until"),
+                "valid_uses",
+                "categories",
+                "products"
+            ]
+        })
+    ]
     list_display = ["name", "code", "is_active", "get_debut", "get_fin"]
     list_filter = ["is_active", "categories"]
     filter_horizontal = ["categories", "products"]

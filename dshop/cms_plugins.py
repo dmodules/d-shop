@@ -105,20 +105,25 @@ class dmBlocSliderChildPlugin(BoutiquePlugin):
     allow_children = False
     require_parent = True
     parent_classes = ['dmBlocSliderParentPlugin']
-    fieldsets = [(_('Textes'), {
-        'fields': [('title', 'title_color'), ('subtitle', 'subtitle_color'),
-                   'position_text']
-    }), (_('Fond'), {
-        'fields': ['bg_color', 'image']
-    }),
-                 (_('Lien'), {
-                     'classes': ('collapse', ),
-                     'fields': [
-                         'btn_label',
-                         'btn_url',
-                         'btn_blank',
-                     ]
-                 })]
+    fieldsets = [
+        (_('Textes'), {
+            'fields': [
+                ('title', 'title_color'),
+                ('subtitle', 'subtitle_color'),
+                'position_text'
+            ]
+        }), (_('Fond'), {
+            'fields': ['bg_color', 'image']
+        }),
+        (_('Lien'), {
+            'classes': ('collapse', ),
+            'fields': [
+                'btn_label',
+                'btn_url',
+                'btn_blank',
+            ]
+        })
+    ]
 
     def render(self, context, instance, placeholder):
         context = super(dmBlocSliderChildPlugin,
