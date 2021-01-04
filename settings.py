@@ -603,7 +603,7 @@ ADMIN_REORDER = (
     },
     {
         "app": "dmAdvertising",
-        "label": _("Alertes publicitaires"),
+        "label": _("Advertising"),
         "models": [
             "dmAdvertising.dmAdvertisingTopBanner",
         ]
@@ -611,8 +611,7 @@ ADMIN_REORDER = (
     {
         "app":
         "dshop",
-        "label":
-        _("Boutique"),
+        "label": _("Shop"),
         "models": [
             "dshop.FeatureList",
             "dshop.ProductCategory",
@@ -620,18 +619,17 @@ ADMIN_REORDER = (
             "dshop.Product",
             {
                 "model": "dshop.Order",
-                "label": _("Commandes")
+                "label": _("Orders")
             },
             # {"model": "dshop.Cart", "label":_("Carts")},
-            # {"model": "dshop.ShippingAddress", "label":_("Adresses de livraison")},
-            # {"model": "dshop.BillingAddress", "label":_("Adresses de facturation")},
+            # {"model": "dshop.ShippingAddress", "label":_("Shipping's Addresses")},
+            # {"model": "dshop.BillingAddress", "label":_("Billing's Addresses")},
         ]
     },
     {
         "app":
         "dmRabais",
-        "label":
-        _("Rabais"),
+        "label": _("Discounts"),
         "models": [
             "dmRabais.dmRabaisPerCategory",
             "dmRabais.dmPromoCode",
@@ -647,7 +645,7 @@ ADMIN_REORDER = (
     },
     {
         "app": "dshop",
-        "label": _("Livraison"),
+        "label": _("Shipping"),
         "models": [
             "dmShipping.ShippingManagement",
         ]
@@ -663,14 +661,14 @@ ADMIN_REORDER = (
         "app":
         "post_office",
         "label":
-        _("Envoi de courriels"),
+        _("Sending Emails"),
         "models": [
             "shop.Notification", {
                 "model": "post_office.EmailTemplate",
-                "label": _("Gabarits de courriel")
+                "label": _("Email Templates")
             }, {
                 "model": "post_office.Email",
-                "label": _("Courriels envoyés")
+                "label": _("Sent Emails")
             }, "post_office.Log"
         ]
     },

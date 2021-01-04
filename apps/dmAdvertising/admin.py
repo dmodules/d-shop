@@ -17,9 +17,9 @@ class dmAlertPublicitaireAdmin(admin.ModelAdmin):
     def get_debut(self, obj):
         return obj.valid_from
 
-    get_debut.short_description = _("Début")
+    get_debut.short_description = _("Start")
 
     def get_fin(self, obj):
         return obj.valid_until
 
-    get_fin.short_description = _("Fin")
+    get_fin.short_description = _("End")

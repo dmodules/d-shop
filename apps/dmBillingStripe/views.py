@@ -56,7 +56,7 @@ def StripePaymentCancelView(request):
                 order.extra['cancel'] = '1'
                 order.save()
             except Exception as e:
-                print("Error to update quantity")
+                print("Error while cancelling Stripe Payment.")
                 print(e)
                 # !TODO
     return redirect("/")
@@ -73,7 +73,7 @@ def StripePaymentView(request):
                 order=order,
                 amount=amount,
                 transaction_id=transactionId,
-                payment_method=_("Carte de crédit (Stripe)"))
+                payment_method=_("Credit Card (Stripe)"))
             try:
                 session_id = order.extra["session_id"]
                 session = stripe.checkout.Session.retrieve(session_id)

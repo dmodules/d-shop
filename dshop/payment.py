@@ -60,12 +60,12 @@ class TestPayment(PaymentProvider):
             # ===--- IF SUCCESS
             order.populate_from_cart(cart, request)
             order.save(with_notification=True)
-            redirect_url = '/test-payment/?referenceId=' + \
-                str(referenceId)+'&transactionId='+str(transactionId)
-            js_expression = 'window.location.href="{}";'.format(redirect_url)
+            redirect_url = "/test-payment/?referenceId=" + \
+                str(referenceId) + "&transactionId=" + str(transactionId)
+            js_expression = "window.location.href='{}';".format(redirect_url)
             return js_expression
         except Exception as e:
             print(e)
             raise ValidationError(
-                _("Une erreur est survenue lors de la création de votre commande."
-                  ))
+                _("An error occured while creating your order.")
+            )

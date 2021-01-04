@@ -36,7 +36,8 @@ class ShippingManagement(models.Model):
         verbose_name=_("Name"),
         max_length=255,
         blank=False,
-        null=False
+        null=False,
+        help_text=_("Maximum 255 characters.")
     )
     identifier = models.CharField(
         verbose_name=_("Identifier"),

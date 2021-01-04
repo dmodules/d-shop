@@ -116,6 +116,4 @@ class StripePayment(PaymentProvider):
             return js_expression
         except Exception as e:
             print(e)
-            raise ValidationError(
-                _("Une erreur est survenue lors de la création de votre commande."
-                  ))
+            raise ValidationError(_("An error occurred while creating your order."))

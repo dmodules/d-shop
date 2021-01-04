@@ -2,52 +2,52 @@
 
 {% if customer.is_authenticated %}
   <div class="dm-drawer-inner">
-    <h2 class="drawer-title mb-1">{% trans 'Mon compte' %}</h2>
+    <h2 class="drawer-title mb-1">{% trans 'My Account' %}</h2>
     <div class="dm-drawer-user-account">
       <ul class="list">
         <li>
-          <a href="/commande/profil/">{% trans 'Profil' %}</a>
+          <a href="/commande/profil/">{% trans 'Profile' %}</a>
         </li>
         <li>
-          <a href="{% page_url 'orders' %}">{% trans 'Vos commandes' %}</a>
+          <a href="{% page_url 'orders' %}">{% trans 'My Orders' %}</a>
         </li>
         <li>
           <a href="/commande/promocodes/">{% trans 'Promo Codes' %}</a>
         </li>
         <li>
-          <a href="#" onclick="return dmDrawerDoLogout()">{% trans 'Se déconnecter' %}</a>
+          <a href="#" onclick="return dmDrawerDoLogout()">{% trans 'Logout' %}</a>
         </li>
       </ul>
     </div>
   </div>
   {% else %}
   <div class="dm-drawer-inner">
-    <h2 class="drawer-title mb-3">{% trans 'Mon compte' %}</h2>
+    <h2 class="drawer-title mb-3">{% trans 'My Account' %}</h2>
     <div class="dm-drawer-user-tabs">
       <div class="dm-drawer-tabs-login">
-        <a href="#" class="btn disabled" onclick="return dmDrawerTabUserLogin()">{% trans 'Connexion' %}</a>
+        <a href="#" class="btn disabled" onclick="return dmDrawerTabUserLogin()">{% trans 'Login' %}</a>
       </div>
       <div class="dm-drawer-tabs-register">
-        <a href="#" class="btn" onclick="return dmDrawerTabUserRegister()">{% trans 'Inscription' %}</a>
+        <a href="#" class="btn" onclick="return dmDrawerTabUserRegister()">{% trans 'Registration' %}</a>
       </div>
     </div>
     <div class="dm-drawer-user-logs">
       <div class="dm-drawer-logs-login">
         <form id="dm-drawer-form-login" class="default-form">
-          <input id="dm-drawer-form-login-email" name="email" placeholder="{% trans 'Votre courriel' %}" type="email" class="default-input" />
-          <input id="dm-drawer-form-login-password" name="password" placeholder="{% trans 'Mot de passe' %}" type="password" class="default-input" />
+          <input id="dm-drawer-form-login-email" name="email" placeholder="{% trans 'Your email' %}" type="email" class="default-input" />
+          <input id="dm-drawer-form-login-password" name="password" placeholder="{% trans 'Password' %}" type="password" class="default-input" />
           <div class="dm-drawer-logs-login-error" style="display:none;"></div>
         </form>
-        <a href="/" class="btn btn-fill-out btn-addtocart" onclick="return dmDrawerDoLogin()">{% trans 'Se connecter' %}</a>
+        <a href="/" class="btn btn-fill-out btn-addtocart" onclick="return dmDrawerDoLogin()">{% trans 'Log In' %}</a>
       </div>
       <div class="dm-drawer-logs-register">
         <form id="dm-drawer-form-register" class="default-form">
-          <input id="dm-drawer-form-register-email" placeholder="{% trans 'Votre courriel' %}" type="email" class="default-input" />
-          <input id="dm-drawer-form-register-password1" placeholder="{% trans 'Mot de passe' %}" type="password" class="default-input" />
-          <input id="dm-drawer-form-register-password2" placeholder="{% trans 'Confirmation du mot de passe' %}" type="password" class="default-input" />
+          <input id="dm-drawer-form-register-email" placeholder="{% trans 'Your email' %}" type="email" class="default-input" />
+          <input id="dm-drawer-form-register-password1" placeholder="{% trans 'Password' %}" type="password" class="default-input" />
+          <input id="dm-drawer-form-register-password2" placeholder="{% trans 'Confirm Password' %}" type="password" class="default-input" />
         </form>
         <div class="dm-drawer-logs-register-error" style="display:none;"></div>
-        <a href="/" class="btn btn-fill-out btn-addtocart" onclick="return dmDrawerDoRegister()">{% trans 'S\'inscrire' %}</a>
+        <a href="/" class="btn btn-fill-out btn-addtocart" onclick="return dmDrawerDoRegister()">{% trans 'Sign In' %}</a>
       </div>
     </div>
   </div>

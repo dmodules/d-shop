@@ -21,8 +21,9 @@ class FreeShippingModifier(ShippingModifier):
     def add_extra_cart_row(self, cart, request):
         # ===---
         shipping_modifiers = cart_modifiers_pool.get_shipping_modifiers()
-        if not self.is_active(cart.extra.get(
-                "shipping_modifier")) and len(shipping_modifiers) > 1:
+        if not self.is_active(
+            cart.extra.get("shipping_modifier")
+        ) and len(shipping_modifiers) > 1:
             return
         # ===---
         sm = ShippingManagement.objects.filter(
@@ -47,8 +48,9 @@ class StandardShippingModifier(ShippingModifier):
     def add_extra_cart_row(self, cart, request):
         # ===---
         shipping_modifiers = cart_modifiers_pool.get_shipping_modifiers()
-        if not self.is_active(cart.extra.get(
-                "shipping_modifier")) and len(shipping_modifiers) > 1:
+        if not self.is_active(
+            cart.extra.get("shipping_modifier")
+        ) and len(shipping_modifiers) > 1:
             return
         # ===---
         sm = ShippingManagement.objects.filter(

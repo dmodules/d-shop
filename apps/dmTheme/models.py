@@ -5,15 +5,16 @@ class ThemeManagement(models.Model):
 
     theme = models.CharField(
         verbose_name=_("Theme"),
-        max_length=50
+        max_length=50,
+        help_text=_("Maximum 50 characters.")
     )
     css = models.TextField(
-        verbose_name=_('CSS'),
+        verbose_name=_("CSS"),
         null=True,
         blank=True
     )
     active = models.BooleanField(
-        verbose_name=('Active'),
+        verbose_name=("Active"),
         default=False
     )
 

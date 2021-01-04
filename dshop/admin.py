@@ -235,7 +235,7 @@ COUNTRIES_FR = [
     ('ZW', _('Zimbabwe'))
 ]
 
-__all__ = ['customer']
+__all__ = ["customer"]
 
 #######################################################################
 # Site
@@ -255,12 +255,12 @@ class dmSiteSocialInline(admin.TabularInline):
 
 @admin.register(dmSite)
 class dmSiteAdmin(admin.ModelAdmin):
-    list_display = ['get_name', 'site']
+    list_display = ["get_name", "site"]
     inlines = [dmSiteContactInline, dmSiteSocialInline]
 
     def get_name(self, obj):
         return obj.site.name
-    get_name.short_description = _("Nom")
+    get_name.short_description = _("Name")
 
 #######################################################################
 # Billing and Shipping
@@ -289,7 +289,7 @@ class CartItemModelInline(admin.TabularInline):
 
 
 class BaseCartAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'customer']
+    list_display = ["pk", "customer"]
     inlines = [CartItemModelInline]
 
 #######################################################################
@@ -299,14 +299,19 @@ class BaseCartAdmin(admin.ModelAdmin):
 
 class dmOrderItemInline(OrderItemInline):
     fields = [
-        ('product_code', 'unit_price', 'line_total',),
-        ('quantity',),
-        'get_variables',
+        ("product_code", "unit_price", "line_total"),
+        ("quantity",),
+        "get_variables",
         # 'extra',
         # 'render_as_html_extra',
     ]
-    readonly_fields = ['product_code', 'quantity',
-                       'unit_price', 'line_total', 'get_variables']
+    readonly_fields = [
+        "product_code",
+        "quantity",
+        "unit_price",
+        "line_total",
+        "get_variables"
+    ]
 
     def get_variables(self, obj):
         dd = obj.variables["variables"]
@@ -314,41 +319,41 @@ class dmOrderItemInline(OrderItemInline):
         for k, v in dd.items():
             r = r + k.upper() + " : " + v + "\n"
         return r
-    get_variables.short_description = _("Données")
+    get_variables.short_description = _("Data")
 
 
 @admin.register(Order)
 class OrderAdmin(PrintInvoiceAdminMixin, BaseOrderAdmin):
     list_filter = []
     fields = [
-        'get_ordernumber',
-        'get_customer_link',
-        'get_status',
-        'get_date',
-        # 'updated_at',
-        'get_subtotal',
-        'get_total',
-        'is_fully_paid',
-        'render_as_html_extra'
+        "get_ordernumber",
+        "get_customer_link",
+        "get_status",
+        "get_date",
+        # "updated_at",
+        "get_subtotal",
+        "get_total",
+        "is_fully_paid",
+        "render_as_html_extra"
     ]
     readonly_fields = [
-        'get_ordernumber',
-        'get_status',
-        'get_date',
-        'get_total',
-        'get_subtotal',
-        'get_customer_link',
-        'get_outstanding_amount',
-        'updated_at',
-        'render_as_html_extra',
-        'stored_request',
-        'is_fully_paid'
+        "get_ordernumber",
+        "get_status",
+        "get_date",
+        "get_total",
+        "get_subtotal",
+        "get_customer_link",
+        "get_outstanding_amount",
+        "updated_at",
+        "render_as_html_extra",
+        "stored_request",
+        "is_fully_paid"
     ]
     inlines = [dmOrderItemInline]
 
     class Meta:
-        verbose_name = _("Commande")
-        verbose_name_plural = _("Commandes")
+        verbose_name = _("Order")
+        verbose_name_plural = _("Orders")
 
     def get_queryset(self, request):
         print(self)
@@ -356,7 +361,7 @@ class OrderAdmin(PrintInvoiceAdminMixin, BaseOrderAdmin):
 
     def get_ordernumber(self, obj):
         return obj.get_number()
-    get_ordernumber.short_description = _("Numéro")
+    get_ordernumber.short_description = _("Number")
 
     def get_status(self, obj):
         return obj._transition_targets.get(obj.status, obj.status)
@@ -364,11 +369,11 @@ class OrderAdmin(PrintInvoiceAdminMixin, BaseOrderAdmin):
 
     def get_date(self, obj):
         return obj.created_at.strftime("%d-%m-%Y, %H:%M:%S")
-    get_date.short_description = _("Créée le")
+    get_date.short_description = _("Created at")
 
     def get_subtotal(self, obj):
         return str(obj.subtotal)
-    get_subtotal.short_description = _("Sous-total")
+    get_subtotal.short_description = _("Subtotal")
 
     def get_total(self, obj):
         return str(obj.total)
@@ -381,7 +386,7 @@ class OrderAdmin(PrintInvoiceAdminMixin, BaseOrderAdmin):
 
     def render_as_html_extra(self, obj):
         return self.extra_template.render(obj.extra)
-    render_as_html_extra.short_description = _("Détails")
+    render_as_html_extra.short_description = _("Details")
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -394,14 +399,18 @@ class OrderAdmin(PrintInvoiceAdminMixin, BaseOrderAdmin):
 @admin.register(ProductCategory)
 class ProductCategoryAdmin(admin.ModelAdmin):
     ordering_field = "order"
-    list_display = ['name', 'parent', 'order']
-    list_filter = ['parent']
+    list_display = [
+        "name",
+        "parent",
+        "order"
+    ]
+    list_filter = ["parent"]
     list_editable = ["order"]
 
 
 @admin.register(ProductFilter)
 class ProductFilterAdmin(admin.ModelAdmin):
-    list_display = ['name', 'order']
+    list_display = ["name", "order"]
 
 #######################################################################
 # Produits
@@ -418,32 +427,37 @@ class ProductDefaultAdmin(
     PolymorphicChildModelAdmin
 ):
     base_model = Product
-    readonly_fields = ('slug',)
     fieldsets = (
         (None, {
-            'fields': [
-                ('product_name', 'slug'),
-                ('product_code', 'unit_price'),
-                'quantity',
-                'active',
-                'is_vedette',
-            ],
+            "fields": [
+                ("product_name", "slug"),
+                ("product_code", "unit_price"),
+                "quantity",
+                "active",
+                "is_vedette"
+            ]
         }),
         (_("Translatable Fields"), {
-            'fields': ['caption', 'description'],
+            "fields": [
+                "caption",
+                "description"
+            ]
         }),
-        (_("Catégories et filtres"), {
-            'fields': ["categories", "filters"],
+        (_("Categories and Filters"), {
+            "fields": [
+                "categories",
+                "filters"
+            ]
         }),
-        (_("Image Principale"), {
-            'fields': [
-                'main_image'
+        (_("Main Image"), {
+            "fields": [
+                "main_image"
             ]
         })
     )
     inlines = [ProductImageInline]
     filter_horizontal = ["categories", "filters"]
-    # prepopulated_fields = {'slug': ['product_code']}
+    readonly_fields = ("slug",)
 
 
 class ProductVariableVariantInline(admin.TabularInline):
@@ -461,34 +475,39 @@ class ProductVariableAdmin(
     PolymorphicChildModelAdmin
 ):
     base_model = Product
-    readonly_fields = ('slug',)
     fieldsets = [
         (None, {
-            'fields': [
-                ('product_name', 'slug'),
-                'active',
-                'is_vedette',
-            ],
+            "fields": [
+                ("product_name", "slug"),
+                "active",
+                "is_vedette"
+            ]
         }),
         (_("Translatable Fields"), {
-            'fields': ['caption', 'description'],
+            "fields": [
+                "caption",
+                "description"
+            ]
         }),
-        (_("Catégories et filtres"), {
-            'fields': ["categories", "filters"],
+        (_("Categories and Filters"), {
+            "fields": [
+                "categories",
+                "filters"
+            ]
         }),
-        (_("Image Principale"), {
-            'fields': [
-                'main_image'
+        (_("Main Image"), {
+            "fields": [
+                "main_image"
             ]
         })
     ]
     filter_horizontal = ["categories", "filters"]
     inlines = [ProductImageInline, ProductVariableVariantInline]
-    # prepopulated_fields = {'slug': ['product_name']}
+    readonly_fields = ("slug",)
 
     def render_text_index(self, instance):
-        template = get_template('search/indexes/dshop/commodity_text.txt')
-        return template.render(Context({'object': instance}))
+        template = get_template("search/indexes/dshop/commodity_text.txt")
+        return template.render(Context({"object": instance}))
     render_text_index.short_description = _("Text Index")
 
 
@@ -497,15 +516,15 @@ class ProductAdmin(PolymorphicSortableAdminMixin, PolymorphicParentModelAdmin):
     base_model = Product
     child_models = [ProductDefault, ProductVariable]
     list_display = [
-        'product_name',
-        'get_price',
-        'product_type',
+        "product_name",
+        "get_price",
+        "product_type",
         "get_quantity",
-        'is_vedette',
-        'active'
+        "is_vedette",
+        "active"
     ]
-    list_display_links = ['product_name']
-    search_fields = ['product_name']
+    list_display_links = ["product_name"]
+    search_fields = ["product_name"]
     list_filter = [PolymorphicChildModelFilter, CMSPageFilter]
     list_per_page = 250
     list_max_show_all = 1000
@@ -531,5 +550,5 @@ class ProductAdmin(PolymorphicSortableAdminMixin, PolymorphicParentModelAdmin):
 @admin.register(FeatureList)
 class FeatureListAdmin(admin.ModelAdmin):
 
-    list_display = ('feature_name', 'is_enabled',)
-    list_editable = ('is_enabled',)
+    list_display = ["feature_name", "is_enabled"]
+    list_editable = ("is_enabled",)

@@ -18,8 +18,10 @@ class PrimaryCartModifier(DefaultCartModifier):
         cart_item.unit_price = variant.get_price(request)
         cart_item.line_total = cart_item.unit_price * cart_item.quantity
         cart_item.extra["variables"] = {"code": cart_item.product_code}
-        return super(DefaultCartModifier,
-                     self).process_cart_item(cart_item, request)
+        return super(
+            DefaultCartModifier,
+            self
+        ).process_cart_item(cart_item, request)
 
 
 #######################################################################
@@ -36,7 +38,7 @@ class TestPaymentModifier(PaymentModifier):
     commision_percentage = None
 
     def get_choice(self):
-        return (self.identifier, _("Test (mode développement)"))
+        return (self.identifier, _("Test (development)"))
 
     def is_disabled(self, cart):
         return cart.total == 0

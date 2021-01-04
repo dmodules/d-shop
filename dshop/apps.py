@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class dshopConfig(AppConfig):
     name = "dshop"
-    verbose_name = _("Boutique")
+    verbose_name = _("Shop")
     logger = logging.getLogger("d-shop")
 
     def ready(self):
@@ -23,4 +23,4 @@ class dshopConfig(AppConfig):
         # perform some sanity checks
         ForeignKeyBuilder.check_for_pending_mappings()
 
-        cms_tags.register.tags['page_attribute'] = PageAttribute
+        cms_tags.register.tags["page_attribute"] = PageAttribute

@@ -18,7 +18,8 @@ class dmRabaisPerCategory(models.Model):
 
     name = models.CharField(
         verbose_name=_("Name"),
-        max_length=100
+        max_length=100,
+        help_text=_("Maximum 100 characters.")
     )
     amount = models.DecimalField(
         verbose_name=_("Amount"),
@@ -73,7 +74,8 @@ class dmPromoCode(models.Model):
         verbose_name=_("Name"),
         max_length=100,
         blank=False,
-        null=False
+        null=False,
+        help_text=_("Maximum 100 characters.")
     )
     code = models.CharField(
         verbose_name=_("Code"),
@@ -142,7 +144,8 @@ class dmPromoCode(models.Model):
     def save(self, *args, **kwargs):
         if not self.code or self.code is None:
             self.code = ''.join(
-                random.choice(string.ascii_letters) for i in range(10))
+                random.choice(string.ascii_letters) for i in range(10)
+            )
         super(dmPromoCode, self).save(*args, **kwargs)
 
 
