@@ -18,8 +18,12 @@ from .models import dmCustomerPromoCode
 class dmRabaisPerCategoryAdmin(admin.ModelAdmin):
     fieldsets = [(None, {
         "fields": [
-            "name", "amount", "percent", "is_active",
-            ("valid_from", "valid_until"), "categories"
+            "name",
+            "amount",
+            "percent",
+            "is_active",
+            ("valid_from", "valid_until"),
+            "categories"
         ]
     })]
     list_display = [
@@ -37,17 +41,17 @@ class dmRabaisPerCategoryAdmin(admin.ModelAdmin):
         else:
             return "-"
 
-    get_discount.short_description = _("Rabais")
+    get_discount.short_description = _("Discount")
 
     def get_debut(self, obj):
         return obj.valid_from
 
-    get_debut.short_description = _("Début")
+    get_debut.short_description = _("Start")
 
     def get_fin(self, obj):
         return obj.valid_until
 
-    get_fin.short_description = _("Fin")
+    get_fin.short_description = _("End")
 
 
 #######################################################################
@@ -57,13 +61,24 @@ class dmRabaisPerCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(dmPromoCode)
 class dmPromoCodeAdmin(admin.ModelAdmin):
-    fieldsets = [(None, {
-        "fields": ["name", "code", "is_active", "amount", "percent"]
-    }),
-                 (_("Limitations"), {
-                     "fields": [("valid_from", "valid_until"), "valid_uses",
-                                "categories", "products"]
-                 })]
+    fieldsets = [
+        (None, {
+            "fields": [
+                "name",
+                "code",
+                "is_active",
+                "amount",
+                "percent"]
+        }),
+        (_("Limitations"), {
+            "fields": [
+                ("valid_from", "valid_until"),
+                "valid_uses",
+                "categories",
+                "products"
+            ]
+        })
+    ]
     list_display = ["name", "code", "is_active", "get_debut", "get_fin"]
     list_filter = ["is_active", "categories"]
     filter_horizontal = ["categories", "products"]
@@ -78,12 +93,12 @@ class dmPromoCodeAdmin(admin.ModelAdmin):
     def get_debut(self, obj):
         return obj.valid_from
 
-    get_debut.short_description = _("Début")
+    get_debut.short_description = _("Start")
 
     def get_fin(self, obj):
         return obj.valid_until
 
-    get_fin.short_description = _("Fin")
+    get_fin.short_description = _("End")
 
 
 @admin.register(dmCustomerPromoCode)

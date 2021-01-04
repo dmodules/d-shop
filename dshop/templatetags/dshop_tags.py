@@ -1,10 +1,6 @@
 import re
-import json
-import pytz
 
 from datetime import datetime
-from shop.money import Money
-from decimal import Decimal
 
 from django import template
 from django.conf import settings
@@ -12,7 +8,6 @@ from django.db.models import Q
 
 from dshop.models import dmSite
 from dshop.models import Product
-from dshop.models import ProductVariableVariant
 from dshop.models import ProductCategory, ProductFilter
 
 register = template.Library()
@@ -121,8 +116,11 @@ def dm_get_products_by_category(k, offset, limit):
     limit = int(limit)
     products = Product.objects.filter(Q(categories=k) | Q(categories__parent=k) | Q(categories__parent__parent=k) | Q(
         categories__parent__parent__parent=k), active=True).order_by('id')[offset:offset+limit]
-    next_result = Product.objects.filter(Q(categories=k) | Q(categories__parent=k) | Q(categories__parent__parent=k) | Q(
-        categories__parent__parent__parent=k), active=True).order_by('id')[offset+limit:offset+limit+limit].count()
+    next_result = Product.objects.filter(
+        Q(categories=k) | Q(categories__parent=k) | Q(categories__parent__parent=k) | Q(
+            categories__parent__parent__parent=k
+        ), active=True
+    ).order_by('id')[offset+limit:offset+limit+limit].count()
     result = {
         "products": products,
         "next": next_result
@@ -135,8 +133,11 @@ def dm_get_products_related(categories, id):
     """Get data from all product from categories but the specified product by pk/id key"""
     products = Product.objects.none()
     for k in categories.all():
-        products = products | Product.objects.filter(Q(categories=k) | Q(categories__parent=k) | Q(
-            categories__parent__parent=k) | Q(categories__parent__parent__parent=k), active=True).exclude(pk=id).order_by('id')[:4]
+        products = products | Product.objects.filter(
+            Q(categories=k) | Q(categories__parent=k) | Q(
+                categories__parent__parent=k
+            ) | Q(categories__parent__parent__parent=k), active=True
+        ).exclude(pk=id).order_by('id')[:4]
     result = {
         "products": products
     }

@@ -82,8 +82,8 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <h1>En construction</h1>
-              <p class="lead">Cette page n'a pas encore de contenue.</p>
+              <h1>{% trans "Under Construction" %}</h1>
+              <p class="lead">{% trans "This page has no contact." %}</p>
             </div>
           </div>
         </div>
@@ -114,7 +114,7 @@
               </div>
               <div class="col-lg-2 col-md-3 col-sm-6">
                 <div class="widget">
-                  <h6 class="widget_title">Liens Utiles</h6>
+                  <h6 class="widget_title">{% trans "Useful Links" %}</h6>
                   <ul class="widget_links">
                     {% show_menu 0 100 100 100 %}
                   </ul>
@@ -122,7 +122,7 @@
               </div>
               <div class="col-lg-2 col-md-3 col-sm-6">
                 <div class="widget">
-                  <h6 class="widget_title">Catégories</h6>
+                  <h6 class="widget_title">{% trans "Categories" %}</h6>
                   <ul class="widget_links">
                     {% dm_get_categories_parents as categories %}
                     {% for category in categories %}
@@ -133,7 +133,7 @@
               </div>
               <div class="col-lg-2 col-md-6 col-sm-6">
                 <div class="widget">
-                  <h6 class="widget_title">Mon compte</h6>
+                  <h6 class="widget_title">{% trans "My Account" %}</h6>
                   <ul class="widget_links">
                     <li><a href="/commande/profil/">{% trans 'Profile' %}</a></li>
                     <li><a href="{% page_url 'orders' %}">{% trans 'My Orders' %}</a></li>
@@ -144,7 +144,7 @@
               <div class="col-lg-3 col-md-4 col-sm-6">
                 {% dm_get_site_contacts as contacts %}
                 <div class="widget">
-                  <h6 class="widget_title">Contact</h6>
+                  <h6 class="widget_title">{% trans "Contact" %}</h6>
                   <ul class="contact_info contact_info_light">
                     <li>
                       <i class="ti-location-pin"></i>
@@ -168,7 +168,7 @@
           <div class="container">
             <div class="row">
               <div class="col-md-6">
-                <p class="mb-md-0 text-center text-md-left">&copy; 2020 {% get_setting 'CLIENT_TITLE' %}. Tous droits réservés. Site créé par <a href="https://www.d-modules.com" target="_blank">D-Modules</a>.</p>
+                <p class="mb-md-0 text-center text-md-left">&copy; 2020 {% get_setting 'CLIENT_TITLE' %}. {% trans "All rights reserved" %}. {% trans "Site created by" %} <a href="https://www.d-modules.com" target="_blank">D-Modules</a>.</p>
               </div>
               <div class="col-md-6">
                 <ul class="footer_payment text-center text-lg-right">

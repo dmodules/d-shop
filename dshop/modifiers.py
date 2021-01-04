@@ -2,7 +2,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from decimal import Decimal
 
-from shop.money import Money
 from shop.serializers.cart import ExtraCartRow
 from shop.modifiers.defaults import DefaultCartModifier
 from shop.payment.modifiers import PaymentModifier
@@ -19,8 +18,10 @@ class PrimaryCartModifier(DefaultCartModifier):
         cart_item.unit_price = variant.get_price(request)
         cart_item.line_total = cart_item.unit_price * cart_item.quantity
         cart_item.extra["variables"] = {"code": cart_item.product_code}
-        return super(DefaultCartModifier,
-                     self).process_cart_item(cart_item, request)
+        return super(
+            DefaultCartModifier,
+            self
+        ).process_cart_item(cart_item, request)
 
 
 #######################################################################
@@ -37,7 +38,7 @@ class TestPaymentModifier(PaymentModifier):
     commision_percentage = None
 
     def get_choice(self):
-        return (self.identifier, _("Test (mode développement)"))
+        return (self.identifier, _("Test (development)"))
 
     def is_disabled(self, cart):
         return cart.total == 0

@@ -60,7 +60,7 @@
                   {% elif count > 0 %}
                     <span>{{count}} produit</span>
                   {% else %}
-                    <span>Aucun produit</span>
+                    <span>{% trans 'Empty' %}</span>
                   {% endif %}
                 {% endwith %}
               </div>

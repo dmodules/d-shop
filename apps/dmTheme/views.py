@@ -5,7 +5,7 @@ from .models import ThemeManagement
 
 def get_css(request):
 
-    theme = request.GET.get('theme', '')
+    theme = request.GET.get("theme", "")
 
     # Search for active theme
     if theme:

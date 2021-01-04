@@ -127,7 +127,7 @@
                     </div>
                     <div class="list_product_action_box">
                       <ul class="list_none">
-                        <button class="btn btn-fill-out btn-addtocart" type="button" onclick="location.href='{{product.get_absolute_url}}';">{% trans "Voir plus" %}</button>
+                        <button class="btn btn-fill-out btn-addtocart" type="button" onclick="location.href='{{product.get_absolute_url}}';">{% trans "See more" %}</button>
                       </ul>
                     </div>
                   </div>
@@ -137,7 +137,7 @@
               <div class="col-12">
                 <div class="product">
                   <div class="product_info">
-                    <h6 class="product_title mb-0">{% trans 'Aucun produit' %}</h6>
+                    <h6 class="product_title mb-0">{% trans 'Empty' %}</h6>
                   </div>
                 </div>
               </div>
@@ -147,9 +147,9 @@
             {% if products.next > 0 %}
               <div class="col-12 pt-5 text-center">
                 {% if request.resolver_match.kwargs.category_id %}
-                  <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits('{{request.resolver_match.kwargs.category_id}}')" data-offset="10" data-limit="9">Voir plus de produits</a>
+                  <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits('{{request.resolver_match.kwargs.category_id}}')" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
                 {% else %}
-                  <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits()" data-offset="10" data-limit="9">Voir plus de produits</a>
+                  <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits()" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
                 {% endif %}
               </div>
             {% endif %}

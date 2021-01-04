@@ -18,7 +18,7 @@
           <div class="newsletter_form">
             <form method="post" name="infolettre" action="/contact/infolettre/">
               {% csrf_token %}
-              <input type="text" required="" id="email_infolettre" name="email_infolettre" class="form-control rounded-0" placeholder="Votre courriel" />
+              <input type="text" required="" id="email_infolettre" name="email_infolettre" class="form-control rounded-0" placeholder="{% trans 'Your email' %}" />
               <input type="text" required="" id="calcul_infolettre" name="calcul_infolettre" class="form-control rounded-0" placeholder="4 + 2 = ?" />
               <button type="submit" class="btn btn-dark rounded-0" name="submit" value="Submit">{{instance.label}}</button>
             </form>

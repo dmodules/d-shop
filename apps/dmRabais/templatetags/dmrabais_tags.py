@@ -1,6 +1,5 @@
 from django import template
 
-import re
 import pytz
 from datetime import datetime
 from decimal import Decimal
@@ -10,7 +9,6 @@ from shop.money import Money
 from dshop.models import Product, ProductVariableVariant
 
 from apps.dmRabais.models import dmRabaisPerCategory
-from apps.dmRabais.models import dmPromoCode
 
 register = template.Library()
 

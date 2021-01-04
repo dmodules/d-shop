@@ -18,5 +18,9 @@ class ShippingManagementAdmin(admin.ModelAdmin):
             "price",
         ],
     }), (_("With Separator Settings"), {
-        "fields": ["use_separator", "separator", "price_after"],
+        "fields": [
+            "use_separator",
+            "separator",
+            "price_after"
+        ],
     }))
