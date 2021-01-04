@@ -116,15 +116,8 @@ class DShopTemplateTest(TestCase):
 
     def setUp(self):
         self.client = Client()
-        from cms.models import Page
-        print(Page.objects.all())
 
     def test_home_page(self):
         response = self.client.get('/')
 
         self.assertEqual(response.status_code, status.HTTP_302_FOUND)
-
-    def test_product_page(self):
-        response = self.client.get(reverse('produits'))
-
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
