@@ -68,6 +68,16 @@ INSTALLED_APPS.extend([  # noqa: F821
     "dshop",
 ])
 
+path_to_extended = '/app/extended_apps/'
+EXTENDED_APP_DIR = 'extended_apps'
+if os.path.exists(path_to_extended):
+    for item in os.listdir(path_to_extended):
+        app = ".".join([EXTENDED_APP_DIR, str(item)])
+        app_path = os.path.join(path_to_extended, item)
+
+        if os.path.isdir(app_path) and app not in INSTALLED_APPS:  # noqa: F821
+            INSTALLED_APPS.append(app)  # noqa: F821
+
 ############################################
 # Shop Payments and Order Settings
 
@@ -118,16 +128,9 @@ THEME_SLUG = slugify(os.getenv("THEME_SLUG", "default").lower())
 SHOP_APP_LABEL = "dshop"
 SITE_ID = 1
 
-CLIENT_TITLE = "D-Shop"
+CLIENT_TITLE = os.getenv("CLIENT_TITLE", "D-Shop")
+SHOP_VENDOR_EMAIL = os.getenv("SHOP_VENDOR_EMAIL")
 ADMINS = [("D-Modules", "info@d-modules.com")]
-SHOP_VENDOR_EMAIL = "info@d-modules.com"
-
-if STAGE == "live":
-    SITE_URL = "https://d-shop.us.aldryn.io"
-elif STAGE == "test":
-    SITE_URL = "https://d-shop-stage.us.aldryn.io"
-elif STAGE == "local":
-    SITE_URL = "http://localhost:8000"
 
 ############################################
 # Templates Settings

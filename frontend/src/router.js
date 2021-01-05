@@ -18,11 +18,6 @@ const routes = [
     path: '/fr/commande/promocodes/',
     name: 'PromoCodes',
     component: () => import('@/views/PromoCodes.vue')
-  },
-  {
-    path: '/fr/commande/soumission/',
-    name: 'Soumission',
-    component: () => import('@/views/Soumission.vue')
   }
 ]
 

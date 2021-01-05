@@ -4,7 +4,7 @@ from dshop.models import FeatureList
 
 class Command(BaseCommand):
 
-    def handle(self, **options):
+    def handle(self, **options): # noqa
 
         print("In Feature command")
         while True:

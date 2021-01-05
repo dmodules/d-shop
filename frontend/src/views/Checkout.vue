@@ -1,5 +1,5 @@
 <template>
-  <div class="checkout">
+  <div class="checkout" id="app-checkout">
     <template v-if="isLoading">
       <v-row>
         <v-col cols="12" class="text-center">
@@ -213,39 +213,43 @@
                               v-model="formShipping.shipping_address.country"
                               :label="$i18n.t('Pays')"
                               placeholder=" "
-                              :rules="[
-                                (v) => !!v || $i18n.t('Cechampsesrrequis'),
-                              ]"
+                              :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis')]"
                               :items="formChoix.countries"
                               :item-text="'name'"
                               :item-value="'alpha2'"
-                              :error-messages="
-                                formError.shipping_address.country
-                              "
+                              :error-messages="formError.shipping_address.country"
                               required
                               filled
                               attach
-                              @keydown="
-                                formError.shipping_address.country = null
-                              "
+                              @keydown="formError.shipping_address.country = null"
                             />
                           </v-col>
-                          <v-col cols="12" md="6">
+                          <v-col v-if="formShipping.shipping_address.country == 'CA'" cols="12" md="6">
+                            <v-autocomplete
+                              v-model="formShipping.shipping_address.province"
+                              :label="$i18n.t('Province')"
+                              placeholder=" "
+                              :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis')]"
+                              :items="formChoix.provincesCA"
+                              :item-text="'name'"
+                              :item-value="'alpha2'"
+                              :error-messages="formError.shipping_address.province"
+                              required
+                              filled
+                              attach
+                              @keydown="formError.shipping_address.province = null"
+                            />
+                          </v-col>
+                          <v-col v-else cols="12" md="6">
                             <v-text-field
                               v-model="formShipping.shipping_address.province"
                               :label="$i18n.t('Province')"
                               placeholder=" "
-                              :rules="[
-                                (v) => !!v || $i18n.t('Cechampsesrrequis'),
-                              ]"
-                              :error-messages="
-                                formError.shipping_address.province
-                              "
+                              :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis'),]"
+                              :error-messages="formError.shipping_address.province"
                               required
                               filled
-                              @keydown="
-                                formError.shipping_address.province = null
-                              "
+                              @keydown="formError.shipping_address.province = null"
                             />
                           </v-col>
                           <v-col cols="12" md="6">
@@ -732,6 +736,7 @@
 
 <script>
 import countries from "@/data/countries";
+import provincesCA from "@/data/provincesCA";
 export default {
   name: "Checkout",
   components: {
@@ -747,7 +752,7 @@ export default {
       salutation: [],
       shippingAddress: [],
       countries: [],
-      provinces: [],
+      provincesCA: [],
       shippingMethods: [],
       billingMethods: [],
     },
@@ -860,18 +865,17 @@ export default {
     listPromoCodes: []
   }),
   mounted() {
+    // ===--- hide toggle cart
+    if (document.getElementById("dshop-toggle-cart")) {
+        document.getElementById("dshop-toggle-cart").style.display = "none"
+    }
+    // ===---
     if (this.$vuetify.lang.current === "fr") {
-      this.$set(
-        this.formChoix,
-        "countries",
-        countries[0][this.$vuetify.lang.current]
-      );
+      this.$set(this.formChoix, "countries", countries[0][this.$vuetify.lang.current])
+      this.$set(this.formChoix, "provincesCA", provincesCA[0][this.$vuetify.lang.current])
     } else {
-      this.$set(
-        this.formChoix,
-        "countries",
-        countries[1][this.$vuetify.lang.current]
-      );
+      this.$set(this.formChoix, "countries", countries[1][this.$vuetify.lang.current])
+      this.$set(this.formChoix, "provincesCA", provincesCA[1][this.$vuetify.lang.current])
     }
     this.$set(this.formChoix, "salutation", [
       { text: this.$i18n.t("Madame"), value: "mrs" },
@@ -1043,7 +1047,9 @@ export default {
             products: p
         }
         // ===---
-        this.$axios.post(this.$web_url + "/discount/promocodes/?p="+JSON.stringify(datas), datas, { headers: { "Content-Type": "application/json", Accept: "application/json"}})
+        this.$axios.post(this.$web_url + "/discount/promocodes/?p="+JSON.stringify(datas), datas, {
+            headers: { "Content-Type": "application/json", Accept: "application/json"}
+        })
         .then((apiSuccess) => {
             apiSuccess.data.promolist.forEach((item) => {
                 self.listPromoCodes.push(item.name)

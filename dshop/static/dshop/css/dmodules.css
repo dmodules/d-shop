@@ -35,13 +35,6 @@ body{
 .topnav .drawer-toggle:hover{
   color:#41b6e6;
 }
-.topnav .drawer-toggle.dm-soumission{
-  font-size:0.8rem;
-  font-weight:800;
-  line-height:40px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-}
 .topnav .notif{
   font-size:1rem;
   font-weight:500;
@@ -55,8 +48,7 @@ body{
 }
 
 /* ===--- Drawer ---=== */
-.drawer-toggle #dm-cart-items,
-.drawer-toggle #dm-soumission-items{
+.drawer-toggle #dm-cart-items{
   background-color: #41b6e6;
   border-radius: 100%;
   color: #fff;
@@ -70,13 +62,6 @@ body{
   top: 11px;
   right: 8px;
   padding: 4px;
-}
-.drawer-toggle.dm-soumission #dm-soumission-items{
-  position: relative;
-  top:-3px;
-  right:0;
-  padding:4px 8px;
-  margin:0 0 0 5px;
 }
 .dm-drawer{
   position:absolute;

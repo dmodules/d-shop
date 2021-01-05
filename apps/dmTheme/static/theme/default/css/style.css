@@ -43,8 +43,7 @@ a:hover{
 }
 
 /* ===--- Drawer ---=== */
-.drawer-toggle #dm-cart-items,
-.drawer-toggle #dm-soumission-items{
+.drawer-toggle #dm-cart-items{
   background-color:#458d91;
 }
 .dm-drawer-user-tabs .btn{

@@ -25,6 +25,9 @@
   #app .v-application--wrap{
     min-height:0;
   }
+  #app .v-menu__content.menuable__content__active{
+      max-height: 153px!important;
+  }
   @media (min-width: 960px) {
     #app .v-input--selection-controls.justify-md-end .v-input__slot{
       justify-content:flex-end;

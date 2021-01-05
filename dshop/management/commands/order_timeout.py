@@ -12,7 +12,7 @@ stripe.api_key = STRIPE_SECRET_KEY
 
 class Command(BaseCommand):
 
-    def handle(self, **options):
+    def handle(self, **options): # noqa
 
         orders = OrderModel.objects.all()
         for order in orders:

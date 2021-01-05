@@ -25,6 +25,18 @@ def render_robots(request):
     return HttpResponse("User-Agent: *\n%s: /\n" % permission, content_type="text/plain")
 
 
+path_to_extended = '/app/extended_apps/'
+EXTENDED_APP_DIR = 'extended_apps'
+extended_urls = []
+if os.path.exists(path_to_extended):
+    for item in os.listdir(path_to_extended):
+        app_path = os.path.join(path_to_extended, item)
+
+        if os.path.isdir(app_path):
+            inc_url = ".".join([EXTENDED_APP_DIR, str(item), 'urls'])
+            new_url = url(r'^'+item+'/', include(inc_url))
+            extended_urls.append(new_url)
+
 urlpatterns = [
 
     url(r'^robots\.txt$', render_robots),
@@ -45,7 +57,7 @@ urlpatterns = [
 
     url(r'^test-payment/$', TestPaymentView),
 
-] + aldryn_addons.urls.patterns() + i18n_patterns(
+] + extended_urls + aldryn_addons.urls.patterns() + i18n_patterns(
 
     url(r'^admin', admin.site.urls),
 

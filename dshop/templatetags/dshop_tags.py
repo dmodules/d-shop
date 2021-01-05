@@ -43,6 +43,13 @@ def get_setting(name):
 
 
 @register.simple_tag
+def dm_get_logos():
+    """Get logos from the first Site registered in admin panel"""
+    result = dmSite.objects.first()
+    return result.logos.first()
+
+
+@register.simple_tag
 def dm_get_site_contacts():
     """Get contacts's data from the first Site registered in admin panel"""
     result = dmSite.objects.first()

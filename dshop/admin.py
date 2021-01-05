@@ -28,7 +28,7 @@ from shop.admin.order import OrderItemInline
 from shop.models.defaults.order import Order
 from shop.models.cart import CartItemModel
 
-from dshop.models import dmSite, dmSiteContact, dmSiteSocial
+from dshop.models import dmSite, dmSiteLogo, dmSiteContact, dmSiteSocial
 from dshop.models import BillingAddress, ShippingAddress
 from dshop.models import ProductCategory, ProductFilter
 from dshop.models import Product
@@ -242,6 +242,12 @@ __all__ = ["customer"]
 #######################################################################
 
 
+class dmSiteLogoInline(admin.TabularInline):
+    model = dmSiteLogo
+    extra = 1
+    max_num = 1
+
+
 class dmSiteContactInline(admin.TabularInline):
     model = dmSiteContact
     extra = 1
@@ -256,7 +262,11 @@ class dmSiteSocialInline(admin.TabularInline):
 @admin.register(dmSite)
 class dmSiteAdmin(admin.ModelAdmin):
     list_display = ["get_name", "site"]
-    inlines = [dmSiteContactInline, dmSiteSocialInline]
+    inlines = [
+        dmSiteLogoInline,
+        dmSiteContactInline,
+        dmSiteSocialInline
+    ]
 
     def get_name(self, obj):
         return obj.site.name
