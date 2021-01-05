@@ -1,15 +1,11 @@
 import stripe
 
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.sites.models import Site
 from decimal import Decimal
 from settings import STRIPE_SECRET_KEY, SITE_URL
-
 from rest_framework.exceptions import ValidationError
-
 from shop.payment.providers import PaymentProvider
 from shop.models.order import OrderModel
-
 from apps.dmTaxes.models import CanadaTaxManagement
 
 stripe.api_key = STRIPE_SECRET_KEY
@@ -18,11 +14,10 @@ stripe.api_key = STRIPE_SECRET_KEY
 # ===---   StripePayment                                       ---=== #
 #######################################################################
 
-
 class StripePayment(PaymentProvider):
     namespace = 'stripe-payment'
 
-    def get_payment_request(self, cart, request):
+    def get_payment_request(self, cart, request): # noqa
         print('Do Stripe Payment Request')
         #
         SITE_LINK = SITE_URL
@@ -56,6 +51,7 @@ class StripePayment(PaymentProvider):
                             shipping_cost = order.extra['rows'][
                                 order.extra['rows'].index(d)][1]['charge']
             except Exception as e:
+                print(e)
                 shipping_cost = order.extra['rows'][order.extra['rows'].index(
                     d)][1]['amount']
                 shipping_cost_1 = shipping_cost.split(' ')[1].split(',')[0]
