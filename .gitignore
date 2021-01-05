@@ -25,7 +25,6 @@ Thumbs.db
 /data.tar.gz
 /static_collected
 /node_modules
-extended_apps
 # </DEFAULT>
 
 .vscode
