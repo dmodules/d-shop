@@ -12,7 +12,9 @@ from cmsplugin_cascade.bootstrap4.mixins import BootstrapUtilities
 from cmsplugin_cascade.extra_fields.config import PluginExtraFieldsConfig
 
 INSTALLED_ADDONS = [
-    # <INSTALLED_ADDONS>  # Warning: text inside the INSTALLED_ADDONS tags is auto-generated. Manual changes will be overwritten.
+    # <INSTALLED_ADDONS>
+    # Warning: text inside the INSTALLED_ADDONS
+    # tags is auto-generated. Manual changes will be overwritten.
     'aldryn-addons',
     'aldryn-django',
     'aldryn-sso',
@@ -67,6 +69,16 @@ INSTALLED_APPS.extend([  # noqa: F821
     "shop",
     "dshop",
 ])
+
+path_to_extended = '/app/extended_apps/'
+EXTENDED_APP_DIR = 'extended_apps'
+if os.path.exists(path_to_extended):
+    for item in os.listdir(path_to_extended):
+        app = ".".join([EXTENDED_APP_DIR, str(item)])
+        app_path = os.path.join(path_to_extended, item)
+
+        if os.path.isdir(app_path) and app not in INSTALLED_APPS:  # noqa: F821
+            INSTALLED_APPS.append(app)  # noqa: F821
 
 ############################################
 # Shop Payments and Order Settings
