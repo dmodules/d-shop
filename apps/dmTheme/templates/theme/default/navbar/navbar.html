@@ -1,30 +1,37 @@
-{% load static i18n menu_tags dshop_tags dmadvertising_tags %}
+{% load static i18n thumbnail menu_tags dshop_tags dmadvertising_tags %}
 
 {% spaceless %}
-  {% block topnav %}
-    {% include 'dshop/navbar/topnav.html' %}
-  {% endblock topnav %}
-  {% block tophead %}
-    <header class="header_wrap fixed-top header_with_topbar">
-      <div class="bottom_header dark_skin main_menu_uppercase">
-        <div class="container">
-          <nav class="navbar navbar-expand-lg">
-            <a class="navbar-brand" href="/">
-              <img class="logo_dark" src="{% static 'dshop/img/logo-dshop.png' %}" alt="logo" />
-              <img class="logo_light" src="{% static 'dshop/img/logo-dshop.png' %}" alt="logo" />
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-              aria-expanded="false">
-              <span class="ion-android-menu"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-              <ul class="navbar-nav">
-                {% show_menu 0 100 100 100 '/app/apps/dmTheme/templates/theme/default/navbar/menu-parent.html' %}
-              </ul>
+    {% block topnav %}
+        {% include 'dshop/navbar/topnav.html' %}
+    {% endblock topnav %}
+    {% block tophead %}
+        <header class="header_wrap fixed-top header_with_topbar">
+            <div class="bottom_header dark_skin main_menu_uppercase">
+                <div class="container">
+                <nav class="navbar navbar-expand-lg">
+                    <a class="navbar-brand" href="/">
+                        {% dm_get_logos as logos %}
+                        {% if logos %}
+                            {% thumbnail logos.logolight "270x70" upscale as thumb %}
+                            <img class="logo_dark" src="{{thumb.url}}" alt="logo" />
+                            <img class="logo_light" src="{{thumb.url}}" alt="logo" />
+                        {% else %}
+                            <img class="logo_dark" src="{% static 'dshop/img/logo-dshop.png' %}" alt="logo" />
+                            <img class="logo_light" src="{% static 'dshop/img/logo-dshop.png' %}" alt="logo" />
+                        {% endif %}
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-expanded="false">
+                        <span class="ion-android-menu"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                        <ul class="navbar-nav">
+                            {% show_menu 0 100 100 100 '/app/apps/dmTheme/templates/theme/default/navbar/menu-parent.html' %}
+                        </ul>
+                    </div>
+                </nav>
+                </div>
             </div>
-          </nav>
-        </div>
-      </div>
-    </header>
-  {% endblock tophead %}
+        </header>
+    {% endblock tophead %}
 {% endspaceless %}

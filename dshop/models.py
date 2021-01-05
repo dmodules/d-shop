@@ -771,6 +771,41 @@ class dmSite(models.Model):
         return self.site.name
 
 
+class dmSiteLogo(models.Model):
+    """
+    Logo's data (light and dark version) of the site.
+    Can be used to easily retrieve and update logo
+    all around the site.
+    """
+
+    site = models.ForeignKey(
+        dmSite,
+        on_delete=models.CASCADE,
+        related_name="logos"
+    )
+    logolight = image.FilerImageField(
+        verbose_name=_("Logo pour fond clair"),
+        on_delete=models.SET_NULL,
+        related_name="logo_light",
+        blank=False,
+        null=True
+    )
+    logodark = image.FilerImageField(
+        verbose_name=_("Logo pour fond sombre"),
+        on_delete=models.SET_NULL,
+        related_name="logo_dark",
+        blank=False,
+        null=True
+    )
+
+    class Meta:
+        verbose_name = _("Logo")
+        verbose_name_plural = _("Logos")
+
+    def __str__(self):
+        return "Logo"
+
+
 class dmSiteContact(models.Model):
     """
     Contact's data (phone, email, address, etc.) about the site.
