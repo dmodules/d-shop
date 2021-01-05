@@ -1930,3 +1930,7 @@ msgstr "Paiment confirmé"
 #:
 msgid "Order items"
 msgstr "Produits commandés"
+
+#:
+msgid "You're already subscribed to this newsletter."
+msgstr "Vous êtes déjà inscrit à cette infolettre."
