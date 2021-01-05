@@ -1,7 +1,10 @@
+import re
 import pytz
 
 from decimal import Decimal
 from datetime import datetime
+
+from geopy.geocoders import Nominatim
 
 from django.db.models import Q
 
@@ -11,6 +14,29 @@ try:
     from apps.dmRabais.models import dmRabaisPerCategory
 except Exception:
     dmRabaisPerCategory = None
+
+
+def get_coords_from_address(address):
+    geolocator = Nominatim(user_agent="dshop")
+    location = geolocator.geocode(address)
+    if location:
+        return location
+    else:
+        try:
+            postalcode = re.findall(r"[A-Za-z]{1}[0-9]{1}[A-Za-z]{1} [0-9]{1}[A-Za-z]{1}[0-9]{1}", address)[0]
+            postal_location = get_coords_from_address(postalcode)
+        except Exception:
+            postal_location = None
+        if postal_location:
+            return postal_location
+        else:
+            new_addr = address.split(",")
+            if len(new_addr) > 1:
+                new_addr = ",".join(new_addr[:-1])
+                new_addr = re.sub(r"\([^()]*\)", "", new_addr)
+                get_coords_from_address(new_addr)
+            else:
+                return location
 
 def get_apply_discountpercategory(product, current_price):
     r = current_price
