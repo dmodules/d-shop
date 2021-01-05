@@ -46,14 +46,10 @@ def infolettre_mailchimp(request):
                 "email_address": email,
                 "status": "subscribed",
             })
-            messages.success(
-                request,
-                _("You've been successfully added to our newsletter.")
-            )
+            messages.success(request, _("You've been successfully added to our newsletter."))
         except Exception as e:
             print(e)
-            messages.error(
-                request, _("Something went wrong, sorry."))
+            messages.error(request, _("Something went wrong, sorry."))
             redirect("/")
     else:
         messages.error(request, _("Your answer is wrong."))
