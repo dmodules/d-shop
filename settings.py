@@ -118,16 +118,9 @@ THEME_SLUG = slugify(os.getenv("THEME_SLUG", "default").lower())
 SHOP_APP_LABEL = "dshop"
 SITE_ID = 1
 
-CLIENT_TITLE = "D-Shop"
+CLIENT_TITLE = os.getenv("CLIENT_TITLE", "D-Shop")
+SHOP_VENDOR_EMAIL = os.getenv("SHOP_VENDOR_EMAIL")
 ADMINS = [("D-Modules", "info@d-modules.com")]
-SHOP_VENDOR_EMAIL = "info@d-modules.com"
-
-if STAGE == "live":
-    SITE_URL = "https://d-shop.us.aldryn.io"
-elif STAGE == "test":
-    SITE_URL = "https://d-shop-stage.us.aldryn.io"
-elif STAGE == "local":
-    SITE_URL = "http://localhost:8000"
 
 ############################################
 # Templates Settings
