@@ -3,7 +3,7 @@ import stripe
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.sites.models import Site
 from decimal import Decimal
-from settings import STRIPE_SECRET_KEY
+from settings import STRIPE_SECRET_KEY, SITE_URL
 
 from rest_framework.exceptions import ValidationError
 
@@ -25,9 +25,7 @@ class StripePayment(PaymentProvider):
     def get_payment_request(self, cart, request):
         print('Do Stripe Payment Request')
         #
-        SITE_LINK = str(Site.objects.first().domain)
-        if not SITE_LINK.startswith("http"):
-            SITE_LINK = "https://" + SITE_LINK
+        SITE_LINK = SITE_URL
         #
         try:
             order = OrderModel.objects.create_from_cart(cart, request)
@@ -58,11 +56,11 @@ class StripePayment(PaymentProvider):
                             shipping_cost = order.extra['rows'][
                                 order.extra['rows'].index(d)][1]['charge']
             except Exception as e:
-                print(e)
                 shipping_cost = order.extra['rows'][order.extra['rows'].index(
                     d)][1]['amount']
-                shipping_cost = shipping_cost.split(' ')[1].split(',')[0]
-                shipping_cost = int(shipping_cost) * 100
+                shipping_cost_1 = shipping_cost.split(' ')[1].split(',')[0]
+                shipping_cost_2 = shipping_cost.split(' ')[1].split(',')[1]
+                shipping_cost = int(shipping_cost_1) * 100 + int(shipping_cost_2)
             site = SITE_LINK
             success_url = site + \
                 "/billing-stripe/payment/?referenceId="+str(referenceId)
