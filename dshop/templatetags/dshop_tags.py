@@ -9,6 +9,7 @@ from django.db.models import Q
 from dshop.models import dmSite
 from dshop.models import Product
 from dshop.models import ProductCategory, ProductFilter
+from dshop.utils import get_coords_from_address
 
 register = template.Library()
 
@@ -54,6 +55,28 @@ def dm_get_site_contacts():
     """Get contacts's data from the first Site registered in admin panel"""
     result = dmSite.objects.first()
     return result.contacts.first()
+
+
+@register.simple_tag
+def dm_get_site_coord():
+    """Get coordinates's data from Site's address"""
+    coords = {
+        "lat": "",
+        "lon": ""
+    }
+    try:
+        result = dmSite.objects.first()
+        contacts = result.contacts.first()
+        address = str(contacts.address)
+        location = get_coords_from_address(address)
+        if location:
+            coords = {
+                "lat": str(location.latitude).replace(",", "."),
+                "lon": str(location.longitude).replace(",", ".")
+            }
+    except Exception:
+        pass
+    return coords
 
 
 @register.simple_tag
