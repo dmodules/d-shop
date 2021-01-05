@@ -1,3 +1,5 @@
+import re
+
 from mailchimp3 import MailChimp
 
 from django.contrib import messages
@@ -49,7 +51,10 @@ def infolettre_mailchimp(request):
             messages.success(request, _("You've been successfully added to our newsletter."))
         except Exception as e:
             print(e)
-            messages.error(request, _("Something went wrong, sorry."))
+            if len(re.findall(r"Member Exists", str(e))) > 0:
+                messages.error(request, _("You're already subscribed to this newsletter."))
+            else:
+                messages.error(request, _("Something went wrong, sorry."))
             redirect("/")
     else:
         messages.error(request, _("Your answer is wrong."))
