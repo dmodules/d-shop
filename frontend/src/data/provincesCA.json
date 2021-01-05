@@ -1,0 +1,36 @@
+[
+    {
+      "fr": [
+        {"name":"Alberta"},
+        {"name":"Colombie-Britannique"},
+        {"name":"Manitoba"},
+        {"name":"Nouveau-Brunswick"},
+        {"name":"Terre-Neuve et Labrador"},
+        {"name":"Territoires du Nord-Ouest"},
+        {"name":"Nouvelle-Écosse"},
+        {"name":"Nunavut"},
+        {"name":"Ontario"},
+        {"name":"Île-du-Prince-Édouard"},
+        {"name":"Québec"},
+        {"name":"Saskatchewan"},
+        {"name":"Yukon"}
+      ]
+    },
+    {
+      "en": [
+        {"name":"Alberta"},
+        {"name":"British Columbia"},
+        {"name":"Manitoba"},
+        {"name":"New-Brunswick"},
+        {"name":"Newfoundland and Labrador"},
+        {"name":"Northwest Territories"},
+        {"name":"Nova Scotia"},
+        {"name":"Nunavut"},
+        {"name":"Ontario"},
+        {"name":"Prince Edward Island"},
+        {"name":"Quebec"},
+        {"name":"Saskatchewan"},
+        {"name":"Yukon"}
+      ]
+    }
+  ]
