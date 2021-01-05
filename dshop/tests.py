@@ -1,6 +1,7 @@
 from django.db import IntegrityError
 from django.test import TestCase, Client
 from django.urls import reverse
+from rest_framework import status
 from dshop.models import Product
 from dshop.utils_test import filter_p, category, product
 
