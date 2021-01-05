@@ -1,5 +1,5 @@
 <template>
-  <div class="checkout">
+  <div class="checkout" id="app-checkout">
     <template v-if="isLoading">
       <v-row>
         <v-col cols="12" class="text-center">
@@ -860,16 +860,17 @@ export default {
     listPromoCodes: []
   }),
   mounted() {
+    // ===--- hide toggle cart
+    if (document.getElementById("dshop-toggle-cart")) {
+        document.getElementById("dshop-toggle-cart").style.display = "none"
+    }
+    // ===---
     if (this.$vuetify.lang.current === "fr") {
-      this.$set(
-        this.formChoix,
-        "countries",
+      this.$set(this.formChoix, "countries",
         countries[0][this.$vuetify.lang.current]
       );
     } else {
-      this.$set(
-        this.formChoix,
-        "countries",
+      this.$set(this.formChoix, "countries",
         countries[1][this.$vuetify.lang.current]
       );
     }
@@ -1043,7 +1044,9 @@ export default {
             products: p
         }
         // ===---
-        this.$axios.post(this.$web_url + "/discount/promocodes/?p="+JSON.stringify(datas), datas, { headers: { "Content-Type": "application/json", Accept: "application/json"}})
+        this.$axios.post(this.$web_url + "/discount/promocodes/?p="+JSON.stringify(datas), datas, {
+            headers: { "Content-Type": "application/json", Accept: "application/json"}
+        })
         .then((apiSuccess) => {
             apiSuccess.data.promolist.forEach((item) => {
                 self.listPromoCodes.push(item.name)

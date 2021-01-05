@@ -124,6 +124,7 @@
       }
     }),
     mounted () {
+      document.title = this.$i18n.t('Profile')
       this.$set(this, 'listSalutation', [
         {text: this.$i18n.t('Madame'),value: 'mrs'},
         {text: this.$i18n.t('Monsieur'),value: 'mr'},

@@ -263,14 +263,10 @@ $(document).ready(function() {
     $('body').css({"padding-top":"46px"});
     $('.header_wrap.fixed-top').css({"top":"46px"});
   }
-  if ($('#app').length) {
-    $('.drawer-toggle.dm-soumission').hide()
+  if ($('#app-checkout').length) {
     $('.drawer-toggle.dm-cart').hide()
-    $('.drawer-toggle.dm-user').hide()
   } else {
-    $('.drawer-toggle.dm-soumission').show()
     $('.drawer-toggle.dm-cart').show()
-    $('.drawer-toggle.dm-user').show()
   }
 });
 
