@@ -28,12 +28,11 @@ def render_robots(request):
 path_to_extended = '/app/extended_apps/'
 EXTENDED_APP_DIR = 'extended_apps'
 extended_urls = []
-for item in os.listdir(path_to_extended):
-    inc_url = ".".join([EXTENDED_APP_DIR, str(item), 'urls'])
-
-    new_url = url(r'^'+item+'/', include(inc_url))
-
-    extended_urls.append(new_url)
+if os.path.exists(path_to_extended):
+    for item in os.listdir(path_to_extended):
+        inc_url = ".".join([EXTENDED_APP_DIR, str(item), 'urls'])
+        new_url = url(r'^'+item+'/', include(inc_url))
+        extended_urls.append(new_url)
 
 urlpatterns = [
 
