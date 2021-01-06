@@ -12,7 +12,9 @@ from cmsplugin_cascade.bootstrap4.mixins import BootstrapUtilities
 from cmsplugin_cascade.extra_fields.config import PluginExtraFieldsConfig
 
 INSTALLED_ADDONS = [
-    # <INSTALLED_ADDONS>  # Warning: text inside the INSTALLED_ADDONS tags is auto-generated. Manual changes will be overwritten.
+    # <INSTALLED_ADDONS>
+    # Warning: text inside the INSTALLED_ADDONS tags is auto-generated.
+    # Manual changes will be overwritten.
     'aldryn-addons',
     'aldryn-django',
     'aldryn-sso',
