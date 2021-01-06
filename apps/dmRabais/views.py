@@ -1,10 +1,14 @@
 import pytz
 import json
+
+from decimal import Decimal
 from datetime import datetime
 
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response as RestResponse
+
+from shop.money import Money
 
 from .models import dmPromoCode
 from .models import dmCustomerPromoCode
@@ -60,7 +64,8 @@ class PromoCodesList(APIView):
         if request.user.is_authenticated:
             try:
                 all_promo = dmCustomerPromoCode.objects.filter(
-                    customer=request.user.customer)
+                    customer=request.user.customer
+                )
                 promolist = []
                 for p in all_promo:
                     if p.promocode.valid_until is not None:
@@ -73,7 +78,10 @@ class PromoCodesList(APIView):
                     datas["is_expired"] = p.is_expired
                     promolist.append(datas)
                 ###############
-                return RestResponse({"valid": True, "promolist": promolist})
+                return RestResponse({
+                    "valid": True,
+                    "promolist": promolist
+                })
             except Exception as e:
                 print(e)
                 return RestResponse({"valid": False})
@@ -84,13 +92,17 @@ class PromoCodesList(APIView):
         if request.user.is_authenticated:
             data = request.GET.get("p", None)
             all_promocodes = []
+            all_prices = Decimal(0)
+            all_discounts = Decimal(0)
             try:
                 datap = json.loads(data)
                 for p in datap["products"]:
                     pmodel = p["summary"]["product_model"]
                     pcode = p["product_code"]
                     results = get_promocodelist_bymodel_bycode(request, pmodel, pcode)
-                    all_promocodes.extend(results)
+                    all_promocodes.extend(results[0])
+                    all_prices = all_prices + results[1]
+                    all_discounts = all_discounts + results[2]
             except Exception as e:
                 print(e)
                 pass
@@ -110,7 +122,12 @@ class PromoCodesList(APIView):
                         datas["is_expired"] = p.is_expired
                         promolist.append(datas)
                 ###############
-                return RestResponse({"valid": True, "promolist": promolist})
+                return RestResponse({
+                    "valid": True,
+                    "promolist": promolist,
+                    "price": Money("%0.2f" % all_prices),
+                    "discount": Money("%0.2f" % all_discounts)
+                })
             except Exception as e:
                 print(e)
                 return RestResponse({"valid": False})
@@ -137,7 +154,8 @@ class PromoCodesOff(APIView):
                             try:
                                 cpc = dmCustomerPromoCode.objects.get(
                                     customer=request.user.customer,
-                                    promocode__name=p)
+                                    promocode__name=p
+                                )
                                 cpc.is_expired = True
                                 cpc.save()
                             except Exception as e:

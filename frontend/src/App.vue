@@ -32,8 +32,13 @@
     #app .v-input--selection-controls.justify-md-end .v-input__slot{
       justify-content:flex-end;
     }
+    #app .v-input--selection-controls.justify-md-end .v-input__slot .v-input--selection-controls__input{
+      order: 2;
+    }
     #app .v-input--selection-controls.justify-md-end .v-input__slot .v-label{
-      flex:none;
+      text-align: right;
+      order: 1;
+      margin-right: 13px;
     }
   }
   #app .v-input--selection-controls__input + .v-label{
@@ -44,6 +49,14 @@
     min-width:230px;
     height:auto;
     padding:18px 30px;
+  }
+  #app .v-btn--tile.v-size--small{
+    min-width:140px;
+    padding:8px 20px;
+  }
+  #app .v-btn--tile.v-size--x-small{
+    min-width:100px;
+    padding:5px 10px;
   }
   #app .v-btn__content{
     transition:all 0.3s;
