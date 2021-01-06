@@ -128,17 +128,19 @@
                   </ul>
                 </div>
               </div>
-              <div class="col-lg-2 col-md-3 col-sm-6">
-                <div class="widget">
-                  <h6 class="widget_title">{% trans "Categories" %}</h6>
-                  <ul class="widget_links">
-                    {% dm_get_categories_parents as categories %}
-                    {% for category in categories %}
-                      <li><a href="/produits/{{category.id}}-{{category.name|slugify}}">{{category.name}}</a></li>
-                    {% endfor %}
-                  </ul>
+              {% dm_get_categories_parents as categories %}
+              {% if categories.count > 0 %}
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="widget">
+                    <h6 class="widget_title">{% trans "Categories" %}</h6>
+                    <ul class="widget_links">
+                        {% for category in categories %}
+                        <li><a href="/produits/{{category.id}}-{{category.name|slugify}}">{{category.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                    </div>
                 </div>
-              </div>
+              {% endif %}
               <div class="col-lg-2 col-md-6 col-sm-6">
                 <div class="widget">
                   <h6 class="widget_title">{% trans "My Account" %}</h6>

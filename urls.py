@@ -63,14 +63,14 @@ urlpatterns = [
     url(r'^admin', admin.site.urls),
 
     url(r'^message-envoye/', TemplateView.as_view(
-        template_name="/app/apps/dmTheme/templates/theme/{}/pages/message-envoye.html".format(settings.THEME_SLUG)
+        template_name="theme/{}/pages/message-envoye.html".format(settings.THEME_SLUG)
     )),
 
     url(r'^produits/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', TemplateView.as_view(
-        template_name='/app/apps/dmTheme/templates/theme/{}/pages/produits.html'.format(settings.THEME_SLUG)
+        template_name='theme/{}/pages/produits.html'.format(settings.THEME_SLUG)
     )),
     url(r'^produits/', TemplateView.as_view(
-        template_name='/app/apps/dmTheme/templates/theme/{}/pages/produits.html'.format(settings.THEME_SLUG)
+        template_name='theme/{}/pages/produits.html'.format(settings.THEME_SLUG)
     ), name='produits'),
 
     url(r'^search/', include("apps.dmSearch.urls")),
@@ -95,7 +95,7 @@ urlpatterns = [
     url(r'fonts/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'fonts')}),
     # ===---
     url(r'^commande/', TemplateView.as_view(
-        template_name='/app/apps/dmTheme/templates/theme/{}/pages/app.html'.format(settings.THEME_SLUG)
+        template_name='theme/{}/pages/app.html'.format(settings.THEME_SLUG)
     )),
     ############################
     # ===------------------=== #

@@ -2,6 +2,6 @@
 
 {% get_setting 'THEME_SLUG' as client %}
 
-{% with "/app/apps/dmTheme/templates/theme/"|add:client|add:"/order/detail.html" as path %}
+{% with "theme/"|add:client|add:"/order/detail.html" as path %}
   {% include path %}
 {% endwith %}
