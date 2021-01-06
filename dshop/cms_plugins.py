@@ -37,7 +37,7 @@ class dmBlocEntetePlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "/app/apps/dmTheme/templates/theme/{}/plugins/bloc-entete.html".format(
+            "theme/{}/plugins/bloc-entete.html".format(
                 settings.THEME_SLUG
             ), "plugins/bloc-entete.html"
         ])
@@ -55,7 +55,7 @@ class dmBlocTextMediaPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "/app/apps/dmTheme/templates/theme/{}/plugins/bloc-textmedia.html".format(
+            "theme/{}/plugins/bloc-textmedia.html".format(
                 settings.THEME_SLUG
             ), "plugins/bloc-textmedia.html"
         ])
@@ -73,7 +73,7 @@ class dmBlocEnteteVideoPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "/app/apps/dmTheme/templates/theme/{}/plugins/bloc-entete-video.html".format(
+            "theme/{}/plugins/bloc-entete-video.html".format(
                 settings.THEME_SLUG
             ), "plugins/bloc-entete-video.html"
         ])
@@ -92,7 +92,7 @@ class dmBlocSliderParentPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "/app/apps/dmTheme/templates/theme/{}/plugins/bloc-slider-parent.html".format(
+            "theme/{}/plugins/bloc-slider-parent.html".format(
                 settings.THEME_SLUG
             ), "plugins/bloc-slider-parent.html"
         ])
@@ -134,7 +134,7 @@ class dmBlocSliderChildPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "/app/apps/dmTheme/templates/theme/{}/plugins/bloc-slider-child.html".format(
+            "theme/{}/plugins/bloc-slider-child.html".format(
                 settings.THEME_SLUG
             ), "plugins/bloc-slider-child.html"
         ])
@@ -153,7 +153,7 @@ class dmBlocEtapesParentPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "/app/apps/dmTheme/templates/theme/{}/plugins/bloc-etapes-parent.html".format(
+            "theme/{}/plugins/bloc-etapes-parent.html".format(
                 settings.THEME_SLUG
             ), "plugins/bloc-etapes-parent.html"
         ])
@@ -173,7 +173,7 @@ class dmBlocEtapesChildPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "/app/apps/dmTheme/templates/theme/{}/plugins/bloc-etapes-child.html".format(
+            "theme/{}/plugins/bloc-etapes-child.html".format(
                 settings.THEME_SLUG
             ), "plugins/bloc-etapes-child.html"
         ])
@@ -191,7 +191,7 @@ class dmCalltoactionPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "/app/apps/dmTheme/templates/theme/{}/plugins/bloc-calltoaction.html".format(
+            "theme/{}/plugins/bloc-calltoaction.html".format(
                 settings.THEME_SLUG
             ), "plugins/bloc-calltoaction.html"
         ])
@@ -209,7 +209,7 @@ class dmBlocContactPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "/app/apps/dmTheme/templates/theme/{}/plugins/bloc-infolettre.html".format(
+            "theme/{}/plugins/bloc-infolettre.html".format(
                 settings.THEME_SLUG
             ), "plugins/bloc-infolettre.html"
         ])
@@ -227,7 +227,7 @@ class dmInfolettrePlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "/app/apps/dmTheme/templates/theme/{}/plugins/bloc-infolettre.html".format(
+            "theme/{}/plugins/bloc-infolettre.html".format(
                 settings.THEME_SLUG
             ), "plugins/bloc-infolettre.html"
         ])
@@ -250,7 +250,7 @@ class dmProductsCategoriesPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "/app/apps/dmTheme/templates/theme/{}/plugins/products-categories.html".format(
+            "theme/{}/plugins/products-categories.html".format(
                 settings.THEME_SLUG
             ), "plugins/products-categories.html"
         ])
@@ -268,7 +268,7 @@ class dmProductsVedettePlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "/app/apps/dmTheme/templates/theme/{}/plugins/products-vedette.html".format(
+            "theme/{}/plugins/products-vedette.html".format(
                 settings.THEME_SLUG
             ), "plugins/products-vedette.html"
         ])
@@ -286,7 +286,7 @@ class dmProductsByCategpryPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "/app/apps/dmTheme/templates/theme/{}/plugins/products-by-category.html".format(
+            "theme/{}/plugins/products-by-category.html".format(
                 settings.THEME_SLUG
             ), "plugins/products-by-category.html"
         ])
@@ -305,7 +305,7 @@ class dmBlockSalesParentPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "/app/apps/dmTheme/templates/theme/{}/plugins/block-sales-parent.html".format(
+            "theme/{}/plugins/block-sales-parent.html".format(
                 settings.THEME_SLUG
             ), "plugins/block-sales-parent.html"
         ])
@@ -325,7 +325,7 @@ class dmBlockSalesChildPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "/app/apps/dmTheme/templates/theme/{}/plugins/block-sales-child.html".format(
+            "theme/{}/plugins/block-sales-child.html".format(
                 settings.THEME_SLUG
             ), "plugins/block-sales-child.html"
         ])
