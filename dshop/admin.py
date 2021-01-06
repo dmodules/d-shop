@@ -370,22 +370,14 @@ class OrderAdmin(PrintInvoiceAdminMixin, BaseOrderAdmin):
         verbose_name_plural = _("Orders")
 
     def get_queryset(self, request):
-        print("=====================================================")
-        r = super(OrderAdmin, self).get_queryset(request)
-        for rr in r:
+        rr = super(OrderAdmin, self).get_queryset(request)
+        for r in rr:
             today = pytz.utc.localize(datetime.utcnow())
-            onehour = rr.updated_at + timedelta(hours=1)
-            print(rr)
-            print(rr.status)
-            print(rr.created_at)
-            print(rr.updated_at)
-            print(today)
-            print(onehour < today)
-            if rr.status == "created" and onehour < today:
-                rr.delete()
-            print("+++++++++")
-        print("=====================================================")
-        return super(OrderAdmin, self).get_queryset(request) # .filter(status="payment_confirmed")
+            if r.status == "new" and r.updated_at + timedelta(hours=1) < today:
+                r.delete()
+            if r.status == "created" and r.updated_at + timedelta(hours=6) < today:
+                r.delete()
+        return super(OrderAdmin, self).get_queryset(request).filter(status="payment_confirmed")
 
     def get_ordernumber(self, obj):
         return obj.get_number()
