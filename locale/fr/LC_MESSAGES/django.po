@@ -1934,3 +1934,6 @@ msgstr "Produits commandés"
 #:
 msgid "You're already subscribed to this newsletter."
 msgstr "Vous êtes déjà inscrit à cette infolettre."
+
+msgid "Use shipping address for billing"
+msgstr "Utiliser l'adresse de livraison pour la facturation"

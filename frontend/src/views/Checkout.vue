@@ -222,6 +222,7 @@
                               filled
                               attach
                               @keydown="formError.shipping_address.country = null"
+                              @change="formShipping.shipping_address.province = null"
                             />
                           </v-col>
                           <v-col v-if="formShipping.shipping_address.country == 'CA'" cols="12" md="6">
@@ -348,17 +349,13 @@
                         <v-row>
                           <v-col cols="12">
                             <v-checkbox
-                              v-model="
-                                formBilling.billing_address.use_primary_address
-                              "
+                              v-model="formBilling.billing_address.use_primary_address"
                               :label="$i18n.t('Utiliserladressedelivraison')"
                             />
                           </v-col>
                         </v-row>
                         <v-row
-                          v-if="
-                            !formBilling.billing_address.use_primary_address
-                          "
+                          v-if="!formBilling.billing_address.use_primary_address"
                         >
                           <v-col cols="12">
                             <v-text-field
@@ -368,10 +365,10 @@
                               :rules="[
                                 (v) => !!v || $i18n.t('Cechampsesrrequis'),
                               ]"
-                              :error-messages="formError.shipping_address.name"
+                              :error-messages="formError.billing_address.name"
                               required
                               filled
-                              @keydown="formError.shipping_address.name = null"
+                              @keydown="formError.billing_address.name = null"
                             />
                           </v-col>
                           <v-col cols="12" md="6">
@@ -379,17 +376,11 @@
                               v-model="formBilling.billing_address.address1"
                               :label="$i18n.t('Adresse')"
                               placeholder=" "
-                              :rules="[
-                                (v) => !!v || $i18n.t('Cechampsesrrequis'),
-                              ]"
-                              :error-messages="
-                                formError.shipping_address.address1
-                              "
+                              :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis')]"
+                              :error-messages="formError.billing_address.address1"
                               required
                               filled
-                              @keydown="
-                                formError.shipping_address.address1 = null
-                              "
+                              @keydown="formError.billing_address.address1 = null"
                             />
                           </v-col>
                           <v-col cols="12" md="6">
@@ -411,33 +402,40 @@
                               :items="formChoix.countries"
                               :item-text="'name'"
                               :item-value="'alpha2'"
-                              :error-messages="
-                                formError.shipping_address.country
-                              "
+                              :error-messages="formError.billing_address.country"
                               required
                               filled
                               attach
-                              @keydown="
-                                formError.shipping_address.country = null
-                              "
+                              @keydown="formError.billing_address.country = null"
+                              @change="formBilling.billing_address.province = null"
                             />
                           </v-col>
-                          <v-col cols="12" md="6">
+                          <v-col v-if="formBilling.billing_address.country == 'CA'" cols="12" md="6">
+                            <v-autocomplete
+                              v-model="formBilling.billing_address.province"
+                              :label="$i18n.t('Province')"
+                              placeholder=" "
+                              :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis')]"
+                              :items="formChoix.provincesCA"
+                              :item-text="'name'"
+                              :item-value="'alpha2'"
+                              :error-messages="formError.billing_address.province"
+                              required
+                              filled
+                              attach
+                              @keydown="formError.billing_address.province = null"
+                            />
+                          </v-col>
+                          <v-col v-else cols="12" md="6">
                             <v-text-field
                               v-model="formBilling.billing_address.province"
                               :label="$i18n.t('Province')"
                               placeholder=" "
-                              :rules="[
-                                (v) => !!v || $i18n.t('Cechampsesrrequis'),
-                              ]"
-                              :error-messages="
-                                formError.shipping_address.province
-                              "
+                              :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis'),]"
+                              :error-messages="formError.billing_address.province"
                               required
                               filled
-                              @keydown="
-                                formError.shipping_address.province = null
-                              "
+                              @keydown="formError.billing_address.province = null"
                             />
                           </v-col>
                           <v-col cols="12" md="6">
@@ -448,10 +446,10 @@
                               :rules="[
                                 (v) => !!v || $i18n.t('Cechampsesrrequis'),
                               ]"
-                              :error-messages="formError.shipping_address.city"
+                              :error-messages="formError.billing_address.city"
                               required
                               filled
-                              @keydown="formError.shipping_address.city = null"
+                              @keydown="formError.billing_address.city = null"
                             />
                           </v-col>
                           <v-col cols="12" md="6">
@@ -463,12 +461,12 @@
                                 (v) => !!v || $i18n.t('Cechampsesrrequis'),
                               ]"
                               :error-messages="
-                                formError.shipping_address.zip_code
+                                formError.billing_address.zip_code
                               "
                               required
                               filled
                               @keydown="
-                                formError.shipping_address.zip_code = null
+                                formError.billing_address.zip_code = null
                               "
                             />
                           </v-col>
@@ -619,34 +617,69 @@
                               </v-list-item-content>
                               <v-list-item-action class="text-right">
                                 <div>
-                                  <span>{{ $i18n.t("Soustotal") }} </span>
+                                  <span>{{ $i18n.t("Soustotal") }} : </span>
                                   <span v-text="formPayment.subtotal"></span>
                                 </div>
                               </v-list-item-action>
                             </v-list-item>
                           </v-list>
                         </v-col>
-                        <v-col
-                          cols="12"
-                          md="6"
-                          lg="4"
-                          class="text-left text-md-right"
-                        >
+                        <v-col cols="12" md="6" lg="4" class="text-left text-md-right">
                           <h5>{{ $i18n.t("Resumedevotrefacture") }}</h5>
                           <v-form v-model="formAcceptCondition.valid">
-                            <v-list class="dm-payment">
-                              <v-list-item class="dm-payment-subtotal">
-                                <v-list-item-content>
-                                  <v-list-item-title>
-                                    {{ $i18n.t("Soustotal") }}
-                                  </v-list-item-title>
-                                </v-list-item-content>
-                                <v-list-item-action>
-                                  <v-list-item-title class="font-weight-bold">
-                                    <span v-text="formPayment.subtotal"></span>
-                                  </v-list-item-title>
-                                </v-list-item-action>
-                              </v-list-item>
+                            <v-list class="dm-payment dm-payment-resume">
+                                <template v-if="listPromoCodes.length > 0">
+                                    <v-list-item>
+                                        <v-list-item-content>
+                                            <v-list-item-title>
+                                                {{ $i18n.t("Soustotal") }}
+                                            </v-list-item-title>
+                                        </v-list-item-content>
+                                        <v-list-item-action>
+                                            <v-list-item-title class="font-weight-bold">
+                                                <span v-text="formPayment.subtotaldiscount"></span>
+                                            </v-list-item-title>
+                                        </v-list-item-action>
+                                    </v-list-item>
+                                    <v-list-item>
+                                        <v-list-item-content>
+                                            <v-list-item-title>
+                                                {{ $i18n.t("Discountof") }}
+                                            </v-list-item-title>
+                                        </v-list-item-content>
+                                        <v-list-item-action>
+                                            <v-list-item-title class="font-weight-bold">
+                                                <span v-text="formPayment.totaldiscount"></span>
+                                            </v-list-item-title>
+                                        </v-list-item-action>
+                                    </v-list-item>
+                                    <v-list-item class="dm-payment-subtotal">
+                                        <v-list-item-content>
+                                            <v-list-item-title>
+                                                {{ $i18n.t("SoustotalAfterDiscount") }}
+                                            </v-list-item-title>
+                                        </v-list-item-content>
+                                        <v-list-item-action>
+                                            <v-list-item-title class="font-weight-bold">
+                                                <span v-text="formPayment.subtotal"></span>
+                                            </v-list-item-title>
+                                        </v-list-item-action>
+                                    </v-list-item>
+                                </template>
+                                <template v-else>
+                                    <v-list-item class="dm-payment-subtotal">
+                                        <v-list-item-content>
+                                        <v-list-item-title>
+                                            {{ $i18n.t("Soustotal") }}
+                                        </v-list-item-title>
+                                        </v-list-item-content>
+                                        <v-list-item-action>
+                                        <v-list-item-title class="font-weight-bold">
+                                            <span v-text="formPayment.subtotal"></span>
+                                        </v-list-item-title>
+                                        </v-list-item-action>
+                                    </v-list-item>
+                                </template>
                               <v-list-item
                                 v-for="(item, n) in formPayment.listExtras"
                                 :key="'extra-' + n"
@@ -662,6 +695,25 @@
                                   </v-list-item-title>
                                 </v-list-item-action>
                               </v-list-item>
+                              <v-form v-model="formPromo.valid">
+                                  <div class="add-promo">
+                                      <v-btn v-if="!formPromo.show" tile x-small color="secondary" @click="formPromo.show = true">Ajouter un code promo</v-btn>
+                                      <template v-else>
+                                          <v-text-field
+                                            v-model="formPromo.code"
+                                            :label="$i18n.t('Enteryourcodehere')"
+                                            :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis')]"
+                                            :error-messages="formPromo.error"
+                                            dense
+                                            required
+                                            filled
+                                            @keydown="formPromo.error = null"
+                                            class="mt-4"
+                                          ></v-text-field>
+                                          <v-btn tile small color="primary" :loading="formPromo.loading" @click="doPromoCode()">{{$i18n.t('Add')}}</v-btn>
+                                      </template>
+                                  </div>
+                              </v-form>
                               <v-divider />
                               <v-list-item class="dm-payment-total">
                                 <v-list-item-content>
@@ -677,10 +729,7 @@
                               </v-list-item>
                             </v-list>
                             <v-checkbox
-                              v-model="
-                                formAcceptCondition.accept_condition.plugin_1
-                                  .accept
-                              "
+                              v-model="formAcceptCondition.accept_condition.plugin_1.accept"
                               :label="$i18n.t('Jailuetjaccepte')"
                               hide-details
                               required
@@ -690,10 +739,7 @@
                               tile
                               color="success"
                               :loading="isLoadingPayment"
-                              :disabled="
-                                !formAcceptCondition.accept_condition.plugin_1
-                                  .accept
-                              "
+                              :disabled="!formAcceptCondition.accept_condition.plugin_1.accept"
                               @click="setUpload()"
                               >{{ $i18n.t("Payeretcommander") }}</v-btn
                             >
@@ -825,6 +871,8 @@ export default {
       productsCount: 0,
       productsQuantity: 0,
       subtotal: "C$ 0.00",
+      subtotaldiscount: "C$ 0.00",
+      totaldiscount: "C$ 0.00",
       total: "C$ 0.00",
       listExtras: [],
       listProducts: [],
@@ -854,6 +902,14 @@ export default {
         country: null,
         zip_code: null,
       },
+    },
+    formPromo: {
+        valid: false,
+        loading: false,
+        error: null,
+        success: null,
+        show: false,
+        code: ""
     },
     asCurrentAddress: false,
     tagCustomer: "",
@@ -1052,8 +1108,12 @@ export default {
         })
         .then((apiSuccess) => {
             apiSuccess.data.promolist.forEach((item) => {
-                self.listPromoCodes.push(item.name)
+                if (!item.is_expired) {
+                    self.listPromoCodes.push(item.name)
+                }
             })
+            self.$set(self.formPayment, "subtotaldiscount", apiSuccess.data.price)
+            self.$set(self.formPayment, "totaldiscount", apiSuccess.data.discount)
         })
     },
     /* =========================================================== //
@@ -1261,6 +1321,48 @@ export default {
       this.setUpload(true);
     },
     /* =========================================================== //
+    // ===---   Promo Code                                  ---=== //
+    // =========================================================== */
+    doPromoCode () {
+        let self = this
+        this.$set(this.formPromo, 'loading', true)
+        this.$set(this.formPromo, 'error', null)
+        this.$set(this.formPromo, 'success', null)
+        // ===---
+        let datas = {
+            promocode: this.formPromo.code
+        }
+        // ===---
+        if (!datas.promocode) {
+            this.$set(this.formPromo, 'error', this.$i18n.t('Cechampsesrrequis'))
+        }
+        // ===---
+        if (!this.formPromo.error) {
+            this.$axios.post(this.$web_url+'/discount/promocode/?promocode='+datas.promocode, datas, {
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+            })
+            .then((apiSuccess) => {
+                self.$set(self.formPromo, 'loading', false)
+                if (apiSuccess.data.valid === true) {
+                    self.$set(self.formPromo, 'show', false)
+                    self.$set(self.formPromo, 'code', '')
+                    self.$set(self.formPromo, 'success', self.$i18n.t('Codeaddedsuccess'))
+                    self.setAuth()
+                } else if (apiSuccess.data.valid === 'already') {
+                    self.$set(self.formPromo, 'error', self.$i18n.t('Codealreadyused'))
+                } else {
+                    self.$set(self.formPromo, 'error', self.$i18n.t('Codenotexist'))
+                }
+            })
+            .catch(() => {
+                self.$set(self.formPromo, 'loading', false)
+                self.$set(self.formPromo, 'error', self.$i18n.t('Anerroroccured'))
+            })
+        } else {
+            this.$set(this.formPromo, 'loading', false)
+        }
+    }
+    /* =========================================================== //
     // ===-----------------------------------------------------=== //
     // =========================================================== */
   },
@@ -1288,6 +1390,9 @@ export default {
     height: 30px;
     }
     /*===*/
+    #app .dm-payment-resume .v-list-item__title {
+        white-space: normal;
+    }
     #app .dm-payment-header,
     #app .dm-payment-footer {
     background-color: rgba(0, 0, 0, 0.03);
@@ -1317,10 +1422,10 @@ export default {
     padding: 1rem 1.5rem;
     }
     #app .dm-payment .v-list-item__action {
-    min-width: 120px;
+        min-width: 120px;
     }
     #app .dm-payment-total .v-list-item__title {
-    font-size: 1.5rem;
+        font-size: 1.5rem;
     }
     #app .dm-payment-products .dm-payment-mobiletitle {
         background-color: rgba(0, 0, 0, 0.03);

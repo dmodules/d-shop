@@ -2,11 +2,11 @@
 {% load static thumbnail cms_tags i18n sekizai_tags dshop_tags %}
 
 {% block head %}
-  <link rel="stylesheet" type="text/css" href="{% static '/theme/default/css/style.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'theme/default/css/style.css' %}" />
 {% endblock head %}
 
 {% block navbar %}
-  {% include "/app/apps/dmTheme/templates/theme/default/navbar/navbar.html" %}
+  {% include "theme/default/navbar/navbar.html" %}
 {% endblock navbar %}
 
 {% block main-header %}{% endblock main-header %}
@@ -18,5 +18,5 @@
 {% endblock main-content %}
 
 {% block foot %}
-  <script src="{% static '/theme/default/js/scripts.js' %}"></script>
+  <script src="{% static 'theme/default/js/scripts.js' %}"></script>
 {% endblock foot %}
