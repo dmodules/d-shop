@@ -679,18 +679,19 @@ ADMIN_REORDER = (
         ]
     },
     {
-        "app":
-        "post_office",
-        "label":
-        _("Sending Emails"),
+        "app": "post_office",
+        "label": _("Sending Emails"),
         "models": [
-            "shop.Notification", {
+            "shop.Notification",
+            {
                 "model": "post_office.EmailTemplate",
                 "label": _("Email Templates")
-            }, {
+            },
+            {
                 "model": "post_office.Email",
                 "label": _("Sent Emails")
-            }, "post_office.Log"
+            },
+            "post_office.Log"
         ]
     },
     {
