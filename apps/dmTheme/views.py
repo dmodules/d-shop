@@ -8,6 +8,7 @@ def get_css(request):
     theme = request.GET.get("theme", "")
 
     # Search for active theme
+    # Tese comment added for fork test
     if theme:
         theme = ThemeManagement.objects.filter(theme=theme).first()
     else:
