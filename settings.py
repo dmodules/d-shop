@@ -134,7 +134,7 @@ ADMINS = [("D-Modules", "info@d-modules.com")]
 # Templates Settings
 
 TEMPLATE_DIR = "theme/{}/pages/".format(THEME_SLUG)
-STATIC_CLIENT_DIR = "static/theme/{}/".format(THEME_SLUG)
+STATIC_CLIENT_DIR = "apps/dmTheme/static/theme/{}/".format(THEME_SLUG)
 
 CMS_TEMPLATES = [
     ("theme/{}/pages/default.html".format(THEME_SLUG), "Par défaut"),
