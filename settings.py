@@ -134,7 +134,7 @@ ADMINS = [("D-Modules", "info@d-modules.com")]
 # Templates Settings
 
 TEMPLATE_DIR = "theme/{}/pages/".format(THEME_SLUG)
-STATIC_CLIENT_DIR = "apps/dmTheme/static/theme/{}/".format(THEME_SLUG)
+#STATIC_CLIENT_DIR = "apps/dmTheme/static/theme/{}/".format(THEME_SLUG)
 
 CMS_TEMPLATES = [
     ("theme/{}/pages/default.html".format(THEME_SLUG), "Par défaut"),
@@ -195,7 +195,7 @@ PROJECT_ROOT = os.path.dirname(__file__)
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static_collected")
 STATIC_URL = os.environ.get("STATIC_URL", "/static/")
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), STATIC_CLIENT_DIR]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 #######################################################################
 # Internationalization
