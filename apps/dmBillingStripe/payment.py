@@ -93,12 +93,9 @@ class StripePayment(PaymentProvider):
             for d in order.extra['rows']:
                 if d[0] in ["data1", "data2", "data3", "data4"]:
                     line_data = {
-                        "name":
-                        d[1]['label'],
-                        "quantity":
-                        1,
-                        "currency":
-                        "cad",
+                        "name": d[1]['label'],
+                        "quantity": 1,
+                        "currency": "cad",
                         "amount":
                         int(
                             float(".".join(d[1]['amount'].split(' ')[1].split(','))) * 100
@@ -110,7 +107,7 @@ class StripePayment(PaymentProvider):
                 cancel_url=cancel_url,
                 payment_method_types=["card"],
                 line_items=line_items,
-                mode='payment',
+                mode="payment",
             )
             redirect_url = '/billing-stripe/checkout/?referenceId=' + \
                 str(referenceId)+'&session='+str(session['id'])

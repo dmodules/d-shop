@@ -138,11 +138,22 @@ a:hover{
   color: #fff;
   font-size:0.9rem;
   font-weight:500;
-  padding:0.5rem 1rem;
+  white-space: normal;
+  width: 100%;
+  padding:0.5rem;
 }
 .service-content-box pre{
   border-left:2px solid #458d91;
   padding-left:1rem;
+}
+
+/**/
+.pagination .page-item a {
+    color:#458d91;
+}
+.page-item.active .page-link{
+    background-color:#458d91;
+    border-color:#458d91;
 }
 
 /**/
