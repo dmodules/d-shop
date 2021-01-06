@@ -18,7 +18,7 @@ ENV NODE_PATH=$NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules \
 
 ENV PATH=/app/frontend/node_modules/.bin:$PATH
 COPY /frontend/ /app/frontend/
-RUN (cd /app/frontend/ && npm install && npm run build --prod && rm -rf /tmp/*)
+RUN (cd /app/frontend/ && npm install && npm run build && rm -rf /tmp/*)
 # END: installing and building frontend
 
 # <PYTHON>
