@@ -1925,7 +1925,7 @@ msgstr "S'inscrire"
 
 #:
 msgid "Payment confirmed"
-msgstr "Paiment confirmé"
+msgstr "Paiement confirmé"
 
 #:
 msgid "Order items"

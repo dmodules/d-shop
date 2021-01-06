@@ -9,7 +9,7 @@
         <div class="d-flex align-items-center flex-wrap">
           <h4 class="text-nowrap">{% trans "Order" %} {{ data.number }}</h4>
           <div class="text-nowrap ml-3">{% trans "from" context "order-detail" %} <span>{{ data.created_at|ts_to_str }}</span></div>
-          <div class="ml-auto lead badge badge-primary">{% if data.status == 'Paid using Stripe' %}{% trans "Paid using Stripe" %}{% else %}{{data.status}}{% endif %}</div>
+          <div class="w-auto ml-auto lead badge badge-primary">{% if data.status == 'Paid using Stripe' %}{% trans "Paid using Stripe" %}{% else %}{{data.status}}{% endif %}</div>
         </div>
       {% endblock %}
 

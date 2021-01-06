@@ -27,11 +27,12 @@ openpyxl==3.0.5
 django-webpack-loader==0.6.0
 # payment providers
 stripe==2.55.0
+squareup==6.3.0.20200826
 # extras
-django-colorfield==0.3.0
-mailchimp3==3.0.7
-django-haystack==3.0
-python-slugify==4.0.1
-django-autoslug==1.9.8
 django-admin-ordering==0.13.1
+django-autoslug==1.9.8
+django-colorfield==0.3.0
+django-haystack==3.0
 geopy==2.1.0
+mailchimp3==3.0.7
+python-slugify==4.0.1

@@ -57,6 +57,7 @@ INSTALLED_APPS.extend([  # noqa: F821
     # ===---
     "apps.dmAdvertising",
     "apps.dmBillingStripe",
+    "apps.dmBillingSquare",
     "apps.dmContact",
     "apps.dmRabais",
     "apps.dmShipping",
@@ -93,10 +94,7 @@ SHOP_CART_MODIFIERS = [
     "apps.dmShipping.modifiers.StandardShippingModifier",
     "apps.dmShipping.modifiers.ExpressShippingModifier",
     "apps.dmShipping.modifiers.StandardShippingWithSeparatorModifier",
-    "apps.dmShipping.modifiers.ExpressShippingWithSeparatorModifier",
-    # ===--- payment providers
-    # "dshop.modifiers.TestPaymentModifier",
-    "apps.dmBillingStripe.modifiers.StripePaymentModifier"
+    "apps.dmShipping.modifiers.ExpressShippingWithSeparatorModifier"
 ]
 
 SHOP_ORDER_WORKFLOWS = ["shop.payment.workflows.ManualPaymentWorkflowMixin"]
@@ -170,6 +168,24 @@ MAILCHIMP_LISTID = os.getenv("MAILCHIMP_LISTID")
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY")
 STRIPE_ACCOUNT_ID = os.getenv("STRIPE_ACCOUNT_ID")
+
+if STRIPE_SECRET_KEY is not None:
+    SHOP_CART_MODIFIERS.extend([
+        "apps.dmBillingStripe.modifiers.StripePaymentModifier"
+    ])
+
+#######################################################################
+# Square Settings
+
+SQUARE_APIKEY = os.getenv("SQUARE_APIKEY")
+SQUARE_TOKEN = os.getenv("SQUARE_TOKEN")
+SQUARE_LOCATION_ID = os.getenv("SQUARE_LOCATION_ID")
+SQUARE_ENVIRONMENT = os.getenv("SQUARE_ENVIRONMENT")
+
+if SQUARE_APIKEY is not None:
+    SHOP_CART_MODIFIERS.extend([
+        "apps.dmBillingSquare.modifiers.SquarePaymentModifier"
+    ])
 
 #######################################################################
 # Paths Settings
@@ -661,18 +677,19 @@ ADMIN_REORDER = (
         ]
     },
     {
-        "app":
-        "post_office",
-        "label":
-        _("Sending Emails"),
+        "app": "post_office",
+        "label": _("Sending Emails"),
         "models": [
-            "shop.Notification", {
+            "shop.Notification",
+            {
                 "model": "post_office.EmailTemplate",
                 "label": _("Email Templates")
-            }, {
+            },
+            {
                 "model": "post_office.Email",
                 "label": _("Sent Emails")
-            }, "post_office.Log"
+            },
+            "post_office.Log"
         ]
     },
     {

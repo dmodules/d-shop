@@ -1,3 +1,7 @@
+import pytz
+
+from datetime import datetime, timedelta
+
 from django.contrib import admin
 from django.template.context import Context
 from django.template.loader import get_template
@@ -366,7 +370,13 @@ class OrderAdmin(PrintInvoiceAdminMixin, BaseOrderAdmin):
         verbose_name_plural = _("Orders")
 
     def get_queryset(self, request):
-        print(self)
+        rr = super(OrderAdmin, self).get_queryset(request)
+        for r in rr:
+            today = pytz.utc.localize(datetime.utcnow())
+            if r.status == "new" and r.updated_at + timedelta(hours=1) < today:
+                r.delete()
+            if r.status == "created" and r.updated_at + timedelta(hours=6) < today:
+                r.delete()
         return super(OrderAdmin, self).get_queryset(request).filter(status="payment_confirmed")
 
     def get_ordernumber(self, obj):
