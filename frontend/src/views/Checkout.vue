@@ -222,6 +222,7 @@
                               filled
                               attach
                               @keydown="formError.shipping_address.country = null"
+                              @change="formShipping.shipping_address.province = null"
                             />
                           </v-col>
                           <v-col v-if="formShipping.shipping_address.country == 'CA'" cols="12" md="6">
@@ -348,17 +349,13 @@
                         <v-row>
                           <v-col cols="12">
                             <v-checkbox
-                              v-model="
-                                formBilling.billing_address.use_primary_address
-                              "
+                              v-model="formBilling.billing_address.use_primary_address"
                               :label="$i18n.t('Utiliserladressedelivraison')"
                             />
                           </v-col>
                         </v-row>
                         <v-row
-                          v-if="
-                            !formBilling.billing_address.use_primary_address
-                          "
+                          v-if="!formBilling.billing_address.use_primary_address"
                         >
                           <v-col cols="12">
                             <v-text-field
@@ -368,10 +365,10 @@
                               :rules="[
                                 (v) => !!v || $i18n.t('Cechampsesrrequis'),
                               ]"
-                              :error-messages="formError.shipping_address.name"
+                              :error-messages="formError.billing_address.name"
                               required
                               filled
-                              @keydown="formError.shipping_address.name = null"
+                              @keydown="formError.billing_address.name = null"
                             />
                           </v-col>
                           <v-col cols="12" md="6">
@@ -379,17 +376,11 @@
                               v-model="formBilling.billing_address.address1"
                               :label="$i18n.t('Adresse')"
                               placeholder=" "
-                              :rules="[
-                                (v) => !!v || $i18n.t('Cechampsesrrequis'),
-                              ]"
-                              :error-messages="
-                                formError.shipping_address.address1
-                              "
+                              :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis')]"
+                              :error-messages="formError.billing_address.address1"
                               required
                               filled
-                              @keydown="
-                                formError.shipping_address.address1 = null
-                              "
+                              @keydown="formError.billing_address.address1 = null"
                             />
                           </v-col>
                           <v-col cols="12" md="6">
@@ -411,33 +402,40 @@
                               :items="formChoix.countries"
                               :item-text="'name'"
                               :item-value="'alpha2'"
-                              :error-messages="
-                                formError.shipping_address.country
-                              "
+                              :error-messages="formError.billing_address.country"
                               required
                               filled
                               attach
-                              @keydown="
-                                formError.shipping_address.country = null
-                              "
+                              @keydown="formError.billing_address.country = null"
+                              @change="formBilling.billing_address.province = null"
                             />
                           </v-col>
-                          <v-col cols="12" md="6">
+                          <v-col v-if="formBilling.billing_address.country == 'CA'" cols="12" md="6">
+                            <v-autocomplete
+                              v-model="formBilling.billing_address.province"
+                              :label="$i18n.t('Province')"
+                              placeholder=" "
+                              :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis')]"
+                              :items="formChoix.provincesCA"
+                              :item-text="'name'"
+                              :item-value="'alpha2'"
+                              :error-messages="formError.billing_address.province"
+                              required
+                              filled
+                              attach
+                              @keydown="formError.billing_address.province = null"
+                            />
+                          </v-col>
+                          <v-col v-else cols="12" md="6">
                             <v-text-field
                               v-model="formBilling.billing_address.province"
                               :label="$i18n.t('Province')"
                               placeholder=" "
-                              :rules="[
-                                (v) => !!v || $i18n.t('Cechampsesrrequis'),
-                              ]"
-                              :error-messages="
-                                formError.shipping_address.province
-                              "
+                              :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis'),]"
+                              :error-messages="formError.billing_address.province"
                               required
                               filled
-                              @keydown="
-                                formError.shipping_address.province = null
-                              "
+                              @keydown="formError.billing_address.province = null"
                             />
                           </v-col>
                           <v-col cols="12" md="6">
@@ -448,10 +446,10 @@
                               :rules="[
                                 (v) => !!v || $i18n.t('Cechampsesrrequis'),
                               ]"
-                              :error-messages="formError.shipping_address.city"
+                              :error-messages="formError.billing_address.city"
                               required
                               filled
-                              @keydown="formError.shipping_address.city = null"
+                              @keydown="formError.billing_address.city = null"
                             />
                           </v-col>
                           <v-col cols="12" md="6">
@@ -463,12 +461,12 @@
                                 (v) => !!v || $i18n.t('Cechampsesrrequis'),
                               ]"
                               :error-messages="
-                                formError.shipping_address.zip_code
+                                formError.billing_address.zip_code
                               "
                               required
                               filled
                               @keydown="
-                                formError.shipping_address.zip_code = null
+                                formError.billing_address.zip_code = null
                               "
                             />
                           </v-col>

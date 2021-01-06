@@ -12,7 +12,7 @@ def get_promocodelist_bymodel_bycode(request, model, code):
             cproduct = ProductVariableVariant.objects.get(product_code=code)
         for pc in cproduct.get_promocodes(request):
             result[0].append(pc.promocode.name)
-            result[1] = Decimal(cproduct.unit_price + 0)
+            result[1] = Decimal(cproduct.unit_price)
             result[2] = Decimal(cproduct.unit_price - cproduct.get_price(request))
         return result
     except Exception as e:
