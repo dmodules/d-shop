@@ -16,6 +16,7 @@ RUN bash /app/node.sh
 ENV NODE_PATH=$NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules \
     PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
+
 ENV PATH=/app/frontend/node_modules/.bin:$PATH
 COPY /frontend/ /app/frontend/
 RUN (cd /app/frontend/ && npm install && npm run build && rm -rf /tmp/*)
