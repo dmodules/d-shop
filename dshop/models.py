@@ -39,6 +39,8 @@ from shop.models.product import BaseProduct, BaseProductManager
 from shop.models.product import AvailableProductMixin
 
 from .utils import get_apply_discountpercategory
+from shop.models.delivery import BaseDelivery, BaseDeliveryItem
+
 
 try:
     from apps.dmRabais.models import dmRabaisPerCategory
@@ -55,12 +57,27 @@ __all__ = ["Cart", "CartItem", "Order", "Customer"]
 TAG_RE = re.compile(r"<[^>]+>")
 
 
+class Delivery(BaseDelivery):
+    pass
+
+
+class DeliveryItem(BaseDeliveryItem):
+    quantity = models.PositiveIntegerField(
+        _("Ordered Quantity")
+    )
+
+
 class OrderItem(BaseOrderItem):
     quantity = models.PositiveIntegerField(
         _("Ordered Quantity")
     )
     variables = JSONField(
         verbose_name=_("Data")
+    )
+
+    canceled = models.BooleanField(
+        verbose_name=_("Canceled"),
+        default=False
     )
 
     def populate_from_cart_item(self, cart_item, request):
@@ -524,7 +541,7 @@ class ProductDefault(AvailableProductMixin, Product):
             return desc
         return ""
 
-    def get_price(self, request):
+    def get_price(self, request):  # noqa C910
         r = self.unit_price
         if request:
             # ===--- GET DISCOUNTS
@@ -532,31 +549,35 @@ class ProductDefault(AvailableProductMixin, Product):
                 r = get_apply_discountpercategory(self, r)
             # ===--- GET PROMOCODE
             if dmPromoCode is not None:
-                customer = CustomerModel.objects.get_from_request(request)
-                today = pytz.utc.localize(datetime.utcnow())
-                all_codes = dmCustomerPromoCode.objects.filter(
-                    (
-                        Q(promocode__categories=None) | Q(promocode__categories__in=self.categories.all())
-                    ) & (
-                        Q(promocode__products=None) | Q(promocode__products__in=[self])
-                    ) & Q(promocode__is_active=True) & (
-                        Q(promocode__valid_from__isnull=True) | Q(promocode__valid_from__lte=today)
-                    ) & (
-                        Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today)
-                    ),
-                    customer=customer,
-                    is_expired=False)
-                if all_codes.count() > 0:
-                    for d in all_codes:
-                        if d.promocode.amount is not None:
-                            r = Money(
-                                Decimal(r) - Decimal(d.promocode.amount))
-                        elif d.promocode.percent is not None:
-                            pourcent = Decimal(
-                                d.promocode.percent) / Decimal("100")
-                            discount = Money(
-                                Decimal(self.unit_price) * pourcent)
-                            r = r - discount
+                try:
+                    customer = CustomerModel.objects.get_from_request(request)
+                    today = pytz.utc.localize(datetime.utcnow())
+                    all_codes = dmCustomerPromoCode.objects.filter(
+                        (
+                            Q(promocode__categories=None) | Q(promocode__categories__in=self.categories.all())
+                        ) & (
+                            Q(promocode__products=None) | Q(promocode__products__in=[self])
+                        ) & Q(promocode__is_active=True) & (
+                            Q(promocode__valid_from__isnull=True) | Q(promocode__valid_from__lte=today)
+                        ) & (
+                            Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today)
+                        ),
+                        customer=customer,
+                        is_expired=False
+                    )
+                    if all_codes.count() > 0:
+                        for d in all_codes:
+                            if d.promocode.amount is not None:
+                                r = Money(
+                                    Decimal(r) - Decimal(d.promocode.amount))
+                            elif d.promocode.percent is not None:
+                                pourcent = Decimal(
+                                    d.promocode.percent) / Decimal("100")
+                                discount = Money(
+                                    Decimal(self.unit_price) * pourcent)
+                                r = r - discount
+                except Exception as e:
+                    print(e)
         if Decimal(r) <= 0:
             r = Money(0)
         return r
@@ -690,7 +711,7 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
     def __str__(self):
         return _("{product}").format(product=self.product)
 
-    def get_price(self, request):
+    def get_price(self, request):  # noqa C910
         r = self.unit_price
         if request:
             # ===--- GET DISCOUNTS
@@ -698,31 +719,34 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
                 r = get_apply_discountpercategory(self, r)
             # ===--- GET PROMOCODE
             if dmPromoCode is not None:
-                customer = CustomerModel.objects.get_from_request(request)
-                today = pytz.utc.localize(datetime.utcnow())
-                all_codes = dmCustomerPromoCode.objects.filter(
-                    (
-                        Q(promocode__categories=None) | Q(promocode__categories__in=self.product.categories.all())
-                    ) & (
-                        Q(promocode__products=None) | Q(promocode__products__in=[self.product])
-                    ) & Q(promocode__is_active=True) & (
-                        Q(promocode__valid_from__isnull=True) | Q(promocode__valid_from__lte=today)
-                    ) & (
-                        Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today)
-                    ),
-                    customer=customer,
-                    is_expired=False)
-                if all_codes.count() > 0:
-                    for d in all_codes:
-                        if d.promocode.amount is not None:
-                            r = Money(
-                                Decimal(r) - Decimal(d.promocode.amount))
-                        elif d.promocode.percent is not None:
-                            pourcent = Decimal(
-                                d.promocode.percent) / Decimal("100")
-                            discount = Money(
-                                Decimal(self.unit_price) * pourcent)
-                            r = r - discount
+                try:
+                    customer = CustomerModel.objects.get_from_request(request)
+                    today = pytz.utc.localize(datetime.utcnow())
+                    all_codes = dmCustomerPromoCode.objects.filter(
+                        (
+                            Q(promocode__categories=None) | Q(promocode__categories__in=self.product.categories.all())
+                        ) & (
+                            Q(promocode__products=None) | Q(promocode__products__in=[self.product])
+                        ) & Q(promocode__is_active=True) & (
+                            Q(promocode__valid_from__isnull=True) | Q(promocode__valid_from__lte=today)
+                        ) & (
+                            Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today)
+                        ),
+                        customer=customer,
+                        is_expired=False)
+                    if all_codes.count() > 0:
+                        for d in all_codes:
+                            if d.promocode.amount is not None:
+                                r = Money(
+                                    Decimal(r) - Decimal(d.promocode.amount))
+                            elif d.promocode.percent is not None:
+                                pourcent = Decimal(
+                                    d.promocode.percent) / Decimal("100")
+                                discount = Money(
+                                    Decimal(self.unit_price) * pourcent)
+                                r = r - discount
+                except Exception as e:
+                    print(e)
         if Decimal(r) <= 0:
             r = Money(0)
         return r

@@ -1,9 +1,14 @@
 from django.utils.translation import ugettext_lazy as _
+from django.template.loader import render_to_string
 
 from shop.money import Money
 from shop.serializers.cart import ExtraCartRow
 from shop.modifiers.pool import cart_modifiers_pool
 from shop.shipping.modifiers import ShippingModifier
+
+from django.core.mail import send_mail
+
+from settings import DEFAULT_FROM_EMAIL
 
 from .models import ShippingManagement
 
@@ -65,6 +70,56 @@ class StandardShippingModifier(ShippingModifier):
             instance = {"label": _("Shipping costs"), "amount": amount}
             cart.extra_rows[self.identifier] = ExtraCartRow(instance)
             cart.total += amount
+
+    def ship_the_goods(self, delivery):
+
+        order_number = delivery.order.number
+        shipping_number = delivery.shipping_id
+        customer_email = delivery.order.customer.email
+        items = []
+        for item in delivery.order.items.all():
+            data = {
+                'name': item.product_name,
+                'price': item.unit_price,
+                'quantity': item.quantity
+            }
+            items.append(data)
+        try:
+            tax = delivery.order.extra['rows'][1][1]
+        except Exception as e:
+            print(e)
+            tax = {}
+
+        try:
+            shipping = delivery.order.extra['rows'][2][1]
+        except Exception as e:
+            print(e)
+            shipping = {}
+
+        total_cost = delivery.order.total
+        subject = _("Order Number: ") + str(order_number)
+        message = ""
+        html_message = render_to_string(
+            'dshop/shipping/shipping_email.html', {
+                'tax': [tax],
+                'shipping': [shipping],
+                'items': items,
+                'order_number': order_number,
+                'shipping_number': shipping_number,
+                'total_cost': total_cost,
+            }
+        )
+
+        send_mail(
+            subject,
+            message,
+            DEFAULT_FROM_EMAIL,
+            [customer_email],
+            html_message=html_message,
+            fail_silently=False,
+        )
+
+        super().ship_the_goods(delivery)
 
 
 class ExpressShippingModifier(ShippingModifier):
