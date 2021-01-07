@@ -39,6 +39,7 @@ from dshop.models import Product
 from dshop.models import ProductDefault
 from dshop.models import ProductVariable, ProductVariableVariant
 from dshop.models import FeatureList
+from shop.admin.delivery import DeliveryOrderAdminMixin
 
 admin.site.site_header = "Administration"
 admin.site.unregister(ThumbnailOption)
@@ -245,7 +246,6 @@ __all__ = ["customer"]
 # Site
 #######################################################################
 
-
 class dmSiteLogoInline(admin.TabularInline):
     model = dmSiteLogo
     extra = 1
@@ -337,7 +337,7 @@ class dmOrderItemInline(OrderItemInline):
 
 
 @admin.register(Order)
-class OrderAdmin(PrintInvoiceAdminMixin, BaseOrderAdmin):
+class OrderAdmin(DeliveryOrderAdminMixin, PrintInvoiceAdminMixin, BaseOrderAdmin):
     list_filter = []
     fields = [
         "get_ordernumber",
@@ -377,7 +377,7 @@ class OrderAdmin(PrintInvoiceAdminMixin, BaseOrderAdmin):
                 r.delete()
             if r.status == "created" and r.updated_at + timedelta(hours=6) < today:
                 r.delete()
-        return super(OrderAdmin, self).get_queryset(request).filter(status="payment_confirmed")
+        return super(OrderAdmin, self).get_queryset(request).all()
 
     def get_ordernumber(self, obj):
         return obj.get_number()
@@ -410,6 +410,7 @@ class OrderAdmin(PrintInvoiceAdminMixin, BaseOrderAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
 
 #######################################################################
 # Produit: Catégorie
