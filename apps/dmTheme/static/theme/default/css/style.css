@@ -86,6 +86,7 @@ a:hover{
   background-repeat:no-repeat;
   background-position:center;
   background-size:cover;
+  color: #fff;
 }
 .section-infolettre .heading_s1 p:last-child{
   margin-bottom:0;
