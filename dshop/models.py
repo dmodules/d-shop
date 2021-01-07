@@ -39,6 +39,8 @@ from shop.models.product import BaseProduct, BaseProductManager
 from shop.models.product import AvailableProductMixin
 
 from .utils import get_apply_discountpercategory
+from shop.models.delivery import BaseDelivery, BaseDeliveryItem
+
 
 try:
     from apps.dmRabais.models import dmRabaisPerCategory
@@ -55,12 +57,27 @@ __all__ = ["Cart", "CartItem", "Order", "Customer"]
 TAG_RE = re.compile(r"<[^>]+>")
 
 
+class Delivery(BaseDelivery):
+    pass
+
+
+class DeliveryItem(BaseDeliveryItem):
+    quantity = models.PositiveIntegerField(
+        _("Ordered Quantity")
+    )
+
+
 class OrderItem(BaseOrderItem):
     quantity = models.PositiveIntegerField(
         _("Ordered Quantity")
     )
     variables = JSONField(
         verbose_name=_("Data")
+    )
+
+    canceled = models.BooleanField(
+        verbose_name=_("Canceled"),
+        default=False
     )
 
     def populate_from_cart_item(self, cart_item, request):

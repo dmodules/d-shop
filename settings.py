@@ -69,6 +69,7 @@ INSTALLED_APPS.extend([  # noqa: F821
     "dshop",
 ])
 
+
 path_to_extended = '/app/extended_apps/'
 EXTENDED_APP_DIR = 'extended_apps'
 if os.path.exists(path_to_extended):
@@ -97,7 +98,10 @@ SHOP_CART_MODIFIERS = [
     "apps.dmShipping.modifiers.ExpressShippingWithSeparatorModifier"
 ]
 
-SHOP_ORDER_WORKFLOWS = ["shop.payment.workflows.ManualPaymentWorkflowMixin"]
+SHOP_ORDER_WORKFLOWS = [
+    "shop.payment.workflows.ManualPaymentWorkflowMixin",
+    "shop.shipping.workflows.PartialDeliveryWorkflowMixin"
+]
 
 SHOP_CASCADE_FORMS = {
     "CustomerForm": "dshop.forms.CustomerForm",
@@ -640,9 +644,27 @@ ADMIN_REORDER = (
                 "model": "dshop.Order",
                 "label": _("Orders")
             },
+            "dshop.Delivery",
+            {
+                "model": "dshop.Delivery",
+                "label": _("Delivery")
+            },
+            "dshop.DeliveryItem",
+            {
+                "model": "dshop.DeliveryItem",
+                "label": _("DeliveryItem")
+            },
             # {"model": "dshop.Cart", "label":_("Carts")},
             # {"model": "dshop.ShippingAddress", "label":_("Shipping's Addresses")},
             # {"model": "dshop.BillingAddress", "label":_("Billing's Addresses")},
+        ]
+    },
+    {
+        "app":
+        "dmShipping",
+        "label": _("Shipping"),
+        "models": [
+            "dmShipping.ShippingManagement",
         ]
     },
     {
