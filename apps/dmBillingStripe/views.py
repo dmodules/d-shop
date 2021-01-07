@@ -61,7 +61,7 @@ def StripePaymentCancelView(request):
                 # !TODO
     return redirect("/")
 
-def StripePaymentView(request):
+def StripePaymentView(request):  # noqa: C901
     referenceId = request.GET.get("referenceId", None)
     if referenceId is not None:
         order = OrderModel.objects.get(number=re.sub(r"\D", "", referenceId))
@@ -112,6 +112,21 @@ def StripePaymentView(request):
             except Exception as e:
                 print("When : transition_change_notification")
                 print(e)
+
+            # We want to skip few steps.
+            # So add delivery creation on payment success.
+            try:
+                items = []
+                for i in order.items.all():
+                    data = {}
+                    data["deliver_quantity"] = i.quantity
+                    data["id"] = i
+                    data["canceled"] = i.canceled
+                    items.append(data)
+                order.update_or_create_delivery(items)
+            except Exception as e:
+                print("Error to create delivery: " + str(e))
+
             order.save()
             return redirect(order.get_absolute_url())
         except Exception as e:
