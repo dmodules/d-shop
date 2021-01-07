@@ -47,9 +47,9 @@ INSTALLED_APPS.extend([  # noqa: F821
     "webpack_loader",
     "colorfield",
     # ===---
-    "rest_framework",
-    "rest_framework.authtoken",
-    "rest_auth",
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
     "post_office",
     # ===---
     "stripe",

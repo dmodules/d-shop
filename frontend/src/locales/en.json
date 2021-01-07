@@ -74,5 +74,9 @@
   "PromoCodes": "Promo Codes",
   "AppliedPromoCodes": "Applied Promo Codes",
   "Enteryourcodehere": "Enter your code here",
-  "Add": "Add"
+  "Add": "Add",
+
+  "PasswordReset": "Reset Password",
+  "Password": "Password",
+  "PasswordConfirm": "Password Confirmation"
 }

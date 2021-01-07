@@ -1,10 +1,13 @@
 import re
+import json
 
 from mailchimp3 import MailChimp
 from easy_thumbnails.files import get_thumbnailer
 from ipware.ip import get_client_ip as get_ip
 
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import get_language_from_request
 from django.utils.html import strip_tags
@@ -15,14 +18,19 @@ from django.template.defaultfilters import slugify
 from django.core.management import call_command
 from django.core.mail import send_mail
 
+from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny
-from rest_framework.views import APIView
 from rest_framework.response import Response as RestResponse
+from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
+from rest_framework.views import APIView
+from rest_framework import status
 
 from shop.modifiers.pool import cart_modifiers_pool
 from shop.models.order import OrderModel
 from shop.models.order import OrderPayment
 from shop.money import MoneyMaker
+from shop.rest.renderers import CMSPageRenderer
+from shop.serializers.auth import PasswordResetConfirmSerializer
 
 from dshop.models import Product
 
@@ -287,6 +295,22 @@ class CustomerView(APIView):
             })
 
 
+class CustomerCheckView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+        email = data.get("email", None)
+        if email is not None:
+            customer = Customer.objects.filter(email=email).count()
+            if customer > 0:
+                return RestResponse({"exist": True})
+            else:
+                return RestResponse({"exist": False})
+        else:
+            return RestResponse({"valid": False})
+
+
 class ShippingMethodsView(APIView):
     """
     Retrieve all shipping methods
@@ -398,3 +422,56 @@ def sendemail(request):
     )
     call_command('send_queued_mail')
     return redirect('/message-envoye/')
+
+
+#######################################################################
+# Password Reset
+#######################################################################
+
+
+class PasswordResetConfirmView(GenericAPIView):
+    renderer_classes = (CMSPageRenderer, JSONRenderer, BrowsableAPIRenderer)
+    serializer_class = PasswordResetConfirmSerializer
+    permission_classes = (AllowAny,)
+    form_name = 'password_reset_confirm_form'
+
+    def post(self, request, uidb64=None, token=None):
+        try:
+            data = dict(request.data['form_data'])
+        except (KeyError, TypeError, ValueError):
+            errors = {'non_field_errors': [_("Invalid POST data.")]}
+        else:
+            serializer = self.get_serializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {self.form_name: {
+                    'success_message': _(
+                        "Password has been reset with the new password."
+                    ),
+                }}
+                return RestResponse(response_data)
+            else:
+                errors = serializer.errors
+        return RestResponse({
+            self.form_name: errorsREST_AUTH_SERIALIZERS
+        }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
+
+def unclone_customers(request):
+    data = json.loads(request.body)["form_data"]
+    email = data.get("email", None)
+    if email is not None:
+        users = User.objects.filter(email=email)
+        if users.count() > 1:
+            i = 0
+            for u in users:
+                if i > 0:
+                    u.email = ""
+                    u.save()
+                i = i + 1
+    return HttpResponse(json.dumps({"valid": True}))
+
+
+def send_queued_mail(request):
+    call_command('send_queued_mail')
+    return HttpResponse(json.dumps({"valid": True}))

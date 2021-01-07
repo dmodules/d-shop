@@ -20,6 +20,10 @@ const i18n = {
   voirplus: {
     fr: "Voir plus",
     en: "See more"
+  },
+  anerroroccurred: {
+      fr: "Une erreur est survenue, veuillez réessayez plus tard.",
+      en: "An error occurred, please try again later."
   }
 }
 
@@ -304,13 +308,15 @@ function dmDrawerDoLogin() {
     }
   }).fail(function(failResult) {
     $('.dm-drawer-logs-login-error').show()
-    $('.dm-drawer-logs-login-error').html('Une erreur est survenue, veuillez réessayez plus tard.')
+    $('.dm-drawer-logs-login-error').html(i18n.anerroroccurred[lang])
     if (failResult.responseJSON) {
       if (failResult.responseJSON.login_form) {
         if (failResult.responseJSON.login_form.email) {
           $('.dm-drawer-logs-login-error').html('Courriel : ' + failResult.responseJSON.login_form.email[0])
         } else if (failResult.responseJSON.login_form.password) {
           $('.dm-drawer-logs-login-error').html('Mot de passe : ' + failResult.responseJSON.login_form.password[0])
+        } else if (failResult.responseJSON.login_form.non_field_errors) {
+          $('.dm-drawer-logs-login-error').html(failResult.responseJSON.login_form.non_field_errors[0])
         }
       }
     }

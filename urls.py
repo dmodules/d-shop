@@ -15,8 +15,11 @@ from dshop.sitemap import ProductSitemap
 
 from shop.views.catalog import ProductListView
 
-from dshop.views import CustomerView, LoadProduits, ShippingMethodsView, BillingMethodsView
+from dshop.views import CustomerView, CustomerCheckView
+from dshop.views import LoadProduits, ShippingMethodsView, BillingMethodsView
 from dshop.views import TestPaymentView
+from dshop.views import PasswordResetConfirmView
+from dshop.views import unclone_customers, send_queued_mail
 
 sitemaps = {"cmspages": CMSSitemap, "products": ProductSitemap}
 
@@ -43,6 +46,7 @@ urlpatterns = [
     url(r'^sitemap\.xml$', sitemap, {"sitemaps": sitemaps}, name="sitemap"),
 
     url(r'^shop/', include("shop.urls")),
+    url(r'^shop/auth/password/reset-confirm/', PasswordResetConfirmView.as_view()),
     url(r'^billing-stripe/', include("apps.dmBillingStripe.urls")),
     url(r'^billing-square/', include("apps.dmBillingSquare.urls")),
     url(r'^contact/', include("apps.dmContact.urls")),
@@ -52,9 +56,12 @@ urlpatterns = [
     url(r'^api/v1/products-list/$', ProductListView.as_view(), name='product-list'),
 
     url(r'^api/fe/customer/$', CustomerView.as_view(), name='customer'),
+    url(r'^api/fe/customer-check/$', CustomerCheckView.as_view(), name="customer-check"),
     url(r'^api/fe/moreproduits/$', LoadProduits.as_view(), name='moreproducts'),
     url(r'^api/fe/shipping-methods/$', ShippingMethodsView.as_view(), name='shipping-method'),
     url(r'^api/fe/billing-methods/$', BillingMethodsView.as_view(), name='billing-method'),
+    url(r'^api/fe/send-unclone/$', unclone_customers),
+    url(r'^api/fe/send-email/$', send_queued_mail),
 
     url(r'^test-payment/$', TestPaymentView),
 
