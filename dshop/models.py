@@ -568,6 +568,23 @@ class ProductDefault(AvailableProductMixin, Product):
             help_text=_("Long description.")
         )
     )
+    discounted_price = MoneyField(
+        _("Discounted Unit Price"),
+        decimal_places=3,
+        help_text=_("Net discounted price for this product.")
+    )
+    start_date = models.DateField(
+        _("Discount Start Date"),
+        null=True,
+        blank=True,
+        help_text=_("Start Date Discount"),
+    )
+    end_date = models.DateField(
+        _("Discount Stop Date"),
+        null=True,
+        blank=True,
+        help_text=_("Stop Date Discount"),
+    )
 
     class Meta:
         verbose_name = _("Default Product")
@@ -752,6 +769,23 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         default=0,
         validators=[MinValueValidator(0)],
         help_text=_("Available quantity in stock.")
+    )
+    discounted_price = MoneyField(
+        _("Discounted Unit Price"),
+        decimal_places=3,
+        help_text=_("Net discounted price for this product.")
+    )
+    start_date = models.DateField(
+        _("Discount Start Date"),
+        null=True,
+        blank=True,
+        help_text=_("Start Date Discount"),
+    )
+    end_date = models.DateField(
+        _("Discount Stop Date"),
+        null=True,
+        blank=True,
+        help_text=_("Stop Date Discount"),
     )
 
     def __str__(self):
