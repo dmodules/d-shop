@@ -966,6 +966,18 @@ class dmProductsByCategory(CMSPlugin):
         null=True,
         blank=True
     )
+    bg_color = ColorField(
+        verbose_name=_("Background's Colour"),
+        null=True,
+        blank=True
+    )
+    bg_image = image.FilerImageField(
+        verbose_name=_("Background's Image"),
+        on_delete=models.SET_NULL,
+        related_name="bg_image",
+        null=True,
+        blank=True
+    )
 
 
 # ===---

@@ -82,6 +82,13 @@ a:hover{
 }
 
 /* ===--- Plugins ---=== */
+.section-parcategorie {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 2rem 0;
+    margin: 3rem 0;
+}
 .section-infolettre > .section{
   background-repeat:no-repeat;
   background-position:center;
