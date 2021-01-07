@@ -89,6 +89,10 @@ a:hover{
     padding: 2rem 0;
     margin: 3rem 0;
 }
+.section-infolettre h3,
+.section-infolettre h5 {
+	color: #fff;
+}
 .section-infolettre > .section{
   background-repeat:no-repeat;
   background-position:center;
