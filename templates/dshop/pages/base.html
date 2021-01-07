@@ -151,26 +151,34 @@
                   </ul>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-4 col-sm-6">
-                {% dm_get_site_contacts as contacts %}
-                <div class="widget">
-                  <h6 class="widget_title">{% trans "Contact" %}</h6>
-                  <ul class="contact_info contact_info_light">
-                    <li>
-                      <i class="ti-location-pin"></i>
-                      <p>{{contacts.address}}</p>
-                    </li>
-                    <li>
-                      <i class="ti-email"></i>
-                      <a href="mailto:{{contacts.email}}">{{contacts.email}}</a>
-                    </li>
-                    <li>
-                      <i class="ti-mobile"></i>
-                      <p><a href="tel:{{contacts.phone|phone_canadian}}">{{contacts.phone}}</a></p>
-                    </li>
-                  </ul>
+              {% dm_get_site_contacts as contacts %}
+              {% if contacts.address or contacts.email or contacts.phone %}
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="widget">
+                    <h6 class="widget_title">{% trans "Contact" %}</h6>
+                    <ul class="contact_info contact_info_light">
+                        {% if contacts.address %}
+                            <li>
+                                <i class="ti-location-pin"></i>
+                                <p>{{contacts.address}}</p>
+                            </li>
+                        {% endif %}
+                        {% if contacts.email %}
+                            <li>
+                                <i class="ti-email"></i>
+                                <a href="mailto:{{contacts.email}}">{{contacts.email}}</a>
+                            </li>
+                        {% endif %}
+                        {% if contacts.phone %}
+                            <li>
+                                <i class="ti-mobile"></i>
+                                <p><a href="tel:{{contacts.phone|phone_canadian}}">{{contacts.phone}}</a></p>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    </div>
                 </div>
-              </div>
+              {% endif %}
             </div>
           </div>
         </div>

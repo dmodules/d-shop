@@ -1,8 +1,12 @@
 {% load static thumbnail cms_tags i18n dshop_tags dmrabais_tags %}
 
+{% if instance.bg_image %}
+    {% thumbnail instance.bg_image "2000x900" as thumb %}
+{% endif %}
+
 <!-- BEGIN: par catégorie -->
-<section class="section-parcategorie">
-  <div class="container mt-5 text-center">
+<section class="section-parcategorie" style="{% if instance.bg_color %}background-color:{{instance.bg_color}};{% endif %}{% if instance.bg_image %}background-image:url({{thumb.url}});{% endif %}">
+  <div class="container text-center">
     {% if instance.title or instance.text %}
       <div class="row">
         <div class="col-12">

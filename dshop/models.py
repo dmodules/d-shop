@@ -966,6 +966,18 @@ class dmProductsByCategory(CMSPlugin):
         null=True,
         blank=True
     )
+    bg_color = ColorField(
+        verbose_name=_("Background's Colour"),
+        null=True,
+        blank=True
+    )
+    bg_image = image.FilerImageField(
+        verbose_name=_("Background's Image"),
+        on_delete=models.SET_NULL,
+        related_name="bg_image",
+        null=True,
+        blank=True
+    )
 
 
 # ===---
@@ -1163,6 +1175,11 @@ class dmInfolettre(CMSPlugin):
         blank=True,
         help_text=_("Maximum 100 characters.")
     )
+    title_color = ColorField(
+        verbose_name=_("Title's Colour"),
+        null=True,
+        blank=True
+    )
     subtitle = models.CharField(
         verbose_name=_("Subtitle"),
         max_length=200,
@@ -1170,9 +1187,19 @@ class dmInfolettre(CMSPlugin):
         blank=True,
         help_text=_("Maximum 200 characters.")
     )
+    subtitle_color = ColorField(
+        verbose_name=_("Subtitle's Colour"),
+        null=True,
+        blank=True
+    )
     text = HTMLField(
         verbose_name=_("Text"),
         configuration="CKEDITOR_SETTINGS_DMPLUGIN",
+        null=True,
+        blank=True
+    )
+    text_color = ColorField(
+        verbose_name=_("Text's Colour"),
         null=True,
         blank=True
     )
@@ -1189,6 +1216,11 @@ class dmInfolettre(CMSPlugin):
         null=True,
         blank=True,
         help_text=_("Leave blank to hide image.")
+    )
+    bg_color = ColorField(
+        verbose_name=_("Background's Colour"),
+        null=True,
+        blank=True
     )
 
 
