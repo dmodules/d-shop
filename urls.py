@@ -66,6 +66,9 @@ urlpatterns = [
         template_name="theme/{}/pages/message-envoye.html".format(settings.THEME_SLUG)
     )),
 
+    url(r'^produits/b(?P<brand_id>[0-9]+)-(?P<brand_slug>.+)$', TemplateView.as_view(
+        template_name='theme/{}/pages/produits.html'.format(settings.THEME_SLUG)
+    )),
     url(r'^produits/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', TemplateView.as_view(
         template_name='theme/{}/pages/produits.html'.format(settings.THEME_SLUG)
     )),

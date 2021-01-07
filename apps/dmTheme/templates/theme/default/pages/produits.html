@@ -2,12 +2,15 @@
 {% load static cms_tags i18n thumbnail sekizai_tags dshop_tags dmrabais_tags %}
 
 {% block title %}
-  {% if request.resolver_match.kwargs.category_id %}
-    {% dm_get_category request.resolver_match.kwargs.category_id as current_category %}
-    {{current_category.name}}
-  {% else %}
-    Produits
-  {% endif %}
+    {% if request.resolver_match.kwargs.category_id %}
+        {% dm_get_category request.resolver_match.kwargs.category_id as current_category %}
+        {{current_category.name}}
+    {% elif request.resolver_match.kwargs.brand_id %}
+        {% dm_get_brand request.resolver_match.kwargs.brand_id as current_brand %}
+        {{current_brand.name}}
+    {% else %}
+        Produits
+    {% endif %}
 {% endblock %}
 {% block meta-description %}{% page_attribute "meta_description" %}{% endblock %}
 
@@ -21,6 +24,9 @@
               {% if request.resolver_match.kwargs.category_id %}
                 {% dm_get_category request.resolver_match.kwargs.category_id as current_category %}
                 <h1>{{current_category.name}}</h1>
+              {% elif request.resolver_match.kwargs.brand_id %}
+                {% dm_get_brand request.resolver_match.kwargs.brand_id as current_brand %}
+                <h1>{{current_brand.name}}</h1>
               {% else %}
                 <h1>{% trans "Products" %}</h1>
               {% endif %}
@@ -78,6 +84,8 @@
           <div class="row shop_container grid produits">
             {% if request.resolver_match.kwargs.category_id %}
               {% dm_get_products_by_category request.resolver_match.kwargs.category_id 0 9 as products %}
+            {% elif request.resolver_match.kwargs.brand_id %}
+              {% dm_get_products_by_brand request.resolver_match.kwargs.brand_id 0 9 as products %}
             {% else %}
               {% dm_get_all_products 0 9 as products %}
             {% endif %}
@@ -188,6 +196,17 @@
                 {% endfor %}
               </ul>
             </div>
+          </div>
+          <div class="widget mt-4">
+            <h5 class="widget_title">{% trans "Brands" %}</h5>
+            <ul class="widget_categories">
+                {% dm_get_brands_all as brands %}
+                {% for brand in brands %}
+                    <li>
+                        <a href="/produits/b{{brand.id}}-{{brand.name|slugify}}"><span class="categories_name">{{brand.name}}</span></a>
+                    </li>
+                {% endfor %}
+            </ul>
           </div>
         </div>
       </div>

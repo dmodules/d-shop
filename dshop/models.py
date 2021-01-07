@@ -351,7 +351,7 @@ class ProductCategory(models.Model):
             return self.name
 
     def get_products(self):
-        result = ProductDefault.objects.filter(
+        result = Product.objects.filter(
             Q(categories=self) | Q(categories__parent=self)
             | Q(categories__parent__parent=self)
             | Q(categories__parent__parent__parent=self),
@@ -386,6 +386,45 @@ class ProductFilter(models.Model):
     def __str__(self):
         return self.name
 
+class ProductBrand(models.Model):
+    """
+    A model to help to brands products.
+    Product can only have one brand.
+    """
+
+    name = models.CharField(
+        verbose_name=_("Brand's Name"),
+        max_length=100,
+        null=False,
+        blank=False
+    )
+    logo = image.FilerImageField(
+        verbose_name=_("Logo"),
+        related_name="brand_logo",
+        on_delete=models.CASCADE
+    )
+    order = models.PositiveSmallIntegerField(
+        verbose_name=_("Sort by"),
+        default=0,
+        blank=False,
+        null=False
+    )
+
+    class Meta:
+        verbose_name = _("Product's Brand")
+        verbose_name_plural = _("Product's Brands")
+        ordering = ["order", "name"]
+
+    def __str__(self):
+        return self.name
+
+    def get_products(self):
+        result = Product.objects.filter(
+            brand=self,
+            active=True
+        ).order_by("id")
+        return result
+
 
 #######################################################################
 # Produits
@@ -413,6 +452,13 @@ class Product(CMSPageReferenceMixin, TranslatableModelMixin, BaseProduct):
         ProductFilter,
         verbose_name=_("Filters"),
         blank=True
+    )
+    brand = models.ForeignKey(
+        ProductBrand,
+        on_delete=models.SET_NULL,
+        verbose_name=_("Brand"),
+        blank=True,
+        null=True
     )
     is_vedette = models.BooleanField(
         _("Featured"),
@@ -977,6 +1023,29 @@ class dmProductsByCategory(CMSPlugin):
         related_name="bg_image",
         null=True,
         blank=True
+    )
+
+
+class dmProductsBrands(CMSPlugin):
+    title = models.CharField(
+        verbose_name=_("Title"),
+        max_length=100,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 100 characters.")
+    )
+    text = HTMLField(
+        verbose_name=_("Text"),
+        configuration="CKEDITOR_SETTINGS_DMPLUGIN",
+        null=True,
+        blank=True
+    )
+    howmany = models.PositiveSmallIntegerField(
+        verbose_name=_("Number"),
+        default=5,
+        blank=False,
+        null=False,
+        help_text=_("How many brand's logo to be show at the same time.")
     )
 
 

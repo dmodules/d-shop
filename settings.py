@@ -639,6 +639,7 @@ ADMIN_REORDER = (
             "dshop.FeatureList",
             "dshop.ProductCategory",
             "dshop.ProductFilter",
+            "dshop.ProductBrand",
             "dshop.Product",
             {
                 "model": "dshop.Order",
