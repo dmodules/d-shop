@@ -457,7 +457,8 @@ class ProductDefaultAdmin(
         (None, {
             "fields": [
                 ("product_name", "slug"),
-                ("product_code", "unit_price"),
+                ("product_code", "unit_price", "discounted_price"),
+                ("start_date", "end_date"),
                 "quantity",
                 "active",
                 "is_vedette"
