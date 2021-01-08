@@ -40,7 +40,7 @@ class PromoCodesCreate(APIView):
                 )
                 if usercodes.count() > 0:
                     return RestResponse({"valid": "already"})
-                elif not promocode.is_valid:
+                elif not promocode.is_active:
                     return RestResponse({"valid": False})
                 else:
                     dmCustomerPromoCode.objects.create(
