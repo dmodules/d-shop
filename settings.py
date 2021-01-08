@@ -325,6 +325,15 @@ AUTHENTICATION_BACKENDS = [
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 #######################################################################
+#
+
+HAYSTACK_CONNECTIONS = {
+    "default": {
+        "ENGINE": "haystack.backends.simple_backend.SimpleEngine",
+    },
+}
+
+#######################################################################
 # settings for caching and storing session data
 
 CACHES = {
@@ -627,14 +636,10 @@ if STAGE == 'local':
 MIDDLEWARE.extend(["dshop.middleware.AdminReorderMiddleware"])  # noqa: F821
 ADMIN_REORDER = (
     {
-        "app":
-        "shop",
-        "label":
-        "Site",
+        "app": "shop",
+        "label": "Site",
         "models": [
-            # "sites.Site",
             "dshop.dmSite",
-            "dmTheme.ThemeManagement",
             "cms.Page",
             "shop.CustomerProxy"
         ]
@@ -647,8 +652,7 @@ ADMIN_REORDER = (
         ]
     },
     {
-        "app":
-        "dshop",
+        "app": "dshop",
         "label": _("Shop"),
         "models": [
             "dshop.FeatureList",
@@ -676,35 +680,19 @@ ADMIN_REORDER = (
         ]
     },
     {
-        "app":
-        "dmShipping",
+        "app": "dmShipping",
         "label": _("Shipping"),
         "models": [
             "dmShipping.ShippingManagement",
         ]
     },
     {
-        "app":
-        "dmRabais",
+        "app": "dmRabais",
         "label": _("Discounts"),
         "models": [
             "dmRabais.dmRabaisPerCategory",
             "dmRabais.dmPromoCode",
             # "dmRabais.dmCustomerPromoCode"
-        ]
-    },
-    {
-        "app": "dmTheme",
-        "label": _("Theme Management"),
-        "models": [
-            "dmTheme.ThemeManagement",
-        ]
-    },
-    {
-        "app": "dshop",
-        "label": _("Shipping"),
-        "models": [
-            "dmShipping.ShippingManagement",
         ]
     },
     {
@@ -731,12 +719,13 @@ ADMIN_REORDER = (
         ]
     },
     {
+        "app": "dmTheme",
+        "label": _("Theme Management"),
+        "models": [
+            "dmTheme.ThemeManagement",
+        ]
+    },
+    {
         "app": "filer"
     },
 )
-
-HAYSTACK_CONNECTIONS = {
-    "default": {
-        "ENGINE": "haystack.backends.simple_backend.SimpleEngine",
-    },
-}
