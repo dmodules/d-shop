@@ -64,7 +64,6 @@ INSTALLED_APPS.extend([  # noqa: F821
     "apps.dmShipping",
     "apps.dmTaxes",
     "apps.dmSearch",
-    "apps.dmTheme",
     # ===---
     "shop",
     "dshop",
@@ -123,7 +122,6 @@ MIDDLEWARE.extend([  # noqa: F821
 ])
 
 STAGE = os.getenv("STAGE", "local").lower()
-THEME_SLUG = slugify(os.getenv("THEME_SLUG", "default").lower())
 
 #######################################################################
 # Actual Shop Settings
@@ -138,14 +136,15 @@ ADMINS = [("D-Modules", "info@d-modules.com")]
 ############################################
 # Templates Settings
 
-TEMPLATE_DIR = "theme/{}/pages/".format(THEME_SLUG)
-#STATIC_CLIENT_DIR = "apps/dmTheme/static/theme/{}/".format(THEME_SLUG)
+THEME_SLUG = 'default'
+
+TEMPLATE_DIR = "theme/default/pages/"
 
 CMS_TEMPLATES = [
-    ("theme/{}/pages/default.html".format(THEME_SLUG), "Par défaut"),
-    ("theme/{}/pages/accueil.html".format(THEME_SLUG), "Page: Accueil"),
-    ("theme/{}/pages/produits.html".format(THEME_SLUG), "Page: Produits"),
-    ("theme/{}/pages/contact.html".format(THEME_SLUG), "Page: Contact"),
+    ("theme/default/pages/default.html", "Par défaut"),
+    ("theme/default/pages/accueil.html", "Page: Accueil"),
+    ("theme/default/pages/produits.html", "Page: Produits"),
+    ("theme/default/pages/contact.html", "Page: Contact"),
 ]
 
 #######################################################################
@@ -693,6 +692,13 @@ ADMIN_REORDER = (
             "dmRabais.dmRabaisPerCategory",
             "dmRabais.dmPromoCode",
             # "dmRabais.dmCustomerPromoCode"
+        ]
+    },
+    {
+        "app": "dshop",
+        "label": _("Shipping"),
+        "models": [
+            "dmShipping.ShippingManagement",
         ]
     },
     {
