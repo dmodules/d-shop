@@ -25,6 +25,7 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework.views import APIView
 from rest_framework import status
 
+from shop.models.defaults.customer import Customer
 from shop.modifiers.pool import cart_modifiers_pool
 from shop.models.order import OrderModel
 from shop.models.order import OrderPayment
@@ -453,7 +454,7 @@ class PasswordResetConfirmView(GenericAPIView):
             else:
                 errors = serializer.errors
         return RestResponse({
-            self.form_name: errorsREST_AUTH_SERIALIZERS
+            self.form_name: errors
         }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
 

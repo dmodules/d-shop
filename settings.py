@@ -43,13 +43,14 @@ INSTALLED_APPS.extend([  # noqa: F821
     # ===---
     "fsm_admin",
     "adminsortable2",
+    "sass_processor",
     # ===---
     "webpack_loader",
     "colorfield",
     # ===---
-    'rest_framework',
-    'rest_framework.authtoken',
-    'rest_auth',
+    "rest_framework",
+    "rest_framework.authtoken",
+    "rest_auth",
     "post_office",
     # ===---
     "stripe",
@@ -303,6 +304,20 @@ TEMPLATES = [{
 #
 
 POST_OFFICE = {'TEMPLATE_ENGINE': 'post_office'}
+
+#######################################################################
+#
+
+AUTH_PASSWORD_VALIDATORS = [{
+    'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    'OPTIONS': {
+        'min_length': 6,
+    }
+}]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 #######################################################################
 #
