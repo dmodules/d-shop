@@ -47,7 +47,6 @@ urlpatterns = [
     url(r'^billing-square/', include("apps.dmBillingSquare.urls")),
     url(r'^contact/', include("apps.dmContact.urls")),
     url(r'^discount/', include("apps.dmRabais.urls")),
-    url(r'^theme/', include("apps.dmTheme.urls")),
 
     url(r'^api/v1/products-list/$', ProductListView.as_view(), name='product-list'),
 
