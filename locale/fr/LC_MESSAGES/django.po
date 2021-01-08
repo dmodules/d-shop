@@ -1998,11 +1998,19 @@ msgstr "Confirmation du mot de passe"
 msgid "Sign In"
 msgstr "S'inscrire"
 
-#~ msgid "Payment confirmed"
-#~ msgstr "Paiement confirmé"
+#:
+msgid "Subtotal before discounts"
+msgstr "Sous-total avant rabais"
 
-#~ msgid "Order items"
-#~ msgstr "Produits commandés"
+#:
+msgid "Price before discounts"
+msgstr "Prix avant rabais"
 
-#~ msgid "Use shipping address for billing"
-#~ msgstr "Utiliser l'adresse de livraison pour la facturation"
+msgid "Payment confirmed"
+msgstr "Paiement confirmé"
+
+msgid "Order items"
+msgstr "Produits commandés"
+
+msgid "Use shipping address for billing"
+msgstr "Utiliser l'adresse de livraison pour la facturation"

@@ -680,22 +680,21 @@
                                         </v-list-item-action>
                                     </v-list-item>
                                 </template>
-                              <v-list-item
-                                v-for="(item, n) in formPayment.listExtras"
-                                :key="'extra-' + n"
-                              >
-                                <v-list-item-content>
-                                  <v-list-item-title>
-                                    {{ item.label }}
-                                  </v-list-item-title>
-                                </v-list-item-content>
-                                <v-list-item-action>
-                                  <v-list-item-title class="font-weight-bold">
-                                    <span v-text="item.amount"></span>
-                                  </v-list-item-title>
-                                </v-list-item-action>
-                              </v-list-item>
-                              <v-form v-model="formPromo.valid">
+                                <template v-for="(item, n) in formPayment.listExtras">
+                                    <v-list-item v-if="item.modifier !== 'subtotal-before-discounts' && item.modifier !== 'discounts'" :key="'extra-' + n">
+                                        <v-list-item-content>
+                                        <v-list-item-title>
+                                            {{ item.label }}
+                                        </v-list-item-title>
+                                        </v-list-item-content>
+                                        <v-list-item-action>
+                                        <v-list-item-title class="font-weight-bold">
+                                            <span v-text="item.amount"></span>
+                                        </v-list-item-title>
+                                        </v-list-item-action>
+                                    </v-list-item>
+                                </template>
+                                <v-form v-model="formPromo.valid">
                                   <div class="add-promo">
                                       <v-btn v-if="!formPromo.show" tile x-small color="secondary" @click="formPromo.show = true">Ajouter un code promo</v-btn>
                                       <template v-else>

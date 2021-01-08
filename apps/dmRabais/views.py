@@ -160,7 +160,7 @@ class PromoCodesOff(APIView):
                                 customer=request.user.customer,
                                 promocode__name=p
                             )
-                            cpc.is_expired = False
+                            cpc.is_expired = True
                             cpc.save()
                     return RestResponse({"valid": True})
                 except Exception as e:

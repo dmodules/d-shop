@@ -824,16 +824,13 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
 
     def get_price(self, request):  # noqa C910
         r = self.unit_price
-        print(r)
         if self.is_discounted:
             r = self.discounted_price
-        print(r)
 
         if request:
             # ===--- GET DISCOUNTS
             if dmRabaisPerCategory is not None:
                 r = get_apply_discountpercategory(self, r, self.is_discounted)
-                print(r)
             # ===--- GET PROMOCODE
             if dmPromoCode is not None:
                 try:
