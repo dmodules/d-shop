@@ -573,17 +573,17 @@ class ProductDefault(AvailableProductMixin, Product):
         decimal_places=3,
         help_text=_("Net discounted price for this product.")
     )
-    start_date = models.DateField(
-        _("Discount Start Date"),
+    start_date = models.DateTimeField(
+        _("Discount Start DateTime"),
         null=True,
         blank=True,
-        help_text=_("Start Date Discount"),
+        help_text=_("Start DateTime Discount"),
     )
-    end_date = models.DateField(
-        _("Discount Stop Date"),
+    end_date = models.DateTimeField(
+        _("Discount Stop DateTime"),
         null=True,
         blank=True,
-        help_text=_("Stop Date Discount"),
+        help_text=_("Stop DateTime Discount"),
     )
 
     class Meta:
@@ -604,12 +604,25 @@ class ProductDefault(AvailableProductMixin, Product):
             return desc
         return ""
 
+    @property
+    def is_discounted(self):
+        if self.discounted_price == Money(0) or self.discounted_price == None:
+            return False
+        today = pytz.utc.localize(datetime.utcnow())
+        if self.start_date<today and self.end_date>today:
+            return True
+        return False
+
     def get_price(self, request):  # noqa C910
         r = self.unit_price
+        if self.is_discounted:
+            r = self.discounted_price
+
         if request:
             # ===--- GET DISCOUNTS
             if dmRabaisPerCategory is not None:
-                r = get_apply_discountpercategory(self, r)
+                r = get_apply_discountpercategory(self, r, self.is_discounted)
+
             # ===--- GET PROMOCODE
             if dmPromoCode is not None:
                 try:
@@ -630,6 +643,15 @@ class ProductDefault(AvailableProductMixin, Product):
                     )
                     if all_codes.count() > 0:
                         for d in all_codes:
+                            # 1. if Can apply  on discounted product
+                            #        Calculate Product
+                            #    else continue 
+                            # 2. if Can not apply dmRabaisPerCategory on discounted product
+                            #        Check if product is discounted
+                            if d.promocode.can_apply_on_discounted == False:
+                                if self.is_discounted == True:
+                                    continue
+
                             if d.promocode.amount is not None:
                                 r = Money(
                                     Decimal(r) - Decimal(d.promocode.amount))
@@ -775,28 +797,43 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         decimal_places=3,
         help_text=_("Net discounted price for this product.")
     )
-    start_date = models.DateField(
-        _("Discount Start Date"),
+    start_date = models.DateTimeField(
+        _("Discount Start DateTime"),
         null=True,
         blank=True,
-        help_text=_("Start Date Discount"),
+        help_text=_("Start DateTime Discount"),
     )
-    end_date = models.DateField(
-        _("Discount Stop Date"),
+    end_date = models.DateTimeField(
+        _("Discount Stop DateTime"),
         null=True,
         blank=True,
-        help_text=_("Stop Date Discount"),
+        help_text=_("Stop DateTime Discount"),
     )
 
     def __str__(self):
         return _("{product}").format(product=self.product)
 
+    @property
+    def is_discounted(self):
+        if self.discounted_price == Money(0) or self.discounted_price == None:
+            return False
+        today = pytz.utc.localize(datetime.utcnow())
+        if self.start_date<today and self.end_date>today:
+            return True
+        return False
+
     def get_price(self, request):  # noqa C910
         r = self.unit_price
+        print(r)
+        if self.is_discounted:
+            r = self.discounted_price
+        print(r)
+
         if request:
             # ===--- GET DISCOUNTS
             if dmRabaisPerCategory is not None:
-                r = get_apply_discountpercategory(self, r)
+                r = get_apply_discountpercategory(self, r, self.is_discounted)
+                print(r)
             # ===--- GET PROMOCODE
             if dmPromoCode is not None:
                 try:
@@ -816,6 +853,15 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
                         is_expired=False)
                     if all_codes.count() > 0:
                         for d in all_codes:
+                            # 1. if Can apply  on discounted product
+                            #        Calculate Product
+                            #    else continue 
+                            # 2. if Can not apply dmRabaisPerCategory on discounted product
+                            #        Check if product is discounted
+                            if d.promocode.can_apply_on_discounted == False:
+                                if self.is_discounted == True:
+                                    continue
+
                             if d.promocode.amount is not None:
                                 r = Money(
                                     Decimal(r) - Decimal(d.promocode.amount))
