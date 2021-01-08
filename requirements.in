@@ -36,3 +36,5 @@ django-haystack==3.0
 geopy==2.1.0
 mailchimp3==3.0.7
 python-slugify==4.0.1
+#tools
+coverage

@@ -31,3 +31,10 @@ Thumbs.db
 .env-local
 #package-lock.json
 #webpack-dev.json
+
+#coverage
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
