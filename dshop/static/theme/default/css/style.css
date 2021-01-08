@@ -82,10 +82,22 @@ a:hover{
 }
 
 /* ===--- Plugins ---=== */
+.section-parcategorie {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 2rem 0;
+    margin: 3rem 0;
+}
+.section-infolettre h3,
+.section-infolettre h5 {
+	color: #fff;
+}
 .section-infolettre > .section{
   background-repeat:no-repeat;
   background-position:center;
   background-size:cover;
+  color: #fff;
 }
 .section-infolettre .heading_s1 p:last-child{
   margin-bottom:0;
@@ -127,6 +139,16 @@ a:hover{
 }
 .products-filters .filters-boxes .filters-box .filters-text {
   background-color: #f7f8fb;
+}
+
+/* ===--- Marques ---=== */
+.section-products-brands {
+    padding: 3rem 0;
+}
+.section-products-brands .owl-item .brand img {
+    width: auto;
+    max-height: 100px;
+    margin: 0 auto;
 }
 
 /* ===--- Vos commandes ---=== */

@@ -351,7 +351,7 @@ class ProductCategory(models.Model):
             return self.name
 
     def get_products(self):
-        result = ProductDefault.objects.filter(
+        result = Product.objects.filter(
             Q(categories=self) | Q(categories__parent=self)
             | Q(categories__parent__parent=self)
             | Q(categories__parent__parent__parent=self),
@@ -386,6 +386,45 @@ class ProductFilter(models.Model):
     def __str__(self):
         return self.name
 
+class ProductBrand(models.Model):
+    """
+    A model to help to brands products.
+    Product can only have one brand.
+    """
+
+    name = models.CharField(
+        verbose_name=_("Brand's Name"),
+        max_length=100,
+        null=False,
+        blank=False
+    )
+    logo = image.FilerImageField(
+        verbose_name=_("Logo"),
+        related_name="brand_logo",
+        on_delete=models.CASCADE
+    )
+    order = models.PositiveSmallIntegerField(
+        verbose_name=_("Sort by"),
+        default=0,
+        blank=False,
+        null=False
+    )
+
+    class Meta:
+        verbose_name = _("Product's Brand")
+        verbose_name_plural = _("Product's Brands")
+        ordering = ["order", "name"]
+
+    def __str__(self):
+        return self.name
+
+    def get_products(self):
+        result = Product.objects.filter(
+            brand=self,
+            active=True
+        ).order_by("id")
+        return result
+
 
 #######################################################################
 # Produits
@@ -413,6 +452,13 @@ class Product(CMSPageReferenceMixin, TranslatableModelMixin, BaseProduct):
         ProductFilter,
         verbose_name=_("Filters"),
         blank=True
+    )
+    brand = models.ForeignKey(
+        ProductBrand,
+        on_delete=models.SET_NULL,
+        verbose_name=_("Brand"),
+        blank=True,
+        null=True
     )
     is_vedette = models.BooleanField(
         _("Featured"),
@@ -522,6 +568,23 @@ class ProductDefault(AvailableProductMixin, Product):
             help_text=_("Long description.")
         )
     )
+    discounted_price = MoneyField(
+        _("Discounted Unit Price"),
+        decimal_places=3,
+        help_text=_("Net discounted price for this product.")
+    )
+    start_date = models.DateTimeField(
+        _("Discount Start DateTime"),
+        null=True,
+        blank=True,
+        help_text=_("Start DateTime Discount"),
+    )
+    end_date = models.DateTimeField(
+        _("Discount Stop DateTime"),
+        null=True,
+        blank=True,
+        help_text=_("Stop DateTime Discount"),
+    )
 
     class Meta:
         verbose_name = _("Default Product")
@@ -541,12 +604,25 @@ class ProductDefault(AvailableProductMixin, Product):
             return desc
         return ""
 
+    @property
+    def is_discounted(self):
+        if self.discounted_price == Money(0) or self.discounted_price is None:
+            return False
+        today = pytz.utc.localize(datetime.utcnow())
+        if self.start_date < today and self.end_date > today:
+            return True
+        return False
+
     def get_price(self, request):  # noqa C910
         r = self.unit_price
+        if self.is_discounted:
+            r = self.discounted_price
+
         if request:
             # ===--- GET DISCOUNTS
             if dmRabaisPerCategory is not None:
-                r = get_apply_discountpercategory(self, r)
+                r = get_apply_discountpercategory(self, r, self.is_discounted)
+
             # ===--- GET PROMOCODE
             if dmPromoCode is not None:
                 try:
@@ -567,6 +643,15 @@ class ProductDefault(AvailableProductMixin, Product):
                     )
                     if all_codes.count() > 0:
                         for d in all_codes:
+                            # 1. if Can apply  on discounted product
+                            #        Calculate Product
+                            #    else continue
+                            # 2. if Can not apply dmRabaisPerCategory on discounted product
+                            #        Check if product is discounted
+                            if not d.promocode.can_apply_on_discounted:
+                                if self.is_discounted:
+                                    continue
+
                             if d.promocode.amount is not None:
                                 r = Money(
                                     Decimal(r) - Decimal(d.promocode.amount))
@@ -707,16 +792,48 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         validators=[MinValueValidator(0)],
         help_text=_("Available quantity in stock.")
     )
+    discounted_price = MoneyField(
+        _("Discounted Unit Price"),
+        decimal_places=3,
+        help_text=_("Net discounted price for this product.")
+    )
+    start_date = models.DateTimeField(
+        _("Discount Start DateTime"),
+        null=True,
+        blank=True,
+        help_text=_("Start DateTime Discount"),
+    )
+    end_date = models.DateTimeField(
+        _("Discount Stop DateTime"),
+        null=True,
+        blank=True,
+        help_text=_("Stop DateTime Discount"),
+    )
 
     def __str__(self):
         return _("{product}").format(product=self.product)
 
+    @property
+    def is_discounted(self):
+        if self.discounted_price == Money(0) or self.discounted_price is None:
+            return False
+        today = pytz.utc.localize(datetime.utcnow())
+        if self.start_date < today and self.end_date > today:
+            return True
+        return False
+
     def get_price(self, request):  # noqa C910
         r = self.unit_price
+        print(r)
+        if self.is_discounted:
+            r = self.discounted_price
+        print(r)
+
         if request:
             # ===--- GET DISCOUNTS
             if dmRabaisPerCategory is not None:
-                r = get_apply_discountpercategory(self, r)
+                r = get_apply_discountpercategory(self, r, self.is_discounted)
+                print(r)
             # ===--- GET PROMOCODE
             if dmPromoCode is not None:
                 try:
@@ -736,6 +853,15 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
                         is_expired=False)
                     if all_codes.count() > 0:
                         for d in all_codes:
+                            # 1. if Can apply  on discounted product
+                            #        Calculate Product
+                            #    else continue
+                            # 2. if Can not apply dmRabaisPerCategory on discounted product
+                            #        Check if product is discounted
+                            if not d.promocode.can_apply_on_discounted:
+                                if self.is_discounted:
+                                    continue
+
                             if d.promocode.amount is not None:
                                 r = Money(
                                     Decimal(r) - Decimal(d.promocode.amount))
@@ -966,6 +1092,41 @@ class dmProductsByCategory(CMSPlugin):
         null=True,
         blank=True
     )
+    bg_color = ColorField(
+        verbose_name=_("Background's Colour"),
+        null=True,
+        blank=True
+    )
+    bg_image = image.FilerImageField(
+        verbose_name=_("Background's Image"),
+        on_delete=models.SET_NULL,
+        related_name="bg_image",
+        null=True,
+        blank=True
+    )
+
+
+class dmProductsBrands(CMSPlugin):
+    title = models.CharField(
+        verbose_name=_("Title"),
+        max_length=100,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 100 characters.")
+    )
+    text = HTMLField(
+        verbose_name=_("Text"),
+        configuration="CKEDITOR_SETTINGS_DMPLUGIN",
+        null=True,
+        blank=True
+    )
+    howmany = models.PositiveSmallIntegerField(
+        verbose_name=_("Number"),
+        default=5,
+        blank=False,
+        null=False,
+        help_text=_("How many brand's logo to be show at the same time.")
+    )
 
 
 # ===---
@@ -1163,6 +1324,11 @@ class dmInfolettre(CMSPlugin):
         blank=True,
         help_text=_("Maximum 100 characters.")
     )
+    title_color = ColorField(
+        verbose_name=_("Title's Colour"),
+        null=True,
+        blank=True
+    )
     subtitle = models.CharField(
         verbose_name=_("Subtitle"),
         max_length=200,
@@ -1170,9 +1336,19 @@ class dmInfolettre(CMSPlugin):
         blank=True,
         help_text=_("Maximum 200 characters.")
     )
+    subtitle_color = ColorField(
+        verbose_name=_("Subtitle's Colour"),
+        null=True,
+        blank=True
+    )
     text = HTMLField(
         verbose_name=_("Text"),
         configuration="CKEDITOR_SETTINGS_DMPLUGIN",
+        null=True,
+        blank=True
+    )
+    text_color = ColorField(
+        verbose_name=_("Text's Colour"),
         null=True,
         blank=True
     )
@@ -1189,6 +1365,11 @@ class dmInfolettre(CMSPlugin):
         null=True,
         blank=True,
         help_text=_("Leave blank to hide image.")
+    )
+    bg_color = ColorField(
+        verbose_name=_("Background's Colour"),
+        null=True,
+        blank=True
     )
 
 

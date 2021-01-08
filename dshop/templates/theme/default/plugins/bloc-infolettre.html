@@ -1,16 +1,20 @@
 {% load static thumbnail cms_tags i18n dshop_tags %}
 
+{% if instance.image %}
+    {% thumbnail instance.image "2000x900" as thumb %}
+{% endif %}
+
 <!-- BEGIN: infolettre -->
 <section class="section-infolettre">
-  <div class="section bg_default small_pt small_pb mt-4"{% if instance.image %} style="background-image:url('{{instance.image.url}}');"{% endif %}>
+  <div class="section bg_default small_pt small_pb mt-4" style="{% if instance.bg_color %}background-color:{{instance.bg_color}}!important;{% endif %}{% if instance.image %}background-image:url('{{thumb.url}}');{% endif %}">
     <div class="container">
       <div class="row align-items-center">
         {% if instance.title or instance.subtitle or instance.text %}
           <div class="col-md-6">
-            <div class="heading_s1 mb-md-0 heading_light">
-              {% if instance.title %}<h3>{{instance.title}}</h3>{% endif %}
-              {% if instance.subtitle %}<h5>{{instance.subtitle}}</h5>{% endif %}
-              {% if instance.text %}{{instance.text}}{% endif %}
+            <div class="heading_s1 mb-md-0">
+              {% if instance.title %}<h3{% if instance.title_color %} style="color:{{instance.title_color}}";{% endif %}>{{instance.title}}</h3>{% endif %}
+              {% if instance.subtitle %}<h5{% if instance.subtitle_color %} style="color:{{instance.subtitle_color}}";{% endif %}>{{instance.subtitle}}</h5>{% endif %}
+              {% if instance.text %}<div{% if instance.text_color %} style="color:{{instance.text_color}}";{% endif %}>{{instance.text}}</div>{% endif %}
             </div>
           </div>
         {% endif %}

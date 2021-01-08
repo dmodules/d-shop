@@ -43,6 +43,7 @@ INSTALLED_APPS.extend([  # noqa: F821
     # ===---
     "fsm_admin",
     "adminsortable2",
+    "sass_processor",
     # ===---
     "webpack_loader",
     "colorfield",
@@ -302,6 +303,20 @@ TEMPLATES = [{
 #
 
 POST_OFFICE = {'TEMPLATE_ENGINE': 'post_office'}
+
+#######################################################################
+#
+
+AUTH_PASSWORD_VALIDATORS = [{
+    'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    'OPTIONS': {
+        'min_length': 6,
+    }
+}]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 #######################################################################
 #
@@ -637,6 +652,7 @@ ADMIN_REORDER = (
             "dshop.FeatureList",
             "dshop.ProductCategory",
             "dshop.ProductFilter",
+            "dshop.ProductBrand",
             "dshop.Product",
             {
                 "model": "dshop.Order",

@@ -1120,80 +1120,80 @@ export default {
     // ===---   setUpload                                   ---=== //
     // =========================================================== */
     setUpload(next = false) {
-      let self = this;
-      let datas = null;
-      if (this.stepCheckout === 1) {
-        datas = this.formCustomer;
-      } else if (this.stepCheckout === 2) {
-        datas = {
-          shipping_address: this.formShipping.shipping_address,
-          shipping_method: this.formShippingMethod.shipping_method,
-        };
-      } else if (this.stepCheckout === 3) {
-        datas = {
-          billing_address: this.formBilling.billing_address,
-          payment_method: this.formBillingMethod.payment_method,
-        };
-      } else if (this.stepCheckout === 4) {
-        datas = this.formAcceptCondition;
-        this.$set(this, "isLoadingPayment", true);
-      }
-      // ===--- BEGIN: axios
-      this.$axios
-        .put(this.$api_url + "/checkout/upload/", datas, {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
+        let self = this
+        let datas = null
+        if (this.stepCheckout === 1) {
+          datas = this.formCustomer
+        } else if (this.stepCheckout === 2) {
+          datas = {
+            shipping_address: this.formShipping.shipping_address,
+            shipping_method: this.formShippingMethod.shipping_method
+          }
+        } else if (this.stepCheckout === 3) {
+          datas = {
+            billing_address: this.formBilling.billing_address,
+            payment_method: this.formBillingMethod.payment_method
+          }
+        } else if (this.stepCheckout === 4) {
+          datas = this.formAcceptCondition
+          this.$set(this, 'isLoadingPayment', true)
+        }
+        // ===--- check user email
+        if (this.stepCheckout === 1 && this.isGuest) {
+            console.log(this.isGuest)
+            let data_email = {
+                email: this.formCustomer.customer.email
+            }
+            // ===--- BEGIN: axios
+            this.$axios.post(this.$web_url+'/api/fe/customer-check/', data_email, {
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+            })
+            .then((apiSuccess) => {
+                console.log(apiSuccess.data)
+                if (apiSuccess.data.exist) {
+                    self.$set(self.formError.customer, 'email', self.$i18n.t("Thisemailexist"))
+                } else {
+                    self.doUpload(next, datas)
+                }
+            })
+            .catch(() => {
+                self.$set(self.formError.customer, 'email', self.$i18n.t("Anerroroccured"))
+            })
+            // ===--- END: axios
+        } else {
+            this.doUpload(next, datas)
+        }
+      },
+      doUpload (next = false, datas) {
+        let self = this
+        // ===--- BEGIN: axios
+        this.$axios.put(this.$api_url+'/checkout/upload/', datas, {
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
         })
         .then(() => {
-          self.getDigest();
+          self.getDigest()
           if (next) {
             // if button 'next' was clicked, go to next step
-            self.$vuetify.goTo(100);
-            self.$set(self, "stepCheckout", self.stepCheckout + 1);
+            self.$vuetify.goTo(100)
+            self.$set(self, 'stepCheckout', self.stepCheckout + 1)
           } else if (self.stepCheckout === 4) {
             // if all is okay, purchase
-            self.doPurchase();
+            self.doPurchase()
           }
         })
         .catch((apiFail) => {
-          self.$set(self, "isLoadingPayment", false);
+          self.$set(self, 'isLoadingPayment', false)
           if (apiFail.response && apiFail.response.data) {
             if (apiFail.response.data.customer_form) {
-              self.$set(
-                self.formError.customer,
-                "salutation",
-                apiFail.response.data.customer_form.salutation
-                  ? apiFail.response.data.customer_form.salutation
-                  : null
-              );
-              self.$set(
-                self.formError.customer,
-                "first_name",
-                apiFail.response.data.customer_form.first_name
-                  ? apiFail.response.data.customer_form.first_name
-                  : null
-              );
-              self.$set(
-                self.formError.customer,
-                "last_name",
-                apiFail.response.data.customer_form.last_name
-                  ? apiFail.response.data.customer_form.last_name
-                  : null
-              );
-              self.$set(
-                self.formError.customer,
-                "email",
-                apiFail.response.data.customer_form.email
-                  ? apiFail.response.data.customer_form.email
-                  : null
-              );
+              self.$set(self.formError.customer, 'salutation', apiFail.response.data.customer_form.salutation ? apiFail.response.data.customer_form.salutation : null)
+              self.$set(self.formError.customer, 'first_name', apiFail.response.data.customer_form.first_name ? apiFail.response.data.customer_form.first_name : null)
+              self.$set(self.formError.customer, 'last_name', apiFail.response.data.customer_form.last_name ? apiFail.response.data.customer_form.last_name : null)
+              self.$set(self.formError.customer, 'email', apiFail.response.data.customer_form.email ? apiFail.response.data.customer_form.email : null)
             }
           }
-        });
-      // ===--- END: axios
-    },
+        })
+        // ===--- END: axios
+      },
     /* =========================================================== //
     // ===---   getDigest                                   ---=== //
     // =========================================================== */
