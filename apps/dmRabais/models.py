@@ -39,6 +39,10 @@ class dmRabaisPerCategory(models.Model):
         verbose_name=_("Active"),
         default=True
     )
+    can_apply_on_discounted = models.BooleanField(
+        verbose_name=_("Can Apply On Discounted Product?"),
+        default=False
+    )
     valid_from = models.DateTimeField(
         verbose_name=_("Start at"),
         default=datetime.now
@@ -101,6 +105,10 @@ class dmPromoCode(models.Model):
     is_active = models.BooleanField(
         verbose_name=_("Active"),
         default=True
+    )
+    can_apply_on_discounted = models.BooleanField(
+        verbose_name=_("Can Apply On Discounted Product?"),
+        default=False
     )
     valid_from = models.DateTimeField(
         verbose_name=_("Start at"),

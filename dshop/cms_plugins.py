@@ -8,13 +8,14 @@ from cms.plugin_pool import plugin_pool
 from .models import dmBlocTextMedia
 from .models import dmBlocEntete, dmBlocEnteteVideo
 from .models import dmBlocSliderParent, dmBlocSliderChild
-from .models import dmProductsCategories
-from .models import dmProductsVedette, dmProductsByCategory
 from .models import dmBlocContact, dmInfolettre
 from .models import dmBlocEtapesParent, dmBlocEtapesChild
 from .models import dmBlockSalesParent, dmBlockSalesChild
 from .models import dmBlockCalltoaction
 
+from .models import dmProductsCategories
+from .models import dmProductsVedette, dmProductsByCategory
+from .models import dmProductsBrands
 
 class BoutiquePlugin(CMSPluginBase):
     module = 'A Boutique Plugin'
@@ -289,6 +290,24 @@ class dmProductsByCategpryPlugin(BoutiquePlugin):
             "theme/{}/plugins/products-by-category.html".format(
                 settings.THEME_SLUG
             ), "plugins/products-by-category.html"
+        ])
+
+
+@plugin_pool.register_plugin
+class dmProductsBrandsPlugin(BoutiquePlugin):
+    name = _("Product's Brands")
+    model = dmProductsBrands
+    allow_children = False
+
+    def render(self, context, instance, placeholder):
+        context = super(dmProductsBrandsPlugin, self).render(context, instance, placeholder)
+        return context
+
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            "theme/{}/plugins/products-brands.html".format(
+                settings.THEME_SLUG
+            ), "plugins/products-brands.html"
         ])
 
 

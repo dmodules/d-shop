@@ -8,7 +8,7 @@ from django.db.models import Q
 
 from dshop.models import dmSite
 from dshop.models import Product
-from dshop.models import ProductCategory, ProductFilter
+from dshop.models import ProductCategory, ProductFilter, ProductBrand
 from dshop.utils import get_coords_from_address
 
 register = template.Library()
@@ -124,6 +124,20 @@ def dm_get_filters_all():
 
 
 @register.simple_tag
+def dm_get_brands_all():
+    """Get data from all brands"""
+    result = ProductBrand.objects.all()
+    return result
+
+
+@register.simple_tag
+def dm_get_brand(k):
+    """Get brand's data from pk/id key"""
+    result = ProductBrand.objects.get(pk=k)
+    return result
+
+
+@register.simple_tag
 def dm_get_all_products(offset, limit):
     """Get data from all products with offset and limit"""
     offset = int(offset)
@@ -150,6 +164,24 @@ def dm_get_products_by_category(k, offset, limit):
         Q(categories=k) | Q(categories__parent=k) | Q(categories__parent__parent=k) | Q(
             categories__parent__parent__parent=k
         ), active=True
+    ).order_by('id')[offset+limit:offset+limit+limit].count()
+    result = {
+        "products": products,
+        "next": next_result
+    }
+    return result
+
+
+@register.simple_tag
+def dm_get_products_by_brand(k, offset, limit):
+    """Get data from all products from brand's pk/id key with offset and limit"""
+    offset = int(offset)
+    limit = int(limit)
+    products = Product.objects.filter(
+        brand=k, active=True
+    ).order_by('id')[offset:offset+limit]
+    next_result = Product.objects.filter(
+        brand=k, active=True
     ).order_by('id')[offset+limit:offset+limit+limit].count()
     result = {
         "products": products,

@@ -38,7 +38,7 @@ def get_coords_from_address(address):
             else:
                 return location
 
-def get_apply_discountpercategory(product, current_price):
+def get_apply_discountpercategory(product, current_price, is_discounted=False):  # noqa: C901
     r = current_price
     if dmRabaisPerCategory is not None:
         today = pytz.utc.localize(datetime.utcnow())
@@ -54,6 +54,14 @@ def get_apply_discountpercategory(product, current_price):
         )
         if all_discounts.count() > 0:
             for d in all_discounts:
+                # 1. if Can apply dmRabaisPerCategory on discounted product
+                #        Calculate Product
+                #    else continue
+                # 2. if Can not apply dmRabaisPerCategory on discounted product
+                #        Check if product is discounted
+                if not d.can_apply_on_discounted:
+                    if is_discounted:
+                        continue
                 if d.amount is not None:
                     r = Money(Decimal(r) - Decimal(d.amount))
                 elif d.percent is not None:

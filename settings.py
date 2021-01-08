@@ -43,6 +43,7 @@ INSTALLED_APPS.extend([  # noqa: F821
     # ===---
     "fsm_admin",
     "adminsortable2",
+    "sass_processor",
     # ===---
     "webpack_loader",
     "colorfield",
@@ -63,7 +64,6 @@ INSTALLED_APPS.extend([  # noqa: F821
     "apps.dmShipping",
     "apps.dmTaxes",
     "apps.dmSearch",
-    "apps.dmTheme",
     # ===---
     "shop",
     "dshop",
@@ -122,7 +122,6 @@ MIDDLEWARE.extend([  # noqa: F821
 ])
 
 STAGE = os.getenv("STAGE", "local").lower()
-THEME_SLUG = slugify(os.getenv("THEME_SLUG", "default").lower())
 
 #######################################################################
 # Actual Shop Settings
@@ -137,14 +136,15 @@ ADMINS = [("D-Modules", "info@d-modules.com")]
 ############################################
 # Templates Settings
 
-TEMPLATE_DIR = "theme/{}/pages/".format(THEME_SLUG)
-#STATIC_CLIENT_DIR = "apps/dmTheme/static/theme/{}/".format(THEME_SLUG)
+THEME_SLUG = 'default'
+
+TEMPLATE_DIR = "theme/default/pages/"
 
 CMS_TEMPLATES = [
-    ("theme/{}/pages/default.html".format(THEME_SLUG), "Par défaut"),
-    ("theme/{}/pages/accueil.html".format(THEME_SLUG), "Page: Accueil"),
-    ("theme/{}/pages/produits.html".format(THEME_SLUG), "Page: Produits"),
-    ("theme/{}/pages/contact.html".format(THEME_SLUG), "Page: Contact"),
+    ("theme/default/pages/default.html", "Par défaut"),
+    ("theme/default/pages/accueil.html", "Page: Accueil"),
+    ("theme/default/pages/produits.html", "Page: Produits"),
+    ("theme/default/pages/contact.html", "Page: Contact"),
 ]
 
 #######################################################################
@@ -307,7 +307,30 @@ POST_OFFICE = {'TEMPLATE_ENGINE': 'post_office'}
 #######################################################################
 #
 
+AUTH_PASSWORD_VALIDATORS = [{
+    'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    'OPTIONS': {
+        'min_length': 6,
+    }
+}]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+#######################################################################
+#
+
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+#######################################################################
+#
+
+HAYSTACK_CONNECTIONS = {
+    "default": {
+        "ENGINE": "haystack.backends.simple_backend.SimpleEngine",
+    },
+}
 
 #######################################################################
 # settings for caching and storing session data
@@ -612,14 +635,10 @@ if STAGE == 'local':
 MIDDLEWARE.extend(["dshop.middleware.AdminReorderMiddleware"])  # noqa: F821
 ADMIN_REORDER = (
     {
-        "app":
-        "shop",
-        "label":
-        "Site",
+        "app": "shop",
+        "label": "Site",
         "models": [
-            # "sites.Site",
             "dshop.dmSite",
-            "dmTheme.ThemeManagement",
             "cms.Page",
             "shop.CustomerProxy"
         ]
@@ -632,24 +651,22 @@ ADMIN_REORDER = (
         ]
     },
     {
-        "app":
-        "dshop",
+        "app": "dshop",
         "label": _("Shop"),
         "models": [
             "dshop.FeatureList",
             "dshop.ProductCategory",
             "dshop.ProductFilter",
+            "dshop.ProductBrand",
             "dshop.Product",
             {
                 "model": "dshop.Order",
                 "label": _("Orders")
             },
-            "dshop.Delivery",
             {
                 "model": "dshop.Delivery",
                 "label": _("Delivery")
             },
-            "dshop.DeliveryItem",
             {
                 "model": "dshop.DeliveryItem",
                 "label": _("DeliveryItem")
@@ -660,28 +677,12 @@ ADMIN_REORDER = (
         ]
     },
     {
-        "app":
-        "dmShipping",
-        "label": _("Shipping"),
-        "models": [
-            "dmShipping.ShippingManagement",
-        ]
-    },
-    {
-        "app":
-        "dmRabais",
+        "app": "dmRabais",
         "label": _("Discounts"),
         "models": [
             "dmRabais.dmRabaisPerCategory",
             "dmRabais.dmPromoCode",
             # "dmRabais.dmCustomerPromoCode"
-        ]
-    },
-    {
-        "app": "dmTheme",
-        "label": _("Theme Management"),
-        "models": [
-            "dmTheme.ThemeManagement",
         ]
     },
     {
@@ -715,12 +716,13 @@ ADMIN_REORDER = (
         ]
     },
     {
+        "app": "dmTheme",
+        "label": _("Theme Management"),
+        "models": [
+            "dmTheme.ThemeManagement",
+        ]
+    },
+    {
         "app": "filer"
     },
 )
-
-HAYSTACK_CONNECTIONS = {
-    "default": {
-        "ENGINE": "haystack.backends.simple_backend.SimpleEngine",
-    },
-}

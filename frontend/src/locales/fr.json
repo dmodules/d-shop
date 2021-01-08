@@ -13,6 +13,7 @@
   "Codenotexist": "Ce code est expiré.",
   "Codealreadyused": "Vous avez déjà utilisé ce code.",
   "Codeaddedsuccess": "Code ajouté avec succès !",
+  "Thisemailexist": "Un client existe déjà avec ce courriel.",
 
   "Profil": "Profil",
   "Salutation": "Salutation",
@@ -74,5 +75,9 @@
   "PromoCodes": "Codes promotionnels",
   "AppliedPromoCodes": "Codes promotionnels appliqués",
   "Enteryourcodehere": "Entrer votre code ici",
-  "Add": "Ajouter"
+  "Add": "Ajouter",
+
+  "PasswordReset": "Réinitialisation du mot de passe",
+  "Password": "Mot de passe",
+  "PasswordConfirm": "Confirmation du mot de passe"
 }

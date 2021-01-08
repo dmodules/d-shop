@@ -21,7 +21,7 @@ class dmRabaisPerCategoryAdmin(admin.ModelAdmin):
             "name",
             "amount",
             "percent",
-            "is_active",
+            ("is_active", "can_apply_on_discounted"),
             ("valid_from", "valid_until"),
             "categories"
         ]
@@ -66,7 +66,7 @@ class dmPromoCodeAdmin(admin.ModelAdmin):
             "fields": [
                 "name",
                 "code",
-                "is_active",
+                ("is_active", "can_apply_on_discounted"),
                 "amount",
                 "percent"]
         }),

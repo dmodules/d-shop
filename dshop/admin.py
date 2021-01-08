@@ -34,7 +34,7 @@ from shop.models.cart import CartItemModel
 
 from dshop.models import dmSite, dmSiteLogo, dmSiteContact, dmSiteSocial
 from dshop.models import BillingAddress, ShippingAddress
-from dshop.models import ProductCategory, ProductFilter
+from dshop.models import ProductCategory, ProductFilter, ProductBrand
 from dshop.models import Product
 from dshop.models import ProductDefault
 from dshop.models import ProductVariable, ProductVariableVariant
@@ -433,6 +433,11 @@ class ProductCategoryAdmin(admin.ModelAdmin):
 class ProductFilterAdmin(admin.ModelAdmin):
     list_display = ["name", "order"]
 
+
+@admin.register(ProductBrand)
+class ProductBrandAdmin(admin.ModelAdmin):
+    list_display = ["name", "order"]
+
 #######################################################################
 # Produits
 #######################################################################
@@ -452,7 +457,8 @@ class ProductDefaultAdmin(
         (None, {
             "fields": [
                 ("product_name", "slug"),
-                ("product_code", "unit_price"),
+                ("product_code", "unit_price", "discounted_price"),
+                ("start_date", "end_date"),
                 "quantity",
                 "active",
                 "is_vedette"
@@ -468,6 +474,11 @@ class ProductDefaultAdmin(
             "fields": [
                 "categories",
                 "filters"
+            ]
+        }),
+        (_("Brand"), {
+            "fields": [
+                "brand"
             ]
         }),
         (_("Main Image"), {
@@ -514,6 +525,11 @@ class ProductVariableAdmin(
             "fields": [
                 "categories",
                 "filters"
+            ]
+        }),
+        (_("Brand"), {
+            "fields": [
+                "brand"
             ]
         }),
         (_("Main Image"), {

@@ -18,6 +18,15 @@ const routes = [
     path: '/fr/commande/promocodes/',
     name: 'PromoCodes',
     component: () => import('@/views/PromoCodes.vue')
+  },
+  {
+    path: '/fr/commande/password/:action/:uidb64/:token',
+    component: () => import('@/views/Password.vue')
+  },
+  {
+    path: '/fr/commande/password/:action',
+    name: 'Password',
+    component: () => import('@/views/Password.vue')
   }
 ]
 

@@ -1,0 +1,45 @@
+{% load static thumbnail cms_tags i18n dshop_tags %}
+
+<!-- BEGIN: products-brands -->
+  <section class="section-products-brands text-center">
+    <div class="container">
+      {% if instance.title or instance.text %}
+        <div class="row pb-5">
+          <div class="col-12">
+            {% if instance.title %}
+              <h2 class="title">
+                {{instance.title}}
+              </h2>
+            {% endif %}
+            {% if instance.text %}
+              <div class="subtitle">
+                {{instance.text|safe}}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+      <div class="row carousel-brands">
+        <div class="product_slider carousel_slider owl-carousel owl-theme nav_style1" data-loop="true" data-dots="false" data-nav="true" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "1199":{"items": "{{instance.howmany}}"}}'>
+          {% dm_get_brands_all as brands %}
+          {% for brand in brands %}
+            <div class="item" id="brandno{{forloop.counter}}">
+              <div class="brand">
+                <a href="/produits/b{{brand.id}}-{{brand.name|slugify}}">
+                    {% if brand.logo %}
+                        {% thumbnail brand.logo "300x300" upscale as brandthumb %}
+                        <img src="{{brandthumb.url}}" alt="{{brand.name}}" />
+                    {% endif %}
+                </a>
+              </div>
+            </div>
+          {% empty %}
+            <div class="text-center">
+              <p>{% trans 'Empty' %}</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END: en vedette -->
