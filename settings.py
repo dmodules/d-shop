@@ -88,6 +88,8 @@ SHOP_DEFAULT_CURRENCY = "CAD"
 
 SHOP_CART_MODIFIERS = [
     "dshop.modifiers.PrimaryCartModifier",
+    # ===--- discounts methods
+    "apps.dmRabais.modifiers.DiscountsModifier",
     # ===--- taxes methods
     "apps.dmTaxes.modifiers.CanadaTaxModifier",
     # ===--- shipping methods
@@ -95,7 +97,9 @@ SHOP_CART_MODIFIERS = [
     "apps.dmShipping.modifiers.StandardShippingModifier",
     "apps.dmShipping.modifiers.ExpressShippingModifier",
     "apps.dmShipping.modifiers.StandardShippingWithSeparatorModifier",
-    "apps.dmShipping.modifiers.ExpressShippingWithSeparatorModifier"
+    "apps.dmShipping.modifiers.ExpressShippingWithSeparatorModifier",
+    # ===---- tests
+    "dshop.modifiers.TestPaymentModifier"
 ]
 
 SHOP_ORDER_WORKFLOWS = [
@@ -671,7 +675,7 @@ ADMIN_REORDER = (
                 "model": "dshop.DeliveryItem",
                 "label": _("DeliveryItem")
             },
-            # {"model": "dshop.Cart", "label":_("Carts")},
+            {"model": "dshop.Cart", "label": _("Carts")},
             # {"model": "dshop.ShippingAddress", "label":_("Shipping's Addresses")},
             # {"model": "dshop.BillingAddress", "label":_("Billing's Addresses")},
         ]
@@ -682,7 +686,7 @@ ADMIN_REORDER = (
         "models": [
             "dmRabais.dmRabaisPerCategory",
             "dmRabais.dmPromoCode",
-            # "dmRabais.dmCustomerPromoCode"
+            "dmRabais.dmCustomerPromoCode"
         ]
     },
     {

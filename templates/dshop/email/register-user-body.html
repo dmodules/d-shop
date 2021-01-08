@@ -1,7 +1,6 @@
-{% load dshop_tags %}
+{% extends "shop/email/password-reset-body.html" %}
+{% load post_office %}
 
-{% get_setting 'THEME_SLUG' as client %}
-
-{% with "theme/"|add:client|add:"/email/register-user-body.html" as path %}
-  {% include path %}
-{% endwith %}
+{% block email-logo %}
+    <img src="{% inline_image 'dshop/img/logo-dshop.png' %}" width="200" style="margin: 20px auto; display: block;" />
+{% endblock %}

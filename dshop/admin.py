@@ -30,7 +30,7 @@ from shop.admin.product import CMSPageFilter
 from shop.admin.order import BaseOrderAdmin, PrintInvoiceAdminMixin
 from shop.admin.order import OrderItemInline
 from shop.models.defaults.order import Order
-from shop.models.cart import CartItemModel
+from shop.models.cart import CartModel, CartItemModel
 
 from dshop.models import dmSite, dmSiteLogo, dmSiteContact, dmSiteSocial
 from dshop.models import BillingAddress, ShippingAddress
@@ -299,9 +299,7 @@ class CartItemModelInline(admin.TabularInline):
     model = CartItemModel
     extra = 0
 
-# @admin.register(CartModel)
-
-
+@admin.register(CartModel)
 class BaseCartAdmin(admin.ModelAdmin):
     list_display = ["pk", "customer"]
     inlines = [CartItemModelInline]
