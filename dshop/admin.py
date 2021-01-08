@@ -497,7 +497,6 @@ class ProductVariableVariantInline(admin.TabularInline):
     extra = 0
 
 
-
 @admin.register(ProductVariable)
 class ProductVariableAdmin(
     InvalidateProductCacheMixin,

@@ -606,10 +606,10 @@ class ProductDefault(AvailableProductMixin, Product):
 
     @property
     def is_discounted(self):
-        if self.discounted_price == Money(0) or self.discounted_price == None:
+        if self.discounted_price == Money(0) or self.discounted_price is None:
             return False
         today = pytz.utc.localize(datetime.utcnow())
-        if self.start_date<today and self.end_date>today:
+        if self.start_date < today and self.end_date > today:
             return True
         return False
 
@@ -645,11 +645,11 @@ class ProductDefault(AvailableProductMixin, Product):
                         for d in all_codes:
                             # 1. if Can apply  on discounted product
                             #        Calculate Product
-                            #    else continue 
+                            #    else continue
                             # 2. if Can not apply dmRabaisPerCategory on discounted product
                             #        Check if product is discounted
-                            if d.promocode.can_apply_on_discounted == False:
-                                if self.is_discounted == True:
+                            if not d.promocode.can_apply_on_discounted:
+                                if self.is_discounted:
                                     continue
 
                             if d.promocode.amount is not None:
@@ -815,10 +815,10 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
 
     @property
     def is_discounted(self):
-        if self.discounted_price == Money(0) or self.discounted_price == None:
+        if self.discounted_price == Money(0) or self.discounted_price is None:
             return False
         today = pytz.utc.localize(datetime.utcnow())
-        if self.start_date<today and self.end_date>today:
+        if self.start_date < today and self.end_date > today:
             return True
         return False
 
@@ -855,11 +855,11 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
                         for d in all_codes:
                             # 1. if Can apply  on discounted product
                             #        Calculate Product
-                            #    else continue 
+                            #    else continue
                             # 2. if Can not apply dmRabaisPerCategory on discounted product
                             #        Check if product is discounted
-                            if d.promocode.can_apply_on_discounted == False:
-                                if self.is_discounted == True:
+                            if not d.promocode.can_apply_on_discounted:
+                                if self.is_discounted:
                                     continue
 
                             if d.promocode.amount is not None:
