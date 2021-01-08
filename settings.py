@@ -663,12 +663,10 @@ ADMIN_REORDER = (
                 "model": "dshop.Order",
                 "label": _("Orders")
             },
-            "dshop.Delivery",
             {
                 "model": "dshop.Delivery",
                 "label": _("Delivery")
             },
-            "dshop.DeliveryItem",
             {
                 "model": "dshop.DeliveryItem",
                 "label": _("DeliveryItem")
@@ -676,13 +674,6 @@ ADMIN_REORDER = (
             # {"model": "dshop.Cart", "label":_("Carts")},
             # {"model": "dshop.ShippingAddress", "label":_("Shipping's Addresses")},
             # {"model": "dshop.BillingAddress", "label":_("Billing's Addresses")},
-        ]
-    },
-    {
-        "app": "dmShipping",
-        "label": _("Shipping"),
-        "models": [
-            "dmShipping.ShippingManagement",
         ]
     },
     {
