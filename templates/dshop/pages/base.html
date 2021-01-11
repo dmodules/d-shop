@@ -102,7 +102,7 @@
                     <a href="/">
                         {% dm_get_logos as logos %}
                         {% if logos %}
-                            {% thumbnail logos.logolight "270x270" upscale as thumb %}
+                            {% thumbnail logos.logodark "270x270" upscale as thumb %}
                             <img src="{{thumb.url}}" alt="logo" />
                         {% else %}
                             <img src="{% static 'dshop/img/logo-dshop.png' %}" alt="logo" />
