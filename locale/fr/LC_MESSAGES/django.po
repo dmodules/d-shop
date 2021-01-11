@@ -43,6 +43,14 @@ msgstr "Texte"
 msgid "Maximum 75 characters."
 msgstr "Maximum 75 caractères."
 
+#: apps/dmAdvertising/models.py:16
+msgid "Maximum 250 characters."
+msgstr "Maximum 250 caractères."
+
+#: apps/dmAdvertising/models.py:16
+msgid "Maximum 500 characters."
+msgstr "Maximum 500 caractères."
+
 #: apps/dmAdvertising/models.py:19 dshop/models.py:1161
 msgid "URL"
 msgstr "URL"
