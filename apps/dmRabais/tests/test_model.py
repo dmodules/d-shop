@@ -13,7 +13,7 @@ def create_discount(data=None):
         'amount': 10,
         'is_active': True,
         'valid_from': datetime.today() - timedelta(days=2),
-        'valid_until': datetime.today(),
+        'valid_until': datetime.today() + timedelta(days=3),
     }
     try:
         drpc = dmRabaisPerCategory.objects.create(**data)
