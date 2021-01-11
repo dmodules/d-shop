@@ -613,7 +613,7 @@ class ProductDefault(AvailableProductMixin, Product):
             return True
         return False
 
-    def get_price(self, request):  # noqa C910
+    def get_price(self, request):  # noqa: C901
         r = self.unit_price
         if self.is_discounted:
             r = self.discounted_price
@@ -822,7 +822,7 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
             return True
         return False
 
-    def get_price(self, request):  # noqa C910
+    def get_price(self, request):  # noqa: C901
         r = self.unit_price
         if self.is_discounted:
             r = self.discounted_price

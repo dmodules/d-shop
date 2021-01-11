@@ -28,8 +28,9 @@ class PromoCodesCreate(APIView):
 
     permission_classes = [AllowAny]
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):  # noqa: C901
         data = request.GET.get("promocode", None)
+        products = request.GET.get("p", None)
         if data is not None:
             customer = CustomerModel.objects.get_from_request(request)
             try:
@@ -38,23 +39,47 @@ class PromoCodesCreate(APIView):
                     customer=customer,
                     promocode=promocode
                 )
-                if usercodes.count() > 0:
+                #
+                today = pytz.utc.localize(datetime.utcnow())
+                if promocode.valid_until is not None and today > promocode.valid_until:
+                    promocode.is_active = False
+                    promocode.save()
+                #
+                if not promocode.is_active:
+                    return RestResponse({"valid": "expired"})
+                elif usercodes.count() > 0:
                     return RestResponse({"valid": "already"})
-                elif not promocode.is_active:
-                    return RestResponse({"valid": False})
                 else:
-                    dmCustomerPromoCode.objects.create(
+                    cpromo = dmCustomerPromoCode.objects.create(
                         customer=customer,
                         promocode=promocode
                     )
+                    #
                     if promocode.valid_uses > 0:
                         howmanyuses = dmCustomerPromoCode.objects.filter(
                             promocode=promocode
                         ).count()
-                        if howmanyuses >= promocode.valid_uses:
+                        if howmanyuses > promocode.valid_uses:
                             promocode.is_active = False
                             promocode.save()
-                    return RestResponse({"valid": True})
+                            cpromo.delete()
+                            return RestResponse({"valid": "expired"})
+                    #
+                    if products is not None:
+                        for p in json.loads(products):
+                            pmodel = p["summary"]["product_model"]
+                            pcode = p["product_code"]
+                            results = get_promocodelist_bymodel_bycode(request, pmodel, pcode)
+                        print("=============================")
+                        print(cpromo.promocode.name)
+                        print(results[0])
+                        if cpromo.promocode.name in results[0]:
+                            return RestResponse({"valid": True})
+                        else:
+                            cpromo.delete()
+                            return RestResponse({"valid": "inapplicable"})
+                    else:
+                        return RestResponse({"valid": True})
             except Exception as e:
                 print(e)
                 return RestResponse({"valid": False})

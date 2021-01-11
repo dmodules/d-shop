@@ -30,7 +30,7 @@ class SquarePayment(PaymentProvider):
     """
     namespace = "square-payment"
 
-    def get_payment_request(self, cart, request): # noqa C901
+    def get_payment_request(self, cart, request):  # noqa: C901
         print("Do Square Payment Request")
         #
         SITE_LINK = str(Site.objects.first().domain)

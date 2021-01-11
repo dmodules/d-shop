@@ -10,8 +10,10 @@
 
   "Cechampsesrrequis": "This field is required.",
   "Anerroroccured": "An error occured.",
-  "Codenotexist": "This code is expired.",
+  "Codenotexist": "This code doesn't exist.",
+  "Codeexpired": "This code is expired.",
   "Codealreadyused": "You've already claimed this code.",
+  "Codeinapplicable": "This code is inapplicable to this order.",
   "Codeaddedsuccess": "Code added successfully!",
   "Thisemailexist": "A customer already exist with this email.",
 

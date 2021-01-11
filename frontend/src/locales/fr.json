@@ -10,8 +10,10 @@
   
   "Cechampsesrrequis": "Ce champs est requis.",
   "Anerroroccured": "Une erreur est survenue.",
-  "Codenotexist": "Ce code est expiré.",
+  "Codenotexist": "Ce code n'existe pas.",
+  "Codeexpired": "Ce code est expiré.",
   "Codealreadyused": "Vous avez déjà utilisé ce code.",
+  "Codeinapplicable": "Ce code n'est pas applicable à cette commande.",
   "Codeaddedsuccess": "Code ajouté avec succès !",
   "Thisemailexist": "Un client existe déjà avec ce courriel.",
 
