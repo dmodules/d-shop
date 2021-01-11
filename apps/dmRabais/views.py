@@ -39,11 +39,13 @@ class PromoCodesCreate(APIView):
                     customer=customer,
                     promocode=promocode
                 )
-                #
+                # Check date validation
                 today = pytz.utc.localize(datetime.utcnow())
                 if promocode.valid_until is not None and today > promocode.valid_until:
                     promocode.is_active = False
                     promocode.save()
+                elif today < promocode.valid_from:
+                    return RestResponse({"valid": False})
                 #
                 if not promocode.is_active:
                     return RestResponse({"valid": "expired"})
@@ -54,7 +56,7 @@ class PromoCodesCreate(APIView):
                         customer=customer,
                         promocode=promocode
                     )
-                    #
+                    # Check uses validation
                     if promocode.valid_uses > 0:
                         howmanyuses = dmCustomerPromoCode.objects.filter(
                             promocode=promocode
@@ -64,15 +66,12 @@ class PromoCodesCreate(APIView):
                             promocode.save()
                             cpromo.delete()
                             return RestResponse({"valid": "expired"})
-                    #
+                    # Check order validation
                     if products is not None:
                         for p in json.loads(products):
                             pmodel = p["summary"]["product_model"]
                             pcode = p["product_code"]
                             results = get_promocodelist_bymodel_bycode(request, pmodel, pcode)
-                        print("=============================")
-                        print(cpromo.promocode.name)
-                        print(results[0])
                         if cpromo.promocode.name in results[0]:
                             return RestResponse({"valid": True})
                         else:
