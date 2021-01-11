@@ -1,0 +1,23 @@
+[run]
+branch = False
+source =
+    dshop
+    apps
+omit =
+    dshop/migrations/*
+    apps/*/migrations/*
+    dshop/tests/*
+    apps/tests/*
+    cms/tests/*
+    docs/*
+    env/*
+    env*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise AssertionError
+    raise ValidationError
+    raise NotImplementedError
+    if __name__ == .__main__.:

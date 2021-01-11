@@ -1080,41 +1080,6 @@ export default {
         .catch(() => {});
       // ===--- END: axios
     },
-    getPromoCodes(products = null) {
-        let self = this;
-        this.$set(this, "isLoading", false)
-        this.$set(this, "listPromoCodes", [])
-        // ===---
-        let p = []
-        if (products) {
-            products.forEach((item) => {
-                p.push({
-                    product_code: item.product_code,
-                    summary: {
-                        product_model: item.summary.product_model
-                    }
-                })
-            })
-        } else {
-            p = this.listProducts
-        }
-        let datas = {
-            products: p
-        }
-        // ===---
-        this.$axios.post(this.$web_url + "/discount/promocodes/?p="+JSON.stringify(datas), datas, {
-            headers: { "Content-Type": "application/json", Accept: "application/json"}
-        })
-        .then((apiSuccess) => {
-            apiSuccess.data.promolist.forEach((item) => {
-                if (!item.is_expired) {
-                    self.listPromoCodes.push(item.name)
-                }
-            })
-            self.$set(self.formPayment, "subtotaldiscount", apiSuccess.data.price)
-            self.$set(self.formPayment, "totaldiscount", apiSuccess.data.discount)
-        })
-    },
     /* =========================================================== //
     // ===---   setUpload                                   ---=== //
     // =========================================================== */
@@ -1162,37 +1127,37 @@ export default {
         } else {
             this.doUpload(next, datas)
         }
-      },
-      doUpload (next = false, datas) {
-        let self = this
-        // ===--- BEGIN: axios
-        this.$axios.put(this.$api_url+'/checkout/upload/', datas, {
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
-        })
-        .then(() => {
-          self.getDigest()
-          if (next) {
-            // if button 'next' was clicked, go to next step
-            self.$vuetify.goTo(100)
-            self.$set(self, 'stepCheckout', self.stepCheckout + 1)
-          } else if (self.stepCheckout === 4) {
-            // if all is okay, purchase
-            self.doPurchase()
-          }
-        })
-        .catch((apiFail) => {
-          self.$set(self, 'isLoadingPayment', false)
-          if (apiFail.response && apiFail.response.data) {
-            if (apiFail.response.data.customer_form) {
-              self.$set(self.formError.customer, 'salutation', apiFail.response.data.customer_form.salutation ? apiFail.response.data.customer_form.salutation : null)
-              self.$set(self.formError.customer, 'first_name', apiFail.response.data.customer_form.first_name ? apiFail.response.data.customer_form.first_name : null)
-              self.$set(self.formError.customer, 'last_name', apiFail.response.data.customer_form.last_name ? apiFail.response.data.customer_form.last_name : null)
-              self.$set(self.formError.customer, 'email', apiFail.response.data.customer_form.email ? apiFail.response.data.customer_form.email : null)
-            }
-          }
-        })
-        // ===--- END: axios
-      },
+    },
+    doUpload (next = false, datas) {
+    let self = this
+    // ===--- BEGIN: axios
+    this.$axios.put(this.$api_url+'/checkout/upload/', datas, {
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+    })
+    .then(() => {
+        self.getDigest()
+        if (next) {
+        // if button 'next' was clicked, go to next step
+        self.$vuetify.goTo(100)
+        self.$set(self, 'stepCheckout', self.stepCheckout + 1)
+        } else if (self.stepCheckout === 4) {
+        // if all is okay, purchase
+        self.doPurchase()
+        }
+    })
+    .catch((apiFail) => {
+        self.$set(self, 'isLoadingPayment', false)
+        if (apiFail.response && apiFail.response.data) {
+        if (apiFail.response.data.customer_form) {
+            self.$set(self.formError.customer, 'salutation', apiFail.response.data.customer_form.salutation ? apiFail.response.data.customer_form.salutation : null)
+            self.$set(self.formError.customer, 'first_name', apiFail.response.data.customer_form.first_name ? apiFail.response.data.customer_form.first_name : null)
+            self.$set(self.formError.customer, 'last_name', apiFail.response.data.customer_form.last_name ? apiFail.response.data.customer_form.last_name : null)
+            self.$set(self.formError.customer, 'email', apiFail.response.data.customer_form.email ? apiFail.response.data.customer_form.email : null)
+        }
+        }
+    })
+    // ===--- END: axios
+    },
     /* =========================================================== //
     // ===---   getDigest                                   ---=== //
     // =========================================================== */
@@ -1322,14 +1287,67 @@ export default {
     /* =========================================================== //
     // ===---   Promo Code                                  ---=== //
     // =========================================================== */
+    getPromoCodes(products = null) {
+        let self = this;
+        this.$set(this, "isLoading", false)
+        this.$set(this, "listPromoCodes", [])
+        // ===---
+        let p = []
+        if (products) {
+            products.forEach((item) => {
+                p.push({
+                    product_code: item.product_code,
+                    summary: {
+                        product_model: item.summary.product_model
+                    }
+                })
+            })
+        } else {
+            this.formPayment.listProducts.forEach((item) => {
+                p.push({
+                    product_code: item.product_code,
+                    summary: {
+                        product_model: item.summary.product_model
+                    }
+                })
+            })
+        }
+        let datas = {
+            products: p
+        }
+        // ===---
+        this.$axios.post(this.$web_url + "/discount/promocodes/?p="+JSON.stringify(datas), datas, {
+            headers: { "Content-Type": "application/json", Accept: "application/json"}
+        })
+        .then((apiSuccess) => {
+            apiSuccess.data.promolist.forEach((item) => {
+                if (!item.is_expired) {
+                    self.listPromoCodes.push(item.name)
+                }
+            })
+            self.$set(self.formPayment, "subtotaldiscount", apiSuccess.data.price)
+            self.$set(self.formPayment, "totaldiscount", apiSuccess.data.discount)
+        })
+    },
     doPromoCode () {
         let self = this
         this.$set(this.formPromo, 'loading', true)
         this.$set(this.formPromo, 'error', null)
         this.$set(this.formPromo, 'success', null)
         // ===---
+        let p = []
+        this.formPayment.listProducts.forEach((item) => {
+            p.push({
+                product_code: item.product_code,
+                summary: {
+                    product_model: item.summary.product_model
+                }
+            })
+        })
+        // ===---
         let datas = {
-            promocode: this.formPromo.code
+            promocode: this.formPromo.code,
+            products: p
         }
         // ===---
         if (!datas.promocode) {
@@ -1337,7 +1355,7 @@ export default {
         }
         // ===---
         if (!this.formPromo.error) {
-            this.$axios.post(this.$web_url+'/discount/promocode/?promocode='+datas.promocode, datas, {
+            this.$axios.post(this.$web_url+'/discount/promocode/?promocode='+datas.promocode+'&p='+JSON.stringify(datas.products), datas, {
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
             })
             .then((apiSuccess) => {
@@ -1349,6 +1367,10 @@ export default {
                     self.setAuth()
                 } else if (apiSuccess.data.valid === 'already') {
                     self.$set(self.formPromo, 'error', self.$i18n.t('Codealreadyused'))
+                } else if (apiSuccess.data.valid === 'expired') {
+                    self.$set(self.formPromo, 'error', self.$i18n.t('Codeexpired'))
+                } else if (apiSuccess.data.valid === 'inapplicable') {
+                    self.$set(self.formPromo, 'error', self.$i18n.t('Codeinapplicable'))
                 } else {
                     self.$set(self.formPromo, 'error', self.$i18n.t('Codenotexist'))
                 }

@@ -2,9 +2,9 @@
 
 {% if instance.image %}
   {% thumbnail instance.image "1920x500" crop upscale as thumb %}
-  <div class="carousel-item background_bg{% if loop %} active{% endif %}" data-img-src="{{thumb.url}}">
+  <div class="carousel-item background_bg{% if loop %} active{% endif %}" data-img-src="{{thumb.url}}"{% if instance.bg_color %} style="background-color:{{instance.bg_color}};"{% endif %}>
 {% else %}
-  <div class="carousel-item background_bg" style="background-color:{{instance.bg_color}};">
+  <div class="carousel-item background_bg{% if loop %} active{% endif %}"{% if instance.bg_color %} style="background-color:{{instance.bg_color}};"{% endif %}>
 {% endif %}
   <div class="banner_slide_content">
     <div class="container">

@@ -99,7 +99,7 @@ SHOP_CART_MODIFIERS = [
     "apps.dmShipping.modifiers.StandardShippingWithSeparatorModifier",
     "apps.dmShipping.modifiers.ExpressShippingWithSeparatorModifier",
     # ===---- tests
-    "dshop.modifiers.TestPaymentModifier"
+    # "dshop.modifiers.TestPaymentModifier"
 ]
 
 SHOP_ORDER_WORKFLOWS = [
@@ -644,7 +644,8 @@ ADMIN_REORDER = (
         "models": [
             "dshop.dmSite",
             "cms.Page",
-            "shop.CustomerProxy"
+            "shop.CustomerProxy",
+            "dshop.FeatureList",
         ]
     },
     {
@@ -658,7 +659,6 @@ ADMIN_REORDER = (
         "app": "dshop",
         "label": _("Shop"),
         "models": [
-            "dshop.FeatureList",
             "dshop.ProductCategory",
             "dshop.ProductFilter",
             "dshop.ProductBrand",
@@ -675,7 +675,7 @@ ADMIN_REORDER = (
                 "model": "dshop.DeliveryItem",
                 "label": _("DeliveryItem")
             },
-            {"model": "dshop.Cart", "label": _("Carts")},
+            # {"model": "dshop.Cart", "label": _("Carts")},
             # {"model": "dshop.ShippingAddress", "label":_("Shipping's Addresses")},
             # {"model": "dshop.BillingAddress", "label":_("Billing's Addresses")},
         ]
