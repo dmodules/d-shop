@@ -571,6 +571,8 @@ class ProductDefault(AvailableProductMixin, Product):
     discounted_price = MoneyField(
         _("Discounted Unit Price"),
         decimal_places=3,
+        null=True,
+        blank=True,
         help_text=_("Net discounted price for this product.")
     )
     start_date = models.DateTimeField(
@@ -613,16 +615,16 @@ class ProductDefault(AvailableProductMixin, Product):
             return True
         return False
 
-    def get_price(self, request):  # noqa: C901
+    def get_price(self, request=None):  # noqa C910
         r = self.unit_price
         if self.is_discounted:
             r = self.discounted_price
 
-        if request:
-            # ===--- GET DISCOUNTS
-            if dmRabaisPerCategory is not None:
-                r = get_apply_discountpercategory(self, r, self.is_discounted)
+        # ===--- GET DISCOUNTS
+        if dmRabaisPerCategory is not None:
+             r = get_apply_discountpercategory(self, r, self.is_discounted)
 
+        if request:
             # ===--- GET PROMOCODE
             if dmPromoCode is not None:
                 try:
@@ -795,6 +797,8 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
     discounted_price = MoneyField(
         _("Discounted Unit Price"),
         decimal_places=3,
+        null=True,
+        blank=True,
         help_text=_("Net discounted price for this product.")
     )
     start_date = models.DateTimeField(
