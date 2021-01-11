@@ -17,7 +17,7 @@ def product(filter_p, category, data=None):
                 'product_name': 'Capsicum',
                 'product_code': 'caps',
                 'slug': 'capsicum',
-                'unit_price': 1.00,
+                'unit_price': 100.00,
                 'quantity': 100,
                 'order': 0,
                 'caption': 'Capsicum'
