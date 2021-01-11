@@ -49,7 +49,9 @@
   <div class="section pt-0">
     <div class="container">
       <div class="row">
-        <div class="col-lg-9">
+        {% dm_get_categories_parents as categories %}
+        {% dm_get_brands_all as brands %}
+        <div class="{% if categories.count > 0 or brands.count > 0 %}col-lg-9{% else %}col-12{% endif %}">
           <div class="row align-items-center mb-4 pb-1">
             <div class="col-12">
               <div class="product_header">
@@ -163,52 +165,56 @@
             {% endif %}
           </div>
         </div>
-        <div class="col-lg-3 order-lg-first mt-4 pt-2 mt-lg-0 pt-lg-0 d-none d-lg-block">
-          <div class="sidebar">
-            <div class="widget">
-              <h5 class="widget_title">Catégories</h5>
-              <ul class="widget_categories">
-                {% dm_get_categories_parents as categories %}
-                {% for category in categories %}
-                  <li>
-                    <a href="/produits/{{category.id}}-{{category.name|slugify}}"><span class="categories_name">{{category.name}}</span></a>
-                    {% dm_get_category_by_category category.id as children %}
-                    {% if children %}
-                      <ul style="margin-left:10px;">
-                        {% for child in children %}
-                          <li>
-                            <a href="/produits/{{child.id}}-{{child.name|slugify}}">{{child.name}}</a>
-                            {% dm_get_category_by_category child.id as subchildren %}
-                            {% if subchildren %}
-                              <ul style="margin-left:10px;">
-                                {% for subchild in subchildren %}
-                                  <li>
-                                    <a href="/produits/{{subchild.id}}-{{subchild.name|slugify}}">{{subchild.name}}</a>
-                                  </li>
-                                {% endfor %}
-                              </ul>
-                            {% endif %}
-                          </li>
-                        {% endfor %}
-                      </ul>
-                    {% endif %}
-                  </li>
-                {% endfor %}
-              </ul>
+        {% if categories.count > 0 or brands > 0 %}
+            <div class="col-lg-3 order-lg-first mt-4 pt-2 mt-lg-0 pt-lg-0 d-none d-lg-block">
+            <div class="sidebar">
+                {% if categories.count > 0 %}
+                    <div class="widget">
+                        <h5 class="widget_title">Catégories</h5>
+                        <ul class="widget_categories">
+                            {% for category in categories %}
+                            <li>
+                                <a href="/produits/{{category.id}}-{{category.name|slugify}}"><span class="categories_name">{{category.name}}</span></a>
+                                {% dm_get_category_by_category category.id as children %}
+                                {% if children %}
+                                <ul style="margin-left:10px;">
+                                    {% for child in children %}
+                                    <li>
+                                        <a href="/produits/{{child.id}}-{{child.name|slugify}}">{{child.name}}</a>
+                                        {% dm_get_category_by_category child.id as subchildren %}
+                                        {% if subchildren %}
+                                        <ul style="margin-left:10px;">
+                                            {% for subchild in subchildren %}
+                                            <li>
+                                                <a href="/produits/{{subchild.id}}-{{subchild.name|slugify}}">{{subchild.name}}</a>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                        {% endif %}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {% if brands.count > 0 %}
+                    <div class="widget mt-4">
+                        <h5 class="widget_title">{% trans "Brands" %}</h5>
+                        <ul class="widget_categories">
+                            {% for brand in brands %}
+                                <li>
+                                    <a href="/produits/b{{brand.id}}-{{brand.name|slugify}}"><span class="categories_name">{{brand.name}}</span></a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
             </div>
-          </div>
-          <div class="widget mt-4">
-            <h5 class="widget_title">{% trans "Brands" %}</h5>
-            <ul class="widget_categories">
-                {% dm_get_brands_all as brands %}
-                {% for brand in brands %}
-                    <li>
-                        <a href="/produits/b{{brand.id}}-{{brand.name|slugify}}"><span class="categories_name">{{brand.name}}</span></a>
-                    </li>
-                {% endfor %}
-            </ul>
-          </div>
-        </div>
+            </div>
+        {% endif %}
       </div>
     </div>
   </div>

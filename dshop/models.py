@@ -1475,24 +1475,24 @@ class dmBlockSalesChild(CMSPlugin):
 class dmBlockCalltoaction(CMSPlugin):
     title = models.CharField(
         verbose_name=_("Title"),
-        max_length=100,
+        max_length=250,
         null=True,
         blank=True,
-        help_text=_("Maximum 100 characters.")
+        help_text=_("Maximum 250 characters.")
     )
     subtitle = models.CharField(
         verbose_name=_("Subtitle"),
-        max_length=100,
+        max_length=250,
         null=True,
         blank=True,
-        help_text=_("Maximum 100 characters.")
+        help_text=_("Maximum 250 characters.")
     )
     text = models.CharField(
         verbose_name=_("Text"),
-        max_length=100,
+        max_length=500,
         null=True,
         blank=True,
-        help_text=_("Maximum 100 characters.")
+        help_text=_("Maximum 500 characters.")
     )
     title_color = ColorField(
         verbose_name=_("Title's Colour"),
