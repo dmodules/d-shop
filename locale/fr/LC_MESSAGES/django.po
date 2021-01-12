@@ -2022,3 +2022,6 @@ msgstr "Produits commandés"
 
 msgid "Use shipping address for billing"
 msgstr "Utiliser l'adresse de livraison pour la facturation"
+
+msgid "Pick Up in Store"
+msgstr "Ramassage en magasin"

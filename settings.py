@@ -93,6 +93,7 @@ SHOP_CART_MODIFIERS = [
     # ===--- taxes methods
     "apps.dmTaxes.modifiers.CanadaTaxModifier",
     # ===--- shipping methods
+    "apps.dmShipping.modifiers.PickupShippingModifier",
     "apps.dmShipping.modifiers.FreeShippingModifier",
     "apps.dmShipping.modifiers.StandardShippingModifier",
     "apps.dmShipping.modifiers.ExpressShippingModifier",

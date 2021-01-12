@@ -6,7 +6,7 @@ def filter_p():
     return filt
 
 def category():
-    cat = ProductCategory.objects.create(name='Vegetable')
+    cat, created = ProductCategory.objects.get_or_create(name='Vegetable')
     return cat
 
 def product(filter_p, category, data=None):

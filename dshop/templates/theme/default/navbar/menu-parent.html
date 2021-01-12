@@ -25,10 +25,27 @@
                         <div class="dropdown-menu">
                             <ul>
                                 {% for child_category in child_categories %}
+                                {% dm_get_category_by_category child_category.id as child_subcategories %}
                                 <li>
                                     <a class="dropdown-item nav-link nav_item" href="/produits/{{child_category.id}}-{{child_category.name|slugify}}">
                                         {{child_category.name}}
                                     </a>
+                                    {% if child_subcategories %}
+                                        <a href="#" class="dm-menu-split dropdown-toggler dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </a>
+                                        <div class="dropdown-menu">
+                                            <ul>
+                                                {% for child_subcategorie in child_subcategories %}
+                                                <li>
+                                                    <a class="dropdown-item nav-link nav_item" href="/produits/{{child_subcategorie.id}}-{{child_subcategorie.name|slugify}}">
+                                                        {{child_subcategorie.name}}
+                                                    </a>
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    {% endif %}
                                 </li>
                                 {% endfor %}
                             </ul>
@@ -40,13 +57,11 @@
             </div>
         </li>
     {% else %}
-        <li
-        class="nav-item child{% if child.selected %} selected{% endif %}{% if child.ancestor %} ancestor{% endif %}{% if child.sibling %} sibling{% endif %}{% if child.descendant %} descendant{% endif %}{% if child.children %} dropdown{% endif %}">
-        <a href="{{ child.attr.redirect_url|default:child.get_absolute_url }}"
-            class="nav-link nav_item{% if child.selected %} active{% endif %}">{{ child.get_menu_title }}</a>
-        {% if child.children %}
-        {% show_menu from_level to_level extra_inactive extra_active 'dshop/navbar/menu-child.html' "" "" child %}
-        {% endif %}
+        <li class="nav-item child{% if child.selected %} selected{% endif %}{% if child.ancestor %} ancestor{% endif %}{% if child.sibling %} sibling{% endif %}{% if child.descendant %} descendant{% endif %}{% if child.children %} dropdown{% endif %}">
+            <a href="{{ child.attr.redirect_url|default:child.get_absolute_url }}" class="nav-link nav_item{% if child.selected %} active{% endif %}">{{ child.get_menu_title }}</a>
+            {% if child.children %}
+                {% show_menu from_level to_level extra_inactive extra_active 'dshop/navbar/menu-child.html' "" "" child %}
+            {% endif %}
         </li>
     {% endif %}
 {% endfor %}

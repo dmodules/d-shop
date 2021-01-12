@@ -11,6 +11,10 @@ class ShippingManagement(models.Model):
 
     CHOICE_IDENTIFIER = [
         (
+            "pickup-in-store",
+            _("Pick Up in Store")
+        ),
+        (
             "free-shipping",
             _("Postal shipping (free)")
         ),

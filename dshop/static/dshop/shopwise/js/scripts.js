@@ -98,6 +98,21 @@ PAGE JS
 				$( '.dropdown-menu .show' ).removeClass( "show" );
 			} );
 			
+            if (window.innerWidth >= 992 || window.innerHeight > 800) {
+                let self = $(this)
+                setTimeout(function () {
+                    if (self.siblings(".dropdown-menu").offset()) {
+                        let bot = self.siblings(".dropdown-menu").height() + self.siblings(".dropdown-menu")[0].scrollHeight
+                        if (bot > window.innerHeight) {
+                            let remont = (self.siblings(".dropdown-menu").height() / 1.75)
+                            self.siblings(".dropdown-menu").css("top", "-"+remont+"px")
+                            self.siblings(".dropdown-menu .dropdown-item").siblings(".dropdown-menu").find(".dropdown-item").css("padding", "3px 11px")
+                        }
+        
+                    }
+                }, 100)
+            }
+            
 			return false;
 		});
 	});
