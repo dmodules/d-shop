@@ -24,7 +24,8 @@ def get_coords_from_address(address):
     else:
         try:
             postalcode = re.findall(r"[A-Za-z]{1}[0-9]{1}[A-Za-z]{1} [0-9]{1}[A-Za-z]{1}[0-9]{1}", address)[0]
-            postal_location = get_coords_from_address(postalcode)
+            if postalcode != address:
+                postal_location = get_coords_from_address(postalcode)
         except Exception:
             postal_location = None
         if postal_location:
