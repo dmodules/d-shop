@@ -1,5 +1,5 @@
-{% extends "dshop/print/base.html" %}
-{% load i18n static shop_tags %}
+{% extends "theme/default/print/base.html" %}
+{% load i18n static shop_tags dmrabais_tags %}
 
 {% block title %}{% trans "Delivery Note" %} {{ delivery.get_number }}{% endblock %}
 
@@ -20,11 +20,10 @@
 			{{ item.summary.media }}
 		</div>
 		<div class="col-6">
-      {% product_undiscount_price item.summary.id item.unit_price as undiscounted_price %}
-			<div class="row text-nowrap flex-nowrap lead text-right">
-				<div class="col-6">{{ item.unit_price }}{% if undiscounted_price %}<del class="dm-order-detail-del">{{undiscounted_price}}</del>{% endif %}</div>
-				<div class="col-6">{{ item.line_total }}</div>
-			</div>
+            <div class="row text-nowrap flex-nowrap lead text-right">
+                <div class="col-6">{{ item.unit_price }}</div>
+                <div class="col-6">{{ item.line_total }}</div>
+            </div>
 			{% for _, extra_row in item.extra.rows %}
 			<div class="row text-muted text-nowrap flex-nowrap text-right">
 				<div class="col-6">{{ extra_row.label }}</div>
