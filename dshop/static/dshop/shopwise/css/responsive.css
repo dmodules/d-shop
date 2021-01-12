@@ -277,7 +277,7 @@
 /* -------------------------------------------------
   min-width: 992px
 ---------------------------------------------------*/
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 992px) and (min-height: 801px) {
 .navbar-toggler {
 	display: none;
 }
@@ -452,7 +452,7 @@
 /* -------------------------------------------------
   max-width: 991px
 ---------------------------------------------------*/
-@media only screen and (max-width: 991px) {
+@media only screen and (max-width: 991px), (max-height: 800px) {
 .md-height-300 {
 	height: 300px !important;
 }
@@ -475,7 +475,7 @@
 	z-index: 999;
 }
 .navbar .navbar-collapse .navbar-nav {
-	max-height: 80vh;
+	max-height: 60vh;
 	overflow-y: auto;
 }
 .header_wrap .navbar-collapse.mobile_side_menu {
