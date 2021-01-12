@@ -1173,6 +1173,13 @@ class dmBlocTextMedia(CMSPlugin):
         blank=True,
         help_text=_("Sizes : 398x531. Leave blank to hide image.")
     )
+    video = FilerFileField(
+        verbose_name=_("Video"),
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        help_text=_("Leave blank to hide or use image instead.")
+    )
     colposition = models.PositiveSmallIntegerField(
         verbose_name=_("Image's Position"),
         choices=CHOIX_POSITION,

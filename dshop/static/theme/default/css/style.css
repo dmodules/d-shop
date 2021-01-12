@@ -13,6 +13,11 @@ a:hover{
   text-decoration:none;
 }
 
+.section-textmedia ul,
+.container > .row > .col ul:not([class]) {
+    margin: 0.5rem 2rem
+}
+
 .bg_default{
   background-color:#458d91!important;
 }
