@@ -572,7 +572,6 @@ class ProductDefault(AvailableProductMixin, Product):
         _("Discounted Unit Price"),
         decimal_places=3,
         null=True,
-        blank=True,
         help_text=_("Net discounted price for this product.")
     )
     start_date = models.DateTimeField(
