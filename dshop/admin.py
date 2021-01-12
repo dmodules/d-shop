@@ -27,7 +27,7 @@ from shop.admin.defaults import customer
 from shop.admin.product import ProductImageInline
 from shop.admin.product import InvalidateProductCacheMixin
 from shop.admin.product import CMSPageFilter
-from shop.admin.order import BaseOrderAdmin, PrintInvoiceAdminMixin
+from shop.admin.defaults.order import OrderAdmin as djOrderAdmin
 from shop.admin.order import OrderItemInline
 from shop.models.defaults.order import Order
 from shop.models.cart import CartModel, CartItemModel
@@ -335,7 +335,7 @@ class dmOrderItemInline(OrderItemInline):
 
 
 @admin.register(Order)
-class OrderAdmin(DeliveryOrderAdminMixin, PrintInvoiceAdminMixin, BaseOrderAdmin):
+class OrderAdmin(DeliveryOrderAdminMixin, djOrderAdmin):
     list_filter = []
     fields = [
         "get_ordernumber",
