@@ -181,11 +181,11 @@
                       </h6>
                       <div class="product_price">
                         {% if related.variants %}
-                          {% product_variant_discount_price related.variants.first.id as real_price %}
-                          <span class="price">{{real_price}}</span>
-                          {% if real_price != related.variants.first.unit_price %}
-                            <del>{{related.variants.first.unit_price}}</del>
-                          {% endif %}
+                            {% product_variant_discount_price related.variants.first.id as real_price %}
+                            <span class="price">{{real_price}}</span>
+                            {% if real_price != related.variants.first.unit_price %}
+                                <del>{{related.variants.first.unit_price}}</del>
+                            {% endif %}
                         {% else %}
                           {% product_discount_price related.id as real_price %}
                           <span class="price">{{real_price}}</span>

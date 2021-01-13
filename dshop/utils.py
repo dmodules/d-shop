@@ -51,15 +51,11 @@ def get_apply_discountpercategory(product, current_price, is_discounted=False): 
         all_discounts = dmRabaisPerCategory.objects.filter(
             Q(categories__in=categories) & Q(is_active=True)
             & (Q(valid_from__isnull=True) | Q(valid_from__lte=today))
-            & (Q(valid_until__isnull=True) | Q(valid_until__gt=today))
+            & (Q(valid_until__isnull=True) | Q(valid_until__gt=today)),
+            is_active=True
         )
         if all_discounts.count() > 0:
             for d in all_discounts:
-                # 1. if Can apply dmRabaisPerCategory on discounted product
-                #        Calculate Product
-                #    else continue
-                # 2. if Can not apply dmRabaisPerCategory on discounted product
-                #        Check if product is discounted
                 if not d.can_apply_on_discounted:
                     if is_discounted:
                         continue
@@ -67,7 +63,6 @@ def get_apply_discountpercategory(product, current_price, is_discounted=False): 
                     r = Money(Decimal(r) - Decimal(d.amount))
                 elif d.percent is not None:
                     pourcent = Decimal(d.percent) / Decimal("100")
-                    discount = Money(
-                        Decimal(product.unit_price) * pourcent)
+                    discount = Money(Decimal(current_price) * pourcent)
                     r = r - discount
     return r
