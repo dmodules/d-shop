@@ -18,10 +18,13 @@ class PrimaryCartModifier(DefaultCartModifier):
         cart_item.unit_price = variant.get_price(request)
         cart_item.line_total = cart_item.unit_price * cart_item.quantity
         cart_item.extra["variables"] = {"code": cart_item.product_code}
-        pv = cart_item.product.variants.get(
-            product_code=cart_item.product_code
-        )
-        cart_item.extra["variables"]["attribute"] = pv.get_attribute()
+        try:
+            pv = cart_item.product.variants.get(
+                product_code=cart_item.product_code
+            )
+            cart_item.extra["variables"]["attribute"] = pv.get_attribute()
+        except Exception:
+            pass
         return super(
             DefaultCartModifier,
             self
