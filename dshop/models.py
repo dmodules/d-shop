@@ -18,6 +18,7 @@ from parler.models import TranslatedFieldsModel, TranslatedFields
 from django.db import models
 from django.db.models import Q
 from django.contrib import sites
+from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from djangocms_text_ckeditor.fields import HTMLField
 from django.utils.six.moves.urllib.parse import urljoin
@@ -765,6 +766,17 @@ class ProductVariable(Product):
         return self.variants.all()
 
 
+class Attribute(models.Model):
+    name = models.CharField(max_length=20)
+
+class AttributeValue(models.Model):
+    attribute = models.ForeignKey(Attribute,
+        on_delete=models.CASCADE)
+    value = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.attribute.name + ' - ' + self.value
+
 class ProductVariableVariant(AvailableProductMixin, models.Model):
     """
     A basic variant of ProductVariable, will be used to populate
@@ -781,6 +793,11 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         _("Product's Code"),
         max_length=255,
         unique=True
+    )
+    attribute = models.ManyToManyField(
+        AttributeValue,
+        verbose_name=_("Attribute"),
+        blank=True
     )
     unit_price = MoneyField(
         _("Unit Price"),
@@ -897,6 +914,14 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
 
     def get_realprice(self):
         return self.unit_price
+
+    def get_attribute(self):
+        if self.attribute.all():
+            data = []
+            for a in self.attribute.all():
+                data.append(a.value)
+            return ' - '.join(data)
+        return ''
 
 
 #######################################################################

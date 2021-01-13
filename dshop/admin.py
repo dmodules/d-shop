@@ -2,7 +2,10 @@ import pytz
 
 from datetime import datetime, timedelta
 
+from django.contrib import messages
+
 from django.contrib import admin
+from django.core.exceptions import ValidationError
 from django.template.context import Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
@@ -25,6 +28,7 @@ from filer.models import ThumbnailOption
 
 from shop.admin.defaults import customer
 from shop.admin.product import ProductImageInline
+from shop.models.defaults.mapping import ProductImage
 from shop.admin.product import InvalidateProductCacheMixin
 from shop.admin.product import CMSPageFilter
 from shop.admin.defaults.order import OrderAdmin as djOrderAdmin
@@ -36,6 +40,7 @@ from dshop.models import dmSite, dmSiteLogo, dmSiteContact, dmSiteSocial
 from dshop.models import BillingAddress, ShippingAddress
 from dshop.models import ProductCategory, ProductFilter, ProductBrand
 from dshop.models import Product
+from dshop.models import Attribute, AttributeValue
 from dshop.models import ProductDefault
 from dshop.models import ProductVariable, ProductVariableVariant
 from dshop.models import FeatureList
@@ -494,7 +499,6 @@ class ProductVariableVariantInline(admin.TabularInline):
     model = ProductVariableVariant
     extra = 0
 
-
 @admin.register(ProductVariable)
 class ProductVariableAdmin(
     InvalidateProductCacheMixin,
@@ -540,16 +544,37 @@ class ProductVariableAdmin(
     inlines = [ProductImageInline, ProductVariableVariantInline]
     readonly_fields = ("slug",)
 
+    def save_formset(self, request, form, formset, change):
+        for f in formset:
+            if type(f.instance) == ProductVariableVariant:
+                is_valid = []
+                for attr in f.instance.attribute.all():
+                    if attr.attribute.name not in is_valid:
+                        is_valid.append(attr.attribute.name)
+                    else:
+                        messages.error(request, _("You can not select same Attribute type for one variant"))
+        formset.save()
+
     def render_text_index(self, instance):
         template = get_template("search/indexes/dshop/commodity_text.txt")
         return template.render(Context({"object": instance}))
     render_text_index.short_description = _("Text Index")
 
 
+class AttributeValueInline(admin.TabularInline):
+    model = AttributeValue
+    extra = 0
+
+@admin.register(Attribute)
+class AttributeAdmin(admin.ModelAdmin):
+
+    list_display = ['name']
+    inlines = [AttributeValueInline]
+
 @admin.register(Product)
 class ProductAdmin(PolymorphicSortableAdminMixin, PolymorphicParentModelAdmin):
     base_model = Product
-    child_models = [ProductDefault, ProductVariable]
+    child_models = [ProductVariable]
     list_display = [
         "product_name",
         "get_price",
