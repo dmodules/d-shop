@@ -329,6 +329,12 @@ class ProductCategory(models.Model):
         blank=True,
         null=True
     )
+    square_id = models.CharField(
+        verbose_name=_("Square ID"),
+        max_length=30,
+        null=True,
+        blank=True
+    )
     order = models.PositiveSmallIntegerField(
         verbose_name=_("Sort by"),
         default=0,
@@ -708,7 +714,12 @@ class ProductVariable(Product):
     A basic variable Product, polymorphic child of Product,
     parent of ProductVariableVariant.
     """
-
+    square_id = models.CharField(
+        verbose_name=_("Square ID"),
+        max_length=30,
+        null=True,
+        blank=True
+    )
     multilingual = TranslatedFields(
         description=HTMLField(
             verbose_name=_("Description"),
@@ -782,6 +793,20 @@ class Attribute(models.Model):
         max_length=20,
         help_text=_("Attribute Name")
     )
+    square_id = models.CharField(
+        verbose_name=_("Square ID"),
+        max_length=30,
+        null=True,
+        blank=True
+    )
+
+    class Meta:
+        verbose_name = _("Product's Attribute")
+        verbose_name_plural = _("Product's Attributes")
+
+    def __str__(self):
+        return self.name
+
 
 class AttributeValue(models.Model):
     attribute = models.ForeignKey(
@@ -789,6 +814,12 @@ class AttributeValue(models.Model):
         on_delete=models.CASCADE,
         verbose_name=_("Attribute"),
         related_name="attribute"
+    )
+    square_id = models.CharField(
+        verbose_name=_("Square ID"),
+        max_length=30,
+        null=True,
+        blank=True
     )
     value = models.CharField(
         _("Attribute Value"),
@@ -860,9 +891,10 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         if self.discounted_price == Money(0) or self.discounted_price is None:
             return False
         today = pytz.utc.localize(datetime.utcnow())
+        if not self.start_date or self.end_date:
+            return False
         if self.start_date < today and self.end_date > today:
             return True
-        return False
 
     def get_price(self, request):  # noqa: C901
         r = self.unit_price

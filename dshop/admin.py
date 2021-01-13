@@ -546,11 +546,15 @@ class ProductVariableAdmin(
         for f in formset:
             if type(f.instance) == ProductVariableVariant:
                 is_valid = []
-                for attr in f.instance.attribute.all():
+                flag = False
+                for attr in f.cleaned_data['attribute']:
                     if attr.attribute.name not in is_valid:
                         is_valid.append(attr.attribute.name)
                     else:
+                        flag = True
                         messages.error(request, _("You can not select same Attribute type for one variant"))
+                if flag:
+                    f.cleaned_data['attribute'] = []
         formset.save()
 
     def render_text_index(self, instance):
@@ -562,12 +566,14 @@ class ProductVariableAdmin(
 class AttributeValueInline(admin.TabularInline):
     model = AttributeValue
     extra = 0
+    exclude = ['square_id']
 
 @admin.register(Attribute)
 class AttributeAdmin(admin.ModelAdmin):
 
     list_display = ['name']
     inlines = [AttributeValueInline]
+    exclude = ['square_id']
 
 @admin.register(Product)
 class ProductAdmin(PolymorphicSortableAdminMixin, PolymorphicParentModelAdmin):
