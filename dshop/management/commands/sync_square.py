@@ -57,10 +57,10 @@ class Command(BaseCommand):
                     print("--" +d['item_data']['name'])
                 p_data = {
                     'product_name': d['item_data']['name'],
-                    #'description': d['item_data']['description'],
                     'order': 1 
                 }
                 product_variable, created = ProductVariable.objects.get_or_create(**p_data)
+                product_variable.description = d['item_data']['description']
                 try:
                     cat = d['item_data']['category_id']
                     cat_obj = ProductCategory.objects.get(square_id=cat)
@@ -85,6 +85,7 @@ class Command(BaseCommand):
                         'product': product_variable,
                         'product_code': product_code,
                         'unit_price': price,
+                        'discounted_price': price,
                         'quantity': quantity
                     }
                     pvv, created = ProductVariableVariant.objects.get_or_create(**pv_data)
