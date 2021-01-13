@@ -583,12 +583,18 @@
                                     {{ $i18n.t("Prix") }}
                                   </div>
                                   <div v-html="item.unit_price"></div>
+                                  <div v-for="extra in item.extra_rows" :key="extra.modifier">
+                                      <del v-if="extra.modifier == 'unit-price-before-discounts'" v-html="extra.amount" class="text--disabled font-italic"></del>
+                                  </div>
                                 </v-list-item-action>
                                 <v-list-item-action class="dm-payment-price">
                                   <div class="dm-payment-mobiletitle">
                                     {{ $i18n.t("Total") }}
                                   </div>
                                   <div v-html="item.line_total"></div>
+                                  <div v-for="extra in item.extra_rows" :key="extra.modifier">
+                                      <del v-if="extra.modifier == 'price-before-discounts'" v-html="extra.amount" class="text--disabled font-italic"></del>
+                                  </div>
                                 </v-list-item-action>
                               </v-list-item>
                             </template>
@@ -597,9 +603,12 @@
                                 <v-subheader v-text="$i18n.t('AppliedPromoCodes')"></v-subheader>
                                 <v-list-item v-for="(item, n) in listPromoCodes" :key="'promo'+n">
                                     <v-list-item-content>
-                                        <v-list-item-title>
+                                        <v-list-item-title class="list-promocode">
                                             {{item}}
                                         </v-list-item-title>
+                                        <v-list-item-text v-if="!item.on_discounted" class="list-promocode">
+                                            *<span v-text="$i18n.t('Notapplicableondiscounted')"></span>
+                                        </v-list-item-text>
                                     </v-list-item-content>
                                 </v-list-item>
                             </template>
@@ -628,7 +637,7 @@
                           <h5>{{ $i18n.t("Resumedevotrefacture") }}</h5>
                           <v-form v-model="formAcceptCondition.valid">
                             <v-list class="dm-payment dm-payment-resume">
-                                <template v-if="listPromoCodes.length > 0">
+                                <template v-if="formPayment.totaldiscount">
                                     <v-list-item>
                                         <v-list-item-content>
                                             <v-list-item-title>
@@ -681,7 +690,7 @@
                                     </v-list-item>
                                 </template>
                                 <template v-for="(item, n) in formPayment.listExtras">
-                                    <v-list-item v-if="item.modifier !== 'subtotal-before-discounts' && item.modifier !== 'discounts'" :key="'extra-' + n">
+                                    <v-list-item v-if="item.modifier !== 'subtotal-before-discounts' && item.modifier !== 'discounts' && item.modifier !== 'applied-promocodes'" :key="'extra-' + n">
                                         <v-list-item-content>
                                         <v-list-item-title>
                                             {{ item.label }}
@@ -792,7 +801,7 @@ export default {
     isLoading: false,
     isLoadingPayment: false,
     hasEmptyCart: false,
-    stepCheckout: 1,
+    stepCheckout: 4,
     formChoix: {
       salutation: [],
       shippingAddress: [],
@@ -1104,7 +1113,6 @@ export default {
         }
         // ===--- check user email
         if (this.stepCheckout === 1 && this.isGuest) {
-            console.log(this.isGuest)
             let data_email = {
                 email: this.formCustomer.customer.email
             }
@@ -1113,7 +1121,6 @@ export default {
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
             })
             .then((apiSuccess) => {
-                console.log(apiSuccess.data)
                 if (apiSuccess.data.exist) {
                     self.$set(self.formError.customer, 'email', self.$i18n.t("Thisemailexist"))
                 } else {
@@ -1204,7 +1211,7 @@ export default {
                 "listProducts",
                 apiSuccess.data.cart_summary.items
               );
-              self.getPromoCodes(apiSuccess.data.cart_summary.items)
+              self.getPromoCodes()
             } else {
               self.$set(self, "hasEmptyCart", true);
             }
@@ -1252,10 +1259,6 @@ export default {
       let self = this;
       this.$set(this, "isLoading", true);
       this.$vuetify.goTo(0);
-      // ===---
-      let datas = {
-        products: this.listPromoCodes
-      }
       // ===--- BEGIN: axios
       this.$axios.post(this.$api_url + "/checkout/purchase/", {
           headers: {
@@ -1265,7 +1268,6 @@ export default {
         })
         .then((apiSuccess) => {
           self.$set(self, "isLoadingPayment", false)
-          self.$axios.post(self.$web_url + "/discount/promocodesoff/?p="+JSON.stringify(datas), datas, { headers: { "Content-Type": "application/json", Accept: "application/json"}})
           eval(apiSuccess.data.expression)
         })
         .catch(() => {
@@ -1287,36 +1289,12 @@ export default {
     /* =========================================================== //
     // ===---   Promo Code                                  ---=== //
     // =========================================================== */
-    getPromoCodes(products = null) {
+    getPromoCodes() {
         let self = this;
         this.$set(this, "isLoading", false)
         this.$set(this, "listPromoCodes", [])
         // ===---
-        let p = []
-        if (products) {
-            products.forEach((item) => {
-                p.push({
-                    product_code: item.product_code,
-                    summary: {
-                        product_model: item.summary.product_model
-                    }
-                })
-            })
-        } else {
-            this.formPayment.listProducts.forEach((item) => {
-                p.push({
-                    product_code: item.product_code,
-                    summary: {
-                        product_model: item.summary.product_model
-                    }
-                })
-            })
-        }
-        let datas = {
-            products: p
-        }
-        // ===---
-        this.$axios.post(this.$web_url + "/discount/promocodes/?p="+JSON.stringify(datas), datas, {
+        this.$axios.post(this.$web_url + "/discount/promocodes/?p=discounts", null, {
             headers: { "Content-Type": "application/json", Accept: "application/json"}
         })
         .then((apiSuccess) => {
@@ -1488,7 +1466,9 @@ export default {
         #app .dm-payment-products .dm-payment-mobiletitle {
             display: block;
         }
-        #app .dm-payment-products .dm-payment-mobiletitle + div {
+        #app .dm-payment-products .dm-payment-mobiletitle + div,
+        #app .dm-payment-products .dm-payment-mobiletitle + div + div,
+        #app .list-promocode {
             padding: 0 1rem;
         }
     }

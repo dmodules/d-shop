@@ -55,6 +55,9 @@ function loadMoreProduits(category = null) {
           r += '<del>'+product.realprice+'</del>'
         }
       }
+      if (product.is_discounted) {
+          r += '<span class="product_sale_discounted">'+i18n.discounted[lang]+'</span>'
+      }
       r += '</div>'
       r += '<div class="pr_desc">'
       r += '<p>'+product.caption+'</p>'

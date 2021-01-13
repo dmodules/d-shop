@@ -8,11 +8,18 @@ from shop.models.order import OrderPayment
 
 from dshop.transition import transition_change_notification
 
+try:
+    from apps.dmRabais.models import dmCustomerPromoCode
+except ImportError:
+    dmCustomerPromoCode = None
+
+
 #######################################################################
 # ===---   Square                                              ---=== #
 #######################################################################
 
-def SquarePaymentView(request):
+
+def SquarePaymentView(request):  # noqa: C901
     """
     Create Order Payment inside Order then aknowlegde payment
     """
@@ -33,6 +40,23 @@ def SquarePaymentView(request):
                 payment_method="Square"
             )
             order.acknowledge_payment()
+            order.save()
+            # ===---
+            try:
+                if dmCustomerPromoCode is not None:
+                    for extra in order.extra["rows"]:
+                        if "applied-promocodes" in extra:
+                            promo = extra[1]["content_extra"].split(", ")
+                            for pm in promo:
+                                cpc = dmCustomerPromoCode.objects.get(
+                                    customer=request.user.customer,
+                                    promocode__code=pm
+                                )
+                                cpc.is_expired = True
+                                cpc.save()
+            except Exception as e:
+                print(e)
+            # ===---
             try:
                 items = []
                 for i in order.items.all():
@@ -56,7 +80,7 @@ def SquarePaymentView(request):
             except Exception as e:
                 print("When : transition_change_notification")
                 print(e)
-            order.save()
+            # ===---
             return redirect(order.get_absolute_url())
         except Exception as e:
             print(e)

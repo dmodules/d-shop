@@ -24,6 +24,10 @@ const i18n = {
   anerroroccurred: {
       fr: "Une erreur est survenue, veuillez réessayez plus tard.",
       en: "An error occurred, please try again later."
+  },
+  discounted: {
+      fr: "Promotion",
+      en: "Discounted"
   }
 }
 

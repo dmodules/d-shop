@@ -1,3 +1,5 @@
+from rest_framework import serializers
+
 from shop.models.cart import CartModel
 from shop.serializers.defaults.catalog import AddToCartSerializer
 
@@ -27,3 +29,22 @@ class AddProductVariableToCartSerializer(AddToCartSerializer):
             "availability": variant.get_availability(request)
         }
         return instance
+
+
+class ExtraCartRowContent(serializers.Serializer):
+    """
+    This data structure holds extra information for each item, or for the whole cart, while
+    processing the cart using their modifiers.
+    """
+    label = serializers.CharField(
+        read_only=True,
+        help_text="A short description of this row in a natural language.",
+    )
+
+    content = serializers.CharField(
+        help_text="Content of the data.",
+    )
+
+    content_extra = serializers.CharField(
+        help_text="Extra content of the data.",
+    )

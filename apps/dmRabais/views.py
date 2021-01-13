@@ -13,7 +13,7 @@ from shop.models.customer import CustomerModel
 
 from .models import dmPromoCode
 from .models import dmCustomerPromoCode
-from .utils import get_promocodelist_bymodel_bycode
+from .utils import get_discounts_byrequest
 
 #######################################################################
 # ===---   Views used in frontend                              ---=== #
@@ -68,10 +68,7 @@ class PromoCodesCreate(APIView):
                             return RestResponse({"valid": "expired"})
                     # Check order validation
                     if products is not None:
-                        for p in json.loads(products):
-                            pmodel = p["summary"]["product_model"]
-                            pcode = p["product_code"]
-                            results = get_promocodelist_bymodel_bycode(request, pmodel, pcode)
+                        results = get_discounts_byrequest(request)
                         if cpromo.promocode.name in results[0]:
                             return RestResponse({"valid": True})
                         else:
@@ -110,6 +107,7 @@ class PromoCodesList(APIView):
                 datas = {}
                 datas["name"] = p.promocode.name
                 datas["is_expired"] = p.is_expired
+                datas["on_discounted"] = p.promocode.can_apply_on_discounted
                 promolist.append(datas)
             ###############
             return RestResponse({
@@ -121,27 +119,20 @@ class PromoCodesList(APIView):
             return RestResponse({"valid": False})
 
     def post(self, request, *args, **kwargs):
-        data = request.GET.get("p", None)
         all_promocodes = []
         all_prices = Decimal(0)
         all_discounts = Decimal(0)
-        try:
-            datap = json.loads(data)
-            for p in datap["products"]:
-                pmodel = p["summary"]["product_model"]
-                pcode = p["product_code"]
-                results = get_promocodelist_bymodel_bycode(request, pmodel, pcode)
-                all_promocodes.extend(results[0])
-                all_prices = all_prices + Decimal(results[1])
-                all_discounts = all_discounts + Decimal(results[2])
-        except Exception as e:
-            print(e)
-            pass
         try:
             customer = CustomerModel.objects.get_from_request(request)
             all_promo = dmCustomerPromoCode.objects.filter(
                 customer=customer
             )
+            #
+            results = get_discounts_byrequest(request)
+            all_promocodes = results[0]
+            all_prices = Decimal(results[2])
+            all_discounts = Decimal(results[3])
+            #
             promolist = []
             for p in all_promo:
                 today = pytz.utc.localize(datetime.utcnow())
@@ -152,6 +143,7 @@ class PromoCodesList(APIView):
                 if p.promocode.name in all_promocodes:
                     datas["name"] = p.promocode.name
                     datas["is_expired"] = p.is_expired
+                    datas["on_discounted"] = p.promocode.can_apply_on_discounted
                     promolist.append(datas)
             ###############
             return RestResponse({

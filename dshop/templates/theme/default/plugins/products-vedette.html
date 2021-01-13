@@ -66,6 +66,9 @@
                         <del>{{product.unit_price}}</del>
                       {% endif %}
                     {% endif %}
+                    {% if product.is_discounted %}
+                      <span class="product_sale_discounted">{% trans "Discounted" %}</span>
+                    {% endif %}
                   </div>
                 </div>
               </div>

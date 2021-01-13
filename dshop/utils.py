@@ -49,7 +49,7 @@ def get_apply_discountpercategory(product, current_price, is_discounted=False): 
         except Exception:
             categories = product.product.categories.all()
         all_discounts = dmRabaisPerCategory.objects.filter(
-            Q(categories__in=categories) & Q(is_active=True)
+            Q(categories__in=categories)
             & (Q(valid_from__isnull=True) | Q(valid_from__lte=today))
             & (Q(valid_until__isnull=True) | Q(valid_until__gt=today)),
             is_active=True

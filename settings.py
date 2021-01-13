@@ -688,7 +688,7 @@ ADMIN_REORDER = (
         "models": [
             "dmRabais.dmRabaisPerCategory",
             "dmRabais.dmPromoCode",
-            "dmRabais.dmCustomerPromoCode"
+            # "dmRabais.dmCustomerPromoCode"
         ]
     },
     {

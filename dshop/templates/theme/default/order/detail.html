@@ -63,11 +63,17 @@
             <div class="col-6 text-right">{{ item.unit_price }}</div>
             <div class="col-4 col-md-6 text-right">{{ item.line_total }}</div>
           </div>
-          {% for _, extra_row in item.extra.rows %}
-            <div class="row text-muted text-nowrap flex-nowrap">
-                <div class="col-6 text-right">{{ extra_row.label }}</div>
-                <div class="col-4 col-md-6 text-right">{{ extra_row.amount }}</div>
-            </div>
+          {% for key, extra_row in item.extra.rows %}
+            {% if key == "unit-price-before-discounts" %}
+                <div class="row text-muted text-nowrap flex-nowrap">
+                    <div class="col-6 text-right"><del>{{ extra_row.amount }}</del></div>
+            {% endif %}
+        {% endfor %}
+        {% for key, extra_row in item.extra.rows %}
+            {% if key == "price-before-discounts" %}
+                    <div class="col-4 col-md-6 text-right"><del>{{ extra_row.amount }}</del></div>
+                </div>
+            {% endif %}
           {% endfor %}
         </div>
       </div>
@@ -94,7 +100,7 @@
             </div>
           </div>
           {% for key, extra_row in data.extra.rows %}
-            {% if key != "subtotal-before-discounts" and key != "discounts" %}
+            {% if key != "subtotal-before-discounts" and key != "discounts" and key != "applied-promocodes" %}
                 <div class="row py-2">
                     <div class="col-6 text-right text-nowrap">{{ extra_row.label }}</div>
                     <div class="col-4 col-md-6 text-right text-nowrap">{{ extra_row.amount }}</div>
@@ -105,14 +111,30 @@
             <div class="col-6 text-right text-nowrap">{% trans "Total" %}</div>
             <div class="col-4 col-md-6 text-right text-nowrap">{{ data.total }}</div>
           </div>
-          {% if instance.right_extension %}{% render_plugin instance.right_extension %}{% endif %}
         </div>
+        <div class="col-12 col-md-6">
+            {% for key, extra_row in data.extra.rows %}
+              {% if key == "applied-promocodes" %}
+                <div class="row border-top pt-3 pb-2">
+                    <div class="col-12">
+                        <h4 class="mb-3">{% trans "Applied Promocodes" %}</h4>
+                        {{ extra_row.content }}
+                    </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+        </div>
+      </div>
+      <div class="row mb-3">
         <div class="col-12 col-md-6">
           {% if instance.left_extension %}{% render_plugin instance.left_extension %}{% endif %}
         </div>
+        <div class="col-12 col-md-6">
+          {% if instance.right_extension %}{% render_plugin instance.right_extension %}{% endif %}
+        </div>
       </div>
-      {% endblock shop-order-foot %}
 
+      {% endblock shop-order-foot %}
     </div>
   </div>
 </div>

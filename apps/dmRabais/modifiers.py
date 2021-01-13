@@ -6,24 +6,20 @@ from shop.money import Money
 from shop.serializers.cart import ExtraCartRow
 from shop.modifiers.base import BaseCartModifier
 
-from .utils import get_promocodelist_bymodel_bycode
+from .utils import get_discounts_byrequest
 
 from dshop.models import ProductDefault, ProductVariableVariant
+from dshop.serializers import ExtraCartRowContent
 
 class DiscountsModifier(BaseCartModifier):
     identifier = "discounts"
 
     def add_extra_cart_row(self, cart, request):
-        all_prices = Decimal(0)
-        all_discounts = Decimal(0)
-        for item in cart.items.all():
-            if type(item.product) == ProductDefault:
-                model = "productdefault"
-            else:
-                model = "productvariable"
-            results = get_promocodelist_bymodel_bycode(request, model, item.product_code)
-            all_prices = all_prices + Decimal(results[1])
-            all_discounts = all_discounts + Decimal(results[2])
+        results = get_discounts_byrequest(request)
+        all_promocodes = ", ".join([str(p) for p in results[0]])
+        all_promocodes_code = ", ".join([str(p) for p in results[1]])
+        all_prices = Decimal(results[2])
+        all_discounts = Decimal(results[3])
         if all_discounts > 0:
             cart.extra_rows["subtotal-before-discounts"] = ExtraCartRow({
                 "label": _("Subtotal before discounts"),
@@ -33,6 +29,12 @@ class DiscountsModifier(BaseCartModifier):
                 "label": _("Discounts"),
                 "amount": Money("%0.2f" % all_discounts)
             })
+            if all_promocodes:
+                cart.extra_rows["applied-promocodes"] = ExtraCartRowContent({
+                    "label": _("Applied promocodes"),
+                    "content": all_promocodes,
+                    "content_extra": all_promocodes_code
+                })
 
     def add_extra_cart_item_row(self, cart_item, request):
         if type(cart_item.product) == ProductDefault:
@@ -42,5 +44,16 @@ class DiscountsModifier(BaseCartModifier):
         if product.get_price(request) != product.unit_price:
             cart_item.extra_rows["price-before-discounts"] = ExtraCartRow({
                 "label": _("Price before discounts"),
+                "amount": product.unit_price * cart_item.quantity
+            })
+            cart_item.extra_rows["unit-price-before-discounts"] = ExtraCartRow({
+                "label": _("Unit price before discounts"),
                 "amount": product.unit_price
+            })
+        promolist = ", ".join([str(p) + " ("+str(p.promocode.code)+")" for p in product.get_promocodes(request)])
+        if promolist:
+            cart_item.extra_rows["applied-promocodes"] = ExtraCartRowContent({
+                "label": _("Applied promocodes"),
+                "content": promolist,
+                "content_extra": promolist
             })

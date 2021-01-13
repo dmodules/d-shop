@@ -38,6 +38,12 @@ from dshop.models import Product
 from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
 
+try:
+    from apps.dmRabais.models import dmCustomerPromoCode
+except ImportError:
+    dmCustomerPromoCode = None
+
+
 #######################################################################
 # ===---   TestPaymentView                                     ---=== #
 #######################################################################
@@ -50,33 +56,6 @@ def TestPaymentView(request):
     """
 
     print("Test Payment View")
-
-    ###########################################
-    # THIS IS AN EXAMPLE PAYMENT VIEW
-    ###########################################
-
-    ###########################################
-    # ===--- MAKE ORDERPAYMENT
-    # Here, after a success payment, create Payment
-    # You need referenceId and transactionId from payment.py
-    # First, get the right order from referenceId
-    # >>> order = OrderModel.objects.get(number=re.sub('\D', '', referenceId))
-    # Create right amount price with MoneyMaker
-    # >>> Money = MoneyMaker(order.currency)
-    # >>> amount = Money(order._total)
-    # Then create OrderPayment for Order
-    # >>> OrderPayment.objects.create(
-    # >>>   order=order,
-    # >>>   amount=amount,
-    # >>>   transaction_id=transactionId,
-    # >>>   payment_method='Test (mode développement)'
-    # >>> )
-    # Make this payment accepted on workflow
-    # >>> order.acknowledge_payment()
-    # >>> order.save()
-    # In the end, redirect user to his order page
-    # >>> return redirect(order.get_absolute_url())
-    ###########################################
 
     referenceId = request.GET.get("referenceId", None)
     transactionId = request.GET.get("transactionId", None)
@@ -94,14 +73,26 @@ def TestPaymentView(request):
             )
             order.acknowledge_payment()
             order.save()
+            # ===---
+            if dmCustomerPromoCode is not None:
+                for extra in order.extra["rows"]:
+                    if "applied-promocodes" in extra:
+                        promo = extra[1]["content_extra"].split(", ")
+                        for pm in promo:
+                            cpc = dmCustomerPromoCode.objects.get(
+                                customer=request.user.customer,
+                                promocode__code=pm
+                            )
+                            cpc.is_expired = True
+                            cpc.save()
+            # ===---
             return redirect(order.get_absolute_url())
         except Exception as e:
             print(e)
-            order.cancel_order()
             order.save()
-            return redirect("/commande/")
+            return redirect("/vos-commandes/")
     else:
-        return redirect("/commande/")
+        return redirect("/vos-commandes/")
 
 
 #######################################################################
