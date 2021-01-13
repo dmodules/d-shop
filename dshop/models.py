@@ -703,7 +703,12 @@ class ProductVariable(Product):
     A basic variable Product, polymorphic child of Product,
     parent of ProductVariableVariant.
     """
-
+    square_id = models.CharField(
+        verbose_name=_("Square ID"),
+        max_length=30,
+        null=True,
+        blank=True
+    )
     multilingual = TranslatedFields(
         description=HTMLField(
             verbose_name=_("Description"),

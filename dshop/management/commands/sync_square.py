@@ -1,6 +1,5 @@
 
 from django.core.management.base import BaseCommand
-import json
 from dshop.models import ProductCategory
 from dshop.models import Attribute, AttributeValue
 from dshop.models import ProductVariable, ProductVariableVariant
@@ -20,9 +19,8 @@ class Command(BaseCommand):
 
         result = client.catalog.list_catalog()
         data = result.body
-        #data = json.loads(data)
 
-        #Create Category
+        # Create Category
         for d in data['objects']:
             if d['type'] == 'CATEGORY':
                 cat_data = {
@@ -31,7 +29,7 @@ class Command(BaseCommand):
                 }
                 ProductCategory.objects.get_or_create(**cat_data)
 
-        #Create Attribute and its value
+        # Create Attribute and its value
         for d in data['objects']:
             if d['type'] == 'ITEM_OPTION':
                 attr_data = {
@@ -45,29 +43,33 @@ class Command(BaseCommand):
                         'value': val['item_option_value_data']['name'],
                         'square_id': val['id']
                     }
-                    attr_val_obj = AttributeValue.objects.get_or_create(**attr_value)
+                    AttributeValue.objects.get_or_create(**attr_value)
 
         for d in data['objects']:
             if d['type'] == 'ITEM':
                 if 'category_id' in d['item_data']:
                     cat = ProductCategory.objects.get(square_id=d['item_data']['category_id'])
                     print(cat)
-                    print("==== " +d['item_data']['name'])
+                    print("==== " + d['item_data']['name'])
                 else:
-                    print("--" +d['item_data']['name'])
+                    print("--" + d['item_data']['name'])
                 p_data = {
                     'product_name': d['item_data']['name'],
-                    'order': 1 
+                    'square_id': d['id'],
+                    'description': d['item_data']['description'],
+                    'order': 1
                 }
-                product_variable, created = ProductVariable.objects.get_or_create(**p_data)
-                product_variable.description = d['item_data']['description']
+                if ProductVariable.objects.filter(square_id=d['id']):
+                    product_variable = ProductVariable.objects.get(square_id=d['id'])
+                else:
+                    product_variable = ProductVariable.objects.create(**p_data)
                 try:
                     cat = d['item_data']['category_id']
                     cat_obj = ProductCategory.objects.get(square_id=cat)
                     product_variable.categories.add(cat_obj)
                 except Exception as e:
                     print(e)
-                #Create variants 
+                # Create variants
                 for vari in d['item_data']['variations']:
                     print(vari)
                     result = client.inventory.retrieve_inventory_count(catalog_object_id=vari['id'])
@@ -98,13 +100,12 @@ class Command(BaseCommand):
                     except Exception as e:
                         print(e)
 
-                #Remove Variants
+                # Remove Variants
                 existing_var = product_variable.variants.all().count()
                 from_square_var = len(d['item_data']['variations'])
-                from_square_var_id = [ v['id'] for v in d['item_data']['variations']]
+                from_square_var_id = [v['id'] for v in d['item_data']['variations']]
                 if existing_var > from_square_var:
                     for pv in product_variable.variants.all():
                         print(pv.product_code)
-                        if not pv.product_code in from_square_var_id:
+                        if pv.product_code not in from_square_var_id:
                             print('delete product..')
-                        
