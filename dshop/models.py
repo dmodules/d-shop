@@ -776,6 +776,29 @@ class ProductVariable(Product):
         return self.variants.all()
 
 
+class Attribute(models.Model):
+    name = models.CharField(
+        _("Attribute Name"),
+        max_length=20,
+        help_text=_("Attribute Name")
+    )
+
+class AttributeValue(models.Model):
+    attribute = models.ForeignKey(
+        Attribute,
+        on_delete=models.CASCADE,
+        verbose_name=_("Attribute"),
+        related_name="attribute"
+    )
+    value = models.CharField(
+        _("Attribute Value"),
+        max_length=20,
+        help_text=_("Attribute Value")
+    )
+
+    def __str__(self):
+        return self.attribute.name + ' - ' + self.value
+
 class ProductVariableVariant(AvailableProductMixin, models.Model):
     """
     A basic variant of ProductVariable, will be used to populate
@@ -792,6 +815,11 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         _("Product's Code"),
         max_length=255,
         unique=True
+    )
+    attribute = models.ManyToManyField(
+        AttributeValue,
+        verbose_name=_("Attribute"),
+        blank=True
     )
     unit_price = MoneyField(
         _("Unit Price"),
@@ -901,6 +929,14 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
 
     def get_realprice(self):
         return self.unit_price
+
+    def get_attribute(self):
+        if self.attribute.all():
+            data = []
+            for a in self.attribute.all():
+                data.append(a.value)
+            return ' - '.join(data)
+        return ''
 
 
 #######################################################################
