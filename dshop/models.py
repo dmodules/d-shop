@@ -18,7 +18,6 @@ from parler.models import TranslatedFieldsModel, TranslatedFields
 from django.db import models
 from django.db.models import Q
 from django.contrib import sites
-from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from djangocms_text_ckeditor.fields import HTMLField
 from django.utils.six.moves.urllib.parse import urljoin
@@ -622,7 +621,7 @@ class ProductDefault(AvailableProductMixin, Product):
 
         # ===--- GET DISCOUNTS
         if dmRabaisPerCategory is not None:
-             r = get_apply_discountpercategory(self, r, self.is_discounted)
+            r = get_apply_discountpercategory(self, r, self.is_discounted)
 
         if request:
             # ===--- GET PROMOCODE
@@ -767,12 +766,24 @@ class ProductVariable(Product):
 
 
 class Attribute(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(
+        _("Attribute Name"),
+        max_length=20,
+        help_text=_("Attribute Name")
+    )
 
 class AttributeValue(models.Model):
-    attribute = models.ForeignKey(Attribute,
-        on_delete=models.CASCADE)
-    value = models.CharField(max_length=20)
+    attribute = models.ForeignKey(
+        Attribute,
+        on_delete=models.CASCADE,
+        verbose_name=_("Attribute"),
+        related_name="attribute"
+    )
+    value = models.CharField(
+        _("Attribute Value"),
+        max_length=20,
+        help_text=_("Attribute Value")
+    )
 
     def __str__(self):
         return self.attribute.name + ' - ' + self.value
