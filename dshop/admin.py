@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 from django.contrib import messages
 
 from django.contrib import admin
-from django.core.exceptions import ValidationError
 from django.template.context import Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
@@ -28,7 +27,6 @@ from filer.models import ThumbnailOption
 
 from shop.admin.defaults import customer
 from shop.admin.product import ProductImageInline
-from shop.models.defaults.mapping import ProductImage
 from shop.admin.product import InvalidateProductCacheMixin
 from shop.admin.product import CMSPageFilter
 from shop.admin.defaults.order import OrderAdmin as djOrderAdmin
