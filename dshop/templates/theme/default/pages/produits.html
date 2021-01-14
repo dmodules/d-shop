@@ -77,6 +77,13 @@
                           </label>
                         {% endfor %}
                       </div>
+                    {% else %}
+                        <div class="filters-boxes" style="display:none;">
+                          <label class="filters-box dm-tous checked">
+                            <input type="checkbox" name="tous" checked />
+                            <div class="filters-text">Tous</div>
+                          </label>
+                        </div>
                     {% endif %}
                   </div>
                 </div>
