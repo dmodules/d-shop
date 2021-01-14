@@ -6,8 +6,8 @@ from dshop.models import ProductDefault
 from dshop.models import ProductVariableVariant
 
 def get_discounts_byrequest(request):
+    result = [[], [], Decimal(0), Decimal(0)]
     try:
-        result = [[], [], Decimal(0), Decimal(0)]
         cart = CartModel.objects.get_from_request(request)
         for item in cart.items.all():
             if str(item.product.product_model) == "productdefault":
@@ -29,6 +29,6 @@ def get_discounts_byrequest(request):
             )
         result[0] = list(dict.fromkeys(result[0]))
         result[1] = list(dict.fromkeys(result[1]))
-        return result
     except Exception as e:
         print(e)
+    return result
