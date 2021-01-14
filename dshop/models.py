@@ -1609,6 +1609,72 @@ class dmBlockCalltoaction(CMSPlugin):
     )
 
 
+class dmTeamParent(CMSPlugin):
+    title = models.CharField(
+        verbose_name=_("Title"),
+        max_length=100,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 100 characters.")
+    )
+    text = HTMLField(
+        verbose_name=_("Text"),
+        configuration="CKEDITOR_SETTINGS_DMPLUGIN",
+        null=True,
+        blank=True
+    )
+
+
+class dmTeamChild(CMSPlugin):
+    name = models.CharField(
+        verbose_name=_("Name"),
+        max_length=100,
+        null=False,
+        blank=False,
+        help_text=_("Maximum 100 characters.")
+    )
+    job = models.CharField(
+        verbose_name=_("Job"),
+        max_length=1000,
+        null=True,
+        blank=True
+    )
+    photo = image.FilerImageField(
+        verbose_name=_("Photo"),
+        related_name="team_photo",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+    email = models.EmailField(
+        verbose_name=_("Email"),
+        max_length=250,
+        null=True,
+        blank=True
+    )
+    facebook = models.URLField(
+        verbose_name="Facebook",
+        max_length=250,
+        null=True,
+        blank=True,
+        help_text=_("Ex.: https://www.facebook.com/<username>")
+    )
+    twitter = models.URLField(
+        verbose_name="Twitter",
+        max_length=250,
+        null=True,
+        blank=True,
+        help_text=_("Ex.: https://twitter.com/<username>")
+    )
+    instagram = models.URLField(
+        verbose_name="Instagram",
+        max_length=250,
+        null=True,
+        blank=True,
+        help_text=_("Ex.: https://www.instagram.com/<username>")
+    )
+
+
 class FeatureList(models.Model):
 
     feature_name = models.CharField(

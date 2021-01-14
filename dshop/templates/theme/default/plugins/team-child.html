@@ -1,0 +1,26 @@
+{% load static cms_tags thumbnail %}
+
+<div class="col-lg-3 col-sm-6">
+  <div class="team_box team_style1">
+    <div class="team_img">
+      {% if instance.photo %}
+        {% thumbnail instance.photo "255x355" crop="scale" as thumb %}
+        <img src="{{thumb.url}}" alt="{% if instance.name %}{{instance.name}}{% endif %}">
+      {% else %}
+        <img src="{% static 'boutique/shopwise/images/team_img1.jpg' %}" alt="{% if instance.name %}{{instance.name}}{% endif %}">
+      {% endif %}
+      <ul class="social_icons social_style1">
+        {% if instance.email %}<li><a href="mailto:{{instance.email}}"><i class="ion-email"></i></a></li>{% endif %}
+        {% if instance.facebook %}<li><a href="{{instance.facebook}}" target="_blank"><i class="ion-social-facebook"></i></a></li>{% endif %}
+        {% if instance.twitter %}<li><a href="{{instance.twitter}}" target="_blank"><i class="ion-social-twitter"></i></a></li>{% endif %}
+        {% if instance.instagram %}<li><a href="{{instance.instagram}}" target="_blank"><i class="ion-social-instagram-outline"></i></a></li>{% endif %}
+      </ul>
+    </div>
+    <div class="team_content">
+      <div class="team_title">
+        {% if instance.name %}<h5>{{instance.name}}</h5>{% endif %}
+        {% if instance.job %}<span>{{instance.job}}</span>{% endif %}
+      </div>
+    </div>
+  </div>
+</div>

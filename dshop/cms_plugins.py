@@ -12,6 +12,7 @@ from .models import dmBlocContact, dmInfolettre
 from .models import dmBlocEtapesParent, dmBlocEtapesChild
 from .models import dmBlockSalesParent, dmBlockSalesChild
 from .models import dmBlockCalltoaction
+from .models import dmTeamParent, dmTeamChild
 
 from .models import dmProductsCategories
 from .models import dmProductsVedette, dmProductsByCategory
@@ -177,6 +178,45 @@ class dmBlocEtapesChildPlugin(BoutiquePlugin):
             "theme/{}/plugins/bloc-etapes-child.html".format(
                 settings.THEME_SLUG
             ), "plugins/bloc-etapes-child.html"
+        ])
+
+
+@plugin_pool.register_plugin
+class dmTeamParentPlugin(BoutiquePlugin):
+    name = _("Team")
+    model = dmTeamParent
+    allow_children = True
+    child_classes = ["dmTeamChildPlugin"]
+
+    def render(self, context, instance, placeholder):
+        context = super(dmTeamParentPlugin, self).render(context, instance, placeholder)
+        return context
+
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            "theme/{}/plugins/team-parent.html".format(
+                settings.THEME_SLUG
+            ), "plugins/team-parent.html"
+        ])
+
+
+@plugin_pool.register_plugin
+class dmTeamChildPlugin(BoutiquePlugin):
+    name = _("Team's Element")
+    model = dmTeamChild
+    allow_children = False
+    require_parent = True
+    parent_classes = ["dmTeamParentPlugin"]
+
+    def render(self, context, instance, placeholder):
+        context = super(dmTeamChildPlugin, self).render(context, instance, placeholder)
+        return context
+
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            "theme/{}/plugins/team-child.html".format(
+                settings.THEME_SLUG
+            ), "plugins/team-child.html"
         ])
 
 
