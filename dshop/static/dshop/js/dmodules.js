@@ -255,7 +255,7 @@ $(document).ready(function() {
   }
   if ($('#cms-top').length && $('.topnav').length) {
     $('html').css({"margin-top":"0"});
-    $('body').css({"padding-top":"92px"});
+    $('body').css({"padding-top":"46px"});
     $('.topnav').css({"top":"46px"});
     $('.drawer-overlay').css({"top":"92px"});
     $('.drawer-nav').css({"height":"calc(100vh - 92px)","top":"92px"});

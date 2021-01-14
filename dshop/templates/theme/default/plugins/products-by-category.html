@@ -5,7 +5,7 @@
 {% endif %}
 
 <!-- BEGIN: par catégorie -->
-<section class="section-parcategorie" style="{% if instance.bg_color %}background-color:{{instance.bg_color}};{% endif %}{% if instance.bg_image %}background-image:url({{thumb.url}});{% endif %}">
+<section class="section-parcategorie py-5" style="{% if instance.bg_color %}background-color:{{instance.bg_color}};{% endif %}{% if instance.bg_image %}background-image:url({{thumb.url}});{% endif %}">
   <div class="container text-center">
     {% if instance.title or instance.text %}
       <div class="row">
