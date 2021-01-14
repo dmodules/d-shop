@@ -17,6 +17,11 @@ from dshop.models import ProductDefault
 
 from .models import StripeOrderData
 
+try:
+    from apps.dmRabais.models import dmCustomerPromoCode
+except ImportError:
+    dmCustomerPromoCode = None
+
 stripe.api_key = STRIPE_SECRET_KEY
 
 #######################################################################
@@ -79,7 +84,8 @@ def StripePaymentView(request):  # noqa: C901
                 session = stripe.checkout.Session.retrieve(session_id)
                 payment_intent_id = session.payment_intent
                 payment_intent = stripe.PaymentIntent.retrieve(
-                    payment_intent_id)
+                    payment_intent_id
+                )
                 receipt_url = payment_intent.charges.data[0].receipt_url
             except Exception as e:
                 print(e)
@@ -89,6 +95,22 @@ def StripePaymentView(request):  # noqa: C901
                 stripe_session_data=str(session),
                 stripe_payment_data=str(payment_intent))
             order.acknowledge_payment()
+            # ===---
+            try:
+                if dmCustomerPromoCode is not None:
+                    for extra in order.extra["rows"]:
+                        if "applied-promocodes" in extra:
+                            promo = extra[1]["content_extra"].split(", ")
+                            for pm in promo:
+                                cpc = dmCustomerPromoCode.objects.get(
+                                    customer=request.user.customer,
+                                    promocode__code=pm
+                                )
+                                cpc.is_expired = True
+                                cpc.save()
+            except Exception as e:
+                print(e)
+            # ===---
             try:
                 items = []
                 for i in order.items.all():
@@ -112,7 +134,7 @@ def StripePaymentView(request):  # noqa: C901
             except Exception as e:
                 print("When : transition_change_notification")
                 print(e)
-
+            # ===---
             # We want to skip few steps.
             # So add delivery creation on payment success.
             try:
@@ -126,7 +148,7 @@ def StripePaymentView(request):  # noqa: C901
                 order.update_or_create_delivery(items)
             except Exception as e:
                 print("Error to create delivery: " + str(e))
-
+            # ===---
             order.save()
             return redirect(order.get_absolute_url())
         except Exception as e:

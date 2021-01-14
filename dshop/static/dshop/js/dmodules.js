@@ -24,6 +24,10 @@ const i18n = {
   anerroroccurred: {
       fr: "Une erreur est survenue, veuillez réessayez plus tard.",
       en: "An error occurred, please try again later."
+  },
+  discounted: {
+      fr: "Promotion",
+      en: "Discounted"
   }
 }
 
@@ -251,7 +255,7 @@ $(document).ready(function() {
   }
   if ($('#cms-top').length && $('.topnav').length) {
     $('html').css({"margin-top":"0"});
-    $('body').css({"padding-top":"92px"});
+    $('body').css({"padding-top":"46px"});
     $('.topnav').css({"top":"46px"});
     $('.drawer-overlay').css({"top":"92px"});
     $('.drawer-nav').css({"height":"calc(100vh - 92px)","top":"92px"});
@@ -272,6 +276,18 @@ $(document).ready(function() {
   } else {
     $('.drawer-toggle.dm-cart').show()
   }
+    /* ===--- ---=== */
+    if ($(".contact-same-height").length) {
+        let maxh = null
+        $(".contact-same-height").each(function () {
+            h = $(this)[0].clientHeight
+            if (h > maxh || maxh == null) {
+                maxh = h
+            }
+            $(this).css("height", maxh)
+        })
+    }
+    /* ===--- ---=== */
 });
 
 function dmDrawerTabUserLogin() {

@@ -200,8 +200,20 @@ def dm_get_products_related(categories, id):
                 categories__parent__parent=k
             ) | Q(categories__parent__parent__parent=k), active=True
         ).exclude(pk=id).order_by('id')[:4]
+        if products.count() < 4 and k.parent is not None:
+            products = products | Product.objects.filter(
+                Q(categories=k.parent) | Q(categories__parent=k.parent) | Q(
+                    categories__parent__parent=k.parent
+                ) | Q(categories__parent__parent__parent=k.parent), active=True
+            ).exclude(pk=id).order_by('id')[:4]
+        if products.count() < 4 and k.parent and k.parent.parent is not None:
+            products = products | Product.objects.filter(
+                Q(categories=k.parent.parent) | Q(categories__parent=k.parent.parent) | Q(
+                    categories__parent__parent=k.parent.parent
+                ) | Q(categories__parent__parent__parent=k.parent.parent), active=True
+            ).exclude(pk=id).order_by('id')[:4]
     result = {
-        "products": products
+        "products": products[:4]
     }
     return result
 

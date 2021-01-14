@@ -329,6 +329,12 @@ class ProductCategory(models.Model):
         blank=True,
         null=True
     )
+    square_id = models.CharField(
+        verbose_name=_("Square ID"),
+        max_length=30,
+        null=True,
+        blank=True
+    )
     order = models.PositiveSmallIntegerField(
         verbose_name=_("Sort by"),
         default=0,
@@ -572,6 +578,7 @@ class ProductDefault(AvailableProductMixin, Product):
         _("Discounted Unit Price"),
         decimal_places=3,
         null=True,
+        blank=True,
         help_text=_("Net discounted price for this product.")
     )
     start_date = models.DateTimeField(
@@ -616,12 +623,13 @@ class ProductDefault(AvailableProductMixin, Product):
 
     def get_price(self, request=None):  # noqa C910
         r = self.unit_price
+
         if self.is_discounted:
             r = self.discounted_price
 
         # ===--- GET DISCOUNTS
         if dmRabaisPerCategory is not None:
-             r = get_apply_discountpercategory(self, r, self.is_discounted)
+            r = get_apply_discountpercategory(self, r, self.is_discounted)
 
         if request:
             # ===--- GET PROMOCODE
@@ -644,24 +652,17 @@ class ProductDefault(AvailableProductMixin, Product):
                     )
                     if all_codes.count() > 0:
                         for d in all_codes:
-                            # 1. if Can apply  on discounted product
-                            #        Calculate Product
-                            #    else continue
-                            # 2. if Can not apply dmRabaisPerCategory on discounted product
-                            #        Check if product is discounted
-                            if not d.promocode.can_apply_on_discounted:
-                                if self.is_discounted:
-                                    continue
-
-                            if d.promocode.amount is not None:
-                                r = Money(
-                                    Decimal(r) - Decimal(d.promocode.amount))
-                            elif d.promocode.percent is not None:
-                                pourcent = Decimal(
-                                    d.promocode.percent) / Decimal("100")
-                                discount = Money(
-                                    Decimal(self.unit_price) * pourcent)
-                                r = r - discount
+                            if not self.is_discounted or (
+                                self.is_discounted and d.promocode.can_apply_on_discounted
+                            ):
+                                if d.promocode.amount is not None:
+                                    r = Money(Decimal(r) - Decimal(d.promocode.amount))
+                                elif d.promocode.percent is not None:
+                                    pourcent = Decimal(
+                                        d.promocode.percent) / Decimal("100")
+                                    discount = Money(
+                                        Decimal(self.unit_price) * pourcent)
+                                    r = r - discount
                 except Exception as e:
                     print(e)
         if Decimal(r) <= 0:
@@ -672,17 +673,33 @@ class ProductDefault(AvailableProductMixin, Product):
         if dmPromoCode:
             customer = CustomerModel.objects.get_from_request(request)
             today = pytz.utc.localize(datetime.utcnow())
-            all_codes = dmCustomerPromoCode.objects.filter(
-                (
-                    Q(promocode__categories=None) | Q(promocode__categories__in=self.categories.all())
-                ) & (
-                    Q(promocode__products=None) | Q(promocode__products__in=[self])
+            if self.is_discounted:
+                all_codes = dmCustomerPromoCode.objects.filter(
+                    (
+                        Q(promocode__categories=None) | Q(promocode__categories__in=self.categories.all())
+                    ) & (
+                        Q(promocode__products=None) | Q(promocode__products__in=[self])
+                    )
+                    & Q(promocode__is_active=True) & (
+                        Q(promocode__valid_from__isnull=True) | Q(promocode__valid_from__lte=today)
+                    ) & (Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today))
+                    & Q(promocode__can_apply_on_discounted=True),
+                    customer=customer,
+                    is_expired=False
                 )
-                & Q(promocode__is_active=True) & (
-                    Q(promocode__valid_from__isnull=True) | Q(promocode__valid_from__lte=today)
-                ) & (Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today)),
-                customer=customer,
-                is_expired=False)
+            else:
+                all_codes = dmCustomerPromoCode.objects.filter(
+                    (
+                        Q(promocode__categories=None) | Q(promocode__categories__in=self.categories.all())
+                    ) & (
+                        Q(promocode__products=None) | Q(promocode__products__in=[self])
+                    )
+                    & Q(promocode__is_active=True) & (
+                        Q(promocode__valid_from__isnull=True) | Q(promocode__valid_from__lte=today)
+                    ) & (Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today)),
+                    customer=customer,
+                    is_expired=False
+                )
             return all_codes
 
     def get_realprice(self):
@@ -697,7 +714,12 @@ class ProductVariable(Product):
     A basic variable Product, polymorphic child of Product,
     parent of ProductVariableVariant.
     """
-
+    square_id = models.CharField(
+        verbose_name=_("Square ID"),
+        max_length=30,
+        null=True,
+        blank=True
+    )
     multilingual = TranslatedFields(
         description=HTMLField(
             verbose_name=_("Description"),
@@ -765,6 +787,49 @@ class ProductVariable(Product):
         return self.variants.all()
 
 
+class Attribute(models.Model):
+    name = models.CharField(
+        _("Attribute Name"),
+        max_length=20,
+        help_text=_("Attribute Name")
+    )
+    square_id = models.CharField(
+        verbose_name=_("Square ID"),
+        max_length=30,
+        null=True,
+        blank=True
+    )
+
+    class Meta:
+        verbose_name = _("Product's Attribute")
+        verbose_name_plural = _("Product's Attributes")
+
+    def __str__(self):
+        return self.name
+
+
+class AttributeValue(models.Model):
+    attribute = models.ForeignKey(
+        Attribute,
+        on_delete=models.CASCADE,
+        verbose_name=_("Attribute"),
+        related_name="attribute"
+    )
+    square_id = models.CharField(
+        verbose_name=_("Square ID"),
+        max_length=30,
+        null=True,
+        blank=True
+    )
+    value = models.CharField(
+        _("Attribute Value"),
+        max_length=20,
+        help_text=_("Attribute Value")
+    )
+
+    def __str__(self):
+        return self.attribute.name + ' - ' + self.value
+
 class ProductVariableVariant(AvailableProductMixin, models.Model):
     """
     A basic variant of ProductVariable, will be used to populate
@@ -781,6 +846,11 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         _("Product's Code"),
         max_length=255,
         unique=True
+    )
+    attribute = models.ManyToManyField(
+        AttributeValue,
+        verbose_name=_("Attribute"),
+        blank=True
     )
     unit_price = MoneyField(
         _("Unit Price"),
@@ -821,19 +891,22 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         if self.discounted_price == Money(0) or self.discounted_price is None:
             return False
         today = pytz.utc.localize(datetime.utcnow())
+        if not self.start_date or self.end_date:
+            return False
         if self.start_date < today and self.end_date > today:
             return True
-        return False
 
     def get_price(self, request):  # noqa: C901
         r = self.unit_price
+
         if self.is_discounted:
             r = self.discounted_price
 
+        # ===--- GET DISCOUNTS
+        if dmRabaisPerCategory is not None:
+            r = get_apply_discountpercategory(self.product, r, self.is_discounted)
+
         if request:
-            # ===--- GET DISCOUNTS
-            if dmRabaisPerCategory is not None:
-                r = get_apply_discountpercategory(self, r, self.is_discounted)
             # ===--- GET PROMOCODE
             if dmPromoCode is not None:
                 try:
@@ -853,24 +926,15 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
                         is_expired=False)
                     if all_codes.count() > 0:
                         for d in all_codes:
-                            # 1. if Can apply  on discounted product
-                            #        Calculate Product
-                            #    else continue
-                            # 2. if Can not apply dmRabaisPerCategory on discounted product
-                            #        Check if product is discounted
-                            if not d.promocode.can_apply_on_discounted:
-                                if self.is_discounted:
-                                    continue
-
-                            if d.promocode.amount is not None:
-                                r = Money(
-                                    Decimal(r) - Decimal(d.promocode.amount))
-                            elif d.promocode.percent is not None:
-                                pourcent = Decimal(
-                                    d.promocode.percent) / Decimal("100")
-                                discount = Money(
-                                    Decimal(self.unit_price) * pourcent)
-                                r = r - discount
+                            if not self.is_discounted or (
+                                self.is_discounted and d.promocode.can_apply_on_discounted
+                            ):
+                                if d.promocode.amount is not None:
+                                    r = Money(Decimal(r) - Decimal(d.promocode.amount))
+                                elif d.promocode.percent is not None:
+                                    pourcent = Decimal(d.promocode.percent) / Decimal("100")
+                                    discount = Money(Decimal(self.unit_price) * pourcent)
+                                    r = r - discount
                 except Exception as e:
                     print(e)
         if Decimal(r) <= 0:
@@ -897,6 +961,14 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
 
     def get_realprice(self):
         return self.unit_price
+
+    def get_attribute(self):
+        if self.attribute.all():
+            data = []
+            for a in self.attribute.all():
+                data.append(a.value)
+            return ' - '.join(data)
+        return ''
 
 
 #######################################################################
@@ -1534,6 +1606,72 @@ class dmBlockCalltoaction(CMSPlugin):
         verbose_name=_("Image"),
         null=True,
         blank=True
+    )
+
+
+class dmTeamParent(CMSPlugin):
+    title = models.CharField(
+        verbose_name=_("Title"),
+        max_length=100,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 100 characters.")
+    )
+    text = HTMLField(
+        verbose_name=_("Text"),
+        configuration="CKEDITOR_SETTINGS_DMPLUGIN",
+        null=True,
+        blank=True
+    )
+
+
+class dmTeamChild(CMSPlugin):
+    name = models.CharField(
+        verbose_name=_("Name"),
+        max_length=100,
+        null=False,
+        blank=False,
+        help_text=_("Maximum 100 characters.")
+    )
+    job = models.CharField(
+        verbose_name=_("Job"),
+        max_length=1000,
+        null=True,
+        blank=True
+    )
+    photo = image.FilerImageField(
+        verbose_name=_("Photo"),
+        related_name="team_photo",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+    email = models.EmailField(
+        verbose_name=_("Email"),
+        max_length=250,
+        null=True,
+        blank=True
+    )
+    facebook = models.URLField(
+        verbose_name="Facebook",
+        max_length=250,
+        null=True,
+        blank=True,
+        help_text=_("Ex.: https://www.facebook.com/<username>")
+    )
+    twitter = models.URLField(
+        verbose_name="Twitter",
+        max_length=250,
+        null=True,
+        blank=True,
+        help_text=_("Ex.: https://twitter.com/<username>")
+    )
+    instagram = models.URLField(
+        verbose_name="Instagram",
+        max_length=250,
+        null=True,
+        blank=True,
+        help_text=_("Ex.: https://www.instagram.com/<username>")
     )
 
 

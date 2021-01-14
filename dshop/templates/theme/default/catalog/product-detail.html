@@ -3,6 +3,8 @@
 
 {% block title %}{{ product.product_name }}{% endblock %}
 
+{% block meta-description %}{{ product.caption|striptags|truncatechars:150 }}{% endblock %}
+
 {% block breadcrumb %}{% endblock %}
 
 {% block main-content %}

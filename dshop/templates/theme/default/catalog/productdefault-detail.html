@@ -76,17 +76,13 @@
           <div class="col-lg-6 col-md-6">
             <div class="pr_detail">
               <div class="product_description">
-                <h4 class="product_title">{% render_model product "product_name" %}</h4>
+                <h4 class="product_title">{% render_model product "product_name" %}{% if product.is_discounted %}<span class="product-detail-discounted">{% trans "Discounted" %}</span>{% endif %}</h4>
                 <div class="product_price">
-                  {% if product.variants %}
-                    <span class="price">{{product.variants.first.unit_price}}</span>
-                  {% else %}
                     {% product_discount_price product.id as real_price %}
                     <span class="price">{{real_price}}</span>
                     {% if real_price != product.unit_price %}
-                      <del>{{product.unit_price}}</del>
+                        <del>{{product.unit_price}}</del>
                     {% endif %}
-                  {% endif %}
                 </div>
                 <div class="pr_desc">
                   {{ product.caption|safe }}
@@ -183,6 +179,9 @@
                           {% if real_price != related.unit_price %}
                             <del>{{related.unit_price}}</del>
                           {% endif %}
+                        {% endif %}
+                        {% if related.is_discounted %}
+                          <span class="product_sale_discounted">{% trans "Discounted" %}</span>
                         {% endif %}
                       </div>
                     </div>

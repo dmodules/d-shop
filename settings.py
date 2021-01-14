@@ -663,6 +663,7 @@ ADMIN_REORDER = (
             "dshop.ProductCategory",
             "dshop.ProductFilter",
             "dshop.ProductBrand",
+            "dshop.Attribute",
             "dshop.Product",
             {
                 "model": "dshop.Order",
@@ -687,7 +688,7 @@ ADMIN_REORDER = (
         "models": [
             "dmRabais.dmRabaisPerCategory",
             "dmRabais.dmPromoCode",
-            "dmRabais.dmCustomerPromoCode"
+            # "dmRabais.dmCustomerPromoCode"
         ]
     },
     {

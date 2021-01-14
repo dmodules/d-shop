@@ -1,0 +1,5 @@
+{% for row in rows %}
+  <div style="margin-bottom:0.5rem;">
+    <span style="font-weight:900;margin-right:0.5rem;">{{ row.1.label }} :</span>{% if row.1.amount %}<span>{{ row.1.amount }}</span>{% endif %}{% if row.1.content %}<span>{{ row.1.content }}</span>{% endif %}
+  </div>
+{% endfor %}
