@@ -790,7 +790,7 @@ class ProductVariable(Product):
 class Attribute(models.Model):
     name = models.CharField(
         _("Attribute Name"),
-        max_length=20,
+        max_length=250,
         help_text=_("Attribute Name")
     )
     square_id = models.CharField(
@@ -823,7 +823,7 @@ class AttributeValue(models.Model):
     )
     value = models.CharField(
         _("Attribute Value"),
-        max_length=20,
+        max_length=250,
         help_text=_("Attribute Value")
     )
 
