@@ -578,7 +578,7 @@ class AttributeAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class ProductAdmin(PolymorphicSortableAdminMixin, PolymorphicParentModelAdmin):
     base_model = Product
-    child_models = [ProductVariable]
+    child_models = [ProductDefault, ProductVariable]
     list_display = [
         "product_name",
         "get_price",
