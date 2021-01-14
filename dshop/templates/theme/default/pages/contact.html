@@ -9,17 +9,17 @@
   <div class="container">
     <div class="row justify-content-center">
       {% if contacts.address %}
-        <div class="col-xl-4 col-md-12">
-            <div class="contact_wrap contact_style3 contact-same-height">
-            <div class="contact_icon">
-                <i class="linearicons-map2"></i>
-            </div>
-            <div class="contact_text">
-                <span>Adresse</span>
-                <p>{{contacts.address}}</p>
-            </div>
-            </div>
+      <div class="col-xl-4 col-md-12">
+        <div class="contact_wrap contact_style3 contact-same-height">
+          <div class="contact_icon">
+            <i class="linearicons-map2"></i>
+          </div>
+          <div class="contact_text">
+            <span>Adresse</span>
+            <p>{{contacts.address}}</p>
+          </div>
         </div>
+      </div>
       {% endif %}
       {% if contacts.email %}
       <div class="col-xl-4 col-md-6">
@@ -32,7 +32,6 @@
             <p>
               <br />
               <a href="mailto:{{contacts.email}}">{{contacts.email}}</a>
-              <br /><br />
             </p>
           </div>
         </div>
@@ -49,7 +48,6 @@
             <p>
               <br />
               <a href="tel:{{contacts.phone|phone_canadian}}">{{contacts.phone}}</a>
-              <br /><br />
             </p>
           </div>
         </div>
