@@ -7,18 +7,21 @@
 {% dm_get_site_contacts as contacts %}
 <div class="section pb_70">
   <div class="container">
-    <div class="row">
-      <div class="col-xl-4 col-md-6">
-        <div class="contact_wrap contact_style3">
-          <div class="contact_icon">
-            <i class="linearicons-map2"></i>
-          </div>
-          <div class="contact_text">
-            <span>Adresse</span>
-            <p>{{contacts.address}}</p>
-          </div>
+    <div class="row justify-content-center">
+      {% if contacts.address %}
+        <div class="col-xl-4 col-md-12">
+            <div class="contact_wrap contact_style3">
+            <div class="contact_icon">
+                <i class="linearicons-map2"></i>
+            </div>
+            <div class="contact_text">
+                <span>Adresse</span>
+                <p>{{contacts.address}}</p>
+            </div>
+            </div>
         </div>
-      </div>
+      {% endif %}
+      {% if contacts.email %}
       <div class="col-xl-4 col-md-6">
         <div class="contact_wrap contact_style3">
           <div class="contact_icon">
@@ -34,6 +37,8 @@
           </div>
         </div>
       </div>
+      {% endif %}
+      {% if contacts.phone %}
       <div class="col-xl-4 col-md-6">
         <div class="contact_wrap contact_style3">
           <div class="contact_icon">
@@ -49,6 +54,7 @@
           </div>
         </div>
       </div>
+      {% endif %}
     </div>
   </div>
 </div>
@@ -94,7 +100,9 @@
       </div>
       <div class="col-lg-6 pt-2 pt-lg-0 mt-4 mt-lg-0">
         {% dm_get_site_coord as coords %}
-        <div id="map" class="contact_map2" data-zoom="15" data-latitude="{% if coords.lat %}{{coords.lat}}{% else %}48.6525144{% endif %}" data-longitude="{% if coords.lon %}{{coords.lon}}{% else %}-72.445567{% endif %}"
+        <div id="map" class="contact_map2" data-zoom="15"
+          data-latitude="{% if coords.lat %}{{coords.lat}}{% else %}48.6525144{% endif %}"
+          data-longitude="{% if coords.lon %}{{coords.lon}}{% else %}-72.445567{% endif %}"
           data-icon="{% static 'dshop/shopwise/images/marker.png' %}"></div>
       </div>
     </div>
