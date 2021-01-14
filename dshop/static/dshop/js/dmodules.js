@@ -276,6 +276,18 @@ $(document).ready(function() {
   } else {
     $('.drawer-toggle.dm-cart').show()
   }
+    /* ===--- ---=== */
+    if ($(".contact-same-height").length) {
+        let maxh = null
+        $(".contact-same-height").each(function () {
+            h = $(this)[0].clientHeight
+            if (h > maxh || maxh == null) {
+                maxh = h
+            }
+            $(this).css("height", maxh)
+        })
+    }
+    /* ===--- ---=== */
 });
 
 function dmDrawerTabUserLogin() {
