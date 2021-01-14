@@ -801,7 +801,7 @@ export default {
     isLoading: false,
     isLoadingPayment: false,
     hasEmptyCart: false,
-    stepCheckout: 4,
+    stepCheckout: 1,
     formChoix: {
       salutation: [],
       shippingAddress: [],
