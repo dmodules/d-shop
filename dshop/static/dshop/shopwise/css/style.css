@@ -4129,6 +4129,9 @@ footer .widget_title {
 	width: 100%;
 }
 .breadcrumb_section.page-title-mini {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 	padding: 70px 0;
 }
 .page-title-mini .page-title h1 {

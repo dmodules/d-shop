@@ -316,6 +316,12 @@ class ProductCategory(models.Model):
     Product can have multiple categories.
     """
 
+    CHOIX_POS = [
+        (1, _("Left")),
+        (2, _("Center")),
+        (3, _("Right"))
+    ]
+
     name = models.CharField(
         verbose_name=_("Category's Name"),
         max_length=100,
@@ -340,6 +346,37 @@ class ProductCategory(models.Model):
         default=0,
         blank=False,
         null=False
+    )
+    text = HTMLField(
+        verbose_name=_("Text"),
+        configuration="CKEDITOR_SETTINGS_DMPLUGIN",
+        null=True,
+        blank=True,
+        help_text=_("A text that will be shown on the top of the page of the Products of this category.")
+    )
+    text_position = models.PositiveSmallIntegerField(
+        verbose_name=_("Position"),
+        choices=CHOIX_POS,
+        default=1,
+        help_text=_("Position of the text.")
+    )
+    text_color = ColorField(
+        verbose_name=_("Text's Colour"),
+        null=True,
+        blank=True
+    )
+    bg_color = ColorField(
+        verbose_name=_("Background's Colour"),
+        null=True,
+        blank=True
+    )
+    image = image.FilerImageField(
+        verbose_name=_("Header's Image"),
+        on_delete=models.SET_NULL,
+        related_name="category_image",
+        null=True,
+        blank=True,
+        help_text=_("An image that will be shown on the top of the page of the Products of this category.")
     )
 
     class Meta:
