@@ -38,3 +38,4 @@ mailchimp3==3.0.7
 python-slugify==4.0.1
 #tools
 coverage
+squareup==8.0.0.20201216
