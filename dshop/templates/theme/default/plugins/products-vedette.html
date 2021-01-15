@@ -54,10 +54,14 @@
                   <h6 class="product_title"><a href="{{product.get_absolute_url}}">{{product.product_name}}</a></h6>
                   <div class="product_price">
                     {% if product.variants %}
-                        {% product_variant_discount_price product.variants.first.id as real_price %}
-                        <span class="price">{{real_price}}</span>
-                        {% if real_price != product.variants.first.unit_price %}
-                        <del>{{product.variants.first.unit_price}}</del>
+                        {% if product.variants.first %}
+                            {% product_variant_discount_price product.variants.first.id as real_price %}
+                            <span class="price">{{real_price}}</span>
+                            {% if real_price != product.variants.first.unit_price %}
+                            <del>{{product.variants.first.unit_price}}</del>
+                            {% endif %}
+                        {% else %}
+                            <span class="price">-</span>
                         {% endif %}
                     {% else %}
                       {% product_discount_price product.id as real_price %}
