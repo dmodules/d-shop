@@ -67,31 +67,46 @@ class Command(BaseCommand):
         print("Created...")
 
         # Request for Image
-        result = client.catalog.list_catalog(types="image")
-        if result.is_error():
-            print("ERROR! " + str(result.errors))
-            return
-        data = result.body
-        print("Creating an Image...")
-        for d in data['objects']:
-            print('.', end=' ')
-            if d['type'] == 'IMAGE':
-                name = d['id']
-                if 'url' in d['image_data']:
-                    # if image is already there the skip!
-                    if Image.objects.filter(name=name):
-                        continue
-                    url = d['image_data']['url']
-                    r = requests.get(url)
-                    image_temp_file = NamedTemporaryFile(delete=True)
-                    image_temp_file.write(r.content)
-                    image_temp_file.flush()
-                    f = File(image_temp_file, name=name)
-                    Image.objects.create(
-                        original_filename=name,
-                        file=f,
-                        name=name
-                    )
+        cursor = ''
+        while True:
+            result = client.catalog.list_catalog(
+                types="image",
+                cursor=cursor
+            )
+            if result.is_error():
+                print("ERROR! " + str(result.errors))
+                return
+            data = result.body
+            print("Creating an Image...")
+            for d in data['objects']:
+                print('.', end=' ')
+                if d['type'] == 'IMAGE':
+                    name = d['id']
+                    if 'url' in d['image_data']:
+                        # if image is already there the skip!
+                        if Image.objects.filter(name=name):
+                            continue
+                        url = d['image_data']['url']
+                        r = requests.get(url)
+                        image_temp_file = NamedTemporaryFile(delete=True)
+                        image_temp_file.write(r.content)
+                        image_temp_file.flush()
+                        f = File(image_temp_file, name=name)
+                        Image.objects.create(
+                            original_filename=name,
+                            file=f,
+                            name=name
+                        )
+            if 'cursor' in data:
+                print(data['cursor'])
+                if cursor == data['cursor']:
+                    print('No nexe page found')
+                    break
+                cursor = data['cursor']
+                print('Next page')
+            else:
+                print('No nexe page found')
+                break
         print("Created...")
 
         # Request for Item (Product)
@@ -150,17 +165,17 @@ class Command(BaseCommand):
                         'discounted_price': price/100,
                         'quantity': quantity
                     }
-                    pvv, created = ProductVariableVariant.objects.get_or_create(**pv_data)
+                    pvv = ProductVariableVariant.objects.filter(product_code=product_code)
+                    if pvv:
+                        pvv = pvv[0]
+                    else:
+                        pvv = ProductVariableVariant.objects.create(**pv_data)
 
-                    try:
+                    if 'item_option_values' in vari['item_variation_data']:
                         for value_id in vari['item_variation_data']['item_option_values']:
                             attribute_value_id = value_id['item_option_value_id']
                             attribute_value_obj = AttributeValue.objects.get(square_id=attribute_value_id)
                             pvv.attribute.add(attribute_value_obj)
-                    except Exception as e:
-                        print("+++++++++++++")
-                        print(vari)
-                        print(e)
 
                 # Remove Variants
                 existing_var = product_variable.variants.all().count()
