@@ -41,8 +41,8 @@
   "Paiement": "Paiement",
   "Detailsduclient": "Détails du client",
 
-  "Methodesdexpedition": "Méthodes d'expédition",
-  "Nomethodesdexpedition": "Aucune méthode d'expédition disponible",
+  "Methodesdexpedition": "Méthodes de livraison",
+  "Nomethodesdexpedition": "Aucune méthode de livraison disponible",
   "Adressedelivraison": "Adresse de livraison",
   "Nomcomplet": "Nom complet",
   "Adresse": "Address",

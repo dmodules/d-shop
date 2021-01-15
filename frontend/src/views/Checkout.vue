@@ -690,7 +690,7 @@
                                     </v-list-item>
                                 </template>
                                 <template v-for="(item, n) in formPayment.listExtras">
-                                    <v-list-item v-if="item.modifier !== 'subtotal-before-discounts' && item.modifier !== 'discounts' && item.modifier !== 'applied-promocodes'" :key="'extra-' + n">
+                                    <v-list-item v-if="item.modifier !== 'subtotal-before-discounts' && item.modifier !== 'discounts' && item.modifier !== 'applied-promocodes' && item.modifier !== 'canadiantaxes'" :key="'extra-' + n">
                                         <v-list-item-content>
                                         <v-list-item-title>
                                             {{ item.label }}
