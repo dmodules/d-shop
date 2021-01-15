@@ -100,7 +100,7 @@
             </div>
           </div>
           {% for key, extra_row in data.extra.rows %}
-            {% if key != "subtotal-before-discounts" and key != "discounts" and key != "applied-promocodes" %}
+            {% if key != "subtotal-before-discounts" and key != "discounts" and key != "applied-promocodes" and key != "canadiantaxes" %}
                 <div class="row py-2">
                     <div class="col-6 text-right text-nowrap">{{ extra_row.label }}</div>
                     <div class="col-4 col-md-6 text-right text-nowrap">{{ extra_row.amount }}</div>

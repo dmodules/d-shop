@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-14 10:20-0500\n"
+"POT-Creation-Date: 2021-01-15 08:10-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,143 +16,142 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: apps/dmAdvertising/admin.py:20 apps/dmRabais/admin.py:49
 #: apps/dmRabais/admin.py:96
 msgid "Start"
-msgstr "Début"
+msgstr ""
 
 #: apps/dmAdvertising/admin.py:25 apps/dmRabais/admin.py:54
 #: apps/dmRabais/admin.py:101
 msgid "End"
-msgstr "Fin"
+msgstr ""
 
 #: apps/dmAdvertising/apps.py:7 settings.py:654
 msgid "Advertising"
-msgstr "Alerte Publicitaire"
+msgstr ""
 
 #: apps/dmAdvertising/models.py:14 dshop/models.py:1122 dshop/models.py:1146
 #: dshop/models.py:1162 dshop/models.py:1190 dshop/models.py:1237
 #: dshop/models.py:1424 dshop/models.py:1486 dshop/models.py:1503
 #: dshop/models.py:1519 dshop/models.py:1569 dshop/models.py:1621
 msgid "Text"
-msgstr "Texte"
+msgstr ""
 
 #: apps/dmAdvertising/models.py:16
 msgid "Maximum 75 characters."
-msgstr "Maximum 75 caractères."
+msgstr ""
 
 #: apps/dmAdvertising/models.py:19 dshop/models.py:1320
 msgid "URL"
-msgstr "URL"
+msgstr ""
 
 #: apps/dmAdvertising/models.py:23
 msgid "Example: https://www.test.com. Leave blank to not use link."
 msgstr ""
-"Exemple : https://www.test.com. Laisser vide pour ne pas utiliser de lien."
 
 #: apps/dmAdvertising/models.py:26
 msgid "Open on a new tab?"
-msgstr "Ouvrir dans un nouvel onglet ?"
+msgstr ""
 
 #: apps/dmAdvertising/models.py:30 apps/dmRabais/models.py:39
 #: apps/dmRabais/models.py:106
 msgid "Active"
-msgstr "Actif"
+msgstr ""
 
 #: apps/dmAdvertising/models.py:34 apps/dmRabais/models.py:47
 #: apps/dmRabais/models.py:114
 msgid "Start at"
-msgstr "Début"
+msgstr ""
 
 #: apps/dmAdvertising/models.py:38 apps/dmRabais/models.py:51
 #: apps/dmRabais/models.py:118
 msgid "End at"
-msgstr "Fin"
+msgstr ""
 
 #: apps/dmAdvertising/models.py:44
 msgid "Advertising Top Banner"
-msgstr "Bannière publicitaire d'entête"
+msgstr ""
 
 #: apps/dmAdvertising/models.py:45
 msgid "Advertising Top Banners"
-msgstr "Bannières publicitaires d'entête"
+msgstr ""
 
 #: apps/dmBillingSquare/apps.py:7
 msgid "Square Payment"
-msgstr "Paiement Square"
+msgstr ""
 
 #: apps/dmBillingSquare/modifiers.py:19 apps/dmBillingStripe/modifiers.py:19
 msgid "Credit Card"
-msgstr "Carte de crédit"
+msgstr ""
 
 #: apps/dmBillingSquare/modifiers.py:29 apps/dmBillingStripe/modifiers.py:29
 #: dshop/modifiers.py:58
 msgid "+ {}% handling fee"
-msgstr "+ {}% de frais"
+msgstr ""
 
 #: apps/dmBillingSquare/payment.py:109 apps/dmBillingSquare/payment.py:112
 #: apps/dmBillingStripe/payment.py:118
 msgid "An error occurred while creating your order."
-msgstr "Une erreur est survenue lors de la création de votre commande."
+msgstr ""
 
 #: apps/dmBillingStripe/apps.py:7
 msgid "Stripe Payment"
-msgstr "Paiement Stripe"
+msgstr ""
 
 #: apps/dmBillingStripe/models.py:18
 msgid "Receipt's URL"
-msgstr "URL du reçu"
+msgstr ""
 
 #: apps/dmBillingStripe/models.py:22
 msgid "Stripe's Data"
-msgstr "Données Stripe"
+msgstr ""
 
 #: apps/dmBillingStripe/models.py:25
 msgid "Stripe's Payment Data"
-msgstr "Données de paiement"
+msgstr ""
 
 #: apps/dmBillingStripe/views.py:81
 msgid "Credit Card (Stripe)"
-msgstr "Carte de crédit (Stripe)"
+msgstr ""
 
 #: apps/dmContact/apps.py:7 templates/dshop/pages/base.html:158
 msgid "Contact"
-msgstr "Contact"
+msgstr ""
 
 #: apps/dmContact/views.py:51
 msgid "You've been successfully added to our newsletter."
-msgstr "Vous avez été ajouté à notre infolettre avec succès."
+msgstr ""
 
 #: apps/dmContact/views.py:55
 msgid "You're already subscribed to this newsletter."
-msgstr "Vous êtes déjà inscrit à cette infolettre."
+msgstr ""
 
 #: apps/dmContact/views.py:57
 msgid "Something went wrong, sorry."
-msgstr "Une erreur est survenue, désolé."
+msgstr ""
 
 #: apps/dmContact/views.py:60
 msgid "Your answer is wrong."
-msgstr "Votre réponse est fausse."
+msgstr ""
 
 #: apps/dmRabais/admin.py:44
 msgid "Discount"
-msgstr "Rabais"
+msgstr ""
 
 #: apps/dmRabais/admin.py:73
 msgid "Limitations"
-msgstr "Limitations"
+msgstr ""
 
 #: apps/dmRabais/apps.py:7 apps/dmRabais/modifiers.py:29 settings.py:687
 msgid "Discounts"
-msgstr "Rabais"
+msgstr ""
 
 #: apps/dmRabais/models.py:20 apps/dmRabais/models.py:78
 #: apps/dmShipping/models.py:40 dshop/admin.py:280 dshop/models.py:1630
 msgid "Name"
-msgstr "Nom"
+msgstr ""
 
 #: apps/dmRabais/models.py:22 apps/dmRabais/models.py:82 dshop/models.py:1119
 #: dshop/models.py:1143 dshop/models.py:1159 dshop/models.py:1187
@@ -160,254 +159,241 @@ msgstr "Nom"
 #: dshop/models.py:1461 dshop/models.py:1500 dshop/models.py:1516
 #: dshop/models.py:1523 dshop/models.py:1618 dshop/models.py:1634
 msgid "Maximum 100 characters."
-msgstr "Maximum 100 caractères."
+msgstr ""
 
 #: apps/dmRabais/models.py:25 apps/dmRabais/models.py:92
 msgid "Amount"
-msgstr "Montant"
+msgstr ""
 
 #: apps/dmRabais/models.py:30 apps/dmRabais/models.py:97
 msgid ""
 "An amount to substract to the original price, leave blank to use 'Percent'."
 msgstr ""
-"Un montant à soustraire du prix original, laisser vide pour utiliser le "
-"'Pourcentage'."
 
 #: apps/dmRabais/models.py:33 apps/dmRabais/models.py:100
 msgid "Percent"
-msgstr "Pourcentage"
+msgstr ""
 
 #: apps/dmRabais/models.py:36 apps/dmRabais/models.py:103
 msgid ""
 "A percent to substract to the original price, unused if there's an 'Amount'."
 msgstr ""
-"Un pourcentage à soustraire du prix original, ne sera pas utilisé s'il y a "
-"un 'Montant'."
 
 #: apps/dmRabais/models.py:43 apps/dmRabais/models.py:110
 msgid "Can Apply On Discounted Product?"
-msgstr "Applicable sur les produits en promotion ?"
+msgstr ""
 
 #: apps/dmRabais/models.py:58 apps/dmRabais/models.py:133 dshop/models.py:454
 #: templates/dshop/pages/base.html:135
 msgid "Categories"
-msgstr "Catégories"
+msgstr ""
 
 #: apps/dmRabais/models.py:62
 msgid "Discount Per Category"
-msgstr "Rabais par catégorie"
+msgstr ""
 
 #: apps/dmRabais/models.py:63
 msgid "Discounts Per Category"
-msgstr "Rabais par catégorie"
+msgstr ""
 
 #: apps/dmRabais/models.py:85
 msgid "Code"
-msgstr "Code"
+msgstr ""
 
 #: apps/dmRabais/models.py:89
 msgid "Leave blank to auto-generate a random code."
-msgstr "Laisser vide pour générer automatiquement un code aléatoire."
+msgstr ""
 
 #: apps/dmRabais/models.py:121
 msgid ""
 "Leave blank if you doesn't want this code to expire after a specific time."
 msgstr ""
-"Laisser vide si vous ne voulez pas que le code expire après un certain temps."
 
 #: apps/dmRabais/models.py:124
 msgid "Number of Customer"
-msgstr "Nombre de clients"
+msgstr ""
 
 #: apps/dmRabais/models.py:128
 msgid ""
 "Leave to 0 if you doesn't want this code to expire after a specific number "
 "of customer's uses."
 msgstr ""
-"Laisser à 0 si vous ne voulez pas que le code expire après un nombre "
-"spécifique d'utilisation."
 
 #: apps/dmRabais/models.py:135 apps/dmRabais/models.py:142
 msgid "Leave blank if you want to apply to all product."
-msgstr "Laisser vide si vous voulez appliquer à tous les produits."
+msgstr ""
 
 #: apps/dmRabais/models.py:140 dshop/models.py:497
 #: dshop/templates/theme/default/pages/produits.html:31
 #: dshop/templates/theme/default/pages/produits.html:38
 msgid "Products"
-msgstr "Produits"
+msgstr ""
 
 #: apps/dmRabais/models.py:146 apps/dmRabais/models.py:173
 msgid "Promo Code"
-msgstr "Code promotionnel"
+msgstr ""
 
 #: apps/dmRabais/models.py:147 templates/dshop/pages/base.html:150
 #: templates/dshop/pages/drawer-user.html:15
 msgid "Promo Codes"
-msgstr "Codes promotionnels"
+msgstr ""
 
 #: apps/dmRabais/models.py:166
 msgid "Customer"
-msgstr "Client"
+msgstr ""
 
 #: apps/dmRabais/models.py:178
 msgid "Expired"
-msgstr "Expiré"
+msgstr ""
 
 #: apps/dmRabais/models.py:182 dshop/admin.py:393
 msgid "Created at"
-msgstr "Créé"
+msgstr ""
 
 #: apps/dmRabais/models.py:188
 msgid "Updated at"
-msgstr "Mis à jour"
+msgstr ""
 
 #: apps/dmRabais/models.py:195
 msgid "Customer's Promo Code"
-msgstr "Code promotionnel du client"
+msgstr ""
 
 #: apps/dmRabais/models.py:196
 msgid "Customer's Promo Codes"
-msgstr "Codes promotionnels du client"
+msgstr ""
 
 #: apps/dmRabais/modifiers.py:25
 msgid "Subtotal before discounts"
-msgstr "Sous-total avant rabais"
+msgstr ""
 
 #: apps/dmRabais/modifiers.py:34 apps/dmRabais/modifiers.py:56
 msgid "Applied promocodes"
-msgstr "Codes promotionnels appliqués"
+msgstr ""
 
 #: apps/dmRabais/modifiers.py:46
 msgid "Price before discounts"
-msgstr "Prix avant rabais"
+msgstr ""
 
 #: apps/dmRabais/modifiers.py:50
-#, fuzzy
-#| msgid "Price before discounts"
 msgid "Unit price before discounts"
-msgstr "Prix avant rabais"
+msgstr ""
 
 #: apps/dmSearch/apps.py:7 dshop/templates/theme/default/pages/search.html:4
 #: dshop/templates/theme/default/pages/search.html:10
 #: dshop/templates/theme/default/pages/search.html:20
 #: dshop/templates/theme/default/pages/search.html:24
 msgid "Search"
-msgstr "Recherche"
+msgstr ""
 
 #: apps/dmShipping/admin.py:20
 msgid "With Separator Settings"
-msgstr "Paramètres avec un séparateur"
+msgstr ""
 
 #: apps/dmShipping/apps.py:7 settings.py:696
 #: templates/dshop/admin/order-extra.html:8
 msgid "Shipping"
-msgstr "Livraison"
+msgstr ""
 
 #: apps/dmShipping/models.py:15
 msgid "Pick Up in Store"
-msgstr "Ramassage en magasin"
+msgstr ""
 
 #: apps/dmShipping/models.py:19
 msgid "Postal shipping (free)"
-msgstr "Envoi postal (gratuit)"
+msgstr ""
 
 #: apps/dmShipping/models.py:23
 msgid "Postal shipping (standard)"
-msgstr "Envoi postal (standard)"
+msgstr ""
 
 #: apps/dmShipping/models.py:27
 msgid "Postal shipping (express)"
-msgstr "Envoi postal (express)"
+msgstr ""
 
 #: apps/dmShipping/models.py:31
 msgid "Postal shipping with separator (standard)"
-msgstr "Envoi postal avec séparateur (standard)"
+msgstr ""
 
 #: apps/dmShipping/models.py:44 dshop/models.py:1213
 msgid "Maximum 255 characters."
-msgstr "Maximum 255 caractères."
+msgstr ""
 
 #: apps/dmShipping/models.py:47
 msgid "Identifier"
-msgstr "Identifiant unique"
+msgstr ""
 
 #: apps/dmShipping/models.py:56 apps/dmShipping/models.py:90
 msgid "Price"
-msgstr "Prix"
+msgstr ""
 
 #: apps/dmShipping/models.py:59
 msgid "An amount to be added to the cart price."
-msgstr "Un montant à ajouter au prix du panier."
+msgstr ""
 
 #: apps/dmShipping/models.py:62
 msgid "Use an amount to separate two price?"
-msgstr "Utiliser un montant pour séparer deux prix ?"
+msgstr ""
 
 #: apps/dmShipping/models.py:66
 msgid "Separator"
-msgstr "Montant de séparation"
+msgstr ""
 
 #: apps/dmShipping/models.py:71
 msgid ""
 "The amount of the cart price to separate the shipping price before and after "
 "it."
 msgstr ""
-"Le montant du prix du panier à atteindre pour séparer le prix de livraison "
-"avant et après celui-ci."
 
 #: apps/dmShipping/models.py:74
 msgid "After price"
-msgstr "Prix après le séparateur"
+msgstr ""
 
 #: apps/dmShipping/models.py:79
 msgid ""
 "The price to replace the original shipping price if the separator's amount "
 "has been reached."
 msgstr ""
-"Le prix qui remplacera le prix origine de livraison lorsque le montant de "
-"séparation sera atteint."
 
 #: apps/dmShipping/models.py:83
 #: dshop/templates/theme/default/order/detail.html:28
 #: dshop/templates/theme/default/print/delivery-note.html:41
 msgid "Shipping Method"
-msgstr "Méthode livraison"
+msgstr ""
 
 #: apps/dmShipping/models.py:84
 msgid "Shipping Methods"
-msgstr "Méthodes de livraison"
+msgstr ""
 
 #: apps/dmShipping/modifiers.py:44 apps/dmShipping/modifiers.py:71
 #: apps/dmShipping/modifiers.py:103 apps/dmShipping/modifiers.py:184
 #: apps/dmShipping/modifiers.py:215 apps/dmShipping/modifiers.py:246
 msgid "Shipping costs"
-msgstr "Prix de livraison"
+msgstr ""
 
 #: apps/dmShipping/modifiers.py:133
 msgid "Order Number: "
-msgstr "Numéro de commande : "
+msgstr ""
 
 #: apps/dmTaxes/apps.py:6 settings.py:703
 msgid "Taxes"
-msgstr "Taxes"
+msgstr ""
 
 #: apps/dmTaxes/models.py:16
 msgid "Province"
-msgstr "Province"
+msgstr ""
 
 #: apps/dmTaxes/models.py:74
 msgid "Canadian Tax"
-msgstr "Taxe canadienne"
+msgstr ""
 
 #: apps/dmTaxes/models.py:75
 msgid "Canadian Taxes"
-msgstr "Taxes canadiennes"
+msgstr ""
 
 #: apps/dmTaxes/modifiers.py:25
 #, python-format
 msgid "{}% VAT incl."
-msgstr "{}% TVA"
+msgstr "{}% VAT"
 
 #: apps/dmTaxes/modifiers.py:43
 #, python-format
@@ -1208,435 +1194,436 @@ msgstr ""
 
 #: dshop/admin.py:337 dshop/models.py:75
 msgid "Data"
-msgstr "Données"
+msgstr ""
 
 #: dshop/admin.py:370 dshop/templates/theme/default/order/detail.html:10
 msgid "Order"
-msgstr "Commande"
+msgstr ""
 
 #: dshop/admin.py:371 settings.py:670
 msgid "Orders"
-msgstr "Commandes"
+msgstr ""
 
 #: dshop/admin.py:385 dshop/models.py:1196
 msgid "Number"
-msgstr "Numéro"
+msgstr ""
 
 #: dshop/admin.py:389
 msgid "Status"
-msgstr "Status"
+msgstr ""
 
 #: dshop/admin.py:397 dshop/templates/theme/default/order/detail.html:96
 #: dshop/templates/theme/default/print/invoice.html:44
 msgid "Subtotal"
-msgstr "Sous-total"
+msgstr ""
 
 #: dshop/admin.py:401 dshop/templates/theme/default/order/detail.html:111
 #: dshop/templates/theme/default/print/invoice.html:57
 msgid "Total"
-msgstr "Total"
+msgstr ""
 
 #: dshop/admin.py:405
 msgid "Is fully paid"
-msgstr "Payé"
+msgstr ""
 
 #: dshop/admin.py:410
 msgid "Details"
-msgstr "Détails"
+msgstr ""
 
 #: dshop/admin.py:468 dshop/admin.py:518
 msgid "Translatable Fields"
-msgstr "Champs traduisibles"
+msgstr ""
 
 #: dshop/admin.py:474 dshop/admin.py:524
 msgid "Categories and Filters"
-msgstr "Catégories et filtres"
+msgstr ""
 
 #: dshop/admin.py:480 dshop/admin.py:530 dshop/models.py:465
 msgid "Brand"
-msgstr "Marque"
+msgstr ""
 
 #: dshop/admin.py:485 dshop/admin.py:535 dshop/models.py:484
 msgid "Main Image"
-msgstr "Image principale"
+msgstr ""
 
 #: dshop/admin.py:555
 msgid "You can not select same Attribute type for one variant"
 msgstr ""
-"Vous ne pouvez pas sélectionner le même type d'attribut pour une variante"
 
 #: dshop/admin.py:563
 msgid "Text Index"
-msgstr "Texte"
+msgstr ""
 
 #: dshop/admin.py:598
 msgid "Price starting at"
-msgstr "Prix débutant par"
+msgstr ""
 
 #: dshop/admin.py:611 dshop/models.py:565 dshop/models.py:861
 msgid "Quantity"
-msgstr "Quantité"
+msgstr ""
 
 #: dshop/apps.py:8 settings.py:661
 msgid "Shop"
-msgstr "Boutique"
+msgstr ""
 
-#: dshop/cms_plugins.py:31
+#: dshop/cms_plugins.py:32
 msgid "Page's Header"
-msgstr "Entête de la page"
+msgstr ""
 
-#: dshop/cms_plugins.py:49
+#: dshop/cms_plugins.py:50
 msgid "Text With Media"
-msgstr "Texte avec média"
+msgstr ""
 
-#: dshop/cms_plugins.py:67
+#: dshop/cms_plugins.py:68
 msgid "Header With Video"
-msgstr "Entête avec vidéo"
+msgstr ""
 
-#: dshop/cms_plugins.py:85
+#: dshop/cms_plugins.py:86
 msgid "Slider"
-msgstr "Slider"
+msgstr ""
 
-#: dshop/cms_plugins.py:104
+#: dshop/cms_plugins.py:105
 msgid "Slider's Element"
-msgstr "Élément du bloc 'Slider'"
+msgstr ""
 
-#: dshop/cms_plugins.py:110
+#: dshop/cms_plugins.py:111
 msgid "Texts"
-msgstr "Texts"
+msgstr ""
 
-#: dshop/cms_plugins.py:116
+#: dshop/cms_plugins.py:117
 msgid "Background"
-msgstr "Fond"
+msgstr ""
 
-#: dshop/cms_plugins.py:122 dshop/models.py:1096
+#: dshop/cms_plugins.py:123 dshop/models.py:1096
 msgid "Link"
-msgstr "Lien"
+msgstr ""
 
-#: dshop/cms_plugins.py:146
+#: dshop/cms_plugins.py:147
 msgid "Steps"
-msgstr "Étapes"
+msgstr ""
 
-#: dshop/cms_plugins.py:165
+#: dshop/cms_plugins.py:166
 msgid "Steps's Element"
-msgstr "Élément du bloc 'Étapes'"
+msgstr ""
 
-#: dshop/cms_plugins.py:185
+#: dshop/cms_plugins.py:186
+msgid "Team"
+msgstr ""
+
+#: dshop/cms_plugins.py:205
+msgid "Team's Element"
+msgstr ""
+
+#: dshop/cms_plugins.py:225
 msgid "Call To Action"
-msgstr "Call To Action"
+msgstr ""
 
-#: dshop/cms_plugins.py:203
+#: dshop/cms_plugins.py:243
 msgid "Contact Card"
-msgstr "Card de contact"
+msgstr ""
 
-#: dshop/cms_plugins.py:221
+#: dshop/cms_plugins.py:261
 msgid "Newsletter"
-msgstr "Infolettre"
+msgstr ""
 
-#: dshop/cms_plugins.py:244
+#: dshop/cms_plugins.py:284
 msgid "Products Categories"
-msgstr "Catégories des produits"
+msgstr ""
 
-#: dshop/cms_plugins.py:262
+#: dshop/cms_plugins.py:302
 msgid "Featured Products"
-msgstr "Produits en vedette"
+msgstr ""
 
-#: dshop/cms_plugins.py:280
+#: dshop/cms_plugins.py:320
 msgid "Products By Category"
-msgstr "Produits par catégorie"
+msgstr ""
 
-#: dshop/cms_plugins.py:298 dshop/models.py:421
+#: dshop/cms_plugins.py:338 dshop/models.py:421
 msgid "Product's Brands"
-msgstr "Marques de produit"
+msgstr ""
 
-#: dshop/cms_plugins.py:316
+#: dshop/cms_plugins.py:356
 msgid "Sales"
-msgstr "Ventes"
+msgstr ""
 
-#: dshop/cms_plugins.py:335
+#: dshop/cms_plugins.py:375
 msgid "Sales's Element"
-msgstr "Élément du bloc 'Ventes'"
+msgstr ""
 
 #: dshop/models.py:66 dshop/models.py:72
 msgid "Ordered Quantity"
-msgstr "Quantité commandé"
+msgstr ""
 
 #: dshop/models.py:79
 msgid "Canceled"
-msgstr "Annulé"
+msgstr ""
 
 #: dshop/models.py:218 dshop/models.py:266
 msgid "Fullname"
-msgstr "Nom complet"
+msgstr ""
 
 #: dshop/models.py:222 dshop/models.py:270
 msgid "Address 1"
-msgstr "Adresse 1"
+msgstr ""
 
 #: dshop/models.py:226 dshop/models.py:274
 msgid "Address 2"
-msgstr "Adresse 2"
+msgstr ""
 
 #: dshop/models.py:232 dshop/models.py:280
 msgid "Country"
-msgstr "Pays"
+msgstr ""
 
 #: dshop/models.py:236 dshop/models.py:284
 msgid "Province / State"
-msgstr "Province / État"
+msgstr ""
 
 #: dshop/models.py:240 dshop/models.py:288
 msgid "City"
-msgstr "Ville"
+msgstr ""
 
 #: dshop/models.py:244 dshop/models.py:292
 msgid "Postal Code"
-msgstr "Code postal"
+msgstr ""
 
 #: dshop/models.py:249 dshop/templates/theme/default/order/detail.html:24
 msgid "Shipping Address"
-msgstr "Adresse de livraison"
+msgstr ""
 
 #: dshop/models.py:250
 msgid "Shipping Addresses"
-msgstr "Adresses de livraison"
+msgstr ""
 
 #: dshop/models.py:297 dshop/templates/theme/default/order/detail.html:35
 msgid "Billing Address"
-msgstr "Adresse de facturation"
+msgstr ""
 
 #: dshop/models.py:298
 msgid "Billing Addresses"
-msgstr "Adresses de facturation"
+msgstr ""
 
 #: dshop/models.py:320
 msgid "Category's Name"
-msgstr "Nom de la catégorie"
+msgstr ""
 
 #: dshop/models.py:328
 msgid "Parent's Category"
-msgstr "Catégorie parente"
+msgstr ""
 
 #: dshop/models.py:333 dshop/models.py:718 dshop/models.py:797
 #: dshop/models.py:819
-#, fuzzy
-#| msgid "Square Payment"
 msgid "Square ID"
-msgstr "Paiement Square"
+msgstr ""
 
 #: dshop/models.py:339 dshop/models.py:381 dshop/models.py:413
 #: dshop/models.py:476
 msgid "Sort by"
-msgstr "Réorganiser par"
+msgstr ""
 
 #: dshop/models.py:346
 msgid "Product's Category"
-msgstr "Catégorie de produit"
+msgstr ""
 
 #: dshop/models.py:347
 msgid "Product's Categories"
-msgstr "Catégories de produit"
+msgstr ""
 
 #: dshop/models.py:375
 msgid "Filter's Name"
-msgstr "Nom du filtre"
+msgstr ""
 
 #: dshop/models.py:388
 msgid "Product's Filter"
-msgstr "Filtre de produit"
+msgstr ""
 
 #: dshop/models.py:389
 msgid "Product's Filters"
-msgstr "Filtres de produit"
+msgstr ""
 
 #: dshop/models.py:402
 msgid "Brand's Name"
-msgstr "Nom de la marque"
+msgstr ""
 
 #: dshop/models.py:408 dshop/models.py:1025
 msgid "Logo"
-msgstr "Logo"
+msgstr ""
 
 #: dshop/models.py:420
 msgid "Product's Brand"
-msgstr "Marque du produit"
+msgstr ""
 
 #: dshop/models.py:445
 msgid "Product's Name"
-msgstr "Nom du produit"
+msgstr ""
 
 #: dshop/models.py:459
 msgid "Filters"
-msgstr "Filtres"
+msgstr ""
 
 #: dshop/models.py:470
 msgid "Featured"
-msgstr "En vedette"
+msgstr ""
 
 #: dshop/models.py:496 dshop/models.py:842
 msgid "Product"
-msgstr "Produit"
+msgstr ""
 
 #: dshop/models.py:527
 msgid "Caption"
-msgstr "Légende"
+msgstr ""
 
 #: dshop/models.py:531
 msgid "Short description."
-msgstr "Descriiption courte."
+msgstr ""
 
 #: dshop/models.py:534 dshop/models.py:572 dshop/models.py:725
 msgid "Description"
-msgstr "Description"
+msgstr ""
 
 #: dshop/models.py:538 dshop/models.py:574 dshop/models.py:727
 msgid "Long description."
-msgstr "Description longue."
+msgstr ""
 
 #: dshop/models.py:554 dshop/models.py:846
 msgid "Product's Code"
-msgstr "Code du produit"
+msgstr ""
 
 #: dshop/models.py:557
 msgid "A unique code."
-msgstr "Un code unique."
+msgstr ""
 
 #: dshop/models.py:560 dshop/models.py:856
 msgid "Unit Price"
-msgstr "Prix unitaire"
+msgstr ""
 
 #: dshop/models.py:562 dshop/models.py:858
 msgid "Net price for this product."
-msgstr "Prix net du produit."
+msgstr ""
 
 #: dshop/models.py:568 dshop/models.py:864
 msgid "Available quantity in stock."
-msgstr "Quantité disponible."
+msgstr ""
 
 #: dshop/models.py:578 dshop/models.py:867
 msgid "Discounted Unit Price"
-msgstr "Prix unitaire en promotion"
+msgstr ""
 
 #: dshop/models.py:582 dshop/models.py:871
 msgid "Net discounted price for this product."
-msgstr "Prix net en promotion du produit."
+msgstr ""
 
 #: dshop/models.py:585 dshop/models.py:874
 msgid "Discount Start DateTime"
-msgstr "Début de la promotion"
+msgstr ""
 
 #: dshop/models.py:588 dshop/models.py:877
 msgid "Start DateTime Discount"
-msgstr "Début de la promotion"
+msgstr ""
 
 #: dshop/models.py:591 dshop/models.py:880
 msgid "Discount Stop DateTime"
-msgstr "Fin de la promotion"
+msgstr ""
 
 #: dshop/models.py:594 dshop/models.py:883
 msgid "Stop DateTime Discount"
-msgstr "Fin de la promotion"
+msgstr ""
 
 #: dshop/models.py:598
 msgid "Default Product"
-msgstr "Produit par défaut"
+msgstr ""
 
 #: dshop/models.py:599
 msgid "Default Products"
-msgstr "Produits par défaut"
+msgstr ""
 
 #: dshop/models.py:732
 msgid "Variable Product"
-msgstr "Produit variable"
+msgstr ""
 
 #: dshop/models.py:733
 msgid "Variable Products"
-msgstr "Produits variables"
+msgstr ""
 
 #: dshop/models.py:792 dshop/models.py:794
 msgid "Attribute Name"
-msgstr "Nom de l'attribut"
+msgstr ""
 
 #: dshop/models.py:804
-#, fuzzy
-#| msgid "Product's Filter"
 msgid "Product's Attribute"
-msgstr "Filtre de produit"
+msgstr ""
 
 #: dshop/models.py:805
-#, fuzzy
-#| msgid "Product's Filters"
 msgid "Product's Attributes"
-msgstr "Filtres de produit"
+msgstr ""
 
 #: dshop/models.py:815 dshop/models.py:852
 msgid "Attribute"
-msgstr "Attribut"
+msgstr ""
 
 #: dshop/models.py:825 dshop/models.py:827
 msgid "Attribute Value"
-msgstr "Valeur"
+msgstr ""
 
 #: dshop/models.py:887
 #, python-brace-format
 msgid "{product}"
-msgstr "{product}"
+msgstr ""
 
 #: dshop/models.py:990 dshop/models.py:991
 msgid "Site"
-msgstr "Site"
+msgstr ""
 
 #: dshop/models.py:1010
 msgid "Logo pour fond clair"
-msgstr "Logo pour fond clair"
+msgstr ""
 
 #: dshop/models.py:1017
 msgid "Logo pour fond sombre"
-msgstr "Logo pour fond sombre"
+msgstr ""
 
 #: dshop/models.py:1026
 msgid "Logos"
-msgstr "Logos"
+msgstr ""
 
 #: dshop/models.py:1045
 msgid "Phone"
-msgstr "Téléphone"
+msgstr ""
 
-#: dshop/models.py:1051 dshop/models.py:1648
+#: dshop/models.py:1051 dshop/models.py:1650
 msgid "Email"
-msgstr "Courriel"
+msgstr ""
 
 #: dshop/models.py:1057
 msgid "Address"
-msgstr "Adresse"
+msgstr ""
 
 #: dshop/models.py:1064 dshop/models.py:1065
 msgid "Contacts"
-msgstr "Contacts"
+msgstr ""
 
 #: dshop/models.py:1079
 msgid "Facebook"
-msgstr "Facebook"
+msgstr ""
 
 #: dshop/models.py:1080
 msgid "Instagram"
-msgstr "Instagram"
+msgstr ""
 
 #: dshop/models.py:1081
 msgid "Youtube"
-msgstr "Youtube"
+msgstr ""
 
 #: dshop/models.py:1082
 msgid "Twitter"
-msgstr "Twitter"
+msgstr ""
 
 #: dshop/models.py:1091 dshop/models.py:1101
 msgid "Social Network"
-msgstr "Réseau social"
+msgstr ""
 
 #: dshop/models.py:1102
 msgid "Social Networks"
-msgstr "Réseaux sociaux"
+msgstr ""
 
 #: dshop/models.py:1115 dshop/models.py:1139 dshop/models.py:1155
 #: dshop/models.py:1183 dshop/models.py:1209 dshop/models.py:1223
@@ -1644,308 +1631,308 @@ msgstr "Réseaux sociaux"
 #: dshop/models.py:1480 dshop/models.py:1496 dshop/models.py:1512
 #: dshop/models.py:1555 dshop/models.py:1614
 msgid "Title"
-msgstr "Titre"
+msgstr ""
 
 #: dshop/models.py:1128 dshop/models.py:1389 dshop/models.py:1435
 #: dshop/models.py:1530 dshop/models.py:1588
 msgid "Button's Label"
-msgstr "Texte du bouton"
+msgstr ""
 
 #: dshop/models.py:1133
 msgid "Leave blank to hide button."
-msgstr "Laisser vide pour masquer le bouton."
+msgstr ""
 
 #: dshop/models.py:1168 dshop/models.py:1331 dshop/models.py:1449
 #: dshop/models.py:1543 dshop/models.py:1601
 msgid "Background's Colour"
-msgstr "Couleur du fond"
+msgstr ""
 
 #: dshop/models.py:1173
 msgid "Background's Image"
-msgstr "Image de fond"
+msgstr ""
 
 #: dshop/models.py:1200
 msgid "How many brand's logo to be show at the same time."
-msgstr "Nombre de logos de marque affichés en même temps."
+msgstr ""
 
 #: dshop/models.py:1219 dshop/models.py:1279
 msgid "Left"
-msgstr "Gauche"
+msgstr ""
 
 #: dshop/models.py:1220 dshop/models.py:1281
 msgid "Right"
-msgstr "Droite"
+msgstr ""
 
 #: dshop/models.py:1230 dshop/models.py:1291 dshop/models.py:1412
 #: dshop/models.py:1464 dshop/models.py:1562
 msgid "Subtitle"
-msgstr "Sous-titre"
+msgstr ""
 
 #: dshop/models.py:1234 dshop/models.py:1295 dshop/models.py:1416
 #: dshop/models.py:1440 dshop/models.py:1468 dshop/models.py:1490
 msgid "Maximum 200 characters."
-msgstr "Maximum 200 caractères."
+msgstr ""
 
 #: dshop/models.py:1243 dshop/models.py:1336 dshop/models.py:1443
 #: dshop/models.py:1474 dshop/models.py:1547 dshop/models.py:1606
 msgid "Image"
-msgstr "Image"
+msgstr ""
 
 #: dshop/models.py:1246
 msgid "Sizes : 398x531. Leave blank to hide image."
-msgstr "Dimensions : 398x531. Laisser vide pour masquer l'image."
+msgstr ""
 
 #: dshop/models.py:1249
 msgid "Video"
-msgstr "Vidéo"
+msgstr ""
 
 #: dshop/models.py:1253
 msgid "Leave blank to hide or use image instead."
-msgstr "Laisser vide pour masquer ou utiliser l'image à la place."
+msgstr ""
 
 #: dshop/models.py:1256
 msgid "Image's Position"
-msgstr "Position de l'image"
+msgstr ""
 
 #: dshop/models.py:1266
 msgid "Video File"
-msgstr "Fichier vidéo"
+msgstr ""
 
 #: dshop/models.py:1280
 msgid "Middle"
-msgstr "Centre"
+msgstr ""
 
 #: dshop/models.py:1298 dshop/models.py:1407 dshop/models.py:1576
 msgid "Title's Colour"
-msgstr "Couleur du titre"
+msgstr ""
 
 #: dshop/models.py:1303 dshop/models.py:1419 dshop/models.py:1580
 msgid "Subtitle's Colour"
-msgstr "Couleur du sous-titre"
+msgstr ""
 
 #: dshop/models.py:1308
 msgid "Text's Position"
-msgstr "Position du texte"
+msgstr ""
 
 #: dshop/models.py:1313
 msgid "Link's Label"
-msgstr "Texte du lien"
+msgstr ""
 
 #: dshop/models.py:1317
 msgid "Maximum 30 characters."
-msgstr "Maximum 30 caractères."
+msgstr ""
 
 #: dshop/models.py:1324
 msgid "Maximum 1 000 characters."
-msgstr "Maximum 1 000 caractères."
+msgstr ""
 
 #: dshop/models.py:1327
 msgid "Open on new tab?"
-msgstr "Ouvrir dans un nouvel onglet ?"
+msgstr ""
 
 #: dshop/models.py:1339 dshop/models.py:1446
 msgid "Leave blank to hide image."
-msgstr "Laisser vide pour masquer l'image."
+msgstr ""
 
 #: dshop/models.py:1345
 msgid "Schedule - Top"
-msgstr "Horaire - Haut"
+msgstr ""
 
 #: dshop/models.py:1349 dshop/models.py:1356 dshop/models.py:1363
 #: dshop/models.py:1371 dshop/models.py:1386 dshop/models.py:1394
 msgid "Maximum 50 characters."
-msgstr "Maximum 50 characters."
+msgstr ""
 
 #: dshop/models.py:1352
 msgid "Schedule - Bottom"
-msgstr "Horaire - Bas"
+msgstr ""
 
 #: dshop/models.py:1359
 msgid "Phone - Top"
-msgstr "Téléphone - Haut"
+msgstr ""
 
 #: dshop/models.py:1366
 msgid "Phone - Bottom"
-msgstr "Téléphone - Bas"
+msgstr ""
 
 #: dshop/models.py:1374
 msgid "Address - Top"
-msgstr "Adresse - Haut"
+msgstr ""
 
 #: dshop/models.py:1378
 msgid "Maximum 120 characters."
-msgstr "Maximum 120 caractères."
+msgstr ""
 
 #: dshop/models.py:1381
 msgid "Address - Bottom"
-msgstr "Adresse - Bas"
+msgstr ""
 
 #: dshop/models.py:1430 dshop/models.py:1526 dshop/models.py:1584
 msgid "Text's Colour"
-msgstr "Couleur du texte"
+msgstr ""
 
 #: dshop/models.py:1477
 msgid "Sizes : 160x160."
-msgstr "Dimensions : 160x160."
+msgstr ""
 
 #: dshop/models.py:1534 dshop/models.py:1592
 msgid "Maximum 25 characters."
-msgstr "Maximum 25 caractères."
+msgstr ""
 
 #: dshop/models.py:1537 dshop/models.py:1595
 msgid "Button's URL"
-msgstr "URL du bouton"
+msgstr ""
 
 #: dshop/models.py:1559 dshop/models.py:1566
 msgid "Maximum 250 characters."
-msgstr "Maximum 250 caractères."
+msgstr ""
 
 #: dshop/models.py:1573
 msgid "Maximum 500 characters."
-msgstr "Maximum 500 caractères."
+msgstr ""
 
 #: dshop/models.py:1637
 msgid "Job"
-msgstr "Emploi"
+msgstr ""
 
 #: dshop/models.py:1643
 msgid "Photo"
-msgstr "Photo"
+msgstr ""
 
-#: dshop/models.py:1658
+#: dshop/models.py:1660
 msgid "Ex.: https://www.facebook.com/<username>"
-msgstr "Ex.: https://www.facebook.com/<nomdutilisateur>"
+msgstr ""
 
-#: dshop/models.py:1665
+#: dshop/models.py:1667
 msgid "Ex.: https://twitter.com/<username>"
-msgstr "Ex.: https://twitter.com/<nomdutilisateur>"
+msgstr ""
 
-#: dshop/models.py:1672
+#: dshop/models.py:1674
 msgid "Ex.: https://www.instagram.com/<username>"
-msgstr "Ex.: https://www.instagram.com/<nomdutilisateur>"
+msgstr ""
 
-#: dshop/models.py:1679
+#: dshop/models.py:1681
 msgid "Feature Name"
-msgstr "Nom de la fonctionnalité"
+msgstr ""
 
-#: dshop/models.py:1683
+#: dshop/models.py:1685
 msgid "Is enabled?"
-msgstr "Est activé ?"
+msgstr ""
 
-#: dshop/models.py:1688
+#: dshop/models.py:1690
 msgid "Feature List"
-msgstr "Liste de fonctionnalité"
+msgstr ""
 
-#: dshop/models.py:1689
+#: dshop/models.py:1691
 msgid "Feature Lists"
-msgstr "Listes de fonctionnalité"
+msgstr ""
 
 #: dshop/modifiers.py:48
 msgid "Test (development)"
-msgstr "Test (développement)"
+msgstr ""
 
 #: dshop/payment.py:33
 msgid "An error occured while creating your order."
-msgstr "Une erreur est survenue lors de la création de la commande."
+msgstr ""
 
 #: dshop/templates/theme/default/404.html:8
 msgid "Page not found"
-msgstr "Page introuvable"
+msgstr ""
 
 #: dshop/templates/theme/default/404.html:9
 msgid "This page doesnt exist"
-msgstr "Cette page n'existe pas"
+msgstr ""
 
 #: dshop/templates/theme/default/404.html:10
 #: dshop/templates/theme/default/500.html:10
 msgid "Back to home"
-msgstr "Retour à l'accueil"
+msgstr ""
 
 #: dshop/templates/theme/default/500.html:8
 msgid "Error"
-msgstr "Erreur"
+msgstr ""
 
 #: dshop/templates/theme/default/500.html:9
 msgid "An error occurred. Sorry."
-msgstr "Une erreur est survenue. Désolé."
+msgstr ""
 
 #: dshop/templates/theme/default/catalog/productdefault-detail.html:79
 #: dshop/templates/theme/default/catalog/productdefault-detail.html:184
-#: dshop/templates/theme/default/pages/produits.html:139
+#: dshop/templates/theme/default/pages/produits.html:146
 #: dshop/templates/theme/default/plugins/products-by-category.html:88
 #: dshop/templates/theme/default/plugins/products-vedette.html:70
 msgid "Discounted"
-msgstr "Promotion"
+msgstr ""
 
 #: dshop/templates/theme/default/catalog/productdefault-detail.html:102
 #: dshop/templates/theme/default/catalog/productvariable-detail.html:115
 msgid "Add to cart"
-msgstr "Ajouter au panier"
+msgstr ""
 
 #: dshop/templates/theme/default/order/detail.html:11
 msgctxt "order-detail"
 msgid "from"
-msgstr "de"
+msgstr ""
 
 #: dshop/templates/theme/default/order/detail.html:14
 msgid "Paid using Stripe"
-msgstr "Payé avec Stripe"
+msgstr ""
 
 #: dshop/templates/theme/default/order/detail.html:39
 #: dshop/templates/theme/default/print/invoice.html:64
 msgid "Payment Method"
-msgstr "Méthode de paiement"
+msgstr ""
 
 #: dshop/templates/theme/default/order/detail.html:47
 msgid "Ordered Items"
-msgstr "Produits commandés"
+msgstr ""
 
 #: dshop/templates/theme/default/order/detail.html:120
 msgid "Applied Promocodes"
-msgstr "Codes promotionnels appliqués"
+msgstr ""
 
 #: dshop/templates/theme/default/order/list.html:16
 msgid "You have never ordered anything from this site."
-msgstr "Vous n'avez jamais commandé sur ce site."
+msgstr ""
 
 #: dshop/templates/theme/default/order/list.html:49
 msgid "Page navigation"
-msgstr "Navigation de la page"
+msgstr ""
 
 #: dshop/templates/theme/default/pages/__init__.py:4 settings.py:467
 msgid "Default"
-msgstr "Par défaut"
+msgstr ""
 
 #: dshop/templates/theme/default/pages/__init__.py:5
 msgid "Page: Home"
-msgstr "Page : Accueil"
+msgstr ""
 
 #: dshop/templates/theme/default/pages/__init__.py:6
 msgid "Page: Products"
-msgstr "Page : Produits"
+msgstr ""
 
 #: dshop/templates/theme/default/pages/__init__.py:7
 msgid "Page: Contact"
-msgstr "Page : Contact"
+msgstr ""
 
 #: dshop/templates/theme/default/pages/message-envoye.html:4
 #: dshop/templates/theme/default/pages/message-envoye.html:11
 msgid "Message Sent!"
-msgstr "Message envoyé !"
+msgstr ""
 
 #: dshop/templates/theme/default/pages/message-envoye.html:12
 msgid "Your message has beend successfully sent."
-msgstr "Votre message a été envoyé avec succès."
+msgstr ""
 
 #: dshop/templates/theme/default/pages/message-envoye.html:13
 msgid "Thanks!"
-msgstr "Merci !"
+msgstr ""
 
-#: dshop/templates/theme/default/pages/produits.html:147
+#: dshop/templates/theme/default/pages/produits.html:154
 msgid "See more"
-msgstr "Voir plus"
+msgstr ""
 
-#: dshop/templates/theme/default/pages/produits.html:157
+#: dshop/templates/theme/default/pages/produits.html:164
 #: dshop/templates/theme/default/plugins/products-brands.html:38
 #: dshop/templates/theme/default/plugins/products-by-category.html:96
 #: dshop/templates/theme/default/plugins/products-vedette.html:78
@@ -1953,221 +1940,194 @@ msgstr "Voir plus"
 #: templates/plugins/products-categories.html:63
 #: templates/plugins/products-vedette.html:75
 msgid "Empty"
-msgstr "Vide"
+msgstr ""
 
-#: dshop/templates/theme/default/pages/produits.html:167
-#: dshop/templates/theme/default/pages/produits.html:169
+#: dshop/templates/theme/default/pages/produits.html:174
+#: dshop/templates/theme/default/pages/produits.html:176
 msgid "See more products"
-msgstr "Voir plus de produits"
+msgstr ""
 
-#: dshop/templates/theme/default/pages/produits.html:212
+#: dshop/templates/theme/default/pages/produits.html:219
 msgid "Brands"
-msgstr "Marques"
+msgstr ""
 
 #: dshop/templates/theme/default/pages/search.html:12
 msgid "Products found:"
-msgstr "Produits trouvés :"
+msgstr ""
 
 #: dshop/templates/theme/default/pages/search.html:44
 msgid "See product"
-msgstr "Voir le produit"
+msgstr ""
 
 #: dshop/templates/theme/default/pages/search.html:50
 msgid "No product found"
-msgstr "Aucun produit trouvé"
+msgstr ""
 
 #: dshop/templates/theme/default/plugins/bloc-infolettre.html:25
 #: templates/dshop/pages/drawer-user.html:37
 #: templates/dshop/pages/drawer-user.html:46
 #: templates/plugins/bloc-infolettre.html:21
 msgid "Your email"
-msgstr "Votre courriel"
+msgstr ""
 
 #: dshop/templates/theme/default/print/delivery-note.html:4
 #: dshop/templates/theme/default/print/delivery-note.html:12
 msgid "Delivery Note"
-msgstr "Note de livraison"
+msgstr ""
 
 #: dshop/templates/theme/default/print/delivery-note.html:42
 msgid "Shipped at"
-msgstr "Envoyé le"
+msgstr ""
 
 #: dshop/templates/theme/default/print/invoice.html:4
 #: dshop/templates/theme/default/print/invoice.html:12
 msgid "Invoice"
-msgstr "Facture"
+msgstr ""
 
 #: dshop/templates/theme/default/print/invoice.html:65
 msgid "Ordered on"
-msgstr "Commandé"
+msgstr ""
 
 #: dshop/views.py:383
 msgid "You successfully been added to our newsletter."
-msgstr "Vous avez été ajouté à notre infolettre avec succès."
+msgstr ""
 
 #: dshop/views.py:387
 msgid "An error occurred, sorry."
-msgstr "Une erreur est survenue, désolé."
+msgstr ""
 
 #: dshop/views.py:390
 msgid "Your answer was wrong."
-msgstr "Votre réponse est fausse."
+msgstr ""
 
 #: dshop/views.py:434
 msgid "Invalid POST data."
-msgstr "Données invalides."
+msgstr ""
 
 #: dshop/views.py:441
 msgid "Password has been reset with the new password."
-msgstr "Le mot de passe été réinitialisé avec le nouveau mot de passe."
+msgstr ""
 
 #: settings.py:464
 msgid "Product Heading"
-msgstr "Entête de produit"
+msgstr ""
 
 #: settings.py:674
 msgid "Delivery"
-msgstr "Livraison"
+msgstr ""
 
 #: settings.py:678
 msgid "DeliveryItem"
-msgstr "Objet de livraison"
+msgstr ""
 
 #: settings.py:710
 msgid "Sending Emails"
-msgstr "Envoi de courriels"
+msgstr ""
 
 #: settings.py:715
 msgid "Email Templates"
-msgstr "Gabarits de courriel"
+msgstr ""
 
 #: settings.py:719
 msgid "Sent Emails"
-msgstr "Courriels envoyés"
+msgstr ""
 
 #: settings.py:726
 msgid "Theme Management"
-msgstr "Thème"
+msgstr ""
 
 #: templates/cms/plugins/widgets/ckeditor.html:25
 #: templates/cms/plugins/widgets/ckeditor.html:28
 msgid "CMS Plugins"
-msgstr "Plugins du CMS"
+msgstr ""
 
 #: templates/cms/plugins/widgets/ckeditor.html:26
 msgid "Add CMS Plugin"
-msgstr "Ajouter un plugin"
+msgstr ""
 
 #: templates/cms/plugins/widgets/ckeditor.html:27
 msgid "Edit CMS Plugin"
-msgstr "Modifier un plugin"
+msgstr ""
 
 #: templates/cms/plugins/widgets/ckeditor.html:33
 msgid "Standard Plugins"
-msgstr "Plugins standards"
+msgstr ""
 
 #: templates/djangocms_file/default/folder.html:14
 msgid "No files were found in the specified folder."
-msgstr "Aucun fichier trouvé dans le dossier spécifié."
+msgstr ""
 
 #: templates/djangocms_video/default/video_player.html:18
 msgid "Your browser doesn't support this video format."
-msgstr "Votre navigateur ne supporte pas ce format vidéo."
+msgstr ""
 
 #: templates/dshop/admin/order-extra.html:11
 msgid "Payment"
-msgstr "Paiement"
+msgstr ""
 
 #: templates/dshop/admin/order-extra.html:14
 msgid "Annotation"
-msgstr "Annotation"
+msgstr ""
 
 #: templates/dshop/pages/base.html:85
 msgid "Under Construction"
-msgstr "En construction"
+msgstr ""
 
 #: templates/dshop/pages/base.html:86
 msgid "This page has no contact."
-msgstr "Cette page n'a pas de contenu."
+msgstr ""
 
 #: templates/dshop/pages/base.html:125
 msgid "Useful Links"
-msgstr "Liens utiles"
+msgstr ""
 
 #: templates/dshop/pages/base.html:146 templates/dshop/pages/drawer-user.html:5
 #: templates/dshop/pages/drawer-user.html:25
 msgid "My Account"
-msgstr "Mon compte"
+msgstr ""
 
 #: templates/dshop/pages/base.html:148 templates/dshop/pages/drawer-user.html:9
 msgid "Profile"
-msgstr "Profil"
+msgstr ""
 
 #: templates/dshop/pages/base.html:149
 #: templates/dshop/pages/drawer-user.html:12
 msgid "My Orders"
-msgstr "Mes commandes"
+msgstr ""
 
 #: templates/dshop/pages/base.html:189
 msgid "All rights reserved"
-msgstr "Tous droits réservés"
+msgstr ""
 
 #: templates/dshop/pages/base.html:189
 msgid "Site created by"
-msgstr "Site créé par"
+msgstr ""
 
 #: templates/dshop/pages/drawer-user.html:18
 msgid "Logout"
-msgstr "Déconnexion"
+msgstr ""
 
 #: templates/dshop/pages/drawer-user.html:28
 msgid "Login"
-msgstr "Connexion"
+msgstr ""
 
 #: templates/dshop/pages/drawer-user.html:31
 msgid "Registration"
-msgstr "Inscription"
+msgstr ""
 
 #: templates/dshop/pages/drawer-user.html:38
 #: templates/dshop/pages/drawer-user.html:47
 msgid "Password"
-msgstr "Mot de passe"
+msgstr ""
 
 #: templates/dshop/pages/drawer-user.html:42
 msgid "Log In"
-msgstr "Se connecter"
+msgstr ""
 
 #: templates/dshop/pages/drawer-user.html:48
 msgid "Confirm Password"
-msgstr "Confirmation du mot de passe"
+msgstr ""
 
 #: templates/dshop/pages/drawer-user.html:51
 msgid "Sign In"
-msgstr "S'inscrire"
-
-msgid "Theme"
-msgstr "Thème"
-
-msgid "CSS"
-msgstr "CSS"
-
-msgid "Theme Setting"
-msgstr "Paramètre du thème"
-
-msgid "Theme Settings"
-msgstr "Paramètres du thème"
-
-msgid "Payment confirmed"
-msgstr "Paiement confirmé"
-
-msgid "Order items"
-msgstr "Produits commandés"
-
-msgid "Use shipping address for billing"
-msgstr "Utiliser l'adresse de livraison pour la facturation"
-
-msgid "Team"
-msgstr "Équipe"
-
-msgid "Team's Element"
-msgstr "Élément du bloc 'Équipe'"
+msgstr ""
