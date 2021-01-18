@@ -39,7 +39,12 @@ class Command(BaseCommand):
                     'name': d['category_data']['name'],
                     'square_id': d['id']
                 }
-                ProductCategory.objects.get_or_create(**cat_data)
+                cat = ProductCategory.objects.filter(square_id=d['id'])
+                if not cat:
+                    ProductCategory.objects.create(**cat_data)
+                else:
+                    cat[0].name = d['category_data']['name']
+                    cat[0].save()
         print("Created...")
 
         # Request for item_options (Attribute)
