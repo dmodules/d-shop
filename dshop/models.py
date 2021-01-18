@@ -651,7 +651,10 @@ class ProductDefault(AvailableProductMixin, Product):
 
     @property
     def is_discounted(self):
-        if self.discounted_price == Money(0) or self.discounted_price is None:
+        if self.discounted_price == Money(0) or \
+           self.discounted_price is None or \
+           self.start_data is None or \
+           self.end_date is None:
             return False
         today = pytz.utc.localize(datetime.utcnow())
         if self.start_date < today and self.end_date > today:
