@@ -28,6 +28,10 @@ const i18n = {
   discounted: {
       fr: "Promotion",
       en: "Discounted"
+  },
+  empty: {
+      fr: "Vide",
+      en: "Empty"
   }
 }
 

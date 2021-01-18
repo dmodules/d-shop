@@ -127,18 +127,18 @@ class LoadProduits(APIView):
                 Q(categories=category) | Q(categories__parent=category)
                 | Q(categories__parent__parent=category)
                 | Q(categories__parent__parent__parent=category),
-                active=True).order_by("id")[offset:offset + limit]
+                active=True)[offset:offset + limit]
             next_products = Product.objects.filter(
                 Q(categories=category) | Q(categories__parent=category)
                 | Q(categories__parent__parent=category)
                 | Q(categories__parent__parent__parent=category),
-                active=True).order_by("id")[offset + limit:offset + limit + limit].count()
+                active=True)[offset + limit:offset + limit + limit].count()
         else:
             products = Product.objects.filter(
-                active=True).order_by("id")[offset:offset + limit]
+                active=True)[offset:offset + limit]
             next_products = Product.objects.filter(
                 active=True
-            ).order_by("id")[offset + limit:offset + limit + limit].count()
+            )[offset + limit:offset + limit + limit].count()
         # ===---
         all_produits = []
         for produit in products:
@@ -178,6 +178,78 @@ class LoadProduits(APIView):
             all_produits.append(data)
         # ===---
         result = {"products": all_produits, "next": next_products}
+        return RestResponse(result)
+
+
+class LoadProductsByCategory(APIView):
+    """
+    Retrieve products for plugin Products by Category.
+    """
+
+    permission_classes = [AllowAny]
+
+    def get(self, request, *args, **kwargs):  # noqa: C901
+        category = request.GET.get("category", None)
+        products = None
+        if category is not None:
+            category = int(category)
+            products = Product.objects.filter(
+                Q(categories=category) | Q(categories__parent=category)
+                | Q(categories__parent__parent=category)
+                | Q(categories__parent__parent__parent=category),
+                active=True
+            )[:4]
+            # ===---
+            all_produits = []
+            for produit in products:
+                data = {}
+                data['name'] = produit.product_name
+                data['url'] = produit.get_absolute_url()
+                data['caption'] = strip_tags(Truncator(produit.caption).words(18))
+                data['slug'] = produit.slug
+                if produit.main_image:
+                    try:
+                        data['image'] = get_thumbnailer(
+                            produit.main_image).get_thumbnail({
+                                'size': (540, 600),
+                                'crop': True,
+                                'upscale': True
+                            }).url
+                    except Exception:
+                        data['image'] = None
+                elif produit.images.first():
+                    try:
+                        data['image'] = get_thumbnailer(
+                            produit.images.first()).get_thumbnail({
+                                'size': (540, 600),
+                                'crop': True,
+                                'upscale': True
+                            }).url
+                    except Exception:
+                        data['image'] = None
+                else:
+                    data['image'] = None
+                if produit.filters.all():
+                    data['filters'] = " ".join(
+                        [slugify(d.name) for d in produit.filters.all()])
+                else:
+                    data['filters'] = None
+                if hasattr(produit, 'variants'):
+                    data['variants'] = True
+                    if produit.variants.first():
+                        data['price'] = produit.variants.first().unit_price
+                    else:
+                        data['price'] = "-"
+                    data['is_discounted'] = produit.variants.first().is_discounted
+                else:
+                    data['price'] = produit.get_price(request)
+                    data['realprice'] = produit.unit_price
+                    data['variants'] = False
+                    data['is_discounted'] = produit.is_discounted
+                all_produits.append(data)
+
+        # ===---
+        result = {"products": all_produits}
         return RestResponse(result)
 
 
