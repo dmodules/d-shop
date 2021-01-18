@@ -182,7 +182,9 @@
                       <a href="{{related.get_absolute_url}}">
                         {% if related.main_image %}
                           {% thumbnail related.main_image 540x600 crop upscale as thumb %}
-                          <img src="{{thumb.url}}" alt="product_img1" />
+                          <img src="{{thumb.url}}" alt="{{related.product_name}}" />
+                        {% else %}
+                            <img src="https://via.placeholder.com/540x600/ececec/ececec" alt="{{related.product_name}}" />
                         {% endif %}
                       </a>
                       <div class="product_action_box">
