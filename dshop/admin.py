@@ -544,8 +544,6 @@ class ProductVariableAdmin(
 
     def save_formset(self, request, form, formset, change):
         len_is_valid = 0
-        print(dir(request))
-        print(request.current_page)
         for f in formset:
             if type(f.instance) == ProductVariableVariant:
                 is_valid = []
