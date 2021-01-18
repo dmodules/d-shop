@@ -87,11 +87,16 @@ class Command(BaseCommand):
                         if Image.objects.filter(name=name):
                             continue
                         url = d['image_data']['url']
+                        try:
+                            ext = url.rsplit('.',1)[1]
+                            file_name = name + "." + ext
+                        except Exception as e:
+                            pass
                         r = requests.get(url)
                         image_temp_file = NamedTemporaryFile(delete=True)
                         image_temp_file.write(r.content)
                         image_temp_file.flush()
-                        f = File(image_temp_file, name=name)
+                        f = File(image_temp_file, name=file_name)
                         Image.objects.create(
                             original_filename=name,
                             file=f,
@@ -132,6 +137,7 @@ class Command(BaseCommand):
                         'product_name': d['item_data']['name'],
                         'square_id': d['id'],
                         'description': description,
+                        'caption':description,
                         'order': 1
                     }
                     if ProductVariable.objects.filter(square_id=d['id']):
