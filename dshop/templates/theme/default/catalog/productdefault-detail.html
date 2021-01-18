@@ -87,7 +87,11 @@
                     {% endif %}
                 </div>
                 <div class="pr_desc">
-                  {{ product.caption|safe }}
+                    {% if product.caption %}
+                        {{product.caption|safe}}
+                    {% elif product.description %}
+                        {{product.description|safe}}
+                    {% endif %}
                 </div>
               </div>
               <hr />
