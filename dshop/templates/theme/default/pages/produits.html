@@ -15,34 +15,36 @@
 {% block meta-description %}{% page_attribute "meta_description" %}{% endblock %}
 
 {% block breadcrumb %}
-  <section class="section-breadcrumb">
-    <div class="breadcrumb_section bg_gray page-title-mini mb-4">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-6">
-            <div class="page-title">
-              {% if request.resolver_match.kwargs.category_id %}
-                {% dm_get_category request.resolver_match.kwargs.category_id as current_category %}
-                <h1>{{current_category.name}}</h1>
-              {% elif request.resolver_match.kwargs.brand_id %}
-                {% dm_get_brand request.resolver_match.kwargs.brand_id as current_brand %}
-                <h1>{{current_brand.name}}</h1>
-              {% else %}
-                <h1>{% trans "Products" %}</h1>
-              {% endif %}
+    {% if request.resolver_match.kwargs.category_id %}
+        {% dm_get_category request.resolver_match.kwargs.category_id as current_category %}
+        {% if current_category.image %}
+            {% thumbnail current_category.image "2000x900" as category_thumb %}
+        {% endif %}
+    {% elif request.resolver_match.kwargs.brand_id %}
+        {% dm_get_brand request.resolver_match.kwargs.brand_id as current_brand %}
+    {% endif %}
+    <section class="section-breadcrumb">
+        <div class="breadcrumb_section bg_gray page-title-mini mb-4" style="{% if current_category %}{% if current_category.bg_color %}background-color:{{current_category.bg_color}}!important;{% endif %}{% if category_thumb %}background-image:url({{category_thumb.url}});{% endif %}{% endif %}">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <div class="page-title" style="{% if current_category %}text-align:{% if current_category.text_position == 1 %}left{% elif current_category.text_position == 2 %}center{% elif current_category.text_position == 3 %}right{% endif %};{% endif %}">
+                            {% if current_category %}
+                                <h1 style="{% if current_category.text_color %}color:{{current_category.text_color}};{% endif %}">{{current_category.name}}</h1>
+                                <div class="mt-4">
+                                    {% if current_category.text %}{{current_category.text}}{% endif %}
+                                </div>
+                            {% elif current_brand %}
+                                <h1>{{current_brand.name}}</h1>
+                            {% else %}
+                                <h1>{% trans "Products" %}</h1>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-md-6 text-md-right">
-            {% if request.resolver_match.kwargs.category_id %}
-              <div class="breadcrumbs-item">
-                <a href="{% page_url 'produits' %}">{% trans "Products" %}</a>
-              </div>
-            {% endif %}
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 {% endblock breadcrumb %}
 
 {% block main-content %}

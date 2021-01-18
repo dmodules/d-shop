@@ -19,9 +19,9 @@
           </div>
         </div>
       {% endif %}
-      <div class="row carousel-vedette">
-        <div class="product_slider carousel_slider owl-carousel owl-theme nav_style1" data-loop="true" data-dots="false" data-nav="true" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "1199":{"items": "4"}}'>
-          {% dm_get_products_vedette as products %}
+      <div class="row carousel-vedette justify-content-center">
+        {% dm_get_products_vedette as products %}
+        <div class="product_slider{% if products.count > 0 %} carousel_slider owl-carousel owl-theme{% endif %} nav_style1"{% if products.count > 0 %} data-loop="true" data-dots="false" data-nav="true" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "1199":{"items": "4"}}'{% endif %}>
           {% for product in products %}
             <div class="item" id="produitvedetteno{{forloop.counter}}">
               <div class="product">

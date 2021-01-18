@@ -543,6 +543,7 @@ class ProductVariableAdmin(
     readonly_fields = ("slug",)
 
     def save_formset(self, request, form, formset, change):
+        len_is_valid = 0
         for f in formset:
             if type(f.instance) == ProductVariableVariant:
                 is_valid = []
@@ -555,6 +556,11 @@ class ProductVariableAdmin(
                         messages.error(request, _("You can not select same Attribute type for one variant"))
                 if flag:
                     f.cleaned_data['attribute'] = []
+                if len_is_valid == 0:
+                    len_is_valid = len(is_valid)
+                if len(is_valid) != len_is_valid:
+                    flag = True
+                    messages.error(request, _("You need to select same Attribute type for all variant"))
         formset.save()
 
     def render_text_index(self, instance):

@@ -316,6 +316,12 @@ class ProductCategory(models.Model):
     Product can have multiple categories.
     """
 
+    CHOIX_POS = [
+        (1, _("Left")),
+        (2, _("Center")),
+        (3, _("Right"))
+    ]
+
     name = models.CharField(
         verbose_name=_("Category's Name"),
         max_length=100,
@@ -340,6 +346,37 @@ class ProductCategory(models.Model):
         default=0,
         blank=False,
         null=False
+    )
+    text = HTMLField(
+        verbose_name=_("Text"),
+        configuration="CKEDITOR_SETTINGS_DMPLUGIN",
+        null=True,
+        blank=True,
+        help_text=_("A text that will be shown on the top of the page of the Products of this category.")
+    )
+    text_position = models.PositiveSmallIntegerField(
+        verbose_name=_("Position"),
+        choices=CHOIX_POS,
+        default=1,
+        help_text=_("Position of the text.")
+    )
+    text_color = ColorField(
+        verbose_name=_("Text's Colour"),
+        null=True,
+        blank=True
+    )
+    bg_color = ColorField(
+        verbose_name=_("Background's Colour"),
+        null=True,
+        blank=True
+    )
+    image = image.FilerImageField(
+        verbose_name=_("Header's Image"),
+        on_delete=models.SET_NULL,
+        related_name="category_image",
+        null=True,
+        blank=True,
+        help_text=_("An image that will be shown on the top of the page of the Products of this category.")
     )
 
     class Meta:
@@ -614,7 +651,10 @@ class ProductDefault(AvailableProductMixin, Product):
 
     @property
     def is_discounted(self):
-        if self.discounted_price == Money(0) or self.discounted_price is None:
+        if self.discounted_price == Money(0) or \
+           self.discounted_price is None or \
+           self.start_date is None or \
+           self.end_date is None:
             return False
         today = pytz.utc.localize(datetime.utcnow())
         if self.start_date < today and self.end_date > today:
@@ -786,6 +826,29 @@ class ProductVariable(Product):
     def get_product_variants(self):
         return self.variants.all()
 
+    def get_product_attribute(self):
+        if self.variants.all():
+            data = {}
+            for a in self.variants.all()[0].attribute.all():
+                if a.attribute.name not in data:
+                    data[a.attribute.name] = []
+            for d in data:
+                data[d] = list(AttributeValue.objects.filter(attribute__name=d).values_list('value', flat=True))
+            return data
+
+    def get_attribute_values(self):
+        if self.variants.all():
+            data = {}
+            data["key"] = []
+            data["value"] = []
+            for v in self.variants.all():
+                for a in v.attribute.all():
+                    if a.attribute.name not in data["key"]:
+                        data["key"].append(a.attribute.name)
+                    if a.value not in data["value"]:
+                        data["value"].append(a.value)
+            return data
+
 
 class Attribute(models.Model):
     name = models.CharField(
@@ -891,9 +954,11 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         if self.discounted_price == Money(0) or self.discounted_price is None:
             return False
         today = pytz.utc.localize(datetime.utcnow())
-        if not self.start_date or self.end_date:
+        if not self.start_date:
             return False
-        if self.start_date < today and self.end_date > today:
+        if self.start_date < today and not self.end_date:
+            return True
+        elif self.start_date < today and self.end_date > today:
             return True
 
     def get_price(self, request):  # noqa: C901
@@ -961,14 +1026,6 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
 
     def get_realprice(self):
         return self.unit_price
-
-    def get_attribute(self):
-        if self.attribute.all():
-            data = []
-            for a in self.attribute.all():
-                data.append(a.value)
-            return ' - '.join(data)
-        return ''
 
 
 #######################################################################

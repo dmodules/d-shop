@@ -298,6 +298,26 @@ body{
   font-weight:700;
 }
 
+/* ===--- Section Produits par Category ---=== */
+.pbc-loading{
+    font-size: 1rem;
+}
+.pbc-loading span {
+    font-size:2rem;
+    animation: blink 1.4s infinite both;
+}
+.pbc-loading span+span {
+    animation-delay: .2s;
+}
+.pbc-loading span+span+span {
+    animation-delay: .4s;
+}
+@keyframes blink {
+    0% {opacity: .2;}
+    20% {opacity: 1;}
+    100% {opacity: .2;}
+}
+
 /**/
 .product-card{
   background-color:#fff;

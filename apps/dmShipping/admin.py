@@ -17,7 +17,7 @@ class ShippingManagementAdmin(admin.ModelAdmin):
             "name",
             "price",
         ],
-    }), (_("With Separator Settings"), {
+    }), (_("Create a discount on shipping"), {
         "fields": [
             "use_separator",
             "separator",

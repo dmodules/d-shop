@@ -69,7 +69,7 @@ def transition_change_notification(order, miniorder=None):
             'render_language': language,
         }
         try:
-            latest_delivery = order.delivery_set.latest()
+            latest_delivery = order.delivery_set.latest('id')
             context['latest_delivery'] = DeliverySerializer(
                 latest_delivery, context=render_context).data
         except (AttributeError, models.ObjectDoesNotExist):

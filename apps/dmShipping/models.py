@@ -63,7 +63,7 @@ class ShippingManagement(models.Model):
         default=True
     )
     separator = models.DecimalField(
-        verbose_name=_("Separator"),
+        verbose_name=_("Amount to reach to get the discount"),
         max_digits=10,
         decimal_places=3,
         blank=True,
@@ -71,7 +71,7 @@ class ShippingManagement(models.Model):
         help_text=_("The amount of the cart price to separate the shipping price before and after it.")
     )
     price_after = models.DecimalField(
-        verbose_name=_("After price"),
+        verbose_name=_("Shipping price when the amount has been reached"),
         max_digits=10,
         decimal_places=3,
         blank=True,
