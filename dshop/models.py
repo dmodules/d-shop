@@ -833,6 +833,19 @@ class ProductVariable(Product):
                 data[d] = list(AttributeValue.objects.filter(attribute__name=d).values_list('value', flat=True))
             return data
 
+    def get_attribute_values(self):
+        if self.variants.all():
+            data = {}
+            data["key"] = []
+            data["value"] = []
+            for v in self.variants.all():
+                for a in v.attribute.all():
+                    if a.attribute.name not in data["key"]:
+                        data["key"].append(a.attribute.name)
+                    if a.value not in data["value"]:
+                        data["value"].append(a.value)
+            return data
+
 
 class Attribute(models.Model):
     name = models.CharField(
@@ -938,9 +951,11 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         if self.discounted_price == Money(0) or self.discounted_price is None:
             return False
         today = pytz.utc.localize(datetime.utcnow())
-        if not self.start_date or self.end_date:
+        if not self.start_date:
             return False
-        if self.start_date < today and self.end_date > today:
+        if self.start_date < today and not self.end_date:
+            return True
+        elif self.start_date < today and self.end_date > today:
             return True
 
     def get_price(self, request):  # noqa: C901
