@@ -95,13 +95,15 @@
               <hr />
               <div class="cart_extra">
                 <div class="dm-variants-select">
-                  <select class="form-control" name="product_code">
-                    <option disabled selected>Choisir</option>
-                    {% for v in product.variants.all %}
-                      {% product_variant_discount_price v.id as real_price %}
-                      <option class="choix" value="{{v.product_code}}" data-dprice="{{real_price}}" data-price="{{v.unit_price}}">{{v.product_code}}</option>
-                    {% endfor %}
-                  </select>
+                  
+                  {% for attr, value in product.get_product_attribute.items %}
+                    <select class="form-control" name="product_attribute_{{attr}}" onchange="variable_product()">
+                      <option disabled selected>Choisir {{attr}}</option>
+                      {% for v  in value %}
+                        <option class="choix" value={{v}} >{{v}}</option>
+                      {% endfor %}
+                    </select>
+                  {% endfor %}
                 </div>
                 <div class="cart-product-quantity">
                   <div class="quantity">

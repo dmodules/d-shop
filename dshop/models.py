@@ -823,6 +823,16 @@ class ProductVariable(Product):
     def get_product_variants(self):
         return self.variants.all()
 
+    def get_product_attribute(self):
+        if self.variants.all():
+            data = {}
+            for a in self.variants.all()[0].attribute.all():
+                if a.attribute.name not in data:
+                    data[a.attribute.name] = []
+            for d in data:
+                data[d] = list(AttributeValue.objects.filter(attribute__name=d).values_list('value', flat=True))
+            return data
+
 
 class Attribute(models.Model):
     name = models.CharField(
@@ -998,14 +1008,6 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
 
     def get_realprice(self):
         return self.unit_price
-
-    def get_attribute(self):
-        if self.attribute.all():
-            data = []
-            for a in self.attribute.all():
-                data.append(a.value)
-            return ' - '.join(data)
-        return ''
 
 
 #######################################################################
