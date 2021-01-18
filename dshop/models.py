@@ -653,7 +653,7 @@ class ProductDefault(AvailableProductMixin, Product):
     def is_discounted(self):
         if self.discounted_price == Money(0) or \
            self.discounted_price is None or \
-           self.start_data is None or \
+           self.start_date is None or \
            self.end_date is None:
             return False
         today = pytz.utc.localize(datetime.utcnow())

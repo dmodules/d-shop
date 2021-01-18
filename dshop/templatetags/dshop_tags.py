@@ -89,6 +89,16 @@ def dm_get_site_socials():
 
 
 @register.simple_tag
+def dm_get_attributes_list(k):
+    """Make a list from variant attribute"""
+    print(k.attribute.all())
+    result = []
+    for a in k.attribute.all():
+        result.append(a.value)
+    return result
+
+
+@register.simple_tag
 def dm_get_products_all():
     """Get data from all active products"""
     result = Product.objects.filter(active=True).order_by('-id')

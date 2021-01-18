@@ -34,6 +34,7 @@ from shop.rest.renderers import CMSPageRenderer
 from shop.serializers.auth import PasswordResetConfirmSerializer
 
 from dshop.models import Product
+from dshop.models import AttributeValue
 
 from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
@@ -250,6 +251,37 @@ class LoadProductsByCategory(APIView):
 
         # ===---
         result = {"products": all_produits}
+        return RestResponse(result)
+
+
+class LoadVariantSelect(APIView):
+    """
+    Retrieve product from attribute selected.
+    """
+
+    permission_classes = [AllowAny]
+
+    def get(self, request, *args, **kwargs):  # noqa: C901
+        product_pk = request.GET.get("product", None)
+        attributes = request.GET.get("attributes", None)
+        variants = []
+        if product_pk is not None and attributes is not None:
+            product = Product.objects.get(pk=product_pk)
+            attrs = AttributeValue.objects.filter(value__in=attributes.split(","))
+            variant_all = product.variants.all()
+            for a in attrs:
+                variant_all = variant_all.filter(
+                    attribute=a
+                )
+            for v in variant_all:
+                datas = {}
+                datas["product_code"] = v.product_code
+                datas["unit_price"] = v.unit_price
+                datas["real_price"] = v.get_price(request)
+                datas["is_discounted"] = v.is_discounted
+                variants.append(datas)
+        # ===---
+        result = {"variants": variants}
         return RestResponse(result)
 
 

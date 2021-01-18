@@ -35,7 +35,15 @@
               <div class="row flex-nowrap">
                 <div class="col-8">{{ order.shipping_address_text }}</div>
                 <div class="col-4 text-right">
-                  <div class="badge badge-primary">{{ order.status }}</div>
+                  {% if order.status == 'Payment confirmed' or order.status == 'Paiement confirmé' %}
+                    <div class="badge badge-primary">
+                        {{ order.status }}
+                    </div>
+                  {% else %}
+                    <div class="badge badge-secondary">
+                        {% trans "Order Canceled" %}
+                    </div>
+                  {% endif %}
                 </div>
               </div>
             </div>

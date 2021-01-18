@@ -53,14 +53,38 @@ function setClickBtn() {
   })
 
   $(".dm-variants-select select").on("change", function(event) {
-    let price = $(".dm-variants-select option:selected").data("price")
-    let dprice = $(".dm-variants-select option:selected").data("dprice")
-    if (price != dprice) {
-      $(".product_price").html("<span class=\"price\">"+dprice+"</span><del>"+price+"</del>")
-    } else {
-      $(".product_price").html("<span class=\"price\">"+price+"</span>")
-    }
-    $(".btn-add2cart").removeClass("disabled")
+    let pk = $(".dm-variants-select").data("product")
+    let attrs = []
+    // ===---
+    $(".dm-variants-select select").each(function (item) {
+        attrs.push($(this)[0].value)
+    })
+    // ===---
+    let price = "-"
+    let dprice = "-"
+    // ===---
+    $.get("/api/fe/load-variant/?product="+pk+"&attributes="+attrs, function(getResult) {
+        if (getResult.variants.length > 0) {
+            $(".btn-add2cart").removeClass("disabled")
+            $(".btn-add2cart").data("variant", getResult.variants[0].product_code)
+            price = getResult.variants[0].unit_price
+            dprice = getResult.variants[0].real_price
+            if (price != dprice) {
+                $(".product_price").html("<span class=\"price\">"+dprice+"</span><del>"+price+"</del>")
+            } else {
+                $(".product_price").html("<span class=\"price\">"+price+"</span>")
+            }
+            if (getResult.variants[0].is_discounted) {
+                $(".product_title .variant-tag").html("<span class='product-detail-discounted'>"+i18n.discounted[lang]+"</span>")
+            } else {
+                $(".product_title .variant-tag").html("")
+            }
+        } else {
+            $(".btn-add2cart").addClass("disabled")
+            $(".product_price").html("<span class=\"price\">&nbsp;</span>")
+            $(".product_title .variant-tag").html("")
+        }
+    })
   })
       
   $(".down-arrow").on("click", function() {quantityMinus()})
@@ -118,8 +142,8 @@ function dm_delete2cart(endpoint) {
 
 function dm_add2cart_variant(k) {
   let endpoint = $(k).data("product")
+  let variant = $(k).data("variant")
   let quantity = 1
-  let variant = $('.dm-variants-select option.choix:selected').val()
   if ($(k).data("quantity")) {
     quantity = $(k).data("quantity")
   }

@@ -48,43 +48,52 @@
                     <span class="linearicons-zoom-in"></span>
                   </a>
                 </div>
-                <div id="pr_item_gallery" class="product_gallery_item slick_slider" data-slides-to-show="4" data-slides-to-scroll="1" data-infinite="false">
-                  {% if product.main_image %}
-                    {% thumbnail product.main_image 540x600 crop upscale as p_img %}
-                    {% thumbnail product.main_image 810x900 crop upscale as p_zoom %}
-                    {% thumbnail product.main_image 150x160 crop upscale as p_small %}
-                    <div class="item">
-                      <a href="#" class="product_gallery_item active" data-image="{{p_img.url}}" data-zoom-image="{{p_zoom.url}}">
-                        <img src="{{p_small.url}}" alt="product_small_img1" />
-                      </a>
+                {% if product.images.all.count > 0 %}
+                    <div id="pr_item_gallery" class="product_gallery_item slick_slider" data-slides-to-show="4" data-slides-to-scroll="1" data-infinite="false">
+                        {% if product.main_image %}
+                            {% thumbnail product.main_image 540x600 crop upscale as p_img %}
+                            {% thumbnail product.main_image 810x900 crop upscale as p_zoom %}
+                            {% thumbnail product.main_image 150x160 crop upscale as p_small %}
+                            <div class="item">
+                            <a href="#" class="product_gallery_item active" data-image="{{p_img.url}}" data-zoom-image="{{p_zoom.url}}">
+                                <img src="{{p_small.url}}" alt="product_small_img1" />
+                            </a>
+                            </div>
+                        {% endif %}
+                        {% for pimg in product.images.all %}
+                            {% thumbnail pimg 540x600 crop upscale as p_img %}
+                            {% thumbnail pimg 810x900 crop upscale as p_zoom %}
+                            {% thumbnail pimg 150x160 crop upscale as p_small %}
+                            <div class="item">
+                            <a href="#" class="product_gallery_item active" data-image="{{p_img.url}}" data-zoom-image="{{p_zoom.url}}">
+                                <img src="{{p_small.url}}" alt="product_small_img1" />
+                            </a>
+                            </div>
+                        {% endfor %}
                     </div>
-                  {% endif %}
-                  {% for pimg in product.images.all %}
-                    {% thumbnail pimg 540x600 crop upscale as p_img %}
-                    {% thumbnail pimg 810x900 crop upscale as p_zoom %}
-                    {% thumbnail pimg 150x160 crop upscale as p_small %}
-                    <div class="item">
-                      <a href="#" class="product_gallery_item active" data-image="{{p_img.url}}" data-zoom-image="{{p_zoom.url}}">
-                        <img src="{{p_small.url}}" alt="product_small_img1" />
-                      </a>
-                    </div>
-                  {% endfor %}
-                </div>
+                {% endif %}
               </div>
             {% endif %}
           </div>
           <div class="col-lg-6 col-md-6">
             <div class="pr_detail">
               <div class="product_description">
-                <h4 class="product_title">{% render_model product "product_name" %}</h4>
+                <h4 class="product_title">
+                    {% render_model product "product_name" %}
+                    <span class="variant-tag">
+                        {% if product.variants.first %}
+                            {% if product.variants.first.is_discounted %}
+                                <span class="product-detail-discounted">{% trans "Discounted" %}</span>
+                            {% endif %}
+                        {% endif %}
+                    </span>
+                </h4>
                 <div class="product_price">
-                  {% if product.variants %}
-                    <span class="price">-</span>
-                  {% else %}
-                    {% product_discount_price product.id as real_price %}
+                  {% if product.variants.first %}
+                    {% product_variant_discount_price product.variants.first.id as real_price %}
                     <span class="price">{{real_price}}</span>
-                    {% if real_price != product.unit_price %}
-                      <del>{{product.unit_price}}</del>
+                    {% if real_price != product.variants.first.unit_price %}
+                        <del>{{product.variants.first.unit_price}}</del>
                     {% endif %}
                   {% endif %}
                 </div>
@@ -94,16 +103,20 @@
               </div>
               <hr />
               <div class="cart_extra">
-                <div class="dm-variants-select">
-                  
-                  {% for attr, value in product.get_product_attribute.items %}
-                    <select class="form-control" name="product_attribute_{{attr}}" onchange="variable_product()">
-                      <option disabled selected>Choisir {{attr}}</option>
-                      {% for v  in value %}
-                        <option class="choix" value={{v}} >{{v}}</option>
-                      {% endfor %}
-                    </select>
-                  {% endfor %}
+                <div class="dm-variants-select" data-product="{{product.pk}}">
+                  {% dm_get_attributes_list product.variants.first as attr_list %}
+                  {% with product.get_attribute_values as attributes %}
+                    {% for key, value in product.get_product_attribute.items %}
+                        <select class="form-control" name="product_attribute_{{key}}">
+                        <option disabled selected>{{key}}</option>
+                        {% for v in value %}
+                            {% if v in attributes.value %}
+                                <option class="choix" value={{v}} {% if v in attr_list %}selected{% endif %}>{{v}}</option>
+                            {% endif %}
+                        {% endfor %}
+                        </select>
+                    {% endfor %}
+                  {% endwith %}
                 </div>
                 <div class="cart-product-quantity">
                   <div class="quantity">
@@ -113,7 +126,7 @@
                   </div>
                 </div>
                 <div class="cart_btn">
-                  <a href="#" class="btn btn-fill-out btn-add2cart dm-add2cart-variant disabled" data-product="{{product.slug}}" data-quantity="1" data-variant="{{product.variants.first.product_code}}">
+                  <a href="#" class="btn btn-fill-out btn-add2cart dm-add2cart-variant{% if not product.variants.first %}disabled{% endif %}" data-product="{{product.slug}}" data-quantity="1" data-variant="{{product.variants.first.product_code}}">
                     <i class="icon-basket-loaded"></i>{% trans "Add to cart" %}
                   </a>
                 </div>

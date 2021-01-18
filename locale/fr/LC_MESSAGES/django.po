@@ -2189,3 +2189,6 @@ msgstr "Produits commandés"
 
 msgid "Use shipping address for billing"
 msgstr "Utiliser l'adresse de livraison pour la facturation"
+
+msgid "Order Canceled"
+msgstr "Commande annulée"

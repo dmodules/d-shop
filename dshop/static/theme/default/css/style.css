@@ -84,6 +84,7 @@ a:hover{
 }
 .dm-variants-select select{
   cursor:pointer;
+  margin: 0 0 1rem;
 }
 
 /* ===--- Plugins ---=== */
@@ -162,6 +163,15 @@ a:hover{
 }
 .badge-primary {
   background-color: #458d91;
+  color: #fff;
+  font-size:0.9rem;
+  font-weight:500;
+  white-space: normal;
+  width: 100%;
+  padding:0.5rem;
+}
+.badge-secondary {
+  background-color: #202325;
   color: #fff;
   font-size:0.9rem;
   font-weight:500;
