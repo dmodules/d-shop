@@ -286,8 +286,8 @@ msgid "Search"
 msgstr ""
 
 #: apps/dmShipping/admin.py:20
-msgid "With Separator Settings"
-msgstr ""
+msgid "Create a discount on shipping"
+msgstr "Create a discount on shipping"
 
 #: apps/dmShipping/apps.py:7 settings.py:696
 #: templates/dshop/admin/order-extra.html:8

@@ -294,8 +294,8 @@ msgid "Search"
 msgstr "Recherche"
 
 #: apps/dmShipping/admin.py:20
-msgid "With Separator Settings"
-msgstr "Paramètres avec un séparateur"
+msgid "Create a discount on shipping"
+msgstr "Créer un rabais sur la livraison"
 
 #: apps/dmShipping/apps.py:7 settings.py:696
 #: templates/dshop/admin/order-extra.html:8
@@ -343,8 +343,8 @@ msgid "Use an amount to separate two price?"
 msgstr "Utiliser un montant pour séparer deux prix ?"
 
 #: apps/dmShipping/models.py:66
-msgid "Separator"
-msgstr "Montant de séparation"
+msgid "Amount to reach to get the discount"
+msgstr "Montant du panier à atteindre pour avoir droit au rabais"
 
 #: apps/dmShipping/models.py:71
 msgid ""
@@ -355,15 +355,15 @@ msgstr ""
 "avant et après celui-ci."
 
 #: apps/dmShipping/models.py:74
-msgid "After price"
-msgstr "Prix après le séparateur"
+msgid "Shipping price when the amount has been reached"
+msgstr "Prix de la livraison une fois le montant atteint"
 
 #: apps/dmShipping/models.py:79
 msgid ""
 "The price to replace the original shipping price if the separator's amount "
 "has been reached."
 msgstr ""
-"Le prix qui remplacera le prix origine de livraison lorsque le montant de "
+"Le prix qui remplacera le prix original de livraison lorsque le montant de "
 "séparation sera atteint."
 
 #: apps/dmShipping/models.py:83
