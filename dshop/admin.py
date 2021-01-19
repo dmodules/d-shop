@@ -367,6 +367,11 @@ class OrderAdmin(DeliveryOrderAdminMixin, djOrderAdmin):
     ]
     inlines = [dmOrderItemInline]
 
+    class Media:
+        css = {
+            'all': ('dshop/css/admin.css',)
+        }
+
     class Meta:
         verbose_name = _("Order")
         verbose_name_plural = _("Orders")
