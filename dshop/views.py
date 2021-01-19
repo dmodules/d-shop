@@ -171,11 +171,20 @@ class LoadProduits(APIView):
                 data['filters'] = None
             if hasattr(produit, 'variants'):
                 data['variants'] = True
-                data['price'] = produit.variants.first().unit_price
+                if produit.variants.first():
+                    data['price'] = produit.variants.first().unit_price
+                    data['is_discounted'] = produit.variants.first().is_discounted
+                    data['quantity'] = produit.variants.first().quantity
+                else:
+                    data['price'] = "-"
+                    data['is_discounted'] = False
+                    data['quantity'] = 0
             else:
                 data['price'] = produit.get_price(request)
                 data['realprice'] = produit.unit_price
                 data['variants'] = False
+                data['is_discounted'] = produit.is_discounted
+                data['quantity'] = produit.quantity
             all_produits.append(data)
         # ===---
         result = {"products": all_produits, "next": next_products}
@@ -239,14 +248,18 @@ class LoadProductsByCategory(APIView):
                     data['variants'] = True
                     if produit.variants.first():
                         data['price'] = produit.variants.first().unit_price
+                        data['is_discounted'] = produit.variants.first().is_discounted
+                        data['quantity'] = produit.variants.first().quantity
                     else:
                         data['price'] = "-"
-                    data['is_discounted'] = produit.variants.first().is_discounted
+                        data['is_discounted'] = False
+                        data['quantity'] = 0
                 else:
                     data['price'] = produit.get_price(request)
                     data['realprice'] = produit.unit_price
                     data['variants'] = False
                     data['is_discounted'] = produit.is_discounted
+                    data['quantity'] = produit.quantity
                 all_produits.append(data)
 
         # ===---
@@ -279,6 +292,7 @@ class LoadVariantSelect(APIView):
                 datas["unit_price"] = v.unit_price
                 datas["real_price"] = v.get_price(request)
                 datas["is_discounted"] = v.is_discounted
+                datas["quantity"] = v.quantity
                 variants.append(datas)
         # ===---
         result = {"variants": variants}

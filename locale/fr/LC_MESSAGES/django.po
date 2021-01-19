@@ -2192,3 +2192,6 @@ msgstr "Utiliser l'adresse de livraison pour la facturation"
 
 msgid "Order Canceled"
 msgstr "Commande annulée"
+
+msgid "Out of stock"
+msgstr "Rupture de stock"

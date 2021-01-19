@@ -358,6 +358,15 @@ body{
   padding:0 0 0 6px;
 }
 
+/* ===--- Produit : Page détail ---=== */
+.product-detail-unavailable > p {
+    border: 1px solid #b52d2d;
+    color: #b52d2d;
+    font-size: 0.8rem;
+    padding: 2px 10px;
+    margin: 0;
+}
+
 /* ===--- Vos commandes ---=== */
 .service-content-box pre{
   border-left:2px solid #41b6e6;
@@ -382,7 +391,7 @@ body{
   border-radius:6px;
   box-shadow:0 1px 4px rgba(0, 0, 0, 0.5);
   color:#fff;
-  font-size:1.2rem;
+  font-size:1.1rem;
   line-height:150%;
   display:inline-block;
   width:300px;
@@ -393,7 +402,7 @@ body{
   right:1rem;
   z-index:99999;
   transition:top 0.4s;
-  padding:1rem 2rem;
+  padding:1rem;
   margin:0 auto
 }
 #snackbar.show{

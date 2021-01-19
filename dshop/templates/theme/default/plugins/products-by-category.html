@@ -61,7 +61,7 @@
                                                             <li>
                                                                 <a href="{{product.get_absolute_url}}"><i class="ti-info-alt"></i></a>
                                                             </li>
-                                                            {% if product.variants %}{% else%}
+                                                            {% if not product.variants and product.quantity > 0 %}
                                                                 <li>
                                                                     <a href="/" class="btn" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
                                                                 </li>
