@@ -77,36 +77,42 @@ PAGE JS
 	        $('header.fixed-top').addClass('hide-top');
 	    } else {
 	        $('header.fixed-top').removeClass('hide-top');
-	    }
+        }
+
+	});
+	$(window).on('resize', function() {
+        
+        $(".has-been-ajusted").css("top", 0)
+        $(".has-been-ajusted").removeClass("has-been-ajusted")
 
 	});
 	
   //Show Hide dropdown-menu Main navigation 
 	$( document ).on('ready', function () {
-		$( '.dropdown-menu a.dropdown-toggler' ).on( 'click', function () {
-			//var $el = $( this );
-			//var $parent = $( this ).offsetParent( ".dropdown-menu" );
+		$( '.dropdown-menu a.dropdown-toggle-split' ).on( 'click', function () {
 			if ( !$( this ).next().hasClass( 'show' ) ) {
 				$( this ).parents( '.dropdown-menu' ).first().find( '.show' ).removeClass( "show" );
 			}
 			var $subMenu = $( this ).next( ".dropdown-menu" );
 			$subMenu.toggleClass( 'show' );
-			
 			$( this ).parent( "li" ).toggleClass( 'show' );
-	
 			$( this ).parents( 'li.nav-item.dropdown.show' ).on( 'hidden.bs.dropdown', function () {
 				$( '.dropdown-menu .show' ).removeClass( "show" );
 			} );
-			
             if (window.innerWidth >= 992 || window.innerHeight > 800) {
                 let self = $(this)
                 setTimeout(function () {
-                    if (self.siblings(".dropdown-menu").offset()) {
-                        let bot = self.siblings(".dropdown-menu").height() + self.siblings(".dropdown-menu")[0].scrollHeight
+                    let menu = self.siblings(".dropdown-menu")
+                    if (menu.not('.has-been-ajusted') && menu.offset()) {
+                        let pos = menu.offset()
+                        let posy = pos.top - $(window).scrollTop()
+                        let posx = pos.left - $(window).scrollLeft()
+                        let bot = posy + menu.height()
                         if (bot > window.innerHeight) {
-                            let remont = (self.siblings(".dropdown-menu").height() / 1.75)
-                            self.siblings(".dropdown-menu").css("top", "-"+remont+"px")
-                            self.siblings(".dropdown-menu .dropdown-item").siblings(".dropdown-menu").find(".dropdown-item").css("padding", "3px 11px")
+                            menu.addClass("has-been-ajusted")
+                            bot = posy + menu.height()
+                            let remont = (bot - window.innerHeight) + 10
+                            menu.css("top", "-"+remont+"px")
                         }
         
                     }

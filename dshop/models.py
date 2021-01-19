@@ -1568,6 +1568,10 @@ class dmBlockSalesParent(CMSPlugin):
 
 
 class dmBlockSalesChild(CMSPlugin):
+    CHOIX_POSITION = [
+        (0, _("Left")),
+        (1, _("Right"))
+    ]
     title = models.CharField(
         verbose_name=_("Title"),
         max_length=100,
@@ -1585,6 +1589,13 @@ class dmBlockSalesChild(CMSPlugin):
     txt_color = ColorField(
         verbose_name=_("Text's Colour"),
         default="#292b2c"
+    )
+    text_position = models.PositiveSmallIntegerField(
+        verbose_name=_("Text's Position"),
+        choices=CHOIX_POSITION,
+        default=1,
+        null=False,
+        blank=False
     )
     btn_label = models.CharField(
         verbose_name=_("Button's Label"),

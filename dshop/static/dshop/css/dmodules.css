@@ -303,6 +303,9 @@ main > .container > .row {
     padding:0 8px;
     margin:0;
 }
+.has-been-ajusted > ul > li > .dropdown-item {
+    padding: 3px 11px!important;
+}
 
 /* ===--- Section Vedette ---=== */
 .section-vedette{
