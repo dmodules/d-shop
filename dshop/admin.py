@@ -3,11 +3,12 @@ import pytz
 from datetime import datetime, timedelta
 
 from django.contrib import messages
-
 from django.contrib import admin
 from django.template.context import Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
+
+from mptt.admin import DraggableMPTTAdmin
 
 from cms.admin.placeholderadmin import PlaceholderAdminMixin
 from cms.admin.placeholderadmin import FrontendEditableAdminMixin
@@ -417,17 +418,9 @@ class OrderAdmin(DeliveryOrderAdminMixin, djOrderAdmin):
 # Produit: Catégorie
 #######################################################################
 
-
 @admin.register(ProductCategory)
-class ProductCategoryAdmin(admin.ModelAdmin):
-    ordering_field = "order"
-    list_display = [
-        "name",
-        "parent",
-        "order"
-    ]
-    list_filter = ["parent"]
-    list_editable = ["order"]
+class ProductCategoryAdmin(DraggableMPTTAdmin):
+    pass
 
 
 @admin.register(ProductFilter)
@@ -543,25 +536,28 @@ class ProductVariableAdmin(
     readonly_fields = ("slug",)
 
     def save_formset(self, request, form, formset, change):
-        len_is_valid = 0
+        check_data = []
+        flag = False
         for f in formset:
             if type(f.instance) == ProductVariableVariant:
                 is_valid = []
-                flag = False
                 for attr in f.cleaned_data['attribute']:
                     if attr.attribute.name not in is_valid:
                         is_valid.append(attr.attribute.name)
                     else:
                         flag = True
                         messages.error(request, _("You can not select same Attribute type for one variant"))
-                if flag:
-                    f.cleaned_data['attribute'] = []
-                if len_is_valid == 0:
-                    len_is_valid = len(is_valid)
-                if len(is_valid) != len_is_valid:
-                    flag = True
+                        break
+                if not check_data:
+                    check_data = is_valid
+                if check_data != is_valid:
                     messages.error(request, _("You need to select same Attribute type for all variant"))
-        formset.save()
+                    flag = True
+                    break
+        if not flag:
+            formset.save()
+        else:
+            formset.save(commit=False)
 
     def render_text_index(self, instance):
         template = get_template("search/indexes/dshop/commodity_text.txt")
