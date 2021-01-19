@@ -208,7 +208,7 @@ class LoadProductsByCategory(APIView):
                 | Q(categories__parent__parent=category)
                 | Q(categories__parent__parent__parent=category),
                 active=True
-            )[:4]
+            )[:8]
             # ===---
             all_produits = []
             for produit in products:

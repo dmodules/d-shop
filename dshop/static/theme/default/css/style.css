@@ -147,16 +147,6 @@ a:hover{
   background-color: #f7f8fb;
 }
 
-/* ===--- Marques ---=== */
-.section-products-brands {
-    padding: 3rem 0;
-}
-.section-products-brands .owl-item .brand img {
-    width: auto;
-    max-height: 100px;
-    margin: 0 auto;
-}
-
 /* ===--- Vos commandes ---=== */
 .text-primary{
   color:#458d91!important;

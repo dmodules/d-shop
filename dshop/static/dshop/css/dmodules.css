@@ -6,6 +6,18 @@ body{
   min-width:300px;
 }
 
+main > .container > .row {
+    align-items: center;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1400px;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
 /* ===--- Topnav ---=== */
 .topnav{
   background-color:#202325;
@@ -326,6 +338,24 @@ body{
     0% {opacity: .2;}
     20% {opacity: 1;}
     100% {opacity: .2;}
+}
+
+/* ===--- Section Marques ---=== */
+.section-products-brands {
+    padding: 3rem 0;
+}
+.section-products-brands .owl-item {
+    background-color: #fff;
+    display: table;
+    height: 300px;
+}
+.section-products-brands .owl-item > .item {
+    vertical-align: middle;
+    display: table-cell;
+}
+.section-products-brands .owl-item .brand img {
+    width: auto;
+    margin: 0 auto;
 }
 
 /**/
