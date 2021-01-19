@@ -8,6 +8,8 @@ from django.template.context import Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
 
+from mptt.admin import DraggableMPTTAdmin
+
 from cms.admin.placeholderadmin import PlaceholderAdminMixin
 from cms.admin.placeholderadmin import FrontendEditableAdminMixin
 
@@ -416,17 +418,9 @@ class OrderAdmin(DeliveryOrderAdminMixin, djOrderAdmin):
 # Produit: Catégorie
 #######################################################################
 
-
 @admin.register(ProductCategory)
-class ProductCategoryAdmin(admin.ModelAdmin):
-    ordering_field = "order"
-    list_display = [
-        "name",
-        "parent",
-        "order"
-    ]
-    list_filter = ["parent"]
-    list_editable = ["order"]
+class ProductCategoryAdmin(DraggableMPTTAdmin):
+    pass
 
 
 @admin.register(ProductFilter)

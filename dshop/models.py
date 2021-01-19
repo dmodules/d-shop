@@ -1,6 +1,8 @@
 import re
 import pytz
 
+from mptt.models import MPTTModel, TreeForeignKey
+
 from decimal import Decimal
 from datetime import datetime
 from cms.models import CMSPlugin
@@ -309,8 +311,7 @@ class BillingAddress(BaseBillingAddress):
 # Produit: Catégorie/Filtres
 #######################################################################
 
-
-class ProductCategory(models.Model):
+class ProductCategory(MPTTModel):
     """
     A model to help to categorize products.
     Product can have multiple categories.
@@ -328,10 +329,11 @@ class ProductCategory(models.Model):
         null=False,
         blank=False
     )
-    parent = models.ForeignKey(
+    parent = TreeForeignKey(
         "self",
         on_delete=models.CASCADE,
         verbose_name=_("Parent's Category"),
+        related_name='children',
         blank=True,
         null=True
     )
@@ -379,10 +381,11 @@ class ProductCategory(models.Model):
         help_text=_("An image that will be shown on the top of the page of the Products of this category.")
     )
 
-    class Meta:
+    class MPTTMeta:
+        level_attr = 'mptt_level'
+        order_insertion_by = ['name']
         verbose_name = _("Product's Category")
         verbose_name_plural = _("Product's Categories")
-        ordering = ["order", "parent__name", "name"]
 
     def __str__(self):
         if self.parent is not None:
