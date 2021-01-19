@@ -328,6 +328,17 @@ body{
     100% {opacity: .2;}
 }
 
+/* ===--- Section Marques ---=== */
+.carousel-brands .owl-item {
+    background-color: #fff;
+    display: table;
+    height: 300px;
+}
+.carousel-brands .owl-item > .item {
+    vertical-align: middle;
+    display: table-cell;
+}
+
 /**/
 .product-card{
   background-color:#fff;
