@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-15 14:38-0500\n"
+"POT-Creation-Date: 2021-01-19 12:26-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,15 +28,15 @@ msgstr ""
 msgid "End"
 msgstr ""
 
-#: apps/dmAdvertising/apps.py:7 settings.py:654
+#: apps/dmAdvertising/apps.py:7 settings.py:656
 msgid "Advertising"
 msgstr ""
 
-#: apps/dmAdvertising/models.py:14 dshop/models.py:351 dshop/models.py:1159
-#: dshop/models.py:1183 dshop/models.py:1199 dshop/models.py:1227
-#: dshop/models.py:1274 dshop/models.py:1461 dshop/models.py:1523
-#: dshop/models.py:1540 dshop/models.py:1556 dshop/models.py:1606
-#: dshop/models.py:1658
+#: apps/dmAdvertising/models.py:14 dshop/models.py:353 dshop/models.py:1182
+#: dshop/models.py:1206 dshop/models.py:1222 dshop/models.py:1250
+#: dshop/models.py:1297 dshop/models.py:1484 dshop/models.py:1546
+#: dshop/models.py:1563 dshop/models.py:1579 dshop/models.py:1629
+#: dshop/models.py:1681
 msgid "Text"
 msgstr ""
 
@@ -44,7 +44,7 @@ msgstr ""
 msgid "Maximum 75 characters."
 msgstr ""
 
-#: apps/dmAdvertising/models.py:19 dshop/models.py:1357
+#: apps/dmAdvertising/models.py:19 dshop/models.py:1380
 msgid "URL"
 msgstr ""
 
@@ -88,7 +88,7 @@ msgid "Credit Card"
 msgstr ""
 
 #: apps/dmBillingSquare/modifiers.py:29 apps/dmBillingStripe/modifiers.py:29
-#: dshop/modifiers.py:58
+#: dshop/modifiers.py:61
 msgid "+ {}% handling fee"
 msgstr ""
 
@@ -145,20 +145,20 @@ msgstr ""
 msgid "Limitations"
 msgstr ""
 
-#: apps/dmRabais/apps.py:7 apps/dmRabais/modifiers.py:29 settings.py:687
+#: apps/dmRabais/apps.py:7 apps/dmRabais/modifiers.py:29 settings.py:689
 msgid "Discounts"
 msgstr ""
 
 #: apps/dmRabais/models.py:20 apps/dmRabais/models.py:78
-#: apps/dmShipping/models.py:40 dshop/admin.py:280 dshop/models.py:1667
+#: apps/dmShipping/models.py:40 dshop/admin.py:281 dshop/models.py:1690
 msgid "Name"
 msgstr ""
 
-#: apps/dmRabais/models.py:22 apps/dmRabais/models.py:82 dshop/models.py:1156
-#: dshop/models.py:1180 dshop/models.py:1196 dshop/models.py:1224
-#: dshop/models.py:1264 dshop/models.py:1325 dshop/models.py:1441
-#: dshop/models.py:1498 dshop/models.py:1537 dshop/models.py:1553
-#: dshop/models.py:1560 dshop/models.py:1655 dshop/models.py:1671
+#: apps/dmRabais/models.py:22 apps/dmRabais/models.py:82 dshop/models.py:1179
+#: dshop/models.py:1203 dshop/models.py:1219 dshop/models.py:1247
+#: dshop/models.py:1287 dshop/models.py:1348 dshop/models.py:1464
+#: dshop/models.py:1521 dshop/models.py:1560 dshop/models.py:1576
+#: dshop/models.py:1583 dshop/models.py:1678 dshop/models.py:1694
 msgid "Maximum 100 characters."
 msgstr ""
 
@@ -184,7 +184,7 @@ msgstr ""
 msgid "Can Apply On Discounted Product?"
 msgstr ""
 
-#: apps/dmRabais/models.py:58 apps/dmRabais/models.py:133 dshop/models.py:491
+#: apps/dmRabais/models.py:58 apps/dmRabais/models.py:133 dshop/models.py:494
 #: templates/dshop/pages/base.html:135
 msgid "Categories"
 msgstr ""
@@ -224,7 +224,7 @@ msgstr ""
 msgid "Leave blank if you want to apply to all product."
 msgstr ""
 
-#: apps/dmRabais/models.py:140 dshop/models.py:534
+#: apps/dmRabais/models.py:140 dshop/models.py:537
 #: dshop/templates/theme/default/pages/produits.html:40
 msgid "Products"
 msgstr ""
@@ -246,7 +246,7 @@ msgstr ""
 msgid "Expired"
 msgstr ""
 
-#: apps/dmRabais/models.py:182 dshop/admin.py:393
+#: apps/dmRabais/models.py:182 dshop/admin.py:399
 msgid "Created at"
 msgstr ""
 
@@ -289,7 +289,7 @@ msgstr ""
 msgid "Create a discount on shipping"
 msgstr "Create a discount on shipping"
 
-#: apps/dmShipping/apps.py:7 settings.py:696
+#: apps/dmShipping/apps.py:7 settings.py:698
 #: templates/dshop/admin/order-extra.html:8
 msgid "Shipping"
 msgstr ""
@@ -314,7 +314,7 @@ msgstr ""
 msgid "Postal shipping with separator (standard)"
 msgstr ""
 
-#: apps/dmShipping/models.py:44 dshop/models.py:1250
+#: apps/dmShipping/models.py:44 dshop/models.py:1273
 msgid "Maximum 255 characters."
 msgstr ""
 
@@ -323,6 +323,7 @@ msgid "Identifier"
 msgstr ""
 
 #: apps/dmShipping/models.py:56 apps/dmShipping/models.py:90
+#: dshop/templates/theme/default/email/order-detail.html:15
 msgid "Price"
 msgstr ""
 
@@ -335,7 +336,7 @@ msgid "Use an amount to separate two price?"
 msgstr ""
 
 #: apps/dmShipping/models.py:66
-msgid "Separator"
+msgid "Amount to reach to get the discount"
 msgstr ""
 
 #: apps/dmShipping/models.py:71
@@ -345,7 +346,7 @@ msgid ""
 msgstr ""
 
 #: apps/dmShipping/models.py:74
-msgid "After price"
+msgid "Shipping price when the amount has been reached"
 msgstr ""
 
 #: apps/dmShipping/models.py:79
@@ -355,7 +356,7 @@ msgid ""
 msgstr ""
 
 #: apps/dmShipping/models.py:83
-#: dshop/templates/theme/default/order/detail.html:28
+#: dshop/templates/theme/default/order/detail.html:36
 #: dshop/templates/theme/default/print/delivery-note.html:41
 msgid "Shipping Method"
 msgstr ""
@@ -374,7 +375,7 @@ msgstr ""
 msgid "Order Number: "
 msgstr ""
 
-#: apps/dmTaxes/apps.py:6 settings.py:703
+#: apps/dmTaxes/apps.py:6 settings.py:705
 msgid "Taxes"
 msgstr ""
 
@@ -415,849 +416,856 @@ msgstr "{}% PST"
 msgid "{}% QST incl."
 msgstr "{}% QST"
 
-#: dshop/admin.py:51 dshop/models.py:116
+#: dshop/admin.py:52 dshop/models.py:118
 msgid "Afghanistan"
 msgstr ""
 
-#: dshop/admin.py:52 dshop/models.py:116
+#: dshop/admin.py:53 dshop/models.py:118
 msgid "Afrique du Sud"
 msgstr ""
 
-#: dshop/admin.py:53 dshop/models.py:117
+#: dshop/admin.py:54 dshop/models.py:119
 msgid "Albanie"
 msgstr ""
 
-#: dshop/admin.py:54 dshop/models.py:117
+#: dshop/admin.py:55 dshop/models.py:119
 msgid "Algérie"
 msgstr ""
 
-#: dshop/admin.py:55 dshop/models.py:118
+#: dshop/admin.py:56 dshop/models.py:120
 msgid "Allemagne"
 msgstr ""
 
-#: dshop/admin.py:56 dshop/models.py:118
+#: dshop/admin.py:57 dshop/models.py:120
 msgid "Andorre"
 msgstr ""
 
-#: dshop/admin.py:57 dshop/models.py:119
+#: dshop/admin.py:58 dshop/models.py:121
 msgid "Angola"
 msgstr ""
 
-#: dshop/admin.py:58 dshop/models.py:119
+#: dshop/admin.py:59 dshop/models.py:121
 msgid "Antigua-et-Barbuda"
 msgstr ""
 
-#: dshop/admin.py:59 dshop/models.py:120
+#: dshop/admin.py:60 dshop/models.py:122
 msgid "Arabie saoudite"
 msgstr ""
 
-#: dshop/admin.py:60 dshop/models.py:120
+#: dshop/admin.py:61 dshop/models.py:122
 msgid "Argentine"
 msgstr ""
 
-#: dshop/admin.py:61 dshop/models.py:121
+#: dshop/admin.py:62 dshop/models.py:123
 msgid "Arménie"
 msgstr ""
 
-#: dshop/admin.py:62 dshop/models.py:121
+#: dshop/admin.py:63 dshop/models.py:123
 msgid "Australie"
 msgstr ""
 
-#: dshop/admin.py:63 dshop/models.py:122
+#: dshop/admin.py:64 dshop/models.py:124
 msgid "Autriche"
 msgstr ""
 
-#: dshop/admin.py:64 dshop/models.py:122
+#: dshop/admin.py:65 dshop/models.py:124
 msgid "Azerbaïdjan"
 msgstr ""
 
-#: dshop/admin.py:65 dshop/models.py:123
+#: dshop/admin.py:66 dshop/models.py:125
 msgid "Bahamas"
 msgstr ""
 
-#: dshop/admin.py:66 dshop/models.py:123
+#: dshop/admin.py:67 dshop/models.py:125
 msgid "Bahreïn"
 msgstr ""
 
-#: dshop/admin.py:67 dshop/models.py:124
+#: dshop/admin.py:68 dshop/models.py:126
 msgid "Bangladesh"
 msgstr ""
 
-#: dshop/admin.py:68 dshop/models.py:124
+#: dshop/admin.py:69 dshop/models.py:126
 msgid "Barbade"
 msgstr ""
 
-#: dshop/admin.py:69 dshop/models.py:125
+#: dshop/admin.py:70 dshop/models.py:127
 msgid "Biélorussie"
 msgstr ""
 
-#: dshop/admin.py:70 dshop/models.py:125
+#: dshop/admin.py:71 dshop/models.py:127
 msgid "Belgique"
 msgstr ""
 
-#: dshop/admin.py:71 dshop/models.py:126
+#: dshop/admin.py:72 dshop/models.py:128
 msgid "Belize"
 msgstr ""
 
-#: dshop/admin.py:72 dshop/models.py:126
+#: dshop/admin.py:73 dshop/models.py:128
 msgid "Bénin"
 msgstr ""
 
-#: dshop/admin.py:73 dshop/models.py:126
+#: dshop/admin.py:74 dshop/models.py:128
 msgid "Bhoutan"
 msgstr ""
 
-#: dshop/admin.py:74 dshop/models.py:127
+#: dshop/admin.py:75 dshop/models.py:129
 msgid "Bolivie"
 msgstr ""
 
-#: dshop/admin.py:75 dshop/models.py:127
+#: dshop/admin.py:76 dshop/models.py:129
 msgid "Bosnie-Herzégovine"
 msgstr ""
 
-#: dshop/admin.py:76 dshop/models.py:128
+#: dshop/admin.py:77 dshop/models.py:130
 msgid "Botswana"
 msgstr ""
 
-#: dshop/admin.py:77 dshop/models.py:128
+#: dshop/admin.py:78 dshop/models.py:130
 msgid "Brésil"
 msgstr ""
 
-#: dshop/admin.py:78 dshop/models.py:129
+#: dshop/admin.py:79 dshop/models.py:131
 msgid "Brunei"
 msgstr ""
 
-#: dshop/admin.py:79 dshop/models.py:129
+#: dshop/admin.py:80 dshop/models.py:131
 msgid "Bulgarie"
 msgstr ""
 
-#: dshop/admin.py:80 dshop/models.py:130
+#: dshop/admin.py:81 dshop/models.py:132
 msgid "Burkina Faso"
 msgstr ""
 
-#: dshop/admin.py:81 dshop/models.py:130
+#: dshop/admin.py:82 dshop/models.py:132
 msgid "Burundi"
 msgstr ""
 
-#: dshop/admin.py:82 dshop/models.py:131
+#: dshop/admin.py:83 dshop/models.py:133
 msgid "Cambodge"
 msgstr ""
 
-#: dshop/admin.py:83 dshop/models.py:131
+#: dshop/admin.py:84 dshop/models.py:133
 msgid "Cameroun"
 msgstr ""
 
-#: dshop/admin.py:84 dshop/models.py:132
+#: dshop/admin.py:85 dshop/models.py:134
 msgid "Canada"
 msgstr ""
 
-#: dshop/admin.py:85 dshop/models.py:132
+#: dshop/admin.py:86 dshop/models.py:134
 msgid "Cap-Vert"
 msgstr ""
 
-#: dshop/admin.py:86 dshop/models.py:133
+#: dshop/admin.py:87 dshop/models.py:135
 msgid "République centrafricaine"
 msgstr ""
 
-#: dshop/admin.py:87 dshop/models.py:133
+#: dshop/admin.py:88 dshop/models.py:135
 msgid "Chili"
 msgstr ""
 
-#: dshop/admin.py:88 dshop/models.py:134
+#: dshop/admin.py:89 dshop/models.py:136
 msgid "Chine"
 msgstr ""
 
-#: dshop/admin.py:89 dshop/models.py:134
+#: dshop/admin.py:90 dshop/models.py:136
 msgid "Chypre (pays)"
 msgstr ""
 
-#: dshop/admin.py:90 dshop/models.py:135
+#: dshop/admin.py:91 dshop/models.py:137
 msgid "Colombie"
 msgstr ""
 
-#: dshop/admin.py:91 dshop/models.py:135
+#: dshop/admin.py:92 dshop/models.py:137
 msgid "Comores (pays)"
 msgstr ""
 
-#: dshop/admin.py:92 dshop/models.py:136
+#: dshop/admin.py:93 dshop/models.py:138
 msgid "République du Congo"
 msgstr ""
 
-#: dshop/admin.py:93 dshop/models.py:137
+#: dshop/admin.py:94 dshop/models.py:139
 msgid "République démocratique du Congo"
 msgstr ""
 
-#: dshop/admin.py:94 dshop/models.py:138
+#: dshop/admin.py:95 dshop/models.py:140
 msgid "Corée du Sud"
 msgstr ""
 
-#: dshop/admin.py:95 dshop/models.py:138
+#: dshop/admin.py:96 dshop/models.py:140
 msgid "Corée du Nord"
 msgstr ""
 
-#: dshop/admin.py:96 dshop/models.py:139
+#: dshop/admin.py:97 dshop/models.py:141
 msgid "Costa Rica"
 msgstr ""
 
-#: dshop/admin.py:97 dshop/models.py:139
+#: dshop/admin.py:98 dshop/models.py:141
 msgid "Côte d'Ivoire"
 msgstr ""
 
-#: dshop/admin.py:98 dshop/models.py:140
+#: dshop/admin.py:99 dshop/models.py:142
 msgid "Croatie"
 msgstr ""
 
-#: dshop/admin.py:99 dshop/models.py:140
+#: dshop/admin.py:100 dshop/models.py:142
 msgid "Cuba"
 msgstr ""
 
-#: dshop/admin.py:100 dshop/models.py:140
+#: dshop/admin.py:101 dshop/models.py:142
 msgid "Danemark"
 msgstr ""
 
-#: dshop/admin.py:101 dshop/models.py:141
+#: dshop/admin.py:102 dshop/models.py:143
 msgid "Djibouti"
 msgstr ""
 
-#: dshop/admin.py:102 dshop/models.py:141
+#: dshop/admin.py:103 dshop/models.py:143
 msgid "République dominicaine"
 msgstr ""
 
-#: dshop/admin.py:103 dshop/models.py:142
+#: dshop/admin.py:104 dshop/models.py:144
 msgid "Dominique"
 msgstr ""
 
-#: dshop/admin.py:104 dshop/models.py:142
+#: dshop/admin.py:105 dshop/models.py:144
 msgid "Égypte"
 msgstr ""
 
-#: dshop/admin.py:105 dshop/models.py:143
+#: dshop/admin.py:106 dshop/models.py:145
 msgid "Salvador"
 msgstr ""
 
-#: dshop/admin.py:106 dshop/models.py:143
+#: dshop/admin.py:107 dshop/models.py:145
 msgid "Émirats arabes unis"
 msgstr ""
 
-#: dshop/admin.py:107 dshop/models.py:144
+#: dshop/admin.py:108 dshop/models.py:146
 msgid "Équateur (pays)"
 msgstr ""
 
-#: dshop/admin.py:108 dshop/models.py:144
+#: dshop/admin.py:109 dshop/models.py:146
 msgid "Érythrée"
 msgstr ""
 
-#: dshop/admin.py:109 dshop/models.py:145
+#: dshop/admin.py:110 dshop/models.py:147
 msgid "Espagne"
 msgstr ""
 
-#: dshop/admin.py:110 dshop/models.py:145
+#: dshop/admin.py:111 dshop/models.py:147
 msgid "Estonie"
 msgstr ""
 
-#: dshop/admin.py:111 dshop/models.py:146
+#: dshop/admin.py:112 dshop/models.py:148
 msgid "États-Unis"
 msgstr ""
 
-#: dshop/admin.py:112 dshop/models.py:146
+#: dshop/admin.py:113 dshop/models.py:148
 msgid "Éthiopie"
 msgstr ""
 
-#: dshop/admin.py:113 dshop/models.py:147
+#: dshop/admin.py:114 dshop/models.py:149
 msgid "Fidji"
 msgstr ""
 
-#: dshop/admin.py:114 dshop/models.py:147
+#: dshop/admin.py:115 dshop/models.py:149
 msgid "Finlande"
 msgstr ""
 
-#: dshop/admin.py:115 dshop/models.py:147
+#: dshop/admin.py:116 dshop/models.py:149
 msgid "France"
 msgstr ""
 
-#: dshop/admin.py:116 dshop/models.py:148
+#: dshop/admin.py:117 dshop/models.py:150
 msgid "Gabon"
 msgstr ""
 
-#: dshop/admin.py:117 dshop/models.py:148
+#: dshop/admin.py:118 dshop/models.py:150
 msgid "Gambie"
 msgstr ""
 
-#: dshop/admin.py:118 dshop/models.py:149
+#: dshop/admin.py:119 dshop/models.py:151
 msgid "Géorgie (pays)"
 msgstr ""
 
-#: dshop/admin.py:119 dshop/models.py:149
+#: dshop/admin.py:120 dshop/models.py:151
 msgid "Ghana"
 msgstr ""
 
-#: dshop/admin.py:120 dshop/models.py:150
+#: dshop/admin.py:121 dshop/models.py:152
 msgid "Grèce"
 msgstr ""
 
-#: dshop/admin.py:121 dshop/models.py:150
+#: dshop/admin.py:122 dshop/models.py:152
 msgid "Grenade (pays)"
 msgstr ""
 
-#: dshop/admin.py:122 dshop/models.py:151
+#: dshop/admin.py:123 dshop/models.py:153
 msgid "Guatemala"
 msgstr ""
 
-#: dshop/admin.py:123 dshop/models.py:151
+#: dshop/admin.py:124 dshop/models.py:153
 msgid "Guinée"
 msgstr ""
 
-#: dshop/admin.py:124 dshop/models.py:152
+#: dshop/admin.py:125 dshop/models.py:154
 msgid "Guinée-Bissau"
 msgstr ""
 
-#: dshop/admin.py:125 dshop/models.py:152
+#: dshop/admin.py:126 dshop/models.py:154
 msgid "Guinée équatoriale"
 msgstr ""
 
-#: dshop/admin.py:126 dshop/models.py:153
+#: dshop/admin.py:127 dshop/models.py:155
 msgid "Guyana"
 msgstr ""
 
-#: dshop/admin.py:127 dshop/models.py:153
+#: dshop/admin.py:128 dshop/models.py:155
 msgid "Haïti"
 msgstr ""
 
-#: dshop/admin.py:128 dshop/models.py:153
+#: dshop/admin.py:129 dshop/models.py:155
 msgid "Honduras"
 msgstr ""
 
-#: dshop/admin.py:129 dshop/models.py:154
+#: dshop/admin.py:130 dshop/models.py:156
 msgid "Hongrie"
 msgstr ""
 
-#: dshop/admin.py:130 dshop/models.py:155
+#: dshop/admin.py:131 dshop/models.py:157
 msgid "Inde"
 msgstr ""
 
-#: dshop/admin.py:131 dshop/models.py:155
+#: dshop/admin.py:132 dshop/models.py:157
 msgid "Indonésie"
 msgstr ""
 
-#: dshop/admin.py:132 dshop/models.py:155
+#: dshop/admin.py:133 dshop/models.py:157
 msgid "Iran"
 msgstr ""
 
-#: dshop/admin.py:133 dshop/models.py:156
+#: dshop/admin.py:134 dshop/models.py:158
 msgid "Irak"
 msgstr ""
 
-#: dshop/admin.py:134 dshop/models.py:156
+#: dshop/admin.py:135 dshop/models.py:158
 msgid "Irlande (pays)"
 msgstr ""
 
-#: dshop/admin.py:135 dshop/models.py:157
+#: dshop/admin.py:136 dshop/models.py:159
 msgid "Islande"
 msgstr ""
 
-#: dshop/admin.py:136 dshop/models.py:157
+#: dshop/admin.py:137 dshop/models.py:159
 msgid "Israël"
 msgstr ""
 
-#: dshop/admin.py:137 dshop/models.py:157
+#: dshop/admin.py:138 dshop/models.py:159
 msgid "Italie"
 msgstr ""
 
-#: dshop/admin.py:138 dshop/models.py:158
+#: dshop/admin.py:139 dshop/models.py:160
 msgid "Jamaïque"
 msgstr ""
 
-#: dshop/admin.py:139 dshop/models.py:159
+#: dshop/admin.py:140 dshop/models.py:161
 msgid "Japon"
 msgstr ""
 
-#: dshop/admin.py:140 dshop/models.py:159
+#: dshop/admin.py:141 dshop/models.py:161
 msgid "Jordanie"
 msgstr ""
 
-#: dshop/admin.py:141 dshop/models.py:160
+#: dshop/admin.py:142 dshop/models.py:162
 msgid "Kazakhstan"
 msgstr ""
 
-#: dshop/admin.py:142 dshop/models.py:160
+#: dshop/admin.py:143 dshop/models.py:162
 msgid "Kenya"
 msgstr ""
 
-#: dshop/admin.py:143 dshop/models.py:161
+#: dshop/admin.py:144 dshop/models.py:163
 msgid "Kirghizistan"
 msgstr ""
 
-#: dshop/admin.py:144 dshop/models.py:161
+#: dshop/admin.py:145 dshop/models.py:163
 msgid "Kiribati"
 msgstr ""
 
-#: dshop/admin.py:145 dshop/models.py:162
+#: dshop/admin.py:146 dshop/models.py:164
 msgid "Koweït"
 msgstr ""
 
-#: dshop/admin.py:146 dshop/models.py:162
+#: dshop/admin.py:147 dshop/models.py:164
 msgid "Laos"
 msgstr ""
 
-#: dshop/admin.py:147 dshop/models.py:162
+#: dshop/admin.py:148 dshop/models.py:164
 msgid "Lesotho"
 msgstr ""
 
-#: dshop/admin.py:148 dshop/models.py:163
+#: dshop/admin.py:149 dshop/models.py:165
 msgid "Lettonie"
 msgstr ""
 
-#: dshop/admin.py:149 dshop/models.py:163
+#: dshop/admin.py:150 dshop/models.py:165
 msgid "Liban"
 msgstr ""
 
-#: dshop/admin.py:150 dshop/models.py:164
+#: dshop/admin.py:151 dshop/models.py:166
 msgid "Liberia"
 msgstr ""
 
-#: dshop/admin.py:151 dshop/models.py:164
+#: dshop/admin.py:152 dshop/models.py:166
 msgid "Libye"
 msgstr ""
 
-#: dshop/admin.py:152 dshop/models.py:165
+#: dshop/admin.py:153 dshop/models.py:167
 msgid "Liechtenstein"
 msgstr ""
 
-#: dshop/admin.py:153 dshop/models.py:165
+#: dshop/admin.py:154 dshop/models.py:167
 msgid "Lituanie"
 msgstr ""
 
-#: dshop/admin.py:154 dshop/models.py:166
+#: dshop/admin.py:155 dshop/models.py:168
 msgid "Luxembourg (pays)"
 msgstr ""
 
-#: dshop/admin.py:155 dshop/models.py:166
+#: dshop/admin.py:156 dshop/models.py:168
 msgid "Macédoine du Nord"
 msgstr ""
 
-#: dshop/admin.py:156 dshop/models.py:167
+#: dshop/admin.py:157 dshop/models.py:169
 msgid "Madagascar"
 msgstr ""
 
-#: dshop/admin.py:157 dshop/models.py:167
+#: dshop/admin.py:158 dshop/models.py:169
 msgid "Malaisie"
 msgstr ""
 
-#: dshop/admin.py:158 dshop/models.py:168
+#: dshop/admin.py:159 dshop/models.py:170
 msgid "Malawi"
 msgstr ""
 
-#: dshop/admin.py:159 dshop/models.py:168
+#: dshop/admin.py:160 dshop/models.py:170
 msgid "Maldives"
 msgstr ""
 
-#: dshop/admin.py:160 dshop/models.py:168
+#: dshop/admin.py:161 dshop/models.py:170
 msgid "Mali"
 msgstr ""
 
-#: dshop/admin.py:161 dshop/models.py:169
+#: dshop/admin.py:162 dshop/models.py:171
 msgid "Malte"
 msgstr ""
 
-#: dshop/admin.py:162 dshop/models.py:169
+#: dshop/admin.py:163 dshop/models.py:171
 msgid "Maroc"
 msgstr ""
 
-#: dshop/admin.py:163 dshop/models.py:170
+#: dshop/admin.py:164 dshop/models.py:172
 msgid "Îles Marshall (pays)"
 msgstr ""
 
-#: dshop/admin.py:164 dshop/models.py:170
+#: dshop/admin.py:165 dshop/models.py:172
 msgid "Maurice (pays)"
 msgstr ""
 
-#: dshop/admin.py:165 dshop/models.py:171
+#: dshop/admin.py:166 dshop/models.py:173
 msgid "Mauritanie"
 msgstr ""
 
-#: dshop/admin.py:166 dshop/models.py:171
+#: dshop/admin.py:167 dshop/models.py:173
 msgid "Mexique"
 msgstr ""
 
-#: dshop/admin.py:167 dshop/models.py:172
+#: dshop/admin.py:168 dshop/models.py:174
 msgid "États fédérés de Micronésie (pays)"
 msgstr ""
 
-#: dshop/admin.py:168 dshop/models.py:173
+#: dshop/admin.py:169 dshop/models.py:175
 msgid "Moldavie"
 msgstr ""
 
-#: dshop/admin.py:169 dshop/models.py:173
+#: dshop/admin.py:170 dshop/models.py:175
 msgid "Monaco"
 msgstr ""
 
-#: dshop/admin.py:170 dshop/models.py:174
+#: dshop/admin.py:171 dshop/models.py:176
 msgid "Mongolie"
 msgstr ""
 
-#: dshop/admin.py:171 dshop/models.py:174
+#: dshop/admin.py:172 dshop/models.py:176
 msgid "Monténégro"
 msgstr ""
 
-#: dshop/admin.py:172 dshop/models.py:175
+#: dshop/admin.py:173 dshop/models.py:177
 msgid "Mozambique"
 msgstr ""
 
-#: dshop/admin.py:173 dshop/models.py:175
+#: dshop/admin.py:174 dshop/models.py:177
 msgid "Birmanie"
 msgstr ""
 
-#: dshop/admin.py:174 dshop/models.py:176
+#: dshop/admin.py:175 dshop/models.py:178
 msgid "Namibie"
 msgstr ""
 
-#: dshop/admin.py:175 dshop/models.py:176
+#: dshop/admin.py:176 dshop/models.py:178
 msgid "Nauru"
 msgstr ""
 
-#: dshop/admin.py:176 dshop/models.py:176
+#: dshop/admin.py:177 dshop/models.py:178
 msgid "Népal"
 msgstr ""
 
-#: dshop/admin.py:177 dshop/models.py:177
+#: dshop/admin.py:178 dshop/models.py:179
 msgid "Nicaragua"
 msgstr ""
 
-#: dshop/admin.py:178 dshop/models.py:177
+#: dshop/admin.py:179 dshop/models.py:179
 msgid "Niger"
 msgstr ""
 
-#: dshop/admin.py:179 dshop/models.py:177
+#: dshop/admin.py:180 dshop/models.py:179
 msgid "Nigeria"
 msgstr ""
 
-#: dshop/admin.py:180 dshop/models.py:178
+#: dshop/admin.py:181 dshop/models.py:180
 msgid "Norvège"
 msgstr ""
 
-#: dshop/admin.py:181 dshop/models.py:178
+#: dshop/admin.py:182 dshop/models.py:180
 msgid "Nouvelle-Zélande"
 msgstr ""
 
-#: dshop/admin.py:182 dshop/models.py:179
+#: dshop/admin.py:183 dshop/models.py:181
 msgid "Oman"
 msgstr ""
 
-#: dshop/admin.py:183 dshop/models.py:179
+#: dshop/admin.py:184 dshop/models.py:181
 msgid "Ouganda"
 msgstr ""
 
-#: dshop/admin.py:184 dshop/models.py:180
+#: dshop/admin.py:185 dshop/models.py:182
 msgid "Ouzbékistan"
 msgstr ""
 
-#: dshop/admin.py:185 dshop/models.py:180
+#: dshop/admin.py:186 dshop/models.py:182
 msgid "Pakistan"
 msgstr ""
 
-#: dshop/admin.py:186 dshop/models.py:181
+#: dshop/admin.py:187 dshop/models.py:183
 msgid "Palaos"
 msgstr ""
 
-#: dshop/admin.py:187 dshop/models.py:181
+#: dshop/admin.py:188 dshop/models.py:183
 msgid "Panama"
 msgstr ""
 
-#: dshop/admin.py:188 dshop/models.py:182
+#: dshop/admin.py:189 dshop/models.py:184
 msgid "Papouasie-Nouvelle-Guinée"
 msgstr ""
 
-#: dshop/admin.py:189 dshop/models.py:182
+#: dshop/admin.py:190 dshop/models.py:184
 msgid "Paraguay"
 msgstr ""
 
-#: dshop/admin.py:190 dshop/models.py:183
+#: dshop/admin.py:191 dshop/models.py:185
 msgid "Pays-Bas"
 msgstr ""
 
-#: dshop/admin.py:191 dshop/models.py:183
+#: dshop/admin.py:192 dshop/models.py:185
 msgid "Pérou"
 msgstr ""
 
-#: dshop/admin.py:192 dshop/models.py:184
+#: dshop/admin.py:193 dshop/models.py:186
 msgid "Philippines"
 msgstr ""
 
-#: dshop/admin.py:193 dshop/models.py:184
+#: dshop/admin.py:194 dshop/models.py:186
 msgid "Pologne"
 msgstr ""
 
-#: dshop/admin.py:194 dshop/models.py:185
+#: dshop/admin.py:195 dshop/models.py:187
 msgid "Portugal"
 msgstr ""
 
-#: dshop/admin.py:195 dshop/models.py:185
+#: dshop/admin.py:196 dshop/models.py:187
 msgid "Qatar"
 msgstr ""
 
-#: dshop/admin.py:196 dshop/models.py:185
+#: dshop/admin.py:197 dshop/models.py:187
 msgid "Roumanie"
 msgstr ""
 
-#: dshop/admin.py:197 dshop/models.py:186
+#: dshop/admin.py:198 dshop/models.py:188
 msgid "Royaume-Uni"
 msgstr ""
 
-#: dshop/admin.py:198 dshop/models.py:186
+#: dshop/admin.py:199 dshop/models.py:188
 msgid "Russie"
 msgstr ""
 
-#: dshop/admin.py:199 dshop/models.py:187
+#: dshop/admin.py:200 dshop/models.py:189
 msgid "Rwanda"
 msgstr ""
 
-#: dshop/admin.py:200 dshop/models.py:187
+#: dshop/admin.py:201 dshop/models.py:189
 msgid "Saint-Christophe-et-Niévès"
 msgstr ""
 
-#: dshop/admin.py:201 dshop/models.py:188
+#: dshop/admin.py:202 dshop/models.py:190
 msgid "Saint-Marin"
 msgstr ""
 
-#: dshop/admin.py:202 dshop/models.py:189
+#: dshop/admin.py:203 dshop/models.py:191
 msgid "Saint-Vincent-et-les-Grenadines"
 msgstr ""
 
-#: dshop/admin.py:203 dshop/models.py:190
+#: dshop/admin.py:204 dshop/models.py:192
 msgid "Sainte-Lucie"
 msgstr ""
 
-#: dshop/admin.py:204 dshop/models.py:190
+#: dshop/admin.py:205 dshop/models.py:192
 msgid "Salomon"
 msgstr ""
 
-#: dshop/admin.py:205 dshop/models.py:191
+#: dshop/admin.py:206 dshop/models.py:193
 msgid "Samoa"
 msgstr ""
 
-#: dshop/admin.py:206 dshop/models.py:191
+#: dshop/admin.py:207 dshop/models.py:193
 msgid "Sao Tomé-et-Principe"
 msgstr ""
 
-#: dshop/admin.py:207 dshop/models.py:192
+#: dshop/admin.py:208 dshop/models.py:194
 msgid "Sénégal"
 msgstr ""
 
-#: dshop/admin.py:208 dshop/models.py:192
+#: dshop/admin.py:209 dshop/models.py:194
 msgid "Serbie"
 msgstr ""
 
-#: dshop/admin.py:209 dshop/models.py:193
+#: dshop/admin.py:210 dshop/models.py:195
 msgid "Seychelles"
 msgstr ""
 
-#: dshop/admin.py:210 dshop/models.py:193
+#: dshop/admin.py:211 dshop/models.py:195
 msgid "Sierra Leone"
 msgstr ""
 
-#: dshop/admin.py:211 dshop/models.py:194
+#: dshop/admin.py:212 dshop/models.py:196
 msgid "Singapour"
 msgstr ""
 
-#: dshop/admin.py:212 dshop/models.py:194
+#: dshop/admin.py:213 dshop/models.py:196
 msgid "Slovaquie"
 msgstr ""
 
-#: dshop/admin.py:213 dshop/models.py:195
+#: dshop/admin.py:214 dshop/models.py:197
 msgid "Slovénie"
 msgstr ""
 
-#: dshop/admin.py:214 dshop/models.py:195
+#: dshop/admin.py:215 dshop/models.py:197
 msgid "Somalie"
 msgstr ""
 
-#: dshop/admin.py:215 dshop/models.py:195
+#: dshop/admin.py:216 dshop/models.py:197
 msgid "Soudan"
 msgstr ""
 
-#: dshop/admin.py:216 dshop/models.py:196
+#: dshop/admin.py:217 dshop/models.py:198
 msgid "Soudan du Sud"
 msgstr ""
 
-#: dshop/admin.py:217 dshop/models.py:196
+#: dshop/admin.py:218 dshop/models.py:198
 msgid "Sri Lanka"
 msgstr ""
 
-#: dshop/admin.py:218 dshop/models.py:197
+#: dshop/admin.py:219 dshop/models.py:199
 msgid "Suède"
 msgstr ""
 
-#: dshop/admin.py:219 dshop/models.py:197
+#: dshop/admin.py:220 dshop/models.py:199
 msgid "Suisse"
 msgstr ""
 
-#: dshop/admin.py:220 dshop/models.py:197
+#: dshop/admin.py:221 dshop/models.py:199
 msgid "Suriname"
 msgstr ""
 
-#: dshop/admin.py:221 dshop/models.py:198
+#: dshop/admin.py:222 dshop/models.py:200
 msgid "Eswatini"
 msgstr ""
 
-#: dshop/admin.py:222 dshop/models.py:198
+#: dshop/admin.py:223 dshop/models.py:200
 msgid "Syrie"
 msgstr ""
 
-#: dshop/admin.py:223 dshop/models.py:199
+#: dshop/admin.py:224 dshop/models.py:201
 msgid "Tadjikistan"
 msgstr ""
 
-#: dshop/admin.py:224 dshop/models.py:199
+#: dshop/admin.py:225 dshop/models.py:201
 msgid "Tanzanie"
 msgstr ""
 
-#: dshop/admin.py:225 dshop/models.py:200
+#: dshop/admin.py:226 dshop/models.py:202
 msgid "Tchad"
 msgstr ""
 
-#: dshop/admin.py:226 dshop/models.py:200
+#: dshop/admin.py:227 dshop/models.py:202
 msgid "Tchéquie"
 msgstr ""
 
-#: dshop/admin.py:227 dshop/models.py:201
+#: dshop/admin.py:228 dshop/models.py:203
 msgid "Thaïlande"
 msgstr ""
 
-#: dshop/admin.py:228 dshop/models.py:201
+#: dshop/admin.py:229 dshop/models.py:203
 msgid "Timor oriental"
 msgstr ""
 
-#: dshop/admin.py:229 dshop/models.py:202
+#: dshop/admin.py:230 dshop/models.py:204
 msgid "Togo"
 msgstr ""
 
-#: dshop/admin.py:230 dshop/models.py:202
+#: dshop/admin.py:231 dshop/models.py:204
 msgid "Tonga"
 msgstr ""
 
-#: dshop/admin.py:231 dshop/models.py:203
+#: dshop/admin.py:232 dshop/models.py:205
 msgid "Trinité-et-Tobago"
 msgstr ""
 
-#: dshop/admin.py:232 dshop/models.py:203
+#: dshop/admin.py:233 dshop/models.py:205
 msgid "Tunisie"
 msgstr ""
 
-#: dshop/admin.py:233 dshop/models.py:204
+#: dshop/admin.py:234 dshop/models.py:206
 msgid "Turkménistan"
 msgstr ""
 
-#: dshop/admin.py:234 dshop/models.py:204
+#: dshop/admin.py:235 dshop/models.py:206
 msgid "Turquie"
 msgstr ""
 
-#: dshop/admin.py:235 dshop/models.py:205
+#: dshop/admin.py:236 dshop/models.py:207
 msgid "Tuvalu"
 msgstr ""
 
-#: dshop/admin.py:236 dshop/models.py:205
+#: dshop/admin.py:237 dshop/models.py:207
 msgid "Ukraine"
 msgstr ""
 
-#: dshop/admin.py:237 dshop/models.py:205
+#: dshop/admin.py:238 dshop/models.py:207
 msgid "Uruguay"
 msgstr ""
 
-#: dshop/admin.py:238 dshop/models.py:206
+#: dshop/admin.py:239 dshop/models.py:208
 msgid "Vanuatu"
 msgstr ""
 
-#: dshop/admin.py:239 dshop/models.py:206
+#: dshop/admin.py:240 dshop/models.py:208
 msgid "Venezuela"
 msgstr ""
 
-#: dshop/admin.py:240 dshop/models.py:207
+#: dshop/admin.py:241 dshop/models.py:209
 msgid "Viêt Nam"
 msgstr ""
 
-#: dshop/admin.py:241 dshop/models.py:207
+#: dshop/admin.py:242 dshop/models.py:209
 msgid "Yémen"
 msgstr ""
 
-#: dshop/admin.py:242 dshop/models.py:207
+#: dshop/admin.py:243 dshop/models.py:209
 msgid "Zambie"
 msgstr ""
 
-#: dshop/admin.py:243 dshop/models.py:208
+#: dshop/admin.py:244 dshop/models.py:210
 msgid "Zimbabwe"
 msgstr ""
 
-#: dshop/admin.py:337 dshop/models.py:75
+#: dshop/admin.py:338 dshop/models.py:77
 msgid "Data"
 msgstr ""
 
-#: dshop/admin.py:370 dshop/templates/theme/default/order/detail.html:10
+#: dshop/admin.py:376 dshop/templates/theme/default/order/detail.html:10
 msgid "Order"
 msgstr ""
 
-#: dshop/admin.py:371 settings.py:670
+#: dshop/admin.py:377 settings.py:672
 msgid "Orders"
 msgstr ""
 
-#: dshop/admin.py:385 dshop/models.py:1233
+#: dshop/admin.py:391 dshop/models.py:1256
 msgid "Number"
 msgstr ""
 
-#: dshop/admin.py:389
+#: dshop/admin.py:395
 msgid "Status"
 msgstr ""
 
-#: dshop/admin.py:397 dshop/templates/theme/default/order/detail.html:96
+#: dshop/admin.py:403 dshop/templates/theme/default/email/order-detail.html:58
+#: dshop/templates/theme/default/order/detail.html:121
 #: dshop/templates/theme/default/print/invoice.html:44
 msgid "Subtotal"
 msgstr ""
 
-#: dshop/admin.py:401 dshop/templates/theme/default/order/detail.html:111
+#: dshop/admin.py:407 dshop/templates/theme/default/email/order-detail.html:70
+#: dshop/templates/theme/default/order/detail.html:136
 #: dshop/templates/theme/default/print/invoice.html:57
 msgid "Total"
 msgstr ""
 
-#: dshop/admin.py:405
+#: dshop/admin.py:411
 msgid "Is fully paid"
 msgstr ""
 
-#: dshop/admin.py:410
+#: dshop/admin.py:416
 msgid "Details"
 msgstr ""
 
-#: dshop/admin.py:468 dshop/admin.py:518
+#: dshop/admin.py:466 dshop/admin.py:516
 msgid "Translatable Fields"
 msgstr ""
 
-#: dshop/admin.py:474 dshop/admin.py:524
+#: dshop/admin.py:472 dshop/admin.py:522
 msgid "Categories and Filters"
 msgstr ""
 
-#: dshop/admin.py:480 dshop/admin.py:530 dshop/models.py:502
+#: dshop/admin.py:478 dshop/admin.py:528 dshop/models.py:505
 msgid "Brand"
 msgstr ""
 
-#: dshop/admin.py:485 dshop/admin.py:535 dshop/models.py:521
+#: dshop/admin.py:483 dshop/admin.py:533 dshop/models.py:524
 msgid "Main Image"
 msgstr ""
 
-#: dshop/admin.py:555
+#: dshop/admin.py:554
 msgid "You can not select same Attribute type for one variant"
 msgstr ""
 
-#: dshop/admin.py:563
+#: dshop/admin.py:559
+msgid "You need to select same Attribute type for all variant"
+msgstr ""
+
+#: dshop/admin.py:570
 msgid "Text Index"
 msgstr ""
 
-#: dshop/admin.py:598
+#: dshop/admin.py:605
 msgid "Price starting at"
 msgstr ""
 
-#: dshop/admin.py:611 dshop/models.py:602 dshop/models.py:898
+#: dshop/admin.py:618 dshop/models.py:605 dshop/models.py:927
+#: dshop/templates/theme/default/email/order-detail.html:13
 msgid "Quantity"
 msgstr ""
 
-#: dshop/apps.py:8 settings.py:661
+#: dshop/apps.py:8 settings.py:663
 msgid "Shop"
 msgstr ""
 
@@ -1289,7 +1297,7 @@ msgstr ""
 msgid "Background"
 msgstr ""
 
-#: dshop/cms_plugins.py:123 dshop/models.py:1133
+#: dshop/cms_plugins.py:123 dshop/models.py:1156
 msgid "Link"
 msgstr ""
 
@@ -1333,7 +1341,7 @@ msgstr ""
 msgid "Products By Category"
 msgstr ""
 
-#: dshop/cms_plugins.py:338 dshop/models.py:458
+#: dshop/cms_plugins.py:338 dshop/models.py:461
 msgid "Product's Brands"
 msgstr ""
 
@@ -1345,513 +1353,519 @@ msgstr ""
 msgid "Sales's Element"
 msgstr ""
 
-#: dshop/models.py:66 dshop/models.py:72
+#: dshop/models.py:68 dshop/models.py:74
 msgid "Ordered Quantity"
 msgstr ""
 
-#: dshop/models.py:79
+#: dshop/models.py:81
 msgid "Canceled"
 msgstr ""
 
-#: dshop/models.py:218 dshop/models.py:266
+#: dshop/models.py:220 dshop/models.py:268
 msgid "Fullname"
 msgstr ""
 
-#: dshop/models.py:222 dshop/models.py:270
+#: dshop/models.py:224 dshop/models.py:272
 msgid "Address 1"
 msgstr ""
 
-#: dshop/models.py:226 dshop/models.py:274
+#: dshop/models.py:228 dshop/models.py:276
 msgid "Address 2"
 msgstr ""
 
-#: dshop/models.py:232 dshop/models.py:280
+#: dshop/models.py:234 dshop/models.py:282
 msgid "Country"
 msgstr ""
 
-#: dshop/models.py:236 dshop/models.py:284
+#: dshop/models.py:238 dshop/models.py:286
 msgid "Province / State"
 msgstr ""
 
-#: dshop/models.py:240 dshop/models.py:288
+#: dshop/models.py:242 dshop/models.py:290
 msgid "City"
 msgstr ""
 
-#: dshop/models.py:244 dshop/models.py:292
+#: dshop/models.py:246 dshop/models.py:294
 msgid "Postal Code"
 msgstr ""
 
-#: dshop/models.py:249 dshop/templates/theme/default/order/detail.html:24
+#: dshop/models.py:251
+#: dshop/templates/theme/default/email/customer-information.html:18
+#: dshop/templates/theme/default/order/detail.html:31
 msgid "Shipping Address"
 msgstr ""
 
-#: dshop/models.py:250
+#: dshop/models.py:252
 msgid "Shipping Addresses"
 msgstr ""
 
-#: dshop/models.py:297 dshop/templates/theme/default/order/detail.html:35
+#: dshop/models.py:299
+#: dshop/templates/theme/default/email/customer-information.html:12
+#: dshop/templates/theme/default/order/detail.html:44
 msgid "Billing Address"
 msgstr ""
 
-#: dshop/models.py:298
+#: dshop/models.py:300
 msgid "Billing Addresses"
 msgstr ""
 
-#: dshop/models.py:320 dshop/models.py:1256 dshop/models.py:1316
+#: dshop/models.py:321 dshop/models.py:1279 dshop/models.py:1339
 msgid "Left"
 msgstr ""
 
-#: dshop/models.py:321
+#: dshop/models.py:322
 msgid "Center"
 msgstr ""
 
-#: dshop/models.py:322 dshop/models.py:1257 dshop/models.py:1318
+#: dshop/models.py:323 dshop/models.py:1280 dshop/models.py:1341
 msgid "Right"
 msgstr ""
 
-#: dshop/models.py:326
+#: dshop/models.py:327
 msgid "Category's Name"
 msgstr ""
 
-#: dshop/models.py:334
+#: dshop/models.py:335
 msgid "Parent's Category"
 msgstr ""
 
-#: dshop/models.py:339 dshop/models.py:755 dshop/models.py:834
-#: dshop/models.py:856
+#: dshop/models.py:341 dshop/models.py:761 dshop/models.py:863
+#: dshop/models.py:885
 msgid "Square ID"
 msgstr ""
 
-#: dshop/models.py:345 dshop/models.py:418 dshop/models.py:450
-#: dshop/models.py:513
+#: dshop/models.py:347 dshop/models.py:421 dshop/models.py:453
+#: dshop/models.py:516
 msgid "Sort by"
 msgstr ""
 
-#: dshop/models.py:355
+#: dshop/models.py:357
 msgid ""
 "A text that will be shown on the top of the page of the Products of this "
 "category."
 msgstr ""
 
-#: dshop/models.py:358
+#: dshop/models.py:360
 msgid "Position"
 msgstr ""
 
-#: dshop/models.py:361
+#: dshop/models.py:363
 msgid "Position of the text."
 msgstr ""
 
-#: dshop/models.py:364 dshop/models.py:1467 dshop/models.py:1563
-#: dshop/models.py:1621
+#: dshop/models.py:366 dshop/models.py:1490 dshop/models.py:1586
+#: dshop/models.py:1644
 msgid "Text's Colour"
 msgstr ""
 
-#: dshop/models.py:369 dshop/models.py:1205 dshop/models.py:1368
-#: dshop/models.py:1486 dshop/models.py:1580 dshop/models.py:1638
+#: dshop/models.py:371 dshop/models.py:1228 dshop/models.py:1391
+#: dshop/models.py:1509 dshop/models.py:1603 dshop/models.py:1661
 msgid "Background's Colour"
 msgstr ""
 
-#: dshop/models.py:374
+#: dshop/models.py:376
 msgid "Header's Image"
 msgstr ""
 
-#: dshop/models.py:379
+#: dshop/models.py:381
 msgid ""
 "An image that will be shown on the top of the page of the Products of this "
 "category."
 msgstr ""
 
-#: dshop/models.py:383
+#: dshop/models.py:387
 msgid "Product's Category"
 msgstr ""
 
-#: dshop/models.py:384
+#: dshop/models.py:388
 msgid "Product's Categories"
 msgstr ""
 
-#: dshop/models.py:412
+#: dshop/models.py:415
 msgid "Filter's Name"
 msgstr ""
 
-#: dshop/models.py:425
+#: dshop/models.py:428
 msgid "Product's Filter"
 msgstr ""
 
-#: dshop/models.py:426
+#: dshop/models.py:429
 msgid "Product's Filters"
 msgstr ""
 
-#: dshop/models.py:439
+#: dshop/models.py:442
 msgid "Brand's Name"
 msgstr ""
 
-#: dshop/models.py:445 dshop/models.py:1062
+#: dshop/models.py:448 dshop/models.py:1085
 msgid "Logo"
 msgstr ""
 
-#: dshop/models.py:457
+#: dshop/models.py:460
 msgid "Product's Brand"
 msgstr ""
 
-#: dshop/models.py:482
+#: dshop/models.py:485
 msgid "Product's Name"
 msgstr ""
 
-#: dshop/models.py:496
+#: dshop/models.py:499
 msgid "Filters"
 msgstr ""
 
-#: dshop/models.py:507
+#: dshop/models.py:510
 msgid "Featured"
 msgstr ""
 
-#: dshop/models.py:533 dshop/models.py:879
+#: dshop/models.py:536 dshop/models.py:908
+#: dshop/templates/theme/default/email/order-detail.html:14
 msgid "Product"
 msgstr ""
 
-#: dshop/models.py:564
+#: dshop/models.py:567
 msgid "Caption"
 msgstr ""
 
-#: dshop/models.py:568
+#: dshop/models.py:571
 msgid "Short description."
 msgstr ""
 
-#: dshop/models.py:571 dshop/models.py:609 dshop/models.py:762
+#: dshop/models.py:574 dshop/models.py:612 dshop/models.py:768
 msgid "Description"
 msgstr ""
 
-#: dshop/models.py:575 dshop/models.py:611 dshop/models.py:764
+#: dshop/models.py:578 dshop/models.py:614 dshop/models.py:770
 msgid "Long description."
 msgstr ""
 
-#: dshop/models.py:591 dshop/models.py:883
+#: dshop/models.py:594 dshop/models.py:912
 msgid "Product's Code"
 msgstr ""
 
-#: dshop/models.py:594
+#: dshop/models.py:597
 msgid "A unique code."
 msgstr ""
 
-#: dshop/models.py:597 dshop/models.py:893
+#: dshop/models.py:600 dshop/models.py:922
 msgid "Unit Price"
 msgstr ""
 
-#: dshop/models.py:599 dshop/models.py:895
+#: dshop/models.py:602 dshop/models.py:924
 msgid "Net price for this product."
 msgstr ""
 
-#: dshop/models.py:605 dshop/models.py:901
+#: dshop/models.py:608 dshop/models.py:930
 msgid "Available quantity in stock."
 msgstr ""
 
-#: dshop/models.py:615 dshop/models.py:904
+#: dshop/models.py:618 dshop/models.py:933
 msgid "Discounted Unit Price"
 msgstr ""
 
-#: dshop/models.py:619 dshop/models.py:908
+#: dshop/models.py:622 dshop/models.py:937
 msgid "Net discounted price for this product."
 msgstr ""
 
-#: dshop/models.py:622 dshop/models.py:911
+#: dshop/models.py:625 dshop/models.py:940
 msgid "Discount Start DateTime"
 msgstr ""
 
-#: dshop/models.py:625 dshop/models.py:914
+#: dshop/models.py:628 dshop/models.py:943
 msgid "Start DateTime Discount"
 msgstr ""
 
-#: dshop/models.py:628 dshop/models.py:917
+#: dshop/models.py:631 dshop/models.py:946
 msgid "Discount Stop DateTime"
 msgstr ""
 
-#: dshop/models.py:631 dshop/models.py:920
+#: dshop/models.py:634 dshop/models.py:949
 msgid "Stop DateTime Discount"
 msgstr ""
 
-#: dshop/models.py:635
+#: dshop/models.py:638
 msgid "Default Product"
 msgstr ""
 
-#: dshop/models.py:636
+#: dshop/models.py:639
 msgid "Default Products"
 msgstr ""
 
-#: dshop/models.py:769
+#: dshop/models.py:775
 msgid "Variable Product"
 msgstr ""
 
-#: dshop/models.py:770
+#: dshop/models.py:776
 msgid "Variable Products"
 msgstr ""
 
-#: dshop/models.py:829 dshop/models.py:831
+#: dshop/models.py:858 dshop/models.py:860
 msgid "Attribute Name"
 msgstr ""
 
-#: dshop/models.py:841
+#: dshop/models.py:870
 msgid "Product's Attribute"
 msgstr ""
 
-#: dshop/models.py:842
+#: dshop/models.py:871
 msgid "Product's Attributes"
 msgstr ""
 
-#: dshop/models.py:852 dshop/models.py:889
+#: dshop/models.py:881 dshop/models.py:918
 msgid "Attribute"
 msgstr ""
 
-#: dshop/models.py:862 dshop/models.py:864
+#: dshop/models.py:891 dshop/models.py:893
 msgid "Attribute Value"
 msgstr ""
 
-#: dshop/models.py:924
+#: dshop/models.py:953
 #, python-brace-format
 msgid "{product}"
 msgstr ""
 
-#: dshop/models.py:1027 dshop/models.py:1028
+#: dshop/models.py:1050 dshop/models.py:1051
 msgid "Site"
 msgstr ""
 
-#: dshop/models.py:1047
+#: dshop/models.py:1070
 msgid "Logo pour fond clair"
 msgstr ""
 
-#: dshop/models.py:1054
+#: dshop/models.py:1077
 msgid "Logo pour fond sombre"
 msgstr ""
 
-#: dshop/models.py:1063
+#: dshop/models.py:1086
 msgid "Logos"
 msgstr ""
 
-#: dshop/models.py:1082
+#: dshop/models.py:1105
 msgid "Phone"
 msgstr ""
 
-#: dshop/models.py:1088 dshop/models.py:1687
+#: dshop/models.py:1111 dshop/models.py:1710
+#: dshop/templates/theme/default/email/customer-information.html:8
 msgid "Email"
 msgstr ""
 
-#: dshop/models.py:1094
+#: dshop/models.py:1117
 msgid "Address"
 msgstr ""
 
-#: dshop/models.py:1101 dshop/models.py:1102
+#: dshop/models.py:1124 dshop/models.py:1125
 msgid "Contacts"
 msgstr ""
 
-#: dshop/models.py:1116
+#: dshop/models.py:1139
 msgid "Facebook"
 msgstr ""
 
-#: dshop/models.py:1117
+#: dshop/models.py:1140
 msgid "Instagram"
 msgstr ""
 
-#: dshop/models.py:1118
+#: dshop/models.py:1141
 msgid "Youtube"
 msgstr ""
 
-#: dshop/models.py:1119
+#: dshop/models.py:1142
 msgid "Twitter"
 msgstr ""
 
-#: dshop/models.py:1128 dshop/models.py:1138
+#: dshop/models.py:1151 dshop/models.py:1161
 msgid "Social Network"
 msgstr ""
 
-#: dshop/models.py:1139
+#: dshop/models.py:1162
 msgid "Social Networks"
 msgstr ""
 
-#: dshop/models.py:1152 dshop/models.py:1176 dshop/models.py:1192
-#: dshop/models.py:1220 dshop/models.py:1246 dshop/models.py:1260
-#: dshop/models.py:1321 dshop/models.py:1437 dshop/models.py:1494
-#: dshop/models.py:1517 dshop/models.py:1533 dshop/models.py:1549
-#: dshop/models.py:1592 dshop/models.py:1651
+#: dshop/models.py:1175 dshop/models.py:1199 dshop/models.py:1215
+#: dshop/models.py:1243 dshop/models.py:1269 dshop/models.py:1283
+#: dshop/models.py:1344 dshop/models.py:1460 dshop/models.py:1517
+#: dshop/models.py:1540 dshop/models.py:1556 dshop/models.py:1572
+#: dshop/models.py:1615 dshop/models.py:1674
 msgid "Title"
 msgstr ""
 
-#: dshop/models.py:1165 dshop/models.py:1426 dshop/models.py:1472
-#: dshop/models.py:1567 dshop/models.py:1625
+#: dshop/models.py:1188 dshop/models.py:1449 dshop/models.py:1495
+#: dshop/models.py:1590 dshop/models.py:1648
 msgid "Button's Label"
 msgstr ""
 
-#: dshop/models.py:1170
+#: dshop/models.py:1193
 msgid "Leave blank to hide button."
 msgstr ""
 
-#: dshop/models.py:1210
+#: dshop/models.py:1233
 msgid "Background's Image"
 msgstr ""
 
-#: dshop/models.py:1237
+#: dshop/models.py:1260
 msgid "How many brand's logo to be show at the same time."
 msgstr ""
 
-#: dshop/models.py:1267 dshop/models.py:1328 dshop/models.py:1449
-#: dshop/models.py:1501 dshop/models.py:1599
+#: dshop/models.py:1290 dshop/models.py:1351 dshop/models.py:1472
+#: dshop/models.py:1524 dshop/models.py:1622
 msgid "Subtitle"
 msgstr ""
 
-#: dshop/models.py:1271 dshop/models.py:1332 dshop/models.py:1453
-#: dshop/models.py:1477 dshop/models.py:1505 dshop/models.py:1527
+#: dshop/models.py:1294 dshop/models.py:1355 dshop/models.py:1476
+#: dshop/models.py:1500 dshop/models.py:1528 dshop/models.py:1550
 msgid "Maximum 200 characters."
 msgstr ""
 
-#: dshop/models.py:1280 dshop/models.py:1373 dshop/models.py:1480
-#: dshop/models.py:1511 dshop/models.py:1584 dshop/models.py:1643
+#: dshop/models.py:1303 dshop/models.py:1396 dshop/models.py:1503
+#: dshop/models.py:1534 dshop/models.py:1607 dshop/models.py:1666
 msgid "Image"
 msgstr ""
 
-#: dshop/models.py:1283
+#: dshop/models.py:1306
 msgid "Sizes : 398x531. Leave blank to hide image."
 msgstr ""
 
-#: dshop/models.py:1286
+#: dshop/models.py:1309
 msgid "Video"
 msgstr ""
 
-#: dshop/models.py:1290
+#: dshop/models.py:1313
 msgid "Leave blank to hide or use image instead."
 msgstr ""
 
-#: dshop/models.py:1293
+#: dshop/models.py:1316
 msgid "Image's Position"
 msgstr ""
 
-#: dshop/models.py:1303
+#: dshop/models.py:1326
 msgid "Video File"
 msgstr ""
 
-#: dshop/models.py:1317
+#: dshop/models.py:1340
 msgid "Middle"
 msgstr ""
 
-#: dshop/models.py:1335 dshop/models.py:1444 dshop/models.py:1613
+#: dshop/models.py:1358 dshop/models.py:1467 dshop/models.py:1636
 msgid "Title's Colour"
 msgstr ""
 
-#: dshop/models.py:1340 dshop/models.py:1456 dshop/models.py:1617
+#: dshop/models.py:1363 dshop/models.py:1479 dshop/models.py:1640
 msgid "Subtitle's Colour"
 msgstr ""
 
-#: dshop/models.py:1345
+#: dshop/models.py:1368
 msgid "Text's Position"
 msgstr ""
 
-#: dshop/models.py:1350
+#: dshop/models.py:1373
 msgid "Link's Label"
 msgstr ""
 
-#: dshop/models.py:1354
+#: dshop/models.py:1377
 msgid "Maximum 30 characters."
 msgstr ""
 
-#: dshop/models.py:1361
+#: dshop/models.py:1384
 msgid "Maximum 1 000 characters."
 msgstr ""
 
-#: dshop/models.py:1364
+#: dshop/models.py:1387
 msgid "Open on new tab?"
 msgstr ""
 
-#: dshop/models.py:1376 dshop/models.py:1483
+#: dshop/models.py:1399 dshop/models.py:1506
 msgid "Leave blank to hide image."
 msgstr ""
 
-#: dshop/models.py:1382
+#: dshop/models.py:1405
 msgid "Schedule - Top"
 msgstr ""
 
-#: dshop/models.py:1386 dshop/models.py:1393 dshop/models.py:1400
-#: dshop/models.py:1408 dshop/models.py:1423 dshop/models.py:1431
+#: dshop/models.py:1409 dshop/models.py:1416 dshop/models.py:1423
+#: dshop/models.py:1431 dshop/models.py:1446 dshop/models.py:1454
 msgid "Maximum 50 characters."
 msgstr ""
 
-#: dshop/models.py:1389
+#: dshop/models.py:1412
 msgid "Schedule - Bottom"
 msgstr ""
 
-#: dshop/models.py:1396
+#: dshop/models.py:1419
 msgid "Phone - Top"
 msgstr ""
 
-#: dshop/models.py:1403
+#: dshop/models.py:1426
 msgid "Phone - Bottom"
 msgstr ""
 
-#: dshop/models.py:1411
+#: dshop/models.py:1434
 msgid "Address - Top"
 msgstr ""
 
-#: dshop/models.py:1415
+#: dshop/models.py:1438
 msgid "Maximum 120 characters."
 msgstr ""
 
-#: dshop/models.py:1418
+#: dshop/models.py:1441
 msgid "Address - Bottom"
 msgstr ""
 
-#: dshop/models.py:1514
+#: dshop/models.py:1537
 msgid "Sizes : 160x160."
 msgstr ""
 
-#: dshop/models.py:1571 dshop/models.py:1629
+#: dshop/models.py:1594 dshop/models.py:1652
 msgid "Maximum 25 characters."
 msgstr ""
 
-#: dshop/models.py:1574 dshop/models.py:1632
+#: dshop/models.py:1597 dshop/models.py:1655
 msgid "Button's URL"
 msgstr ""
 
-#: dshop/models.py:1596 dshop/models.py:1603
+#: dshop/models.py:1619 dshop/models.py:1626
 msgid "Maximum 250 characters."
 msgstr ""
 
-#: dshop/models.py:1610
+#: dshop/models.py:1633
 msgid "Maximum 500 characters."
 msgstr ""
 
-#: dshop/models.py:1674
+#: dshop/models.py:1697
 msgid "Job"
 msgstr ""
 
-#: dshop/models.py:1680
+#: dshop/models.py:1703
 msgid "Photo"
 msgstr ""
 
-#: dshop/models.py:1697
+#: dshop/models.py:1720
 msgid "Ex.: https://www.facebook.com/<username>"
 msgstr ""
 
-#: dshop/models.py:1704
+#: dshop/models.py:1727
 msgid "Ex.: https://twitter.com/<username>"
 msgstr ""
 
-#: dshop/models.py:1711
+#: dshop/models.py:1734
 msgid "Ex.: https://www.instagram.com/<username>"
 msgstr ""
 
-#: dshop/models.py:1718
+#: dshop/models.py:1741
 msgid "Feature Name"
 msgstr ""
 
-#: dshop/models.py:1722
+#: dshop/models.py:1745
 msgid "Is enabled?"
 msgstr ""
 
-#: dshop/models.py:1727
+#: dshop/models.py:1750
 msgid "Feature List"
 msgstr ""
 
-#: dshop/models.py:1728
+#: dshop/models.py:1751
 msgid "Feature Lists"
 msgstr ""
 
-#: dshop/modifiers.py:48
+#: dshop/modifiers.py:51
 msgid "Test (development)"
 msgstr ""
 
@@ -1880,17 +1894,49 @@ msgstr ""
 msgid "An error occurred. Sorry."
 msgstr ""
 
-#: dshop/templates/theme/default/catalog/productdefault-detail.html:79
-#: dshop/templates/theme/default/catalog/productdefault-detail.html:184
+#: dshop/templates/theme/default/catalog/productdefault-detail.html:81
+#: dshop/templates/theme/default/catalog/productdefault-detail.html:203
+#: dshop/templates/theme/default/catalog/productvariable-detail.html:86
 #: dshop/templates/theme/default/pages/produits.html:152
-#: dshop/templates/theme/default/plugins/products-by-category.html:92
+#: dshop/templates/theme/default/plugins/products-by-category.html:93
 #: dshop/templates/theme/default/plugins/products-vedette.html:74
+#: templates/plugins/products-by-category.html:93
 msgid "Discounted"
 msgstr ""
 
-#: dshop/templates/theme/default/catalog/productdefault-detail.html:102
-#: dshop/templates/theme/default/catalog/productvariable-detail.html:115
+#: dshop/templates/theme/default/catalog/productdefault-detail.html:109
+#: dshop/templates/theme/default/catalog/productvariable-detail.html:134
 msgid "Add to cart"
+msgstr ""
+
+#: dshop/templates/theme/default/catalog/productdefault-detail.html:114
+#: dshop/templates/theme/default/catalog/productvariable-detail.html:138
+msgid "Out of stock"
+msgstr ""
+
+#: dshop/templates/theme/default/email/customer-information.html:5
+msgid "Your Details"
+msgstr ""
+
+#: dshop/templates/theme/default/email/order-detail.html:8
+#: dshop/templates/theme/default/email/order-detail.txt:1
+#, python-format
+msgid "Summary of Your Order %(order_number)s"
+msgstr ""
+
+#: dshop/templates/theme/default/email/order-detail.txt:5
+#, python-format
+msgid "Line Total: %(line_total)s"
+msgstr ""
+
+#: dshop/templates/theme/default/email/order-detail.txt:8
+#, python-format
+msgid "Subtotal: %(subtotal)s"
+msgstr ""
+
+#: dshop/templates/theme/default/email/order-detail.txt:10
+#, python-format
+msgid "Total: %(total)s"
 msgstr ""
 
 #: dshop/templates/theme/default/order/detail.html:11
@@ -1898,20 +1944,21 @@ msgctxt "order-detail"
 msgid "from"
 msgstr ""
 
-#: dshop/templates/theme/default/order/detail.html:14
-msgid "Paid using Stripe"
+#: dshop/templates/theme/default/order/detail.html:20
+#: dshop/templates/theme/default/order/list.html:44
+msgid "Order Canceled"
 msgstr ""
 
-#: dshop/templates/theme/default/order/detail.html:39
+#: dshop/templates/theme/default/order/detail.html:49
 #: dshop/templates/theme/default/print/invoice.html:64
 msgid "Payment Method"
 msgstr ""
 
-#: dshop/templates/theme/default/order/detail.html:47
+#: dshop/templates/theme/default/order/detail.html:58
 msgid "Ordered Items"
 msgstr ""
 
-#: dshop/templates/theme/default/order/detail.html:120
+#: dshop/templates/theme/default/order/detail.html:145
 msgid "Applied Promocodes"
 msgstr ""
 
@@ -1919,11 +1966,11 @@ msgstr ""
 msgid "You have never ordered anything from this site."
 msgstr ""
 
-#: dshop/templates/theme/default/order/list.html:49
+#: dshop/templates/theme/default/order/list.html:57
 msgid "Page navigation"
 msgstr ""
 
-#: dshop/templates/theme/default/pages/__init__.py:4 settings.py:467
+#: dshop/templates/theme/default/pages/__init__.py:4 settings.py:469
 msgid "Default"
 msgstr ""
 
@@ -1952,26 +1999,26 @@ msgstr ""
 msgid "Thanks!"
 msgstr ""
 
-#: dshop/templates/theme/default/pages/produits.html:160
+#: dshop/templates/theme/default/pages/produits.html:164
 msgid "See more"
 msgstr ""
 
-#: dshop/templates/theme/default/pages/produits.html:170
+#: dshop/templates/theme/default/pages/produits.html:174
 #: dshop/templates/theme/default/plugins/products-brands.html:38
-#: dshop/templates/theme/default/plugins/products-by-category.html:100
+#: dshop/templates/theme/default/plugins/products-by-category.html:101
 #: dshop/templates/theme/default/plugins/products-vedette.html:82
-#: templates/plugins/products-by-category.html:93
+#: templates/plugins/products-by-category.html:101
 #: templates/plugins/products-categories.html:63
 #: templates/plugins/products-vedette.html:79
 msgid "Empty"
 msgstr ""
 
-#: dshop/templates/theme/default/pages/produits.html:180
-#: dshop/templates/theme/default/pages/produits.html:182
+#: dshop/templates/theme/default/pages/produits.html:184
+#: dshop/templates/theme/default/pages/produits.html:186
 msgid "See more products"
 msgstr ""
 
-#: dshop/templates/theme/default/pages/produits.html:225
+#: dshop/templates/theme/default/pages/produits.html:229
 msgid "Brands"
 msgstr ""
 
@@ -1994,6 +2041,11 @@ msgstr ""
 msgid "Your email"
 msgstr ""
 
+#: dshop/templates/theme/default/plugins/products-by-category.html:105
+#: templates/plugins/products-by-category.html:105
+msgid "Loading"
+msgstr ""
+
 #: dshop/templates/theme/default/print/delivery-note.html:4
 #: dshop/templates/theme/default/print/delivery-note.html:12
 msgid "Delivery Note"
@@ -2012,51 +2064,51 @@ msgstr ""
 msgid "Ordered on"
 msgstr ""
 
-#: dshop/views.py:383
+#: dshop/views.py:501
 msgid "You successfully been added to our newsletter."
 msgstr ""
 
-#: dshop/views.py:387
+#: dshop/views.py:505
 msgid "An error occurred, sorry."
 msgstr ""
 
-#: dshop/views.py:390
+#: dshop/views.py:508
 msgid "Your answer was wrong."
 msgstr ""
 
-#: dshop/views.py:434
+#: dshop/views.py:552
 msgid "Invalid POST data."
 msgstr ""
 
-#: dshop/views.py:441
+#: dshop/views.py:559
 msgid "Password has been reset with the new password."
 msgstr ""
 
-#: settings.py:464
+#: settings.py:466
 msgid "Product Heading"
 msgstr ""
 
-#: settings.py:674
+#: settings.py:676
 msgid "Delivery"
 msgstr ""
 
-#: settings.py:678
+#: settings.py:680
 msgid "DeliveryItem"
 msgstr ""
 
-#: settings.py:710
+#: settings.py:712
 msgid "Sending Emails"
 msgstr ""
 
-#: settings.py:715
+#: settings.py:717
 msgid "Email Templates"
 msgstr ""
 
-#: settings.py:719
+#: settings.py:721
 msgid "Sent Emails"
 msgstr ""
 
-#: settings.py:726
+#: settings.py:728
 msgid "Theme Management"
 msgstr ""
 
@@ -2091,6 +2143,10 @@ msgstr ""
 
 #: templates/dshop/admin/order-extra.html:14
 msgid "Annotation"
+msgstr ""
+
+#: templates/dshop/admin/orderitem-product-extra.html:12
+msgid "Attributes"
 msgstr ""
 
 #: templates/dshop/pages/base.html:85

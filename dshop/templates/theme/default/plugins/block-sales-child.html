@@ -8,7 +8,7 @@
     {% else %}
       <img src="{% static 'dshop/shopwise/images/shop_banner_img1.jpg' %}" alt="" />
     {% endif %}
-    <div class="single_banner_info">
+    <div class="single_banner_info" style="{% if instance.text_position == 0 %}left:10px;right:auto;{% else %}left:auto;right:0;{% endif %}">
       <h5 class="single_bn_title1" style="color:{{instance.txt_color}}">{% if instance.text %}{{instance.text}}{% endif %}</h5>
       <h3 class="single_bn_title" style="color:{{instance.txt_color}}">{% if instance.title %}{{instance.title}}{% endif %}</h3>
       {% if instance.btn_label %}<a href="{% if instance.btn_url %}{{instance.btn_url}}{% else %}#{% endif %}" class="single_bn_link" style="color:{{instance.txt_color}}">{{instance.btn_label}}</a>{% endif %}
