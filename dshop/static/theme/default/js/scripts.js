@@ -35,8 +35,7 @@ function loadMoreProduits(category = null) {
       r += '<li>'
       r += '<a href="'+product.url+'"><i class="ti-info-alt"></i></a>'
       r += '</li>'
-      if (product.variants) {}
-      else {
+      if (!product.variants && product.quantity > 0) {
         r += '<li>'
         r += '<a href="/" onclick="dm_add2cart($(this)); return false" class="dm-add2cart btn" data-product="'+product.slug+'"><i class="icon-basket-loaded"></i></a>'
         r += '</li>'
@@ -108,8 +107,7 @@ function pbc_tab(cat, tab) {
                 r += '<li>'
                 r += '<a href="'+product.url+'"><i class="ti-info-alt"></i></a>'
                 r += '</li>'
-                if (product.variants) {}
-                else {
+                if (!product.variants && product.quantity > 0) {
                     r += '<li>'
                     r += '<a href="/" onclick="dm_add2cart($(this)); return false" class="dm-add2cart btn" data-product="'+product.slug+'"><i class="icon-basket-loaded"></i></a>'
                     r += '</li>'

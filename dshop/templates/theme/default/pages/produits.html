@@ -120,7 +120,7 @@
                         <li>
                           <a href="{{product.get_absolute_url}}"><i class="ti-info-alt"></i></a>
                         </li>
-                        {% if product.variants %}{% else%}
+                        {% if not product.variants and product.quantity > 0 %}
                           <li>
                             <a href="/" class="dm-add2cart btn" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
                           </li>
@@ -153,7 +153,11 @@
                       {% endif %}
                     </div>
                     <div class="pr_desc">
-                      <p>{{product.caption}}</p>
+                      {% if product.caption %}
+                        {{product.caption|safe}}
+                      {% elif product.description %}
+                        {{product.description|safe}}
+                      {% endif %}
                     </div>
                     <div class="list_product_action_box">
                       <ul class="list_none">

@@ -112,27 +112,30 @@
                   {% with product.get_attribute_values as attributes %}
                     {% for key, value in product.get_product_attribute.items %}
                         <select class="form-control" name="product_attribute_{{key}}">
-                        <option disabled selected>{{key}}</option>
-                        {% for v in value %}
-                            {% if v in attributes.value %}
-                                <option class="choix" value={{v}} {% if v in attr_list %}selected{% endif %}>{{v}}</option>
-                            {% endif %}
-                        {% endfor %}
+                            <option disabled selected>{{key}}</option>
+                            {% for v in value %}
+                                {% if v in attributes.value %}
+                                    <option class="choix" value={{v}} {% if v in attr_list %}selected{% endif %}>{{v}}</option>
+                                {% endif %}
+                            {% endfor %}
                         </select>
                     {% endfor %}
                   {% endwith %}
                 </div>
-                <div class="cart-product-quantity">
+                <div class="cart-product-quantity" style="display:{% if product.variants.first and product.variants.first.quantity == 0 %}none{% else %}block{% endif %};">
                   <div class="quantity">
                     <input type="button" value="-" class="minus" onclick="quantityMinus()" />
                     <input type="number" name="quantity" value="1" title="Qty" class="qty input-num" min="1" max="99" />
                     <input type="button" value="+" class="plus" onclick="quantityPlus()" />
                   </div>
                 </div>
-                <div class="cart_btn">
+                <div class="cart_btn" style="display:{% if product.variants.first and product.variants.first.quantity == 0 %}none{% else %}block{% endif %};">
                   <a href="#" class="btn btn-fill-out btn-add2cart dm-add2cart-variant{% if not product.variants.first %}disabled{% endif %}" data-product="{{product.slug}}" data-quantity="1" data-variant="{{product.variants.first.product_code}}">
                     <i class="icon-basket-loaded"></i>{% trans "Add to cart" %}
                   </a>
+                </div>
+                <div class="product-detail-unavailable" style="display:{% if product.variants.first and product.variants.first.quantity == 0 %}block{% else %}none{% endif %};">
+                    <p>{% trans 'Out of stock' %}</p>
                 </div>
               </div>
             </div>
@@ -194,6 +197,11 @@
                       <div class="product_action_box">
                         <ul class="list_none pr_action_btn">
                           <li><a href="{{related.get_absolute_url}}"><i class="ti-info-alt"></i></a></li>
+                          {% if not related.variants and related.quantity > 0 %}
+                              <li>
+                                  <a href="/" class="btn" onclick="dm_add2cart($(this)); return false" data-product="{{related.slug}}"><i class="icon-basket-loaded"></i></a>
+                              </li>
+                          {% endif %}
                         </ul>
                       </div>
                     </div>

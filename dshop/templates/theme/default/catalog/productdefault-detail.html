@@ -96,18 +96,24 @@
               </div>
               <hr />
               <div class="cart_extra">
-                <div class="cart-product-quantity">
-                  <div class="quantity">
-                    <input type="button" value="-" class="minus" onclick="quantityMinus()" />
-                    <input type="number" name="quantity" value="1" title="Qty" class="qty input-num" min="1" max="99" />
-                    <input type="button" value="+" class="plus" onclick="quantityPlus()" />
-                  </div>
-                </div>
-                <div class="cart_btn">
-                  <a href="#" class="btn btn-fill-out btn-add2cart dm-add2cart" data-product="{{product.slug}}" data-quantity="1">
-                    <i class="icon-basket-loaded"></i>{% trans "Add to cart" %}
-                  </a>
-                </div>
+                {% if product.quantity > 0 %}
+                    <div class="cart-product-quantity">
+                        <div class="quantity">
+                            <input type="button" value="-" class="minus" onclick="quantityMinus()" />
+                            <input type="number" name="quantity" value="1" title="Qty" class="qty input-num" min="1" max="99" />
+                            <input type="button" value="+" class="plus" onclick="quantityPlus()" />
+                        </div>
+                    </div>
+                    <div class="cart_btn">
+                        <a href="#" class="btn btn-fill-out btn-add2cart dm-add2cart" data-product="{{product.slug}}" data-quantity="1">
+                            <i class="icon-basket-loaded"></i>{% trans "Add to cart" %}
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="product-detail-unavailable">
+                        <p>{% trans 'Out of stock' %}</p>
+                    </div>
+                {% endif %}
               </div>
             </div>
           </div>
@@ -168,6 +174,11 @@
                       <div class="product_action_box">
                         <ul class="list_none pr_action_btn">
                           <li><a href="{{related.get_absolute_url}}"><i class="ti-info-alt"></i></a></li>
+                          {% if not related.variants and related.quantity > 0 %}
+                              <li>
+                                  <a href="/" class="btn" onclick="dm_add2cart($(this)); return false" data-product="{{related.slug}}"><i class="icon-basket-loaded"></i></a>
+                              </li>
+                          {% endif %}
                         </ul>
                       </div>
                     </div>

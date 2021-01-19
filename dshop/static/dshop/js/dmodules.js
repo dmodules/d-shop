@@ -17,6 +17,18 @@ const i18n = {
     fr: "produits",
     en: "products"
   },
+  productaddedtocart: {
+      fr: "Produit ajouté au panier",
+      en: "Product added to cart"
+  },
+  quantitymaxreach: {
+      fr: "Produits ajoutés partiellement au panier; maximum atteint",
+      en: "Products partially added to cart; maximum reach"
+  },
+  productoutofstock: {
+      fr: "Produit en rupture de stock",
+      en: "Product out of stock"
+  },
   voirplus: {
     fr: "Voir plus",
     en: "See more"
@@ -79,10 +91,22 @@ function setClickBtn() {
             } else {
                 $(".product_title .variant-tag").html("")
             }
+            if (getResult.variants[0].quantity > 0) {
+                $(".cart-product-quantity").show()
+                $(".cart_btn").show()
+                $(".product-detail-unavailable").hide()
+            } else {
+                $(".cart-product-quantity").hide()
+                $(".cart_btn").hide()
+                $(".product-detail-unavailable").show()
+            }
         } else {
             $(".btn-add2cart").addClass("disabled")
             $(".product_price").html("<span class=\"price\">&nbsp;</span>")
             $(".product_title .variant-tag").html("")
+            $(".cart-product-quantity").hide()
+            $(".cart_btn").hide()
+            $(".product-detail-unavailable").show()
         }
     })
   })
@@ -105,8 +129,8 @@ function quantityPlus() {
   }
 }
 
-function showAdd2cartSnack() {
-  $('#snackbar').text('Produit ajouté au panier')
+function showAdd2cartSnack(text = i18n.productaddedtocart[lang]) {
+  $('#snackbar').text(text)
   $('#snackbar').addClass('show')
   setTimeout(function () {
     $('#snackbar').removeClass('show')
@@ -120,24 +144,26 @@ function dm_add2cart(k) {
     quantity = $(k).data("quantity")
   }
   $.get(site + i18n.product[lang] + "/" + endpoint + "/add-to-cart", function(getResult) {
-    getResult.product_code = getResult.product_code.toString()
-    getResult.quantity = quantity
-    $.post(shop + "cart/", getResult, function() {
-      showAdd2cartSnack()
-      getPanier()
-    })
-  })
-}
-
-function dm_delete2cart(endpoint) {
-  $.ajax({
-    url: shop + "cart/" + endpoint,
-    type: "DELETE",
-    success: function() {
-      getPanier()
+    if (getResult.availability.quantity > 0) {
+        if (getResult.availability.quantity >= quantity) {
+            getResult.product_code = getResult.product_code.toString()
+            getResult.quantity = quantity
+            $.post(shop + "cart/", getResult, function() {
+                showAdd2cartSnack()
+                getPanier()
+            })
+        } else {
+            getResult.product_code = getResult.product_code.toString()
+            getResult.quantity = quantity
+            $.post(shop + "cart/", getResult, function() {
+                showAdd2cartSnack(i18n.quantitymaxreach[lang])
+                getPanier()
+            })
+        }
+    } else {
+        showAdd2cartSnack(i18n.productoutofstock[lang])
     }
   })
-  return false
 }
 
 function dm_add2cart_variant(k) {
@@ -149,14 +175,38 @@ function dm_add2cart_variant(k) {
   }
   if (variant) {
     $.get(site + i18n.product[lang] + "/" + endpoint + "/add-productvariable-to-cart?product_code="+variant, function(getResult) {
-      getResult.quantity = quantity
-      getResult.product_code = variant
-      $.post(shop + "cart/", getResult, function() {
-        showAdd2cartSnack()
-        getPanier()
-      })
+        if (getResult.availability.quantity > 0) {
+            if (getResult.availability.quantity >= quantity) {
+                getResult.quantity = quantity
+                getResult.product_code = variant
+                $.post(shop + "cart/", getResult, function() {
+                    showAdd2cartSnack()
+                    getPanier()
+                })
+            } else {
+                getResult.quantity = quantity
+                getResult.product_code = variant
+                $.post(shop + "cart/", getResult, function() {
+                    showAdd2cartSnack(i18n.quantitymaxreach[lang])
+                    getPanier()
+                })
+            }
+        } else {
+            showAdd2cartSnack(i18n.productoutofstock[lang])
+        }
     })
   }
+}
+
+function dm_delete2cart(endpoint) {
+  $.ajax({
+    url: shop + "cart/" + endpoint,
+    type: "DELETE",
+    success: function() {
+      getPanier()
+    }
+  })
+  return false
 }
 
 function getPanier() {

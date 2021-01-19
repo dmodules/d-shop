@@ -1,0 +1,6 @@
+.form-row .object-tools {
+    background-color: transparent;
+}
+.form-row .object-tools::before {
+    display: none;
+}
