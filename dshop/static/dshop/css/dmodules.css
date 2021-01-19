@@ -303,6 +303,12 @@ body{
 }
 
 /* ===--- Section Produits par Category ---=== */
+.section-parcategorie .tab-content {
+    min-height: 400px;
+}
+.section-parcategorie .tab-content .product_img {
+    min-height: 200px;
+}
 .pbc-loading{
     font-size: 1rem;
 }

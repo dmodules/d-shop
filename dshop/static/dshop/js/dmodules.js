@@ -578,7 +578,7 @@ function pbc_tab(cat, tab) {
             getResult.products.forEach((product) => {
                 r = ''
                 r += '<div class="col-lg-3 col-md-4 col-6" id="produitno'+tab+'">'
-                r += '<div class="product">'
+                r += '<div class="product animated fadeInUp">'
                 r += '<div class="product_img">'
                 r += '<a href="'+product.url+'">'
                 if (product.image) {
