@@ -562,7 +562,7 @@
                             <template
                               v-for="(item, n) in formPayment.listProducts"
                             >
-                              <v-divider v-if="n > 0" :key="'divider-' + n" />
+                              <v-divider v-if="n > 0" :key="'divider-'+item.product_code+'-' + n" />
                               <v-list-item :key="'product-' + n">
                                 <v-list-item-content
                                   class="dm-payment-quantity"
@@ -576,7 +576,15 @@
                                   <div class="dm-payment-mobiletitle">
                                     {{ $i18n.t("Produit") }}
                                   </div>
-                                  <div v-html="item.summary.media"></div>
+                                  <div class="product-infos">
+                                      <div class="product-infos-media" v-html="item.summary.media"></div>
+                                      <div class="product-infos-detail">
+                                          <h5>
+                                              <a :href="item.summary.product_url" v-text="item.summary.product_name"></a>
+                                          </h5>
+                                          <p v-for="(item, i) in item.extra.variables.attributes" :key="'attr-'+item.product_code+'-'+i" v-text="item"></p>
+                                      </div>
+                                  </div>
                                 </v-list-item-content>
                                 <v-list-item-action class="dm-payment-price">
                                   <div class="dm-payment-mobiletitle">
@@ -1435,13 +1443,30 @@ export default {
         padding: 1rem;
         margin-bottom: 1rem;
     }
-    #app .dm-payment-products .media-body h5 {
-        text-overflow: ellipsis;
-        overflow:hidden;
-        display:inline-block;
+    #app .dm-payment-products .product-infos-media {
+        vertical-align: middle;
+        display: inline-block;
+        width: 80px;
+        height: 80px;
     }
-    #app .dm-payment-products .media-body h5 + *{
-        display:none;
+    #app .dm-payment-products .media {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+    }
+    #app .dm-payment-products .media-body {
+        display: none;
+    }
+    #app .dm-payment-products .product-infos-detail {
+        vertical-align: middle;
+        display: inline-block;
+        width: calc(100% - 80px - 1rem);
+        margin: 0 0 0 1rem;
+    }
+    #app .dm-payment-products .product-infos-detail p {
+        font-size: 0.8rem;
+        line-height: 120%;
+        margin: 0;
     }
     @media (max-width: 1263px) {
         #app .dm-payment-products .v-list-item:not(.dm-payment-footer),

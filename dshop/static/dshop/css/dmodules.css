@@ -187,6 +187,10 @@ body{
 .dm-drawer-inner #drawer-soumission-list a:hover{
   color:#000;
 }
+.dm-drawer-inner #drawer-items-list .drawer-cart-attributes {
+    font-size: 0.8rem;
+    margin: 0 0 0.5rem;
+}
 .dm-drawer-total{
   background-color:#41b6e6;
   color:#fff;
@@ -371,6 +375,27 @@ body{
 .service-content-box pre{
   border-left:2px solid #41b6e6;
   padding-left:1rem;
+}
+.order-detail-items-list .item-media,
+.order-detail-items-list .item-media > .media,
+.order-detail-items-list .item-media > .media > a {
+    vertical-align: middle;
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+}
+.order-detail-items-list .item-media > .media > .media-body {
+    display: none;
+}
+.order-detail-items-list .item-detail {
+    vertical-align: middle;
+    display: inline-block;
+    width: calc(90% - 80px - 1rem);
+    margin: 0 0 0 1rem;
+}
+.order-detail-items-list .item-detail .item-attributes {
+    font-size: 0.8rem;
+    line-height: 120%;
 }
 
 /* ===--- Breadcrumbs ---=== */

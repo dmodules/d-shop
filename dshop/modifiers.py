@@ -14,7 +14,8 @@ from .payment import TestPayment
 class PrimaryCartModifier(DefaultCartModifier):
     def process_cart_item(self, cart_item, request):
         variant = cart_item.product.get_product_variant(
-            product_code=cart_item.product_code)
+            product_code=cart_item.product_code
+        )
         cart_item.unit_price = variant.get_price(request)
         cart_item.line_total = cart_item.unit_price * cart_item.quantity
         cart_item.extra["variables"] = {"code": cart_item.product_code}
@@ -22,12 +23,14 @@ class PrimaryCartModifier(DefaultCartModifier):
             pv = cart_item.product.variants.get(
                 product_code=cart_item.product_code
             )
-            cart_item.extra["variables"]["attribute"] = pv.get_attribute()
-        except Exception:
-            pass
+            attributes = []
+            for a in pv.attribute.all():
+                attributes.append(str(a))
+            cart_item.extra["variables"]["attributes"] = attributes
+        except Exception as e:
+            print(e)
         return super(
-            DefaultCartModifier,
-            self
+            DefaultCartModifier, self
         ).process_cart_item(cart_item, request)
 
 

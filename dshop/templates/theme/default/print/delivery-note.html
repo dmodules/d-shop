@@ -39,7 +39,7 @@
 	<div class="row dontsplit">
 		<div class="col-12 pt-3 border-top">
 			<p>{% trans "Shipping Method" %}: <strong>{{ delivery.shipping_method.label }}</strong></p>
-			<p>{% trans "Shipped at" %}: <strong>{{ delivery.shipped_at|date }}</strong></p>
+			<p>{% trans "Shipped at" %}: <strong>{{ delivery.shipped_at }}</strong></p>
 		</div>
 	</div>
 	{% endblock print-delivery-foot %}
