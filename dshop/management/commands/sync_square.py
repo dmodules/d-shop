@@ -1,3 +1,4 @@
+import re
 import requests
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
@@ -35,15 +36,19 @@ class Command(BaseCommand):
         print("Creating category...")
         for d in data['objects']:
             if d['type'] == 'CATEGORY':
+
+                name = d['category_data']['name']
+                name = name.replace('(', '<').replace(')','>')
+                name = re.sub('<[^>]+>', '', name)
                 cat_data = {
-                    'name': d['category_data']['name'],
+                    'name': name.strip(),
                     'square_id': d['id']
                 }
                 cat = ProductCategory.objects.filter(square_id=d['id'])
                 if not cat:
                     ProductCategory.objects.create(**cat_data)
                 else:
-                    cat[0].name = d['category_data']['name']
+                    cat[0].name = name.strip()
                     cat[0].save()
         print("Created...")
 
