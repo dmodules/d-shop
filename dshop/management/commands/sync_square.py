@@ -180,6 +180,7 @@ class Command(BaseCommand):
                         try:
                             price = vari['item_variation_data']['price_money']['amount']
                         except Exception:
+                            print(vari['item_variation_data'])
                             price = 0
                         if r_body:
                             quantity = r_body['counts'][0]['quantity']
@@ -193,6 +194,9 @@ class Command(BaseCommand):
                         pvv = ProductVariableVariant.objects.filter(product_code=product_code)
                         if pvv:
                             pvv = pvv[0]
+                            pvv.unit_price = price/100
+                            pvv.quantity = quantity
+                            pvv.save()
                         else:
                             pvv = ProductVariableVariant.objects.create(**pv_data)
 
