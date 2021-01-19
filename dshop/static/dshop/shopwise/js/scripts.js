@@ -83,9 +83,11 @@ PAGE JS
 	
   //Show Hide dropdown-menu Main navigation 
 	$( document ).on('ready', function () {
-		$( '.dropdown-menu a.dropdown-toggler' ).on( 'click', function () {
+		$( '.dropdown-menu a.dropdown-toggle-split' ).on( 'click', function () {
 			//var $el = $( this );
-			//var $parent = $( this ).offsetParent( ".dropdown-menu" );
+            //var $parent = $( this ).offsetParent( ".dropdown-menu" );
+            console.log("...")
+            console.log( $( this ).offsetParent( ".dropdown-menu" ))
 			if ( !$( this ).next().hasClass( 'show' ) ) {
 				$( this ).parents( '.dropdown-menu' ).first().find( '.show' ).removeClass( "show" );
 			}
@@ -101,12 +103,17 @@ PAGE JS
             if (window.innerWidth >= 992 || window.innerHeight > 800) {
                 let self = $(this)
                 setTimeout(function () {
-                    if (self.siblings(".dropdown-menu").offset()) {
-                        let bot = self.siblings(".dropdown-menu").height() + self.siblings(".dropdown-menu")[0].scrollHeight
+                    if (self.siblings(".dropdown-menu").not('.has-been-ajusted') && self.siblings(".dropdown-menu").offset()) {
+                        let pos = self.siblings(".dropdown-menu").offset()
+                        let posy = pos.top - $(window).scrollTop()
+                        let posx = pos.left - $(window).scrollLeft()
+                        let bot = posy + self.siblings(".dropdown-menu").height()
                         if (bot > window.innerHeight) {
-                            let remont = (self.siblings(".dropdown-menu").height() / 1.75)
-                            self.siblings(".dropdown-menu").css("top", "-"+remont+"px")
                             self.siblings(".dropdown-menu .dropdown-item").siblings(".dropdown-menu").find(".dropdown-item").css("padding", "3px 11px")
+                            bot = posy + self.siblings(".dropdown-menu").height()
+                            let remont = (bot - window.innerHeight) + 10
+                            self.siblings(".dropdown-menu").css("top", "-"+remont+"px")
+                            self.siblings(".dropdown-menu").addClass("has-been-ajusted")
                         }
         
                     }
