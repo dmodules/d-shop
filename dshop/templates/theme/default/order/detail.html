@@ -60,13 +60,27 @@
 
       {% block shop-order-body %}
       {% for item in data.items %}
-      <div class="shop-list-item row border-top py-2">
+      <div class="shop-list-item order-detail-items-list row border-top py-2">
         <div class="col-12 col-md-6">
           <div class="row align-items-center flex-nowrap">
             <div class="col-2 text-right">
               {{ item.quantity }}<span class="px-1">&times;</span>
             </div>
-            <div class="col-10">{{ item.summary.media }}</div>
+            <div class="col-10 pb-3 pb-md-0">
+                <div class="item-media">
+                    {{ item.summary.media }}
+                </div>
+                <div class="item-detail">
+                    <h5><a href="{{item.summary.product_url}}">{{item.summary.product_name}}</a></h5>
+                    {% if item.extra.variables and item.extra.variables.attributes %}
+                        <div class="item-attributes">
+                            {% for attribute in item.extra.variables.attributes %}
+                                <div>{{attribute}}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
           </div>
         </div>
         <div class="col-12 col-md-6">

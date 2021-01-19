@@ -4,3 +4,8 @@
 .form-row .object-tools::before {
     display: none;
 }
+
+.form-row.field-shipping_address_text .readonly,
+.form-row.field-billing_address_text .readonly {
+    margin: 1rem 0 0 80px;
+}

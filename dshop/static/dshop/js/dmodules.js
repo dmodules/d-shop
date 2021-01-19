@@ -229,6 +229,13 @@ function getPanier() {
           itemlist += "</div>"
           itemlist += "<div class='col-8 text-left'>"
           itemlist += "<div><a href='"+item.summary.product_url+"'>" + item.summary.product_name + "</a></div>"
+          if (item.extra && item.extra.variables && item.extra.variables.attributes) {
+              itemlist += "<div class='drawer-cart-attributes'>"
+              for (let i = 0; i < item.extra.variables.attributes.length; i++) {
+                itemlist += "<div>"+item.extra.variables.attributes[i]+"</div>"
+              }
+              itemlist += "</div>"
+          }
           itemlist += "<div>"+item.quantity+" x " + item.unit_price + "</div>"
           itemlist += "<a href='#' class='dm-item-delete' onclick='return dm_delete2cart("+JSON.stringify(item.url.split("/cart/")[1])+")'>X</a>"
           itemlist += "</div>"
