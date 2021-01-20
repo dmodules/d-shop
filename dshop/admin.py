@@ -596,7 +596,7 @@ class ProductAdmin(PolymorphicSortableAdminMixin, PolymorphicParentModelAdmin):
     ]
     list_display_links = ["product_name"]
     search_fields = ["product_name"]
-    list_filter = [PolymorphicChildModelFilter, CMSPageFilter]
+    list_filter = ['categories', PolymorphicChildModelFilter, CMSPageFilter]
     list_per_page = 250
     list_max_show_all = 1000
 
