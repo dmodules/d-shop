@@ -281,7 +281,10 @@ class LoadVariantSelect(APIView):
         if product_pk is not None and attributes is not None:
             product = Product.objects.get(pk=product_pk)
             attrs = AttributeValue.objects.filter(value__in=attributes.split(","))
-            variant_all = product.variants.all()
+            if attrs.count() > 0:
+                variant_all = product.variants.all()
+            else:
+                variant_all = []
             for a in attrs:
                 variant_all = variant_all.filter(
                     attribute=a
@@ -290,7 +293,10 @@ class LoadVariantSelect(APIView):
                 datas = {}
                 datas["product_code"] = v.product_code
                 datas["unit_price"] = v.unit_price
-                datas["real_price"] = v.get_price(request)
+                try:
+                    datas["real_price"] = v.get_price(request)
+                except Exception:
+                    datas["real_price"] = v.unit_price
                 datas["is_discounted"] = v.is_discounted
                 datas["quantity"] = v.quantity
                 variants.append(datas)

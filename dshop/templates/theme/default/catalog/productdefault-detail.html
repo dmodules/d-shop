@@ -48,30 +48,28 @@
                     <span class="linearicons-zoom-in"></span>
                   </a>
                 </div>
-                {% if product.images.all.count > 0 %}
-                    <div id="pr_item_gallery" class="product_gallery_item slick_slider" data-slides-to-show="4" data-slides-to-scroll="1" data-infinite="false">
-                        {% if product.main_image %}
-                            {% thumbnail product.main_image 540x600 crop upscale as p_img %}
-                            {% thumbnail product.main_image 810x900 crop upscale as p_zoom %}
-                            {% thumbnail product.main_image 150x160 crop upscale as p_small %}
-                            <div class="item">
+                <div id="pr_item_gallery" class="product_gallery_item slick_slider" data-slides-to-show="4" data-slides-to-scroll="1" data-infinite="false">
+                    {% if product.main_image %}
+                        {% thumbnail product.main_image 540x600 crop upscale as p_img %}
+                        {% thumbnail product.main_image 810x900 crop upscale as p_zoom %}
+                        {% thumbnail product.main_image 150x160 crop upscale as p_small %}
+                        <div class="item">
                             <a href="#" class="product_gallery_item active" data-image="{{p_img.url}}" data-zoom-image="{{p_zoom.url}}">
                                 <img src="{{p_small.url}}" alt="product_small_img1" />
                             </a>
-                            </div>
-                        {% endif %}
-                        {% for pimg in product.images.all %}
-                            {% thumbnail pimg 540x600 crop upscale as p_img %}
-                            {% thumbnail pimg 810x900 crop upscale as p_zoom %}
-                            {% thumbnail pimg 150x160 crop upscale as p_small %}
-                            <div class="item">
+                        </div>
+                    {% endif %}
+                    {% for pimg in product.images.all %}
+                        {% thumbnail pimg 540x600 crop upscale as p_img %}
+                        {% thumbnail pimg 810x900 crop upscale as p_zoom %}
+                        {% thumbnail pimg 150x160 crop upscale as p_small %}
+                        <div class="item">
                             <a href="#" class="product_gallery_item active" data-image="{{p_img.url}}" data-zoom-image="{{p_zoom.url}}">
                                 <img src="{{p_small.url}}" alt="product_small_img1" />
                             </a>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
               </div>
             {% endif %}
           </div>

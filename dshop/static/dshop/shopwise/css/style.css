@@ -5365,7 +5365,9 @@ footer .widget_title {
 	line-height: normal;
 }
 .product-image {
+    width: 540px;
     position: relative;
+    margin: 0 auto;
 }
 .pr_detail .pr_desc {
     display: inline-block;
@@ -5558,7 +5560,7 @@ footer .widget_title {
     border: 1px solid #ddd;
     margin-bottom: 10px;
     overflow: hidden;
-	position: relative;
+    position: relative;
 }
 .product_img_zoom {
 	position: absolute;
