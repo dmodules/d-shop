@@ -115,14 +115,14 @@ def dm_get_category(k):
 @register.simple_tag
 def dm_get_categories_parents():
     """Get all categories that is not a child of another category"""
-    result = ProductCategory.objects.filter(parent=None)
+    result = ProductCategory.objects.filter(parent=None, active=True)
     return result
 
 
 @register.simple_tag
 def dm_get_category_by_category(k):
     """Get category's data from parent pk/id key"""
-    result = ProductCategory.objects.filter(parent_id=k)
+    result = ProductCategory.objects.filter(parent_id=k, active=True)
     return result
 
 
