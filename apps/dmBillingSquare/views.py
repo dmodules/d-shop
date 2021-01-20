@@ -7,6 +7,8 @@ from shop.models.order import OrderModel
 from shop.models.order import OrderPayment
 
 from dshop.transition import transition_change_notification
+from apps.dmSquare.views import square_update_stock
+
 
 try:
     from apps.dmRabais.models import dmCustomerPromoCode
