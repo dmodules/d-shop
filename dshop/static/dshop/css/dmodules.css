@@ -303,6 +303,12 @@ main > .container > .row {
     padding:0 8px;
     margin:0;
 }
+.navbar .navbar-nav .dropdown-item {
+    white-space: normal;
+}
+.navbar .navbar-nav .dropdown-item.menu-link {
+    padding: 8px 40px 8px 20px;
+}
 .has-been-ajusted > ul > li > .dropdown-item {
     padding: 3px 11px!important;
 }
