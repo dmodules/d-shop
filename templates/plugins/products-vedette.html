@@ -70,6 +70,11 @@
                         <del>{{product.unit_price}}</del>
                       {% endif %}
                     {% endif %}
+                    {% if product.quantity == 0 %}
+                      <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
+                    {% elif product.is_discounted %}
+                      <span class="product_sale_discounted">{% trans "Discounted" %}</span>
+                    {% endif %}
                   </div>
                 </div>
               </div>
