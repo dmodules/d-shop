@@ -24,7 +24,7 @@ def inventory_update(request):
     created_at = data['created_at'].split('.')[0]
 
     result = client.inventory.retrieve_inventory_changes(
-        catalog_object_id="WXO4P6ZKCS2IYEUZC4S6NKHZ"
+        catalog_object_id=square_id
     )
     square_data = result.body
     for change in square_data['changes']:
