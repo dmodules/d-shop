@@ -612,7 +612,7 @@ class ProductAdmin(PolymorphicSortableAdminMixin, PolymorphicParentModelAdmin):
                 d.append(str(v.quantity))
             result = ', '.join(d)
         except Exception as e:
-            print(e)
+            # print(e)
             result = result.quantity
         return str(result)
     get_quantity.short_description = _("Quantity")

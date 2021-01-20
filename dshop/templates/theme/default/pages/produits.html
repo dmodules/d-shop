@@ -53,7 +53,8 @@
       <div class="row">
         {% dm_get_categories_parents as categories %}
         {% dm_get_brands_all as brands %}
-        <div class="{% if categories.count > 0 or brands.count > 0 %}col-lg-9{% else %}col-12{% endif %}">
+        <!--<div class="{% if categories.count > 0 or brands.count > 0 %}col-lg-9{% else %}col-12{% endif %}">-->
+          <div class="col-12">
           <div class="row align-items-center mb-4 pb-1">
             <div class="col-12">
               <div class="product_header">
@@ -190,7 +191,7 @@
           </div>
         </div>
         {% if categories.count > 0 or brands > 0 %}
-            <div class="col-lg-3 order-lg-first mt-4 pt-2 mt-lg-0 pt-lg-0 d-none d-lg-block">
+            <!--<div class="col-lg-3 order-lg-first mt-4 pt-2 mt-lg-0 pt-lg-0 d-none d-lg-block">
             <div class="sidebar">
                 {% if categories.count > 0 %}
                     <div class="widget">
@@ -237,7 +238,7 @@
                     </div>
                 {% endif %}
             </div>
-            </div>
+            </div>-->
         {% endif %}
       </div>
     </div>
