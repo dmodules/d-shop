@@ -149,6 +149,7 @@ class LoadProduits(APIView):
 
     def get(self, request, *args, **kwargs):
         category = request.GET.get("category", None)
+        brand = request.GET.get("brand", None)
         offset = int(request.GET.get("offset", 0))
         limit = int(request.GET.get("limit", 2))
         if category is not None:
@@ -162,6 +163,14 @@ class LoadProduits(APIView):
                 Q(categories=category) | Q(categories__parent=category)
                 | Q(categories__parent__parent=category)
                 | Q(categories__parent__parent__parent=category),
+                active=True)[offset + limit:offset + limit + limit].count()
+        elif brand is not None:
+            brand = int(brand)
+            products = Product.objects.filter(
+                Q(brand=brand),
+                active=True)[offset:offset + limit]
+            next_products = Product.objects.filter(
+                brand=brand,
                 active=True)[offset + limit:offset + limit + limit].count()
         else:
             products = Product.objects.filter(

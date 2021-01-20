@@ -184,9 +184,11 @@
             {% if products.next > 0 %}
               <div class="col-12 pt-5 text-center">
                 {% if request.resolver_match.kwargs.category_id %}
-                  <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits('{{request.resolver_match.kwargs.category_id}}')" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
+                    <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits('{{request.resolver_match.kwargs.category_id}}', 'category')" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
+                {% elif request.resolver_match.kwargs.brand_id %}
+                    <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits('{{request.resolver_match.kwargs.brand_id}}', 'brand')" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
                 {% else %}
-                  <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits()" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
+                    <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits()" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
                 {% endif %}
               </div>
             {% endif %}
