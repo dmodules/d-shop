@@ -45,10 +45,12 @@ def inventory_update(request):
     return HttpResponse('Ok')
 
 def square_update_stock(quantity, product_code):
+    print("Update quantity in square..")
     idempotency_key = str(uuid.uuid1())
     product_code = str(product_code)
     quantity = str(quantity)
     occured_at = datetime.now(tzlocal()).isoformat()
+    print(product_code, quantity, occured_at, idempotency_key)
     result = client.inventory.batch_change_inventory(
         body={
             "idempotency_key": idempotency_key,
