@@ -385,6 +385,9 @@ class ProductCategory(MPTTModel):
         help_text=_("An image that will be shown on the top of the page of the Products of this category.")
     )
 
+    active = models.BooleanField(default=True,
+                                 verbose_name=_("Active"),)
+
     class MPTTMeta:
         level_attr = 'mptt_level'
         order_insertion_by = ['name']
