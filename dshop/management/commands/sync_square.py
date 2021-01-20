@@ -8,13 +8,13 @@ from dshop.models import ProductCategory
 from dshop.models import Attribute, AttributeValue
 from dshop.models import ProductVariable, ProductVariableVariant
 
-from settings import SQUARE_TOKEN
+from settings import SQUARE_TOKEN, SQUARE_ENV
 from square.client import Client
 
 
 client = Client(
     access_token=SQUARE_TOKEN,
-    environment='production',
+    environment=SQUARE_ENV,
 )
 
 class Command(BaseCommand):
@@ -88,6 +88,8 @@ class Command(BaseCommand):
                 return
             data = result.body
             print("Creating an Image...")
+            if 'objects' not in data:
+                break
             for d in data['objects']:
                 print('.', end=' ')
                 if d['type'] == 'IMAGE':
