@@ -5365,7 +5365,7 @@ footer .widget_title {
 	line-height: normal;
 }
 .product-image {
-    width: 540px;
+    max-width: 540px;
     position: relative;
     margin: 0 auto;
 }
