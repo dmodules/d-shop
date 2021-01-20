@@ -1938,6 +1938,12 @@ msgstr "Vos détails"
 msgid "Summary of Your Order %(order_number)s"
 msgstr "Résumé de votre commande #%(order_number)s"
 
+#: dshop/templates/theme/default/email/order-detail.html:8
+#: dshop/templates/theme/default/email/order-detail.txt:1
+#, python-format
+msgid "Summary of Order %(order_number)s"
+msgstr "Résumé de commande #%(order_number)s"
+
 #: dshop/templates/theme/default/email/order-detail.txt:5
 #, python-format
 msgid "Line Total: %(line_total)s"
@@ -2249,3 +2255,6 @@ msgstr "Produits commandés"
 
 msgid "Use shipping address for billing"
 msgstr "Utiliser l'adresse de livraison pour la facturation"
+
+msgid "Shipping ID"
+msgstr "ID de livraison"

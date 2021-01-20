@@ -22,7 +22,7 @@ class TestPayment(PaymentProvider):
             referenceId = order.get_number()
             transactionId = str(uuid.uuid1())
             order.populate_from_cart(cart, request)
-            order.save(with_notification=True)
+            order.save()
             redirect_url = "/test-payment/?referenceId=" + \
                 str(referenceId) + "&transactionId=" + str(transactionId)
             js_expression = "window.location.href='{}';".format(redirect_url)

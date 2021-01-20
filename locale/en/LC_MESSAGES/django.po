@@ -1924,6 +1924,12 @@ msgstr ""
 msgid "Summary of Your Order %(order_number)s"
 msgstr ""
 
+#: dshop/templates/theme/default/email/order-detail.html:8
+#: dshop/templates/theme/default/email/order-detail.txt:1
+#, python-format
+msgid "Summary of Order %(order_number)s"
+msgstr ""
+
 #: dshop/templates/theme/default/email/order-detail.txt:5
 #, python-format
 msgid "Line Total: %(line_total)s"

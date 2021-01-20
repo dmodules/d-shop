@@ -35,6 +35,7 @@ from shop.serializers.auth import PasswordResetConfirmSerializer
 
 from dshop.models import Product
 from dshop.models import AttributeValue
+from dshop.transition import transition_change_notification
 
 from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
@@ -86,6 +87,34 @@ def TestPaymentView(request):
                             )
                             cpc.is_expired = True
                             cpc.save()
+            # ===---
+            try:
+                items = []
+                for i in order.items.all():
+                    datas = {}
+                    datas["quantity"] = i.quantity
+                    datas["summary"] = {}
+                    datas["summary"]["product_name"] = str(i)
+                    datas["line_total"] = i.line_total
+                    datas["extra"] = i.extra
+                    items.append(datas)
+                miniorder = {
+                    "number": str(referenceId),
+                    "url": "/vos-commandes/"+str(referenceId)+"/"+str(order.token),
+                    "items": items,
+                    "extra": order.extra,
+                    "subtotal": order.subtotal,
+                    "total": order.total,
+                    "billing_address_text": order.billing_address_text,
+                    "shipping_address_text": order.shipping_address_text
+                }
+                transition_change_notification(
+                    order,
+                    miniorder
+                )
+            except Exception as e:
+                print("When : transition_change_notification")
+                print(e)
             # ===---
             return redirect(order.get_absolute_url())
         except Exception as e:

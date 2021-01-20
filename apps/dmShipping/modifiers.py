@@ -1,14 +1,11 @@
 from django.utils.translation import ugettext_lazy as _
-from django.template.loader import render_to_string
 
 from shop.money import Money
 from shop.serializers.cart import ExtraCartRow
 from shop.modifiers.pool import cart_modifiers_pool
 from shop.shipping.modifiers import ShippingModifier
 
-from django.core.mail import send_mail
-
-from settings import DEFAULT_FROM_EMAIL
+from dshop.transition import transition_change_notification
 
 from .models import ShippingManagement
 
@@ -72,6 +69,45 @@ class FreeShippingModifier(ShippingModifier):
             cart.extra_rows[self.identifier] = ExtraCartRow(instance)
             cart.total += amount
 
+    def ship_the_goods(self, delivery):
+        order_number = delivery.order.number
+        shipping_number = delivery.shipping_id
+        # ===---
+        try:
+            items = []
+            for i in delivery.order.items.all():
+                datas = {}
+                datas["quantity"] = i.quantity
+                datas["summary"] = {}
+                datas["summary"]["product_name"] = str(i)
+                datas["line_total"] = i.line_total
+                datas["extra"] = i.extra
+                items.append(datas)
+            miniorder = {
+                "status": delivery.order.status,
+                "number": str(order_number),
+                "url": "/vos-commandes/"+str(order_number)+"/"+str(delivery.order.token),
+                "items": items,
+                "extra": delivery.order.extra,
+                "subtotal": delivery.order.subtotal,
+                "total": delivery.order.total,
+                "billing_address_text": delivery.order.billing_address_text,
+                "shipping_address_text": delivery.order.shipping_address_text,
+                "delivery": {
+                    "method": delivery.shipping_method,
+                    "shipping_id": shipping_number
+                }
+            }
+            transition_change_notification(
+                delivery.order,
+                miniorder
+            )
+        except Exception as e:
+            print("When : transition_change_notification")
+            print(e)
+        # ===---
+        super().ship_the_goods(delivery)
+
 
 class StandardShippingModifier(ShippingModifier):
     identifier = "standard-shipping"
@@ -105,53 +141,42 @@ class StandardShippingModifier(ShippingModifier):
             cart.total += amount
 
     def ship_the_goods(self, delivery):
-
         order_number = delivery.order.number
         shipping_number = delivery.shipping_id
-        customer_email = delivery.order.customer.email
-        items = []
-        for item in delivery.order.items.all():
-            data = {
-                'name': item.product_name,
-                'price': item.unit_price,
-                'quantity': item.quantity
-            }
-            items.append(data)
+        # ===---
         try:
-            tax = delivery.order.extra['rows'][1][1]
-        except Exception as e:
-            print(e)
-            tax = {}
-
-        try:
-            shipping = delivery.order.extra['rows'][2][1]
-        except Exception as e:
-            print(e)
-            shipping = {}
-
-        total_cost = delivery.order.total
-        subject = _("Order Number: ") + str(order_number)
-        message = ""
-        html_message = render_to_string(
-            'dshop/shipping/shipping_email.html', {
-                'tax': [tax],
-                'shipping': [shipping],
-                'items': items,
-                'order_number': order_number,
-                'shipping_number': shipping_number,
-                'total_cost': total_cost,
+            items = []
+            for i in delivery.order.items.all():
+                datas = {}
+                datas["quantity"] = i.quantity
+                datas["summary"] = {}
+                datas["summary"]["product_name"] = str(i)
+                datas["line_total"] = i.line_total
+                datas["extra"] = i.extra
+                items.append(datas)
+            miniorder = {
+                "status": delivery.order.status,
+                "number": str(order_number),
+                "url": "/vos-commandes/"+str(order_number)+"/"+str(delivery.order.token),
+                "items": items,
+                "extra": delivery.order.extra,
+                "subtotal": delivery.order.subtotal,
+                "total": delivery.order.total,
+                "billing_address_text": delivery.order.billing_address_text,
+                "shipping_address_text": delivery.order.shipping_address_text,
+                "delivery": {
+                    "method": delivery.shipping_method,
+                    "shipping_id": shipping_number
+                }
             }
-        )
-
-        send_mail(
-            subject,
-            message,
-            DEFAULT_FROM_EMAIL,
-            [customer_email],
-            html_message=html_message,
-            fail_silently=False,
-        )
-
+            transition_change_notification(
+                delivery.order,
+                miniorder
+            )
+        except Exception as e:
+            print("When : transition_change_notification")
+            print(e)
+        # ===---
         super().ship_the_goods(delivery)
 
 
@@ -185,6 +210,45 @@ class ExpressShippingModifier(ShippingModifier):
             cart.extra_rows[self.identifier] = ExtraCartRow(instance)
             cart.total += amount
 
+    def ship_the_goods(self, delivery):
+        order_number = delivery.order.number
+        shipping_number = delivery.shipping_id
+        # ===---
+        try:
+            items = []
+            for i in delivery.order.items.all():
+                datas = {}
+                datas["quantity"] = i.quantity
+                datas["summary"] = {}
+                datas["summary"]["product_name"] = str(i)
+                datas["line_total"] = i.line_total
+                datas["extra"] = i.extra
+                items.append(datas)
+            miniorder = {
+                "status": delivery.order.status,
+                "number": str(order_number),
+                "url": "/vos-commandes/"+str(order_number)+"/"+str(delivery.order.token),
+                "items": items,
+                "extra": delivery.order.extra,
+                "subtotal": delivery.order.subtotal,
+                "total": delivery.order.total,
+                "billing_address_text": delivery.order.billing_address_text,
+                "shipping_address_text": delivery.order.shipping_address_text,
+                "delivery": {
+                    "method": delivery.shipping_method,
+                    "shipping_id": shipping_number
+                }
+            }
+            transition_change_notification(
+                delivery.order,
+                miniorder
+            )
+        except Exception as e:
+            print("When : transition_change_notification")
+            print(e)
+        # ===---
+        super().ship_the_goods(delivery)
+
 
 class StandardShippingWithSeparatorModifier(ShippingModifier):
     identifier = "standard-separator-shipping"
@@ -216,6 +280,45 @@ class StandardShippingWithSeparatorModifier(ShippingModifier):
             cart.extra_rows[self.identifier] = ExtraCartRow(instance)
             cart.total += amount
 
+    def ship_the_goods(self, delivery):
+        order_number = delivery.order.number
+        shipping_number = delivery.shipping_id
+        # ===---
+        try:
+            items = []
+            for i in delivery.order.items.all():
+                datas = {}
+                datas["quantity"] = i.quantity
+                datas["summary"] = {}
+                datas["summary"]["product_name"] = str(i)
+                datas["line_total"] = i.line_total
+                datas["extra"] = i.extra
+                items.append(datas)
+            miniorder = {
+                "status": delivery.order.status,
+                "number": str(order_number),
+                "url": "/vos-commandes/"+str(order_number)+"/"+str(delivery.order.token),
+                "items": items,
+                "extra": delivery.order.extra,
+                "subtotal": delivery.order.subtotal,
+                "total": delivery.order.total,
+                "billing_address_text": delivery.order.billing_address_text,
+                "shipping_address_text": delivery.order.shipping_address_text,
+                "delivery": {
+                    "method": delivery.shipping_method,
+                    "shipping_id": shipping_number
+                }
+            }
+            transition_change_notification(
+                delivery.order,
+                miniorder
+            )
+        except Exception as e:
+            print("When : transition_change_notification")
+            print(e)
+        # ===---
+        super().ship_the_goods(delivery)
+
 
 class ExpressShippingWithSeparatorModifier(ShippingModifier):
     identifier = "express-separator-shipping"
@@ -246,3 +349,42 @@ class ExpressShippingWithSeparatorModifier(ShippingModifier):
             instance = {"label": _("Shipping costs"), "amount": amount}
             cart.extra_rows[self.identifier] = ExtraCartRow(instance)
             cart.total += amount
+
+    def ship_the_goods(self, delivery):
+        order_number = delivery.order.number
+        shipping_number = delivery.shipping_id
+        # ===---
+        try:
+            items = []
+            for i in delivery.order.items.all():
+                datas = {}
+                datas["quantity"] = i.quantity
+                datas["summary"] = {}
+                datas["summary"]["product_name"] = str(i)
+                datas["line_total"] = i.line_total
+                datas["extra"] = i.extra
+                items.append(datas)
+            miniorder = {
+                "status": delivery.order.status,
+                "number": str(order_number),
+                "url": "/vos-commandes/"+str(order_number)+"/"+str(delivery.order.token),
+                "items": items,
+                "extra": delivery.order.extra,
+                "subtotal": delivery.order.subtotal,
+                "total": delivery.order.total,
+                "billing_address_text": delivery.order.billing_address_text,
+                "shipping_address_text": delivery.order.shipping_address_text,
+                "delivery": {
+                    "method": delivery.shipping_method,
+                    "shipping_id": shipping_number
+                }
+            }
+            transition_change_notification(
+                delivery.order,
+                miniorder
+            )
+        except Exception as e:
+            print("When : transition_change_notification")
+            print(e)
+        # ===---
+        super().ship_the_goods(delivery)

@@ -71,7 +71,10 @@ def SquarePaymentView(request):  # noqa: C901
                     "url": "/vos-commandes/"+str(referenceId)+"/"+str(order.token),
                     "items": items,
                     "extra": order.extra,
-                    "total": order.total
+                    "subtotal": order.subtotal,
+                    "total": order.total,
+                    "billing_address_text": order.billing_address_text,
+                    "shipping_address_text": order.shipping_address_text
                 }
                 transition_change_notification(
                     order,
