@@ -61,9 +61,10 @@ def transition_change_notification(order, miniorder=None):
         if miniorder is not None:
             order_serializer = miniorder
         else:
-            order_serializer = OrderDetailSerializer(
-                order, context=render_context
-            )
+            order_serializer = None
+            #order_serializer = OrderDetailSerializer(
+            #    order, context=render_context
+            #)
         language = order.stored_request.get('language')
         context = {
             'customer': customer_serializer.data,
