@@ -191,6 +191,9 @@ a:hover{
   background-color:#458d91!important;
   border-color:#458d91!important;
 }
+#app.v-application a.v-btn.primary{
+  color:#fff!important;
+}
 #app.v-application .primary--text{
   color:#458d91!important;
   caret-color:#458d91!important;
