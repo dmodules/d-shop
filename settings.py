@@ -135,9 +135,6 @@ STAGE = os.getenv("STAGE", "local").lower()
 SHOP_APP_LABEL = "dshop"
 SITE_ID = 1
 
-SQUARE_TOKEN = os.getenv("SQUARE_TOKEN", '')
-SQUARE_ENV = os.getenv("SQUARE_ENV", '')
-
 CLIENT_TITLE = os.getenv("CLIENT_TITLE", "D-Shop")
 SHOP_VENDOR_EMAIL = os.getenv("SHOP_VENDOR_EMAIL")
 ADMINS = [("D-Modules", "info@d-modules.com")]
