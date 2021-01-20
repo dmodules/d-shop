@@ -21,22 +21,25 @@ class EmulateHttpRequest(HttpRequest):
     """
     def __init__(self, customer, stored_request):
         super(EmulateHttpRequest, self).__init__()
-        parsedurl = urlparse(stored_request.get('absolute_base_uri'))
-        self.path = self.path_info = parsedurl.path
-        self.environ = {}
-        self.META['PATH_INFO'] = parsedurl.path
-        self.META['SCRIPT_NAME'] = ''
-        self.META['HTTP_HOST'] = parsedurl.netloc
-        self.META['HTTP_X_FORWARDED_PROTO'] = parsedurl.scheme
-        self.META['QUERY_STRING'] = parsedurl.query
-        self.META['HTTP_USER_AGENT'] = stored_request.get('user_agent')
-        self.META['REMOTE_ADDR'] = stored_request.get('remote_ip')
-        self.method = 'GET'
-        self.LANGUAGE_CODE = self.COOKIES[
-            'django_language'] = stored_request.get('language')
-        self.customer = customer
-        self.user = customer.is_anonymous and AnonymousUser or customer.user
-        self.current_page = None
+        try:
+            parsedurl = urlparse(stored_request.get('absolute_base_uri'))
+            self.path = self.path_info = parsedurl.path
+            self.environ = {}
+            self.META['PATH_INFO'] = parsedurl.path
+            self.META['SCRIPT_NAME'] = ''
+            self.META['HTTP_HOST'] = parsedurl.netloc
+            self.META['HTTP_X_FORWARDED_PROTO'] = parsedurl.scheme
+            self.META['QUERY_STRING'] = parsedurl.query
+            self.META['HTTP_USER_AGENT'] = stored_request.get('user_agent')
+            self.META['REMOTE_ADDR'] = stored_request.get('remote_ip')
+            self.method = 'GET'
+            self.LANGUAGE_CODE = self.COOKIES[
+                'django_language'] = stored_request.get('language')
+            self.customer = customer
+            self.user = customer.is_anonymous and AnonymousUser or customer.user
+            self.current_page = None
+        except Exception as e:
+            print(e)
 
 
 def transition_change_notification(order, miniorder=None):
@@ -61,9 +64,10 @@ def transition_change_notification(order, miniorder=None):
         if miniorder is not None:
             order_serializer = miniorder
         else:
-            order_serializer = OrderDetailSerializer(
-                order, context=render_context
-            )
+            order_serializer = None
+            #order_serializer = OrderDetailSerializer(
+            #    order, context=render_context
+            #)
         language = order.stored_request.get('language')
         context = {
             'customer': customer_serializer.data,
@@ -99,4 +103,3 @@ def transition_change_notification(order, miniorder=None):
         emails_in_queue = True
     if emails_in_queue:
         email_queued()
-        call_command("send_queued_mail")
