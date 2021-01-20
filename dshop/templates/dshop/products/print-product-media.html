@@ -1,3 +1,9 @@
-{% extends "shop/products/print-product-media.html" %}
-{% block print-image %}{% include "shop/products/print-image.html" %}{% endblock %}
+<div class="media">
+{% block print-image %}
 
+{% endblock %}
+    <div class="media-body">
+        <h5 class="mt-0">{{ product.product_name }}</h5>
+        {{ product.caption|truncatewords_html:30 }}
+    </div>
+</div>
