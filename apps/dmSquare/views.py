@@ -5,7 +5,7 @@ from dateutil.tz import tzlocal
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from settings import SQUARE_TOKEN, SQUARE_ENVIRONMENT
+from settings import SQUARE_TOKEN, SQUARE_ENVIRONMENT, SQUARE_LOCATION_ID
 from square.client import Client
 from dshop.models import ProductVariableVariant
 
@@ -60,7 +60,7 @@ def square_update_stock(quantity, product_code):
                     "adjustment": {
                         "from_state": "IN_STOCK",
                         "to_state": "SOLD",
-                        "location_id": "LBH3XBZ3XNHEP",
+                        "location_id": SQUARE_LOCATION_ID,
                         "catalog_object_id": product_code,
                         "quantity": quantity,
                         "occurred_at": occured_at
