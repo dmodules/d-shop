@@ -5,7 +5,7 @@
     {% dm_get_logos as logos %}
     {% if logos %}
         {% thumbnail logos.logolight "200x70" upscale as thumb %}
-        <img src="{% inline_image thumb.path %}" width="200" style="margin: 20px auto; display: block;" />
+        <img src="{% inline_image thumb.url %}" width="200" style="margin: 20px auto; display: block;" />
     {% else %}
         <img src="{% inline_image 'dshop/img/logo-dshop.png' %}" width="200" style="margin: 20px auto; display: block;" />
     {% endif %}
