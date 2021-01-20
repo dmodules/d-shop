@@ -8,13 +8,13 @@ from dshop.models import ProductCategory
 from dshop.models import Attribute, AttributeValue
 from dshop.models import ProductVariable, ProductVariableVariant
 
-from settings import SQUARE_TOKEN, SQUARE_ENV
+from settings import SQUARE_TOKEN, SQUARE_ENVIRONMENT
 from square.client import Client
 
 
 client = Client(
     access_token=SQUARE_TOKEN,
-    environment=SQUARE_ENV,
+    environment=SQUARE_ENVIRONMENT,
 )
 
 class Command(BaseCommand):

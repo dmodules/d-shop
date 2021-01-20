@@ -5,13 +5,13 @@ from dateutil.tz import tzlocal
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from settings import SQUARE_TOKEN, SQUARE_ENV
+from settings import SQUARE_TOKEN, SQUARE_ENVIRONMENT
 from square.client import Client
 from dshop.models import ProductVariableVariant
 
 client = Client(
     access_token=SQUARE_TOKEN,
-    environment=SQUARE_ENV,
+    environment=SQUARE_ENVIRONMENT,
 )
 
 @csrf_exempt
