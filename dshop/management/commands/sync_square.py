@@ -21,8 +21,8 @@ class Command(BaseCommand):
 
     def handle(self, **options): # noqa
 
-        if not SQUARE_TOKEN:
-            print("Plese add SQUARE_TOKEN variable in .env-local")
+        if not SQUARE_TOKEN or not SQUARE_ENV:
+            print("Plese add SQUARE_TOKEN and SQUARE_ENV variable in .env-local")
             return
 
         # Request for Categories
