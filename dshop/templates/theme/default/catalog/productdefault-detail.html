@@ -197,7 +197,9 @@
                             <del>{{related.unit_price}}</del>
                           {% endif %}
                         {% endif %}
-                        {% if related.is_discounted %}
+                        {% if related.quantity == 0 %}
+                          <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
+                        {% elif related.is_discounted %}
                           <span class="product_sale_discounted">{% trans "Discounted" %}</span>
                         {% endif %}
                       </div>
