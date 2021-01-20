@@ -5,7 +5,7 @@ from dateutil.tz import tzlocal
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from settings import SQUARE_TOKEN, SQUARE_ENVIRONMENT
+from settings import SQUARE_TOKEN, SQUARE_ENVIRONMENT, SQUARE_LOCATION_ID
 from square.client import Client
 from dshop.models import ProductVariableVariant
 
@@ -24,7 +24,7 @@ def inventory_update(request):
     created_at = data['created_at'].split('.')[0]
 
     result = client.inventory.retrieve_inventory_changes(
-        catalog_object_id="WXO4P6ZKCS2IYEUZC4S6NKHZ"
+        catalog_object_id=square_id
     )
     square_data = result.body
     for change in square_data['changes']:
@@ -45,10 +45,12 @@ def inventory_update(request):
     return HttpResponse('Ok')
 
 def square_update_stock(quantity, product_code):
+    print("Update quantity in square..")
     idempotency_key = str(uuid.uuid1())
     product_code = str(product_code)
     quantity = str(quantity)
     occured_at = datetime.now(tzlocal()).isoformat()
+    print(product_code, quantity, occured_at, idempotency_key)
     result = client.inventory.batch_change_inventory(
         body={
             "idempotency_key": idempotency_key,
@@ -58,7 +60,7 @@ def square_update_stock(quantity, product_code):
                     "adjustment": {
                         "from_state": "IN_STOCK",
                         "to_state": "SOLD",
-                        "location_id": "LBH3XBZ3XNHEP",
+                        "location_id": SQUARE_LOCATION_ID,
                         "catalog_object_id": product_code,
                         "quantity": quantity,
                         "occurred_at": occured_at
