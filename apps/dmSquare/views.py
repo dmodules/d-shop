@@ -19,6 +19,12 @@ def inventory_update(request):
 
     data = request.body
     data = json.loads(data)
+    if 'data' not in data:
+        return HttpResponse('ERROR')
+    if 'object' not in data['data']:
+        return HttpResponse('ERROR')
+    if 'inventory_counts' not in data['data']['object']:
+        return HttpResponse('ERROR')
     square_id = data['data']['object']['inventory_counts'][0]['catalog_object_id']
     quantity = data['data']['object']['inventory_counts'][0]['quantity']
     created_at = data['created_at'].split('.')[0]
@@ -27,13 +33,14 @@ def inventory_update(request):
         catalog_object_id=square_id
     )
     square_data = result.body
-    for change in square_data['changes']:
-        if 'adjustment' in change:
-            if 'source' in change['adjustment']:
-                inventory_updated = change['adjustment']['created_at'].split('.')[0]
-                if inventory_updated == created_at:
-                    print("Stock updated by D-shop API so ignore this webhook.")
-                    return HttpResponse('Ok')
+    if 'changes' in square_data:
+        for change in square_data['changes']:
+            if 'adjustment' in change:
+                if 'source' in change['adjustment']:
+                    inventory_updated = change['adjustment']['created_at'].split('.')[0]
+                    if inventory_updated == created_at:
+                        print("Stock updated by D-shop API so ignore this webhook.")
+                        return HttpResponse('Ok')
 
     # Update Stock
     pvv = ProductVariableVariant.objects.filter(product_code=square_id)
