@@ -21,7 +21,7 @@ class Command(BaseCommand):
 
     def handle(self, **options): # noqa
 
-        if not SQUARE_TOKEN or not SQUARE_ENV:
+        if not SQUARE_TOKEN or not SQUARE_ENVIRONMENT:
             print("Plese add SQUARE_TOKEN and SQUARE_ENV variable in .env-local")
             return
 
