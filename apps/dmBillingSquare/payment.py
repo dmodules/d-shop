@@ -43,6 +43,9 @@ class SquarePayment(PaymentProvider):
             client = Client(access_token=square_token, environment=square_environment)
             checkout_api = client.checkout
             # =========---
+            order.populate_from_cart(cart, request)
+            order.save()
+            # =========---
             body = {}
             body['idempotency_key'] = str(uuid.uuid1())
             body['redirect_url'] = SITE_LINK+'/billing-square/payment/'
@@ -55,14 +58,13 @@ class SquarePayment(PaymentProvider):
             body['order']['order']['customer_id'] = 'customer_id'
             body['order']['order']['line_items'] = []
             # ===---
-            for n, item in enumerate(cart.items.all()):
-                unit_price = int(float(item.product.get_price(request)) * 100)
+            for n, item in enumerate(order.items.values()):
                 body['order']['order']['line_items'].append({})
                 body['order']['order']['line_items'][n]['uid'] = str(uuid.uuid1())
-                body['order']['order']['line_items'][n]['name'] = item.product.product_name
-                body['order']['order']['line_items'][n]['quantity'] = str(item.quantity)
+                body['order']['order']['line_items'][n]['name'] = str(item['product_name'])
+                body['order']['order']['line_items'][n]['quantity'] = str(item['quantity'])
                 body['order']['order']['line_items'][n]['base_price_money'] = {}
-                body['order']['order']['line_items'][n]['base_price_money']['amount'] = unit_price
+                body['order']['order']['line_items'][n]['base_price_money']['amount'] = int(item['_unit_price'] * 100)
                 body['order']['order']['line_items'][n]['base_price_money']['currency'] = 'CAD'
                 body['order']['order']['line_items'][n]['applied_taxes'] = []
                 body['order']['order']['line_items'][n]['applied_taxes'].append({})
@@ -70,13 +72,12 @@ class SquarePayment(PaymentProvider):
                 body['order']['order']['line_items'][n]['applied_taxes'][0]['tax_uid'] = 'total-taxes'
             # ===---
             body['order']['order']['taxes'] = []
-            for key, item in cart.extra_rows.items():
+            for key, item in order.extra['rows']:
                 if key == 'canadiantaxes':
-                    percent = item.data['label'].split('%')[0]
                     body['order']['order']['taxes'].append({})
                     body['order']['order']['taxes'][0]['uid'] = 'total-taxes'
                     body['order']['order']['taxes'][0]['name'] = 'Taxes'
-                    body['order']['order']['taxes'][0]['percentage'] = percent
+                    body['order']['order']['taxes'][0]['percentage'] = str(item['label'].split('%')[0])
                     body['order']['order']['taxes'][0]['scope'] = 'LINE_ITEM'
                 if key in [
                     "standard-shipping",
@@ -84,10 +85,10 @@ class SquarePayment(PaymentProvider):
                     "standard-separator-shipping",
                     "express-separator-shipping"
                 ]:
-                    shipping = int(float(re.sub('[^0-9,.]', '', item.data['amount'].replace(',', '.'))) * 100)
+                    shipping = int(float(re.sub('[^0-9,.]', '', item['amount'].replace(',', '.'))) * 100)
                     shipping_data = {}
                     shipping_data['uid'] = str(uuid.uuid1())
-                    shipping_data['name'] = "Livraison : " + str(item.data['label'])
+                    shipping_data['name'] = "Livraison : " + str(item['label'])
                     shipping_data['quantity'] = '1'
                     shipping_data['base_price_money'] = {}
                     shipping_data['base_price_money']['amount'] = shipping
@@ -100,12 +101,11 @@ class SquarePayment(PaymentProvider):
             # =========---
             result = checkout_api.create_checkout(square_location, body)
             if result.is_success():
-                order.populate_from_cart(cart, request)
-                order.save()
                 res = result.body['checkout']['checkout_page_url']
                 js_expression = 'window.location.href="{}";'.format(res)
                 return js_expression
             elif result.is_error():
+                print(result)
                 raise ValidationError(_("An error occurred while creating your order."))
         except Exception as e:
             print(e)
