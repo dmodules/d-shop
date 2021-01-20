@@ -489,15 +489,17 @@ function doSearch() {
 
 //* ===---   Load More   ---=== *//
 
-function loadMoreProduits(category = null) {
+function loadMoreProduits(what = null, search = null) {
     let offset = $('.dm-btn-more').data('offset')
     let limit = $('.dm-btn-more').data('limit')
     let cat = ''
-    if (category) {
-      cat = '&category='+category
+    if (search == 'category') {
+      query = '&category='+what
+    } else if (search == 'brand') {
+      query = '&brand='+what
     }
     // ===---
-    $.get("/api/fe/moreproduits/?offset="+offset+'&limit='+limit+cat, function(getResult) {
+    $.get("/api/fe/moreproduits/?offset="+offset+'&limit='+limit+query, function(getResult) {
       let r = ''
       getResult.products.forEach((product) => {
         r = ''
