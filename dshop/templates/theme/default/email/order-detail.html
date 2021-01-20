@@ -1,7 +1,7 @@
 {# include this template to list all items of the given order #}
 {% load i18n post_office %}{% spaceless %}
 
-{% if latest_delivery %}
+{% if latest_delivery and latest_delivery.shipping_method and latest_delivery.shipping_id %}
     <table style="width: 100%; background-color: #fff; border-collapse: collapse; margin-bottom: 20px;">
         <tbody style="font-size: 130%; text-align: center;">
             <tr>
