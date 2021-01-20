@@ -99,4 +99,3 @@ def transition_change_notification(order, miniorder=None):
         emails_in_queue = True
     if emails_in_queue:
         email_queued()
-        call_command("send_queued_mail")
