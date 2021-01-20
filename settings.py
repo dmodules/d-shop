@@ -59,6 +59,7 @@ INSTALLED_APPS.extend([  # noqa: F821
     "apps.dmAdvertising",
     "apps.dmBillingStripe",
     "apps.dmBillingSquare",
+    "apps.dmSquare",
     "apps.dmContact",
     "apps.dmRabais",
     "apps.dmShipping",

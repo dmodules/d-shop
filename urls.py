@@ -51,6 +51,7 @@ urlpatterns = [
     url(r'^shop/auth/password/reset-confirm/', PasswordResetConfirmView.as_view()),
     url(r'^billing-stripe/', include("apps.dmBillingStripe.urls")),
     url(r'^billing-square/', include("apps.dmBillingSquare.urls")),
+    url(r'^dm-square/', include("apps.dmSquare.urls")),
     url(r'^contact/', include("apps.dmContact.urls")),
     url(r'^discount/', include("apps.dmRabais.urls")),
 
