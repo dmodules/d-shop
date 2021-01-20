@@ -10,6 +10,7 @@ from post_office.models import EmailTemplate
 from shop.conf import app_settings
 from shop.models.order import BaseOrder
 from shop.models.notification import Notification
+from shop.serializers.order import OrderDetailSerializer
 from shop.serializers.delivery import DeliverySerializer
 from shop.signals import email_queued
 
@@ -57,27 +58,32 @@ def transition_change_notification(order, miniorder=None):
                                               order.stored_request)
         customer_serializer = app_settings.CUSTOMER_SERIALIZER(order.customer)
         render_context = {'request': emulated_request, 'render_label': 'email'}
-        # order_serializer = OrderDetailSerializer(
-        #    order, context=render_context
-        # )
+        if miniorder is not None:
+            order_serializer = miniorder
+        else:
+            order_serializer = OrderDetailSerializer(
+                order, context=render_context
+            )
         language = order.stored_request.get('language')
         context = {
             'customer': customer_serializer.data,
-            'order': miniorder,
+            'order': order_serializer,
             'ABSOLUTE_BASE_URI':
             emulated_request.build_absolute_uri().rstrip('/'),
             'render_language': language,
         }
         try:
-            latest_delivery = order.delivery_set.latest('id')
+            latest_delivery = order.delivery_set.latest('pk')
             context['latest_delivery'] = DeliverySerializer(
-                latest_delivery, context=render_context).data
+                latest_delivery, context=render_context
+            ).data
         except (AttributeError, models.ObjectDoesNotExist):
             pass
         try:
             template = notification.mail_template.translated_templates.get(
                 language=language)
-        except EmailTemplate.DoesNotExist:
+        except EmailTemplate.DoesNotExist as e:
+            print(e)
             template = notification.mail_template
         attachments = {}
         for notiatt in notification.notificationattachment_set.all():

@@ -8,21 +8,21 @@ from dshop.models import ProductCategory
 from dshop.models import Attribute, AttributeValue
 from dshop.models import ProductVariable, ProductVariableVariant
 
-from settings import SQUARE_TOKEN
+from settings import SQUARE_TOKEN, SQUARE_ENVIRONMENT
 from square.client import Client
 
 
 client = Client(
     access_token=SQUARE_TOKEN,
-    environment='production',
+    environment=SQUARE_ENVIRONMENT,
 )
 
 class Command(BaseCommand):
 
     def handle(self, **options): # noqa
 
-        if not SQUARE_TOKEN:
-            print("Plese add SQUARE_TOKEN variable in .env-local")
+        if not SQUARE_TOKEN or not SQUARE_ENVIRONMENT:
+            print("Plese add SQUARE_TOKEN and SQUARE_ENV variable in .env-local")
             return
 
         # Request for Categories
@@ -88,6 +88,8 @@ class Command(BaseCommand):
                 return
             data = result.body
             print("Creating an Image...")
+            if 'objects' not in data:
+                break
             for d in data['objects']:
                 print('.', end=' ')
                 if d['type'] == 'IMAGE':

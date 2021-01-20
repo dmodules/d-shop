@@ -42,6 +42,15 @@ def SquarePaymentView(request):  # noqa: C901
             order.acknowledge_payment()
             order.save()
             # ===---
+            # Update quantity in Square
+            try:
+                for item in order.items.all():
+                    product_code = item.product_code
+                    quantity = item.quantity
+                    square_update_stock(quantity, product_code)
+            except Exception as e:
+                print(e)
+            # ===---
             try:
                 if dmCustomerPromoCode is not None:
                     for extra in order.extra["rows"]:
@@ -57,6 +66,20 @@ def SquarePaymentView(request):  # noqa: C901
             except Exception as e:
                 print(e)
             # ===---
+            # We want to skip few steps.
+            # So add delivery creation on payment success.
+            try:
+                items = []
+                for i in order.items.all():
+                    data = {}
+                    data["deliver_quantity"] = i.quantity
+                    data["id"] = i
+                    data["canceled"] = i.canceled
+                    items.append(data)
+                order.update_or_create_delivery(items)
+            except Exception as e:
+                print("Error to create delivery: " + str(e))
+            # ===---
             try:
                 items = []
                 for i in order.items.all():
@@ -71,7 +94,10 @@ def SquarePaymentView(request):  # noqa: C901
                     "url": "/vos-commandes/"+str(referenceId)+"/"+str(order.token),
                     "items": items,
                     "extra": order.extra,
-                    "total": order.total
+                    "subtotal": order.subtotal,
+                    "total": order.total,
+                    "billing_address_text": order.billing_address_text,
+                    "shipping_address_text": order.shipping_address_text
                 }
                 transition_change_notification(
                     order,

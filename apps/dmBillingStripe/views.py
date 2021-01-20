@@ -15,6 +15,7 @@ from shop.models.order import OrderPayment
 from dshop.transition import transition_change_notification
 from dshop.models import ProductDefault
 
+from apps.dmSquare.views import square_update_stock
 from .models import StripeOrderData
 
 try:
@@ -96,6 +97,15 @@ def StripePaymentView(request):  # noqa: C901
                 stripe_payment_data=str(payment_intent))
             order.acknowledge_payment()
             # ===---
+            # Update quantity in Square
+            try:
+                for item in order.items.all():
+                    product_code = item.product_code
+                    quantity = item.quantity
+                    square_update_stock(quantity, product_code)
+            except Exception as e:
+                print(e)
+            # ===---
             try:
                 if dmCustomerPromoCode is not None:
                     for extra in order.extra["rows"]:
@@ -141,7 +151,10 @@ def StripePaymentView(request):  # noqa: C901
                     "url": "/vos-commandes/"+str(referenceId)+"/"+str(order.token),
                     "items": items,
                     "extra": order.extra,
-                    "total": order.total
+                    "subtotal": order.subtotal,
+                    "total": order.total,
+                    "billing_address_text": order.billing_address_text,
+                    "shipping_address_text": order.shipping_address_text
                 }
                 transition_change_notification(
                     order,

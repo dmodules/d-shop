@@ -48,7 +48,7 @@ class StripePayment(PaymentProvider):
                 if tax[0].qst != Decimal('0'):
                     tax_data.append(tax[0].stripe_qst)
             order.populate_from_cart(cart, request)
-            order.save(with_notification=True)
+            order.save()
             # Collect Shipping cost
             shipping_cost = 0
             mod = order.extra.get('shipping_modifier')

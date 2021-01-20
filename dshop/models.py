@@ -60,13 +60,17 @@ TAG_RE = re.compile(r"<[^>]+>")
 
 
 class Delivery(BaseDelivery):
-    pass
+    class Meta:
+        get_latest_by = ["pk"]
 
 
 class DeliveryItem(BaseDeliveryItem):
     quantity = models.PositiveIntegerField(
         _("Ordered Quantity")
     )
+
+    class Meta:
+        get_latest_by = ["pk"]
 
 
 class OrderItem(BaseOrderItem):
