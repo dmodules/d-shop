@@ -15,7 +15,7 @@
             <div class="w-auto ml-auto lead badge badge-primary">
                 {{ data.status }}
             </div>
-        {% elif data.status == 'Picking goods' or data.status == 'Packing goods' or data.status == 'Livraison des marchandises' or data.status == 'Pick the goods' or data.status == 'Livrer les marchandises' or data.status == 'Pack the goods' or data.status == 'Emballer les produits' or data.status == 'Ship goods' or data.status == 'Ship the goods'  or data.status == 'Tranport des marchandises' or data.status == 'Tranport les marchandises' %}
+        {% elif data.status == 'Ready for delivery' or data.status == 'Picking goods' or data.status == 'Packing goods' or data.status == 'Livraison des marchandises' or data.status == 'Pick the goods' or data.status == 'Livrer les marchandises' or data.status == 'Pack the goods' or data.status == 'Emballer les produits' or data.status == 'Ship goods' or data.status == 'Ship the goods'  or data.status == 'Tranport des marchandises' or data.status == 'Tranport les marchandises' %}
             <div class="w-auto ml-auto lead badge badge-primary">
                 {% trans "Shipped" %}
             </div>
