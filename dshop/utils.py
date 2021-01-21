@@ -53,7 +53,7 @@ def get_apply_discountpercategory(product, current_price, is_discounted=False): 
             & (Q(valid_from__isnull=True) | Q(valid_from__lte=today))
             & (Q(valid_until__isnull=True) | Q(valid_until__gt=today)),
             is_active=True
-        )
+        ).distinct()
         if all_discounts.count() > 0:
             for d in all_discounts:
                 if not d.can_apply_on_discounted:
