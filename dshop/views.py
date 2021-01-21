@@ -158,26 +158,26 @@ class LoadProduits(APIView):
                 Q(categories=category) | Q(categories__parent=category)
                 | Q(categories__parent__parent=category)
                 | Q(categories__parent__parent__parent=category),
-                active=True)[offset:offset + limit]
+                active=True).distinct()[offset:offset + limit]
             next_products = Product.objects.filter(
                 Q(categories=category) | Q(categories__parent=category)
                 | Q(categories__parent__parent=category)
                 | Q(categories__parent__parent__parent=category),
-                active=True)[offset + limit:offset + limit + limit].count()
+                active=True).distinct()[offset + limit:offset + limit + limit].count()
         elif brand is not None:
             brand = int(brand)
             products = Product.objects.filter(
                 Q(brand=brand),
-                active=True)[offset:offset + limit]
+                active=True).distinct()[offset:offset + limit]
             next_products = Product.objects.filter(
                 brand=brand,
-                active=True)[offset + limit:offset + limit + limit].count()
+                active=True).distinct()[offset + limit:offset + limit + limit].count()
         else:
             products = Product.objects.filter(
-                active=True)[offset:offset + limit]
+                active=True).distinct()[offset:offset + limit]
             next_products = Product.objects.filter(
                 active=True
-            )[offset + limit:offset + limit + limit].count()
+            ).distinct()[offset + limit:offset + limit + limit].count()
         # ===---
         all_produits = []
         for produit in products:
@@ -246,7 +246,7 @@ class LoadProductsByCategory(APIView):
                 | Q(categories__parent__parent=category)
                 | Q(categories__parent__parent__parent=category),
                 active=True
-            )[:8]
+            ).distinct()[:8]
             # ===---
             all_produits = []
             for produit in products:
