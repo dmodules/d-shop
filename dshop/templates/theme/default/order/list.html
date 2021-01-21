@@ -39,7 +39,7 @@
                     <div class="badge badge-primary">
                         {{ order.status }}
                     </div>
-                  {% elif data.status == 'Ready for delivery' or data.status == 'Picking goods' or data.status == 'Packing goods' or data.status == 'Livraison des marchandises' or data.status == 'Pick the goods' or data.status == 'Livrer les marchandises' or data.status == 'Pack the goods' or data.status == 'Emballer les produits' or data.status == 'Ship goods' or data.status == 'Ship the goods'  or data.status == 'Tranport des marchandises' or data.status == 'Tranport les marchandises' %}
+                  {% elif order.status == 'Ready for delivery' or order.status == 'Picking goods' or order.status == 'Packing goods' or order.status == 'Livraison des marchandises' or order.status == 'Pick the goods' or order.status == 'Livrer les marchandises' or order.status == 'Pack the goods' or order.status == 'Emballer les produits' or order.status == 'Ship goods' or order.status == 'Ship the goods'  or order.status == 'Tranport des marchandises' or order.status == 'Tranport les marchandises' %}
                     <div class="badge badge-primary">
                         {% trans "Shipped" %}
                     </div>
