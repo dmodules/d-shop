@@ -2261,3 +2261,6 @@ msgstr "ID de livraison"
 
 msgid "Shipped"
 msgstr "Livré"
+
+msgid "Exhausted"
+msgstr "Épuisé"
