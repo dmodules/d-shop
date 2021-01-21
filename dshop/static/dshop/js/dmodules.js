@@ -41,6 +41,10 @@ const i18n = {
       fr: "Promotion",
       en: "Discounted"
   },
+  exhausted: {
+      fr: "Épuisé",
+      en: "Exhausted"
+  },
   empty: {
       fr: "Vide",
       en: "Empty"

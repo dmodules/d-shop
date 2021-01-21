@@ -142,6 +142,9 @@ main > .container > .row {
   bottom:181px;
   padding:1.2rem 1rem 1rem;
 }
+.dm-drawer-inner.no-bottom {
+    bottom: 0;
+}
 .dm-drawer-bottom{
   text-align:center;
   position:absolute;

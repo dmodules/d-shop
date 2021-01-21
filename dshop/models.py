@@ -699,7 +699,7 @@ class ProductDefault(AvailableProductMixin, Product):
                         ),
                         customer=customer,
                         is_expired=False
-                    )
+                    ).distinct()
                     if all_codes.count() > 0:
                         for d in all_codes:
                             if not self.is_discounted or (
@@ -736,7 +736,7 @@ class ProductDefault(AvailableProductMixin, Product):
                     & Q(promocode__can_apply_on_discounted=True),
                     customer=customer,
                     is_expired=False
-                )
+                ).distinct()
             else:
                 all_codes = dmCustomerPromoCode.objects.filter(
                     (
@@ -749,7 +749,7 @@ class ProductDefault(AvailableProductMixin, Product):
                     ) & (Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today)),
                     customer=customer,
                     is_expired=False
-                )
+                ).distinct()
             return all_codes
 
     def get_realprice(self):
@@ -998,7 +998,8 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
                             Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today)
                         ),
                         customer=customer,
-                        is_expired=False)
+                        is_expired=False
+                    ).distinct()
                     if all_codes.count() > 0:
                         for d in all_codes:
                             if not self.is_discounted or (
@@ -1031,7 +1032,8 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
                     Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today)
                 ),
                 customer=customer,
-                is_expired=False)
+                is_expired=False
+            ).distinct()
             return all_codes
 
     def get_realprice(self):
