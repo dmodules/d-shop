@@ -467,7 +467,7 @@ main > .container > .row {
   width:300px;
   max-width:calc(100% - 2rem);
   position:fixed;
-  top:-10%;
+  top:-100vh;
   left:1rem;
   right:1rem;
   z-index:99999;
