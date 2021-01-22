@@ -21,13 +21,14 @@ class Command(BaseCommand):
                 continue
             # Check for order payment and status
             order_payment = OrderPayment.objects.filter(order=order)
-            if order_payment and order.status == 'payment_confirmed':
+            if order_payment and order.status in ['payment_confirmed', 'ready_for_delivery']:
                 # Order payment is done so check next order
                 continue
 
             # Generate Revert quantity
             cart = order.customer.cart
             order.readd_to_cart(cart)
+            print("Reverting Quantity for Order: " + str(order.get_number()))
             try:
                 with transaction.atomic():
                     for item in cart.items.all():
@@ -36,12 +37,14 @@ class Command(BaseCommand):
                             print('Default product: ' + str(db_product.product_name))
                             db_product.quantity += item.quantity
                             db_product.save()
+                            print('Quantity: ' + str(item.quantity))
                         else:
                             print('Variable product: ' + str(db_product.product_name))
                             p_code = item.product_code
                             pv = db_product.variants.get(product_code=p_code)
                             pv.quantity += item.quantity
                             pv.save()
+                            print('Quantity: ' + str(item.quantity))
                 # Param to identify order is timed out
                 order.extra['cancel'] = '1'
                 order.save()
