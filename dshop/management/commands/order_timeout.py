@@ -28,7 +28,7 @@ class Command(BaseCommand):
                 # Order payment is done so check next order
                 continue
 
-            if (today - order.created_at).seconds < timeout_second:
+            if (today - order.created_at).seconds < int(timeout_second):
                 print("Skip " + str(order.get_number()) + " not timeout")
                 continue
 
