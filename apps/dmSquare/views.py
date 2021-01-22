@@ -19,6 +19,8 @@ def inventory_update(request):
 
     data = request.body
     data = json.loads(data)
+    print("In webhook call.")
+    print(data)
     if 'data' not in data:
         return HttpResponse('ERROR')
     if 'object' not in data['data']:
@@ -46,8 +48,11 @@ def inventory_update(request):
     pvv = ProductVariableVariant.objects.filter(product_code=square_id)
     if pvv:
         pvv = pvv[0]
-        pvv.stock = quantity
+        print("Product to be updated: " + str(pvv))
+        print("product quantity before: " + str(pvv.quantity))
+        pvv.quantity = quantity
         pvv.save()
+        print("product quantity after: " + str(pvv.quantity))
         print("Stock updated")
     return HttpResponse('Ok')
 
