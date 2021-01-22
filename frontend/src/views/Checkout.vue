@@ -957,7 +957,7 @@ export default {
     this.getCustomer();
     this.getShippingMethods();
     this.getBillingMethods();
-    this.getPromoCodes();
+    //this.getPromoCodes();
   },
   methods: {
     setAuth() {
