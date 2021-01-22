@@ -10,7 +10,7 @@ from dshop.models import ProductDefault
 from settings import STRIPE_SECRET_KEY, ORDER_TIMEOUT
 
 stripe.api_key = STRIPE_SECRET_KEY
-timeout_second = ORDER_TIMEOUT * 60
+timeout_second = int(ORDER_TIMEOUT) * 60
 
 class Command(BaseCommand):
 
