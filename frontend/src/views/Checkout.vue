@@ -1301,22 +1301,19 @@ export default {
         let self = this;
         this.$set(this, "isLoading", false)
         this.$set(this, "listPromoCodes", [])
-        let temporaire = false
-        if (temporaire) {
-            // ===---
-            this.$axios.post(this.$web_url + "/discount/promocodes/?p=discounts", null, {
-                headers: { "Content-Type": "application/json", Accept: "application/json"}
+        // ===---
+        this.$axios.post(this.$web_url + "/discount/promocodes/?p=discounts", null, {
+            headers: { "Content-Type": "application/json", Accept: "application/json"}
+        })
+        .then((apiSuccess) => {
+            apiSuccess.data.promolist.forEach((item) => {
+                if (!item.is_expired) {
+                    self.listPromoCodes.push(item.name)
+                }
             })
-            .then((apiSuccess) => {
-                apiSuccess.data.promolist.forEach((item) => {
-                    if (!item.is_expired) {
-                        self.listPromoCodes.push(item.name)
-                    }
-                })
-                self.$set(self.formPayment, "subtotaldiscount", apiSuccess.data.price)
-                self.$set(self.formPayment, "totaldiscount", apiSuccess.data.discount)
-            })
-        }
+            self.$set(self.formPayment, "subtotaldiscount", apiSuccess.data.price)
+            self.$set(self.formPayment, "totaldiscount", apiSuccess.data.discount)
+        })
     },
     doPromoCode () {
         let self = this
