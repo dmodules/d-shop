@@ -139,6 +139,7 @@ CLIENT_TITLE = os.getenv("CLIENT_TITLE", "D-Shop")
 SHOP_VENDOR_EMAIL = os.getenv("SHOP_VENDOR_EMAIL")
 ADMINS = [("D-Modules", "info@d-modules.com")]
 
+ORDER_TIMEOUT = os.getenv("ORDER_TIMEOUT", 10)
 ############################################
 # Templates Settings
 
