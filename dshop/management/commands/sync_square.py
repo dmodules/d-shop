@@ -42,7 +42,8 @@ class Command(BaseCommand):
                 name = re.sub('<[^>]+>', '', name)
                 cat_data = {
                     'name': name.strip(),
-                    'square_id': d['id']
+                    'square_id': d['id'],
+                    'active':False
                 }
                 cat = ProductCategory.objects.filter(square_id=d['id'])
                 if not cat:
