@@ -6,10 +6,10 @@ from shop.money import Money
 from shop.serializers.cart import ExtraCartRow
 from shop.modifiers.base import BaseCartModifier
 
-from .utils import get_discounts_byrequest
-
 from dshop.models import ProductDefault, ProductVariableVariant
 from dshop.serializers import ExtraCartRowContent
+
+from .utils import get_discounts_byrequest, get_cart_discounts
 
 class DiscountsModifier(BaseCartModifier):
     identifier = "discounts"
@@ -20,6 +20,19 @@ class DiscountsModifier(BaseCartModifier):
         all_promocodes_code = ", ".join([str(p) for p in results[1]])
         all_prices = Decimal(results[2])
         all_discounts = Decimal(results[3])
+        # ===---
+        if len(results[1]) > 0:
+            cart_discounts = get_cart_discounts(results[1])
+            if cart_discounts[1] > 0:
+                percent_discount = Money(
+                    float(cart.subtotal) * (cart_discounts[1] / 100)
+                )
+            else:
+                percent_discount = Money(0)
+            cart.subtotal -= Money(cart_discounts[0]) + percent_discount
+            cart.total -= Money(cart_discounts[0]) + percent_discount
+            all_discounts = all_discounts + cart_discounts[0] + Decimal(percent_discount)
+        # ===---
         if all_discounts > 0:
             cart.extra_rows["subtotal-before-discounts"] = ExtraCartRow({
                 "label": _("Subtotal before discounts"),

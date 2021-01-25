@@ -110,6 +110,11 @@ class dmPromoCode(models.Model):
         verbose_name=_("Can Apply On Discounted Product?"),
         default=False
     )
+    apply_on_cart = models.BooleanField(
+        verbose_name=_("Apply on cart's total only"),
+        default=False,
+        help_text=_("Check to apply this promocode on the cart's total instead of individual product.")
+    )
     valid_from = models.DateTimeField(
         verbose_name=_("Start at"),
         default=datetime.now

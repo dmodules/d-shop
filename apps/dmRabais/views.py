@@ -12,9 +12,11 @@ from shop.money import Money
 from shop.models.customer import CustomerModel
 from shop.models.defaults.order import Order
 
+from dshop.models import ProductDefault, ProductVariable, ProductVariableVariant
+
 from .models import dmPromoCode
 from .models import dmCustomerPromoCode
-from .utils import get_discounts_byrequest
+from .utils import get_discounts_byrequest, get_cart_discounts
 
 #######################################################################
 # ===---   Views used in frontend                              ---=== #
@@ -112,8 +114,8 @@ class PromoCodesList(APIView):
                                 for c in row[1]["content_extra"].split(", "):
                                     if c not in used_promolist:
                                         used_promolist.append(c)
-                except Exception as e:
-                    print(e)
+                except Exception:
+                    pass
             # make promocodes list
             promolist = []
             for p in all_promo:
@@ -156,6 +158,25 @@ class PromoCodesList(APIView):
             all_promocodes = results[0]
             all_prices = Decimal(results[2])
             all_discounts = Decimal(results[3])
+            # ===---
+            sub = Money(0)
+            for item in customer.cart.items.all():
+                if type(item.product) == ProductDefault:
+                    sub += item.quantity * item.product.get_price(request)
+                elif type(item.product) == ProductVariable:
+                    sub += item.quantity * ProductVariableVariant.objects.get(
+                        product_code=item.product_code
+                    ).get_price(request)
+            # ===---
+            if len(results[1]) > 0:
+                cart_discounts = get_cart_discounts(results[1])
+                if cart_discounts[1] > 0:
+                    percent_discount = Decimal(
+                        float(sub) * (cart_discounts[1] / 100)
+                    )
+                else:
+                    percent_discount = Money(0)
+                all_discounts = all_discounts + cart_discounts[0] + Decimal(percent_discount)
             # get all used promocodes
             customer_orders = Order.objects.filter(
                 customer=customer
@@ -169,8 +190,8 @@ class PromoCodesList(APIView):
                                 for c in row[1]["content_extra"].split(", "):
                                     if c not in used_promolist:
                                         used_promolist.append(c)
-                except Exception as e:
-                    print(e)
+                except Exception:
+                    pass
             # make promocodes list
             promolist = []
             for p in all_promo:

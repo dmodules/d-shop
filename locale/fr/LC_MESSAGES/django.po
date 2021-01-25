@@ -2264,3 +2264,9 @@ msgstr "Livré"
 
 msgid "Exhausted"
 msgstr "Épuisé"
+
+msgid "Apply on cart's total only"
+msgstr "Appliquer au total du panier"
+
+msgid "Check to apply this promocode on the cart's total instead of individual product."
+msgstr "Cocher pour appliquer ce code promotionnel au total du panier plutôt qu'aux produits individuellement."

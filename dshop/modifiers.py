@@ -6,6 +6,8 @@ from shop.serializers.cart import ExtraCartRow
 from shop.modifiers.defaults import DefaultCartModifier
 from shop.payment.modifiers import PaymentModifier
 
+from .models import ProductVariable
+
 from .payment import TestPayment
 
 # AJOUTER LES PROPRIÉTÉS DES VARIANTES DANS "VARIABLES" DE "EXTRA"
@@ -19,7 +21,7 @@ class PrimaryCartModifier(DefaultCartModifier):
         cart_item.unit_price = variant.get_price(request)
         cart_item.line_total = cart_item.unit_price * cart_item.quantity
         cart_item.extra["variables"] = {"code": cart_item.product_code}
-        try:
+        if type(cart_item.product) == ProductVariable:
             pv = cart_item.product.variants.get(
                 product_code=cart_item.product_code
             )
@@ -27,8 +29,6 @@ class PrimaryCartModifier(DefaultCartModifier):
             for a in pv.attribute.all():
                 attributes.append(str(a))
             cart_item.extra["variables"]["attributes"] = attributes
-        except Exception as e:
-            print(e)
         return super(
             DefaultCartModifier, self
         ).process_cart_item(cart_item, request)
