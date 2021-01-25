@@ -10,6 +10,7 @@ from rest_framework.response import Response as RestResponse
 
 from shop.money import Money
 from shop.models.customer import CustomerModel
+from shop.models.defaults.order import Order
 
 from .models import dmPromoCode
 from .models import dmCustomerPromoCode
@@ -91,19 +92,41 @@ class PromoCodesList(APIView):
 
     permission_classes = [AllowAny]
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):  # noqa: C901
         try:
             customer = CustomerModel.objects.get_from_request(request)
+            # get all promocodes
             all_promo = dmCustomerPromoCode.objects.filter(
                 customer=customer
             )
+            # get all used promocodes
+            customer_orders = Order.objects.filter(
+                customer=customer
+            )
+            used_promolist = []
+            for o in customer_orders:
+                try:
+                    for row in o.extra["rows"]:
+                        if "applied-promocodes" in row:
+                            if row[1]["content_extra"]:
+                                for c in row[1]["content_extra"].split(", "):
+                                    if c not in used_promolist:
+                                        used_promolist.append(c)
+                except Exception as e:
+                    print(e)
+            # make promocodes list
             promolist = []
             for p in all_promo:
-                if p.promocode.valid_until is not None:
-                    today = pytz.utc.localize(datetime.utcnow())
-                    if today > p.promocode.valid_until:
-                        p.is_expired = True
-                        p.save()
+                # expire if date passed
+                today = pytz.utc.localize(datetime.utcnow())
+                if p.promocode.valid_until is not None and today > p.promocode.valid_until:
+                    p.is_expired = True
+                    p.save()
+                # expire if already used
+                if p.promocode.code in used_promolist:
+                    p.is_expired = True
+                    p.save()
+                # add to list
                 datas = {}
                 datas["name"] = p.promocode.name
                 datas["is_expired"] = p.is_expired
@@ -118,27 +141,49 @@ class PromoCodesList(APIView):
             print(e)
             return RestResponse({"valid": False})
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):  # noqa: C901
         all_promocodes = []
         all_prices = Decimal(0)
         all_discounts = Decimal(0)
         try:
             customer = CustomerModel.objects.get_from_request(request)
+            # get all promocodes
             all_promo = dmCustomerPromoCode.objects.filter(
                 customer=customer
             )
-            #
+            # get all actually usable promocodes and discounts
             results = get_discounts_byrequest(request)
             all_promocodes = results[0]
             all_prices = Decimal(results[2])
             all_discounts = Decimal(results[3])
-            #
+            # get all used promocodes
+            customer_orders = Order.objects.filter(
+                customer=customer
+            )
+            used_promolist = []
+            for o in customer_orders:
+                try:
+                    for row in o.extra["rows"]:
+                        if "applied-promocodes" in row:
+                            if row[1]["content_extra"]:
+                                for c in row[1]["content_extra"].split(", "):
+                                    if c not in used_promolist:
+                                        used_promolist.append(c)
+                except Exception as e:
+                    print(e)
+            # make promocodes list
             promolist = []
             for p in all_promo:
+                # expire if date passed
                 today = pytz.utc.localize(datetime.utcnow())
                 if p.promocode.valid_until is not None and today > p.promocode.valid_until:
                     p.is_expired = True
                     p.save()
+                # expire if already used
+                if p.promocode.code in used_promolist:
+                    p.is_expired = True
+                    p.save()
+                # add to list
                 datas = {}
                 if p.promocode.name in all_promocodes:
                     datas["name"] = p.promocode.name
