@@ -101,7 +101,7 @@ def dm_get_attributes_list(k):
 @register.simple_tag
 def dm_get_products_all():
     """Get data from all active products"""
-    result = Product.objects.filter(active=True).order_by('-id')
+    result = Product.objects.filter(active=True, categories__active=True).order_by('-id')
     return result
 
 
@@ -152,9 +152,9 @@ def dm_get_all_products(offset, limit):
     """Get data from all products with offset and limit"""
     offset = int(offset)
     limit = int(limit)
-    products = Product.objects.filter(active=True).order_by('id')[
+    products = Product.objects.filter(Q(categories__active=True) | Q(categories=None), active=True).order_by('id')[
         offset:offset+limit]
-    next_result = Product.objects.filter(active=True).order_by(
+    next_result = Product.objects.filter(Q(categories__active=True) | Q(categories=None), active=True).order_by(
         'id')[offset+limit:offset+limit+limit].count()
     result = {
         "products": products,
