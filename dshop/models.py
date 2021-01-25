@@ -696,7 +696,7 @@ class ProductDefault(AvailableProductMixin, Product):
                             Q(promocode__valid_from__isnull=True) | Q(promocode__valid_from__lte=today)
                         ) & (
                             Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today)
-                        ),
+                        ) & Q(promocode__apply_on_cart=False),
                         customer=customer,
                         is_expired=False
                     ).distinct()
@@ -996,7 +996,7 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
                             Q(promocode__valid_from__isnull=True) | Q(promocode__valid_from__lte=today)
                         ) & (
                             Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today)
-                        ),
+                        ) & Q(promocode__apply_on_cart=False),
                         customer=customer,
                         is_expired=False
                     ).distinct()

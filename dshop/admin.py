@@ -583,12 +583,12 @@ class AttributeAdmin(admin.ModelAdmin):
     exclude = ['square_id']
 
 @admin.register(Product)
-class ProductAdmin(PolymorphicSortableAdminMixin, PolymorphicParentModelAdmin):
+class ProductAdmin(PolymorphicParentModelAdmin):
     base_model = Product
     child_models = [ProductDefault, ProductVariable]
     list_display = [
         "product_name",
-        "get_price",
+        # "get_price",
         "product_type",
         "get_quantity",
         "is_vedette",
@@ -597,7 +597,7 @@ class ProductAdmin(PolymorphicSortableAdminMixin, PolymorphicParentModelAdmin):
     list_display_links = ["product_name"]
     search_fields = ["product_name"]
     list_filter = ['categories', PolymorphicChildModelFilter, CMSPageFilter]
-    list_per_page = 250
+    list_per_page = 100
     list_max_show_all = 1000
 
     def get_price(self, obj):
