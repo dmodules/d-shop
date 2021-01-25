@@ -177,6 +177,8 @@ class PromoCodesList(APIView):
                 else:
                     percent_discount = Money(0)
                 all_discounts = all_discounts + cart_discounts[0] + Decimal(percent_discount)
+            if all_discounts < 0:
+                all_discounts = 0
             # get all used promocodes
             customer_orders = Order.objects.filter(
                 customer=customer

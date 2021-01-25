@@ -30,7 +30,11 @@ class DiscountsModifier(BaseCartModifier):
             else:
                 percent_discount = Money(0)
             cart.subtotal -= Money(cart_discounts[0]) + percent_discount
+            if Decimal(cart.subtotal) < 0:
+                cart.subtotal = Money(0)
             cart.total -= Money(cart_discounts[0]) + percent_discount
+            if Decimal(cart.total) < 0:
+                cart.total = Money(0)
             all_discounts = all_discounts + cart_discounts[0] + Decimal(percent_discount)
         # ===---
         if all_discounts > 0:
