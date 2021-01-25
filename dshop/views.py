@@ -380,7 +380,6 @@ class CustomerView(APIView):
             if aso is not None:
                 address_shipping = {
                     "plugin_order": 1,
-                    "active_priority": 1,
                     "name": aso.name if aso.name is not None else "",
                     "address1":
                     aso.address1 if aso.address1 is not None else "",
@@ -403,7 +402,6 @@ class CustomerView(APIView):
             if abo is not None:
                 address_billing = {
                     "plugin_order": 1,
-                    "active_priority": 1,
                     "use_primary_address": False,
                     "name": abo.name if abo.name is not None else "",
                     "address1":
