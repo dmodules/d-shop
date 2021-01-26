@@ -13,6 +13,7 @@ from .models import dmBlocEtapesParent, dmBlocEtapesChild
 from .models import dmBlockSalesParent, dmBlockSalesChild
 from .models import dmBlockCalltoaction
 from .models import dmTeamParent, dmTeamChild
+from .models import dmTestimonialParent, dmTestimonialChild
 
 from .models import dmProductsCategories
 from .models import dmProductsVedette, dmProductsByCategory
@@ -387,4 +388,52 @@ class dmBlockSalesChildPlugin(BoutiquePlugin):
             "theme/{}/plugins/block-sales-child.html".format(
                 settings.THEME_SLUG
             ), "plugins/block-sales-child.html"
+        ])
+
+
+@plugin_pool.register_plugin
+class dmTestimonialParentPlugin(BoutiquePlugin):
+    name = _("Testimonials")
+    model = dmTestimonialParent
+    allow_children = True
+    child_classes = ["dmTestimonialChildPlugin"]
+
+    def render(self, context, instance, placeholder):
+        context = super(dmTestimonialParentPlugin, self).render(context, instance, placeholder)
+        return context
+
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            "theme/{}/plugins/block-testimonials-parent.html".format(
+                settings.THEME_SLUG
+            ), "plugins/block-testimonials-parent.html"
+        ])
+
+
+@plugin_pool.register_plugin
+class dmTestimonialChildPlugin(BoutiquePlugin):
+    name = _("Testimonial's Element")
+    model = dmTestimonialChild
+    allow_children = False
+    require_parent = True
+    parent_classes = ["dmTestimonialParentPlugin"]
+    fieldsets = [
+        (None, {
+            "fields": [
+                ("name", "name_color"),
+                "photo",
+                "text"
+            ]
+        })
+    ]
+
+    def render(self, context, instance, placeholder):
+        context = super(dmTestimonialChildPlugin, self).render(context, instance, placeholder)
+        return context
+
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            "theme/{}/plugins/block-testimonials-child.html".format(
+                settings.THEME_SLUG
+            ), "plugins/block-testimonials-child.html"
         ])

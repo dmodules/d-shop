@@ -1,0 +1,41 @@
+{% load thumbnail cms_tags i18n %}
+
+{% if instance.bg_image %}
+    {% thumbnail instance.bg_image "2000x900" as bgthumb %}
+{% endif %}
+
+<!-- BEGIN: testimonials -->
+  <section class="section-testimonials text-center py-5" style="{% if instance.bg_color %}background-color:{{instance.bg_color}};{% endif %}{% if bgthumb %}background-image:url('{{bgthumb.url}}');{% endif %}">
+    <div class="container">
+      {% if instance.title or instance.text %}
+        <div class="row pb-3">
+          <div class="col-12">
+            {% if instance.title %}
+              <h2 class="title">
+                {{instance.title}}
+              </h2>
+            {% endif %}
+            {% if instance.text %}
+              <div class="subtitle">
+                {{instance.text|safe}}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+      <div class="carousel-testimonials">
+        <div class="product_slider carousel_slider owl-carousel owl-theme nav_style1" data-autoheight="true" data-autoplay="true" data-loop="true" data-dots="false" data-nav="false" data-margin="20" data-items="1">
+            {% for plugin in instance.child_plugin_instances %}
+                {% with forloop.counter as count %}
+                    {% render_plugin plugin %}
+                {% endwith %}
+            {% empty %}
+            <div class="text-center">
+              <p>{% trans 'Empty' %}</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END: testimonials -->
