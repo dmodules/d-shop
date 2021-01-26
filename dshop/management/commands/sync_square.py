@@ -155,8 +155,10 @@ class Command(BaseCommand):
                     }
                     if ProductVariable.objects.filter(square_id=d['id']):
                         product_variable = ProductVariable.objects.get(square_id=d['id'])
+                        product_variable.product_name = d['item_data']['name']
                         product_variable.description = description
                         product_variable.caption = description
+                        product_variable.save()
                     else:
                         product_variable = ProductVariable.objects.create(**p_data)
 
