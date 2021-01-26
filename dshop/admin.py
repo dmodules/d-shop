@@ -7,6 +7,8 @@ from django.contrib import admin
 from django.template.context import Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
+from django.urls import reverse, NoReverseMatch
+from django.utils.html import format_html
 
 from mptt.admin import DraggableMPTTAdmin
 
@@ -14,7 +16,6 @@ from cms.admin.placeholderadmin import PlaceholderAdminMixin
 from cms.admin.placeholderadmin import FrontendEditableAdminMixin
 
 from adminsortable2.admin import SortableAdminMixin
-from adminsortable2.admin import PolymorphicSortableAdminMixin
 
 from polymorphic.admin import (
     PolymorphicParentModelAdmin,
@@ -341,9 +342,16 @@ class dmOrderItemInline(OrderItemInline):
 @admin.register(Order)
 class OrderAdmin(DeliveryOrderAdminMixin, djOrderAdmin):
     list_filter = []
+    list_display = [
+        "get_number",
+        "get_customer",
+        "get_status",
+        "get_total",
+        "created_at"
+    ]
     fields = [
         "get_ordernumber",
-        "get_customer_link",
+        "get_customer",
         "get_status",
         "get_date",
         # "updated_at",
@@ -358,7 +366,7 @@ class OrderAdmin(DeliveryOrderAdminMixin, djOrderAdmin):
         "get_date",
         "get_total",
         "get_subtotal",
-        "get_customer_link",
+        "get_customer",
         "get_outstanding_amount",
         "updated_at",
         "render_as_html_extra",
@@ -386,6 +394,14 @@ class OrderAdmin(DeliveryOrderAdminMixin, djOrderAdmin):
             if r.status == "created" and r.updated_at + timedelta(hours=6) < today:
                 r.delete()
         return super(OrderAdmin, self).get_queryset(request).all()
+
+    def get_customer(self, obj):
+        try:
+            url = reverse('admin:shop_customerproxy_change', args=(obj.customer.pk,))
+            return format_html('<a href="{0}" target="_new">{1}</a>', url, obj.customer.email)
+        except NoReverseMatch:
+            return format_html('<strong>{0}</strong>', obj.customer.email)
+    get_customer.short_description = _("Customer")
 
     def get_ordernumber(self, obj):
         return obj.get_number()
