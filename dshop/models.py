@@ -1754,6 +1754,56 @@ class dmTeamChild(CMSPlugin):
         help_text=_("Ex.: https://www.instagram.com/<username>")
     )
 
+class dmTestimonialParent(CMSPlugin):
+    title = models.CharField(
+        verbose_name=_("Title"),
+        max_length=100,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 100 characters.")
+    )
+    text = HTMLField(
+        verbose_name=_("Text"),
+        configuration="CKEDITOR_SETTINGS_DMPLUGIN",
+        null=True,
+        blank=True
+    )
+    bg_color = ColorField(
+        verbose_name=_("Background's Colour"),
+        null=True,
+        blank=True
+    )
+    bg_image = models.ImageField(
+        verbose_name=_("Background's Image"),
+        null=True,
+        blank=True,
+        help_text=_("Facultative. Size: 2000x900.")
+    )
+
+class dmTestimonialChild(CMSPlugin):
+    name = models.CharField(
+        verbose_name=_("Name"),
+        max_length=250,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 250 characters.")
+    )
+    name_color = ColorField(
+        verbose_name=_("Name's Colour"),
+        default="#292b2c"
+    )
+    photo = models.ImageField(
+        verbose_name=_("Photo"),
+        null=True,
+        blank=True
+    )
+    text = HTMLField(
+        verbose_name=_("Text"),
+        configuration="CKEDITOR_SETTINGS_DMPLUGIN",
+        null=True,
+        blank=True
+    )
+
 
 class FeatureList(models.Model):
 

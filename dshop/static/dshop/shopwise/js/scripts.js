@@ -457,6 +457,7 @@ PAGE JS
 				mouseDrag: $carousel.data("mouse-drag"),
 				touchDrag: $carousel.data("touch-drag"),
 				autoHeight: $carousel.data("autoheight"),
+				autoHeightClass: $carousel.data("autoheightclass"),
 				center: $carousel.data("center"),
 				nav: $carousel.data("nav"),
 				rewind: $carousel.data("rewind"),

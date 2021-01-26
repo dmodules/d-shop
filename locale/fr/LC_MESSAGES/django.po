@@ -44,6 +44,9 @@ msgstr "Texte"
 msgid "Maximum 75 characters."
 msgstr "Maximum 75 caractères."
 
+msgid "Maximum 1000 characters."
+msgstr "Maximum 1000 caractères."
+
 #: apps/dmAdvertising/models.py:19 dshop/models.py:1380
 msgid "URL"
 msgstr "URL"
@@ -2275,3 +2278,17 @@ msgstr "Cocher pour appliquer ce code promotionnel au total du panier plutôt qu
 msgid "Convertir en variable"
 msgstr "Convertir en variable"
 
+msgid "Testimonial"
+msgstr "Témoignage"
+
+msgid "Testimonials"
+msgstr "Témoignages"
+
+msgid "Testimonial's Element"
+msgstr "Élément du bloc 'Témoignages'"
+
+msgid "Name's Colour"
+msgstr "Couleur du nom"
+
+msgid "Facultative. Size: 2000x900."
+msgstr "Facultatif. Dimension : 2000x900."

@@ -1,0 +1,25 @@
+{% load thumbnail cms_tags %}
+
+{% if instance.photo %}
+    {% thumbnail instance.photo "120x120" as thumb %}
+{% endif %}
+
+<div class="item" id="testimonialno{{count}}">
+    <div class="testimonial">
+        {% if instance.text %}
+            <div class="testionial-text">
+                {{instance.text|safe}}
+            </div>
+        {% endif %}
+        {% if thumb %}
+            <div class="testionial-photo">
+                <img src="{{thumb.url}}" alt="{% if instance.name %}{{instance.name}}{% endif %}" />
+            </div>
+        {% endif %}
+        {% if instance.name %}
+            <div class="testionial-name">
+                {{instance.name}}
+            </div>
+        {% endif %}
+    </div>
+</div>
