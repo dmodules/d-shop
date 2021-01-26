@@ -365,6 +365,7 @@ class OrderAdmin(DeliveryOrderAdminMixin, djOrderAdmin):
         "stored_request",
         "is_fully_paid"
     ]
+    ordering = ["-created_at"]
     inlines = [dmOrderItemInline]
 
     class Media:
