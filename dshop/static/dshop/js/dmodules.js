@@ -512,7 +512,7 @@ function doSearch() {
 function loadMoreProduits(what = null, search = null) {
     let offset = $('.dm-btn-more').data('offset')
     let limit = $('.dm-btn-more').data('limit')
-    let cat = ''
+    let query = ''
     if (search == 'category') {
       query = '&category='+what
     } else if (search == 'brand') {
