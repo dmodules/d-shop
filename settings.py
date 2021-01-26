@@ -188,6 +188,7 @@ if STRIPE_SECRET_KEY is not None:
 #######################################################################
 # Square Settings
 
+SQUARE_SYNC = os.getenv("SQUARE_SYNC", "1")
 SQUARE_APIKEY = os.getenv("SQUARE_APIKEY")
 SQUARE_TOKEN = os.getenv("SQUARE_TOKEN")
 SQUARE_LOCATION_ID = os.getenv("SQUARE_LOCATION_ID")

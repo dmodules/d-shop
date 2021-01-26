@@ -2217,3 +2217,7 @@ msgstr ""
 #: templates/dshop/pages/drawer-user.html:51
 msgid "Sign In"
 msgstr ""
+
+#: /dshop/admin.py:619
+msgid "Convertir en variable"
+msgstr "Convert to Variable"

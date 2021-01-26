@@ -6,6 +6,7 @@ from shop.money import MoneyMaker
 from shop.models.order import OrderModel
 from shop.models.order import OrderPayment
 
+from settings import SQUARE_SYNC
 from dshop.transition import transition_change_notification
 from apps.dmSquare.views import square_update_stock
 
@@ -45,13 +46,14 @@ def SquarePaymentView(request):  # noqa: C901
             order.save()
             # ===---
             # Update quantity in Square
-            try:
-                for item in order.items.all():
-                    product_code = item.product_code
-                    quantity = item.quantity
-                    square_update_stock(quantity, product_code)
-            except Exception as e:
-                print(e)
+            if SQUARE_SYNC == "1":
+                try:
+                    for item in order.items.all():
+                        product_code = item.product_code
+                        quantity = item.quantity
+                        square_update_stock(quantity, product_code)
+                except Exception as e:
+                    print(e)
             # ===---
             """
             try:

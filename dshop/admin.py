@@ -599,6 +599,44 @@ class AttributeAdmin(admin.ModelAdmin):
     inlines = [AttributeValueInline]
     exclude = ['square_id']
 
+def convert_variable(modeladmin, request, queryset):
+    for product in queryset:
+        if product.product_model == "productdefault":
+            print(product.id)
+            product = ProductDefault.objects.get(id=product.id)
+
+            data = {
+                'product_name': product.product_name,
+                'description': product.description,
+                'caption': product.caption,
+                'main_image': product.main_image,
+                'active': product.active,
+                'is_vedette': product.is_vedette,
+                'order': product.order
+            }
+            v_product = ProductVariable.objects.create(**data)
+            # Add categories
+            for cat in product.categories.all():
+                v_product.categories.add(cat)
+            # Add filters
+            for filt in product.filters.all():
+                v_product.filters.add(filt)
+            data = {
+                'product': v_product,
+                'product_code': product.product_code,
+                'unit_price': product.unit_price,
+                'discounted_price': product.discounted_price,
+                'start_date': product.start_date,
+                'end_date': product.end_date,
+                'quantity': product.quantity
+            }
+            ProductVariableVariant.objects.create(**data)
+            product.delete()
+
+
+convert_variable.short_description = _('Convertir en variable')
+
+
 @admin.register(Product)
 class ProductAdmin(PolymorphicParentModelAdmin):
     base_model = Product
@@ -611,6 +649,7 @@ class ProductAdmin(PolymorphicParentModelAdmin):
         "is_vedette",
         "active"
     ]
+    actions = [convert_variable, ]
     list_display_links = ["product_name"]
     search_fields = ["product_name"]
     list_filter = ['categories', PolymorphicChildModelFilter, CMSPageFilter]
@@ -628,7 +667,7 @@ class ProductAdmin(PolymorphicParentModelAdmin):
             for v in result.variants.all():
                 d.append(str(v.quantity))
             result = ', '.join(d)
-        except Exception as e:
+        except Exception:
             # print(e)
             result = result.quantity
         return str(result)
