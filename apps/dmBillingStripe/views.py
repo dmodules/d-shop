@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 from django.db import transaction
 
-from settings import STRIPE_SECRET_KEY
+from settings import STRIPE_SECRET_KEY, SQUARE_SYNC
 
 from shop.money import MoneyMaker
 from shop.models.order import OrderModel
@@ -98,13 +98,14 @@ def StripePaymentView(request):  # noqa: C901
             order.acknowledge_payment()
             # ===---
             # Update quantity in Square
-            try:
-                for item in order.items.all():
-                    product_code = item.product_code
-                    quantity = item.quantity
-                    square_update_stock(quantity, product_code)
-            except Exception as e:
-                print(e)
+            if SQUARE_SYNC == "1":
+                try:
+                    for item in order.items.all():
+                        product_code = item.product_code
+                        quantity = item.quantity
+                        square_update_stock(quantity, product_code)
+                except Exception as e:
+                    print(e)
             # ===---
             """
             try:
