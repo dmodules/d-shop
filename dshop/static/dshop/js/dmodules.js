@@ -348,8 +348,13 @@ $(document).ready(function() {
         open: 'drawer-open',
         close: 'drawer-close',
         dropdown: 'drawer-dropdown'
+      },
+      iscroll: {
+          preventDefault: true,
+          click: true,
       }
     })
+    $(window).off('resize.drawer');
     getPanier();
   }
   if ($('#cms-top').length && $('.topnav').length) {
