@@ -367,6 +367,24 @@ a:hover{
     .navbar-nav li .dropdown-menu .dropdown-menu ul li a.dropdown-item{ padding-left: 30px !important;}
 }
 
+/* ===--- DJANGOCMS-CASCADE ---=== */
+.dm-boot-container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.dm-boot-container .col ul {
+    margin: 0 45px 25px;
+}
+@media (max-width: 991px) {
+    .dm-boot-container > .row > .col {
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+}
+
 /* ===--- FIXES ---=== */
 @media (min-width: 768px) and (max-width: 991px) {
     .col-6.col-md-3 {
