@@ -50,6 +50,17 @@
     height:auto;
     padding:18px 30px;
   }
+  #app .v-btn--tile.dmbtn-nowidth{
+      min-width: 0;
+      padding:18px;
+  }
+  @media (max-width: 959px) {
+      #app .v-btn--tile {
+          min-width: 0;
+          height: 50px;
+          padding: 11px 13px;
+      }
+  }
   #app .v-btn--tile.v-size--small{
     min-width:140px;
     padding:8px 20px;

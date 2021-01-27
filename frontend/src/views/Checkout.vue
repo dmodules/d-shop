@@ -117,7 +117,10 @@
                             color="primary"
                             :disabled="!formCustomer.valid"
                             @click="nextStep()"
-                            >{{ $i18n.t("Suivant") }}</v-btn
+                            >
+                                <v-icon v-if="$vuetify.breakpoint.name == 'sm' || $vuetify.breakpoint.name == 'xs'">mdi-chevron-right</v-icon>
+                                <span v-else>{{ $i18n.t("Suivant") }}</span>
+                            </v-btn
                           >
                         </v-col>
                       </v-row>
@@ -290,22 +293,22 @@
                     </v-card-text>
                     <v-card-actions>
                       <v-row>
-                        <v-col cols="12" sm="6" class="text-left">
-                          <v-btn tile color="primary" @click="prevStep()">{{
-                            $i18n.t("Precedent")
-                          }}</v-btn>
+                        <v-col cols="6" class="text-left">
+                          <v-btn tile color="primary" @click="prevStep()">
+                            <v-icon v-if="$vuetify.breakpoint.name == 'sm' || $vuetify.breakpoint.name == 'xs'">mdi-chevron-left</v-icon>
+                            <span v-else>{{ $i18n.t("Precedent") }}</span>
+                          </v-btn>
                         </v-col>
-                        <v-col cols="12" sm="6" class="text-right">
+                        <v-col cols="6" class="text-right">
                           <v-btn
                             tile
                             color="primary"
-                            :disabled="
-                              !formShippingMethod.shipping_method
-                                .shipping_modifier || !formShipping.valid
-                            "
+                            :disabled="!formShippingMethod.shipping_method.shipping_modifier || !formShipping.valid"
                             @click="nextStep()"
-                            >{{ $i18n.t("Suivant") }}</v-btn
                           >
+                            <v-icon v-if="$vuetify.breakpoint.name == 'sm' || $vuetify.breakpoint.name == 'xs'">mdi-chevron-right</v-icon>
+                            <span v-else>{{ $i18n.t("Suivant") }}</span>
+                          </v-btn>
                         </v-col>
                       </v-row>
                     </v-card-actions>
@@ -475,19 +478,22 @@
                     </v-card-text>
                     <v-card-actions>
                       <v-row>
-                        <v-col cols="12" sm="6" class="text-left">
-                          <v-btn tile color="primary" @click="prevStep()">{{
-                            $i18n.t("Precedent")
-                          }}</v-btn>
+                        <v-col cols="6" class="text-left">
+                          <v-btn tile color="primary" @click="prevStep()">
+                            <v-icon v-if="$vuetify.breakpoint.name == 'sm' || $vuetify.breakpoint.name == 'xs'">mdi-chevron-left</v-icon>
+                            <span v-else>{{ $i18n.t("Precedent") }}</span>
+                          </v-btn>
                         </v-col>
-                        <v-col cols="12" sm="6" class="text-right">
+                        <v-col cols="6" class="text-right">
                           <v-btn
                             tile
                             color="primary"
                             :disabled="!formBilling.valid"
                             @click="nextStep()"
-                            >{{ $i18n.t("Suivant") }}</v-btn
                           >
+                            <v-icon v-if="$vuetify.breakpoint.name == 'sm' || $vuetify.breakpoint.name == 'xs'">mdi-chevron-right</v-icon>
+                            <span v-else>{{ $i18n.t("Suivant") }}</span>
+                          </v-btn>
                         </v-col>
                       </v-row>
                     </v-card-actions>
@@ -542,7 +548,7 @@
                         </v-col>
                       </v-row>
                       <v-row>
-                        <v-col cols="12" md="6" lg="8" class="text-left">
+                        <v-col cols="12" md="6" lg="7" class="text-left">
                           <h5>{{ $i18n.t("Resumedevotrecommande") }}</h5>
                           <v-list class="dm-payment-products">
                             <v-list-item class="dm-payment-header">
@@ -641,7 +647,7 @@
                             </v-list-item>
                           </v-list>
                         </v-col>
-                        <v-col cols="12" md="6" lg="4" class="text-left text-md-right">
+                        <v-col cols="12" md="6" lg="5" class="text-left text-md-right">
                           <h5>{{ $i18n.t("Resumedevotrefacture") }}</h5>
                           <v-form v-model="formAcceptCondition.valid">
                             <v-list class="dm-payment dm-payment-resume">
@@ -751,27 +757,30 @@
                               required
                               class="align-center justify-md-end mb-5"
                             />
-                            <v-btn
-                              tile
-                              color="success"
-                              :loading="isLoadingPayment"
-                              :disabled="!formAcceptCondition.accept_condition.plugin_1.accept"
-                              @click="setUpload()"
-                              >{{ $i18n.t("Payeretcommander") }}</v-btn
-                            >
                           </v-form>
+                            <v-row class="justify-content-start justify-md-end">
+                                <v-col cols="auto">
+                                    <v-btn tile color="primary" class="dmbtn-nowidth" @click="prevStep()">
+                                        <v-icon v-if="$vuetify.breakpoint.name == 'sm' || $vuetify.breakpoint.name == 'xs'">mdi-chevron-left</v-icon>
+                                        <span v-else>{{ $i18n.t("Precedent") }}</span>
+                                    </v-btn>
+                                </v-col>
+                                <v-col cols="auto">
+                                    <v-btn
+                                        tile
+                                        color="success"
+                                        :loading="isLoadingPayment"
+                                        :disabled="!formAcceptCondition.accept_condition.plugin_1.accept"
+                                        @click="setUpload()"
+                                        class="dmbtn-nowidth"
+                                    >
+                                        {{ $i18n.t("Payeretcommander") }}
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
                         </v-col>
                       </v-row>
                     </v-card-text>
-                    <v-card-actions>
-                      <v-row>
-                        <v-col cols="12" class="text-left">
-                          <v-btn tile color="primary" @click="prevStep()">{{
-                            $i18n.t("Precedent")
-                          }}</v-btn>
-                        </v-col>
-                      </v-row>
-                    </v-card-actions>
                   </v-card>
                 </v-stepper-content>
               </v-stepper-items>
@@ -809,7 +818,7 @@ export default {
     isLoading: false,
     isLoadingPayment: false,
     hasEmptyCart: false,
-    stepCheckout: 1,
+    stepCheckout: 4,
     formChoix: {
       salutation: [],
       shippingAddress: [],
