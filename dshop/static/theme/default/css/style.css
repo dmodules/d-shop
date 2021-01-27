@@ -372,7 +372,8 @@ a:hover{
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
-.dm-boot-container .col ul {
+.dm-boot-container .col ul,
+.dm-boot-container .col ol {
     margin: 0 45px 25px;
 }
 @media (max-width: 991px) {
