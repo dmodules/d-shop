@@ -520,9 +520,7 @@
                           <h5>{{ $i18n.t("Adressedefacturation") }}</h5>
                           <v-alert text color="primary">
                             <div
-                              v-html="
-                                tagBillingAddress.replace(/\n/g, '<br />')
-                              "
+                              v-html="tagBillingAddress.replace(/\n/g, '<br />')"
                             ></div>
                           </v-alert>
                         </v-col>
@@ -532,9 +530,7 @@
                           <h5>{{ $i18n.t("Methodedelivraison") }}</h5>
                           <v-alert text color="primary">
                             <div
-                              v-html="
-                                tagShippingMethod.replace(/\n/g, '<br />')
-                              "
+                              v-html="tagShippingMethod.replace(/\n/g, '<br />')"
                             ></div>
                           </v-alert>
                         </v-col>
@@ -570,12 +566,7 @@
                             >
                               <v-divider v-if="n > 0" :key="'divider-'+item.product_code+'-' + n" />
                               <v-list-item :key="'product-' + n">
-                                <v-list-item-content
-                                  class="dm-payment-quantity"
-                                >
-                                  <div class="dm-payment-mobiletitle">
-                                    {{ $i18n.t("Quantite") }}
-                                  </div>
+                                <v-list-item-content class="dm-payment-quantity dm-payment-mobilehide">
                                   <div>{{ item.quantity }} x</div>
                                 </v-list-item-content>
                                 <v-list-item-content class="dm-payment-produit">
@@ -593,20 +584,20 @@
                                   </div>
                                 </v-list-item-content>
                                 <v-list-item-action class="dm-payment-price">
-                                  <div class="dm-payment-mobiletitle">
+                                  <div class="dm-payment-mobiletext">
                                     {{ $i18n.t("Prix") }}
                                   </div>
-                                  <div v-html="item.unit_price"></div>
-                                  <div v-for="extra in item.extra_rows" :key="extra.modifier">
+                                  <div v-html="item.unit_price" class="dm-price-modifier-price"></div>
+                                  <div v-for="extra in item.extra_rows" :key="extra.modifier" :class="'dm-price-modifier-'+extra.modifier">
                                       <del v-if="extra.modifier == 'unit-price-before-discounts'" v-html="extra.amount" class="text--disabled font-italic"></del>
                                   </div>
                                 </v-list-item-action>
                                 <v-list-item-action class="dm-payment-price">
-                                  <div class="dm-payment-mobiletitle">
+                                  <div class="dm-payment-mobiletext">
                                     {{ $i18n.t("Total") }}
                                   </div>
-                                  <div v-html="item.line_total"></div>
-                                  <div v-for="extra in item.extra_rows" :key="extra.modifier">
+                                  <div v-html="item.line_total" class="dm-totalprice-modifier-price"></div>
+                                  <div v-for="extra in item.extra_rows" :key="extra.modifier" :class="'dm-totalprice-modifier-'+extra.modifier">
                                       <del v-if="extra.modifier == 'price-before-discounts'" v-html="extra.amount" class="text--disabled font-italic"></del>
                                   </div>
                                 </v-list-item-action>
@@ -638,12 +629,6 @@
                                   <span v-else> {{ $i18n.t("produit") }}</span>
                                 </div>
                               </v-list-item-content>
-                              <v-list-item-action class="text-right">
-                                <div>
-                                  <span>{{ $i18n.t("Soustotal") }} : </span>
-                                  <span v-text="formPayment.subtotal"></span>
-                                </div>
-                              </v-list-item-action>
                             </v-list-item>
                           </v-list>
                         </v-col>
@@ -1452,6 +1437,9 @@ export default {
         padding: 1rem;
         margin-bottom: 1rem;
     }
+    #app .dm-payment-products .dm-payment-mobiletext {
+        display: none;
+    }
     #app .dm-payment-products .product-infos-media {
         vertical-align: middle;
         display: inline-block;
@@ -1472,9 +1460,15 @@ export default {
         width: calc(100% - 80px - 1rem);
         margin: 0 0 0 1rem;
     }
+    #app .dm-payment-products .product-infos-detail h5 a {
+        font-size: 1rem;
+        line-height: 120%;
+        margin: 0;
+    }
     #app .dm-payment-products .product-infos-detail p {
         font-size: 0.8rem;
         line-height: 120%;
+        overflow-wrap: normal;
         margin: 0;
     }
     @media (max-width: 1263px) {
@@ -1500,10 +1494,28 @@ export default {
         #app .dm-payment-products .dm-payment-mobiletitle {
             display: block;
         }
-        #app .dm-payment-products .dm-payment-mobiletitle + div,
-        #app .dm-payment-products .dm-payment-mobiletitle + div + div,
+        #app .dm-payment-products .dm-payment-mobiletitle ~ div,
         #app .list-promocode {
             padding: 0 1rem;
+        }
+        #app .dm-payment-products .dm-payment-mobiletext {
+            background: rgba(0, 0, 0, 0.03);
+            font-weight: 600;
+            display: inline-block;
+            min-width: 100px;
+            padding: 5px 16px;
+        }
+        #app .dm-payment-products .dm-payment-mobiletext ~ div {
+            display: inline-block;
+            padding: 0;
+        }
+        #app .dm-payment-products .dm-price-modifier-price,
+        #app .dm-payment-products .dm-totalprice-modifier-price{
+            display: inline-block;
+            padding: 0 1rem!important;
+        }
+        #app .dm-payment-products .dm-payment-mobilehide {
+            display: none!important;
         }
     }
 </style>
