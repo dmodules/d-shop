@@ -5,7 +5,7 @@ from django.template.loader import select_template
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
-from .models import dmBlocTextMedia
+from .models import dmBlocTextMedia, dmBlocText2Column
 from .models import dmBlocEntete, dmBlocEnteteVideo
 from .models import dmBlocSliderParent, dmBlocSliderChild
 from .models import dmBlocContact, dmInfolettre
@@ -61,6 +61,24 @@ class dmBlocTextMediaPlugin(BoutiquePlugin):
             "theme/{}/plugins/bloc-textmedia.html".format(
                 settings.THEME_SLUG
             ), "plugins/bloc-textmedia.html"
+        ])
+
+
+@plugin_pool.register_plugin
+class dmBlocText2ColumnPlugin(BoutiquePlugin):
+    name = _("Text with two columns")
+    model = dmBlocText2Column
+    allow_children = False
+
+    def render(self, context, instance, placeholder):
+        context = super(dmBlocText2ColumnPlugin, self).render(context, instance, placeholder)
+        return context
+
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            "theme/{}/plugins/bloc-text2column.html".format(
+                settings.THEME_SLUG
+            ), "plugins/bloc-text2column.html"
         ])
 
 

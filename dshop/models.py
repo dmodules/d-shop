@@ -1321,12 +1321,49 @@ class dmBlocTextMedia(CMSPlugin):
         blank=True,
         help_text=_("Leave blank to hide or use image instead.")
     )
+    text_align = models.BooleanField(
+        verbose_name=_("Align text and media vertically?"),
+        default=True
+    )
     colposition = models.PositiveSmallIntegerField(
         verbose_name=_("Image's Position"),
         choices=CHOIX_POSITION,
         default=1,
         null=False,
         blank=False
+    )
+
+
+class dmBlocText2Column(CMSPlugin):
+    title = models.CharField(
+        verbose_name=_("Title"),
+        max_length=100,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 100 characters.")
+    )
+    subtitle = models.CharField(
+        verbose_name=_("Subtitle"),
+        max_length=200,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 200 characters.")
+    )
+    text_left = HTMLField(
+        verbose_name=_("Left Text"),
+        configuration="CKEDITOR_SETTINGS_DMBLOCKPLUGIN",
+        null=True,
+        blank=True
+    )
+    text_right = HTMLField(
+        verbose_name=_("Right Text"),
+        configuration="CKEDITOR_SETTINGS_DMBLOCKPLUGIN",
+        null=True,
+        blank=True
+    )
+    text_align = models.BooleanField(
+        verbose_name=_("Align texts vertically?"),
+        default=False
     )
 
 

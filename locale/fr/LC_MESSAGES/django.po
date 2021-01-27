@@ -2292,3 +2292,18 @@ msgstr "Couleur du nom"
 
 msgid "Facultative. Size: 2000x900."
 msgstr "Facultatif. Dimension : 2000x900."
+
+msgid "Align text and media vertically?"
+msgstr "Aligner verticalement le texte et le média ?"
+
+msgid "Align texts vertically?"
+msgstr "Aligner verticalement les textes ?"
+
+msgid "Text with two columns"
+msgstr "Texte en deux colonnes"
+
+msgid "Left Text"
+msgstr "Texte de gauche"
+
+msgid "Right Text"
+msgstr "Texte de droite"
