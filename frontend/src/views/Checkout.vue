@@ -1372,7 +1372,18 @@ export default {
 
 <style>
     #app .v-stepper--alt-labels .v-stepper__step {
-    flex-basis: 130px;
+        flex-basis: 130px;
+    }
+    @media (max-width: 959px) {
+        #app .v-stepper--alt-labels .v-stepper__step {
+            flex-basis: 100px;
+        }
+        #app .v-stepper__content {
+            padding: 24px 14px 16px 14px;
+        }
+    }
+    #app .v-stepper .v-stepper__step--active .v-stepper__label{
+        text-shadow: none;
     }
     #app .v-stepper--alt-labels .v-stepper__header .v-divider {
     margin-left: -25px;
