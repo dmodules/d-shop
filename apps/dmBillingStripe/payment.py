@@ -108,22 +108,6 @@ class StripePayment(PaymentProvider):
                     }
                     line_items.append(line_data)
             # ===---
-            try:
-                if dmCustomerPromoCode is not None:
-                    for extra in order.extra["rows"]:
-                        if "applied-promocodes" in extra:
-                            promo = extra[1]["content_extra"].split(", ")
-                            for pm in promo:
-                                cpc = dmCustomerPromoCode.objects.filter(
-                                    customer=request.user.customer,
-                                    promocode__code=pm
-                                )
-                                for ccpc in cpc:
-                                    ccpc.is_expired = True
-                                    ccpc.save()
-            except Exception as e:
-                print(e)
-            # ===---
             session = stripe.checkout.Session.create(
                 success_url=success_url,
                 cancel_url=cancel_url,

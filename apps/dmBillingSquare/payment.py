@@ -106,22 +106,6 @@ class SquarePayment(PaymentProvider):
             # =========---
             result = checkout_api.create_checkout(square_location, body)
             # ===---
-            try:
-                if dmCustomerPromoCode is not None:
-                    for extra in order.extra["rows"]:
-                        if "applied-promocodes" in extra:
-                            promo = extra[1]["content_extra"].split(", ")
-                            for pm in promo:
-                                cpc = dmCustomerPromoCode.objects.filter(
-                                    customer=request.user.customer,
-                                    promocode__code=pm
-                                )
-                                for ccpc in cpc:
-                                    ccpc.is_expired = True
-                                    ccpc.save()
-            except Exception as e:
-                print(e)
-            # ===---
             if result.is_success():
                 res = result.body['checkout']['checkout_page_url']
                 js_expression = 'window.location.href="{}";'.format(res)
