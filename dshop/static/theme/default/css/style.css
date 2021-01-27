@@ -368,7 +368,7 @@ a:hover{
 }
 
 /* ===--- FIXES ---=== */
-@media (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 991px) {
     .col-6.col-md-3 {
         -ms-flex: 0 0 25%;
         flex: 0 0 25%;
