@@ -74,6 +74,32 @@ a:hover{
   border:1px solid #CED4DA;
   color:#458d91;
 }
+@media (max-width: 967px) {
+    .dm-drawer-inner #drawer-items-list .col-3,
+    .dm-drawer-inner #drawer-items-list .col-8 {
+        padding: 0 5px;
+    }
+    .dm-drawer-inner #drawer-items-list .col-8 a,
+    .dm-drawer-inner #drawer-soumission-list .col-8 a {
+        font-size: 0.9rem;
+    }
+    .dm-drawer-inner #drawer-items-list a.dm-item-delete,
+    .dm-drawer-inner #drawer-soumission-list a.dm-item-delete {
+        right: -24px;
+    }
+    .dm-drawer-total {
+        padding: 5px;
+    }
+    .dm-drawer-total span {
+        font-size: 13px;
+    }
+    .dm-drawer-total span + span {
+        font-size: 14px;
+    }
+    .dm-drawer-user-account .list li a {
+        width: 80%;
+    }
+}
 
 /* ===--- Produits ---=== */
 .dm-variants-select{
