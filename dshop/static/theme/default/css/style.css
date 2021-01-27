@@ -376,6 +376,11 @@ a:hover{
 .dm-boot-container .col ol {
     margin: 0 45px 25px;
 }
+.dm-boot-container .col > img.img-fluid {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 @media (max-width: 991px) {
     .dm-boot-container > .row > .col {
         -ms-flex: 0 0 100%;
