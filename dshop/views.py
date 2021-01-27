@@ -317,8 +317,11 @@ class LoadVariantSelect(APIView):
         attributes = request.GET.get("attributes", None)
         variants = []
         if product_pk is not None and attributes is not None:
+            attributes = attributes.replace(",", "//separator//").replace("//comma//", ",")
             product = Product.objects.get(pk=product_pk)
-            attrs = AttributeValue.objects.filter(value__in=attributes.split(","))
+            attrs = AttributeValue.objects.filter(
+                value__in=attributes.split("//separator//")
+            )
             if attrs.count() > 0:
                 variant_all = product.variants.all()
             else:
