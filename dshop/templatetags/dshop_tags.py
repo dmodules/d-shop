@@ -157,10 +157,14 @@ def dm_get_all_products(offset, limit):
     """Get data from all products with offset and limit"""
     offset = int(offset)
     limit = int(limit)
-    products = Product.objects.filter(Q(categories__active=True) | Q(categories=None), active=True).order_by('id')[
-        offset:offset+limit]
-    next_result = Product.objects.filter(Q(categories__active=True) | Q(categories=None), active=True).order_by(
-        'id')[offset+limit:offset+limit+limit].count()
+    products = Product.objects.filter(
+        Q(categories__active=True) | Q(categories=None),
+        active=True
+    ).order_by('id').distinct()[offset:offset+limit]
+    next_result = Product.objects.filter(
+        Q(categories__active=True) | Q(categories=None),
+        active=True
+    ).distinct().order_by('id')[offset+limit:offset+limit+limit].count()
     result = {
         "products": products,
         "next": next_result
