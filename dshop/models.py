@@ -626,6 +626,7 @@ class ProductDefault(AvailableProductMixin, Product):
         decimal_places=3,
         null=True,
         blank=True,
+        default=0,
         help_text=_("Net discounted price for this product.")
     )
     start_date = models.DateTimeField(
@@ -941,6 +942,7 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         decimal_places=3,
         null=True,
         blank=True,
+        default=0,
         help_text=_("Net discounted price for this product.")
     )
     start_date = models.DateTimeField(
