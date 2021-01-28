@@ -361,7 +361,7 @@ function checkInfolettre () {
         showAdd2cartSnack(i18n.infolettrealready[lang])
     } else if (urlParams == '?infolettre=wrong') {
         showAdd2cartSnack(i18n.infolettrewrong[lang])
-    } else {
+    } else if (urlParams == '?infolettre=error') {
         showAdd2cartSnack(i18n.infolettreerror[lang])
     }
 
