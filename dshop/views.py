@@ -14,6 +14,7 @@ from django.utils.html import strip_tags
 from django.utils.text import Truncator
 from django.shortcuts import redirect
 from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
 from django.template.defaultfilters import slugify
 from django.core.management import call_command
 from django.core.mail import send_mail
@@ -612,6 +613,7 @@ class PasswordResetConfirmView(GenericAPIView):
         }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
 
+@csrf_exempt
 def unclone_customers(request):
     data = json.loads(request.body)["form_data"]
     email = data.get("email", None)

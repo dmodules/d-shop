@@ -382,7 +382,7 @@ $(document).ready(function() {
       },
       iscroll: {
           preventDefault: true,
-          click: true,
+          click: false,
       }
     })
     $(window).off('resize.drawer');
@@ -448,6 +448,7 @@ function dmDrawerTabUserRegister() {
 }
 
 function dmDrawerDoLogin() {
+    console.log("dmDrawerDoLogin")
   $('.dm-drawer-logs-login-error').hide()
   let datas = {
     form_data: {
@@ -466,7 +467,17 @@ function dmDrawerDoLogin() {
   }).fail(function(failResult) {
     $('.dm-drawer-logs-login-error').show()
     $('.dm-drawer-logs-login-error').html(i18n.anerroroccurred[lang])
-    if (failResult.responseJSON) {
+    if (failResult.status == 500) {
+        $.ajax({
+            url: "/api/fe/send-unclone/",
+            type: "POST",
+            data: JSON.stringify(datas),
+            contentType: "application/json;charset=UTF-8",
+            success: function() {
+                $('.dm-drawer-logs-login-error').html(failResult.responseJSON.login_form.non_field_errors[0])
+            }
+        })
+    } else if (failResult.responseJSON) {
       if (failResult.responseJSON.login_form) {
         if (failResult.responseJSON.login_form.email) {
           $('.dm-drawer-logs-login-error').html('Courriel : ' + failResult.responseJSON.login_form.email[0])
