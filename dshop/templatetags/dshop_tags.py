@@ -155,6 +155,7 @@ def dm_get_brand(k):
 @register.simple_tag
 def dm_get_all_products(offset, limit):
     """Get data from all products with offset and limit"""
+    print("Here,,,,")
     offset = int(offset)
     limit = int(limit)
     products = Product.objects.filter(
@@ -178,7 +179,10 @@ def dm_get_products_by_category(k, offset, limit):
     offset = int(offset)
     limit = int(limit)
     products = Product.objects.filter(Q(categories=k) | Q(categories__parent=k) | Q(categories__parent__parent=k) | Q(
-        categories__parent__parent__parent=k), active=True).order_by('id').distinct()[offset:offset+limit]
+        categories__parent__parent__parent=k), active=True).order_by('id').distinct()
+
+    # Filter product for categories = True
+    products = products.filter(categories__active=True)[offset:offset+limit]
     next_result = Product.objects.filter(
         Q(categories=k) | Q(categories__parent=k) | Q(categories__parent__parent=k) | Q(
             categories__parent__parent__parent=k
