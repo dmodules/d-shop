@@ -48,14 +48,12 @@ def infolettre_mailchimp(request):
                 "email_address": email,
                 "status": "subscribed",
             })
-            messages.success(request, _("You've been successfully added to our newsletter."))
+            return redirect("/?infolettre=success")
         except Exception as e:
-            print(e)
             if len(re.findall(r"Member Exists", str(e))) > 0:
-                messages.error(request, _("You're already subscribed to this newsletter."))
+                return redirect("/?infolettre=already")
             else:
-                messages.error(request, _("Something went wrong, sorry."))
-            redirect("/")
+                return redirect("/?infolettre=error")
     else:
-        messages.error(request, _("Your answer is wrong."))
-    return redirect("/")
+        return redirect("/?infolettre=wrong")
+    return redirect("/?infolettre=error")

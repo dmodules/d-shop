@@ -48,6 +48,22 @@ const i18n = {
   empty: {
       fr: "Vide",
       en: "Empty"
+  },
+  infolettresuccess: {
+      fr: "Vous avez été ajouté avec succès à notre infolettre.",
+      en: "You've been successfully added to our newsletter."
+  },
+  infolettrealready: {
+      fr: "Vous êtes déjà inscrit à cette infolettre.",
+      en: "You're already subscribed to this newsletter."
+  },
+  infolettrewrong: {
+      fr: "Votre réponse est erronée.",
+      en: "Your answer is wrong."
+  },
+  infolettreerror: {
+      fr: "Une erreur est survenue, désolé.",
+      en: "Something went wrong, sorry."
   }
 }
 
@@ -337,8 +353,23 @@ function mobilevh () {
     document.documentElement.style.setProperty('--vh', `${vh}px`);
 }
 
+function checkInfolettre () {
+    var urlParams = window.location.search
+    if (urlParams == '?infolettre=success') {
+        showAdd2cartSnack(i18n.infolettresuccess[lang])
+    } else if (urlParams == '?infolettre=already') {
+        showAdd2cartSnack(i18n.infolettrealready[lang])
+    } else if (urlParams == '?infolettre=wrong') {
+        showAdd2cartSnack(i18n.infolettrewrong[lang])
+    } else {
+        showAdd2cartSnack(i18n.infolettreerror[lang])
+    }
+
+}
+
 $(document).ready(function() {
   mobilevh()
+  checkInfolettre()
   if ($('.dm-drawer').length) {
     $('.drawer').drawer({
       class: {
