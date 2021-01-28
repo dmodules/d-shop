@@ -55,7 +55,6 @@ def SquarePaymentView(request):  # noqa: C901
                 except Exception as e:
                     print(e)
             # ===---
-            """
             try:
                 if dmCustomerPromoCode is not None:
                     for extra in order.extra["rows"]:
@@ -70,7 +69,6 @@ def SquarePaymentView(request):  # noqa: C901
                                 cpc.save()
             except Exception as e:
                 print(e)
-            """
             # ===---
             # We want to skip few steps.
             # So add delivery creation on payment success.

@@ -73,13 +73,13 @@ function setClickBtn() {
     let attrs = []
     // ===---
     $(".dm-variants-select select").each(function (item) {
-        attrs.push($(this)[0].value)
+        attrs.push($(this)[0].value.replace(",", "//comma//"))
     })
     // ===---
     let price = "-"
     let dprice = "-"
     // ===---
-    $.get("/api/fe/load-variant/?product="+pk+"&attributes="+attrs, function(getResult) {
+    $.get("/api/fe/load-variant/?product="+pk+"&attributes="+encodeURIComponent(attrs), function(getResult) {
         if (getResult.variants.length > 0) {
             $(".btn-add2cart").removeClass("disabled")
             $(".btn-add2cart").data("variant", getResult.variants[0].product_code)
@@ -348,8 +348,13 @@ $(document).ready(function() {
         open: 'drawer-open',
         close: 'drawer-close',
         dropdown: 'drawer-dropdown'
+      },
+      iscroll: {
+          preventDefault: true,
+          click: true,
       }
     })
+    $(window).off('resize.drawer');
     getPanier();
   }
   if ($('#cms-top').length && $('.topnav').length) {

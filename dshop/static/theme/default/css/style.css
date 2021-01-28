@@ -74,6 +74,32 @@ a:hover{
   border:1px solid #CED4DA;
   color:#458d91;
 }
+@media (max-width: 967px) {
+    .dm-drawer-inner #drawer-items-list .col-3,
+    .dm-drawer-inner #drawer-items-list .col-8 {
+        padding: 0 5px;
+    }
+    .dm-drawer-inner #drawer-items-list .col-8 a,
+    .dm-drawer-inner #drawer-soumission-list .col-8 a {
+        font-size: 0.9rem;
+    }
+    .dm-drawer-inner #drawer-items-list a.dm-item-delete,
+    .dm-drawer-inner #drawer-soumission-list a.dm-item-delete {
+        right: -24px;
+    }
+    .dm-drawer-total {
+        padding: 5px;
+    }
+    .dm-drawer-total span {
+        font-size: 13px;
+    }
+    .dm-drawer-total span + span {
+        font-size: 14px;
+    }
+    .dm-drawer-user-account .list li a {
+        width: 80%;
+    }
+}
 
 /* ===--- Produits ---=== */
 .dm-variants-select{
@@ -223,6 +249,7 @@ a:hover{
 /**/
 #app {
   color:#758987;
+  min-height: 50vh;
 }
 #app.v-application .primary{
   background-color:#458d91!important;
@@ -340,3 +367,45 @@ a:hover{
     .navbar-nav li .dropdown-menu .dropdown-menu ul li a.dropdown-item{ padding-left: 30px !important;}
 }
 
+/* ===--- DJANGOCMS-CASCADE ---=== */
+.dm-boot-container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.dm-boot-container .col ul,
+.dm-boot-container .col ol {
+    margin: 0 45px 25px;
+}
+.dm-boot-container .col > img.img-fluid {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+@media (max-width: 991px) {
+    .dm-boot-container > .row > .col {
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+}
+
+/* ===--- FIXES ---=== */
+@media (min-width: 768px) and (max-width: 991px) {
+    .col-6.col-md-3 {
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+    .col-6.col-md-4 {
+        -ms-flex: 0 0 33.333333%;
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+    .col-6.col-md-5 {
+        -ms-flex: 0 0 41.666667%;
+        flex: 0 0 41.666667%;
+        max-width: 41.666667%;
+    }
+}

@@ -27,9 +27,12 @@ def inventory_update(request):
         return HttpResponse('ERROR')
     if 'inventory_counts' not in data['data']['object']:
         return HttpResponse('ERROR')
-    square_id = data['data']['object']['inventory_counts'][0]['catalog_object_id']
-    quantity = data['data']['object']['inventory_counts'][0]['quantity']
-    created_at = data['created_at'].split('.')[0]
+    for actual_data in data['data']['object']['inventory_counts']:
+        if actual_data['state'] == 'IN_STOCK':
+            square_id = actual_data['catalog_object_id']
+            quantity = actual_data['quantity']
+            created_at = data['created_at'].split('.')[0]
+            break
 
     result = client.inventory.retrieve_inventory_changes(
         catalog_object_id=square_id
