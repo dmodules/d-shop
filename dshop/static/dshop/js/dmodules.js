@@ -41,6 +41,10 @@ const i18n = {
       fr: "Promotion",
       en: "Discounted"
   },
+  outofstock: {
+      fr: "Rupture de stock",
+      en: "Out of Stock"
+  },
   exhausted: {
       fr: "Épuisé",
       en: "Exhausted"
@@ -682,7 +686,9 @@ function pbc_tab(cat, tab) {
                         r += '<del>'+product.realprice+'</del>'
                     }
                 }
-                if (product.is_discounted) {
+                if (product.quantity <= 0) {
+                    r += '<span class="product_sale_outofstock">'+i18n.outofstock[lang]+'</span>'
+                } else if (product.is_discounted) {
                     r += '<span class="product_sale_discounted">'+i18n.discounted[lang]+'</span>'
                 }
                 r += '</div>'

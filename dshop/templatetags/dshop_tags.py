@@ -247,3 +247,24 @@ def dm_get_products_vedette():
     result = Product.objects.filter(
         active=True, is_vedette=True).order_by('-id')
     return result
+
+
+@register.simple_tag
+def dm_variants_is_outofstock(k):
+    """Check if all variants is out of stock"""
+    result = True
+    for variant in k.all():
+        if variant.quantity > 0:
+            result = False
+    return result
+
+
+@register.simple_tag
+def dm_variants_is_discounted(k):
+    """Check if a variant is discounted in a list of variants"""
+    result = False
+    for variant in k.all():
+        print(variant.is_discounted)
+        if variant.is_discounted:
+            result = True
+    return result

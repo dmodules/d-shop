@@ -212,8 +212,14 @@ class LoadProduits(APIView):
                 data['variants'] = True
                 if produit.variants.first():
                     data['price'] = produit.variants.first().unit_price
-                    data['is_discounted'] = produit.variants.first().is_discounted
-                    data['quantity'] = produit.variants.first().quantity
+                    data['is_discounted'] = False
+                    for v in produit.variants.all():
+                        if v.is_discounted:
+                            data['is_discounted'] = True
+                    data['quantity'] = 0
+                    for v in produit.variants.all():
+                        if v.quantity > 0:
+                            data['quantity'] = v.quantity
                 else:
                     data['price'] = "-"
                     data['is_discounted'] = False
@@ -287,8 +293,14 @@ class LoadProductsByCategory(APIView):
                     data['variants'] = True
                     if produit.variants.first():
                         data['price'] = produit.variants.first().unit_price
-                        data['is_discounted'] = produit.variants.first().is_discounted
-                        data['quantity'] = produit.variants.first().quantity
+                        data['is_discounted'] = False
+                        for v in produit.variants.all():
+                            if v.is_discounted:
+                                data['is_discounted'] = True
+                        data['quantity'] = 0
+                        for v in produit.variants.all():
+                            if v.quantity > 0:
+                                data['quantity'] = v.quantity
                     else:
                         data['price'] = "-"
                         data['is_discounted'] = False

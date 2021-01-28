@@ -142,6 +142,13 @@
                         {% else %}
                             <span class="price">-</span>
                         {% endif %}
+                        {% dm_variants_is_outofstock product.variants as variants_outofstock %}
+                        {% dm_variants_is_discounted product.variants as variants_isdiscounted %}
+                        {% if variants_outofstock %}
+                            <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
+                        {% elif variants_isdiscounted %}
+                            <span class="product_sale_discounted">{% trans "Discounted" %}</span>
+                        {% endif %}
                       {% else %}
                         {% product_discount_price product.id as real_price %}
                         <span class="price">{{real_price}}</span>
