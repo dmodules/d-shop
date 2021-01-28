@@ -64,6 +64,10 @@ const i18n = {
   infolettreerror: {
       fr: "Une erreur est survenue, désolé.",
       en: "Something went wrong, sorry."
+  },
+  cantloginwithinfos: {
+      fr: "Impossible de se connecter avec les informations d'identification fournies.",
+      en: "Unable to log in with provided credentials."
   }
 }
 
@@ -468,14 +472,12 @@ function dmDrawerDoLogin() {
     $('.dm-drawer-logs-login-error').show()
     $('.dm-drawer-logs-login-error').html(i18n.anerroroccurred[lang])
     if (failResult.status == 500) {
+        $('.dm-drawer-logs-login-error').html(i18n.cantloginwithinfos[lang])
         $.ajax({
             url: "/api/fe/send-unclone/",
             type: "POST",
             data: JSON.stringify(datas),
-            contentType: "application/json;charset=UTF-8",
-            success: function() {
-                $('.dm-drawer-logs-login-error').html(failResult.responseJSON.login_form.non_field_errors[0])
-            }
+            contentType: "application/json;charset=UTF-8"
         })
     } else if (failResult.responseJSON) {
       if (failResult.responseJSON.login_form) {
