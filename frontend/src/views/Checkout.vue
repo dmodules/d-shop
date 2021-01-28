@@ -802,6 +802,7 @@ export default {
     isAuth: false,
     isLoading: false,
     isLoadingPayment: false,
+    isGuest: false,
     hasEmptyCart: false,
     stepCheckout: 1,
     formChoix: {
@@ -975,6 +976,7 @@ export default {
           },
         })
         .then((apiSuccess) => {
+            console.log(apiSuccess.data)
           // set customer form
           if (apiSuccess.data.customer) {
             self.$set(
@@ -1005,6 +1007,7 @@ export default {
                 ? apiSuccess.data.customer.email
                 : ""
             );
+            self.$set(self, "isGuest", apiSuccess.data.customer.guest ? true : false);
           }
           // set shipping address form
           if (apiSuccess.data.address_shipping) {
