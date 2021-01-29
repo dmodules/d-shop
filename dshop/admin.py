@@ -662,6 +662,7 @@ class ProductAdmin(PolymorphicParentModelAdmin):
     child_models = [ProductDefault, ProductVariable]
     list_display = [
         "product_name",
+        "brand",
         # "get_price",
         "product_type",
         "get_quantity",
