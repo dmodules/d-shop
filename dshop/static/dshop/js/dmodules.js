@@ -237,6 +237,51 @@ function dm_delete2cart(endpoint) {
   return false
 }
 
+function dm_minus2cart(button, endpoint, pk, qty) {
+    if ($(button).hasClass("disabled")) {
+        return false
+    } else {
+        $(button).addClass("disabled")
+        let datas = {
+            product: pk,
+            quantity: qty
+        }
+        $.ajax({
+            url: shop + "cart/" + endpoint,
+            type: "PUT",
+            data: datas,
+            success: function(getResult) {
+                getPanier()
+            }
+        })
+    return false
+    }
+}
+
+function dm_plus2cart(button, endpoint, pk, qty) {
+    if ($(button).hasClass("disabled")) {
+        return false
+    } else {
+        $(button).addClass("disabled")
+        let datas = {
+            product: pk,
+            quantity: qty
+        }
+        $.ajax({
+            url: shop + "cart/" + endpoint,
+            type: "PUT",
+            data: datas,
+            success: function(getResult) {
+                if (getResult.cart_item.quantity < datas.quantity) {
+                    showAdd2cartSnack(i18n.quantitymaxreach[lang])
+                }
+                getPanier()
+            }
+        })
+    return false
+    }
+}
+
 function getPanier() {
   $.get(shop + "cart/", function(getResult) {
     if (getResult.num_items) {
@@ -248,8 +293,17 @@ function getPanier() {
         $("#drawer-items-count").text(getResult.num_items + " " + i18n.product[lang])
       }
       if (getResult.items.length >= 1) {
+        let items = getResult.items.sort(
+            (a,b) => (
+                a.summary.product_name > b.summary.product_name
+            ) ? 1 : (
+                (
+                    b.summary.product_name > a.summary.product_name
+                ) ? -1 : 0
+            )
+        )
         let itemlist = "<ul>"
-        getResult.items.forEach((item) => {
+        items.forEach((item) => {
           itemlist += "<li>"
           itemlist += "<div class='container-fluid'><div class='row'>"
           itemlist += "<div class='col-3'>"
@@ -264,7 +318,15 @@ function getPanier() {
               }
               itemlist += "</div>"
           }
-          itemlist += "<div>"+item.quantity+" x " + item.unit_price + "</div>"
+          itemlist += "<div class='mt-2'>"
+          itemlist += "<div class='cart-change-quantity'><span class='minus"
+          if (item.quantity <= 1) {
+            itemlist += " disabled'"
+          } else {
+            itemlist += "' onclick='return dm_minus2cart($(this), "+JSON.stringify(item.url.split("/cart/")[1])+", "+item.product+", "+(item.quantity-1)+")'"
+          }
+          itemlist += ">-</span>"+item.quantity+"<span class='plus' onclick='return dm_plus2cart($(this), "+JSON.stringify(item.url.split("/cart/")[1])+", "+item.product+", "+(item.quantity+1)+")'>+</span></div>"
+          itemlist += " x " + item.unit_price + "</div>"
           itemlist += "<a href='#' class='dm-item-delete' onclick='return dm_delete2cart("+JSON.stringify(item.url.split("/cart/")[1])+")'>X</a>"
           itemlist += "</div>"
           itemlist += "</div></div>"

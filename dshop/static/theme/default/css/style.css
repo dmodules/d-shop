@@ -100,6 +100,12 @@ a:hover{
         width: 80%;
     }
 }
+.dm-drawer .cart-change-quantity span {
+    background-color: #bcd5d8;
+}
+.dm-drawer .cart-change-quantity span:not(.disabled):hover {
+    background-color: #458d91;
+}
 
 /* ===--- Produits ---=== */
 .dm-variants-select{
