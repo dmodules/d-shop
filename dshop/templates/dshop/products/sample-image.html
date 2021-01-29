@@ -1,8 +1,7 @@
 {% load thumbnail %}
 {% if product.sample_image %}
-    {% thumbnail product.sample_image 80x80 crop as thumb %}
-    {% thumbnail product.sample_image 160x160 crop as thumb2 %}
-    <img class="mr-3" width="{{ thumb.width }}" height="{{ thumb.height }}" src="{{ thumb.url }}" srcset="{{ thumb.url }} 1x, {{ thumb2.url }} 2x" />
+    {% thumbnail product.sample_image 80x80 background="#ffffff" upscale as thumb %}
+    <img src="{{ thumb.url }}" alt="" class="mr-3" />
 {% else %}
     <img src="https://via.placeholder.com/80x80/f7f8fb/f7f8fb" alt="" class="mr-3" />
 {% endif %}

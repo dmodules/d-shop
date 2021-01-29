@@ -30,7 +30,7 @@
                 <div class="row search-product">
                     <div class="col-2 col-md-1 search-img">
                         {% if p.sample_image %}
-                            {% thumbnail p.sample_image "54x54" crop="upscale" as thumb %}
+                            {% thumbnail p.sample_image "54x54" background="#ffffff" upscale as thumb %}
                             <img src="{{thumb.url}}" alt="" />
                         {% endif %}
                     </div>

@@ -179,7 +179,7 @@ def dm_get_products_by_category(k, offset, limit):
     offset = int(offset)
     limit = int(limit)
     products = Product.objects.filter(Q(categories=k) | Q(categories__parent=k) | Q(categories__parent__parent=k) | Q(
-        categories__parent__parent__parent=k), active=True).order_by('id').distinct()
+        categories__parent__parent__parent=k), active=True).distinct()
 
     # Filter product for categories = True
     products = products.filter(categories__active=True)[offset:offset+limit]
@@ -187,7 +187,7 @@ def dm_get_products_by_category(k, offset, limit):
         Q(categories=k) | Q(categories__parent=k) | Q(categories__parent__parent=k) | Q(
             categories__parent__parent__parent=k
         ), active=True
-    ).order_by('id').distinct()[offset+limit:offset+limit+limit].count()
+    ).distinct()[offset+limit:offset+limit+limit].count()
     result = {
         "products": products,
         "next": next_result
@@ -222,19 +222,19 @@ def dm_get_products_related(categories, id):
             Q(categories=k) | Q(categories__parent=k) | Q(
                 categories__parent__parent=k
             ) | Q(categories__parent__parent__parent=k), active=True
-        ).exclude(pk=id).order_by('id').distinct()[:4]
+        ).exclude(pk=id).distinct()
         if products.count() < 4 and k.parent is not None:
             products = products | Product.objects.filter(
                 Q(categories=k.parent) | Q(categories__parent=k.parent) | Q(
                     categories__parent__parent=k.parent
                 ) | Q(categories__parent__parent__parent=k.parent), active=True
-            ).exclude(pk=id).order_by('id').distinct()[:4]
+            ).exclude(pk=id).exclude(pk__in=products).distinct()
         if products.count() < 4 and k.parent and k.parent.parent is not None:
             products = products | Product.objects.filter(
                 Q(categories=k.parent.parent) | Q(categories__parent=k.parent.parent) | Q(
                     categories__parent__parent=k.parent.parent
                 ) | Q(categories__parent__parent__parent=k.parent.parent), active=True
-            ).exclude(pk=id).order_by('id').distinct()[:4]
+            ).exclude(pk=id).exclude(pk__in=products).distinct()
     result = {
         "products": products[:4]
     }

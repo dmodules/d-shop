@@ -1,5 +1,7 @@
 html{
   background-color:#202325;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 body{
   background-color:#fbfbfb;

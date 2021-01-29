@@ -47,10 +47,10 @@
                                                 <div class="product_img">
                                                     <a href="{{product.get_absolute_url}}">
                                                     {% if product.main_image %}
-                                                        {% thumbnail product.main_image 540x600 crop upscale as thumb %}
+                                                        {% thumbnail product.main_image 540x600 background="#ffffff" upscale as thumb %}
                                                         <img src="{{thumb.url}}" alt="{{product.product_name}}">
                                                     {% elif product.images.first %}
-                                                        {% thumbnail product.images.first 540x600 crop upscale as thumb %}
+                                                        {% thumbnail product.images.first 540x600 background="#ffffff" upscale as thumb %}
                                                         <img src="{{thumb.url}}" alt="{{product.product_name}}">
                                                     {% else %}
                                                         <img src="https://via.placeholder.com/540x600/f7f8fb/f7f8fb" alt="{{product.product_name}}">

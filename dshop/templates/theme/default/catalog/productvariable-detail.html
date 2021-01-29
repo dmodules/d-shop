@@ -36,12 +36,12 @@
               <div class="product-image">
                 <div class="product_img_box">
                   {% if product.main_image %}
-                    {% thumbnail product.main_image 540x600 crop upscale as img %}
-                    {% thumbnail product.main_image 810x900 crop upscale as zoom %}
+                    {% thumbnail product.main_image 540x600 background="#ffffff" upscale as img %}
+                    {% thumbnail product.main_image 810x900 background="#ffffff" upscale as zoom %}
                     <img id="product_img" src='{{img.url}}' data-zoom-image="{{zoom.url}}" alt="product_img1" />
                   {% elif product.images.first %}
-                    {% thumbnail product.images.first 540x600 crop upscale as img %}
-                    {% thumbnail product.images.first 810x900 crop upscale as zoom %}
+                    {% thumbnail product.images.first 540x600 background="#ffffff" upscale as img %}
+                    {% thumbnail product.images.first 810x900 background="#ffffff" upscale as zoom %}
                     <img id="product_img" src='{{img.url}}' data-zoom-image="{{zoom.url}}" alt="product_img1" />
                   {% endif %}
                   <a href="#" class="product_img_zoom" title="Zoom">
@@ -50,9 +50,9 @@
                 </div>
                 <div id="pr_item_gallery" class="product_gallery_item slick_slider" data-slides-to-show="4" data-slides-to-scroll="1" data-infinite="false">
                     {% if product.main_image %}
-                        {% thumbnail product.main_image 540x600 crop upscale as p_img %}
-                        {% thumbnail product.main_image 810x900 crop upscale as p_zoom %}
-                        {% thumbnail product.main_image 150x160 crop upscale as p_small %}
+                        {% thumbnail product.main_image 540x600 background="#ffffff" upscale as p_img %}
+                        {% thumbnail product.main_image 810x900 background="#ffffff" upscale as p_zoom %}
+                        {% thumbnail product.main_image 150x160 background="#ffffff" upscale as p_small %}
                         <div class="item">
                         <a href="#" class="product_gallery_item active" data-image="{{p_img.url}}" data-zoom-image="{{p_zoom.url}}">
                             <img src="{{p_small.url}}" alt="product_small_img1" />
@@ -60,9 +60,9 @@
                         </div>
                     {% endif %}
                     {% for pimg in product.images.all %}
-                        {% thumbnail pimg 540x600 crop upscale as p_img %}
-                        {% thumbnail pimg 810x900 crop upscale as p_zoom %}
-                        {% thumbnail pimg 150x160 crop upscale as p_small %}
+                        {% thumbnail pimg 540x600 background="#ffffff" upscale as p_img %}
+                        {% thumbnail pimg 810x900 background="#ffffff" upscale as p_zoom %}
+                        {% thumbnail pimg 150x160 background="#ffffff" upscale as p_small %}
                         <div class="item">
                             <a href="#" class="product_gallery_item active" data-image="{{p_img.url}}" data-zoom-image="{{p_zoom.url}}">
                                 <img src="{{p_small.url}}" alt="product_small_img1" />
@@ -166,70 +166,72 @@
             </div>
           </div>
         {% endif %}
-        <div class="row">
-          <div class="col-12">
-            <div class="small_divider"></div>
-            <div class="divider"></div>
-            <div class="medium_divider"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <div class="heading_s1">
-              <h3>Produits Similaires</h3>
+        {% dm_get_products_related product.categories product.id as related_products %}
+        {% if related_products.products.count > 0 %}
+            <div class="row">
+            <div class="col-12">
+                <div class="small_divider"></div>
+                <div class="divider"></div>
+                <div class="medium_divider"></div>
             </div>
-            <div class="releted_product_slider carousel_slider owl-carousel owl-theme" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "1199":{"items": "4"}}'>
-              {% dm_get_products_related product.categories product.id as related_products %}
-              {% for related in related_products.products %}
-                <div class="item">
-                  <div class="product">
-                    <div class="product_img">
-                      <a href="{{related.get_absolute_url}}">
-                        {% if related.main_image %}
-                          {% thumbnail related.main_image 540x600 crop upscale as thumb %}
-                          <img src="{{thumb.url}}" alt="{{related.product_name}}" />
-                        {% else %}
-                            <img src="https://via.placeholder.com/540x600/ececec/ececec" alt="{{related.product_name}}" />
-                        {% endif %}
-                      </a>
-                      <div class="product_action_box">
-                        <ul class="list_none pr_action_btn">
-                          <li><a href="{{related.get_absolute_url}}"><i class="ti-info-alt"></i></a></li>
-                          {% if not related.variants and related.quantity > 0 %}
-                              <li>
-                                  <a href="/" class="btn" onclick="dm_add2cart($(this)); return false" data-product="{{related.slug}}"><i class="icon-basket-loaded"></i></a>
-                              </li>
-                          {% endif %}
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="product_info">
-                      <h6 class="product_title"><a href="{{related.get_absolute_url}}">{{related.product_name|truncatechars:45}}</a>
-                      </h6>
-                      <div class="product_price">
-                        {% if related.variants %}
-                            {% product_variant_discount_price related.variants.first.id as real_price %}
-                            <span class="price">{{real_price}}</span>
-                            {% if real_price != related.variants.first.unit_price %}
-                                <del>{{related.variants.first.unit_price}}</del>
-                            {% endif %}
-                        {% else %}
-                          {% product_discount_price related.id as real_price %}
-                          <span class="price">{{real_price}}</span>
-                          {% if real_price != related.unit_price %}
-                            <del>{{related.unit_price}}</del>
-                          {% endif %}
-                        {% endif %}
-                      </div>
-                    </div>
-                  </div>
+            </div>
+            <div class="row">
+            <div class="col-12">
+                <div class="heading_s1">
+                <h3>Produits Similaires</h3>
                 </div>
-              {% empty %}
-                <div>(aucun)</div>
-              {% endfor %}
+                <div class="releted_product_slider carousel_slider owl-carousel owl-theme" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "1199":{"items": "4"}}'>
+                {% for related in related_products.products %}
+                    <div class="item">
+                    <div class="product">
+                        <div class="product_img">
+                        <a href="{{related.get_absolute_url}}">
+                            {% if related.main_image %}
+                            {% thumbnail related.main_image 540x600 background="#ffffff" upscale as thumb %}
+                            <img src="{{thumb.url}}" alt="{{related.product_name}}" />
+                            {% else %}
+                                <img src="https://via.placeholder.com/540x600/ececec/ececec" alt="{{related.product_name}}" />
+                            {% endif %}
+                        </a>
+                        <div class="product_action_box">
+                            <ul class="list_none pr_action_btn">
+                            <li><a href="{{related.get_absolute_url}}"><i class="ti-info-alt"></i></a></li>
+                            {% if not related.variants and related.quantity > 0 %}
+                                <li>
+                                    <a href="/" class="btn" onclick="dm_add2cart($(this)); return false" data-product="{{related.slug}}"><i class="icon-basket-loaded"></i></a>
+                                </li>
+                            {% endif %}
+                            </ul>
+                        </div>
+                        </div>
+                        <div class="product_info">
+                        <h6 class="product_title"><a href="{{related.get_absolute_url}}">{{related.product_name|truncatechars:45}}</a>
+                        </h6>
+                        <div class="product_price">
+                            {% if related.variants %}
+                                {% product_variant_discount_price related.variants.first.id as real_price %}
+                                <span class="price">{{real_price}}</span>
+                                {% if real_price != related.variants.first.unit_price %}
+                                    <del>{{related.variants.first.unit_price}}</del>
+                                {% endif %}
+                            {% else %}
+                            {% product_discount_price related.id as real_price %}
+                            <span class="price">{{real_price}}</span>
+                            {% if real_price != related.unit_price %}
+                                <del>{{related.unit_price}}</del>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                {% empty %}
+                    <div>(aucun)</div>
+                {% endfor %}
+                </div>
             </div>
-          </div>
-        </div>
+            </div>
+        {% endif %}
       </div>
     </div>
   </section>
