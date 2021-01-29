@@ -41,6 +41,10 @@ const i18n = {
       fr: "Promotion",
       en: "Discounted"
   },
+  outofstock: {
+      fr: "Rupture de stock",
+      en: "Out of Stock"
+  },
   exhausted: {
       fr: "Épuisé",
       en: "Exhausted"
@@ -48,6 +52,26 @@ const i18n = {
   empty: {
       fr: "Vide",
       en: "Empty"
+  },
+  infolettresuccess: {
+      fr: "Vous avez été ajouté avec succès à notre infolettre.",
+      en: "You've been successfully added to our newsletter."
+  },
+  infolettrealready: {
+      fr: "Vous êtes déjà inscrit à cette infolettre.",
+      en: "You're already subscribed to this newsletter."
+  },
+  infolettrewrong: {
+      fr: "Votre réponse est erronée.",
+      en: "Your answer is wrong."
+  },
+  infolettreerror: {
+      fr: "Une erreur est survenue, désolé.",
+      en: "Something went wrong, sorry."
+  },
+  cantloginwithinfos: {
+      fr: "Impossible de se connecter avec les informations d'identification fournies.",
+      en: "Unable to log in with provided credentials."
   }
 }
 
@@ -337,8 +361,23 @@ function mobilevh () {
     document.documentElement.style.setProperty('--vh', `${vh}px`);
 }
 
+function checkInfolettre () {
+    var urlParams = window.location.search
+    if (urlParams == '?infolettre=success') {
+        showAdd2cartSnack(i18n.infolettresuccess[lang])
+    } else if (urlParams == '?infolettre=already') {
+        showAdd2cartSnack(i18n.infolettrealready[lang])
+    } else if (urlParams == '?infolettre=wrong') {
+        showAdd2cartSnack(i18n.infolettrewrong[lang])
+    } else if (urlParams == '?infolettre=error') {
+        showAdd2cartSnack(i18n.infolettreerror[lang])
+    }
+
+}
+
 $(document).ready(function() {
   mobilevh()
+  checkInfolettre()
   if ($('.dm-drawer').length) {
     $('.drawer').drawer({
       class: {
@@ -351,7 +390,7 @@ $(document).ready(function() {
       },
       iscroll: {
           preventDefault: true,
-          click: true,
+          click: false,
       }
     })
     $(window).off('resize.drawer');
@@ -417,6 +456,7 @@ function dmDrawerTabUserRegister() {
 }
 
 function dmDrawerDoLogin() {
+    console.log("dmDrawerDoLogin")
   $('.dm-drawer-logs-login-error').hide()
   let datas = {
     form_data: {
@@ -435,7 +475,15 @@ function dmDrawerDoLogin() {
   }).fail(function(failResult) {
     $('.dm-drawer-logs-login-error').show()
     $('.dm-drawer-logs-login-error').html(i18n.anerroroccurred[lang])
-    if (failResult.responseJSON) {
+    if (failResult.status == 500) {
+        $('.dm-drawer-logs-login-error').html(i18n.cantloginwithinfos[lang])
+        $.ajax({
+            url: "/api/fe/send-unclone/",
+            type: "POST",
+            data: JSON.stringify(datas),
+            contentType: "application/json;charset=UTF-8"
+        })
+    } else if (failResult.responseJSON) {
       if (failResult.responseJSON.login_form) {
         if (failResult.responseJSON.login_form.email) {
           $('.dm-drawer-logs-login-error').html('Courriel : ' + failResult.responseJSON.login_form.email[0])
@@ -638,7 +686,9 @@ function pbc_tab(cat, tab) {
                         r += '<del>'+product.realprice+'</del>'
                     }
                 }
-                if (product.is_discounted) {
+                if (product.quantity <= 0) {
+                    r += '<span class="product_sale_outofstock">'+i18n.outofstock[lang]+'</span>'
+                } else if (product.is_discounted) {
                     r += '<span class="product_sale_discounted">'+i18n.discounted[lang]+'</span>'
                 }
                 r += '</div>'

@@ -14,6 +14,7 @@ from django.utils.html import strip_tags
 from django.utils.text import Truncator
 from django.shortcuts import redirect
 from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
 from django.template.defaultfilters import slugify
 from django.core.management import call_command
 from django.core.mail import send_mail
@@ -211,8 +212,14 @@ class LoadProduits(APIView):
                 data['variants'] = True
                 if produit.variants.first():
                     data['price'] = produit.variants.first().unit_price
-                    data['is_discounted'] = produit.variants.first().is_discounted
-                    data['quantity'] = produit.variants.first().quantity
+                    data['is_discounted'] = False
+                    for v in produit.variants.all():
+                        if v.is_discounted:
+                            data['is_discounted'] = True
+                    data['quantity'] = 0
+                    for v in produit.variants.all():
+                        if v.quantity > 0:
+                            data['quantity'] = v.quantity
                 else:
                     data['price'] = "-"
                     data['is_discounted'] = False
@@ -286,8 +293,14 @@ class LoadProductsByCategory(APIView):
                     data['variants'] = True
                     if produit.variants.first():
                         data['price'] = produit.variants.first().unit_price
-                        data['is_discounted'] = produit.variants.first().is_discounted
-                        data['quantity'] = produit.variants.first().quantity
+                        data['is_discounted'] = False
+                        for v in produit.variants.all():
+                            if v.is_discounted:
+                                data['is_discounted'] = True
+                        data['quantity'] = 0
+                        for v in produit.variants.all():
+                            if v.quantity > 0:
+                                data['quantity'] = v.quantity
                     else:
                         data['price'] = "-"
                         data['is_discounted'] = False
@@ -612,6 +625,7 @@ class PasswordResetConfirmView(GenericAPIView):
         }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
 
+@csrf_exempt
 def unclone_customers(request):
     data = json.loads(request.body)["form_data"]
     email = data.get("email", None)

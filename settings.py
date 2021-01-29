@@ -536,7 +536,7 @@ CKEDITOR_SETTINGS_CAPTION = {
     'skin':
     'moono-lisa',
     'height':
-    70,
+    250,
     'toolbar_HTMLField': [
         ['Undo', 'Redo'],
         ['Format', 'Styles'],
@@ -573,7 +573,7 @@ CKEDITOR_SETTINGS_DMPLUGIN = {
     'skin':
     'moono-lisa',
     'height':
-    70,
+    250,
     'toolbar_HTMLField': [
         ['Undo', 'Redo'],
         ['TextColor', 'BGColor'],
@@ -588,7 +588,7 @@ CKEDITOR_SETTINGS_DMBLOCKPLUGIN = {
     'skin':
     'moono-lisa',
     'height':
-    70,
+    250,
     'toolbar_HTMLField': [
         ['Undo', 'Redo'],
         ['Format', 'Styles'],

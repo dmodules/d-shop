@@ -47,13 +47,13 @@
                                                 <div class="product_img">
                                                     <a href="{{product.get_absolute_url}}">
                                                     {% if product.main_image %}
-                                                    {% thumbnail product.main_image 540x600 crop upscale as thumb %}
-                                                    <img src="{{thumb.url}}" alt="{{product.product_name}}">
+                                                        {% thumbnail product.main_image 540x600 crop upscale as thumb %}
+                                                        <img src="{{thumb.url}}" alt="{{product.product_name}}">
                                                     {% elif product.images.first %}
-                                                    {% thumbnail product.images.first 540x600 crop upscale as thumb %}
-                                                    <img src="{{thumb.url}}" alt="{{product.product_name}}">
+                                                        {% thumbnail product.images.first 540x600 crop upscale as thumb %}
+                                                        <img src="{{thumb.url}}" alt="{{product.product_name}}">
                                                     {% else %}
-                                                    <img src="{% static 'dshop/shopwise/images/product_img1.jpg' %}" alt="{{product.product_name}}">
+                                                        <img src="https://via.placeholder.com/540x600/f7f8fb/f7f8fb" alt="{{product.product_name}}">
                                                     {% endif %}
                                                     </a>
                                                     <div class="product_action_box">
@@ -81,6 +81,13 @@
                                                                 {% endif %}
                                                             {% else %}
                                                                 <span class="price">-</span>
+                                                            {% endif %}
+                                                            {% dm_variants_is_outofstock product.variants as variants_outofstock %}
+                                                            {% dm_variants_is_discounted product.variants as variants_isdiscounted %}
+                                                            {% if variants_outofstock %}
+                                                                <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
+                                                            {% elif variants_isdiscounted %}
+                                                                <span class="product_sale_discounted">{% trans "Discounted" %}</span>
                                                             {% endif %}
                                                         {% else %}
                                                             {% product_discount_price product.id as real_price %}

@@ -2,7 +2,7 @@ import pytz
 
 from datetime import datetime, timedelta
 
-from django.contrib import messages
+from django import forms
 from django.contrib import admin
 from django.template.context import Context
 from django.template.loader import get_template
@@ -508,9 +508,39 @@ class ProductDefaultAdmin(
     readonly_fields = ("slug",)
 
 
+class ProductForm(forms.models.BaseInlineFormSet):
+    class Meta:
+        model = ProductVariableVariant
+        fields = '__all__'
+
+    def clean(self):
+        check_data = []
+        flag = False
+        for form in self.forms:
+            is_valid = []
+            for attr in form.cleaned_data['attribute']:
+                if attr.attribute.name not in is_valid:
+                    is_valid.append(attr.attribute.name)
+                else:
+                    flag = True
+                    message = _("You can not select same Attribute type for one variant")
+                    break
+            if flag:
+                break
+            if not check_data:
+                check_data = is_valid
+            if check_data != is_valid:
+                flag = True
+                message = _("You need to select same Attribute type for all variant")
+                break
+        if flag:
+            raise forms.ValidationError(message)
+
+
 class ProductVariableVariantInline(admin.TabularInline):
     model = ProductVariableVariant
     extra = 0
+    formset = ProductForm
 
 @admin.register(ProductVariable)
 class ProductVariableAdmin(
@@ -556,30 +586,6 @@ class ProductVariableAdmin(
     filter_horizontal = ["categories", "filters"]
     inlines = [ProductImageInline, ProductVariableVariantInline]
     readonly_fields = ("slug",)
-
-    def save_formset(self, request, form, formset, change):
-        check_data = []
-        flag = False
-        for f in formset:
-            if type(f.instance) == ProductVariableVariant:
-                is_valid = []
-                for attr in f.cleaned_data['attribute']:
-                    if attr.attribute.name not in is_valid:
-                        is_valid.append(attr.attribute.name)
-                    else:
-                        flag = True
-                        messages.error(request, _("You can not select same Attribute type for one variant"))
-                        break
-                if not check_data:
-                    check_data = is_valid
-                if check_data != is_valid:
-                    messages.error(request, _("You need to select same Attribute type for all variant"))
-                    flag = True
-                    break
-        if not flag:
-            formset.save()
-        else:
-            formset.save(commit=False)
 
     def render_text_index(self, instance):
         template = get_template("search/indexes/dshop/commodity_text.txt")
@@ -656,6 +662,7 @@ class ProductAdmin(PolymorphicParentModelAdmin):
     child_models = [ProductDefault, ProductVariable]
     list_display = [
         "product_name",
+        "brand",
         # "get_price",
         "product_type",
         "get_quantity",
