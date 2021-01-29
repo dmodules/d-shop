@@ -222,6 +222,8 @@ class Command(BaseCommand):
                             price = 0
                         if r_body:
                             quantity = r_body['counts'][0]['quantity']
+                            if quantity < 0:
+                                quantity = 0
                         pv_data = {
                             'product': product_variable,
                             'product_code': product_code,
@@ -231,17 +233,27 @@ class Command(BaseCommand):
                         }
                         pvv = ProductVariableVariant.objects.filter(product_code=product_code)
                         if pvv:
-                            pvv = pvv[0]
-                            pvv.unit_price = price/100
-                            pvv.quantity = quantity
-                            pvv.save()
+                            try:
+                                pvv = pvv[0]
+                                pvv.unit_price = price/100
+                                pvv.quantity = quantity
+                                pvv.save()
+                            except Exception as e:
+                                print("Unable to update variant: " + str(e))
+                                print("Square product: " + product_variable.square_id)
+                                print("Variant data: " + str(pv_data))
                         else:
-                            pvv = ProductVariableVariant.objects.create(**pv_data)
+                            try:
+                                pvv = ProductVariableVariant.objects.create(**pv_data)
+                            except Exception as e:
+                                print("Unable to create variant: " + str(e))
+                                print("Square product: " + product_variable.square_id)
+                                print("Variant data: " + str(pv_data))
 
                         if 'item_option_values' in vari['item_variation_data']:
                             for value_id in vari['item_variation_data']['item_option_values']:
                                 attribute_value_id = value_id['item_option_value_id']
-                                attribute_value_obj = AttributeValue.objects.get(square_id=attribute_value_id)
+                                attribute_value_obj = AttributeValue.objects.filter(square_id=attribute_value_id).order_by('id')[0]
                                 pvv.attribute.add(attribute_value_obj)
 
                     # Remove Variants
