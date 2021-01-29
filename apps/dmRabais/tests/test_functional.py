@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from .utils import \
     create_discount
 from dshop.models import Product
-from dshop.utils_test import \
+from dshop.tests.utils import \
     category, \
     product
 

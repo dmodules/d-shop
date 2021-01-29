@@ -2,7 +2,7 @@
 import pytz
 from datetime import datetime, timedelta
 
-from dshop.utils_test import category
+from dshop.tests.utils import category
 from apps.dmRabais.models import \
     dmRabaisPerCategory, \
     dmPromoCode
