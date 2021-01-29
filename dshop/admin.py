@@ -675,6 +675,7 @@ class ProductAdmin(PolymorphicParentModelAdmin):
     list_filter = ['categories', PolymorphicChildModelFilter, CMSPageFilter]
     list_per_page = 100
     list_max_show_all = 1000
+    list_editable = ["brand"]
 
     def get_price(self, obj):
         return str(obj.get_real_instance().get_price(None))
