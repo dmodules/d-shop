@@ -53,6 +53,21 @@
                     </div>
                 </div>
             {% endfor %}
+            {% if pages > 1 %}
+                <div class="row">
+                    <div class="col-12 text-center pt-5">
+                        <nav aria-label="pagination">
+                            <ul class="pagination justify-content-center flex-wrap">
+                                {% for p in "p"|rjust:pages %}
+                                    <li class="page-item{% if page and page == forloop.counter %} active{% endif %}">
+                                        <a href="?q={{query}}&page={{forloop.counter}}" class="page-link">{{forloop.counter}}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            {% endif %}
         {% endif %}
     </div>
 {% endblock content %}
