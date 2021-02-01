@@ -1,5 +1,7 @@
 # from haystack.query import SearchQuerySet
 import json
+import math
+
 from django.http import HttpResponse
 from django.template import loader
 from django.conf import settings
@@ -11,9 +13,13 @@ from dshop.models import Product
 
 def search_product(request):
     q = request.GET.get('q', None)
+    page = int(request.GET.get('page', '1'))
+    limit = 2
+    #
     template = loader.get_template(
         "theme/{}/pages/search.html".format(settings.THEME_SLUG)
     )
+    #
     if q is not None:
         # Search from name
         query1 = Product.objects.filter(product_name__icontains=q)
@@ -44,7 +50,14 @@ def search_product(request):
             ))
         context = {
             "query": q,
-            "products": products,
+            "products": products[(page * limit - limit):(page * limit)],
+            "next": True if len(
+                products[
+                    ((page + 1) * limit - limit):((page + 1) * limit)
+                ]
+            ) > 0 else False,
+            "pages": math.ceil(len(products) / limit),
+            "page": page,
             "count": len(products)
         }
         return HttpResponse(template.render(context, request))

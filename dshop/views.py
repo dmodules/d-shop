@@ -191,15 +191,15 @@ class LoadProduits(APIView):
                 data['image'] = get_thumbnailer(
                     produit.main_image).get_thumbnail({
                         'size': (540, 600),
-                        'crop': True,
-                        'upscale': True
+                        'upscale': True,
+                        'background': "#ffffff"
                     }).url
             elif produit.images.first():
                 data['image'] = get_thumbnailer(
                     produit.images.first()).get_thumbnail({
                         'size': (540, 600),
-                        'crop': True,
-                        'upscale': True
+                        'upscale': True,
+                        'background': "#ffffff"
                     }).url
             else:
                 data['image'] = None
@@ -267,8 +267,8 @@ class LoadProductsByCategory(APIView):
                         data['image'] = get_thumbnailer(
                             produit.main_image).get_thumbnail({
                                 'size': (540, 600),
-                                'crop': True,
-                                'upscale': True
+                                'upscale': True,
+                                'background': "#ffffff"
                             }).url
                     except Exception:
                         data['image'] = None
@@ -277,8 +277,8 @@ class LoadProductsByCategory(APIView):
                         data['image'] = get_thumbnailer(
                             produit.images.first()).get_thumbnail({
                                 'size': (540, 600),
-                                'crop': True,
-                                'upscale': True
+                                'upscale': True,
+                                'background': "#ffffff"
                             }).url
                     except Exception:
                         data['image'] = None

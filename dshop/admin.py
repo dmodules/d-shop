@@ -601,9 +601,14 @@ class AttributeValueInline(admin.TabularInline):
 @admin.register(Attribute)
 class AttributeAdmin(admin.ModelAdmin):
 
-    list_display = ['name']
+    list_display = ['name', 'value_display']
     inlines = [AttributeValueInline]
     exclude = ['square_id']
+
+    def value_display(self, obj):
+        return ", ".join([
+            val.value for val in AttributeValue.objects.filter(attribute=obj)
+        ])
 
 def convert_variable(modeladmin, request, queryset):
     for product in queryset:
@@ -626,7 +631,6 @@ def convert_variable(modeladmin, request, queryset):
             except Exception as e:
                 print("Exception in product variable")
                 print(e)
-                print(data)
                 continue
             # Add categories
             for cat in product.categories.all():
@@ -649,7 +653,6 @@ def convert_variable(modeladmin, request, queryset):
             except Exception as e:
                 print("Exception in product variable variant.")
                 print(e)
-                print(data)
                 v_product.delete()
 
 

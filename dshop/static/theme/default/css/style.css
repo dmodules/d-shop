@@ -100,6 +100,12 @@ a:hover{
         width: 80%;
     }
 }
+.dm-drawer .cart-change-quantity span {
+    background-color: #bcd5d8;
+}
+.dm-drawer .cart-change-quantity span:not(.disabled):hover {
+    background-color: #458d91;
+}
 
 /* ===--- Produits ---=== */
 .dm-variants-select{
@@ -304,49 +310,6 @@ a:hover{
 }
 #app .v-btn.success:hover .v-btn__content{
   color:#fff;
-}
-
-/* ===--- Search ---=== */
-.search-product + .search-product{
-    border-top: 1px solid rgba(0,0,0,0.05);
-    padding-top: 20px;
-    margin-top: 20px;
-}
-.search-img {
-    font-size:0;
-    line-height: 0;
-    text-align: center;
-    align-self: center;
-}
-.search-img img {
-    width: 100%;
-    max-width: 54px;
-    max-height: 54px;
-}
-.search-name {
-    font-size:0;
-    line-height:0;
-    text-align:left;
-    align-self: center;
-}
-.search-name > div {
-    vertical-align: middle;
-}
-.search-name span {
-    font-size:1rem;
-    line-height: 20px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display:inline-block;
-    width:100%;
-}
-.search-name span + span {
-    font-size:0.8rem;
-    opacity:0.5;
-}
-.search-btn {
-    text-align:right;
 }
 
 

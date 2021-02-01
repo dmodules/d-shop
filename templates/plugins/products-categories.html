@@ -39,7 +39,7 @@
           <div class="collection-item">
             {% with category.get_products.first as product %}
               {% if product and product.images.first %}
-                {% thumbnail product.images.first 540x540 crop="crop" as thumb %}
+                {% thumbnail product.images.first 540x540 background="#ffffff" upscale as thumb %}
                 <div class="print-coll-img">
                   <img src="{{thumb.url}}" alt="{{category.name}}">
                 </div>

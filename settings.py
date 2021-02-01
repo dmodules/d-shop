@@ -307,6 +307,10 @@ TEMPLATES = [{
     }
 }]
 
+THUMBNAIL_PROCESSORS = THUMBNAIL_PROCESSORS + (
+    "easy_thumbnails.processors.background",
+)
+
 #######################################################################
 #
 

@@ -26,56 +26,90 @@ class Command(BaseCommand):
             return
 
         # Request for Categories
-        result = client.catalog.list_catalog(types="category")
-        if result.is_error():
-            print("ERROR! " + str(result.errors))
-            return
-        data = result.body
+        cursor = ''
+        while True:
+            result = client.catalog.list_catalog(
+                types="category",
+                cursor=cursor
+            )
+            if result.is_error():
+                print("ERROR! " + str(result.errors))
+                return
+            data = result.body
 
-        # Create Category
-        print("Creating category...")
-        for d in data['objects']:
-            if d['type'] == 'CATEGORY':
+            # Create Category
+            print("Creating category...")
+            for d in data['objects']:
+                if d['type'] == 'CATEGORY':
 
-                name = d['category_data']['name']
-                name = name.replace('(', '<').replace(')','>')
-                name = re.sub('<[^>]+>', '', name)
-                cat_data = {
-                    'name': name.strip(),
-                    'square_id': d['id'],
-                    'active':False
-                }
-                cat = ProductCategory.objects.filter(square_id=d['id'])
-                if not cat:
-                    ProductCategory.objects.create(**cat_data)
-                else:
-                    cat[0].name = name.strip()
-                    cat[0].save()
-        print("Created...")
+                    name = d['category_data']['name']
+                    name = name.replace('(', '<').replace(')','>')
+                    name = re.sub('<[^>]+>', '', name)
+                    cat_data = {
+                        'name': name.strip(),
+                        'square_id': d['id'],
+                        'active':False
+                    }
+                    cat = ProductCategory.objects.filter(square_id=d['id'])
+                    if not cat:
+                        ProductCategory.objects.create(**cat_data)
+                    else:
+                        cat[0].name = name.strip()
+                        cat[0].save()
+            print("Created...")
+            if 'cursor' in data:
+                print(data['cursor'])
+                if cursor == data['cursor']:
+                    print('No nexe page found')
+                    break
+                cursor = data['cursor']
+                print('Next page')
+            else:
+                print('No nexe page found')
+                break
 
         # Request for item_options (Attribute)
-        result = client.catalog.list_catalog(types="item_option")
-        if result.is_error():
-            print("ERROR! " + str(result.errors))
-            return
-        data = result.body
-        # Create Attribute and its value
-        print("Creating attributes...")
-        for d in data['objects']:
-            if d['type'] == 'ITEM_OPTION':
-                attr_data = {
-                    'name': d['item_option_data']['name'],
-                    'square_id': d['id']
-                }
-                attr_obj, created = Attribute.objects.get_or_create(**attr_data)
-                for val in d['item_option_data']['values']:
-                    attr_value = {
-                        'attribute': attr_obj,
-                        'value': val['item_option_value_data']['name'],
-                        'square_id': val['id']
+        cursor = ''
+        while True:
+            result = client.catalog.list_catalog(
+                types="item_option",
+                cursor=cursor
+            )
+            if result.is_error():
+                print("ERROR! " + str(result.errors))
+                return
+            data = result.body
+            # Create Attribute and its value
+            print("Creating attributes...")
+            for d in data['objects']:
+                if d['type'] == 'ITEM_OPTION':
+                    attr_data = {
+                        'name': d['item_option_data']['name'],
+                        'square_id': d['id']
                     }
-                    AttributeValue.objects.get_or_create(**attr_value)
-        print("Created...")
+                    attr_obj = Attribute.objects.filter(square_id=d['id'])
+                    if not attr_obj:
+                        attr_obj = Attribute.objects.create(**attr_data)
+                    else:
+                        attr_obj = attr_obj[0]
+                    for val in d['item_option_data']['values']:
+                        attr_value = {
+                            'attribute': attr_obj,
+                            'value': val['item_option_value_data']['name'],
+                            'square_id': val['id']
+                        }
+                        AttributeValue.objects.get_or_create(**attr_value)
+            print("Created...")
+            if 'cursor' in data:
+                print(data['cursor'])
+                if cursor == data['cursor']:
+                    print('No nexe page found')
+                    break
+                cursor = data['cursor']
+                print('Next page')
+            else:
+                print('No nexe page found')
+                break
 
         # Request for Image
         cursor = ''
@@ -172,8 +206,8 @@ class Command(BaseCommand):
                         cat = d['item_data']['category_id']
                         cat_obj = ProductCategory.objects.get(square_id=cat)
                         product_variable.categories.add(cat_obj)
-                    except Exception as e:
-                        print(e)
+                    except Exception:
+                        pass
                     # Create variants
                     if 'variations' not in d['item_data']:
                         continue
@@ -185,10 +219,11 @@ class Command(BaseCommand):
                         try:
                             price = vari['item_variation_data']['price_money']['amount']
                         except Exception:
-                            print(vari['item_variation_data'])
                             price = 0
                         if r_body:
                             quantity = r_body['counts'][0]['quantity']
+                            if quantity < 0:
+                                quantity = 0
                         pv_data = {
                             'product': product_variable,
                             'product_code': product_code,
@@ -198,17 +233,27 @@ class Command(BaseCommand):
                         }
                         pvv = ProductVariableVariant.objects.filter(product_code=product_code)
                         if pvv:
-                            pvv = pvv[0]
-                            pvv.unit_price = price/100
-                            pvv.quantity = quantity
-                            pvv.save()
+                            try:
+                                pvv = pvv[0]
+                                pvv.unit_price = price/100
+                                pvv.quantity = quantity
+                                pvv.save()
+                            except Exception as e:
+                                print("Unable to update variant: " + str(e))
+                                print("Square product: " + product_variable.square_id)
+                                print("Variant data: " + str(pv_data))
                         else:
-                            pvv = ProductVariableVariant.objects.create(**pv_data)
+                            try:
+                                pvv = ProductVariableVariant.objects.create(**pv_data)
+                            except Exception as e:
+                                print("Unable to create variant: " + str(e))
+                                print("Square product: " + product_variable.square_id)
+                                print("Variant data: " + str(pv_data))
 
                         if 'item_option_values' in vari['item_variation_data']:
                             for value_id in vari['item_variation_data']['item_option_values']:
                                 attribute_value_id = value_id['item_option_value_id']
-                                attribute_value_obj = AttributeValue.objects.get(square_id=attribute_value_id)
+                                attribute_value_obj = AttributeValue.objects.filter(square_id=attribute_value_id).order_by('id')[0]
                                 pvv.attribute.add(attribute_value_obj)
 
                     # Remove Variants
