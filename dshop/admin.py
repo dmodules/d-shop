@@ -601,9 +601,14 @@ class AttributeValueInline(admin.TabularInline):
 @admin.register(Attribute)
 class AttributeAdmin(admin.ModelAdmin):
 
-    list_display = ['name']
+    list_display = ['name', 'value_display']
     inlines = [AttributeValueInline]
     exclude = ['square_id']
+
+    def value_display(self, obj):
+        return ", ".join([
+            val.value for val in AttributeValue.objects.filter(attribute=obj)
+        ])
 
 def convert_variable(modeladmin, request, queryset):
     for product in queryset:
