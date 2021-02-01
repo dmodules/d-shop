@@ -96,7 +96,6 @@ def dm_get_site_socials():
 @register.simple_tag
 def dm_get_attributes_list(k):
     """Make a list from variant attribute"""
-    print(k.attribute.all())
     result = []
     for a in k.attribute.all():
         result.append(a.value)
@@ -155,7 +154,6 @@ def dm_get_brand(k):
 @register.simple_tag
 def dm_get_all_products(offset, limit):
     """Get data from all products with offset and limit"""
-    print("Here,,,,")
     offset = int(offset)
     limit = int(limit)
     products = Product.objects.filter(
@@ -264,7 +262,6 @@ def dm_variants_is_discounted(k):
     """Check if a variant is discounted in a list of variants"""
     result = False
     for variant in k.all():
-        print(variant.is_discounted)
         if variant.is_discounted:
             result = True
     return result

@@ -626,7 +626,6 @@ def convert_variable(modeladmin, request, queryset):
             except Exception as e:
                 print("Exception in product variable")
                 print(e)
-                print(data)
                 continue
             # Add categories
             for cat in product.categories.all():
@@ -649,7 +648,6 @@ def convert_variable(modeladmin, request, queryset):
             except Exception as e:
                 print("Exception in product variable variant.")
                 print(e)
-                print(data)
                 v_product.delete()
 
 
