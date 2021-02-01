@@ -90,6 +90,14 @@ def dm_get_site_socials():
     result = dmSite.objects.first()
     return result.social.all()
 
+
+@register.simple_tag
+def dm_get_site_termsandconditions():
+    """Get Terms and Conditions's text from the first Site registered in admin panel"""
+    result = dmSite.objects.first()
+    return result.termsandconditions.first()
+
+
 # Shop
 
 

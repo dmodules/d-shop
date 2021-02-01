@@ -148,6 +148,12 @@
                     <li><a href="/commande/profil/">{% trans 'Profile' %}</a></li>
                     <li><a href="{% page_url 'orders' %}">{% trans 'My Orders' %}</a></li>
                     <!--<li><a href="/commande/promocodes/">{% trans 'Promo Codes' %}</a></li>-->
+                    {% page_url "terms-and-conditions" as tos %}
+                    {% if tos %}
+                        <li class="child sibling">
+                            <a href="{{tos}}">{% trans "Terms and Conditions" %}</a>
+                        </li>
+                    {% endif %}
                   </ul>
                 </div>
               </div>

@@ -143,7 +143,7 @@ ORDER_TIMEOUT = os.getenv("ORDER_TIMEOUT", 10)
 ############################################
 # Templates Settings
 
-THEME_SLUG = 'default'
+THEME_SLUG = "default"
 
 TEMPLATE_DIR = "theme/default/pages/"
 
@@ -151,6 +151,7 @@ CMS_TEMPLATES = [
     ("theme/default/pages/default.html", "Par défaut"),
     ("theme/default/pages/accueil.html", "Page: Accueil"),
     ("theme/default/pages/produits.html", "Page: Produits"),
+    ("theme/default/pages/terms-and-conditions.html", "Page: Terms and Conditions"),
     ("theme/default/pages/contact.html", "Page: Contact"),
 ]
 

@@ -5,6 +5,8 @@ from mailchimp3 import MailChimp
 from easy_thumbnails.files import get_thumbnailer
 from ipware.ip import get_client_ip as get_ip
 
+from cms.models import Title
+
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -385,6 +387,13 @@ class CustomerView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
+        # ===---
+        tos = Title.objects.filter(page__reverse_id="terms-and-conditions", language=request.LANGUAGE_CODE)
+        if tos.count() > 0:
+            tos = "/"+request.LANGUAGE_CODE+"/"+str(tos.first().slug)
+        else:
+            tos = ""
+        # ===---
         if request.user.is_authenticated:
             customer = {
                 "salutation": request.user.customer.salutation,
@@ -443,7 +452,8 @@ class CustomerView(APIView):
                 "address_shipping":
                 address_shipping if address_shipping is not None else {},
                 "address_billing":
-                address_billing if address_billing is not None else {}
+                address_billing if address_billing is not None else {},
+                "tos": tos
             })
             ###############
         else:
@@ -459,7 +469,8 @@ class CustomerView(APIView):
                 "address_billing": {
                     "plugin_order": 1,
                     "use_primary_address": True,
-                }
+                },
+                "tos": tos
             })
 
 

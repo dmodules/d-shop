@@ -741,7 +741,13 @@
                               hide-details
                               required
                               class="align-center justify-md-end mb-5"
-                            />
+                            >
+                                <template v-slot:label>
+                                    <div>
+                                        {{$i18n.t('Jailuetjacceptebefore')}}<a target="_blank" :href="tosLink" @click.stop>{{$i18n.t('Jailuetjacceptemiddle')}}</a>{{$i18n.t('Jailuetjaccepteafter')}}
+                                    </div>
+                                </template>
+                            </v-checkbox>
                           </v-form>
                             <v-row class="justify-content-start justify-md-end">
                                 <v-col cols="auto">
@@ -804,7 +810,7 @@ export default {
     isLoadingPayment: false,
     isGuest: false,
     hasEmptyCart: false,
-    stepCheckout: 1,
+    stepCheckout: 4,
     formChoix: {
       salutation: [],
       shippingAddress: [],
@@ -929,7 +935,8 @@ export default {
     tagShippingMethod: "",
     tagBillingMethod: "",
     tagNote: "",
-    listPromoCodes: []
+    listPromoCodes: [],
+    tosLink: "/"
   }),
   mounted() {
     // ===--- hide toggle cart
@@ -976,7 +983,6 @@ export default {
           },
         })
         .then((apiSuccess) => {
-            console.log(apiSuccess.data)
           // set customer form
           if (apiSuccess.data.customer) {
             self.$set(
@@ -1008,6 +1014,7 @@ export default {
                 : ""
             );
             self.$set(self, "isGuest", apiSuccess.data.customer.guest ? true : false);
+            self.$set(self, "tosLink", apiSuccess.data.tos)
           }
           // set shipping address form
           if (apiSuccess.data.address_shipping) {

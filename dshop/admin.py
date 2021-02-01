@@ -23,7 +23,7 @@ from polymorphic.admin import (
     PolymorphicChildModelFilter
 )
 
-from parler.admin import TranslatableAdmin
+from parler.admin import TranslatableAdmin, TranslatableTabularInline
 
 from filer.models import ThumbnailOption
 
@@ -37,6 +37,7 @@ from shop.models.defaults.order import Order
 from shop.models.cart import CartModel, CartItemModel
 
 from dshop.models import dmSite, dmSiteLogo, dmSiteContact, dmSiteSocial
+from dshop.models import dmSiteTermsAndConditions
 from dshop.models import BillingAddress, ShippingAddress
 from dshop.models import ProductCategory, ProductFilter, ProductBrand
 from dshop.models import Product
@@ -268,13 +269,20 @@ class dmSiteSocialInline(admin.TabularInline):
     extra = 1
 
 
+class dmSiteTermsAndConditionsInline(TranslatableTabularInline):
+    model = dmSiteTermsAndConditions
+    extra = 1
+    max_num = 1
+
+
 @admin.register(dmSite)
 class dmSiteAdmin(admin.ModelAdmin):
     list_display = ["get_name", "site"]
     inlines = [
         dmSiteLogoInline,
         dmSiteContactInline,
-        dmSiteSocialInline
+        dmSiteSocialInline,
+        dmSiteTermsAndConditionsInline
     ]
 
     def get_name(self, obj):

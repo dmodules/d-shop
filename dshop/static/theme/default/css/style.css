@@ -15,7 +15,7 @@ a:hover{
 
 .section-textmedia ul,
 .container > .row > .col ul:not([class]) {
-    margin: 0.5rem 2rem
+    margin: 0.5rem 2rem 25px;
 }
 
 .bg_default{

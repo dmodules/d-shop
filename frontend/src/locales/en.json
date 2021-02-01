@@ -70,6 +70,9 @@
   "SoustotalAfterDiscount": "Subtotal after discount",
   "Resumedevotrefacture": "Bill's Details",
   "Jailuetjaccepte": "I've read and accept Terms and Conditions",
+  "Jailuetjacceptebefore": "I've read and accept ",
+  "Jailuetjacceptemiddle": "Terms and Conditions",
+  "Jailuetjaccepteafter": ".",
   "Payeretcommander": "Pay and Order",
 
   "Votrepanierestvide": "Your cart is empty",

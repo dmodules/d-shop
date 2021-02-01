@@ -6,7 +6,19 @@
 
 <script>
   export default {
-    name: 'App'
+    name: 'App',
+    data: () => ({
+      langManual: false
+    }),
+    mounted () {
+      this.setLanguage()
+    },
+    methods: {
+      setLanguage () {
+        this.$set(this.$vuetify.lang, 'current', document.documentElement.lang)
+        this.$set(this.$i18n, 'locale', document.documentElement.lang)
+      },
+    }
   }
 </script>
 
