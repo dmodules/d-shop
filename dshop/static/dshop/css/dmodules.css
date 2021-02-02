@@ -199,6 +199,9 @@ main > .container > .row {
         left: 0;
         right: 0;
     }
+    html.cms-ready #tophead .tophead-botnav.sticky {
+        top: 46px;
+    }
     #tophead .tophead-botnav.sticky .botnav-logo {
         display: inline-block;
         padding: 4px;
