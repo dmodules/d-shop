@@ -20,6 +20,7 @@ django-shop==1.2.3
 django-filter==2.2.0
 django-ipware==3.0.1
 django-sass-processor==0.8
+djangocms-cascade==1.3.7
 libsass==0.19.4
 # dmanage
 openpyxl==3.0.5
@@ -37,6 +38,5 @@ geopy==2.1.0
 mailchimp3==3.0.7
 python-slugify==4.0.1
 #tools
-coverage
-squareup
-django-mptt
+coverage==5.4
+django-mptt==0.11.0
