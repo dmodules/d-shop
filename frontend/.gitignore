@@ -24,5 +24,3 @@ pnpm-debug.log*
 
 /bundle/dev/*
 !/bundle/dev/.empty
-/bundle/pro/*
-!/bundle/pro/.empty

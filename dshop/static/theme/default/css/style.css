@@ -15,7 +15,7 @@ a:hover{
 
 .section-textmedia ul,
 .container > .row > .col ul:not([class]) {
-    margin: 0.5rem 2rem
+    margin: 0.5rem 2rem 25px;
 }
 
 .bg_default{
@@ -105,6 +105,23 @@ a:hover{
 }
 .dm-drawer .cart-change-quantity span:not(.disabled):hover {
     background-color: #458d91;
+}
+
+/* ===--- Main Menu ---=== */
+.dm-main-menu > ul > li > a.selected,
+.dm-main-menu > ul > li > a:hover {
+    color: #458d91;
+}
+.dm-main-submenu a:hover {
+    color: #141617;
+}
+.dm-main-submenu a::after {
+    border-top-color: #458d91;
+}
+@media (max-width: 767px) {
+    .dm-main-submenu a:hover {
+        color: #458d91;
+    }
 }
 
 /* ===--- Produits ---=== */

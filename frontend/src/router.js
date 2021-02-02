@@ -10,8 +10,16 @@ const routes = [
     component: () => import('@/views/Checkout.vue')
   },
   {
+    path: '/en/commande/',
+    component: () => import('@/views/Checkout.vue')
+  },
+  {
     path: '/fr/commande/profil/',
     name: 'Profil',
+    component: () => import('@/views/Profil.vue')
+  },
+  {
+    path: '/en/commande/profil/',
     component: () => import('@/views/Profil.vue')
   },
   {
@@ -20,12 +28,24 @@ const routes = [
     component: () => import('@/views/PromoCodes.vue')
   },
   {
+    path: '/en/commande/promocodes/',
+    component: () => import('@/views/PromoCodes.vue')
+  },
+  {
     path: '/fr/commande/password/:action/:uidb64/:token',
+    component: () => import('@/views/Password.vue')
+  },
+  {
+    path: '/en/commande/password/:action/:uidb64/:token',
     component: () => import('@/views/Password.vue')
   },
   {
     path: '/fr/commande/password/:action',
     name: 'Password',
+    component: () => import('@/views/Password.vue')
+  },
+  {
+    path: '/en/commande/password/:action',
     component: () => import('@/views/Password.vue')
   }
 ]

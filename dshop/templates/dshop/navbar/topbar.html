@@ -1,0 +1,53 @@
+{% load i18n cms_tags dshop_tags dmadvertising_tags %}
+
+<div id="topbar">
+    <div class="topbar-wrapper">
+        <div class="topbar-left">
+            {% dm_get_site_socials as socials %}
+            {% for social in socials %}
+                <span>
+                    <a href="{{social.url}}" target="_blank">
+                    <i class="{% if social.social == 1 %}icon-social-facebook{% elif social.social == 2 %}ion-social-instagram{% elif social.social == 3 %}icon-social-youtube{% endif %}" aria-hidden="true"></i>
+                    </a>
+                </span>
+            {% endfor %}
+            {% dm_get_site_contacts as contacts %}
+            {% if contacts.phone %}
+                <span>
+                    <a href="tel:{{contacts.phone|phone_canadian}}">{{contacts.phone}}</a>
+                </span>
+            {% endif %}
+        </div>
+        <div class="topbar-center">
+            {% get_advertisingtopbanner as alerts %}
+            {% for alert in alerts %}
+                <span class="notif">
+                    {% if alert.link %}<a href="{{alert.link}}"{% if alert.open_blank %} target="_blank"{% endif %}>{% endif %}{{alert.text}}{% if alert.link %}</a>{% endif %}
+                </span>
+            {% endfor %}
+        </div>
+        <div class="topbar-right">
+            {% page_url "terms-and-conditions" as tos %}
+            {% if tos %}
+                <span>
+                    <a href="{{tos}}">{% trans "Terms and Conditions" %}</a>
+                </span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div id="topsearch">
+    <div class="topsearch-wrapper">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col col-12 col-md-9">
+                    <input placeholder="{% trans 'Type your search here' %}" name="q" id="q" />
+                </div>
+                <div class="col col-12 col-md-3">
+                    <button class="btn btn-primary" onclick="doSearch('#q')">{% trans 'Search' %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

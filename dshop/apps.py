@@ -9,6 +9,7 @@ class dshopConfig(AppConfig):
     logger = logging.getLogger("d-shop")
 
     def ready(self):
+        import dshop.signals  # noqa
         from shop.models.fields import JSONField
         from rest_framework.serializers import ModelSerializer
         from shop.deferred import ForeignKeyBuilder

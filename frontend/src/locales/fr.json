@@ -70,6 +70,9 @@
   "SoustotalAfterDiscount": "Sous-total après rabais",
   "Resumedevotrefacture": "Résumé de votre facture",
   "Jailuetjaccepte": "J'ai lu et j'accepte les Termes et conditions",
+  "Jailuetjacceptebefore": "J'ai lu et j'accepte les ",
+  "Jailuetjacceptemiddle": "Termes et conditions",
+  "Jailuetjaccepteafter": ".",
   "Payeretcommander": "Payer et commander",
 
   "Votrepanierestvide": "Votre panier est vide",

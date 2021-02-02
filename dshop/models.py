@@ -14,7 +14,7 @@ from filer.fields.file import FilerFileField
 
 from parler.fields import TranslatedField
 from parler.managers import TranslatableManager, TranslatableQuerySet
-from parler.models import TranslatableModelMixin
+from parler.models import TranslatableModel, TranslatableModelMixin
 from parler.models import TranslatedFieldsModel, TranslatedFields
 
 from django.db import models
@@ -438,6 +438,7 @@ class ProductFilter(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class ProductBrand(models.Model):
     """
@@ -1174,6 +1175,50 @@ class dmSiteSocial(models.Model):
 
     def __str__(self):
         return self.url
+
+
+class dmSiteTermsAndConditions(TranslatableModel):
+    """
+    Terms and Conditions text of the site.
+    Can be used to easily retrieve and show Terms and Conditions
+    all around the site.
+    """
+
+    site = models.ForeignKey(
+        dmSite,
+        on_delete=models.CASCADE,
+        related_name="termsandconditions"
+    )
+    text = TranslatedField()
+
+    class Meta:
+        verbose_name = _("Terms and Conditions")
+        verbose_name_plural = _("Terms and Conditions")
+
+    def __str__(self):
+        return "Terms and Conditions"
+
+
+class dmSiteTermsAndConditionsTranslation(TranslatedFieldsModel):
+    """
+    A model to handle translations of dmSiteTermsAndConditions
+    """
+
+    master = models.ForeignKey(
+        dmSiteTermsAndConditions,
+        on_delete=models.CASCADE,
+        related_name="translations",
+        null=True
+    )
+    text = HTMLField(
+        verbose_name=_("Text"),
+        configuration="CKEDITOR_SETTINGS_DESCRIPTION",
+        blank=True,
+        null=True
+    )
+
+    class Meta:
+        unique_together = [("language_code", "master")]
 
 
 #######################################################################
