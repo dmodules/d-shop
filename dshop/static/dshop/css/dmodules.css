@@ -71,7 +71,7 @@ main > .container > .row {
     vertical-align: middle;
     display: inline-block;
     width: 100%;
-    height: 32px;
+    height: 35px;
     position: relative;
     z-index: 110;
 }
@@ -117,7 +117,7 @@ main > .container > .row {
     margin: 0 0.5rem;
 }
 #topbar .topbar-center > span {
-    line-height: 32px;
+    line-height: 35px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -258,11 +258,11 @@ main > .container > .row {
     text-transform: uppercase;
     display: inline-block;
     transition: color 0.3s;
-    padding: 0.5rem 1rem;
+    padding: 15px 1.5rem;
     margin: 0;
 }
 .dm-menu-toggle {
-    font-size: 10px;
+    font-size: 14px;
     padding: 5px 10px 5px 0;
 }
 .dm-menu-toggle.active {
@@ -349,10 +349,12 @@ main > .container > .row {
         position: absolute;
         left: 0;
         right: 0;
+        padding: 0 1rem 1rem;
     }
     .dm-main-menu > ul > li > a {
         color: #141617;
-        font-size: 12px;
+        font-size: 14px;
+        padding: 14px 1rem;
     }
     .dm-main-menu {
         display: block;
@@ -390,13 +392,19 @@ main > .container > .row {
         display: block;
     }
     .dm-main-menu a {
+        font-size: 14px;
         width: calc(100% - 40px);
     }
     .dm-main-menu > ul > li > .dm-menu-toggle {
+        font-size: 18px;
         display: inline-block;
     }
     .dm-main-menu .dm-menu-toggle {
+        font-size: 18px;
         padding: 5px 10px;
+    }
+    .dm-main-submenu a {
+        padding: 7px 0;
     }
     .dm-main-submenu a::after {
         display: none;
@@ -406,6 +414,9 @@ main > .container > .row {
     }
     .dm-main-submenu li + li .dm-main-submenu.sub {
         top: 0;
+    }
+    .dm-main-submenu li .dm-menu-toggle {
+        padding: 6px 13px 9px 9px;
     }
 }
 
