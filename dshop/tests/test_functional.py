@@ -3,6 +3,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 
 from rest_framework import status
+from bs4 import BeautifulSoup
 
 from dshop.models import Product
 from dshop.tests.utils import filter_p, \
@@ -156,3 +157,34 @@ class DShopAPITest(TestCase):
         response = self.client.get(reverse('billing-method'))
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+class DShopTemplate(TestCase):
+
+    def setUp(self):
+        pv = product_variable()
+        product_variant(pv)
+        data = {
+            'product_name': 'Lemon',
+            'slug': 'lemon',
+            'order': 0,
+            'caption': 'Lemon'
+        }
+        pv = product_variable(data)
+        data = {
+            'product': pv,
+            'product_code': '00002',
+            'unit_price': 10,
+            'quantity': 1,
+        }
+        product_variant(pv, data)
+        self.client = Client()
+
+    def test_produits_page(self):
+        p_count = Product.objects.all().count()
+
+        response = self.client.get('http://localhost:8000/fr/produits/')
+        soup = BeautifulSoup(response.content, features="lxml")
+        div = soup.find('div', {'class': 'row shop_container grid produits'})
+        divs = div.findAll('div', {'class': 'produit col-md-4 col-6'})
+
+        self.assertEqual(p_count, len(divs))
