@@ -83,7 +83,7 @@ def product_variable(data=None):
         if not data:
             data = {
                 'product_name': 'Capsicum',
-                'slug': 'capsicum',
+                'slug': 'capsicum-123',
                 'order': 0,
                 'caption': 'Capsicum'
             }
@@ -100,6 +100,7 @@ def product_variant(product, data=None):
                 'product': product,
                 'product_code': '00001',
                 'unit_price': 10,
+                'quantity': 100,
             }
         product_variant = ProductVariableVariant.objects.create(**data)
     except Exception as e:

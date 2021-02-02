@@ -7,7 +7,6 @@ from dshop.tests.utils import \
     category, \
     product
 
-
 class CategoryDiscountTestProduct(TestCase):
 
     def setUp(self):
@@ -18,6 +17,5 @@ class CategoryDiscountTestProduct(TestCase):
         p.save()
 
     def test_search_page(self):
-        self.assertEqual(1, 1)
-        # page = self.client.get((reverse('search_product')))
-        # self.assertEqual(page.status_code, status.HTTP_200_OK)
+        page = self.client.get((reverse('search_product')))
+        self.assertEqual(page.status_code, status.HTTP_200_OK)
