@@ -1,0 +1,15 @@
+{% load menu_tags %}
+
+<nav class="dm-main-menu">
+    <ul>
+        {% for child in children %}
+            <li>
+                <a href="{{ child.attr.redirect_url|default:child.get_absolute_url }}" class="menu-link{% if child.selected %} selected{% endif %}{% if child.children or child.attr.reverse_id == 'produits' %} parent{% endif %}">{{child.get_menu_title}}</a>
+                {% if child.children or child.attr.reverse_id == 'produits' %}<i class="dm-menu-toggle ti-arrow-down" onclick="toggleSubmenu($(this))"></i>{% endif %}
+                {% if child.children or child.attr.reverse_id == 'produits' %}
+                    {% show_menu from_level to_level extra_inactive extra_active 'theme/default/navbar/menu-main-child.html' "" "" child %}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</nav>

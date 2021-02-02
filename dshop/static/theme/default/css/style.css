@@ -107,6 +107,23 @@ a:hover{
     background-color: #458d91;
 }
 
+/* ===--- Main Menu ---=== */
+.dm-main-menu > ul > li > a.selected,
+.dm-main-menu > ul > li > a:hover {
+    color: #458d91;
+}
+.dm-main-submenu a:hover {
+    color: #141617;
+}
+.dm-main-submenu a::after {
+    border-top-color: #458d91;
+}
+@media (max-width: 767px) {
+    .dm-main-submenu a:hover {
+        color: #458d91;
+    }
+}
+
 /* ===--- Produits ---=== */
 .dm-variants-select{
   flex:none;

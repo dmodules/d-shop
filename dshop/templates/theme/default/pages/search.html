@@ -15,12 +15,12 @@
         </div>
         <form>
             <div class="row pb-5">
-                <div class="col-10 search-input">
+                <div class="col col-12 col-md-8 col-xl-10 search-input">
                     <div class="form-group">
-                        <input placeholder="{% trans 'Search' %}" name="q" id="q" class="form-control rounded-0"{% if query %} value="{{query}}"{% endif %} required />
+                        <input placeholder="{% trans 'Search' %}" name="q" id="qs" class="form-control rounded-0"{% if query %} value="{{query}}"{% endif %} required />
                     </div>
                 </div>
-                <div class="col-2 search-send">
+                <div class="col col-12 col-md-4 col-xl-2 search-send">
                     <button class="btn btn-fill-line d-block w-100" onclick="doSearch()">{% trans 'Search' %}</button>
                 </div>
             </div>
