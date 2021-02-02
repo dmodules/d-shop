@@ -1,7 +1,4 @@
 
-import pytz
-from datetime import datetime, timedelta
-
 from apps.dmShipping.models import ShippingManagement
 
 def create_shipping(data=None):

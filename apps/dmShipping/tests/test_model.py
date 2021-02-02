@@ -6,11 +6,11 @@ from apps.dmShipping.models import ShippingManagement
 
 class ShippingModelTest(TestCase):
 
-    def test_advertising_top_banner_create(self):
+    def test_shipping_create(self):
         create_shipping()
         self.assertEqual(1, ShippingManagement.objects.all().count())
 
-    def test_advertising_top_banner_update(self):
+    def test_shipping_update(self):
         s_m = create_shipping()
         self.assertEqual(
             "Shipping Method",
@@ -23,7 +23,7 @@ class ShippingModelTest(TestCase):
             ShippingManagement.objects.all().first().name
         )
 
-    def test_adverting_top_banner_delete(self):
+    def test_shipping_delete(self):
         s_m = create_shipping()
         s_m.delete()
         self.assertEqual(0, ShippingManagement.objects.all().count())
