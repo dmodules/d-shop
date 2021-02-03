@@ -61,9 +61,13 @@
                                                             <li>
                                                                 <a href="{{product.get_absolute_url}}"><i class="ti-info-alt"></i></a>
                                                             </li>
-                                                            {% if product.variants %}{% else%}
+                                                            {% if not product.variants and product.quantity > 0 %}
                                                                 <li>
-                                                                    <a href="/" class="btn" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
+                                                                    <a href="/" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
+                                                                </li>
+                                                            {% elif product.variants and product.variants.count == 1 %}
+                                                                <li>
+                                                                    <a href="/" onclick="dm_add2cart_variant($(this)); return false" data-product="{{product.slug}}" data-variant="{{product.variants.first.product_code}}"><i class="icon-basket-loaded"></i></a>
                                                                 </li>
                                                             {% endif %}
                                                         </ul>

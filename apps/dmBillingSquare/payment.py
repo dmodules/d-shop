@@ -75,15 +75,30 @@ class SquarePayment(PaymentProvider):
                 body['order']['order']['line_items'][n]['applied_taxes'].append({})
                 body['order']['order']['line_items'][n]['applied_taxes'][0]['uid'] = str(uuid.uuid1())
                 body['order']['order']['line_items'][n]['applied_taxes'][0]['tax_uid'] = 'total-taxes'
+                body['order']['order']['line_items'][n]['applied_discounts'] = []
+                body['order']['order']['line_items'][n]['applied_discounts'].append({})
+                body['order']['order']['line_items'][n]['applied_discounts'][0]['uid'] = str(uuid.uuid1())
+                body['order']['order']['line_items'][n]['applied_discounts'][0]['discount_uid'] = 'total-discounts'
             # ===---
             body['order']['order']['taxes'] = []
             for key, item in order.extra['rows']:
                 if key == 'canadiantaxes':
                     body['order']['order']['taxes'].append({})
                     body['order']['order']['taxes'][0]['uid'] = 'total-taxes'
-                    body['order']['order']['taxes'][0]['name'] = 'Taxes'
+                    body['order']['order']['taxes'][0]['name'] = str(_('Taxes'))
                     body['order']['order']['taxes'][0]['percentage'] = str(item['label'].split('%')[0])
                     body['order']['order']['taxes'][0]['scope'] = 'LINE_ITEM'
+                if key == 'discounts':
+                    body['order']['order']['discounts'] = []
+                    body['order']['order']['discounts'].append({})
+                    body['order']['order']['discounts'][0]['uid'] = 'total-discounts'
+                    body['order']['order']['discounts'][0]['name'] = str(_('Discounts'))
+                    body['order']['order']['discounts'][0]['amount_money'] = {}
+                    body['order']['order']['discounts'][0]['amount_money']['amount'] = int(float(
+                        re.sub('[^0-9,.]', '', item['amount'].replace(',', '.'))
+                    ) * 100)
+                    body['order']['order']['discounts'][0]['amount_money']['currency'] = 'CAD'
+                    body['order']['order']['discounts'][0]['scope'] = 'LINE_ITEM'
                 if key in [
                     "standard-shipping",
                     "express-shipping",
@@ -93,7 +108,7 @@ class SquarePayment(PaymentProvider):
                     shipping = int(float(re.sub('[^0-9,.]', '', item['amount'].replace(',', '.'))) * 100)
                     shipping_data = {}
                     shipping_data['uid'] = str(uuid.uuid1())
-                    shipping_data['name'] = "Livraison : " + str(item['label'])
+                    shipping_data['name'] = str(item['label'])
                     shipping_data['quantity'] = '1'
                     shipping_data['base_price_money'] = {}
                     shipping_data['base_price_money']['amount'] = shipping

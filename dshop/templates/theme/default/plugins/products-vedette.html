@@ -44,7 +44,11 @@
                       </li>
                       {% if not product.variants and product.quantity > 0 %}
                         <li>
-                          <a href="/" class="btn" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
+                            <a href="/" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
+                        </li>
+                      {% elif product.variants and product.variants.count == 1 %}
+                        <li>
+                            <a href="/" onclick="dm_add2cart_variant($(this)); return false" data-product="{{product.slug}}" data-variant="{{product.variants.first.product_code}}"><i class="icon-basket-loaded"></i></a>
                         </li>
                       {% endif %}
                     </ul>
@@ -54,7 +58,7 @@
                   <h6 class="product_title"><a href="{{product.get_absolute_url}}">{{product.product_name}}</a></h6>
                   <div class="product_price">
                     {% if product.variants %}
-                        {% if product.variants.first %}
+                        {% if product.variants.count > 0 %}
                             {% product_variant_discount_price product.variants.first.id as real_price %}
                                 <span class="price">{{real_price}}</span>
                             {% if real_price != product.variants.first.unit_price %}

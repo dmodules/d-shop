@@ -4,6 +4,8 @@ import json
 from decimal import Decimal
 from datetime import datetime
 
+from django.db.models import Q
+
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response as RestResponse
@@ -103,6 +105,8 @@ class PromoCodesList(APIView):
             )
             # get all used promocodes
             customer_orders = Order.objects.filter(
+                ~Q(status="new"),
+                ~Q(status="created"),
                 customer=customer
             )
             used_promolist = []
@@ -181,6 +185,8 @@ class PromoCodesList(APIView):
                 all_discounts = 0
             # get all used promocodes
             customer_orders = Order.objects.filter(
+                ~Q(status="new"),
+                ~Q(status="created"),
                 customer=customer
             )
             used_promolist = []

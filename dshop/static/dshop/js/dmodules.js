@@ -726,7 +726,7 @@ function loadMoreProduits(what = null, search = null) {
         if (product.image) {
           r += '<img src="'+product.image+'" alt="" class="img-fluid">'
         } else {
-          r += '<img src="https://via.placeholder.com/f7f8fb/f7f8fb" alt="" class="img-fluid">'
+          r += '<img src="https://via.placeholder.com/540x600/f7f8fb/f7f8fb" alt="" class="img-fluid">'
         }
         r += '</a>'
         r += '<div class="product_action_box">'
@@ -736,8 +736,12 @@ function loadMoreProduits(what = null, search = null) {
         r += '</li>'
         if (!product.variants && product.quantity > 0) {
           r += '<li>'
-          r += '<a href="/" onclick="dm_add2cart($(this)); return false" class="dm-add2cart btn" data-product="'+product.slug+'"><i class="icon-basket-loaded"></i></a>'
+          r += '<a href="/" onclick="dm_add2cart($(this)); return false" class="dm-add2cart" data-product="'+product.slug+'"><i class="icon-basket-loaded"></i></a>'
           r += '</li>'
+        } else if (product.variants_count === 1) {
+            r += '<li>'
+            r += '<a href="/" onclick="dm_add2cart_variant($(this)); return false" data-product="'+product.slug+'" data-variant="'+product.variants_product_code+'"><i class="icon-basket-loaded"></i></a>'
+            r += '</li>'
         }
         r += '</ul>'
         r += '</div>'
@@ -780,7 +784,7 @@ function loadMoreProduits(what = null, search = null) {
     })
     // ===---
     return false
-  }
+}
 
 //* ===---   Load Products By Category   ---=== *//
 
@@ -809,6 +813,10 @@ function pbc_tab(cat, tab) {
                 if (!product.variants && product.quantity > 0) {
                     r += '<li>'
                     r += '<a href="/" onclick="dm_add2cart($(this)); return false" class="dm-add2cart btn" data-product="'+product.slug+'"><i class="icon-basket-loaded"></i></a>'
+                    r += '</li>'
+                } else if (product.variants_count === 1) {
+                    r += '<li>'
+                    r += '<a href="/" onclick="dm_add2cart_variant($(this)); return false" data-product="'+product.slug+'" data-variant="'+product.variants_product_code+'"><i class="icon-basket-loaded"></i></a>'
                     r += '</li>'
                 }
                 r += '</ul>'
