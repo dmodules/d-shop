@@ -137,6 +137,5 @@ class StripePayment(PaymentProvider):
             js_expression = 'window.location.href="{}";'.format(redirect_url)
             return js_expression
         except Exception as e:
-            print(session)
             print(e)
             raise ValidationError(_("An error occurred while creating your order."))
