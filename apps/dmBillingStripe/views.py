@@ -41,8 +41,11 @@ def StripeCheckout(request):
 
 def StripePaymentCancelView(request):
     referenceId = request.GET.get("referenceId", None)
+    couponID = request.GET.get("cp", None)
     if referenceId is not None:
         order = OrderModel.objects.get(number=re.sub(r"\D", "", referenceId))
+        if couponID is not None:
+            stripe.Coupon.delete(couponID)
         if 'cancel' not in order.extra:
             cart = order.customer.cart
             order.readd_to_cart(cart)
@@ -69,6 +72,7 @@ def StripePaymentCancelView(request):
 
 def StripePaymentView(request):  # noqa: C901
     referenceId = request.GET.get("referenceId", None)
+    couponID = request.GET.get("cp", None)
     if referenceId is not None:
         order = OrderModel.objects.get(number=re.sub(r"\D", "", referenceId))
         transactionId = ""
@@ -79,7 +83,8 @@ def StripePaymentView(request):  # noqa: C901
                 order=order,
                 amount=amount,
                 transaction_id=transactionId,
-                payment_method=_("Credit Card (Stripe)"))
+                payment_method=_("Credit Card (Stripe)")
+            )
             try:
                 session_id = order.extra["session_id"]
                 session = stripe.checkout.Session.retrieve(session_id)
@@ -121,6 +126,9 @@ def StripePaymentView(request):  # noqa: C901
                                 cpc.save()
             except Exception as e:
                 print(e)
+            # ===---
+            if couponID is not None:
+                stripe.Coupon.delete(couponID)
             # ===---
             # We want to skip few steps.
             # So add delivery creation on payment success.
