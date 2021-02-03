@@ -52,6 +52,8 @@ def get_setting(name):
 def dm_get_logos():
     """Get logos from the first Site registered in admin panel"""
     result = dmSite.objects.first()
+    if not result:
+        return []
     return result.logos.first()
 
 
@@ -59,6 +61,8 @@ def dm_get_logos():
 def dm_get_site_contacts():
     """Get contacts's data from the first Site registered in admin panel"""
     result = dmSite.objects.first()
+    if not result:
+        return []
     return result.contacts.first()
 
 
@@ -88,6 +92,8 @@ def dm_get_site_coord():
 def dm_get_site_socials():
     """Get socials's data from the first Site registered in admin panel"""
     result = dmSite.objects.first()
+    if not result:
+        return []
     return result.social.all()
 
 

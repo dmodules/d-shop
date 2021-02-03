@@ -24,11 +24,11 @@ class CatalogListApp(CatalogListCMSApp):
         filter_backends = [CMSPagesFilterBackend]
         filter_backends.extend(api_settings.DEFAULT_FILTER_BACKENDS)
         return [
-            url(r'^(?P<slug>[\w-]+)/add-to-cart', AddToCartView.as_view()),
+            url(r'^(?P<slug>[\w-]+)/add-to-cart', AddToCartView.as_view(), name="add_to_cart"),
             url(
                 r'^(?P<slug>[\w-]+)/add-productvariable-to-cart',
                 AddToCartView.as_view(
-                    serializer_class=AddProductVariableToCartSerializer, )),
+                    serializer_class=AddProductVariableToCartSerializer, ), name="add_productvariable_to_cart"),
             url(r'^(?P<slug>[\w-]+)',
                 ProductRetrieveView.as_view(use_modal_dialog=False)),
             url(r'^',
