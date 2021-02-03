@@ -1,7 +1,9 @@
+import math
 from decimal import Decimal
 
 from django.utils.translation import ugettext_lazy as _
 
+from shop.money import Money
 from shop.conf import app_settings
 from shop.serializers.cart import ExtraCartRow
 from shop.modifiers.base import BaseCartModifier
@@ -73,7 +75,7 @@ class CanadaTaxModifier(BaseCartModifier):
         except Exception:
             pass
         cart.extra_rows[self.identifier] = ExtraCartRow(instance)
-        cart.total += amount
+        cart.total += Money(round(Decimal(amount), 2))
 
 def state_fr_to_en(state):
     if state == "Colombie-Britannique":

@@ -20,6 +20,7 @@ class DiscountsModifier(BaseCartModifier):
         all_promocodes_code = ", ".join([str(p) for p in results[1]])
         all_prices = Decimal(results[2])
         all_discounts = Decimal(results[3])
+        all_cart_discounts = Decimal(0)
         # ===---
         if len(results[1]) > 0:
             cart_discounts = get_cart_discounts(results[1])

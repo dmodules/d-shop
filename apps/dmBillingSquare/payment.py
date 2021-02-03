@@ -63,22 +63,17 @@ class SquarePayment(PaymentProvider):
             body['order']['order']['customer_id'] = 'customer_id'
             body['order']['order']['line_items'] = []
             # ===---
-            for n, item in enumerate(order.items.values()):
-                body['order']['order']['line_items'].append({})
-                body['order']['order']['line_items'][n]['uid'] = str(uuid.uuid1())
-                body['order']['order']['line_items'][n]['name'] = str(item['product_name'])
-                body['order']['order']['line_items'][n]['quantity'] = str(item['quantity'])
-                body['order']['order']['line_items'][n]['base_price_money'] = {}
-                body['order']['order']['line_items'][n]['base_price_money']['amount'] = int(item['_unit_price'] * 100)
-                body['order']['order']['line_items'][n]['base_price_money']['currency'] = 'CAD'
-                body['order']['order']['line_items'][n]['applied_taxes'] = []
-                body['order']['order']['line_items'][n]['applied_taxes'].append({})
-                body['order']['order']['line_items'][n]['applied_taxes'][0]['uid'] = str(uuid.uuid1())
-                body['order']['order']['line_items'][n]['applied_taxes'][0]['tax_uid'] = 'total-taxes'
-                body['order']['order']['line_items'][n]['applied_discounts'] = []
-                body['order']['order']['line_items'][n]['applied_discounts'].append({})
-                body['order']['order']['line_items'][n]['applied_discounts'][0]['uid'] = str(uuid.uuid1())
-                body['order']['order']['line_items'][n]['applied_discounts'][0]['discount_uid'] = 'total-discounts'
+            body['order']['order']['line_items'].append({})
+            body['order']['order']['line_items'][0]['uid'] = str(uuid.uuid1())
+            body['order']['order']['line_items'][0]['name'] = str(_("Order") + " #" + str(order_number))
+            body['order']['order']['line_items'][0]['quantity'] = "1"
+            body['order']['order']['line_items'][0]['base_price_money'] = {}
+            body['order']['order']['line_items'][0]['base_price_money']['amount'] = int(order.subtotal * 100)
+            body['order']['order']['line_items'][0]['base_price_money']['currency'] = 'CAD'
+            body['order']['order']['line_items'][0]['applied_taxes'] = []
+            body['order']['order']['line_items'][0]['applied_taxes'].append({})
+            body['order']['order']['line_items'][0]['applied_taxes'][0]['uid'] = str(uuid.uuid1())
+            body['order']['order']['line_items'][0]['applied_taxes'][0]['tax_uid'] = 'total-taxes'
             # ===---
             body['order']['order']['taxes'] = []
             for key, item in order.extra['rows']:
@@ -88,17 +83,6 @@ class SquarePayment(PaymentProvider):
                     body['order']['order']['taxes'][0]['name'] = str(_('Taxes'))
                     body['order']['order']['taxes'][0]['percentage'] = str(item['label'].split('%')[0])
                     body['order']['order']['taxes'][0]['scope'] = 'LINE_ITEM'
-                if key == 'cart-discounts':
-                    body['order']['order']['discounts'] = []
-                    body['order']['order']['discounts'].append({})
-                    body['order']['order']['discounts'][0]['uid'] = 'total-discounts'
-                    body['order']['order']['discounts'][0]['name'] = str(_('Discounts'))
-                    body['order']['order']['discounts'][0]['amount_money'] = {}
-                    body['order']['order']['discounts'][0]['amount_money']['amount'] = int(float(
-                        re.sub('[^0-9,.]', '', item['amount'].replace(',', '.'))
-                    ) * 100)
-                    body['order']['order']['discounts'][0]['amount_money']['currency'] = 'CAD'
-                    body['order']['order']['discounts'][0]['scope'] = 'LINE_ITEM'
                 if key in [
                     "standard-shipping",
                     "express-shipping",
