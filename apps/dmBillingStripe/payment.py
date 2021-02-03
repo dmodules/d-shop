@@ -1,4 +1,5 @@
 import stripe
+import uuid
 
 from decimal import Decimal
 
@@ -95,24 +96,40 @@ class StripePayment(PaymentProvider):
                 }
                 line_items.append(line_data)
             # Create Tax line data
+            all_discounts = []
             for d in order.extra['rows']:
                 if d[0] in ["data1", "data2", "data3", "data4"]:
                     line_data = {
                         "name": d[1]['label'],
                         "quantity": 1,
                         "currency": "cad",
-                        "amount":
-                        int(
+                        "amount": int(
                             float(".".join(d[1]['amount'].split(' ')[1].split(','))) * 100
                         )
                     }
                     line_items.append(line_data)
+                if d[0] in ["discounts"]:
+                    coupon = stripe.Coupon.create(
+                        name=str(_("Discount")),
+                        amount_off=int(
+                            float(".".join(d[1]['amount'].split(' ')[1].split(','))) * 100
+                        ),
+                        currency="cad",
+                        duration='once',
+                    )
+                    all_discounts.append({
+                        "coupon": coupon.id
+                    })
+                    success_url = success_url + '&cp='+coupon.id
+                    cancel_url = cancel_url + '&cp='+coupon.id
+
             # ===---
             session = stripe.checkout.Session.create(
                 success_url=success_url,
                 cancel_url=cancel_url,
                 payment_method_types=["card"],
                 line_items=line_items,
+                discounts=all_discounts,
                 mode="payment",
             )
             redirect_url = '/billing-stripe/checkout/?referenceId=' + \
@@ -120,5 +137,6 @@ class StripePayment(PaymentProvider):
             js_expression = 'window.location.href="{}";'.format(redirect_url)
             return js_expression
         except Exception as e:
+            print(session)
             print(e)
             raise ValidationError(_("An error occurred while creating your order."))
