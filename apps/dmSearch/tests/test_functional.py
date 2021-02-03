@@ -25,19 +25,19 @@ class CategoryDiscountTestProduct(TestCase):
     def test_search_page_data(self):
         # Search result = 1 length
         page = self.client.get(reverse('search_product') + "?q=test")
-        soup = BeautifulSoup(page.content)
+        soup = BeautifulSoup(page.content, features="lxml")
         result = soup.findAll('div', {'class':'row search-product'})
         self.assertEqual(1, len(result))
 
         # Search result = 0 length
         page = self.client.get(reverse('search_product') + "?q=dmodules")
-        soup = BeautifulSoup(page.content)
+        soup = BeautifulSoup(page.content, features="lxml")
         result = soup.findAll('div', {'class':'row search-product'})
         self.assertEqual(0, len(result))
 
     def test_search_page_caption(self):
         # Search result = 1 length
         page = self.client.get(reverse('search_product') + "?q=123")
-        soup = BeautifulSoup(page.content)
+        soup = BeautifulSoup(page.content, features="lxml")
         result = soup.findAll('div', {'class':'row search-product'})
         self.assertEqual(1, len(result))

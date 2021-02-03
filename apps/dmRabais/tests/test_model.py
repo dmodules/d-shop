@@ -20,7 +20,7 @@ class RabaisModelTest(TestCase):
     def test_category_discount_str(self):
         create_discount()
         self.assertEqual("Test Discount",
-                         dmRabaisPerCategory.objects.all().first())
+                         str(dmRabaisPerCategory.objects.all().first()))
 
     '''def test_category_discount_duplicate(self):
         create_discount()
@@ -66,7 +66,7 @@ class RabaisModelTest(TestCase):
     def test_promocode_str(self):
         create_promo()
         self.assertEqual("Test Promo",
-                         dmPromoCode.objects.all().first())
+                         str(dmPromoCode.objects.all().first()))
 
     def test_promocode_without_code(self):
         data = {

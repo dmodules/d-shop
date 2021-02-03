@@ -53,3 +53,23 @@ class CategoryDiscountTestProduct(TestCase):
             float(old_price.to_eng_string()),
             float(new_price.to_eng_string()) + amount
         )
+
+    def test_category_discount_percent(self):
+        data = {
+            'name': 'Test Discount',
+            'percent': 10,
+            'is_active': True,
+            'valid_from': pytz.utc.localize(datetime.today() - timedelta(days=2)),
+            'valid_until': pytz.utc.localize(datetime.today() + timedelta(days=3)),
+        }
+        prod = Product.objects.all().first()
+        old_price = prod.get_price()
+        amount = 10
+        # Create discount
+        create_discount(data)
+        # Get new Price
+        new_price = prod.get_price()
+        self.assertEqual(
+            float(old_price.to_eng_string()),
+            float(new_price.to_eng_string()) + amount
+        )

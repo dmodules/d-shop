@@ -6,6 +6,7 @@ from rest_framework import status
 from bs4 import BeautifulSoup
 
 from dshop.models import Product
+from dshop.utils import get_coords_from_address
 from dshop.tests.utils import filter_p, \
     category, \
     product, \
@@ -188,3 +189,10 @@ class DShopTemplate(TestCase):
         divs = div.findAll('div', {'class': 'produit col-md-4 col-6'})
 
         self.assertEqual(p_count, len(divs))
+
+class TestUtils(TestCase):
+
+    def test_address_coards(self):
+        addr = "Saint-Félicien, Le Domaine-du-Roy, Saguenay–Lac-Saint-Jean, Québec, G8K 2R2, Canada"
+        loc = get_coords_from_address('G8K 2R2')
+        self.assertEqual(addr, loc.address)
