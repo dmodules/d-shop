@@ -10,6 +10,8 @@ from dshop.models import ProductVariableVariant
 from .models import dmPromoCode
 
 def get_discounts_byrequest(request):
+    print("================================================")
+    print("get_discounts_byrequest")
     result = [[], [], Decimal(0), Decimal(0)]
     try:
         cart = CartModel.objects.get_from_request(request)
@@ -23,8 +25,13 @@ def get_discounts_byrequest(request):
                     product_code=item.product_code
                 )
             for pc in cproduct.get_promocodes(request):
-                result[0].append(pc.promocode.name)
-                result[1].append(pc.promocode.code)
+                if hasattr(cart, "subtotal") and pc.promocode.amount:
+                    if Decimal(pc.promocode.amount) < Decimal(cart.subtotal):
+                        result[0].append(pc.promocode.name)
+                        result[1].append(pc.promocode.code)
+                else:
+                    result[0].append(pc.promocode.name)
+                    result[1].append(pc.promocode.code)
             result[2] = result[2] + (Decimal(cproduct.unit_price) * item.quantity)
             result[3] = result[3] + (
                 Decimal(
