@@ -88,7 +88,7 @@ class SquarePayment(PaymentProvider):
                     body['order']['order']['taxes'][0]['name'] = str(_('Taxes'))
                     body['order']['order']['taxes'][0]['percentage'] = str(item['label'].split('%')[0])
                     body['order']['order']['taxes'][0]['scope'] = 'LINE_ITEM'
-                if key == 'discounts':
+                if key == 'cart-discounts':
                     body['order']['order']['discounts'] = []
                     body['order']['order']['discounts'].append({})
                     body['order']['order']['discounts'][0]['uid'] = 'total-discounts'

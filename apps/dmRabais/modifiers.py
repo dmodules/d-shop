@@ -29,10 +29,11 @@ class DiscountsModifier(BaseCartModifier):
                 )
             else:
                 percent_discount = Money(0)
-            cart.subtotal -= Money(cart_discounts[0]) + percent_discount
+            all_cart_discounts = Money(cart_discounts[0]) + percent_discount
+            cart.subtotal -= all_cart_discounts
             if Decimal(cart.subtotal) < 0:
                 cart.subtotal = Money(0)
-            cart.total -= Money(cart_discounts[0]) + percent_discount
+            cart.total -= all_cart_discounts
             if Decimal(cart.total) < 0:
                 cart.total = Money(0)
             all_discounts = all_discounts + cart_discounts[0] + Decimal(percent_discount)
@@ -41,6 +42,10 @@ class DiscountsModifier(BaseCartModifier):
             cart.extra_rows["subtotal-before-discounts"] = ExtraCartRow({
                 "label": _("Subtotal before discounts"),
                 "amount": Money("%0.2f" % all_prices)
+            })
+            cart.extra_rows["cart-discounts"] = ExtraCartRow({
+                "label": _("Cart Discounts"),
+                "amount": all_cart_discounts
             })
             cart.extra_rows[self.identifier] = ExtraCartRow({
                 "label": _("Discounts"),

@@ -24,15 +24,14 @@ def get_discounts_byrequest(request):
                 cproduct = ProductVariableVariant.objects.get(
                     product_code=item.product_code
                 )
-            if hasattr(cart, "subtotal"):
-                for pc in cproduct.get_promocodes(request):
-                    if pc.promocode.amount:
-                        if Decimal(pc.promocode.amount) < Decimal(cart.subtotal):
-                            result[0].append(pc.promocode.name)
-                            result[1].append(pc.promocode.code)
-                    else:
+            for pc in cproduct.get_promocodes(request):
+                if hasattr(cart, "subtotal") and pc.promocode.amount:
+                    if Decimal(pc.promocode.amount) < Decimal(cart.subtotal):
                         result[0].append(pc.promocode.name)
                         result[1].append(pc.promocode.code)
+                else:
+                    result[0].append(pc.promocode.name)
+                    result[1].append(pc.promocode.code)
             result[2] = result[2] + (Decimal(cproduct.unit_price) * item.quantity)
             result[3] = result[3] + (
                 Decimal(
