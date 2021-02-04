@@ -5,13 +5,15 @@ from django.urls import reverse
 from rest_framework import status
 from bs4 import BeautifulSoup
 
-from dshop.models import Product
+from dshop.models import Product, ProductCategory
+from dshop.templatetags.dshop_tags import dm_get_all_products
 from dshop.utils import get_coords_from_address
 from dshop.tests.utils import filter_p, \
     category, \
     product, \
     product_variable, \
-    product_variant
+    product_variant, \
+    create_data
 
 class AProductCartTest(TestCase):
 
@@ -162,7 +164,7 @@ class DShopAPITest(TestCase):
 class DShopTemplate(TestCase):
 
     def setUp(self):
-        pv = product_variable()
+        '''pv = product_variable()
         product_variant(pv)
         data = {
             'product_name': 'Lemon',
@@ -177,18 +179,30 @@ class DShopTemplate(TestCase):
             'unit_price': 10,
             'quantity': 1,
         }
-        product_variant(pv, data)
+        product_variant(pv, data)'''
+        create_data()
         self.client = Client()
 
     def test_produits_page(self):
         p_count = Product.objects.all().count()
+        count = 0
+        limit = 0
+        while True:
+            res = dm_get_all_products(limit, 9)
+            count += res['products'].count()
+            limit += 9
+            if res['next'] == 0:
+                break
+        self.assertEqual(p_count, count)
 
-        response = self.client.get('http://localhost:8000/fr/produits/')
+    def test_produits_category_product(self):
+        cat = ProductCategory.objects.all().first()
+        slug = str(cat.id) + '-' + '-'.join(cat.name.lower().split(' '))
+        response = self.client.get('http://localhost:8000/fr/produits/' + slug)
         soup = BeautifulSoup(response.content, features="lxml")
         div = soup.find('div', {'class': 'row shop_container grid produits'})
         divs = div.findAll('div', {'class': 'produit col-md-4 col-6'})
-
-        self.assertEqual(p_count, len(divs))
+        self.assertEqual(6, len(divs))
 
 class TestUtils(TestCase):
 
