@@ -1,4 +1,4 @@
-from haystack import indexes
+'''from haystack import indexes
 from dshop.models import Product
 
 
@@ -11,4 +11,4 @@ class ProductIndex(indexes.SearchIndex, indexes.Indexable):
         return Product
 
     def index_queryset(self, using=None):
-        return self.get_model().objects.all()
+        return self.get_model().objects.all()'''
