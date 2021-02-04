@@ -13,15 +13,17 @@
                     </span>
                 </div>
                 <div class="col col-6 col-md-8 text-center">
-                    <a class="dm-logo" href="/">
-                        {% dm_get_logos as logos %}
-                        {% if logos %}
-                            {% thumbnail logos.logolight "300x120" upscale as thumb_light %}
-                            {% thumbnail logos.logodark "300x120" upscale as thumb_dark %}
-                            <img class="light-logo" src="{{thumb_light.url}}" alt="logo" />
-                            <img class="dark-logo" src="{{thumb_dark.url}}" alt="logo" />
-                        {% endif %}
-                    </a>
+                    {% block logo %}
+                        <a class="dm-logo" href="/">
+                            {% dm_get_logos as logos %}
+                            {% if logos %}
+                                {% thumbnail logos.logolight "300x120" upscale as thumb_light %}
+                                {% thumbnail logos.logodark "300x120" upscale as thumb_dark %}
+                                <img class="light-logo" src="{{thumb_light.url}}" alt="logo" />
+                                <img class="dark-logo" src="{{thumb_dark.url}}" alt="logo" />
+                            {% endif %}
+                        </a>
+                    {% endblock logo %}
                 </div>
                 <div class="col col-3 col-md-2 text-right">
                     <span class="tophead-icon drawer-toggle dm-user" data-dm="user">
