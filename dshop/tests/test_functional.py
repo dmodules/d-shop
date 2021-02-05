@@ -16,10 +16,21 @@ from dshop.templatetags.dshop_tags import dm_get_all_products, \
     dm_get_brands_all, \
     dm_get_brand, \
     dm_get_filters_all, \
+    dm_get_products_by_category, \
+    dm_get_products_by_brand, \
     dm_get_category_by_category, \
     dm_get_categories_parents, \
     dm_get_category, \
     dm_get_attributes_list
+from dshop.views import CustomerView, \
+    CustomerCheckView, \
+    LoadProduits, \
+    LoadVariantSelect, \
+    LoadProductsByCategory, \
+    ShippingMethodsView, \
+    BillingMethodsView, \
+    send_queued_mail, \
+    unclone_customers
 from dshop.utils import get_coords_from_address
 from dshop.tests.utils import filter_p, \
     category, \
@@ -152,47 +163,36 @@ class AProductCartTest(TestCase):
 class DShopAPITest(TestCase):
 
     def setUp(self):
+        create_data()
         self.client = Client()
 
     def test_customer_api(self):
         response = self.client.get(reverse('customer'))
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_more_product_api(self):
         response = self.client.get(reverse('moreproducts'))
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_shipping_method_api(self):
         response = self.client.get(reverse('shipping-method'))
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_billing_method_api(self):
         response = self.client.get(reverse('billing-method'))
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-class DShopTemplate(TestCase):
+    def test_load_variant_select(self):
+        response = self.client.get(reverse('load-variant'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_load_product_by_category(self):
+        response = self.client.get(reverse('products-by-category'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+class DShopAATemplate(TestCase):
 
     def setUp(self):
-        '''pv = product_variable()
-        product_variant(pv)
-        data = {
-            'product_name': 'Lemon',
-            'slug': 'lemon',
-            'order': 0,
-            'caption': 'Lemon'
-        }
-        pv = product_variable(data)
-        data = {
-            'product': pv,
-            'product_code': '00002',
-            'unit_price': 10,
-            'quantity': 1,
-        }
-        product_variant(pv, data)'''
         create_data()
         self.client = Client()
 
@@ -210,21 +210,27 @@ class DShopTemplate(TestCase):
 
     def test_produits_category_product(self):
         cat = ProductCategory.objects.all().first()
-        slug = str(cat.id) + '-' + '-'.join(cat.name.lower().split(' '))
-        response = self.client.get('http://localhost:8000/fr/produits/' + slug)
-        soup = BeautifulSoup(response.content, features="lxml")
-        div = soup.find('div', {'class': 'row shop_container grid produits'})
-        divs = div.findAll('div', {'class': 'produit col-md-4 col-6'})
-        self.assertEqual(6, len(divs))
+        count = 0
+        limit = 0
+        while True:
+            res = dm_get_products_by_category(cat, limit, 9)
+            count += res['products'].count()
+            limit += 9
+            if res['next'] == 0:
+                break
+        self.assertEqual(6, count)
 
     def test_produits_brand_product(self):
         br = ProductBrand.objects.all().first()
-        slug = 'b' + str(br.id) + '-' + '-'.join(br.name.lower().split(' '))
-        response = self.client.get('http://localhost:8000/fr/produits/' + slug)
-        soup = BeautifulSoup(response.content, features="lxml")
-        div = soup.find('div', {'class': 'row shop_container grid produits'})
-        divs = div.findAll('div', {'class': 'produit col-md-4 col-6'})
-        self.assertEqual(6, len(divs))
+        count = 0
+        limit = 0
+        while True:
+            res = dm_get_products_by_brand(br, limit, 9)
+            count += res['products'].count()
+            limit += 9
+            if res['next'] == 0:
+                break
+        self.assertEqual(6, count)
 
     def test_produits_related_product(self):
         pr = Product.objects.all().first()

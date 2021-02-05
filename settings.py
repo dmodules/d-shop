@@ -662,7 +662,6 @@ ADMIN_REORDER = (
             "dshop.ProductCategory",
             "dshop.ProductFilter",
             "dshop.ProductBrand",
-            "dshop.ProductLabel",
             "dshop.Attribute",
             "dshop.Product",
             {
@@ -733,3 +732,19 @@ ADMIN_REORDER = (
         "app": "filer"
     },
 )
+
+
+if STAGE != 'local':
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn="https://34444139af8548e99bce82a828909a20@o517405.ingest.sentry.io/5625175",
+        integrations=[DjangoIntegration()],
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        debug=DEBUG,
+        release=os.getenv('GIT_COMMIT', 'develop'),
+        environment=os.getenv('STAGE', 'local'),
+        send_default_pii=True
+    )
