@@ -740,7 +740,6 @@ ADMIN_REORDER = (
 sentry_sdk.init(
     dsn="https://faca6b7fccd449bcb9cddc9a0b06f9af@o18113.ingest.sentry.io/5625027",
     integrations=[DjangoIntegration()],
-    traces_sample_rate=1.0,
 
     # If you wish to associate users to errors (assuming you are using
     # django.contrib.auth) you may enable sending PII data.
