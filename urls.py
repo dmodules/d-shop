@@ -23,6 +23,9 @@ from dshop.views import TestPaymentView
 from dshop.views import PasswordResetConfirmView
 from dshop.views import unclone_customers, send_queued_mail
 
+def trigger_error(request):
+    division_by_zero = 1 / 0
+
 sitemaps = {"cmspages": CMSSitemap, "products": ProductSitemap}
 
 def render_robots(request):
@@ -116,5 +119,6 @@ urlpatterns = [
     ############################
 
     # MUST be the last entry!
+    url('sentry-debug/', trigger_error),
     *aldryn_addons.urls.i18n_patterns()
 )
