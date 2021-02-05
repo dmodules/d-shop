@@ -4,6 +4,9 @@ import six
 from decimal import Decimal
 from slugify import slugify
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 from django.urls import reverse_lazy
 from django.utils.text import format_lazy
 from django.utils.translation import ugettext_lazy as _
@@ -69,7 +72,6 @@ INSTALLED_APPS.extend([  # noqa: F821
     "shop",
     "dshop",
 ])
-
 
 path_to_extended = '/app/extended_apps/'
 EXTENDED_APP_DIR = 'extended_apps'
@@ -151,7 +153,8 @@ CMS_TEMPLATES = [
     ("theme/default/pages/default.html", "Par défaut"),
     ("theme/default/pages/accueil.html", "Page: Accueil"),
     ("theme/default/pages/produits.html", "Page: Produits"),
-    ("theme/default/pages/terms-and-conditions.html", "Page: Terms and Conditions"),
+    ("theme/default/pages/terms-and-conditions.html",
+     "Page: Terms and Conditions"),
     ("theme/default/pages/contact.html", "Page: Contact"),
 ]
 
@@ -182,9 +185,8 @@ STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY")
 STRIPE_ACCOUNT_ID = os.getenv("STRIPE_ACCOUNT_ID")
 
 if STRIPE_SECRET_KEY is not None:
-    SHOP_CART_MODIFIERS.extend([
-        "apps.dmBillingStripe.modifiers.StripePaymentModifier"
-    ])
+    SHOP_CART_MODIFIERS.extend(
+        ["apps.dmBillingStripe.modifiers.StripePaymentModifier"])
 
 #######################################################################
 # Square Settings
@@ -196,9 +198,8 @@ SQUARE_LOCATION_ID = os.getenv("SQUARE_LOCATION_ID")
 SQUARE_ENVIRONMENT = os.getenv("SQUARE_ENVIRONMENT")
 
 if SQUARE_APIKEY is not None:
-    SHOP_CART_MODIFIERS.extend([
-        "apps.dmBillingSquare.modifiers.SquarePaymentModifier"
-    ])
+    SHOP_CART_MODIFIERS.extend(
+        ["apps.dmBillingSquare.modifiers.SquarePaymentModifier"])
 
 #######################################################################
 # Paths Settings
@@ -309,8 +310,7 @@ TEMPLATES = [{
 }]
 
 THUMBNAIL_PROCESSORS = THUMBNAIL_PROCESSORS + (
-    "easy_thumbnails.processors.background",
-)
+    "easy_thumbnails.processors.background", )
 
 #######################################################################
 #
@@ -520,17 +520,15 @@ CKEDITOR_SETTINGS = {
     '{{ language }}',
     'skin':
     'moono-lisa',
-    'toolbar_CMS': [
-        ['Undo', 'Redo'],
-        ['cmsplugins', '-', 'ShowBlocks'],
-        ['Format'],
-        ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'],
-        '/',
-        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
-        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-        ['HorizontalRule'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
-        ['Source']
-    ],
+    'toolbar_CMS':
+    [['Undo', 'Redo'], ['cmsplugins', '-', 'ShowBlocks'], ['Format'],
+     ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'], '/',
+     [
+         'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
+         'Superscript', '-', 'RemoveFormat'
+     ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+     ['HorizontalRule'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+     ['Source']],
     'stylesSet':
     format_lazy('default:{}', reverse_lazy('admin:cascade_texteditor_config')),
 }
@@ -542,12 +540,11 @@ CKEDITOR_SETTINGS_CAPTION = {
     'moono-lisa',
     'height':
     250,
-    'toolbar_HTMLField': [
-        ['Undo', 'Redo'],
-        ['Format', 'Styles'],
-        ['Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
-        ['Source']
-    ],
+    'toolbar_HTMLField': [['Undo', 'Redo'], ['Format', 'Styles'],
+                          [
+                              'Bold', 'Italic', 'Underline', '-', 'Subscript',
+                              'Superscript', '-', 'RemoveFormat'
+                          ], ['Source']],
 }
 
 CKEDITOR_SETTINGS_DESCRIPTION = {
@@ -557,19 +554,15 @@ CKEDITOR_SETTINGS_DESCRIPTION = {
     'moono-lisa',
     'height':
     250,
-    'toolbar_HTMLField': [
-        ['Undo', 'Redo'],
-        ['cmsplugins', '-', 'ShowBlocks'],
-        ['Format', 'Styles'],
-        ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'],
-        ['Maximize', ''],
-        '/',
-        ['Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
-        ['JustifyLeft', 'JustifyCenter', 'JustifyRight'],
-        ['HorizontalRule'],
-        ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-        ['Source']
-    ]
+    'toolbar_HTMLField':
+    [['Undo', 'Redo'], ['cmsplugins', '-', 'ShowBlocks'], ['Format', 'Styles'],
+     ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'],
+     ['Maximize', ''], '/',
+     [
+         'Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-',
+         'RemoveFormat'
+     ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight'], ['HorizontalRule'],
+     ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'], ['Source']]
 }
 
 CKEDITOR_SETTINGS_DMPLUGIN = {
@@ -579,12 +572,11 @@ CKEDITOR_SETTINGS_DMPLUGIN = {
     'moono-lisa',
     'height':
     250,
-    'toolbar_HTMLField': [
-        ['Undo', 'Redo'],
-        ['TextColor', 'BGColor'],
-        ['Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
-        ['Source']
-    ]
+    'toolbar_HTMLField': [['Undo', 'Redo'], ['TextColor', 'BGColor'],
+                          [
+                              'Bold', 'Italic', 'Underline', '-', 'Subscript',
+                              'Superscript', '-', 'RemoveFormat'
+                          ], ['Source']]
 }
 
 CKEDITOR_SETTINGS_DMBLOCKPLUGIN = {
@@ -594,15 +586,13 @@ CKEDITOR_SETTINGS_DMBLOCKPLUGIN = {
     'moono-lisa',
     'height':
     250,
-    'toolbar_HTMLField': [
-        ['Undo', 'Redo'],
-        ['Format', 'Styles'],
-        ['TextColor', 'BGColor'],
-        ['Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
-        ['HorizontalRule'],
-        ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-        ['Source']
-    ]
+    'toolbar_HTMLField':
+    [['Undo', 'Redo'], ['Format', 'Styles'], ['TextColor', 'BGColor'],
+     [
+         'Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-',
+         'RemoveFormat'
+     ], ['HorizontalRule'],
+     ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'], ['Source']]
 }
 
 SELECT2_CSS = 'node_modules/select2/dist/css/select2.min.css'
@@ -648,8 +638,10 @@ if STAGE == 'local':
 MIDDLEWARE.extend(["dshop.middleware.AdminReorderMiddleware"])  # noqa: F821
 ADMIN_REORDER = (
     {
-        "app": "shop",
-        "label": "Site",
+        "app":
+        "shop",
+        "label":
+        "Site",
         "models": [
             "dshop.dmSite",
             "cms.Page",
@@ -665,8 +657,10 @@ ADMIN_REORDER = (
         ]
     },
     {
-        "app": "dshop",
-        "label": _("Shop"),
+        "app":
+        "dshop",
+        "label":
+        _("Shop"),
         "models": [
             "dshop.ProductCategory",
             "dshop.ProductFilter",
@@ -692,8 +686,10 @@ ADMIN_REORDER = (
         ]
     },
     {
-        "app": "dmRabais",
-        "label": _("Discounts"),
+        "app":
+        "dmRabais",
+        "label":
+        _("Discounts"),
         "models": [
             "dmRabais.dmRabaisPerCategory",
             "dmRabais.dmPromoCode",
@@ -715,19 +711,18 @@ ADMIN_REORDER = (
         ]
     },
     {
-        "app": "post_office",
-        "label": _("Sending Emails"),
+        "app":
+        "post_office",
+        "label":
+        _("Sending Emails"),
         "models": [
-            "shop.Notification",
-            {
+            "shop.Notification", {
                 "model": "post_office.EmailTemplate",
                 "label": _("Email Templates")
-            },
-            {
+            }, {
                 "model": "post_office.Email",
                 "label": _("Sent Emails")
-            },
-            "post_office.Log"
+            }, "post_office.Log"
         ]
     },
     {
@@ -740,4 +735,14 @@ ADMIN_REORDER = (
     {
         "app": "filer"
     },
+)
+
+
+sentry_sdk.init(
+    dsn="https://faca6b7fccd449bcb9cddc9a0b06f9af@o18113.ingest.sentry.io/5625027",
+    integrations=[DjangoIntegration()],
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
 )
