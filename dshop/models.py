@@ -482,6 +482,41 @@ class ProductBrand(models.Model):
         return result
 
 
+class ProductLabel(models.Model):
+    """
+    A model to add a custom label
+    on product's media.
+    """
+
+    name = models.CharField(
+        verbose_name=_("Label's Name"),
+        max_length=25,
+        null=False,
+        blank=False,
+        help_text=_("Maximum 25 characters.")
+    )
+    colour = ColorField(
+        verbose_name=_("Text's Colour"),
+        default="#000",
+        null=False,
+        blank=False
+    )
+    bg_colour = ColorField(
+        verbose_name=_("Background's Colour"),
+        default="#fff",
+        null=False,
+        blank=False
+    )
+
+    class Meta:
+        verbose_name = _("Product's Label")
+        verbose_name_plural = _("Product's Labels")
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
 #######################################################################
 # Produits
 #######################################################################
@@ -515,6 +550,14 @@ class Product(CMSPageReferenceMixin, TranslatableModelMixin, BaseProduct):
         verbose_name=_("Brand"),
         blank=True,
         null=True
+    )
+    label = models.ForeignKey(
+        ProductLabel,
+        on_delete=models.SET_NULL,
+        verbose_name=_("Custom Label"),
+        blank=True,
+        null=True,
+        help_text=_("Add a custom label to the product.")
     )
     is_vedette = models.BooleanField(
         _("Featured"),

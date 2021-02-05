@@ -662,6 +662,7 @@ ADMIN_REORDER = (
             "dshop.ProductCategory",
             "dshop.ProductFilter",
             "dshop.ProductBrand",
+            "dshop.ProductLabel",
             "dshop.Attribute",
             "dshop.Product",
             {
