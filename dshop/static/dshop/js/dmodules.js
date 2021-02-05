@@ -745,6 +745,9 @@ function loadMoreProduits(what = null, search = null) {
         }
         r += '</ul>'
         r += '</div>'
+        if (product.label) {
+            r += '<span class="product_sale_customlabel" style="background-color:'+product.label.bg_colour+';border-color:'+product.label.colour+';color:'+product.label.colour+';">'+product.label.name+'</span>'
+        }
         r += '</div>'
         r += '<div class="product_info">'
         r += '<h6 class="product_title"><a href="'+product.url+'">'+product.name+'</a></h6>'
@@ -757,7 +760,9 @@ function loadMoreProduits(what = null, search = null) {
             r += '<del>'+product.realprice+'</del>'
           }
         }
-        if (product.is_discounted) {
+        if (product.quantity <= 0) {
+            r += '<span class="product_sale_outofstock">'+i18n.outofstock[lang]+'</span>'
+        } else if (product.is_discounted) {
             r += '<span class="product_sale_discounted">'+i18n.discounted[lang]+'</span>'
         }
         r += '</div>'
@@ -821,6 +826,9 @@ function pbc_tab(cat, tab) {
                 }
                 r += '</ul>'
                 r += '</div>'
+                if (product.label) {
+                    r += '<span class="product_sale_customlabel" style="background-color:'+product.label.bg_colour+';border-color:'+product.label.colour+';color:'+product.label.colour+';">'+product.label.name+'</span>'
+                }
                 r += '</div>'
                 r += '<div class="product_info text-left">'
                 r += '<h6 class="product_title"><a href="'+product.url+'">'+product.name+'</a></h6>'

@@ -4,9 +4,6 @@ import six
 from decimal import Decimal
 from slugify import slugify
 
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-
 from django.urls import reverse_lazy
 from django.utils.text import format_lazy
 from django.utils.translation import ugettext_lazy as _
@@ -665,6 +662,7 @@ ADMIN_REORDER = (
             "dshop.ProductCategory",
             "dshop.ProductFilter",
             "dshop.ProductBrand",
+            "dshop.ProductLabel",
             "dshop.Attribute",
             "dshop.Product",
             {
@@ -734,14 +732,4 @@ ADMIN_REORDER = (
     {
         "app": "filer"
     },
-)
-
-
-sentry_sdk.init(
-    dsn="https://faca6b7fccd449bcb9cddc9a0b06f9af@o18113.ingest.sentry.io/5625027",
-    integrations=[DjangoIntegration()],
-
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
 )

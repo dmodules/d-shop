@@ -39,7 +39,7 @@ from shop.models.cart import CartModel, CartItemModel
 from dshop.models import dmSite, dmSiteLogo, dmSiteContact, dmSiteSocial
 from dshop.models import dmSiteTermsAndConditions
 from dshop.models import BillingAddress, ShippingAddress
-from dshop.models import ProductCategory, ProductFilter, ProductBrand
+from dshop.models import ProductCategory, ProductFilter, ProductBrand, ProductLabel
 from dshop.models import Product
 from dshop.models import Attribute, AttributeValue
 from dshop.models import ProductDefault
@@ -462,6 +462,11 @@ class ProductFilterAdmin(admin.ModelAdmin):
 class ProductBrandAdmin(admin.ModelAdmin):
     list_display = ["name", "order"]
 
+
+@admin.register(ProductLabel)
+class ProductLabelAdmin(admin.ModelAdmin):
+    list_display = ["name"]
+
 #######################################################################
 # Produits
 #######################################################################
@@ -500,9 +505,14 @@ class ProductDefaultAdmin(
                 "filters"
             ]
         }),
-        (_("Brand"), {
+        (None, {
             "fields": [
                 "brand"
+            ]
+        }),
+        (None, {
+            "fields": [
+                "label"
             ]
         }),
         (_("Main Image"), {
@@ -580,9 +590,14 @@ class ProductVariableAdmin(
                 "filters"
             ]
         }),
-        (_("Brand"), {
+        (None, {
             "fields": [
                 "brand"
+            ]
+        }),
+        (None, {
+            "fields": [
+                "label"
             ]
         }),
         (_("Main Image"), {
@@ -674,8 +689,9 @@ class ProductAdmin(PolymorphicParentModelAdmin):
     list_display = [
         "product_name",
         "brand",
+        "label",
         # "get_price",
-        "product_type",
+        # "product_type",
         "get_quantity",
         "is_vedette",
         "active"
@@ -683,10 +699,10 @@ class ProductAdmin(PolymorphicParentModelAdmin):
     actions = [convert_variable, ]
     list_display_links = ["product_name"]
     search_fields = ["product_name"]
-    list_filter = ['categories', PolymorphicChildModelFilter, CMSPageFilter]
+    list_filter = ["categories", "brand", "label", PolymorphicChildModelFilter]
     list_per_page = 100
     list_max_show_all = 1000
-    list_editable = ["brand"]
+    list_editable = ["brand", "label"]
 
     def get_price(self, obj):
         return str(obj.get_real_instance().get_price(None))
