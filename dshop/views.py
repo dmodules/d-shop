@@ -259,6 +259,7 @@ class LoadProductsByCategory(APIView):
     def get(self, request, *args, **kwargs):  # noqa: C901
         category = request.GET.get("category", None)
         products = None
+        all_produits = []
         if category is not None:
             category = int(category)
             products = Product.objects.filter(

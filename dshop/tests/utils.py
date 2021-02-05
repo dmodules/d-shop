@@ -15,7 +15,10 @@ from dshop.models import ProductDefault, \
 
 def get_image():
     url = 'https://www.d-modules.com/static/img/logo-dmodules-black.png'
-    r = requests.get(url)
+    try:
+        r = requests.get(url)
+    except Exception:
+        r = requests.get('https://miro.medium.com/max/2800/0*xMaFF2hSXpf_kIfG.jpg')
     image_temp_file = NamedTemporaryFile(delete=True)
     image_temp_file.write(r.content)
     image_temp_file.flush()
