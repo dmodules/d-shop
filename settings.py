@@ -733,16 +733,3 @@ ADMIN_REORDER = (
         "app": "filer"
     },
 )
-
-
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-
-sentry_sdk.init(
-    dsn="https://faca6b7fccd449bcb9cddc9a0b06f9af@o18113.ingest.sentry.io/5625027",
-    integrations=[DjangoIntegration()],
-
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
-)
