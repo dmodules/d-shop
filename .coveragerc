@@ -12,6 +12,20 @@ omit =
     docs/*
     env/*
     env*
+    *admin.py*
+    dshop/cms_plugins.py
+    dshop/middleware.py
+    dshop/transition.py
+    dshop/signals.py
+    apps/dmSquare/views.py
+    apps/dmRabais/views.py
+    apps/dmRabais/utils.py
+    apps/dmBillingStripe/views.py
+    apps/dmBillingStripe/stripe_tax.py
+    apps/dmBillingSquare/views.py
+    *payment.py*
+    *modifiers.py*
+    apps/*/tests/*
 
 [report]
 exclude_lines =

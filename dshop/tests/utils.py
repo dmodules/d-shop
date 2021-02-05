@@ -44,7 +44,7 @@ def product_brand(data=None):
 
 def category(data=None):
     if not data:
-        data={'name':'Vegetable'}
+        data = {'name': 'Vegetable'}
     cat, created = ProductCategory.objects.get_or_create(**data)
     return cat
 
@@ -134,14 +134,14 @@ def clear_data():
 
 def create_data():
     clear_data()
-    for i in range(1,5):
+    for i in range(1, 5):
         data = {
             'name': 'Brand ' + str(i),
             'logo': get_image(),
             'order': i
         }
         product_brand(data)
-        category({'name':"Category " + str(i)})
+        category({'name': "Category " + str(i)})
 
     for cat in ProductCategory.objects.all():
         data = {
@@ -171,8 +171,8 @@ def create_data():
             'caption': 'Test Product ' + str(product_counter)
         }
         product = product_variable(data)
-        price = random.randint(10,50)
-        quantity = random.randint(5,25)
+        price = random.randint(10, 50)
+        quantity = random.randint(5, 25)
         data = {
             'product': product,
             'product_code': ''.join(random.sample('0123456789', 5)),
@@ -191,8 +191,8 @@ def create_data():
             'caption': 'Test Product ' + str(product_counter)
         }
         product = product_variable(data)
-        price = random.randint(10,50)
-        quantity = random.randint(5,25)
+        price = random.randint(10, 50)
+        quantity = random.randint(5, 25)
         data = {
             'product': product,
             'product_code': ''.join(random.sample('0123456789', 5)),

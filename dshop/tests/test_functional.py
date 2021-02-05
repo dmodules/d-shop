@@ -1,17 +1,32 @@
-
 from django.test import TestCase, Client
 from django.urls import reverse
-
+import pytz
+import random
+from datetime import datetime, timedelta
 from rest_framework import status
 from bs4 import BeautifulSoup
 
-from dshop.models import Product
+from dshop.models import Product, ProductCategory, ProductBrand, Attribute
+from dshop.templatetags.dshop_tags import dm_get_all_products, \
+    dm_variants_is_outofstock, \
+    dm_variants_is_discounted, \
+    dm_get_products_vedette, \
+    dm_get_products_related, \
+    dm_get_products_all, \
+    dm_get_brands_all, \
+    dm_get_brand, \
+    dm_get_filters_all, \
+    dm_get_category_by_category, \
+    dm_get_categories_parents, \
+    dm_get_category, \
+    dm_get_attributes_list
 from dshop.utils import get_coords_from_address
 from dshop.tests.utils import filter_p, \
     category, \
     product, \
     product_variable, \
-    product_variant
+    product_variant, \
+    create_data
 
 class AProductCartTest(TestCase):
 
@@ -162,7 +177,7 @@ class DShopAPITest(TestCase):
 class DShopTemplate(TestCase):
 
     def setUp(self):
-        pv = product_variable()
+        '''pv = product_variable()
         product_variant(pv)
         data = {
             'product_name': 'Lemon',
@@ -177,18 +192,108 @@ class DShopTemplate(TestCase):
             'unit_price': 10,
             'quantity': 1,
         }
-        product_variant(pv, data)
+        product_variant(pv, data)'''
+        create_data()
         self.client = Client()
 
     def test_produits_page(self):
         p_count = Product.objects.all().count()
+        count = 0
+        limit = 0
+        while True:
+            res = dm_get_all_products(limit, 9)
+            count += res['products'].count()
+            limit += 9
+            if res['next'] == 0:
+                break
+        self.assertEqual(p_count, count)
 
-        response = self.client.get('http://localhost:8000/fr/produits/')
+    def test_produits_category_product(self):
+        cat = ProductCategory.objects.all().first()
+        slug = str(cat.id) + '-' + '-'.join(cat.name.lower().split(' '))
+        response = self.client.get('http://localhost:8000/fr/produits/' + slug)
         soup = BeautifulSoup(response.content, features="lxml")
         div = soup.find('div', {'class': 'row shop_container grid produits'})
         divs = div.findAll('div', {'class': 'produit col-md-4 col-6'})
+        self.assertEqual(6, len(divs))
 
-        self.assertEqual(p_count, len(divs))
+    def test_produits_brand_product(self):
+        br = ProductBrand.objects.all().first()
+        slug = 'b' + str(br.id) + '-' + '-'.join(br.name.lower().split(' '))
+        response = self.client.get('http://localhost:8000/fr/produits/' + slug)
+        soup = BeautifulSoup(response.content, features="lxml")
+        div = soup.find('div', {'class': 'row shop_container grid produits'})
+        divs = div.findAll('div', {'class': 'produit col-md-4 col-6'})
+        self.assertEqual(6, len(divs))
+
+    def test_produits_related_product(self):
+        pr = Product.objects.all().first()
+        ret = dm_get_products_related(pr.categories, pr.id)
+        self.assertEqual(4, ret['products'].count())
+
+    def test_product_all(self):
+        products = dm_get_products_all()
+        self.assertEqual(24, products.count())
+
+    def test_active_product(self):
+        products = dm_get_products_vedette()
+        self.assertEqual(0, products.count())
+        for pr in Product.objects.all()[1:5]:
+            pr.is_vedette = True
+            pr.save()
+        products = dm_get_products_vedette()
+        self.assertEqual(4, products.count())
+
+    def test_variant_out_of_stock(self):
+        pr = Product.objects.all().order_by('id')
+        random_p = random.randint(pr.first().id, pr.last().id)
+        pr = Product.objects.get(id=random_p)
+        ret = dm_variants_is_outofstock(pr.variants)
+        self.assertEqual(False, ret)
+        for pv in pr.variants.all():
+            pv.quantity = 0
+            pv.save()
+        ret = dm_variants_is_outofstock(pr.variants)
+        self.assertEqual(True, ret)
+
+    def test_variant_discounted(self):
+        pr = Product.objects.all().order_by('id')
+        random_p = random.randint(pr.first().id, pr.last().id)
+        pr = Product.objects.get(id=random_p)
+        ret = dm_variants_is_discounted(pr.variants)
+        self.assertEqual(False, ret)
+
+        pv = pr.variants.all()[0]
+        pv.discounted_price = 1
+        pv.start_date = pytz.utc.localize(datetime.today() - timedelta(days=2))
+        pv.end_date = pytz.utc.localize(datetime.today() + timedelta(days=2))
+        pv.save()
+        ret = dm_variants_is_discounted(pr.variants)
+        self.assertEqual(True, ret)
+
+    def test_get_brand_test(self):
+        data = dm_get_brands_all()
+        self.assertEqual(4, data.count())
+
+        d = dm_get_brand(data[0].id)
+        self.assertEqual(d.id, data[0].id)
+
+    def test_filter(self):
+        data = dm_get_filters_all()
+        self.assertEqual(0, data.count())
+
+    def test_category_child(self):
+        cats = dm_get_categories_parents()
+        self.assertEqual(4, cats.count())
+        data = dm_get_category_by_category(cats[0])
+        self.assertEqual(2, data.count())
+        data = dm_get_category(cats[0].id)
+        self.assertEqual(ProductCategory, type(data))
+
+    def test_attribute(self):
+        attr = Attribute.objects.get(name='Color')
+        data = dm_get_attributes_list(attr)
+        self.assertEqual(3, len(data))
 
 class TestUtils(TestCase):
 
