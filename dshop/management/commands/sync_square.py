@@ -180,6 +180,7 @@ class Command(BaseCommand):
                     description = ''
                     if 'description' in d['item_data']:
                         description = d['item_data']['description']
+                        description = description.replace('\n', '<br>')
                     p_data = {
                         'product_name': d['item_data']['name'],
                         'square_id': d['id'],
