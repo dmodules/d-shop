@@ -1,4 +1,5 @@
 import requests
+import random
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 from filer.models import Image
@@ -31,19 +32,24 @@ def filter_p():
     filt = ProductFilter.objects.create(name='ALL')
     return filt
 
-def product_brand():
-    brand, created = ProductBrand.objects.get_or_create(
-        name='D-Mart',
-        logo=get_image(),
-        order=1)
+def product_brand(data=None):
+    if not data:
+        data = {
+            'name': 'D-Mart',
+            'logo': get_image(),
+            'order': 1
+        }
+    brand, created = ProductBrand.objects.get_or_create(**data)
     return brand
 
-def category():
-    cat, created = ProductCategory.objects.get_or_create(name='Vegetable')
+def category(data=None):
+    if not data:
+        data = {'name': 'Vegetable'}
+    cat, created = ProductCategory.objects.get_or_create(**data)
     return cat
 
-def attribute():
-    attr, created = Attribute.objects.get_or_create(name='KG')
+def attribute(name="KG"):
+    attr, created = Attribute.objects.get_or_create(name=name)
     return attr
 
 def attribute_value(attr, values=[1, 5]):
@@ -119,3 +125,84 @@ def attach_attribute(product_v, attribute):
         return type(e)
 
     return True
+
+def clear_data():
+    ProductVariable.objects.all().delete()
+    ProductCategory.objects.all().delete()
+    ProductBrand.objects.all().delete()
+    Attribute.objects.all().delete()
+
+def create_data():
+    clear_data()
+    for i in range(1, 5):
+        data = {
+            'name': 'Brand ' + str(i),
+            'logo': get_image(),
+            'order': i
+        }
+        product_brand(data)
+        category({'name': "Category " + str(i)})
+
+    for cat in ProductCategory.objects.all():
+        data = {
+            'parent': cat,
+            'name': 'Child 1: ' + cat.name
+        }
+        category(data)
+        data = {
+            'parent': cat,
+            'name': 'Child 2: ' + cat.name
+        }
+        category(data)
+
+    attr = attribute('Color')
+    attribute_value(attr, ['Red', 'Blue', 'Green'])
+    attr = attribute('Size')
+    attribute_value(attr, ['S', 'M', 'L', 'XL'])
+
+    product_counter = 1
+    b_counter = 0
+    for cat in ProductCategory.objects.all().order_by('id'):
+        brand = ProductBrand.objects.all().order_by('id')[b_counter]
+        data = {
+            'product_name': 'Product ' + str(product_counter),
+            'order': product_counter,
+            'brand': brand,
+            'caption': 'Test Product ' + str(product_counter)
+        }
+        product = product_variable(data)
+        price = random.randint(10, 50)
+        quantity = random.randint(5, 25)
+        data = {
+            'product': product,
+            'product_code': ''.join(random.sample('0123456789', 5)),
+            'unit_price': price,
+            'quantity': quantity,
+        }
+        product_variant(product, data)
+
+        product.categories.add(cat)
+        product_counter += 1
+
+        data = {
+            'product_name': 'Product ' + str(product_counter),
+            'order': product_counter,
+            'brand': brand,
+            'caption': 'Test Product ' + str(product_counter)
+        }
+        product = product_variable(data)
+        price = random.randint(10, 50)
+        quantity = random.randint(5, 25)
+        data = {
+            'product': product,
+            'product_code': ''.join(random.sample('0123456789', 5)),
+            'unit_price': price,
+            'quantity': quantity,
+        }
+        product_variant(product, data)
+
+        product.categories.add(cat)
+        product_counter += 1
+        b_counter += 1
+        if b_counter == 4:
+            b_counter = 0

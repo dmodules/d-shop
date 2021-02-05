@@ -17,6 +17,11 @@ class RabaisModelTest(TestCase):
         self.assertEqual(1,
                          dmRabaisPerCategory.objects.all().count())
 
+    def test_category_discount_str(self):
+        create_discount()
+        self.assertEqual("Test Discount",
+                         str(dmRabaisPerCategory.objects.all().first()))
+
     '''def test_category_discount_duplicate(self):
         create_discount()
         create_discount()
@@ -55,6 +60,23 @@ class RabaisModelTest(TestCase):
 
     def test_promocode_create(self):
         create_promo()
+        self.assertEqual(1,
+                         dmPromoCode.objects.all().count())
+
+    def test_promocode_str(self):
+        create_promo()
+        self.assertEqual("Test Promo",
+                         str(dmPromoCode.objects.all().first()))
+
+    def test_promocode_without_code(self):
+        data = {
+            'name': 'Test Promo',
+            'amount': 10,
+            'is_active': True,
+            'valid_from': pytz.utc.localize(datetime.today()),
+            'valid_until': pytz.utc.localize(datetime.today()),
+        }
+        create_promo(data)
         self.assertEqual(1,
                          dmPromoCode.objects.all().count())
 

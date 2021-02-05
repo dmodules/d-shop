@@ -388,11 +388,13 @@ class ProductCategory(MPTTModel):
     active = models.BooleanField(default=True,
                                  verbose_name=_("Active"),)
 
+    class Meta:
+        verbose_name = _("Product's Category")
+        verbose_name_plural = _("Product's Categories")
+
     class MPTTMeta:
         level_attr = 'mptt_level'
         order_insertion_by = ['name']
-        verbose_name = _("Product's Category")
-        verbose_name_plural = _("Product's Categories")
 
     def __str__(self):
         if self.parent is not None:

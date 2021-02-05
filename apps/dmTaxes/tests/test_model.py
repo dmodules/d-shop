@@ -4,7 +4,7 @@ from django.db import IntegrityError
 from .utils import create_taxes
 from apps.dmTaxes.models import CanadaTaxManagement
 
-class AdvertiseModelTest(TestCase):
+class TaxModelTest(TestCase):
 
     def test_tax_create(self):
         create_taxes()
@@ -20,7 +20,7 @@ class AdvertiseModelTest(TestCase):
         tax.save()
         self.assertEqual(
             "Saskatchewan",
-            CanadaTaxManagement.objects.all().first().state
+            str(CanadaTaxManagement.objects.all().first())
         )
 
     def test_tax_delete(self):
