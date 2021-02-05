@@ -85,6 +85,9 @@
                             {% endif %}
                         {% endif %}
                     </span>
+                    {% if product.label %}
+                        <span class="product-detail-customlabel" style="background-color:{{ product.label.bg_colour }};border-color:{{ product.label.colour }};color:{{ product.label.colour }};">{{ product.label.name }}</span>
+                    {% endif %}
                 </h4>
                 <div class="product_price">
                   {% if product.variants.first %}

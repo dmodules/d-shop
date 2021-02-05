@@ -5065,10 +5065,37 @@ footer .widget_title {
     left: 10px;
     padding: 5px 18px 4px;
 }
+.product_img .product_sale_customlabel {
+    background-color: #fff;
+    border: 1px solid #000;
+    color: #000;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 100%;
+    text-transform: uppercase;
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    padding: 5px 18px 4px;
+}
 .product_title .product-detail-discounted{
     background-color: #fff;
     border: 1px solid #458d92;
     color: #458d92;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 100%;
+    text-transform: uppercase;
+    vertical-align: super;
+    display: inline-block;
+    padding: 3px 10px 1px;
+    margin: 0 0 0 10px;
+}
+.product_title .product-detail-customlabel{
+    background-color: #fff;
+    border: 1px solid #000;
+    color: #000;
     font-size: 10px;
     font-weight: 500;
     line-height: 100%;

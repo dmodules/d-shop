@@ -76,7 +76,13 @@
           <div class="col-lg-6 col-md-6">
             <div class="pr_detail">
               <div class="product_description">
-                <h4 class="product_title">{% render_model product "product_name" %}{% if product.is_discounted %}<span class="product-detail-discounted">{% trans "Discounted" %}</span>{% endif %}</h4>
+                <h4 class="product_title">
+                    {% render_model product "product_name" %}
+                    {% if product.is_discounted %}<span class="product-detail-discounted">{% trans "Discounted" %}</span>{% endif %}
+                    {% if product.label %}
+                        <span class="product-detail-customlabel" style="background-color:{{ product.label.bg_colour }};border-color:{{ product.label.colour }};color:{{ product.label.colour }};">{{ product.label.name }}</span>
+                    {% endif %}
+                </h4>
                 <div class="product_price">
                     {% product_discount_price product.id as real_price %}
                     <span class="price">{{real_price}}</span>
@@ -186,8 +192,7 @@
                         </div>
                         </div>
                         <div class="product_info">
-                        <h6 class="product_title"><a href="{{related.get_absolute_url}}">{{related.product_name|truncatechars:45}}</a>
-                        </h6>
+                        <h6 class="product_title"><a href="{{related.get_absolute_url}}">{{related.product_name|truncatechars:45}}</a></h6>
                         <div class="product_price">
                             {% if related.variants %}
                             {% product_variant_discount_price related.variants.first.id as real_price %}

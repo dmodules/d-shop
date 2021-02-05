@@ -53,6 +53,9 @@
                       {% endif %}
                     </ul>
                   </div>
+                  {% if product.label %}
+                      <span class="product_sale_customlabel" style="background-color:{{ product.label.bg_colour }};border-color:{{ product.label.colour }};color:{{ product.label.colour }};">{{ product.label.name }}</span>
+                  {% endif %}
                 </div>
                 <div class="product_info text-left">
                   <h6 class="product_title"><a href="{{product.get_absolute_url}}">{{product.product_name}}</a></h6>

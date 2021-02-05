@@ -210,6 +210,13 @@ class LoadProduits(APIView):
                     [slugify(d.name) for d in produit.filters.all()])
             else:
                 data['filters'] = None
+            if produit.label:
+                data['label'] = {}
+                data['label']['name'] = produit.label.name
+                data['label']['colour'] = produit.label.colour
+                data['label']['bg_colour'] = produit.label.bg_colour
+            else:
+                data['label'] = None
             if hasattr(produit, 'variants'):
                 data['variants'] = True
                 data['variants_count'] = produit.variants.all().count()
@@ -295,6 +302,13 @@ class LoadProductsByCategory(APIView):
                         [slugify(d.name) for d in produit.filters.all()])
                 else:
                     data['filters'] = None
+                if produit.label:
+                    data['label'] = {}
+                    data['label']['name'] = produit.label.name
+                    data['label']['colour'] = produit.label.colour
+                    data['label']['bg_colour'] = produit.label.bg_colour
+                else:
+                    data['label'] = None
                 if hasattr(produit, 'variants'):
                     data['variants'] = True
                     data['variants_count'] = produit.variants.all().count()
