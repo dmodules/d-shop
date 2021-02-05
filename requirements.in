@@ -41,4 +41,4 @@ python-slugify==4.0.1
 coverage==5.4
 django-mptt==0.11.0
 bs4
-sentry-sdk==0.19.5
+sentry-sdk
