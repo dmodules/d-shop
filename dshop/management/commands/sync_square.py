@@ -222,8 +222,9 @@ class Command(BaseCommand):
                             price = 0
                         if r_body:
                             quantity = r_body['counts'][0]['quantity']
-                            if quantity < 0:
-                                quantity = 0
+                            if quantity.isdigit():
+                                if int(quantity) < 0:
+                                    quantity = 0
                         pv_data = {
                             'product': product_variable,
                             'product_code': product_code,
