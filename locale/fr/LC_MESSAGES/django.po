@@ -2527,3 +2527,46 @@ msgstr "Témoignage"
 
 msgid "Customizations"
 msgstr "Personnalisations"
+
+msgid "Dshop to Square"
+msgstr "D-Shop à Square"
+
+msgid "Square to Dshop"
+msgstr "Square à D-Shop"
+
+msgid "Product Name"
+msgstr "Nom du produit"
+
+msgid "Product Square Code"
+msgstr "Code de produit Square"
+
+msgid "Variant Square Code"
+msgstr "Code de variante de Square"
+
+msgid "Old Quantity"
+msgstr "Ancienne quantité"
+
+msgid "New Quantity"
+msgstr "Nouvelle quantité"
+
+msgid "Stock Adjustment"
+msgstr "Ajustement de l'inventaire"
+
+msgid "Stock Updated From"
+msgstr "Adjustement de"
+
+msgid "Stock Log"
+msgstr "Log d'inventaire"
+
+msgid "Stocks Log"
+msgstr "Log d'inventaires"
+
+msgid "Amount Discount"
+msgstr "Montant du rabais"
+
+msgid "Percent Discount"
+msgstr "Pourcentage de rabais"
+
+msgid "Discount Type"
+msgstr "Type de rabais"
+

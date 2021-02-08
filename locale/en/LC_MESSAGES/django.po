@@ -2435,3 +2435,59 @@ msgstr ""
 #: templates/djangocms_video/default/video_player.html:18
 msgid "Your browser doesn't support this video format."
 msgstr ""
+
+#: apps/dmSquare/models.py:9
+msgid "Dshop to Square"
+msgstr ""
+
+#: apps/dmSquare/models.py:10
+msgid "Square to Dshop"
+msgstr ""
+
+#: apps/dmSquare/models.py:13
+msgid "Product Name"
+msgstr ""
+
+#: apps/dmSquare/models.py:17
+msgid "Product Square Code"
+msgstr ""
+
+#: apps/dmSquare/models.py:21
+msgid "Variant Square Code"
+msgstr ""
+
+#: apps/dmSquare/models.py:25
+msgid "Old Quantity"
+msgstr ""
+
+#: apps/dmSquare/models.py:29
+msgid "New Quantity"
+msgstr ""
+
+#: apps/dmSquare/models.py:33
+msgid "Stock Adjustment"
+msgstr ""
+
+#: apps/dmSquare/models.py:37
+msgid "Stock Updated From"
+msgstr ""
+
+#: apps/dmSquare/models.py:43
+msgid "Stock Log"
+msgstr ""
+
+#: apps/dmSquare/models.py:44
+msgid "Stocks Log"
+msgstr ""
+
+#: apps/dmRabais/models.py:20
+msgid "Amount Discount"
+msgstr ""
+
+#: apps/dmRabais/models.py:21
+msgid "Percent Discount"
+msgstr ""
+
+#: apps/dmRabais/models.py:30
+msgid "Discount Type"
+msgstr ""
