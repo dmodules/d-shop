@@ -9,3 +9,53 @@
 .form-row.field-billing_address_text .readonly {
     margin: 1rem 0 0 80px;
 }
+
+/* ===--- Index: Analyze Block ---=== */
+#dm-analyze .dm-adminshop-row {
+    border-bottom: 1px solid #ddd;
+    font-size: 0;
+    line-height: 0;
+    padding: 10px 1px;
+}
+#dm-analyze .dm-adminshop-col {
+    font-size: 0;
+    line-height: 0;
+    display: inline-block;
+    width: calc(50% - 5px);
+    padding-left: 0;
+    padding-right: 0;
+}
+#dm-analyze .dm-adminshop-col + .dm-adminshop-col {
+    border-left: 1px solid #ddd;
+    width: calc(50% - 5px);
+    padding-left: 9px;
+}
+#dm-analyze .dm-adminshop-icon {
+    vertical-align: middle;
+    display: inline-block;
+    width: 32px;
+}
+#dm-analyze .dm-adminshop-icon span {
+    font-size: 24px;
+    line-height: 100%;
+    vertical-align: middle;
+}
+#dm-analyze .dm-adminshop-data {
+    vertical-align: middle;
+    display: inline-block;
+    width: calc(100% - 32px);
+}
+#dm-analyze .dm-adminshop-data p {
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 120%;
+    display: block;
+    margin: 0 0 2px!important;
+}
+#dm-analyze .dm-adminshop-data small {
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 120%;
+    display: block;
+    margin: 0;
+}
