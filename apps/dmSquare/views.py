@@ -100,6 +100,7 @@ def square_update_stock(quantity, product_code):
 
     #Create Stock Log entry
     pvv = ProductVariableVariant.objects.filter(product_code=product_code)
+
     if pvv:
         pvv = pvv[0]
         today = pytz.utc.localize(datetime.utcnow())
@@ -107,8 +108,8 @@ def square_update_stock(quantity, product_code):
             "product_name": pvv.product.product_name,
             "product_square_code": pvv.product.square_id,
             "variant_square_code": product_code,
-            "old_quantity": pvv.quantity,
-            "new_quantity": quantity,
+            "old_quantity": pvv.quantity + int(quantity),
+            "new_quantity": pvv.quantity,
             "stock_update_date": today,
             "update_from": 1
         }
