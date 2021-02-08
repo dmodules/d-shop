@@ -752,11 +752,11 @@ class ProductDefault(AvailableProductMixin, Product):
                             if not self.is_discounted or (
                                 self.is_discounted and d.promocode.can_apply_on_discounted
                             ):
-                                if d.promocode.amount is not None:
+                                if d.promocode.discount_type == 1:
                                     r = Money(Decimal(r) - Decimal(d.promocode.amount))
-                                elif d.promocode.percent is not None:
+                                elif d.promocode.discount_type == 2:
                                     pourcent = Decimal(
-                                        d.promocode.percent) / Decimal("100")
+                                        d.promocode.amount) / Decimal("100")
                                     discount = Money(
                                         Decimal(self.unit_price) * pourcent)
                                     r = r - discount
@@ -1053,10 +1053,10 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
                             if not self.is_discounted or (
                                 self.is_discounted and d.promocode.can_apply_on_discounted
                             ):
-                                if d.promocode.amount is not None:
+                                if d.promocode.discount_type == 1:
                                     r = Money(Decimal(r) - Decimal(d.promocode.amount))
-                                elif d.promocode.percent is not None:
-                                    pourcent = Decimal(d.promocode.percent) / Decimal("100")
+                                elif d.promocode.discount_type == 2:
+                                    pourcent = Decimal(d.promocode.amount) / Decimal("100")
                                     discount = Money(Decimal(self.unit_price) * pourcent)
                                     r = r - discount
                 except Exception as e:

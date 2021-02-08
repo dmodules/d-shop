@@ -57,7 +57,8 @@ class CategoryDiscountTestProduct(TestCase):
     def test_category_discount_percent(self):
         data = {
             'name': 'Test Discount',
-            'percent': 10,
+            'discount_type': 2,
+            'amount': 10,
             'is_active': True,
             'valid_from': pytz.utc.localize(datetime.today() - timedelta(days=2)),
             'valid_until': pytz.utc.localize(datetime.today() + timedelta(days=3)),

@@ -10,6 +10,7 @@ from apps.dmRabais.models import \
 def create_discount(data=None):
     data = {
         'name': 'Test Discount',
+        'discount_type': 1,
         'amount': 10,
         'is_active': True,
         'valid_from': pytz.utc.localize(datetime.today() - timedelta(days=2)),
@@ -28,6 +29,7 @@ def create_promo(data=None):
     data = {
         'name': 'Test Promo',
         'code': 'TEST50',
+        'discount_type': 1,
         'amount': 10,
         'is_active': True,
         'valid_from': pytz.utc.localize(datetime.today()),
