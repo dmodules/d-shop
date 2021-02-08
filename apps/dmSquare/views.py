@@ -57,16 +57,19 @@ def inventory_update(request):
         print("product quantity before: " + str(pvv.quantity))
         #Create Stock Log entry
         today = pytz.utc.localize(datetime.utcnow())
-        data = {
-            "product_name": pvv.product.product_name,
-            "product_square_code": pvv.product.square_id,
-            "variant_square_code": square_id,
-            "old_quantity": pvv.quantity,
-            "new_quantity": quantity,
-            "stock_update_date": today,
-            "update_from": 2
-        }
-        dmStockLog.objects.create(**data)
+        try:
+            data = {
+                "product_name": pvv.product.product_name,
+                "product_square_code": pvv.product.square_id,
+                "variant_square_code": square_id,
+                "old_quantity": pvv.quantity,
+                "new_quantity": quantity,
+                "stock_update_date": today,
+                "update_from": 2
+            }
+            dmStockLog.objects.create(**data)
+        except Exception as e:
+            print("Webhook: Failed to create dmStockLog: " + str(e))
         pvv.quantity = quantity
         pvv.save()
         print("product quantity after: " + str(pvv.quantity))
@@ -104,16 +107,19 @@ def square_update_stock(quantity, product_code):
     if pvv:
         pvv = pvv[0]
         today = pytz.utc.localize(datetime.utcnow())
-        data = {
-            "product_name": pvv.product.product_name,
-            "product_square_code": pvv.product.square_id,
-            "variant_square_code": product_code,
-            "old_quantity": pvv.quantity + int(quantity),
-            "new_quantity": pvv.quantity,
-            "stock_update_date": today,
-            "update_from": 1
-        }
-        dmStockLog.objects.create(**data)
+        try:
+            data = {
+                "product_name": pvv.product.product_name,
+                "product_square_code": pvv.product.square_id,
+                "variant_square_code": product_code,
+                "old_quantity": pvv.quantity + int(quantity),
+                "new_quantity": pvv.quantity,
+                "stock_update_date": today,
+                "update_from": 1
+            }
+            dmStockLog.objects.create(**data)
+        except Exception as e:
+            print("Failed to create dmStockLog: " + str(e))
     else: 
        print("Failed to create Stock log")
 
