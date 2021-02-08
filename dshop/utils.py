@@ -59,10 +59,10 @@ def get_apply_discountpercategory(product, current_price, is_discounted=False): 
                 if not d.can_apply_on_discounted:
                     if is_discounted:
                         continue
-                if d.amount is not None:
+                if d.discount_type == 1:
                     r = Money(Decimal(r) - Decimal(d.amount))
-                elif d.percent is not None:
-                    pourcent = Decimal(d.percent) / Decimal("100")
+                elif d.discount_type == 2:
+                    pourcent = Decimal(d.amount) / Decimal("100")
                     discount = Money(Decimal(current_price) * pourcent)
                     r = r - discount
     return r
