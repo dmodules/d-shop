@@ -729,6 +729,9 @@ ADMIN_REORDER = (
         ]
     },
     {
+        "app": "dmSquare"
+    },
+    {
         "app": "filer"
     },
 )
