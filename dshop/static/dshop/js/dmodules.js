@@ -92,6 +92,10 @@ function setClickBtn() {
     dm_add2cart_variant(this)
   })
 
+  $(".dm-add2quotation-variant").on("click", function(event) {
+    event.preventDefault()
+    dm_add2quotation_variant(this)
+  })
   $(".dm-variants-select select").on("change", function(event) {
     let pk = $(".dm-variants-select").data("product")
     let attrs = []
@@ -192,6 +196,16 @@ function dm_add2cart(k) {
         showAdd2cartSnack(i18n.productoutofstock[lang])
     }
   })
+}
+
+function dm_add2quotation_variant(k) {
+  let endpoint = $(k).data("product")
+  let variant = $(k).data("variant")
+  let quantity = 1
+  if ($(k).data("quantity")) {
+    quantity = $(k).data("quantity")
+  }
+  alert("Added to Quotation Cart")
 }
 
 function dm_add2cart_variant(k) {

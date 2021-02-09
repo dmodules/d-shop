@@ -89,15 +89,18 @@
                         <span class="product-detail-customlabel" style="background-color:{{ product.label.bg_colour }};border-color:{{ product.label.colour }};color:{{ product.label.colour }};">{{ product.label.name }}</span>
                     {% endif %}
                 </h4>
-                <div class="product_price">
-                  {% if product.variants.first %}
-                    {% product_variant_discount_price product.variants.first.id as real_price %}
-                    <span class="price">{{real_price}}</span>
-                    {% if real_price != product.variants.first.unit_price %}
+                {% dm_quotation_feature product.variants.first as is_quotation %}
+                {% if not is_quotation %}
+                  <div class="product_price">
+                    {% if product.variants.first %}
+                      {% product_variant_discount_price product.variants.first.id as real_price %}
+                      <span class="price">{{real_price}}</span>
+                      {% if real_price != product.variants.first.unit_price %}
                         <del>{{product.variants.first.unit_price}}</del>
+                      {% endif %}
                     {% endif %}
-                  {% endif %}
-                </div>
+                  </div>
+                {% endif %}
                 <div class="pr_desc">
                     {% if product.caption %}
                         {{product.caption|safe}}
@@ -130,11 +133,19 @@
                     <input type="button" value="+" class="plus" onclick="quantityPlus()" />
                   </div>
                 </div>
+                {% if is_quotation %}
+                <div class="cart_btn" style="display:{% if product.variants.first and product.variants.first.quantity == 0 %}none{% else %}block{% endif %};">
+                  <a href="#" class="btn btn-fill-out btn-add2quotation dm-add2quotation-variant{% if not product.variants.first %}disabled{% endif %}" data-product="{{product.slug}}" data-quantity="1" data-variant="{{product.variants.first.product_code}}">
+                    <i class="icon-basket-loaded"></i>{% trans "Add to quotation" %}
+                  </a>
+                </div>
+                {% else %}
                 <div class="cart_btn" style="display:{% if product.variants.first and product.variants.first.quantity == 0 %}none{% else %}block{% endif %};">
                   <a href="#" class="btn btn-fill-out btn-add2cart dm-add2cart-variant{% if not product.variants.first %}disabled{% endif %}" data-product="{{product.slug}}" data-quantity="1" data-variant="{{product.variants.first.product_code}}">
                     <i class="icon-basket-loaded"></i>{% trans "Add to cart" %}
                   </a>
                 </div>
+                {% endif %}
                 <div class="product-detail-unavailable" style="display:{% if product.variants.first and product.variants.first.quantity == 0 %}block{% else %}none{% endif %};">
                     <p>{% trans 'Out of stock' %}</p>
                 </div>

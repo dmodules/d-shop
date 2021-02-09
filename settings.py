@@ -65,6 +65,7 @@ INSTALLED_APPS.extend([  # noqa: F821
     "apps.dmShipping",
     "apps.dmTaxes",
     "apps.dmSearch",
+    "apps.dmQuotation",
     # ===---
     "shop",
     "dshop",
@@ -730,6 +731,9 @@ ADMIN_REORDER = (
     },
     {
         "app": "dmSquare"
+    },
+    {
+        "app": "dmQuotation"
     },
     {
         "app": "filer"
