@@ -70,10 +70,13 @@ def inventory_update(request):    # noqa: C901
             dmStockLog.objects.create(**data)
         except Exception as e:
             print("Webhook: Failed to create dmStockLog: " + str(e))
-        if quantity < 0:
-            quantity = 0
-        pvv.quantity = quantity
-        pvv.save()
+        try:
+            if int(quantity) < 0:
+                quantity = 0
+            pvv.quantity = quantity
+            pvv.save()
+        except Exception as e:
+            print("Exception in Updating quantity in Db: " + str(e))
         print("product quantity after: " + str(pvv.quantity))
         print("Stock updated")
     return HttpResponse('Ok')
