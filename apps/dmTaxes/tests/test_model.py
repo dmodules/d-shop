@@ -29,11 +29,6 @@ class TaxModelTest(TestCase):
         self.assertEqual(0, CanadaTaxManagement.objects.all().count())
 
     def test_tax_integrate(self):
-        tax = create_taxes()
-        data = {
-            'state': 'Quebec',
-            'hst': 2.9,
-            'gst': 8,
-        }
+        create_taxes()
         tax_1 = create_taxes()
         self.assertEqual(IntegrityError, tax_1)

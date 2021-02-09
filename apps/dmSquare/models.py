@@ -9,7 +9,7 @@ class dmStockLog(models.Model):
         (1, _("Dshop to Square")),
         (2, _("Square to Dshop")),
     ]
-    product_name= models.CharField(
+    product_name = models.CharField(
         verbose_name=_("Product Name"),
         max_length=100,
     )

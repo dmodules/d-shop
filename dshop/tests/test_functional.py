@@ -4,7 +4,6 @@ import pytz
 import random
 from datetime import datetime, timedelta
 from rest_framework import status
-from bs4 import BeautifulSoup
 
 from dshop.models import Product, ProductCategory, ProductBrand, Attribute
 from dshop.templatetags.dshop_tags import dm_get_all_products, \
@@ -22,15 +21,6 @@ from dshop.templatetags.dshop_tags import dm_get_all_products, \
     dm_get_categories_parents, \
     dm_get_category, \
     dm_get_attributes_list
-from dshop.views import CustomerView, \
-    CustomerCheckView, \
-    LoadProduits, \
-    LoadVariantSelect, \
-    LoadProductsByCategory, \
-    ShippingMethodsView, \
-    BillingMethodsView, \
-    send_queued_mail, \
-    unclone_customers
 from dshop.utils import get_coords_from_address
 from dshop.tests.utils import filter_p, \
     category, \

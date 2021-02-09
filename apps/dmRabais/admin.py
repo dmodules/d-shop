@@ -68,7 +68,7 @@ class dmPromoCodeAdmin(admin.ModelAdmin):
                 ("is_active", "can_apply_on_discounted"),
                 "apply_on_cart",
                 ("discount_type", "amount"),
-                ]
+            ]
         }),
         (_("Limitations"), {
             "fields": [

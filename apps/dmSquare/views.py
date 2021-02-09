@@ -17,7 +17,7 @@ client = Client(
 )
 
 @csrf_exempt
-def inventory_update(request):
+def inventory_update(request):    # noqa: C901
 
     data = request.body
     data = json.loads(data)
@@ -55,7 +55,7 @@ def inventory_update(request):
         pvv = pvv[0]
         print("Product to be updated: " + str(pvv))
         print("product quantity before: " + str(pvv.quantity))
-        #Create Stock Log entry
+        # Create Stock Log entry
         today = pytz.utc.localize(datetime.utcnow())
         try:
             data = {
@@ -101,7 +101,7 @@ def square_update_stock(quantity, product_code):
         }
     )
 
-    #Create Stock Log entry
+    # Create Stock Log entry
     pvv = ProductVariableVariant.objects.filter(product_code=product_code)
 
     if pvv:
@@ -120,8 +120,8 @@ def square_update_stock(quantity, product_code):
             dmStockLog.objects.create(**data)
         except Exception as e:
             print("Failed to create dmStockLog: " + str(e))
-    else: 
-       print("Failed to create Stock log")
+    else:
+        print("Failed to create Stock log")
 
     if result.is_success():
         print(result.body)

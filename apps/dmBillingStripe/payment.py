@@ -1,5 +1,4 @@
 import stripe
-import uuid
 
 from decimal import Decimal
 
