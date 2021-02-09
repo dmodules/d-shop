@@ -2,8 +2,6 @@ import re
 
 from mailchimp3 import MailChimp
 
-from django.contrib import messages
-from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import redirect
 from django.core.management import call_command
 from django.core.mail import send_mail

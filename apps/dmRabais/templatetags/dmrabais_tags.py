@@ -1,14 +1,6 @@
 from django import template
 
-import pytz
-from datetime import datetime
-from decimal import Decimal
-from django.db.models import Q
-from shop.money import Money
-
 from dshop.models import Product, ProductVariableVariant
-
-from apps.dmRabais.models import dmRabaisPerCategory
 
 register = template.Library()
 

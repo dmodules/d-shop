@@ -30,7 +30,6 @@ from filer.models import ThumbnailOption
 from shop.admin.defaults import customer
 from shop.admin.product import ProductImageInline
 from shop.admin.product import InvalidateProductCacheMixin
-from shop.admin.product import CMSPageFilter
 from shop.admin.defaults.order import OrderAdmin as djOrderAdmin
 from shop.admin.order import OrderItemInline
 from shop.models.defaults.order import Order
@@ -383,11 +382,6 @@ class OrderAdmin(DeliveryOrderAdminMixin, djOrderAdmin):
     ]
     ordering = ["-created_at"]
     inlines = [dmOrderItemInline]
-
-    class Media:
-        css = {
-            'all': ('dshop/css/admin.css',)
-        }
 
     class Meta:
         verbose_name = _("Order")

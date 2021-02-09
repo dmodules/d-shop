@@ -1,7 +1,10 @@
 {% extends "admin/base_site.html" %}
 {% load i18n static dshopadmin_tags %}
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}">{% endblock %}
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/dashboard.css' %}" />
+{% endblock %}
 
 {% block coltype %}colMS{% endblock %}
 
@@ -54,14 +57,113 @@
 
 {% block sidebar %}
     <div id="content-related">
+        <!---->
         <div class="module" id="dm-analyze" style="margin-bottom:2rem;">
-            <h2>{% trans 'Recent actions' %}</h2>
-            <h3>{% trans 'My actions' %}</h3>
-            {% dm_get_order_paymentconfirmed %}
+            <h2>{% trans 'Dashboard' %}</h2>
+            <h3>{% trans 'Your Shop' %}</h3>
+            {% dm_get_order_sells as dshop_sells %}
+            {% dm_get_products_stocks as dshop_stocks %}
+            <div class="dm-adminshop-analyze">
+                <div class="dm-adminshop-row">
+                    <div class="dm-adminshop-icon">
+                        <span class="mdi mdi-chart-box"></span>
+                    </div>
+                    <div class="dm-adminshop-data">
+                        <p>{{ dshop_sells.thismonth.amount }}</p>
+                        <small>
+                            {% blocktrans count quantity=dshop_sells.thismonth.quantity %}with {{ quantity }} sale this month{%  plural %}with {{ quantity }} sales this month{%  endblocktrans %}
+                        </small>
+                    </div>
+                </div>
+                <div class="dm-adminshop-row">
+                    <div class="dm-adminshop-icon">
+                        <span class="mdi mdi-chart-box-outline"></span>
+                    </div>
+                    <div class="dm-adminshop-data">
+                        <p>{{ dshop_sells.lastmonth.amount }}</p>
+                        <small>
+                            {% blocktrans count quantity=dshop_sells.lastmonth.quantity %}with {{ quantity }} sale last month{%  plural %}with {{ quantity }} sales last month{%  endblocktrans %}
+                        </small>
+                    </div>
+                </div>
+                <div class="dm-adminshop-row"></div>
+                <div class="dm-adminshop-row">
+                    <div class="dm-adminshop-col">
+                        <div class="dm-adminshop-icon">
+                            <span class="mdi mdi-package-variant"></span>
+                        </div>
+                        <div class="dm-adminshop-data">
+                            <p>{{ dshop_stocks.lowonstock }} {% if dshop_stocks.lowonstock > 1 %}{% trans "orders" %}{% else %}{% trans "order" %}{% endif %}</p>
+                            <small>{% trans "need to be processed" %}</small>
+                        </div>
+                    </div>
+                    <div class="dm-adminshop-col">
+                        <div class="dm-adminshop-icon">
+                            <span class="mdi mdi-package-variant-closed"></span>
+                        </div>
+                        <div class="dm-adminshop-data">
+                            <p>{{ dshop_stocks.outofstock }} {% if dshop_stocks.outofstock > 1 %}{% trans "orders" %}{% else %}{% trans "order" %}{% endif %}</p>
+                            <small>{% trans "need to be shipped" %}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="dm-adminshop-row">
+                    <div class="dm-adminshop-col">
+                        <div class="dm-adminshop-icon">
+                            <span class="mdi mdi-alert-circle-outline"></span>
+                        </div>
+                        <div class="dm-adminshop-data">
+                            <p>{{ dshop_stocks.lowonstock }} {% if dshop_stocks.lowonstock > 1 %}{% trans "products" %}{% else %}{% trans "product" %}{% endif %}</p>
+                            <small>{% trans "is low on stock" %}</small>
+                        </div>
+                    </div>
+                    <div class="dm-adminshop-col">
+                        <div class="dm-adminshop-icon">
+                            <span class="mdi mdi-close-circle"></span>
+                        </div>
+                        <div class="dm-adminshop-data">
+                            <p>{{ dshop_stocks.outofstock }} {% if dshop_stocks.outofstock > 1 %}{% trans "products" %}{% else %}{% trans "product" %}{% endif %}</p>
+                            <small>{% trans "is out of stock" %}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br /><br />
+            <h3>{% trans "Month's Bestsellers" %}</h3>
+            {% dm_get_order_bestsellers as dshop_bestsellers %}
+            <div class="dm-adminshop-analyze">
+                {% for item in dshop_bestsellers.products %}
+                    <div class="dm-adminshop-row">
+                        <div class="dm-adminshop-icon">
+                            {% if forloop.counter == 1 %}
+                                <span class="mdi mdi-numeric-{{ forloop.counter }}-box-multiple"></span>
+                            {% elif forloop.counter == 2 %}
+                                <span class="mdi mdi-numeric-{{ forloop.counter }}-box-multiple-outline"></span>
+                            {% else %}
+                                <span class="mdi mdi-numeric-{{ forloop.counter }}-box-outline"></span>
+                            {% endif %}
+                        </div>
+                        <div class="dm-adminshop-data">
+                            <p>{{ item.name }}</p>
+                            <small>{% blocktrans count quantity=item.quantity %}with {{ quantity }} sale{% plural %}with {{ quantity }} sales{%  endblocktrans %}</small>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="dm-adminshop-row">
+                        <div class="dm-adminshop-icon">
+                            <span class="mdi mdi-emoticon-sad-outline"></span>
+                        </div>
+                        <div class="dm-adminshop-data">
+                            <p>{% trans "No product found" %}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
+        <br /><br />
+        <!---->
         <div class="module" id="recent-actions-module">
             <h2>{% trans 'Recent actions' %}</h2>
-            <h3>{% trans 'My actions' %}</h3>
                 {% load log %}
                 {% get_admin_log 10 as admin_log %}
                 {% if not admin_log %}

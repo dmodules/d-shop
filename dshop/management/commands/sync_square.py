@@ -43,12 +43,12 @@ class Command(BaseCommand):
                 if d['type'] == 'CATEGORY':
 
                     name = d['category_data']['name']
-                    name = name.replace('(', '<').replace(')','>')
+                    name = name.replace('(', '<').replace(')', '>')
                     name = re.sub('<[^>]+>', '', name)
                     cat_data = {
                         'name': name.strip(),
                         'square_id': d['id'],
-                        'active':False
+                        'active': False
                     }
                     cat = ProductCategory.objects.filter(square_id=d['id'])
                     if not cat:
@@ -135,9 +135,9 @@ class Command(BaseCommand):
                             continue
                         url = d['image_data']['url']
                         try:
-                            ext = url.rsplit('.',1)[1]
+                            ext = url.rsplit('.', 1)[1]
                             file_name = name + "." + ext
-                        except Exception as e:
+                        except Exception:
                             pass
                         r = requests.get(url)
                         image_temp_file = NamedTemporaryFile(delete=True)
@@ -185,7 +185,7 @@ class Command(BaseCommand):
                         'product_name': d['item_data']['name'],
                         'square_id': d['id'],
                         'description': description,
-                        'caption':description,
+                        'caption': description,
                         'order': 1
                     }
                     if ProductVariable.objects.filter(square_id=d['id']):
@@ -255,7 +255,9 @@ class Command(BaseCommand):
                         if 'item_option_values' in vari['item_variation_data']:
                             for value_id in vari['item_variation_data']['item_option_values']:
                                 attribute_value_id = value_id['item_option_value_id']
-                                attribute_value_obj = AttributeValue.objects.filter(square_id=attribute_value_id).order_by('id')[0]
+                                attribute_value_obj = AttributeValue.objects.filter(
+                                    square_id=attribute_value_id
+                                ).order_by('id')[0]
                                 pvv.attribute.add(attribute_value_obj)
 
                     # Remove Variants
