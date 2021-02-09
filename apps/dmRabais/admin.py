@@ -19,7 +19,8 @@ class dmRabaisPerCategoryAdmin(admin.ModelAdmin):
     fieldsets = [(None, {
         "fields": [
             "name",
-            ("discount_type", "amount"),
+            "amount",
+            "percent",
             ("is_active", "can_apply_on_discounted"),
             ("valid_from", "valid_until"),
             "categories"
@@ -33,10 +34,10 @@ class dmRabaisPerCategoryAdmin(admin.ModelAdmin):
     search_fields = ["name"]
 
     def get_discount(self, obj):
-        if obj.discount_type == 1:
+        if obj.amount is not None:
             return Money(obj.amount)
-        elif obj.discount_type == 2:
-            return str(Decimal(obj.amount)) + "%"
+        elif obj.percent is not None:
+            return str(Decimal(obj.percent)) + "%"
         else:
             return "-"
 
@@ -67,8 +68,8 @@ class dmPromoCodeAdmin(admin.ModelAdmin):
                 "code",
                 ("is_active", "can_apply_on_discounted"),
                 "apply_on_cart",
-                ("discount_type", "amount"),
-            ]
+                "amount",
+                "percent"]
         }),
         (_("Limitations"), {
             "fields": [

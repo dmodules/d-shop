@@ -16,20 +16,10 @@ from shop.models.defaults.customer import Customer
 class dmRabaisPerCategory(models.Model):
     """A model to handle promo on specific product's categories"""
 
-    CHOICE_TYPE = [
-        (1, _("Amount Discount")),
-        (2, _("Percent Discount")),
-    ]
-
     name = models.CharField(
         verbose_name=_("Name"),
         max_length=100,
         help_text=_("Maximum 100 characters.")
-    )
-    discount_type = models.PositiveSmallIntegerField(
-        verbose_name=_("Discount Type"),
-        choices=CHOICE_TYPE,
-        default=1
     )
     amount = models.DecimalField(
         verbose_name=_("Amount"),
@@ -38,6 +28,12 @@ class dmRabaisPerCategory(models.Model):
         blank=True,
         null=True,
         help_text=_("An amount to substract to the original price, leave blank to use 'Percent'.")
+    )
+    percent = models.PositiveSmallIntegerField(
+        verbose_name=_("Percent"),
+        blank=True,
+        null=True,
+        help_text=_("A percent to substract to the original price, unused if there's an 'Amount'.")
     )
     is_active = models.BooleanField(
         verbose_name=_("Active"),
@@ -78,11 +74,6 @@ class dmRabaisPerCategory(models.Model):
 class dmPromoCode(models.Model):
     """A model to handle promo code with or without ending date"""
 
-    CHOICE_TYPE = [
-        (1, _("Amount Discount")),
-        (2, _("Percent Discount")),
-    ]
-
     name = models.CharField(
         verbose_name=_("Name"),
         max_length=100,
@@ -97,11 +88,6 @@ class dmPromoCode(models.Model):
         null=False,
         help_text=_("Leave blank to auto-generate a random code.")
     )
-    discount_type = models.PositiveSmallIntegerField(
-        verbose_name=_("Discount Type"),
-        choices=CHOICE_TYPE,
-        default=1
-    )
     amount = models.DecimalField(
         verbose_name=_("Amount"),
         max_digits=30,
@@ -109,6 +95,12 @@ class dmPromoCode(models.Model):
         blank=True,
         null=True,
         help_text=_("An amount to substract to the original price, leave blank to use 'Percent'.")
+    )
+    percent = models.PositiveSmallIntegerField(
+        verbose_name=_("Percent"),
+        blank=True,
+        null=True,
+        help_text=_("A percent to substract to the original price, unused if there's an 'Amount'.")
     )
     is_active = models.BooleanField(
         verbose_name=_("Active"),

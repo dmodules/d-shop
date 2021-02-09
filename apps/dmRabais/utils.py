@@ -52,8 +52,8 @@ def get_cart_discounts(promolist):
         apply_on_cart=True
     )
     for p in promos:
-        if p.discount_type == 1:
+        if p.amount is not None:
             result[0] = result[0] + Decimal(p.amount)
-        elif p.discount_type == 2:
+        elif p.percent is not None:
             result[1] = float(result[1] + p.percent)
     return result
