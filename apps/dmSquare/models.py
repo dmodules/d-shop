@@ -21,11 +21,11 @@ class dmStockLog(models.Model):
         verbose_name=_("Variant Square Code"),
         max_length=100,
     )
-    old_quantity = models.PositiveIntegerField(
+    old_quantity = models.IntegerField(
         _("Old Quantity"),
         default=0,
     )
-    new_quantity = models.PositiveIntegerField(
+    new_quantity = models.IntegerField(
         _("New Quantity"),
         default=0,
     )
