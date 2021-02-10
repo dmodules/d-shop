@@ -29,6 +29,7 @@ def inventory_update(request):    # noqa: C901
         return HttpResponse('ERROR')
     if 'inventory_counts' not in data['data']['object']:
         return HttpResponse('ERROR')
+    square_id = None
     for actual_data in data['data']['object']['inventory_counts']:
         if actual_data['state'] == 'IN_STOCK':
             square_id = actual_data['catalog_object_id']
@@ -36,6 +37,9 @@ def inventory_update(request):    # noqa: C901
             created_at = data['created_at'].split('.')[0]
             break
 
+    if square_id is None:
+        print("Nothing to update in DB")
+        return HttpResponse('Ok')
     result = client.inventory.retrieve_inventory_changes(
         catalog_object_id=square_id
     )
