@@ -67,7 +67,7 @@
       padding:18px;
   }
   @media (max-width: 959px) {
-      #app .v-btn--tile {
+      #app .v-btn--tile:not(.v-btn--icon) {
           min-width: 0;
           height: 50px;
           padding: 11px 13px;
@@ -80,6 +80,11 @@
   #app .v-btn--tile.v-size--x-small{
     min-width:100px;
     padding:5px 10px;
+  }
+  #app .v-btn--tile.v-size--x-small.v-btn--icon{
+    min-width: 30px;
+    padding:5px;
+    margin: -3px 0 0px;
   }
   #app .v-btn__content{
     transition:all 0.3s;
@@ -104,4 +109,34 @@
   .v-input--selection-controls__input input[role=switch]{
     opacity:1;
   }
+      #app .v-stepper--alt-labels .v-stepper__step {
+        flex-basis: 130px;
+    }
+    @media (max-width: 959px) {
+        #app .v-stepper--alt-labels .v-stepper__step {
+            flex-basis: 100px;
+        }
+        #app .v-stepper__content {
+            padding: 24px 14px 16px 14px;
+        }
+    }
+    #app .v-stepper .v-stepper__step--active .v-stepper__label{
+        text-shadow: none;
+    }
+    #app .v-stepper--alt-labels .v-stepper__header .v-divider {
+        margin-left: -25px;
+        margin-right: -25px;
+    }
+    #app .theme--light.v-stepper .v-stepper__label {
+        color: inherit;
+    }
+    #app .v-stepper,
+    #app .v-stepper__header {
+        box-shadow: none;
+    }
+    #app .v-stepper__step__step {
+        width: 30px;
+        min-width: 30px;
+        height: 30px;
+    }
 </style>

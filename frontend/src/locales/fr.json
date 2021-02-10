@@ -45,8 +45,8 @@
   "Nomethodesdexpedition": "Aucune méthode de livraison disponible",
   "Adressedelivraison": "Adresse de livraison",
   "Nomcomplet": "Nom complet",
-  "Adresse": "Address",
-  "Adressesuite": "Address (suite)",
+  "Adresse": "Adresse",
+  "Adressesuite": "Adresse (suite)",
   "Pays": "Pays",
   "Province": "Province / Région",
   "Ville": "Ville",
@@ -85,5 +85,13 @@
 
   "PasswordReset": "Réinitialisation du mot de passe",
   "Password": "Mot de passe",
-  "PasswordConfirm": "Confirmation du mot de passe"
+  "PasswordConfirm": "Confirmation du mot de passe",
+
+  "YourQuotation": "Votre devis",
+  "Cart": "Panier",
+  "Product": "Produit",
+  "Quantity": "Quantité",
+  "Remove": "Retirer",
+  "Thanksforquotation": "Votre devis a bien été envoyé",
+  "Thanks": "Merci"
 }

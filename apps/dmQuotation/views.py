@@ -6,6 +6,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, RetrieveDestroyAPIView
+from rest_framework.response import Response as RestResponse
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from shop.models.customer import CustomerModel
 from django.conf import settings
@@ -17,14 +18,13 @@ from .serializers import dmQuotationSerializer, dmQuotationItemSerializer
 class dmQuotationCartCreateAPI(APIView):
 
     def post(self, request, *args, **kwargs):
-        print(request.GET)
-        print(request.session)
         variant = request.GET.get('variant', '')
         quantity = request.GET.get('quantity', '')
         cookie = request.GET.get('cookie', '')
         try:
             variant = ProductVariableVariant.objects.get(product_code=variant)
-        except:
+        except Exception as e:
+            print(e)
             return HttpResponse("ERROR!")
 
         session = Session.objects.filter(session_key=request.session.session_key)
@@ -158,8 +158,49 @@ def dmQuotationPage(request):
                     'quantity': item.quantity,
                 }
                 items.append(itm)
-            quot['items'] = items
+            quot["items"] = items
             data.append(quot)
         context = {'quotations': data, 'count': len(data)}
     return HttpResponse(template.render(context, request))
 
+class dmQuotationCurrent(APIView):
+    def get(self, request, *args, **kwargs):
+        cookie = request.GET.get('cookie', '')
+
+        if request.user:
+            quotation = dmQuotation.objects.filter(
+                customer__user=request.user,
+                status=1
+            ).last()
+        elif cookie:
+            quotation = dmQuotation.objects.filter(
+                cookie=cookie,
+                status=1
+            ).last()
+
+        if not quotation:
+            context = {'quotations': [], 'count': 0}
+        else:
+            quot = {
+                'id': quotation.id,
+                'number': quotation.number,
+                'status': dmQuotation.CHOICE_STATUS[int(quotation.status)-1][1],
+                'created_at': quotation.created_at,
+                'updated_at': quotation.updated_at
+            }
+            items = []
+            for item in dmQuotationItem.objects.filter(
+                quotation=quotation
+            ).order_by("product_name"):
+                itm = {
+                    'id': item.id,
+                    'product_name': item.product_name,
+                    'product_code': item.product_code,
+                    'variant_code': item.variant_code,
+                    'variant_attribute': item.variant_attribute,
+                    'quantity': item.quantity,
+                }
+                items.append(itm)
+            quot["items"] = items
+            context = {"quotation": quot}
+        return RestResponse(context)

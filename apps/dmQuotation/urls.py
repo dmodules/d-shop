@@ -6,10 +6,12 @@ from .views import \
     dmQuotationItemListCreateAPI, \
     dmQuotationItemRetrieve, \
     dmQuotationCartCreateAPI, \
-    dmQuotationPage
+    dmQuotationPage, \
+    dmQuotationCurrent
 
 urlpatterns = [
     url(r'page/$', dmQuotationPage),
+    url(r'current/$', dmQuotationCurrent.as_view()),
     url(r'list/$', dmQuotationListCreateAPI.as_view()),
     url(r'cart/$', dmQuotationCartCreateAPI.as_view()),
     url(r'number/(?P<pk>[0-9]+)$', dmQuotationRetrieve.as_view()),

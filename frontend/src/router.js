@@ -14,6 +14,15 @@ const routes = [
     component: () => import('@/views/Checkout.vue')
   },
   {
+    path: '/fr/commande/devis',
+    name: 'Quotation',
+    component: () => import('@/views/Quotation.vue')
+  },
+  {
+    path: '/en/commande/devis',
+    component: () => import('@/views/Quotation.vue')
+  },
+  {
     path: '/fr/commande/profil/',
     name: 'Profil',
     component: () => import('@/views/Profil.vue')

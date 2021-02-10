@@ -85,5 +85,13 @@
 
   "PasswordReset": "Reset Password",
   "Password": "Password",
-  "PasswordConfirm": "Password Confirmation"
+  "PasswordConfirm": "Password Confirmation",
+
+  "YourQuotation": "Your Quotation",
+  "Cart": "Cart",
+  "Product": "Product",
+  "Quantity": "Quantity",
+  "Remove": "Remove",
+  "Thanksforquotation": "Your quotation has been successfully send",
+  "Thanks": "Thanks"
 }
