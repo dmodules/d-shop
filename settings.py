@@ -683,6 +683,9 @@ ADMIN_REORDER = (
         ]
     },
     {
+        "app": "dmQuotation"
+    },
+    {
         "app":
         "dmRabais",
         "label":
@@ -731,9 +734,6 @@ ADMIN_REORDER = (
     },
     {
         "app": "dmSquare"
-    },
-    {
-        "app": "dmQuotation"
     },
     {
         "app": "filer"

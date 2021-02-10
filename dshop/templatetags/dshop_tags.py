@@ -10,8 +10,9 @@ from dshop.models import dmSite
 from dshop.models import Product
 from dshop.models import ProductCategory, ProductFilter, ProductBrand
 from dshop.utils import get_coords_from_address
-from shop.money import Money
-from feature_settings import *
+
+from feature_settings import QUOTATION_FEATURE
+
 register = template.Library()
 
 #######################################################################
@@ -283,11 +284,11 @@ def dm_variants_is_discounted(k):
 
 
 @register.simple_tag
-def dm_quotation_feature(k):
+def dm_quotation_feature():
     QUOTATION = False
-    try: 
+    try:
         QUOTATION = QUOTATION_FEATURE
-    except:
+    except Exception:
         pass
     if QUOTATION:
         return True
