@@ -290,6 +290,11 @@ def dm_quotation_feature(k):
         QUOTATION = QUOTATION_FEATURE
     except:
         pass
-    if QUOTATION and k.unit_price == Money(0.01):
+    flag = False
+    for v in k.product.variants.all():
+        if v.unit_price == Money(0.01):
+            flag = True
+            break
+    if QUOTATION and flag:
         return True
     return False

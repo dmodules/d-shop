@@ -109,28 +109,33 @@ function setClickBtn() {
     // ===---
     $.get("/api/fe/load-variant/?product="+pk+"&attributes="+encodeURIComponent(attrs), function(getResult) {
         if (getResult.variants.length > 0) {
-            $(".btn-add2cart").removeClass("disabled")
-            $(".btn-add2cart").data("variant", getResult.variants[0].product_code)
-            price = getResult.variants[0].unit_price
-            dprice = getResult.variants[0].real_price
-            if (price != dprice) {
-                $(".product_price").html("<span class=\"price\">"+dprice+"</span><del>"+price+"</del>")
+            if (getResult.variants[0].quotation == 1){
+                $(".btn-add2quotation").removeClass("disabled")
+                $(".btn-add2quotation").data("variant", getResult.variants[0].product_code)
             } else {
-                $(".product_price").html("<span class=\"price\">"+price+"</span>")
-            }
-            if (getResult.variants[0].is_discounted) {
-                $(".product_title .variant-tag").html("<span class='product-detail-discounted'>"+i18n.discounted[lang]+"</span>")
-            } else {
-                $(".product_title .variant-tag").html("")
-            }
-            if (getResult.variants[0].quantity > 0) {
-                $(".cart-product-quantity").show()
-                $(".cart_btn").show()
-                $(".product-detail-unavailable").hide()
-            } else {
-                $(".cart-product-quantity").hide()
-                $(".cart_btn").hide()
-                $(".product-detail-unavailable").show()
+                $(".btn-add2cart").removeClass("disabled")
+                $(".btn-add2cart").data("variant", getResult.variants[0].product_code)
+                price = getResult.variants[0].unit_price
+                dprice = getResult.variants[0].real_price
+                if (price != dprice) {
+                    $(".product_price").html("<span class=\"price\">"+dprice+"</span><del>"+price+"</del>")
+                } else {
+                    $(".product_price").html("<span class=\"price\">"+price+"</span>")
+                }
+                if (getResult.variants[0].is_discounted) {
+                    $(".product_title .variant-tag").html("<span class='product-detail-discounted'>"+i18n.discounted[lang]+"</span>")
+                } else {
+                    $(".product_title .variant-tag").html("")
+                }
+                if (getResult.variants[0].quantity > 0) {
+                    $(".cart-product-quantity").show()
+                    $(".cart_btn").show()
+                    $(".product-detail-unavailable").hide()
+                } else {
+                    $(".cart-product-quantity").hide()
+                    $(".cart_btn").hide()
+                    $(".product-detail-unavailable").show()
+                }
             }
         } else {
             $(".btn-add2cart").addClass("disabled")
@@ -205,7 +210,9 @@ function dm_add2quotation_variant(k) {
   if ($(k).data("quantity")) {
     quantity = $(k).data("quantity")
   }
-  alert("Added to Quotation Cart")
+
+  alert("Added to Quotation Cart: " + variant)
+  $.get(site + "quotation/" +variant, function(getResult) {
 }
 
 function dm_add2cart_variant(k) {

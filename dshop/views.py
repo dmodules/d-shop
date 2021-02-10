@@ -28,6 +28,7 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework.views import APIView
 from rest_framework import status
 
+from shop.money import Money
 from shop.models.defaults.customer import Customer
 from shop.modifiers.pool import cart_modifiers_pool
 from shop.models.order import OrderModel
@@ -42,6 +43,7 @@ from dshop.transition import transition_change_notification
 
 from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
+from feature_settings import *
 
 try:
     from apps.dmRabais.models import dmCustomerPromoCode
@@ -354,6 +356,11 @@ class LoadVariantSelect(APIView):
         product_pk = request.GET.get("product", None)
         attributes = request.GET.get("attributes", None)
         variants = []
+        QUOTATION = False
+        try:
+            QUOTATION = QUOTATION_FEATURE
+        except:
+            pass
         if product_pk is not None and attributes is not None:
             attributes = attributes.replace(",", "//separator//").replace("//comma//", ",")
             product = Product.objects.get(pk=product_pk)
@@ -372,6 +379,9 @@ class LoadVariantSelect(APIView):
                 datas = {}
                 datas["product_code"] = v.product_code
                 datas["unit_price"] = v.unit_price
+                datas["quotation"] = 0
+                if QUOTATION and v.unit_price == Money(0.01):
+                    datas["quotation"] = 1
                 try:
                     datas["real_price"] = v.get_price(request)
                 except Exception:

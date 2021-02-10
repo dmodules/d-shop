@@ -19,6 +19,16 @@ class dmQuotationSerializer(serializers.ModelSerializer):
         model = dmQuotation
         fields = ('id', 'number', 'status', 'created_at', 'updated_at', 'items')
 
+    def validate(self, attrs):
+        existing_q = dmQuotation.objects.all().order_by('-id')
+        if existing_q:
+            number = existing_q.first().number
+            number = int(number) + 1
+        else:
+            number = "00001"
+        attrs['number'] = number
+        return attrs
+
     def get_items(self, obj):
         item_list = []
         for item in dmQuotationItem.objects.filter(quotation=obj):
