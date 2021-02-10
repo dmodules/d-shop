@@ -22,6 +22,11 @@ class dmQuotation(models.Model):
         related_name="customer",
         null=True, blank=True
     )
+    cookie = models.CharField(
+        verbose_name=_("Cookie ID"),
+        max_length=100,
+        null=True, blank=True
+    )
     number = models.CharField(
         verbose_name=_("Quotation Number"),
         max_length=100,
@@ -66,6 +71,11 @@ class dmQuotationItem(models.Model):
     variant_code = models.CharField(
         _("Variant's Code"),
         max_length=255,
+        null=True, blank=True
+    )
+    variant_attribute = models.CharField(
+        _("Variant Attribute"),
+        max_length=100,
         null=True, blank=True
     )
     unit_price = MoneyField(
