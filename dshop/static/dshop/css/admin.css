@@ -52,6 +52,10 @@
     display: block;
     margin: 0 0 2px!important;
 }
+#dm-analyze .dm-adminshop-data p a {
+    color: #666;
+    transition: color 0.3s;
+}
 #dm-analyze .dm-adminshop-data small {
     font-size: 0.8rem;
     font-weight: 400;
