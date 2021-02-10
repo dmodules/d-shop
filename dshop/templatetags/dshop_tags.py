@@ -286,15 +286,9 @@ def dm_variants_is_discounted(k):
 def dm_quotation_feature(k):
     QUOTATION = False
     try: 
-        print(QUOTATION_FEATURE)
         QUOTATION = QUOTATION_FEATURE
     except:
         pass
-    flag = False
-    for v in k.product.variants.all():
-        if v.unit_price == Money(0.01):
-            flag = True
-            break
-    if QUOTATION and flag:
+    if QUOTATION:
         return True
     return False

@@ -210,9 +210,9 @@ function dm_add2quotation_variant(k) {
   if ($(k).data("quantity")) {
     quantity = $(k).data("quantity")
   }
-
-  alert("Added to Quotation Cart: " + variant)
-  $.get(site + "quotation/" +variant, function(getResult) {
+  $.post("/quotation/cart/?variant=" + variant + "&quantity=" + quantity, function(getResult) {
+      alert(getResult);
+  })
 }
 
 function dm_add2cart_variant(k) {

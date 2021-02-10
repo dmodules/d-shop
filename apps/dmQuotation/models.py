@@ -2,6 +2,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from shop.money.fields import MoneyField
 from django.core.validators import MinValueValidator
+from shop.models.customer import CustomerModel
 
 from datetime import datetime
 
@@ -9,11 +10,18 @@ class dmQuotation(models.Model):
 
     CHOICE_STATUS = [
         (1, _("CREATED")),
-        (2, _("APPROVED")),
-        (3, _("ORDERED")),
-        (4, _("REJECTED"))
+        (2, _("SUBMITTED")),
+        (3, _("APPROVED")),
+        (4, _("ORDERED")),
+        (5, _("REJECTED"))
     ]
 
+    customer = models.ForeignKey(
+        CustomerModel,
+        on_delete=models.CASCADE,
+        related_name="customer",
+        null=True, blank=True
+    )
     number = models.CharField(
         verbose_name=_("Quotation Number"),
         max_length=100,
@@ -50,7 +58,7 @@ class dmQuotationItem(models.Model):
         _("Product's Name"),
         max_length=255,
     )
-    product_code = models.CharField(
+    product_code = models.CharField( # This will be Square code For reference
         _("Product's Code"),
         max_length=255,
         null=True, blank=True

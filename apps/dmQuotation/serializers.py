@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from shop.models.customer import CustomerModel
 from .models import dmQuotation, dmQuotationItem
 
 
@@ -18,14 +19,26 @@ class dmQuotationSerializer(serializers.ModelSerializer):
     class Meta:
         model = dmQuotation
         fields = ('id', 'number', 'status', 'created_at', 'updated_at', 'items')
+        extra_kwargs = {
+            'number': {'required': False}
+        }
 
     def validate(self, attrs):
+        user = self.context['request'].user
+        customer = CustomerModel.objects.filter(user=user)
+        if customer:
+            attrs['customer'] = customer[0]
         existing_q = dmQuotation.objects.all().order_by('-id')
         if existing_q:
             number = existing_q.first().number
             number = int(number) + 1
         else:
             number = "00001"
+        if len(str(number)) < 5:
+            num = '0'
+            for i in range(1, 5-len(str(number))):
+                num = str(num) + '0'
+            number = num + str(number)
         attrs['number'] = number
         return attrs
 

@@ -380,7 +380,7 @@ class LoadVariantSelect(APIView):
                 datas["product_code"] = v.product_code
                 datas["unit_price"] = v.unit_price
                 datas["quotation"] = 0
-                if QUOTATION and v.unit_price == Money(0.01):
+                if QUOTATION:
                     datas["quotation"] = 1
                 try:
                     datas["real_price"] = v.get_price(request)

@@ -14,6 +14,7 @@ class dmQuotationAdmin(admin.ModelAdmin):
     fieldsets = [(None, {
         "fields": [
             "number",
+            "customer",
             "status",
             ("created_at", "updated_at"),
         ]
@@ -21,5 +22,5 @@ class dmQuotationAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at', 'updated_at']
     inlines = [ dmQuotationItemInline ]
     list_display = [
-        "number", "status", "created_at", "updated_at"
+        "number", "customer", "status", "created_at", "updated_at"
     ]
