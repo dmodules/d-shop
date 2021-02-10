@@ -203,6 +203,33 @@ function dm_add2cart(k) {
   })
 }
 
+function setCookie(name, value) {
+    document.cookie = name + "=" + value;
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+function openModal(items) {
+    html = ""
+    for(var i=0; i < items.length; i++){
+        html += "<tr><td>" + items[i].product_name + "</td>"
+        html += "<td>" + items[i].variant_attribute + "</td>"
+        html += "<td><input type='number' id="+items[i].id+" value=" + items[i].quantity + "></td></tr>"
+        html += "<td><button>Update</button></td>"
+        html += "<td><button>Delete</button></td>"
+    }
+    $('.quotation-modal-body').append("<table>" + html + "</table>")
+    $('#quotation-item-modal').modal('show');
+}
 function dm_add2quotation_variant(k) {
   let endpoint = $(k).data("product")
   let variant = $(k).data("variant")
@@ -210,7 +237,12 @@ function dm_add2quotation_variant(k) {
   if ($(k).data("quantity")) {
     quantity = $(k).data("quantity")
   }
-  $.post("/quotation/cart/?variant=" + variant + "&quantity=" + quantity, function(getResult) {
+  cookie_val = getCookie('quotation-cookie')
+  if (!cookie_val){
+    var cookie_val = 'id' + (new Date()).getTime();
+    setCookie('quotation-cookie', cookie_val)
+  }
+  $.post("/quotation/cart/?variant=" + variant + "&quantity=" + quantity + "&cookie=" + cookie_val, function(getResult) {
       alert(getResult);
   })
 }

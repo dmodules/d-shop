@@ -5,9 +5,11 @@ from .views import \
     dmQuotationRetrieve, \
     dmQuotationItemListCreateAPI, \
     dmQuotationItemRetrieve, \
-    dmQuotationCartCreateAPI
+    dmQuotationCartCreateAPI, \
+    dmQuotationPage
 
 urlpatterns = [
+    url(r'page/$', dmQuotationPage),
     url(r'list/$', dmQuotationListCreateAPI.as_view()),
     url(r'cart/$', dmQuotationCartCreateAPI.as_view()),
     url(r'number/(?P<pk>[0-9]+)$', dmQuotationRetrieve.as_view()),
