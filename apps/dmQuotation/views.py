@@ -76,9 +76,36 @@ class dmQuotationCartCreateAPI(APIView):
             if customer:
                 quotation.customer = customer
                 quotation.save()
+                if cookie:
+                    cookie_quotation = dmQuotation.objects.filter(
+                        cookie=cookie,
+                        status=1,
+                        customer=None
+                    )
+                    for quot in cookie_quotation:
+                        quot.customer = customer
+                        quot.save()
+            check_quotation = dmQuotation.objects.filter(customer=customer, status=1)
+            if check_quotation.count() > 1:
+                first_quotation = check_quotation.order_by('id').first()
+                check_quotation = check_quotation.exclude(id=first_quotation.id)
+                for quot in check_quotation:
+                    for item in dmQuotationItem.objects.filter(quotation=quot):
+                        item.quotation = first_quotation
+                        item.save()
+                    quot.delete()
+                quotation = first_quotation
 
-        quotation_items = dmQuotationItem.objects.filter(quotation=quotation)
-        quotation_items = quotation_items.filter(variant_code=product_obj.product_code)
+        if product is not None:
+            quotation_items = dmQuotationItem.objects.filter(
+                quotation=quotation,
+                product_code=product_obj.product_code
+            )
+        if variant is not None:
+            quotation_items = dmQuotationItem.objects.filter(
+                quotation=quotation,
+                variant_code=product_obj.product_code
+            )
         if quotation_items:
             # Update Item
             quotation_items[0].quantity += int(quantity)
@@ -90,11 +117,11 @@ class dmQuotationCartCreateAPI(APIView):
                 'quantity': quantity,
             }
             if variant is not None:
-                attributes = ",".join([attr.value for attr in product.attribute.all()])
+                attributes = ",".join([attr.value for attr in product_obj.attribute.all()])
                 data['product_type'] = 2
-                data['variant_code'] = product_obj.product_code,
-                data['variant_attribute'] = attributes,
-                data['product_code'] = product_obj.product.square_id,
+                data['variant_code'] = product_obj.product_code
+                data['variant_attribute'] = attributes
+                data['product_code'] = product_obj.product.square_id
                 data['product_name'] = product_obj.product.product_name
             else:
                 attributes = ''
