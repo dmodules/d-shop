@@ -33,7 +33,14 @@ INSTALLED_ADDONS = [
 import aldryn_addons.settings  # noqa: E402
 aldryn_addons.settings.load(locals())
 
+
+INSTALLED_APPS.insert(
+    INSTALLED_APPS.index('django.contrib.admin'),
+    "apps.dmAdminTheme",
+)
+
 INSTALLED_APPS.extend([  # noqa: F821
+    # ===---
     "cmsplugin_cascade",
     "cmsplugin_cascade.clipboard",
     "cmsplugin_cascade.sharable",
@@ -751,3 +758,4 @@ if STAGE != 'local':
         environment=os.getenv('STAGE', 'local'),
         send_default_pii=True
     )
+

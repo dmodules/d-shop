@@ -75,10 +75,12 @@ class Form(forms.BaseForm):
         settings['INSTALLED_APPS'].extend([
             'parler',
         ])
-        settings['INSTALLED_APPS'].insert(
-            settings['INSTALLED_APPS'].index('django.contrib.admin'),
-            'djangocms_admin_style',
-        )
+
+        #Remove for bug with inline
+        #settings['INSTALLED_APPS'].insert(
+        #    settings['INSTALLED_APPS'].index('django.contrib.admin'),
+        #    'djangocms_admin_style',
+        #)
 
         settings['TEMPLATES'][0]['OPTIONS']['context_processors'].extend([
             'sekizai.context_processors.sekizai',
