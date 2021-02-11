@@ -30,6 +30,7 @@ django-webpack-loader==0.6.0
 stripe==2.55.0
 squareup==6.3.0.20200826
 # extras
+django-autocomplete-light==3.8.1
 django-admin-ordering==0.13.1
 django-autoslug==1.9.8
 django-colorfield==0.3.0

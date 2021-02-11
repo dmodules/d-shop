@@ -10,6 +10,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse, NoReverseMatch
 from django.utils.html import format_html
 
+from dal import autocomplete
+
 from mptt.admin import DraggableMPTTAdmin
 
 from cms.admin.placeholderadmin import PlaceholderAdminMixin
@@ -48,6 +50,7 @@ from shop.admin.delivery import DeliveryOrderAdminMixin
 
 admin.site.site_header = "Administration"
 admin.site.unregister(ThumbnailOption)
+
 
 COUNTRIES_FR = [
     ('AF', _('Afghanistan')),
@@ -519,11 +522,13 @@ class ProductDefaultAdmin(
     filter_horizontal = ["categories", "filters"]
     readonly_fields = ("slug",)
 
-
-class ProductForm(forms.models.BaseInlineFormSet):
+class ProductForm(forms.models.ModelForm):
     class Meta:
         model = ProductVariableVariant
         fields = '__all__'
+        widgets = {
+            'attribute': autocomplete.ModelSelect2Multiple(url='attribute-autocomplete')
+        }
 
     def clean(self):
         check_data = []
@@ -548,11 +553,10 @@ class ProductForm(forms.models.BaseInlineFormSet):
         if flag:
             raise forms.ValidationError(message)
 
-
 class ProductVariableVariantInline(admin.TabularInline):
     model = ProductVariableVariant
-    extra = 0
-    formset = ProductForm
+    extra = 1
+    form = ProductForm
 
 @admin.register(ProductVariable)
 class ProductVariableAdmin(
@@ -698,6 +702,7 @@ class ProductAdmin(PolymorphicParentModelAdmin):
     list_max_show_all = 1000
     list_editable = ["brand", "label", "active", "is_vedette"]
 
+
     def get_price(self, obj):
         return str(obj.get_real_instance().get_price(None))
     get_price.short_description = _("Price starting at")
@@ -721,3 +726,4 @@ class FeatureListAdmin(admin.ModelAdmin):
 
     list_display = ["feature_name", "is_enabled"]
     list_editable = ("is_enabled",)
+
