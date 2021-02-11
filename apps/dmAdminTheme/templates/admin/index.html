@@ -62,6 +62,7 @@
             <h2>{% trans 'Dashboard' %}</h2>
             <h3>{% trans 'Your Shop' %}</h3>
             {% dm_get_order_sells as dshop_sells %}
+            {% dm_get_order_status as dshop_orders %}
             {% dm_get_products_stocks as dshop_stocks %}
             <div class="dm-adminshop-analyze">
                 <div class="dm-adminshop-row">
@@ -93,7 +94,7 @@
                             <span class="mdi mdi-package-variant"></span>
                         </div>
                         <div class="dm-adminshop-data">
-                            <p>{{ dshop_stocks.lowonstock }} {% if dshop_stocks.lowonstock > 1 %}{% trans "orders" %}{% else %}{% trans "order" %}{% endif %}</p>
+                            <p><a href="/admindshop/order/?status=payment_confirmed">{{ dshop_orders.paymentconfirmed }} {% if dshop_orders.paymentconfirmed > 1 %}{% trans "orders" %}{% else %}{% trans "order" %}{% endif %}</a></p>
                             <small>{% trans "need to be processed" %}</small>
                         </div>
                     </div>
@@ -102,7 +103,7 @@
                             <span class="mdi mdi-package-variant-closed"></span>
                         </div>
                         <div class="dm-adminshop-data">
-                            <p>{{ dshop_stocks.outofstock }} {% if dshop_stocks.outofstock > 1 %}{% trans "orders" %}{% else %}{% trans "order" %}{% endif %}</p>
+                            <p><a href="/admindshop/order/?status=ready_for_delivery">{{ dshop_orders.readyfordelivery }} {% if dshop_orders.readyfordelivery > 1 %}{% trans "orders" %}{% else %}{% trans "order" %}{% endif %}</a></p>
                             <small>{% trans "need to be shipped" %}</small>
                         </div>
                     </div>
@@ -160,7 +161,6 @@
                 {% endfor %}
             </div>
         </div>
-        <br /><br />
         <!---->
         <div class="module" id="recent-actions-module">
             <h2>{% trans 'Recent actions' %}</h2>

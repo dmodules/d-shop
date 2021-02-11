@@ -78,30 +78,22 @@ def dm_get_order_sells():
 
 
 @register.simple_tag
-def dm_get_order_bestsellers():
-    """Get the data about the 5 best selled products of this month"""
+def dm_get_order_status():
+    """Get the count of Order with sepcific status"""
     result = {}
-    bestseller_products = []
-    bestseller_quantity = 0
-    all_selled = []
-    for o in Order.objects.filter(
-        created_at__year=datetime.now().year,
-        created_at__month=datetime.now().month
-    ):
-        for item in o.items.all():
-            for x in all_selled:
-                if x["name"] == str(item.product):
-                    x["quantity"] += item.quantity
-            else:
-                all_selled.append({
-                    "name": str(item.product),
-                    "quantity": item.quantity
-                })
-    bestseller_products = sorted(all_selled, key=lambda h: (int(h["quantity"])), reverse=True)[:5]
+    order_paymentconfirmed = 0
+    order_readyfordelivery = 0
+    # ===---
+    order_paymentconfirmed = Order.objects.filter(
+        status="payment_confirmed"
+    ).count()
+    order_readyfordelivery = Order.objects.filter(
+        status="ready_for_delivery"
+    ).count()
     # ===---
     result = {
-        "products": bestseller_products,
-        "quantity": bestseller_quantity
+        "paymentconfirmed": order_paymentconfirmed,
+        "readyfordelivery": order_readyfordelivery
     }
     return result
 
@@ -129,5 +121,34 @@ def dm_get_products_stocks():
     result = {
         "outofstock": outofstock,
         "lowonstock": lowonstock
+    }
+    return result
+
+
+@register.simple_tag
+def dm_get_order_bestsellers():
+    """Get the data about the 5 best selled products of this month"""
+    result = {}
+    bestseller_products = []
+    bestseller_quantity = 0
+    all_selled = []
+    for o in Order.objects.filter(
+        created_at__year=datetime.now().year,
+        created_at__month=datetime.now().month
+    ):
+        for item in o.items.all():
+            for x in all_selled:
+                if x["name"] == str(item.product):
+                    x["quantity"] += item.quantity
+            else:
+                all_selled.append({
+                    "name": str(item.product),
+                    "quantity": item.quantity
+                })
+    bestseller_products = sorted(all_selled, key=lambda h: (int(h["quantity"])), reverse=True)[:5]
+    # ===---
+    result = {
+        "products": bestseller_products,
+        "quantity": bestseller_quantity
     }
     return result

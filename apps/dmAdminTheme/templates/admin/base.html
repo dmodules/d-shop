@@ -5,10 +5,10 @@
 <title>{% block title %}{% endblock %}</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css" />
 <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static 'admin/css/base.css' %}{% endblock %}">
-<link rel="stylesheet" type="text/css" href="{% static 'dshop/css/admin.css' %}">
 {% block extrastyle %}{% endblock %}
 {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static 'admin/css/rtl.css' %}{% endblock %}">{% endif %}
 {% block extrahead %}{% endblock %}
+<link rel="stylesheet" type="text/css" href="{% static 'dmAdminTheme/css/admin.css' %}">
 {% block responsive %}
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'admin/css/responsive.css' %}">
