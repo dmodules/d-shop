@@ -10,7 +10,7 @@ from rest_framework.response import Response as RestResponse
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from shop.models.customer import CustomerModel
 from django.conf import settings
-from dshop.models import ProductVariableVariant
+from dshop.models import ProductVariableVariant, ProductDefault
 from .models import dmQuotation, dmQuotationItem
 from .serializers import dmQuotationSerializer, dmQuotationItemSerializer
 
@@ -18,12 +18,18 @@ from .serializers import dmQuotationSerializer, dmQuotationItemSerializer
 class dmQuotationCartCreateAPI(APIView):
 
     def post(self, request, *args, **kwargs):
-        variant = request.GET.get('variant', '')
+        variant = request.GET.get('variant', None)
+        product = request.GET.get('product', None)
         quantity = request.GET.get('quantity', '')
         cookie = request.GET.get('cookie', '')
 
+        print('product: ' + str(product))
+        print('variant: ' + str(variant))
         try:
-            variant = ProductVariableVariant.objects.get(product_code=variant)
+            if product is not None:
+                product_obj = ProductDefault.objects.get(product_code=product)
+            elif variant is not None:
+                product_obj = ProductVariableVariant.objects.get(product_code=variant)
         except Exception as e:
             print(e)
             return RestResponse({"valid": False})
@@ -36,10 +42,18 @@ class dmQuotationCartCreateAPI(APIView):
             customer = CustomerModel.objects.get(user__id=user_id)
 
         # Check for Quotation
-        quotation = dmQuotation.objects.filter(
-            cookie=cookie,
-            status=1
-        )
+        quotation = []
+        if customer:
+            quotation = dmQuotation.objects.filter(
+                customer=customer,
+                status=1
+            ).last()
+        if not quotation:
+            quotation = dmQuotation.objects.filter(
+                cookie=cookie,
+                status=1
+            ).last()
+
         if not quotation:
             # To generate Quotation Number
             existing_q = dmQuotation.objects.all().order_by('-id')
@@ -59,28 +73,34 @@ class dmQuotationCartCreateAPI(APIView):
                 number=number
             )
         else:
-            quotation = quotation[0]
             if customer:
                 quotation.customer = customer
                 quotation.save()
 
         quotation_items = dmQuotationItem.objects.filter(quotation=quotation)
-        quotation_items = quotation_items.filter(variant_code=variant.product_code)
+        quotation_items = quotation_items.filter(variant_code=product_obj.product_code)
         if quotation_items:
             # Update Item
             quotation_items[0].quantity += int(quantity)
             quotation_items[0].save()
         else:
             # Create Item
-            attributes = ",".join([attr.value for attr in variant.attribute.all()])
             data = {
                 'quotation': quotation,
                 'quantity': quantity,
-                'variant_code': variant.product_code,
-                'variant_attribute': attributes,
-                'product_code': variant.product.square_id,
-                'product_name': variant.product.product_name
             }
+            if variant is not None:
+                attributes = ",".join([attr.value for attr in product.attribute.all()])
+                data['product_type'] = 2
+                data['variant_code'] = product_obj.product_code,
+                data['variant_attribute'] = attributes,
+                data['product_code'] = product_obj.product.square_id,
+                data['product_name'] = product_obj.product.product_name
+            else:
+                attributes = ''
+                data['product_type'] = 1
+                data['product_code'] = product_obj.product_code
+                data['product_name'] = product_obj.product_name
             dmQuotationItem.objects.create(**data)
         return RestResponse({"valid": True})
 

@@ -54,6 +54,10 @@ class dmQuotation(models.Model):
 
 class dmQuotationItem(models.Model):
 
+    CHOICE_TYPE = [
+        (1, _("Default")),
+        (2, _("Variable")),
+    ]
     quotation = models.ForeignKey(
         dmQuotation,
         on_delete=models.CASCADE,
@@ -62,6 +66,11 @@ class dmQuotationItem(models.Model):
     product_name = models.CharField(
         _("Product's Name"),
         max_length=255,
+    )
+    product_type = models.PositiveSmallIntegerField(
+        verbose_name=_("Product Type"),
+        choices=CHOICE_TYPE,
+        default=1,
     )
     product_code = models.CharField( # This will be Square code For reference
         _("Product's Code"),
