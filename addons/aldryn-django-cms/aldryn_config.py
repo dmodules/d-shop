@@ -75,11 +75,10 @@ class Form(forms.BaseForm):
         settings['INSTALLED_APPS'].extend([
             'parler',
         ])
-        #remove to personnalize
-        #settings['INSTALLED_APPS'].insert(
-        #    settings['INSTALLED_APPS'].index('django.contrib.admin'),
-        #    'djangocms_admin_style',
-        #)
+        settings['INSTALLED_APPS'].insert(
+            settings['INSTALLED_APPS'].index('django.contrib.admin'),
+            'djangocms_admin_style',
+        )
 
         settings['TEMPLATES'][0]['OPTIONS']['context_processors'].extend([
             'sekizai.context_processors.sekizai',
