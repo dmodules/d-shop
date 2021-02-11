@@ -527,8 +527,7 @@
                 let self = this;
                 this.$set(this, "isLoading", true)
                 // ===--- BEGIN: axios
-                this.$axios
-                    .get(this.$web_url + "/api/fe/customer/", {
+                this.$axios.get(this.$web_url + "/api/fe/customer/", {
                         headers: {
                             "Content-Type": "application/json",
                             Accept: "application/json",

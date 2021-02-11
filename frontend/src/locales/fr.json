@@ -88,10 +88,21 @@
   "PasswordConfirm": "Confirmation du mot de passe",
 
   "YourQuotation": "Votre devis",
+  "MyQuotations": "Mes Devis",
   "Cart": "Panier",
   "Product": "Produit",
   "Quantity": "Quantité",
   "Remove": "Retirer",
   "Thanksforquotation": "Votre devis a bien été envoyé",
-  "Thanks": "Merci"
+  "Thanks": "Merci",
+
+  "Created": "Créé",
+  "Submitted": "Soumis",
+  "Approved": "Approuvé",
+  "Ordered": "Commandé",
+  "Rejected": "Rejeté",
+  "Unknown": "Inconnu",
+
+  "LastUpdate": "Dernière mise à jour",
+  "Thisquotationnotexist": "Ce devis n'existe pas"
 }

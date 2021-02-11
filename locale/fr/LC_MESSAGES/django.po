@@ -2638,3 +2638,12 @@ msgstr "Envoyer"
 
 msgid "My Quotation"
 msgstr "Mon devis"
+
+msgid "slugquotation"
+msgstr "devis"
+
+msgid "slugmyquotations"
+msgstr "mes-devis"
+
+msgid "My Quotations"
+msgstr "Mes devis"

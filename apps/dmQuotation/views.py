@@ -5,6 +5,7 @@ from django.contrib.sessions.models import Session
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, RetrieveDestroyAPIView
 from rest_framework.response import Response as RestResponse
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
@@ -99,7 +100,14 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
     serializer_class = dmQuotationSerializer
     permission_classes = [IsAuthenticated,]
     lookup_field = 'pk'
-    queryset = dmQuotation.objects.all()
+    # queryset = dmQuotation.objects.all()
+
+    def get_queryset(self):
+        cust = CustomerModel.objects.get(user=self.request.user)
+        query = dmQuotation.objects.filter(
+            customer=cust
+        )
+        return query
 
     def patch(self, request, *args, **kwargs):
         if 'status' in request.data:

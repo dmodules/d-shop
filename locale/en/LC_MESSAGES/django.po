@@ -2531,3 +2531,9 @@ msgstr ""
 #: templates/djangocms_video/default/video_player.html:18
 msgid "Your browser doesn't support this video format."
 msgstr ""
+
+msgid "slugquotation"
+msgstr "quotation"
+
+msgid "slugmyquotations"
+msgstr "my-quotations"

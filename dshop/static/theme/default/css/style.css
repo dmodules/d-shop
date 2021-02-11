@@ -299,7 +299,8 @@ a:hover{
   color:#458d91;
 }
 #app.theme--light .v-card,
-#app.theme--light .v-stepper{
+#app.theme--light .v-stepper,
+#app.theme--light .v-data-table{
     background:transparent;
 }
 #app.theme--light .v-menu__content{
