@@ -70,7 +70,7 @@
 }
 #content-related {
     width: 400px;
-    border-top: 30px solid grey;
+    border-top: 30px solid black;
     margin-right: -420px;
 }
 #header {
@@ -79,7 +79,7 @@
 #content-related h3 {
     font-size: 18px;
     font-weight: normal;
-    color: #333;
+    color: #447e9b;
 }
 #branding h1 {
     color: white;
@@ -88,7 +88,7 @@
     color: white;
 }
 .module h2, .module caption, .inline-group h2 {
-    background: grey;
+    background: black;
 }
 div.breadcrumbs {
     background-color: grey;
