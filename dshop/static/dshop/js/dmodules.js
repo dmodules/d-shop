@@ -72,6 +72,10 @@ const i18n = {
   cantloginwithinfos: {
       fr: "Impossible de se connecter avec les informations d'identification fournies.",
       en: "Unable to log in with provided credentials."
+  },
+  productaddedtoquotation: {
+      fr: "Produit ajouté au devis",
+      en: "Product added to quotation"
   }
 }
 
@@ -288,75 +292,77 @@ function dm_plus2cart(button, endpoint, pk, qty) {
 }
 
 function getPanier() {
-  $.get(shop + "cart/", function(getResult) {
-    if (getResult.num_items) {
-      $("#dm-cart-items").show()
-      $("#dm-cart-items").text(getResult.total_quantity)
-      if (getResult.num_items > 1) {
-        $("#drawer-items-count").text(getResult.num_items + " " + i18n.products[lang])
-      } else {
-        $("#drawer-items-count").text(getResult.num_items + " " + i18n.product[lang])
-      }
-      if (getResult.items.length >= 1) {
-        let items = getResult.items.sort(
-            (a,b) => (
-                a.summary.product_name > b.summary.product_name
-            ) ? 1 : (
-                (
-                    b.summary.product_name > a.summary.product_name
-                ) ? -1 : 0
-            )
-        )
-        let itemlist = "<ul>"
-        items.forEach((item) => {
-          itemlist += "<li>"
-          itemlist += "<div class='container-fluid'><div class='row'>"
-          itemlist += "<div class='col-3'>"
-          itemlist += item.summary.media
-          itemlist += "</div>"
-          itemlist += "<div class='col-8 text-left'>"
-          itemlist += "<div><a href='"+item.summary.product_url+"'>" + item.summary.product_name + "</a></div>"
-          if (item.extra && item.extra.variables && item.extra.variables.attributes) {
-              itemlist += "<div class='drawer-cart-attributes'>"
-              for (let i = 0; i < item.extra.variables.attributes.length; i++) {
-                itemlist += "<div>"+item.extra.variables.attributes[i]+"</div>"
-              }
-              itemlist += "</div>"
-          }
-          itemlist += "<div class='mt-2'>"
-          itemlist += "<div class='cart-change-quantity'><span class='minus"
-          if (item.quantity <= 1) {
-            itemlist += " disabled'"
-          } else {
-            itemlist += "' onclick='return dm_minus2cart($(this), "+JSON.stringify(item.url.split("/cart/")[1])+", "+item.product+", "+(item.quantity-1)+")'"
-          }
-          itemlist += ">-</span>"+item.quantity+"<span class='plus' onclick='return dm_plus2cart($(this), "+JSON.stringify(item.url.split("/cart/")[1])+", "+item.product+", "+(item.quantity+1)+")'>+</span></div>"
-          itemlist += " x " + item.unit_price + "</div>"
-          itemlist += "<a href='#' class='dm-item-delete' onclick='return dm_delete2cart("+JSON.stringify(item.url.split("/cart/")[1])+")'>X</a>"
-          itemlist += "</div>"
-          itemlist += "</div></div>"
-          itemlist += "</li>"
-          $("#drawer-items-list").html(itemlist)
+    if ($("#drawer-items-list").length) {
+        $.get(shop + "cart/", function(getResult) {
+            if (getResult.num_items) {
+                $("#dm-cart-items").show()
+                $("#dm-cart-items").text(getResult.total_quantity)
+                if (getResult.num_items > 1) {
+                    $("#drawer-items-count").text(getResult.num_items + " " + i18n.products[lang])
+                } else {
+                    $("#drawer-items-count").text(getResult.num_items + " " + i18n.product[lang])
+                }
+                if (getResult.items.length >= 1) {
+                    let items = getResult.items.sort(
+                        (a,b) => (
+                            a.summary.product_name > b.summary.product_name
+                        ) ? 1 : (
+                            (
+                                b.summary.product_name > a.summary.product_name
+                            ) ? -1 : 0
+                        )
+                    )
+                    let itemlist = "<ul>"
+                    items.forEach((item) => {
+                        itemlist += "<li>"
+                        itemlist += "<div class='container-fluid'><div class='row'>"
+                        itemlist += "<div class='col-3'>"
+                        itemlist += item.summary.media
+                        itemlist += "</div>"
+                        itemlist += "<div class='col-8 text-left'>"
+                        itemlist += "<div><a href='"+item.summary.product_url+"'>" + item.summary.product_name + "</a></div>"
+                        if (item.extra && item.extra.variables && item.extra.variables.attributes) {
+                            itemlist += "<div class='drawer-cart-attributes'>"
+                            for (let i = 0; i < item.extra.variables.attributes.length; i++) {
+                                itemlist += "<div>"+item.extra.variables.attributes[i]+"</div>"
+                            }
+                            itemlist += "</div>"
+                        }
+                        itemlist += "<div class='mt-2'>"
+                        itemlist += "<div class='cart-change-quantity'><span class='minus"
+                        if (item.quantity <= 1) {
+                            itemlist += " disabled'"
+                        } else {
+                            itemlist += "' onclick='return dm_minus2cart($(this), "+JSON.stringify(item.url.split("/cart/")[1])+", "+item.product+", "+(item.quantity-1)+")'"
+                        }
+                        itemlist += ">-</span>"+item.quantity+"<span class='plus' onclick='return dm_plus2cart($(this), "+JSON.stringify(item.url.split("/cart/")[1])+", "+item.product+", "+(item.quantity+1)+")'>+</span></div>"
+                        itemlist += " x " + item.unit_price + "</div>"
+                        itemlist += "<a href='#' class='dm-item-delete' onclick='return dm_delete2cart("+JSON.stringify(item.url.split("/cart/")[1])+")'>X</a>"
+                        itemlist += "</div>"
+                        itemlist += "</div></div>"
+                        itemlist += "</li>"
+                        $("#drawer-items-list").html(itemlist)
+                    })
+                    itemlist += "</ul>"
+                    $(".btn-order").removeClass("disabled")
+                } else {
+                    $("#dm-cart-items").hide()
+                    $("#dm-cart-items").text("0")
+                    $("#drawer-items-count").text("0 " + i18n.product[lang])
+                    $("#drawer-items-list").html('')
+                    $(".btn-order").addClass("disabled")
+                }
+                $("#dm-drawer-price").text(getResult.subtotal)
+            } else {
+                $("#dm-cart-items").hide()
+                $("#dm-cart-items").text("0")
+                $("#drawer-items-count").text("0 " + i18n.product[lang])
+                $("#drawer-items-list").html('')
+                $("#dm-drawer-price").text("-")
+                $(".btn-order").addClass("disabled")
+            }
         })
-        itemlist += "</ul>"
-        $(".btn-order").removeClass("disabled")
-      } else {
-        $("#dm-cart-items").hide()
-        $("#dm-cart-items").text("0")
-        $("#drawer-items-count").text("0 " + i18n.product[lang])
-        $("#drawer-items-list").html('')
-        $(".btn-order").addClass("disabled")
-      }
-      $("#dm-drawer-price").text(getResult.subtotal)
-    } else {
-      $("#dm-cart-items").hide()
-      $("#dm-cart-items").text("0")
-      $("#drawer-items-count").text("0 " + i18n.product[lang])
-      $("#drawer-items-list").html('')
-      $("#dm-drawer-price").text("-")
-      $(".btn-order").addClass("disabled")
     }
-  })
 }
 
 /* ======================================================== //

@@ -21,11 +21,12 @@ class dmQuotationCartCreateAPI(APIView):
         variant = request.GET.get('variant', '')
         quantity = request.GET.get('quantity', '')
         cookie = request.GET.get('cookie', '')
+
         try:
             variant = ProductVariableVariant.objects.get(product_code=variant)
         except Exception as e:
             print(e)
-            return HttpResponse("ERROR!")
+            return RestResponse({"valid": False})
 
         session = Session.objects.filter(session_key=request.session.session_key)
         customer = None
@@ -70,8 +71,8 @@ class dmQuotationCartCreateAPI(APIView):
             quotation_items[0].quantity += int(quantity)
             quotation_items[0].save()
         else:
-            # Create Item 
-            attributes = ",".join([ attr.value for attr in variant.attribute.all()])
+            # Create Item
+            attributes = ",".join([attr.value for attr in variant.attribute.all()])
             data = {
                 'quotation': quotation,
                 'quantity': quantity,
@@ -81,7 +82,7 @@ class dmQuotationCartCreateAPI(APIView):
                 'product_name': variant.product.product_name
             }
             dmQuotationItem.objects.create(**data)
-        return HttpResponse('Added to Quotation')
+        return RestResponse({"valid": True})
 
 class dmQuotationListCreateAPI(ListCreateAPIView):
 

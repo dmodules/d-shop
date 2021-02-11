@@ -111,11 +111,19 @@
                             <input type="button" value="+" class="plus" onclick="quantityPlus()" />
                         </div>
                     </div>
-                    <div class="cart_btn">
-                        <a href="#" class="btn btn-fill-out btn-add2cart dm-add2cart" data-product="{{product.slug}}" data-quantity="1">
-                            <i class="icon-basket-loaded"></i>{% trans "Add to cart" %}
-                        </a>
-                    </div>
+                    {% if is_quotation %}
+                        <div class="cart_btn">
+                            <a href="#" class="btn btn-fill-out btn-add2quotation dm-add2quotation" data-product="{{product.slug}}" data-quantity="1">
+                                <i class="icon-basket-loaded"></i>{% trans "Add to quotation" %}
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="cart_btn">
+                            <a href="#" class="btn btn-fill-out btn-add2cart dm-add2cart" data-product="{{product.slug}}" data-quantity="1">
+                                <i class="icon-basket-loaded"></i>{% trans "Add to cart" %}
+                            </a>
+                        </div>
+                    {% endif %}
                 {% else %}
                     <div class="product-detail-unavailable">
                         <p>{% trans 'Out of stock' %}</p>

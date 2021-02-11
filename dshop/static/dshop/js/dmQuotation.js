@@ -7,10 +7,14 @@ $(document).ready(function() {
     getQuotationCart();
 })
 
-function setQuotationClickBtn() {  
+function setQuotationClickBtn() {
+    $(".dm-add2quotation").on("click", function(event) {
+        event.preventDefault();
+        dm_add2quotation(this);
+    })
     $(".dm-add2quotation-variant").on("click", function(event) {
-      event.preventDefault();
-      dm_add2quotation_variant(this);
+        event.preventDefault();
+        dm_add2quotation_variant(this);
     })
 }
 
@@ -44,6 +48,26 @@ function openModal(items) {
 
 /* ===--------------------------------------------------=== */
 
+function dm_add2quotation(k) {
+    let product = $(k).data("product")
+    let quantity = 1
+    if ($(".input-num").length) {
+        quantity = $(".input-num").val()
+    }
+    cookie_val = getCookie('quotation-cookie')
+    if (!cookie_val){
+        var cookie_val = 'id' + (new Date()).getTime();
+        setCookie('quotation-cookie', cookie_val)
+    }
+    $.post("/quotation/cart/?product=" + product + "&quantity=" + quantity + "&cookie=" + cookie_val, function(getResult) {
+        if (getResult.valid) {
+            showAdd2cartSnack(i18n.productaddedtoquotation[lang])
+        } else {
+            showAdd2cartSnack(i18n.anerroroccurred[lang])
+        }
+    })
+}
+
 function dm_add2quotation_variant(k) {
     let variant = $(k).data("variant")
     let quantity = 1
@@ -56,7 +80,11 @@ function dm_add2quotation_variant(k) {
         setCookie('quotation-cookie', cookie_val)
     }
     $.post("/quotation/cart/?variant=" + variant + "&quantity=" + quantity + "&cookie=" + cookie_val, function(getResult) {
-        alert(getResult);
+        if (getResult.valid) {
+            showAdd2cartSnack(i18n.productaddedtoquotation[lang])
+        } else {
+            showAdd2cartSnack(i18n.anerroroccurred[lang])
+        }
     })
 }
 
