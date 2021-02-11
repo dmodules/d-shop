@@ -106,7 +106,7 @@
                                         <v-card-actions>
                                             <v-row>
                                                 <v-col cols="12" class="text-right">
-                                                    <v-btn tile color="primary" @click="doProcess()">
+                                                    <v-btn tile color="primary" @click="doStepNext()">
                                                         <v-icon v-if="$vuetify.breakpoint.name == 'sm' || $vuetify.breakpoint.name == 'xs'">mdi-chevron-right</v-icon>
                                                         <span v-else>{{ $i18n.t("Suivant") }}</span>
                                                     </v-btn>
@@ -187,7 +187,7 @@
                                         <v-card-actions>
                                             <v-row>
                                                 <v-col cols="6" class="text-left">
-                                                    <v-btn tile color="primary" @click="hasStep -= 1">
+                                                    <v-btn tile color="primary" @click="doStepPrev()">
                                                         <v-icon v-if="$vuetify.breakpoint.name == 'sm' || $vuetify.breakpoint.name == 'xs'">mdi-chevron-left</v-icon>
                                                         <span v-else>{{ $i18n.t("Precedent") }}</span>
                                                     </v-btn>
@@ -197,7 +197,7 @@
                                                         tile
                                                         color="primary"
                                                         :disabled="!formCustomer.valid"
-                                                        @click="doProcess()"
+                                                        @click="doStepNext()"
                                                     >
                                                         <v-icon v-if="$vuetify.breakpoint.name == 'sm' || $vuetify.breakpoint.name == 'xs'">mdi-chevron-right</v-icon>
                                                         <span v-else>{{ $i18n.t("Suivant") }}</span>
@@ -338,7 +338,7 @@
                                         <v-card-actions>
                                             <v-row>
                                                 <v-col cols="6" class="text-left">
-                                                    <v-btn tile color="primary" @click="hasStep -= 1">
+                                                    <v-btn tile color="primary" @click="doStepPrev()">
                                                         <v-icon v-if="$vuetify.breakpoint.name == 'sm' || $vuetify.breakpoint.name == 'xs'">mdi-chevron-left</v-icon>
                                                         <span v-else>{{ $i18n.t("Precedent") }}</span>
                                                     </v-btn>
@@ -348,7 +348,7 @@
                                                         tile
                                                         color="primary"
                                                         :disabled="!formShipping.valid"
-                                                        @click="doProcess()"
+                                                        @click="doStepNext()"
                                                     >
                                                         <v-icon v-if="$vuetify.breakpoint.name == 'sm' || $vuetify.breakpoint.name == 'xs'">mdi-chevron-right</v-icon>
                                                         <span v-else>{{ $i18n.t("Suivant") }}</span>
@@ -361,20 +361,44 @@
                                 <v-stepper-content :step="4">
                                     <v-card>
                                         <v-card-text>
-                                            <v-row>
-                                                <v-col v-if="isCompleted" cols="12">
-                                                    <h4>{{ $i18n.t("Thanksforquotation") }}</h4>
-                                                    <h3>{{ $i18n.t("Thanks") }}</h3>
-                                                    <p>
-                                                        <a href="/">{{ $i18n.t("Retourneralaccueil") }}</a>
-                                                    </p>
-                                                </v-col>
-                                                <v-col v-else cols="12">
-                                                    <v-btn x-large color="primary">
-                                                        Soumettre
-                                                    </v-btn>
-                                                </v-col>
-                                            </v-row>
+                                            <template v-if="isLoadingSubmit">
+                                                <v-row>
+                                                    <v-col cols="12" class="text-center">
+                                                        <v-progress-circular
+                                                            indeterminate
+                                                            :size="200"
+                                                            :width="20"
+                                                            color="primary"
+                                                        />
+                                                    </v-col>
+                                                </v-row>
+                                            </template>
+                                            <template v-else>
+                                                <v-row>
+                                                    <v-col v-if="isCompleted" cols="12">
+                                                        <h4>{{ $i18n.t("Thanksforquotation") }}</h4>
+                                                        <h3>{{ $i18n.t("Thanks") }}</h3>
+                                                        <p>
+                                                            <a href="/">{{ $i18n.t("Retourneralaccueil") }}</a>
+                                                        </p>
+                                                    </v-col>
+                                                    <v-col v-else cols="12">
+                                                        <v-btn x-large color="primary" @click="doQuotationSubmit()">
+                                                            Soumettre
+                                                        </v-btn>
+                                                    </v-col>
+                                                </v-row>
+                                                <v-row v-if="hasError || hasSuccess">
+                                                    <v-col cols="12">
+                                                        <v-alert v-if="!hasError && hasSuccess" text type="success">
+                                                            <div v-html="hasSuccess"></div>
+                                                        </v-alert>
+                                                        <v-alert v-else-if="hasError" text type="error">
+                                                            <div v-html="hasError"></div>
+                                                        </v-alert>
+                                                    </v-col>
+                                                </v-row>
+                                            </template>
                                         </v-card-text>
                                     </v-card>
                                 </v-stepper-content>
@@ -411,11 +435,16 @@
         data: () => ({
             isAuth: false,
             isLoading: true,
+            isLoadingSubmit: false,
             isCompleted: false,
+            hasError: null,
+            hasSuccess: null,
             hasEmptyCart: false,
             hasStep: 1,
             isGuest: false,
             tosLink: "/",
+            quotationID : null,
+            quotationNumber : null,
             listProducts: [],
             formChoix: {
                 salutation: [],
@@ -568,6 +597,8 @@
                     .then((apiSuccess) => {
                         if (apiSuccess.data && apiSuccess.data && apiSuccess.data.quotation) {
                             self.$set(self, "listProducts", apiSuccess.data.quotation.items)
+                            self.$set(self, "quotationID", apiSuccess.data.quotation.id)
+                            self.$set(self, "quotationNumber", apiSuccess.data.quotation.number)
                         } else {
                             self.$set(self, "hasEmptyCart", true)
                         }
@@ -584,7 +615,11 @@
             // =========================================================== */
             doProcess () {
                 let self = this
+                this.$set(this, "hasError", null)
+                this.$set(this, "hasSuccess", null)
+                // ===---
                 let datas = null
+                // ===---
                 if (this.hasStep === 1) {
                     this.listProducts.forEach((item) => {
                         self.setQuotationQuantity(item.id, item.quantity)
@@ -605,7 +640,9 @@
             // ===---   setQuotationQuantity                        ---=== //
             // =========================================================== */
             setQuotationQuantity (id, quantity) {
-                // let self = this
+                let self = this
+                this.$set(this, "hasError", null)
+                // ===---
                 let datas = {
                     "quantity": quantity
                 }
@@ -616,10 +653,10 @@
                         "Accept": "application/json",
                     },
                 })
-                .then((apiSuccess) => {
-                    console.log(apiSuccess)
+                .then(() => {})
+                .catch(() => {
+                    self.$set(self, "hasError", self.$i18n.t("Anerroroccured"))
                 })
-                .catch(() => {})
                 // ===--- END: axios
 
             },
@@ -678,6 +715,38 @@
                 // ===--- END: axios
             },
             /* =========================================================== //
+            // ===---   doQuotationSubmit                           ---=== //
+            // =========================================================== */
+            doQuotationSubmit () {
+                let self = this
+                this.$set(this, "hasError", null)
+                this.$set(this, "isCompleted", false)
+                this.$set(this, "isLoadingSubmit", true)
+                // ===---
+                let datas = {
+                    "id": this.quotationID,
+                    "status": 2
+                }
+                // ===---
+                if (this.quotationID && this.quotationNumber) {
+                    // ===--- BEGIN: axios
+                    this.$axios.put(this.$web_url + "/quotation/number/"+this.quotationID, datas, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(() => {
+                        self.$set(self, "isCompleted", true)
+                        self.$set(self, "isLoadingSubmit", false)
+                    })
+                    // ===--- END: axios
+                } else {
+                    this.$set(this, "hasError", this.$i18n.t("Anerroroccured"))
+                    this.$set(this, "isLoadingSubmit", false)
+                }
+            },
+            /* =========================================================== //
             // ===---   doMinus & doPlus                            ---=== //
             // =========================================================== */
             doMinus (item) {
@@ -687,6 +756,17 @@
             },
             doPlus (item) {
                 this.$set(this.listProducts[item], "quantity", this.listProducts[item].quantity + 1)
+            },
+            /* =========================================================== //
+            // ===---   doStepPrev & doStepNext                     ---=== //
+            // =========================================================== */
+            doStepPrev () {
+                this.$set(this, "hasError", null)
+                this.$set(this, "hasSuccess", null)
+                this.$set(this, "hasStep", this.hasStep - 1)
+            },
+            doStepNext () {
+                this.doProcess()
             }
             /* =========================================================== //
             // ===-----------------------------------------------------=== //
