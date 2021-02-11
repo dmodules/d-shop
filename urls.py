@@ -20,7 +20,7 @@ from dshop.views import CustomerView, CustomerCheckView
 from dshop.views import LoadProduits, LoadProductsByCategory
 from dshop.views import LoadVariantSelect
 from dshop.views import ShippingMethodsView, BillingMethodsView
-from dshop.views import TestPaymentView
+from dshop.views import TestPaymentView, AttributeAutocomplete
 from dshop.views import PasswordResetConfirmView
 from dshop.views import unclone_customers, send_queued_mail
 
@@ -49,6 +49,7 @@ if os.path.exists(path_to_extended):
 
 urlpatterns = [
 
+    url(r'^attribute-autocomplete/$', AttributeAutocomplete.as_view(), name='attribute-autocomplete'),
     url(r'^robots\.txt$', render_robots),
     url(r'^sitemap\.xml$', sitemap, {"sitemaps": sitemaps}, name="sitemap"),
 

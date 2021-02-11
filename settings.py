@@ -40,6 +40,16 @@ INSTALLED_APPS.insert(
     "apps.dmAdminTheme",
 )
 
+INSTALLED_APPS.insert(
+    INSTALLED_APPS.index('django.contrib.admin'),
+    "dal",
+)
+
+INSTALLED_APPS.insert(
+    INSTALLED_APPS.index('django.contrib.admin'),
+    "dal_select2",
+)
+
 INSTALLED_APPS.extend([  # noqa: F821
     # ===---
     "cmsplugin_cascade",

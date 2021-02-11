@@ -20,6 +20,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.template.defaultfilters import slugify
 from django.core.management import call_command
 from django.core.mail import send_mail
+from django.db.models import Q
 
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny
@@ -36,6 +37,8 @@ from shop.money import MoneyMaker
 from shop.rest.renderers import CMSPageRenderer
 from shop.serializers.auth import PasswordResetConfirmSerializer
 
+from dal import autocomplete
+
 from dshop.models import Product
 from dshop.models import AttributeValue
 from dshop.transition import transition_change_notification
@@ -47,7 +50,6 @@ try:
     from apps.dmRabais.models import dmCustomerPromoCode
 except ImportError:
     dmCustomerPromoCode = None
-
 
 #######################################################################
 # ===---   TestPaymentView                                     ---=== #
@@ -70,12 +72,10 @@ def TestPaymentView(request):
         try:
             Money = MoneyMaker(order.currency)
             amount = Money(order._total)
-            OrderPayment.objects.create(
-                order=order,
-                amount=amount,
-                transaction_id=transactionId,
-                payment_method="Test (development)"
-            )
+            OrderPayment.objects.create(order=order,
+                                        amount=amount,
+                                        transaction_id=transactionId,
+                                        payment_method="Test (development)")
             order.acknowledge_payment()
             order.save()
             # ===---
@@ -86,8 +86,7 @@ def TestPaymentView(request):
                         for pm in promo:
                             cpc = dmCustomerPromoCode.objects.get(
                                 customer=request.user.customer,
-                                promocode__code=pm
-                            )
+                                promocode__code=pm)
                             cpc.is_expired = True
                             cpc.save()
             # ===---
@@ -102,19 +101,25 @@ def TestPaymentView(request):
                     datas["extra"] = i.extra
                     items.append(datas)
                 miniorder = {
-                    "number": str(referenceId),
-                    "url": "/vos-commandes/"+str(referenceId)+"/"+str(order.token),
-                    "items": items,
-                    "extra": order.extra,
-                    "subtotal": order.subtotal,
-                    "total": order.total,
-                    "billing_address_text": order.billing_address_text,
-                    "shipping_address_text": order.shipping_address_text
+                    "number":
+                    str(referenceId),
+                    "url":
+                    "/vos-commandes/" + str(referenceId) + "/" +
+                    str(order.token),
+                    "items":
+                    items,
+                    "extra":
+                    order.extra,
+                    "subtotal":
+                    order.subtotal,
+                    "total":
+                    order.total,
+                    "billing_address_text":
+                    order.billing_address_text,
+                    "shipping_address_text":
+                    order.shipping_address_text
                 }
-                transition_change_notification(
-                    order,
-                    miniorder
-                )
+                transition_change_notification(order, miniorder)
             except Exception as e:
                 print("When : transition_change_notification")
                 print(e)
@@ -166,21 +171,21 @@ class LoadProduits(APIView):
                 Q(categories=category) | Q(categories__parent=category)
                 | Q(categories__parent__parent=category)
                 | Q(categories__parent__parent__parent=category),
-                active=True).distinct()[offset + limit:offset + limit + limit].count()
+                active=True).distinct()[offset + limit:offset + limit +
+                                        limit].count()
         elif brand is not None:
             brand = int(brand)
             products = Product.objects.filter(
-                Q(brand=brand),
-                active=True).distinct()[offset:offset + limit]
+                Q(brand=brand), active=True).distinct()[offset:offset + limit]
             next_products = Product.objects.filter(
-                brand=brand,
-                active=True).distinct()[offset + limit:offset + limit + limit].count()
+                brand=brand, active=True).distinct()[offset + limit:offset +
+                                                     limit + limit].count()
         else:
             products = Product.objects.filter(
                 active=True).distinct()[offset:offset + limit]
             next_products = Product.objects.filter(
-                active=True
-            ).distinct()[offset + limit:offset + limit + limit].count()
+                active=True).distinct()[offset + limit:offset + limit +
+                                        limit].count()
         # ===---
         all_produits = []
         for produit in products:
@@ -200,8 +205,10 @@ class LoadProduits(APIView):
                 data['image'] = get_thumbnailer(
                     produit.images.first()).get_thumbnail({
                         'size': (540, 600),
-                        'upscale': True,
-                        'background': "#ffffff"
+                        'upscale':
+                        True,
+                        'background':
+                        "#ffffff"
                     }).url
             else:
                 data['image'] = None
@@ -221,7 +228,8 @@ class LoadProduits(APIView):
                 data['variants'] = True
                 data['variants_count'] = produit.variants.all().count()
                 if produit.variants.first():
-                    data['variants_product_code'] = produit.variants.first().product_code
+                    data['variants_product_code'] = produit.variants.first(
+                    ).product_code
                     data['price'] = produit.variants.first().unit_price
                     data['is_discounted'] = False
                     for v in produit.variants.all():
@@ -266,23 +274,25 @@ class LoadProductsByCategory(APIView):
                 Q(categories=category) | Q(categories__parent=category)
                 | Q(categories__parent__parent=category)
                 | Q(categories__parent__parent__parent=category),
-                active=True
-            ).distinct()[:8]
+                active=True).distinct()[:8]
             # ===---
             all_produits = []
             for produit in products:
                 data = {}
                 data['name'] = produit.product_name
                 data['url'] = produit.get_absolute_url()
-                data['caption'] = strip_tags(Truncator(produit.caption).words(18))
+                data['caption'] = strip_tags(
+                    Truncator(produit.caption).words(18))
                 data['slug'] = produit.slug
                 if produit.main_image:
                     try:
                         data['image'] = get_thumbnailer(
                             produit.main_image).get_thumbnail({
                                 'size': (540, 600),
-                                'upscale': True,
-                                'background': "#ffffff"
+                                'upscale':
+                                True,
+                                'background':
+                                "#ffffff"
                             }).url
                     except Exception:
                         data['image'] = None
@@ -291,8 +301,10 @@ class LoadProductsByCategory(APIView):
                         data['image'] = get_thumbnailer(
                             produit.images.first()).get_thumbnail({
                                 'size': (540, 600),
-                                'upscale': True,
-                                'background': "#ffffff"
+                                'upscale':
+                                True,
+                                'background':
+                                "#ffffff"
                             }).url
                     except Exception:
                         data['image'] = None
@@ -314,7 +326,8 @@ class LoadProductsByCategory(APIView):
                     data['variants'] = True
                     data['variants_count'] = produit.variants.all().count()
                     if produit.variants.first():
-                        data['variants_product_code'] = produit.variants.first().product_code
+                        data['variants_product_code'] = produit.variants.first(
+                        ).product_code
                         data['price'] = produit.variants.first().unit_price
                         data['is_discounted'] = False
                         for v in produit.variants.all():
@@ -355,19 +368,17 @@ class LoadVariantSelect(APIView):
         attributes = request.GET.get("attributes", None)
         variants = []
         if product_pk is not None and attributes is not None:
-            attributes = attributes.replace(",", "//separator//").replace("//comma//", ",")
+            attributes = attributes.replace(",", "//separator//").replace(
+                "//comma//", ",")
             product = Product.objects.get(pk=product_pk)
             attrs = AttributeValue.objects.filter(
-                value__in=attributes.split("//separator//")
-            )
+                value__in=attributes.split("//separator//"))
             if attrs.count() > 0:
                 variant_all = product.variants.all()
             else:
                 variant_all = []
             for a in attrs:
-                variant_all = variant_all.filter(
-                    attribute=a
-                )
+                variant_all = variant_all.filter(attribute=a)
             for v in variant_all:
                 datas = {}
                 datas["product_code"] = v.product_code
@@ -411,9 +422,10 @@ class CustomerView(APIView):
 
     def get(self, request, *args, **kwargs):
         # ===---
-        tos = Title.objects.filter(page__reverse_id="terms-and-conditions", language=request.LANGUAGE_CODE)
+        tos = Title.objects.filter(page__reverse_id="terms-and-conditions",
+                                   language=request.LANGUAGE_CODE)
         if tos.count() > 0:
-            tos = "/"+request.LANGUAGE_CODE+"/"+str(tos.first().slug)
+            tos = "/" + request.LANGUAGE_CODE + "/" + str(tos.first().slug)
         else:
             tos = ""
         # ===---
@@ -589,9 +601,7 @@ def mailchimp(request):
                 'status': 'subscribed',
             })
             messages.success(
-                request,
-                _("You successfully been added to our newsletter.")
-            )
+                request, _("You successfully been added to our newsletter."))
         except Exception as e:
             print(e)
             messages.error(request, _("An error occurred, sorry."))
@@ -614,10 +624,10 @@ def sendemail(request):
 
     send_mail(
         'Message du formulaire de contact de votre site web',
-        'Bonjour, voici le message:\n\nNom: ' + request.POST.get('name')
-        + '\nCourriel: ' + request.POST.get('email') + '\nTéléphone: '
-        + request.POST.get('phone') + '\nSujet: ' + request.POST.get('subject')
-        + '\nMessage:\n' + request.POST.get('message'),
+        'Bonjour, voici le message:\n\nNom: ' + request.POST.get('name') +
+        '\nCourriel: ' + request.POST.get('email') + '\nTéléphone: ' +
+        request.POST.get('phone') + '\nSujet: ' + request.POST.get('subject') +
+        '\nMessage:\n' + request.POST.get('message'),
         DEFAULT_FROM_EMAIL,
         [DEFAULT_TO_EMAIL],
         fail_silently=False,
@@ -634,7 +644,7 @@ def sendemail(request):
 class PasswordResetConfirmView(GenericAPIView):
     renderer_classes = (CMSPageRenderer, JSONRenderer, BrowsableAPIRenderer)
     serializer_class = PasswordResetConfirmSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = (AllowAny, )
     form_name = 'password_reset_confirm_form'
 
     def post(self, request, uidb64=None, token=None):
@@ -646,17 +656,17 @@ class PasswordResetConfirmView(GenericAPIView):
             serializer = self.get_serializer(data=data)
             if serializer.is_valid():
                 serializer.save()
-                response_data = {self.form_name: {
-                    'success_message': _(
-                        "Password has been reset with the new password."
-                    ),
-                }}
+                response_data = {
+                    self.form_name: {
+                        'success_message':
+                        _("Password has been reset with the new password."),
+                    }
+                }
                 return RestResponse(response_data)
             else:
                 errors = serializer.errors
-        return RestResponse({
-            self.form_name: errors
-        }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        return RestResponse({self.form_name: errors},
+                            status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
 
 @csrf_exempt
@@ -678,3 +688,16 @@ def unclone_customers(request):
 def send_queued_mail(request):
     call_command('send_queued_mail')
     return HttpResponse(json.dumps({"valid": True}))
+
+
+class AttributeAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return AttributeValue.objects.none()
+
+        qs = AttributeValue.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(value__istartswith=self.q) | Q(attribute__name__istartswith=self.q))
+
+        return qs

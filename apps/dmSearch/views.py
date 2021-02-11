@@ -14,7 +14,7 @@ from dshop.models import Product
 def search_product(request):
     q = request.GET.get('q', None)
     page = int(request.GET.get('page', '1'))
-    limit = 2
+    limit = 20
     #
     template = loader.get_template(
         "theme/{}/pages/search.html".format(settings.THEME_SLUG)
