@@ -33,6 +33,7 @@ INSTALLED_ADDONS = [
 import aldryn_addons.settings  # noqa: E402
 aldryn_addons.settings.load(locals())
 
+INSTALLED_APPS.remove('djangocms_admin_style')
 
 INSTALLED_APPS.insert(
     INSTALLED_APPS.index('django.contrib.admin'),
