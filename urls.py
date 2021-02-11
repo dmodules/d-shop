@@ -7,6 +7,7 @@ from aldryn_django.utils import i18n_patterns
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views.static import serve
+from django.utils.translation import ugettext_lazy as _
 
 from django.http import HttpResponse
 from django.contrib.sitemaps.views import sitemap
@@ -32,6 +33,7 @@ def render_robots(request):
     permission = "noindex" in settings.ROBOTS_META_TAGS and "Disallow" or "Allow"
     return HttpResponse("User-Agent: *\n%s: /\n" % permission, content_type="text/plain")
 
+admin.site.site_header = _('D-Shop - E-commerce platform')
 
 path_to_extended = '/app/extended_apps/'
 EXTENDED_APP_DIR = 'extended_apps'
