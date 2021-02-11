@@ -70,7 +70,7 @@
 }
 #content-related {
     width: 400px;
-    border-top: 30px solid black;
+    border-top: 30px solid grey;
     margin-right: -420px;
 }
 #header {
@@ -88,7 +88,7 @@
     color: white;
 }
 .module h2, .module caption, .inline-group h2 {
-    background-color: black;
+    background: grey;
 }
 div.breadcrumbs {
     background-color: grey;
