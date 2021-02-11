@@ -7,6 +7,16 @@ $(document).ready(function() {
     getQuotationCart();
 })
 
+function quotationMerge(){
+  cookie_val = getCookie('quotation-cookie')
+  if (!cookie_val){
+      var cookie_val = 'id' + (new Date()).getTime();
+      setCookie('quotation-cookie', cookie_val)
+  } else {
+      $.get('/quotation/merge-cart/?cookie=' + cookie_val, function(getResult){})
+  }
+}
+
 function setQuotationClickBtn() {
     $(".dm-add2quotation").on("click", function(event) {
         event.preventDefault();
@@ -19,7 +29,7 @@ function setQuotationClickBtn() {
 }
 
 function setCookie(name, value) {
-    document.cookie = name + "=" + value;
+    document.cookie = name + "=" + value + ";path=/";
 }
 
 function getCookie(name) {

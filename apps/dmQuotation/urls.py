@@ -7,10 +7,12 @@ from .views import \
     dmQuotationItemRetrieve, \
     dmQuotationCartCreateAPI, \
     dmQuotationPage, \
-    dmQuotationCurrent
+    dmQuotationCurrent, \
+    dmQuotationCartMergeAPI
 
 urlpatterns = [
     url(r'page/$', dmQuotationPage),
+    url(r'merge-cart/$', dmQuotationCartMergeAPI.as_view()),
     url(r'current/$', dmQuotationCurrent.as_view()),
     url(r'list/$', dmQuotationListCreateAPI.as_view()),
     url(r'cart/$', dmQuotationCartCreateAPI.as_view()),

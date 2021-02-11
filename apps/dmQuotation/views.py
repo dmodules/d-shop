@@ -1,11 +1,10 @@
-import pytz
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.sessions.models import Session
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView, RetrieveDestroyAPIView
+from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response as RestResponse
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from shop.models.customer import CustomerModel
@@ -15,9 +14,40 @@ from .models import dmQuotation, dmQuotationItem
 from .serializers import dmQuotationSerializer, dmQuotationItemSerializer
 
 
+class dmQuotationCartMergeAPI(APIView):
+
+    def get(self, request, *args, **kwargs):
+        cookie = request.GET.get('cookie', None)
+        session = Session.objects.filter(session_key=request.session.session_key)
+        customer = None
+        if session:
+            session = session[0].get_decoded()
+            user_id = session['_auth_user_id']
+            customer = CustomerModel.objects.get(user__id=user_id)
+
+        if cookie and customer:
+            cookie_quotation = dmQuotation.objects.filter(
+                cookie=cookie,
+                status=1,
+                customer=None
+            )
+            for quot in cookie_quotation:
+                quot.customer = customer
+                quot.save()
+            check_quotation = dmQuotation.objects.filter(customer=customer, status=1)
+            if check_quotation.count() > 1:
+                first_quotation = check_quotation.order_by('id').first()
+                check_quotation = check_quotation.exclude(id=first_quotation.id)
+                for quot in check_quotation:
+                    for item in dmQuotationItem.objects.filter(quotation=quot):
+                        item.quotation = first_quotation
+                        item.save()
+                    quot.delete()
+        return HttpResponse('Ok')
+
 class dmQuotationCartCreateAPI(APIView):
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):    # noqa: C901
         variant = request.GET.get('variant', None)
         product = request.GET.get('product', None)
         quantity = request.GET.get('quantity', '')
@@ -76,7 +106,7 @@ class dmQuotationCartCreateAPI(APIView):
             if customer:
                 quotation.customer = customer
                 quotation.save()
-                if cookie:
+                '''if cookie:
                     cookie_quotation = dmQuotation.objects.filter(
                         cookie=cookie,
                         status=1,
@@ -94,7 +124,7 @@ class dmQuotationCartCreateAPI(APIView):
                         item.quotation = first_quotation
                         item.save()
                     quot.delete()
-                quotation = first_quotation
+                quotation = first_quotation'''
 
         if product is not None:
             quotation_items = dmQuotationItem.objects.filter(
@@ -135,7 +165,8 @@ class dmQuotationListCreateAPI(ListCreateAPIView):
 
     serializer_class = dmQuotationSerializer
     queryset = dmQuotation.objects.all()
-    permission_classes = [AllowAny,]
+    permission_classes = [AllowAny, ]
+
     def get_queryset(self):
         user = self.request.user
         queryset = self.queryset.filter(customer__user=user)
@@ -144,7 +175,7 @@ class dmQuotationListCreateAPI(ListCreateAPIView):
 class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
 
     serializer_class = dmQuotationSerializer
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [IsAuthenticated, ]
     lookup_field = 'pk'
     queryset = dmQuotation.objects.all()
 
@@ -159,13 +190,13 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
 class dmQuotationItemListCreateAPI(ListCreateAPIView):
 
     serializer_class = dmQuotationItemSerializer
-    permission_classes = [AllowAny,]
+    permission_classes = [AllowAny, ]
     queryset = dmQuotationItem.objects.all()
 
 class dmQuotationItemRetrieve(RetrieveUpdateDestroyAPIView):
 
     serializer_class = dmQuotationItemSerializer
-    permission_classes = [AllowAny,]
+    permission_classes = [AllowAny, ]
     lookup_field = 'pk'
     queryset = dmQuotationItem.objects.all()
 

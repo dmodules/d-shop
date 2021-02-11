@@ -1,4 +1,3 @@
-from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
 
 from .models import dmQuotation, dmQuotationItem
@@ -29,7 +28,7 @@ class dmQuotationAdmin(admin.ModelAdmin):
         ]
     })]
     readonly_fields = ['created_at', 'updated_at']
-    inlines = [ dmQuotationItemInline ]
+    inlines = [dmQuotationItemInline]
     list_display = [
         "number", "customer", "status", "created_at", "updated_at"
     ]

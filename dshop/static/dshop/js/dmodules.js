@@ -575,6 +575,9 @@ function dmDrawerDoLogin() {
     contentType: "application/json;charset=UTF-8",
     success: function() {
       window.location = '/'
+      if(typeof(quotationMerge) === typeof(Function)) {
+          quotationMerge()
+      }
     }
   }).fail(function(failResult) {
     $('.dm-drawer-logs-login-error').show()
@@ -618,6 +621,9 @@ function dmDrawerDoRegister() {
     contentType: "application/json;charset=UTF-8",
     success: function() {
       window.location = '/'
+      if(typeof(quotationMerge) === typeof(Function)) {
+          quotationMerge()
+      }
     }
   }).fail(function(failResult) {
     $('.dm-drawer-logs-register-error').show()
@@ -649,6 +655,10 @@ function dmDrawerDoLogout() {
     contentType: "application/json;charset=UTF-8",
     success: function() {
       window.location = '/'
+      if(typeof(setCookie) === typeof(Function)) {
+        setCookie('quotation-cookie', '')
+      }
+
     }
   })
   return false
