@@ -1,30 +1,65 @@
-import pytz
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.sessions.models import Session
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from rest_framework import status
-from rest_framework.generics import ListCreateAPIView, RetrieveDestroyAPIView
+from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response as RestResponse
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from shop.models.customer import CustomerModel
 from django.conf import settings
-from dshop.models import ProductVariableVariant
+from dshop.models import ProductVariableVariant, ProductDefault
 from .models import dmQuotation, dmQuotationItem
 from .serializers import dmQuotationSerializer, dmQuotationItemSerializer
 
 
+class dmQuotationCartMergeAPI(APIView):
+
+    def get(self, request, *args, **kwargs):
+        cookie = request.GET.get('cookie', None)
+        session = Session.objects.filter(session_key=request.session.session_key)
+        customer = None
+        if session:
+            session = session[0].get_decoded()
+            user_id = session['_auth_user_id']
+            customer = CustomerModel.objects.get(user__id=user_id)
+
+        if cookie and customer:
+            cookie_quotation = dmQuotation.objects.filter(
+                cookie=cookie,
+                status=1,
+                customer=None
+            )
+            for quot in cookie_quotation:
+                quot.customer = customer
+                quot.save()
+            check_quotation = dmQuotation.objects.filter(customer=customer, status=1)
+            if check_quotation.count() > 1:
+                first_quotation = check_quotation.order_by('id').first()
+                check_quotation = check_quotation.exclude(id=first_quotation.id)
+                for quot in check_quotation:
+                    for item in dmQuotationItem.objects.filter(quotation=quot):
+                        item.quotation = first_quotation
+                        item.save()
+                    quot.delete()
+        return HttpResponse('Ok')
+
 class dmQuotationCartCreateAPI(APIView):
 
-    def post(self, request, *args, **kwargs):
-        variant = request.GET.get('variant', '')
+    def post(self, request, *args, **kwargs):    # noqa: C901
+        variant = request.GET.get('variant', None)
+        product = request.GET.get('product', None)
         quantity = request.GET.get('quantity', '')
         cookie = request.GET.get('cookie', '')
 
+        print('product: ' + str(product))
+        print('variant: ' + str(variant))
         try:
-            variant = ProductVariableVariant.objects.get(product_code=variant)
+            if product is not None:
+                product_obj = ProductDefault.objects.get(product_code=product)
+            elif variant is not None:
+                product_obj = ProductVariableVariant.objects.get(product_code=variant)
         except Exception as e:
             print(e)
             return RestResponse({"valid": False})
@@ -37,10 +72,18 @@ class dmQuotationCartCreateAPI(APIView):
             customer = CustomerModel.objects.get(user__id=user_id)
 
         # Check for Quotation
-        quotation = dmQuotation.objects.filter(
-            cookie=cookie,
-            status=1
-        )
+        quotation = []
+        if customer:
+            quotation = dmQuotation.objects.filter(
+                customer=customer,
+                status=1
+            ).last()
+        if not quotation:
+            quotation = dmQuotation.objects.filter(
+                cookie=cookie,
+                status=1
+            ).last()
+
         if not quotation:
             # To generate Quotation Number
             existing_q = dmQuotation.objects.all().order_by('-id')
@@ -60,28 +103,61 @@ class dmQuotationCartCreateAPI(APIView):
                 number=number
             )
         else:
-            quotation = quotation[0]
             if customer:
                 quotation.customer = customer
                 quotation.save()
+                '''if cookie:
+                    cookie_quotation = dmQuotation.objects.filter(
+                        cookie=cookie,
+                        status=1,
+                        customer=None
+                    )
+                    for quot in cookie_quotation:
+                        quot.customer = customer
+                        quot.save()
+            check_quotation = dmQuotation.objects.filter(customer=customer, status=1)
+            if check_quotation.count() > 1:
+                first_quotation = check_quotation.order_by('id').first()
+                check_quotation = check_quotation.exclude(id=first_quotation.id)
+                for quot in check_quotation:
+                    for item in dmQuotationItem.objects.filter(quotation=quot):
+                        item.quotation = first_quotation
+                        item.save()
+                    quot.delete()
+                quotation = first_quotation'''
 
-        quotation_items = dmQuotationItem.objects.filter(quotation=quotation)
-        quotation_items = quotation_items.filter(variant_code=variant.product_code)
+        if product is not None:
+            quotation_items = dmQuotationItem.objects.filter(
+                quotation=quotation,
+                product_code=product_obj.product_code
+            )
+        if variant is not None:
+            quotation_items = dmQuotationItem.objects.filter(
+                quotation=quotation,
+                variant_code=product_obj.product_code
+            )
         if quotation_items:
             # Update Item
             quotation_items[0].quantity += int(quantity)
             quotation_items[0].save()
         else:
             # Create Item
-            attributes = ",".join([attr.value for attr in variant.attribute.all()])
             data = {
                 'quotation': quotation,
                 'quantity': quantity,
-                'variant_code': variant.product_code,
-                'variant_attribute': attributes,
-                'product_code': variant.product.square_id,
-                'product_name': variant.product.product_name
             }
+            if variant is not None:
+                attributes = ",".join([attr.value for attr in product_obj.attribute.all()])
+                data['product_type'] = 2
+                data['variant_code'] = product_obj.product_code
+                data['variant_attribute'] = attributes
+                data['product_code'] = product_obj.product.square_id
+                data['product_name'] = product_obj.product.product_name
+            else:
+                attributes = ''
+                data['product_type'] = 1
+                data['product_code'] = product_obj.product_code
+                data['product_name'] = product_obj.product_name
             dmQuotationItem.objects.create(**data)
         return RestResponse({"valid": True})
 
@@ -89,7 +165,8 @@ class dmQuotationListCreateAPI(ListCreateAPIView):
 
     serializer_class = dmQuotationSerializer
     queryset = dmQuotation.objects.all()
-    permission_classes = [AllowAny,]
+    permission_classes = [AllowAny, ]
+
     def get_queryset(self):
         user = self.request.user
         queryset = self.queryset.filter(customer__user=user)
@@ -98,7 +175,7 @@ class dmQuotationListCreateAPI(ListCreateAPIView):
 class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
 
     serializer_class = dmQuotationSerializer
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [IsAuthenticated, ]
     lookup_field = 'pk'
     # queryset = dmQuotation.objects.all()
 
@@ -120,13 +197,13 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
 class dmQuotationItemListCreateAPI(ListCreateAPIView):
 
     serializer_class = dmQuotationItemSerializer
-    permission_classes = [AllowAny,]
+    permission_classes = [AllowAny, ]
     queryset = dmQuotationItem.objects.all()
 
 class dmQuotationItemRetrieve(RetrieveUpdateDestroyAPIView):
 
     serializer_class = dmQuotationItemSerializer
-    permission_classes = [AllowAny,]
+    permission_classes = [AllowAny, ]
     lookup_field = 'pk'
     queryset = dmQuotationItem.objects.all()
 

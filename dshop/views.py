@@ -359,7 +359,7 @@ class LoadVariantSelect(APIView):
         QUOTATION = False
         try:
             QUOTATION = QUOTATION_FEATURE
-        except:
+        except Exception:
             pass
         if product_pk is not None and attributes is not None:
             attributes = attributes.replace(",", "//separator//").replace("//comma//", ",")

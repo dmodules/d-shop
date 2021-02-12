@@ -4,8 +4,6 @@ from shop.money.fields import MoneyField
 from django.core.validators import MinValueValidator
 from shop.models.customer import CustomerModel
 
-from datetime import datetime
-
 class dmQuotation(models.Model):
 
     CHOICE_STATUS = [
@@ -54,6 +52,10 @@ class dmQuotation(models.Model):
 
 class dmQuotationItem(models.Model):
 
+    CHOICE_TYPE = [
+        (1, _("Default")),
+        (2, _("Variable")),
+    ]
     quotation = models.ForeignKey(
         dmQuotation,
         on_delete=models.CASCADE,
@@ -63,7 +65,12 @@ class dmQuotationItem(models.Model):
         _("Product's Name"),
         max_length=255,
     )
-    product_code = models.CharField( # This will be Square code For reference
+    product_type = models.PositiveSmallIntegerField(
+        verbose_name=_("Product Type"),
+        choices=CHOICE_TYPE,
+        default=1,
+    )
+    product_code = models.CharField(
         _("Product's Code"),
         max_length=255,
         null=True, blank=True
