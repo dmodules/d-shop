@@ -72,6 +72,7 @@ function dm_add2quotation(k) {
     $.post("/quotation/cart/?product=" + product + "&quantity=" + quantity + "&cookie=" + cookie_val, function(getResult) {
         if (getResult.valid) {
             showAdd2cartSnack(i18n.productaddedtoquotation[lang])
+            getQuotationCart()
         } else {
             showAdd2cartSnack(i18n.anerroroccurred[lang])
         }
@@ -92,6 +93,7 @@ function dm_add2quotation_variant(k) {
     $.post("/quotation/cart/?variant=" + variant + "&quantity=" + quantity + "&cookie=" + cookie_val, function(getResult) {
         if (getResult.valid) {
             showAdd2cartSnack(i18n.productaddedtoquotation[lang])
+            getQuotationCart()
         } else {
             showAdd2cartSnack(i18n.anerroroccurred[lang])
         }
@@ -100,8 +102,66 @@ function dm_add2quotation_variant(k) {
 
 /* ===--------------------------------------------------=== */
 
+function dm_delete2quotation(k) {
+    $.ajax({
+      url: "/quotation/item/"+k,
+      type: "DELETE",
+      success: function() {
+        getQuotationCart()
+      }
+    })
+    return false
+}
+
+function dm_minus2quotation(button, pk, qty) {
+    if ($(button).hasClass("disabled")) {
+        return false
+    } else {
+        $(button).addClass("disabled")
+        let datas = {
+            quantity: qty
+        }
+        $.ajax({
+            url: "/quotation/item/" + pk,
+            type: "PATCH",
+            data: datas,
+            success: function() {
+                getQuotationCart()
+            }
+        })
+    return false
+    }
+}
+
+function dm_plus2quotation(button, pk, qty) {
+    if ($(button).hasClass("disabled")) {
+        return false
+    } else {
+        $(button).addClass("disabled")
+        let datas = {
+            quantity: qty
+        }
+        $.ajax({
+            url: "/quotation/item/" + pk,
+            type: "PATCH",
+            data: datas,
+            success: function() {
+                getQuotationCart()
+            }
+        })
+    return false
+    }
+}
+
+/* ===--------------------------------------------------=== */
+
 function getQuotationCart() {
-    $.get("/quotation/current/", function(getResult) {
+    cookie_val = getCookie('quotation-cookie')
+    if (!cookie_val){
+        var cookie_val = 'id' + (new Date()).getTime();
+        setCookie('quotation-cookie', cookie_val)
+    }
+    $.get("/quotation/current/?cookie="+cookie_val, function(getResult) {
         if (getResult.quotation && getResult.quotation.items) {
             $("#dm-cart-items").show()
             $("#dm-cart-items").text(getResult.quotation.items.length)
@@ -125,10 +185,10 @@ function getQuotationCart() {
                     itemlist += "<li>"
                     itemlist += "<div class='container-fluid'><div class='row'>"
                     itemlist += "<div class='col-3'>"
-                    itemlist += ""
+                    itemlist += "<img src='"+item.product_image+"' alt='' />"
                     itemlist += "</div>"
                     itemlist += "<div class='col-8 text-left'>"
-                    itemlist += "<div><a href='"+"(url)"+"'>" + item.product_name + "</a></div>"
+                    itemlist += "<div><a href='"+item.product_url+"'>" + item.product_name + "</a></div>"
                     if (item.extra && item.extra.variables && item.extra.variables.attributes) {
                         itemlist += "<div class='drawer-cart-attributes'>"
                         for (let i = 0; i < item.extra.variables.attributes.length; i++) {
@@ -141,10 +201,10 @@ function getQuotationCart() {
                     if (item.quantity <= 1) {
                         itemlist += " disabled'"
                     } else {
-                        itemlist += "' onclick='return dm_minus2cart($(this), "+item.id+", "+item.product+", "+(item.quantity-1)+")'"
+                        itemlist += "' onclick='return dm_minus2quotation($(this), "+item.id+", "+(item.quantity-1)+")'"
                     }
-                    itemlist += ">-</span>"+item.quantity+"<span class='plus' onclick='return dm_plus2cart($(this), "+item.id+", "+item.product+", "+(item.quantity+1)+")'>+</span></div></div>"
-                    itemlist += "<a href='#' class='dm-item-delete' onclick='return dm_delete2cart("+item.id+")'>X</a>"
+                    itemlist += ">-</span>"+item.quantity+"<span class='plus' onclick='return dm_plus2quotation($(this), "+item.id+", "+(item.quantity+1)+")'>+</span></div></div>"
+                    itemlist += "<a href='#' class='dm-item-delete' onclick='return dm_delete2quotation("+item.id+")'>X</a>"
                     itemlist += "</div>"
                     itemlist += "</div></div>"
                     itemlist += "</li>"

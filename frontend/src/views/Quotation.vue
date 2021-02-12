@@ -65,10 +65,14 @@
                                                     <v-list-item :key="'product-' + n">
                                                         <v-row class="align-items-center">
                                                             <v-col cols="2" md="1" class="text-center">
-                                                                <v-icon>mdi-cat</v-icon>
+                                                                <a :href="item.product_url">
+                                                                    <v-img :src="item.product_image" :alt="item.product_name" />
+                                                                </a>
                                                             </v-col>
                                                             <v-col cols="10" md="5" class="text-left">
-                                                                <span v-text="item.product_name"></span>
+                                                                <a :href="item.product_url">
+                                                                    <span v-text="item.product_name"></span>
+                                                                </a>
                                                             </v-col>
                                                             <v-col cols="10" md="3" class="text-center">
                                                                 <v-text-field
@@ -94,7 +98,7 @@
                                                                 </v-text-field>
                                                             </v-col>
                                                             <v-col cols="2" md="3" class="text-right">
-                                                                <v-btn small icon color="error">
+                                                                <v-btn small icon color="error" @click="setQuotationDelete(item.id)">
                                                                     <v-icon>mdi-delete</v-icon>
                                                                 </v-btn>
                                                             </v-col>
@@ -657,7 +661,27 @@
                     self.$set(self, "hasError", self.$i18n.t("Anerroroccured"))
                 })
                 // ===--- END: axios
-
+            },
+            /* =========================================================== //
+            // ===---   setQuotationQuantity                        ---=== //
+            // =========================================================== */
+            setQuotationDelete (id) {
+                let self = this
+                this.$set(this, "hasError", null)
+                // ===--- BEGIN: axios
+                this.$axios.delete(this.$web_url + "/quotation/item/"+id, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                    },
+                })
+                .then(() => {
+                    self.getQuotationCart()
+                })
+                .catch(() => {
+                    self.$set(self, "hasError", self.$i18n.t("Anerroroccured"))
+                })
+                // ===--- END: axios
             },
             /* =========================================================== //
             // ===---   doPreUpload & doUpload                      ---=== //

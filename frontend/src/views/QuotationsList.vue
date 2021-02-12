@@ -34,8 +34,8 @@
                             </template>
                             <template v-slot:[`item.status`]="{ item }">
                                 <div class="py-2">
-                                    <v-chip v-if="item.status == 11" color="primary" small dark><span v-text="$i18n.t('Created')"></span></v-chip>
-                                    <v-chip v-else-if="item.status == 1" color="primary" small dark><span v-text="$i18n.t('Submitted')"></span></v-chip>
+                                    <v-chip v-if="item.status == 1" color="primary" small dark><span v-text="$i18n.t('Created')"></span></v-chip>
+                                    <v-chip v-else-if="item.status == 2" color="primary" small dark><span v-text="$i18n.t('Submitted')"></span></v-chip>
                                     <v-chip v-else-if="item.status == 3" color="success" small dark><span v-text="$i18n.t('Approved')"></span></v-chip>
                                     <v-chip v-else-if="item.status == 4" color="info" small dark><span v-text="$i18n.t('Ordered')"></span></v-chip>
                                     <v-chip v-else-if="item.status == 5" color="error" small dark><span v-text="$i18n.t('Rejected')"></span></v-chip>

@@ -1,15 +1,21 @@
 from django.http import HttpResponse
 from django.template import loader
+from django.conf import settings
 from django.contrib.sessions.models import Session
+
+from easy_thumbnails.files import get_thumbnailer
+
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response as RestResponse
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
+
 from shop.models.customer import CustomerModel
-from django.conf import settings
+
 from dshop.models import ProductVariableVariant, ProductDefault
+
 from .models import dmQuotation, dmQuotationItem
 from .serializers import dmQuotationSerializer, dmQuotationItemSerializer
 
@@ -52,9 +58,6 @@ class dmQuotationCartCreateAPI(APIView):
         product = request.GET.get('product', None)
         quantity = request.GET.get('quantity', '')
         cookie = request.GET.get('cookie', '')
-
-        print('product: ' + str(product))
-        print('variant: ' + str(variant))
         try:
             if product is not None:
                 product_obj = ProductDefault.objects.get(product_code=product)
@@ -207,7 +210,6 @@ class dmQuotationItemRetrieve(RetrieveUpdateDestroyAPIView):
     lookup_field = 'pk'
     queryset = dmQuotationItem.objects.all()
 
-
 def dmQuotationPage(request):
     cookie = request.GET.get('cookie', '')
     template = loader.get_template(
@@ -251,20 +253,29 @@ def dmQuotationPage(request):
 
 class dmQuotationCurrent(APIView):
     def get(self, request, *args, **kwargs):
-        cookie = request.GET.get('cookie', '')
-
-        if request.user:
+        cookie = request.GET.get('cookie', None)
+        quotation = None
+        if not request.user.is_anonymous:
             quotation = dmQuotation.objects.filter(
                 customer__user=request.user,
                 status=1
             ).last()
-        elif cookie:
+        elif cookie is not None:
             quotation = dmQuotation.objects.filter(
                 cookie=cookie,
                 status=1
             ).last()
-
-        if not quotation:
+        else:
+            session = Session.objects.filter(session_key=request.session.session_key)
+            if session:
+                session = session[0].get_decoded()
+                user_id = session['_auth_user_id']
+                customer = CustomerModel.objects.get(user__id=user_id)
+                quotation = dmQuotation.objects.filter(
+                    customer__user=customer,
+                    status=1
+                ).last()
+        if quotation is None:
             context = {'quotations': [], 'count': 0}
         else:
             quot = {
@@ -278,14 +289,60 @@ class dmQuotationCurrent(APIView):
             for item in dmQuotationItem.objects.filter(
                 quotation=quotation
             ).order_by("product_name"):
-                itm = {
-                    'id': item.id,
-                    'product_name': item.product_name,
-                    'product_code': item.product_code,
-                    'variant_code': item.variant_code,
-                    'variant_attribute': item.variant_attribute,
-                    'quantity': item.quantity,
-                }
+                if item.product_type == 1:
+                    current_item = ProductDefault.objects.filter(
+                        product_code=item.product_code
+                    ).first()
+                    if current_item.main_image:
+                        try:
+                            current_image = get_thumbnailer(
+                                current_item.main_image
+                            ).get_thumbnail({
+                                'size': (80, 80),
+                                'upscale': True,
+                                'background': "#ffffff"
+                            }).url
+                        except Exception:
+                            current_image = None
+                    else:
+                        current_image = None
+                    itm = {
+                        'id': item.id,
+                        'product_name': item.product_name,
+                        'product_code': item.product_code,
+                        'product_url': current_item.get_absolute_url(),
+                        'product_image': current_image,
+                        'variant_attribute': None,
+                        'quantity': item.quantity,
+                    }
+                elif item.product_type == 2:
+                    # ===---
+                    current_item = ProductVariableVariant.objects.filter(
+                        product_code=item.variant_code
+                    ).first()
+                    if current_item.product.main_image:
+                        try:
+                            current_image = get_thumbnailer(
+                                current_item.product.main_image
+                            ).get_thumbnail({
+                                'size': (80, 80),
+                                'upscale': True,
+                                'background': "#ffffff"
+                            }).url
+                        except Exception:
+                            current_image = None
+                    else:
+                        current_image = None
+                    # ===---
+                    itm = {
+                        'id': item.id,
+                        'product_name': item.product_name,
+                        'product_code': item.variant_code,
+                        'product_url': current_item.product.get_absolute_url(),
+                        'product_image': current_image,
+                        'variant_attribute': item.variant_attribute,
+                        'quantity': item.quantity,
+                    }
                 items.append(itm)
             quot["items"] = items
             context = {"quotation": quot}
