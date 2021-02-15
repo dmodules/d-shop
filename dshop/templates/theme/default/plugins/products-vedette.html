@@ -1,5 +1,7 @@
  {% load static thumbnail cms_tags i18n dshop_tags dmrabais_tags %}
 
+ {% dm_quotation_feature as is_quotation %}
+
 <!-- BEGIN: en vedette -->
   <section class="section-vedette py-5">
     <div class="container">
@@ -44,11 +46,27 @@
                       </li>
                       {% if not product.variants and product.quantity > 0 %}
                         <li>
-                            <a href="/" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
+                            {% if is_quotation %}
+                                <a href="#" onclick="dm_add2quotation($(this)); return false" data-product="{{product.product_code}}">
+                                    <i class="icon-basket-loaded"></i>
+                                </a>
+                            {% else %}
+                                <a href="#" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}">
+                                    <i class="icon-basket-loaded"></i>
+                                </a>
+                            {% endif %}
                         </li>
                       {% elif product.variants and product.variants.count == 1 %}
                         <li>
-                            <a href="/" onclick="dm_add2cart_variant($(this)); return false" data-product="{{product.slug}}" data-variant="{{product.variants.first.product_code}}"><i class="icon-basket-loaded"></i></a>
+                            {% if is_quotation %}
+                                <a href="#" onclick="dm_add2quotation_variant($(this)); return false" data-product="{{product.product_code}}" data-variant="{{product.variants.first.product_code}}">
+                                    <i class="icon-basket-loaded"></i>
+                                </a>
+                            {% else %}
+                                <a href="#" onclick="dm_add2cart_variant($(this)); return false" data-product="{{product.slug}}" data-variant="{{product.variants.first.product_code}}">
+                                    <i class="icon-basket-loaded"></i>
+                                </a>
+                            {% endif %}
                         </li>
                       {% endif %}
                     </ul>

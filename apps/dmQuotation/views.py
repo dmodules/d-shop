@@ -189,6 +189,105 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
         )
         return query
 
+    def get(self, request, *args, **kwargs):
+        cookie = request.GET.get('cookie', None)
+        quotation = None
+        if not request.user.is_anonymous:
+            quotation = dmQuotation.objects.filter(
+                pk=kwargs['pk'],
+                customer__user=request.user,
+                status=1
+            ).last()
+        elif cookie is not None:
+            quotation = dmQuotation.objects.filter(
+                pk=kwargs['pk'],
+                cookie=cookie,
+                status=1
+            ).last()
+        else:
+            session = Session.objects.filter(session_key=request.session.session_key)
+            if session:
+                session = session[0].get_decoded()
+                user_id = session['_auth_user_id']
+                customer = CustomerModel.objects.get(user__id=user_id)
+                quotation = dmQuotation.objects.filter(
+                    pk=kwargs['pk'],
+                    customer__user=customer,
+                    status=1
+                ).last()
+        if quotation is None:
+            context = {'quotations': [], 'count': 0}
+        else:
+            quot = {
+                'id': quotation.id,
+                'number': quotation.number,
+                'status': dmQuotation.CHOICE_STATUS[int(quotation.status)-1][0],
+                'created_at': quotation.created_at,
+                'updated_at': quotation.updated_at
+            }
+            items = []
+            for item in dmQuotationItem.objects.filter(
+                quotation=quotation
+            ).order_by("product_name"):
+                if item.product_type == 1:
+                    current_item = ProductDefault.objects.filter(
+                        product_code=item.product_code
+                    ).first()
+                    if current_item.main_image:
+                        try:
+                            current_image = get_thumbnailer(
+                                current_item.main_image
+                            ).get_thumbnail({
+                                'size': (80, 80),
+                                'upscale': True,
+                                'background': "#ffffff"
+                            }).url
+                        except Exception:
+                            current_image = None
+                    else:
+                        current_image = None
+                    itm = {
+                        'id': item.id,
+                        'product_name': item.product_name,
+                        'product_code': item.product_code,
+                        'product_url': current_item.get_absolute_url(),
+                        'product_image': current_image,
+                        'variant_attribute': None,
+                        'quantity': item.quantity,
+                    }
+                elif item.product_type == 2:
+                    # ===---
+                    current_item = ProductVariableVariant.objects.filter(
+                        product_code=item.variant_code
+                    ).first()
+                    if current_item.product.main_image:
+                        try:
+                            current_image = get_thumbnailer(
+                                current_item.product.main_image
+                            ).get_thumbnail({
+                                'size': (80, 80),
+                                'upscale': True,
+                                'background': "#ffffff"
+                            }).url
+                        except Exception:
+                            current_image = None
+                    else:
+                        current_image = None
+                    # ===---
+                    itm = {
+                        'id': item.id,
+                        'product_name': item.product_name,
+                        'product_code': item.variant_code,
+                        'product_url': current_item.product.get_absolute_url(),
+                        'product_image': current_image,
+                        'variant_attribute': item.variant_attribute,
+                        'quantity': item.quantity,
+                    }
+                items.append(itm)
+            quot["items"] = items
+            context = {"quotation": quot}
+        return RestResponse(context)
+
     def patch(self, request, *args, **kwargs):
         if 'status' in request.data:
             if request.data['status'] == '2':

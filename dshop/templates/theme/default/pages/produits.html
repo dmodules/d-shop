@@ -48,184 +48,209 @@
 {% endblock breadcrumb %}
 
 {% block main-content %}
-  <div class="section pt-0">
-    <div class="container">
-      <div class="row">
-        {% dm_get_categories_parents as categories %}
-        {% dm_get_brands_all as brands %}
-        <!--<div class="{% if categories.count > 0 or brands.count > 0 %}col-lg-9{% else %}col-12{% endif %}">-->
-          <div class="col-12">
-          <div class="row align-items-center mb-4 pb-1">
-            <div class="col-12">
-              <div class="product_header">
-                <div class="product_header_left">
-                  <div class="products_view">
-                    <a href="javascript:Void(0);" class="shorting_icon grid active"><i class="ti-view-grid"></i></a>
-                    <a href="javascript:Void(0);" class="shorting_icon list"><i class="ti-layout-list-thumb"></i></a>
-                  </div>
-                </div>
-                <div class="product_header_right">
-                  <div class="products-filters">
-                    {% dm_get_filters_all as filters %}
-                    {% if filters.count > 0 %}
-                      <div class="filters-boxes">
-                        <label class="filters-box dm-tous checked">
-                          <input type="checkbox" name="tous" checked />
-                          <div class="filters-text">Tous</div>
-                        </label>
-                        {% for filter in filters %}
-                          <label class="filters-box">
-                            <input type="checkbox" name="{{filter.name|slugify}}" />
-                            <div class="filters-text">{{filter.name}}</div>
-                          </label>
-                        {% endfor %}
-                      </div>
-                    {% else %}
-                        <div class="filters-boxes" style="display:none;">
-                          <label class="filters-box dm-tous checked">
-                            <input type="checkbox" name="tous" checked />
-                            <div class="filters-text">Tous</div>
-                          </label>
+    {% dm_quotation_feature as is_quotation %}
+    <div class="section pt-0">
+        <div class="container">
+            <div class="row">
+                {% dm_get_categories_parents as categories %}
+                {% dm_get_brands_all as brands %}
+                <!--<div class="{% if categories.count > 0 or brands.count > 0 %}col-lg-9{% else %}col-12{% endif %}">-->
+                <div class="col-12">
+                    <div class="row align-items-center mb-4 pb-1">
+                        <div class="col-12">
+                        <div class="product_header">
+                            <div class="product_header_left">
+                            <div class="products_view">
+                                <a href="javascript:Void(0);" class="shorting_icon grid active"><i class="ti-view-grid"></i></a>
+                                <a href="javascript:Void(0);" class="shorting_icon list"><i class="ti-layout-list-thumb"></i></a>
+                            </div>
+                            </div>
+                            <div class="product_header_right">
+                            <div class="products-filters">
+                                {% dm_get_filters_all as filters %}
+                                {% if filters.count > 0 %}
+                                <div class="filters-boxes">
+                                    <label class="filters-box dm-tous checked">
+                                    <input type="checkbox" name="tous" checked />
+                                    <div class="filters-text">Tous</div>
+                                    </label>
+                                    {% for filter in filters %}
+                                    <label class="filters-box">
+                                        <input type="checkbox" name="{{filter.name|slugify}}" />
+                                        <div class="filters-text">{{filter.name}}</div>
+                                    </label>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                    <div class="filters-boxes" style="display:none;">
+                                    <label class="filters-box dm-tous checked">
+                                        <input type="checkbox" name="tous" checked />
+                                        <div class="filters-text">Tous</div>
+                                    </label>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            </div>
                         </div>
-                    {% endif %}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row shop_container grid produits">
-            {% if request.resolver_match.kwargs.category_id %}
-              {% dm_get_products_by_category request.resolver_match.kwargs.category_id 0 9 as products %}
-            {% elif request.resolver_match.kwargs.brand_id %}
-              {% dm_get_products_by_brand request.resolver_match.kwargs.brand_id 0 9 as products %}
-            {% else %}
-              {% dm_get_all_products 0 9 as products %}
-            {% endif %}
-            {% for product in products.products %}
-              <div class="produit col-md-4 col-6" data-filters="tous{% for filter in product.filters.all %} {{filter.name|slugify}}{% endfor %}">
-                <div class="product">
-                  <div class="product_img">
-                    <a href="{{product.get_absolute_url}}">
-                      {% if product.main_image %}
-                        {% thumbnail product.main_image 540x600 background="#ffffff" upscale as thumb %}
-                        <img src="{{thumb.url}}" alt="{{product.product_name}}">
-                      {% elif product.images.first %}
-                        {% thumbnail product.images.first 540x600 background="#ffffff" upscale as thumb %}
-                        <img src="{{thumb.url}}" alt="{{product.product_name}}">
-                      {% else %}
-                        <img src="https://via.placeholder.com/540x600/f7f8fb/f7f8fb" alt="{{product.product_name}}">
-                      {% endif %}
-                    </a>
-                    <div class="product_action_box">
-                      <ul class="list_none pr_action_btn">
-                        <li>
-                          <a href="{{product.get_absolute_url}}"><i class="ti-info-alt"></i></a>
-                        </li>
-                        {% if not product.variants and product.quantity > 0 %}
-                          <li>
-                            <a href="/" class="dm-add2cart btn" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
-                          </li>
-                        {% endif %}
-                      </ul>
+                        </div>
                     </div>
-                    {% if product.label %}
-                        <span class="product_sale_customlabel" style="background-color:{{ product.label.bg_colour }};border-color:{{ product.label.colour }};color:{{ product.label.colour }};">{{ product.label.name }}</span>
-                    {% endif %}
-                  </div>
-                  <div class="product_info">
-                    <h6 class="product_title"><a href="{{product.get_absolute_url}}">{{product.product_name}}</a></h6>
-                    <div class="product_price">
-                      {% if product.variants %}
-                        {% if product.variants.first %}
-                            {% product_variant_discount_price product.variants.first.id as real_price %}
-                            <span class="price">{{real_price}}</span>
-                            {% if real_price != product.variants.first.unit_price %}
-                            <del>{{product.variants.first.unit_price}}</del>
-                            {% endif %}
+                    <div class="row shop_container grid produits">
+                        {% if request.resolver_match.kwargs.category_id %}
+                            {% dm_get_products_by_category request.resolver_match.kwargs.category_id 0 9 as products %}
+                        {% elif request.resolver_match.kwargs.brand_id %}
+                            {% dm_get_products_by_brand request.resolver_match.kwargs.brand_id 0 9 as products %}
                         {% else %}
-                            <span class="price">-</span>
+                            {% dm_get_all_products 0 9 as products %}
                         {% endif %}
-                        {% dm_variants_is_outofstock product.variants as variants_outofstock %}
-                        {% dm_variants_is_discounted product.variants as variants_isdiscounted %}
-                        {% if variants_outofstock %}
-                            <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
-                        {% elif variants_isdiscounted %}
-                            <span class="product_sale_discounted">{% trans "Discounted" %}</span>
-                        {% endif %}
-                      {% else %}
-                        {% product_discount_price product.id as real_price %}
-                        <span class="price">{{real_price}}</span>
-                        {% if real_price != product.unit_price %}
-                          <del>{{product.unit_price}}</del>
-                        {% endif %}
-                      {% endif %}
-                      {% if product.quantity == 0 %}
-                        <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
-                      {% elif product.is_discounted %}
-                        <span class="product_sale_discounted">{% trans "Discounted" %}</span>
-                      {% endif %}
-                    </div>
-                    <div class="pr_desc">
-                      {% if product.caption %}
-                        {{product.caption|safe}}
-                      {% elif product.description %}
-                        {{product.description|safe}}
-                      {% endif %}
-                    </div>
-                    <div class="list_product_action_box">
-                      <ul class="list_none">
-                        <button class="btn btn-fill-out btn-addtocart" type="button" onclick="location.href='{{product.get_absolute_url}}';">{% trans "See more" %}</button>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            {% empty %}
-              <div class="col-12">
-                <div class="product">
-                  <div class="product_info">
-                    <h6 class="product_title mb-0">{% trans 'Empty' %}</h6>
-                  </div>
-                </div>
-              </div>
-            {% endfor %}
-          </div>
-          <div class="row">
-            {% if products.next > 0 %}
-              <div class="col-12 pt-5 text-center">
-                {% if request.resolver_match.kwargs.category_id %}
-                    <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits('{{request.resolver_match.kwargs.category_id}}', 'category')" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
-                {% elif request.resolver_match.kwargs.brand_id %}
-                    <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits('{{request.resolver_match.kwargs.brand_id}}', 'brand')" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
-                {% else %}
-                    <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits()" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
-                {% endif %}
-              </div>
-            {% endif %}
-          </div>
-        </div>
-        {% if categories.count > 0 or brands > 0 %}
-            <!--<div class="col-lg-3 order-lg-first mt-4 pt-2 mt-lg-0 pt-lg-0 d-none d-lg-block">
-            <div class="sidebar">
-                {% if categories.count > 0 %}
-                    <div class="widget">
-                        <h5 class="widget_title">Catégories</h5>
-                        <ul class="widget_categories">
-                            {% for category in categories %}
-                            <li>
-                                <a href="/produits/{{category.id}}-{{category.name|slugify}}"><span class="categories_name">{{category.name}}</span></a>
-                                {% dm_get_category_by_category category.id as children %}
-                                {% if children %}
-                                <ul style="margin-left:10px;">
-                                    {% for child in children %}
-                                    <li>
-                                        <a href="/produits/{{child.id}}-{{child.name|slugify}}">{{child.name}}</a>
-                                        {% dm_get_category_by_category child.id as subchildren %}
-                                        {% if subchildren %}
-                                        <ul style="margin-left:10px;">
-                                            {% for subchild in subchildren %}
+                        {% for product in products.products %}
+                            <div class="produit col-md-4 col-6" data-filters="tous{% for filter in product.filters.all %} {{filter.name|slugify}}{% endfor %}">
+                                <div class="product">
+                                    <div class="product_img">
+                                        <a href="{{product.get_absolute_url}}">
+                                        {% if product.main_image %}
+                                            {% thumbnail product.main_image 540x600 background="#ffffff" upscale as thumb %}
+                                            <img src="{{thumb.url}}" alt="{{product.product_name}}">
+                                        {% elif product.images.first %}
+                                            {% thumbnail product.images.first 540x600 background="#ffffff" upscale as thumb %}
+                                            <img src="{{thumb.url}}" alt="{{product.product_name}}">
+                                        {% else %}
+                                            <img src="https://via.placeholder.com/540x600/f7f8fb/f7f8fb" alt="{{product.product_name}}">
+                                        {% endif %}
+                                        </a>
+                                        <div class="product_action_box">
+                                        <ul class="list_none pr_action_btn">
                                             <li>
-                                                <a href="/produits/{{subchild.id}}-{{subchild.name|slugify}}">{{subchild.name}}</a>
+                                            <a href="{{product.get_absolute_url}}"><i class="ti-info-alt"></i></a>
+                                            </li>
+                                            {% if not product.variants and product.quantity > 0 %}
+                                                <li>
+                                                    {% if is_quotation %}
+                                                        <a href="#" onclick="dm_add2quotation($(this)); return false" data-product="{{product.product_code}}">
+                                                            <i class="icon-basket-loaded"></i>
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="#" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}">
+                                                            <i class="icon-basket-loaded"></i>
+                                                        </a>
+                                                    {% endif %}
+                                                </li>
+                                            {% elif product.variants and product.variants.count == 1 %}
+                                                <li>
+                                                    {% if is_quotation %}
+                                                        <a href="#" onclick="dm_add2quotation_variant($(this)); return false" data-product="{{product.product_code}}" data-variant="{{product.variants.first.product_code}}">
+                                                            <i class="icon-basket-loaded"></i>
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="#" onclick="dm_add2cart_variant($(this)); return false" data-product="{{product.slug}}" data-variant="{{product.variants.first.product_code}}">
+                                                            <i class="icon-basket-loaded"></i>
+                                                        </a>
+                                                    {% endif %}
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                        </div>
+                                        {% if product.label %}
+                                            <span class="product_sale_customlabel" style="background-color:{{ product.label.bg_colour }};border-color:{{ product.label.colour }};color:{{ product.label.colour }};">{{ product.label.name }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="product_info">
+                                        <h6 class="product_title"><a href="{{product.get_absolute_url}}">{{product.product_name}}</a></h6>
+                                        <div class="product_price">
+                                            {% if product.variants %}
+                                                {% if product.variants.first %}
+                                                    {% product_variant_discount_price product.variants.first.id as real_price %}
+                                                    <span class="price">{{real_price}}</span>
+                                                    {% if real_price != product.variants.first.unit_price %}
+                                                        <del>{{product.variants.first.unit_price}}</del>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <span class="price">-</span>
+                                                {% endif %}
+                                                {% dm_variants_is_outofstock product.variants as variants_outofstock %}
+                                                {% dm_variants_is_discounted product.variants as variants_isdiscounted %}
+                                                {% if variants_outofstock %}
+                                                    <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
+                                                {% elif variants_isdiscounted %}
+                                                    <span class="product_sale_discounted">{% trans "Discounted" %}</span>
+                                                {% endif %}
+                                            {% else %}
+                                                {% product_discount_price product.id as real_price %}
+                                                <span class="price">{{real_price}}</span>
+                                                {% if real_price != product.unit_price %}
+                                                    <del>{{product.unit_price}}</del>
+                                                {% endif %}
+                                            {% endif %}
+                                            {% if product.quantity == 0 %}
+                                                <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
+                                            {% elif product.is_discounted %}
+                                                <span class="product_sale_discounted">{% trans "Discounted" %}</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="pr_desc">
+                                            {% if product.caption %}
+                                                {{product.caption|safe}}
+                                            {% elif product.description %}
+                                                {{product.description|safe}}
+                                            {% endif %}
+                                        </div>
+                                        <div class="list_product_action_box">
+                                            <ul class="list_none">
+                                                <button class="btn btn-fill-out btn-addtocart" type="button" onclick="location.href='{{product.get_absolute_url}}';">{% trans "See more" %}</button>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="col-12">
+                                <div class="product">
+                                    <div class="product_info">
+                                        <h6 class="product_title mb-0">{% trans 'Empty' %}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="row">
+                        {% if products.next > 0 %}
+                        <div class="col-12 pt-5 text-center">
+                            {% if request.resolver_match.kwargs.category_id %}
+                                <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits('{{request.resolver_match.kwargs.category_id}}', 'category')" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
+                            {% elif request.resolver_match.kwargs.brand_id %}
+                                <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits('{{request.resolver_match.kwargs.brand_id}}', 'brand')" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
+                            {% else %}
+                                <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits()" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if categories.count > 0 or brands > 0 %}
+                    <!--<div class="col-lg-3 order-lg-first mt-4 pt-2 mt-lg-0 pt-lg-0 d-none d-lg-block">
+                    <div class="sidebar">
+                        {% if categories.count > 0 %}
+                            <div class="widget">
+                                <h5 class="widget_title">Catégories</h5>
+                                <ul class="widget_categories">
+                                    {% for category in categories %}
+                                    <li>
+                                        <a href="/produits/{{category.id}}-{{category.name|slugify}}"><span class="categories_name">{{category.name}}</span></a>
+                                        {% dm_get_category_by_category category.id as children %}
+                                        {% if children %}
+                                        <ul style="margin-left:10px;">
+                                            {% for child in children %}
+                                            <li>
+                                                <a href="/produits/{{child.id}}-{{child.name|slugify}}">{{child.name}}</a>
+                                                {% dm_get_category_by_category child.id as subchildren %}
+                                                {% if subchildren %}
+                                                <ul style="margin-left:10px;">
+                                                    {% for subchild in subchildren %}
+                                                    <li>
+                                                        <a href="/produits/{{subchild.id}}-{{subchild.name|slugify}}">{{subchild.name}}</a>
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                                {% endif %}
                                             </li>
                                             {% endfor %}
                                         </ul>
@@ -233,28 +258,24 @@
                                     </li>
                                     {% endfor %}
                                 </ul>
-                                {% endif %}
-                            </li>
-                            {% endfor %}
-                        </ul>
+                            </div>
+                        {% endif %}
+                        {% if brands.count > 0 %}
+                            <div class="widget mt-4">
+                                <h5 class="widget_title">{% trans "Brands" %}</h5>
+                                <ul class="widget_categories">
+                                    {% for brand in brands %}
+                                        <li>
+                                            <a href="/produits/b{{brand.id}}-{{brand.name|slugify}}"><span class="categories_name">{{brand.name}}</span></a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
                     </div>
-                {% endif %}
-                {% if brands.count > 0 %}
-                    <div class="widget mt-4">
-                        <h5 class="widget_title">{% trans "Brands" %}</h5>
-                        <ul class="widget_categories">
-                            {% for brand in brands %}
-                                <li>
-                                    <a href="/produits/b{{brand.id}}-{{brand.name|slugify}}"><span class="categories_name">{{brand.name}}</span></a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                    </div>-->
                 {% endif %}
             </div>
-            </div>-->
-        {% endif %}
-      </div>
+        </div>
     </div>
-  </div>
 {% endblock main-content %}

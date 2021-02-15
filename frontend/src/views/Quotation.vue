@@ -449,6 +449,7 @@
             tosLink: "/",
             quotationID : null,
             quotationNumber : null,
+            currentQuotation: null,
             listProducts: [],
             formChoix: {
                 salutation: [],

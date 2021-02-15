@@ -111,19 +111,17 @@
                             <input type="button" value="+" class="plus" onclick="quantityPlus()" />
                         </div>
                     </div>
-                    {% if is_quotation %}
-                        <div class="cart_btn">
+                    <div class="cart_btn">
+                        {% if is_quotation %}
                             <a href="#" class="btn btn-fill-out btn-add2quotation dm-add2quotation" data-product="{{product.product_code}}" data-quantity="1">
                                 <i class="icon-basket-loaded"></i>{% trans "Add to quotation" %}
                             </a>
-                        </div>
-                    {% else %}
-                        <div class="cart_btn">
+                        {% else %}
                             <a href="#" class="btn btn-fill-out btn-add2cart dm-add2cart" data-product="{{product.slug}}" data-quantity="1">
                                 <i class="icon-basket-loaded"></i>{% trans "Add to cart" %}
                             </a>
-                        </div>
-                    {% endif %}
+                        {% endif %}
+                    </div>
                 {% else %}
                     <div class="product-detail-unavailable">
                         <p>{% trans 'Out of stock' %}</p>

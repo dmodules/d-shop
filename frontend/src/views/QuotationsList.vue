@@ -13,7 +13,7 @@
             </v-row>
         </template>
         <template v-else>
-            <div v-if="isAuth && !$route.params.number" class="container">
+            <div v-if="isAuth && !hasDetail" class="container">
                 <v-row>
                     <div class="col-12 text-left">
                         <h2>{{ $i18n.t("MyQuotations") }}</h2>
@@ -32,8 +32,13 @@
                             <template v-slot:[`header.updated_at`]="">
                                 {{ $i18n.t('LastUpdate') }}
                             </template>
+                            <template v-slot:[`item.number`]="{ item }">
+                                <div class="py-2" @click="getQuotationsDetail(item.id+'-'+item.number)">
+                                    <span v-text="item.number"></span>
+                                </div>
+                            </template>
                             <template v-slot:[`item.status`]="{ item }">
-                                <div class="py-2">
+                                <div class="py-2" @click="getQuotationsDetail(item.id+'-'+item.number)">
                                     <v-chip v-if="item.status == 1" color="primary" small dark><span v-text="$i18n.t('Created')"></span></v-chip>
                                     <v-chip v-else-if="item.status == 2" color="primary" small dark><span v-text="$i18n.t('Submitted')"></span></v-chip>
                                     <v-chip v-else-if="item.status == 3" color="success" small dark><span v-text="$i18n.t('Approved')"></span></v-chip>
@@ -43,38 +48,52 @@
                                 </div>
                             </template>
                             <template v-slot:[`item.updated_at`]="{ item }">
-                                <span>{{ new Date(item.updated_at) | fixdate }}</span>
+                                <span @click="getQuotationsDetail(item.id+'-'+item.number)">{{ new Date(item.updated_at) | fixdate }}</span>
                             </template>
                         </v-data-table>
                     </v-col>
                 </v-row>
             </div>
-            <div v-else-if="isAuth && $route.params.number" class="container">
+            <div v-else-if="isAuth && hasDetail" class="container">
                 <v-row v-if="hasAccess">
-                    <v-col cols="12" class="text-left">
-                        <h2>{{ $i18n.t("YourQuotation") }} #{{ $route.params.number.split('-')[1] }}</h2>
+                    <v-col cols="12" md="6" class="text-left">
+                        <h2>{{ $i18n.t("YourQuotation") }} #{{ quotationsDetail.number }}</h2>
+                    </v-col>
+                    <v-col cols="12" md="6" class="text-left text-md-right">
+                        <div class="py-2">
+                            <v-chip v-if="quotationsDetail.status == 1" color="primary" dark><span v-text="$i18n.t('Created')"></span></v-chip>
+                            <v-chip v-else-if="quotationsDetail.status == 2" color="primary" dark><span v-text="$i18n.t('Submitted')"></span></v-chip>
+                            <v-chip v-else-if="quotationsDetail.status == 3" color="success" dark><span v-text="$i18n.t('Approved')"></span></v-chip>
+                            <v-chip v-else-if="quotationsDetail.status == 4" color="info" dark><span v-text="$i18n.t('Ordered')"></span></v-chip>
+                            <v-chip v-else-if="quotationsDetail.status == 5" color="error" dark><span v-text="$i18n.t('Rejected')"></span></v-chip>
+                            <v-chip v-else color="secondary" dark><span v-text="$i18n.t('Unknown')"></span></v-chip>
+                        </div>
                     </v-col>
                     <v-col cols="12">
                         <v-list>
                             <v-list-item>
                                 <v-row class="align-items-center">
-                                    <v-col cols="12" md="9" class="text-left">
+                                    <v-col cols="10" md="9" class="text-left">
                                         {{ $i18n.t("Product") }}
                                     </v-col>
-                                    <v-col cols="12" md="3" class="text-center">
+                                    <v-col cols="2" md="3" class="text-center">
                                         {{ $i18n.t("Quantity") }}
                                     </v-col>
                                 </v-row>
                             </v-list-item>
-                            <template v-for="(item, n) in quotationsDetail.items.items">
+                            <template v-for="(item, n) in quotationsDetail.items">
                                 <v-divider v-if="n > 0" :key="'divider-'+item.product_code+'-' + n" />
                                 <v-list-item :key="'product-' + n">
                                     <v-row class="align-items-center">
                                         <v-col cols="2" md="1" class="text-center">
-                                            <v-icon>mdi-cat</v-icon>
+                                            <a :href="item.product_url">
+                                                <v-img :src="item.product_image" :alt="item.product_name" />
+                                            </a>
                                         </v-col>
                                         <v-col cols="8" md="8" class="text-left">
-                                            <span v-text="item.product_name"></span>
+                                            <a :href="item.product_url">
+                                                <span v-text="item.product_name"></span>
+                                            </a>
                                         </v-col>
                                         <v-col cols="2" md="3" class="text-center">
                                             <span v-text="item.quantity"></span>
@@ -111,6 +130,7 @@
             isAuth: false,
             isLoading: true,
             hasAccess: false,
+            hasDetail: false,
             quotationsHeaders: [
                 {
                     text: "#",
@@ -137,8 +157,10 @@
         mounted() {
             document.title = this.$i18n.t('MyQuotations')
             if (!this.$route.params.number) {
+                this.$set(this, 'hasDetail', false)
                 this.getQuotationsList()
             } else {
+                this.$set(this, 'hasDetail', true)
                 this.getQuotationsDetail()
             }
         },
@@ -151,6 +173,7 @@
             // =========================================================== */
             getQuotationsList () {
                 let self = this
+                this.$set(this, "hasDetail", false)
                 this.$set(this, "quotationsList", [])
                 // ===--- BEGIN: axios
                 this.$axios
@@ -174,21 +197,29 @@
             /* =========================================================== //
             // ===---   getQuotationsDetail                         ---=== //
             // =========================================================== */
-            getQuotationsDetail () {
+            getQuotationsDetail (query) {
                 let self = this
+                this.$set(this, "hasDetail", true)
                 this.$set(this, "hasAccess", false)
                 this.$set(this, "quotationsDetail", null)
-                // ===--- BEGIN: axios
-                this.$axios
-                    .get(this.$web_url + "/quotation/number/"+this.$route.params.number.split('-')[0], {
+                // ===---
+                let number = null
+                if (query) {
+                    number = query
+                } else if (this.$route.params.number) {
+                    number = this.$route.params.number
+                }
+                if (number) {
+                    // ===--- BEGIN: axios
+                    this.$axios.get(this.$web_url + "/quotation/number/"+number.split('-')[0], {
                         headers: {
                             "Content-Type": "application/json",
                             "Accept": "application/json",
                         },
                     })
                     .then((apiSuccess) => {
-                        if (apiSuccess.data && apiSuccess.data.number && apiSuccess.data.number == this.$route.params.number.split('-')[1]) {
-                            self.$set(this, "quotationsDetail", apiSuccess.data)
+                        if (apiSuccess.data && apiSuccess.data.quotation && apiSuccess.data.quotation.number && apiSuccess.data.quotation.number == number.split('-')[1]) {
+                            self.$set(this, "quotationsDetail", apiSuccess.data.quotation)
                             self.$set(self, "hasAccess", true)
                         } else {
                             self.$set(self, "hasAccess", false)
@@ -198,7 +229,11 @@
                     .catch(() => {
                         self.$set(self, "isLoading", false)
                     });
-                // ===--- END: axios
+                    // ===--- END: axios
+                } else {
+                    self.$set(self, "hasAccess", false)
+                    self.$set(self, "isLoading", false)
+                }
             }
         }
     }

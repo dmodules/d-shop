@@ -43,7 +43,8 @@ from dshop.transition import transition_change_notification
 
 from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
-from feature_settings import *
+
+from feature_settings import QUOTATION_FEATURE
 
 try:
     from apps.dmRabais.models import dmCustomerPromoCode
@@ -157,6 +158,10 @@ class LoadProduits(APIView):
         brand = request.GET.get("brand", None)
         offset = int(request.GET.get("offset", 0))
         limit = int(request.GET.get("limit", 2))
+        try:
+            is_quotation = QUOTATION_FEATURE
+        except Exception:
+            is_quotation = False
         if category is not None:
             category = int(category)
             products = Product.objects.filter(
@@ -239,12 +244,14 @@ class LoadProduits(APIView):
                     data['is_discounted'] = False
                     data['quantity'] = 0
             else:
+                data['product_code'] = produit.product_code
                 data['price'] = produit.get_price(request)
                 data['realprice'] = produit.unit_price
                 data['variants'] = False
                 data['variants_count'] = 0
                 data['is_discounted'] = produit.is_discounted
                 data['quantity'] = produit.quantity
+            data['is_quotation'] = is_quotation
             all_produits.append(data)
         # ===---
         result = {"products": all_produits, "next": next_products}
@@ -262,6 +269,10 @@ class LoadProductsByCategory(APIView):
         category = request.GET.get("category", None)
         products = None
         all_produits = []
+        try:
+            is_quotation = QUOTATION_FEATURE
+        except Exception:
+            is_quotation = False
         if category is not None:
             category = int(category)
             products = Product.objects.filter(
@@ -332,12 +343,14 @@ class LoadProductsByCategory(APIView):
                         data['is_discounted'] = False
                         data['quantity'] = 0
                 else:
+                    data['product_code'] = produit.product_code
                     data['price'] = produit.get_price(request)
                     data['realprice'] = produit.unit_price
                     data['variants'] = False
                     data['variants_count'] = 0
                     data['is_discounted'] = produit.is_discounted
                     data['quantity'] = produit.quantity
+                data['is_quotation'] = is_quotation
                 all_produits.append(data)
 
         # ===---
