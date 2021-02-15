@@ -556,7 +556,7 @@ class ProductForm(forms.models.ModelForm):
 
 class ProductVariableVariantInline(admin.TabularInline):
     model = ProductVariableVariant
-    extra = 1
+    extra = 0
     form = ProductForm
 
 @admin.register(ProductVariable)

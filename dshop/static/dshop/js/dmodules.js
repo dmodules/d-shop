@@ -93,6 +93,28 @@ function setClickBtn() {
   })
 
   $(".dm-variants-select select").on("change", function(event) {
+      dm_selectvariant();
+  })
+      
+  $(".down-arrow").on("click", function() {quantityMinus()})
+  $(".up-arrow").on("click", function() {quantityPlus()})
+}
+
+function quantityMinus() {
+  if ($(".input-num").val() > parseInt($(".input-num").attr('min'))) {
+    $(".input-num").val(+$(".input-num").val() - 1)
+    $(".btn-add2cart").data("quantity", $(".input-num").val())
+  }
+}
+
+function quantityPlus() {
+  if ($(".input-num").val() < parseInt($(".input-num").attr('max').replace(',','').replace('.',''))) {
+    $(".input-num").val(+$(".input-num").val() + 1)
+    $(".btn-add2cart").data("quantity", $(".input-num").val())
+  }
+}
+
+function dm_selectvariant () {
     let pk = $(".dm-variants-select").data("product")
     let attrs = []
     // ===---
@@ -128,6 +150,17 @@ function setClickBtn() {
                 $(".cart_btn").hide()
                 $(".product-detail-unavailable").show()
             }
+            if ($(".slick-slide > .product_gallery_item").length) {
+                $(".slick-slide > .product_gallery_item").removeClass("active")
+                let varitem = $(".slick-slide > .product_gallery_item[data-variant="+getResult.variants[0].product_code+"]")
+                if (varitem.length) {
+                    varitem.addClass("active")
+                    $(".product_img_box img").attr("src", varitem.data("image"))
+                } else {
+                    $(".slick-slide > .product_gallery_item").first().addClass("active")
+                    $(".product_img_box img").attr("src", $(".slick-slide > .product_gallery_item").first().data("image"))
+                }
+            }
         } else {
             $(".btn-add2cart").addClass("disabled")
             $(".product_price").html("<span class=\"price\">&nbsp;</span>")
@@ -137,24 +170,6 @@ function setClickBtn() {
             $(".product-detail-unavailable").show()
         }
     })
-  })
-      
-  $(".down-arrow").on("click", function() {quantityMinus()})
-  $(".up-arrow").on("click", function() {quantityPlus()})
-}
-
-function quantityMinus() {
-  if ($(".input-num").val() > parseInt($(".input-num").attr('min'))) {
-    $(".input-num").val(+$(".input-num").val() - 1)
-    $(".btn-add2cart").data("quantity", $(".input-num").val())
-  }
-}
-
-function quantityPlus() {
-  if ($(".input-num").val() < parseInt($(".input-num").attr('max').replace(',','').replace('.',''))) {
-    $(".input-num").val(+$(".input-num").val() + 1)
-    $(".btn-add2cart").data("quantity", $(".input-num").val())
-  }
 }
 
 function showAdd2cartSnack(text = i18n.productaddedtocart[lang]) {
@@ -426,25 +441,6 @@ window.addEventListener('scroll', () => {
     stickyMenu()
 });
 
-function mobilevh () {
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-}
-
-function checkInfolettre () {
-    var urlParams = window.location.search
-    if (urlParams == '?infolettre=success') {
-        showAdd2cartSnack(i18n.infolettresuccess[lang])
-    } else if (urlParams == '?infolettre=already') {
-        showAdd2cartSnack(i18n.infolettrealready[lang])
-    } else if (urlParams == '?infolettre=wrong') {
-        showAdd2cartSnack(i18n.infolettrewrong[lang])
-    } else if (urlParams == '?infolettre=error') {
-        showAdd2cartSnack(i18n.infolettreerror[lang])
-    }
-
-}
-
 $(document).ready(function() {
   mobilevh()
   checkInfolettre()
@@ -531,6 +527,25 @@ $(document).ready(function() {
    })
    /* ===--- ---=== */
 });
+
+function mobilevh () {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+function checkInfolettre () {
+    var urlParams = window.location.search
+    if (urlParams == '?infolettre=success') {
+        showAdd2cartSnack(i18n.infolettresuccess[lang])
+    } else if (urlParams == '?infolettre=already') {
+        showAdd2cartSnack(i18n.infolettrealready[lang])
+    } else if (urlParams == '?infolettre=wrong') {
+        showAdd2cartSnack(i18n.infolettrewrong[lang])
+    } else if (urlParams == '?infolettre=error') {
+        showAdd2cartSnack(i18n.infolettreerror[lang])
+    }
+
+}
 
 function dmDrawerTabUserLogin() {
   $('.dm-drawer-tabs-login .btn').addClass('disabled')
