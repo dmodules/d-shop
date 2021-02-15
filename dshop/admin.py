@@ -9,6 +9,7 @@ from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse, NoReverseMatch
 from django.utils.html import format_html
+from django.forms.models import BaseInlineFormSet
 from django.db.models import Q
 
 from dal import autocomplete
@@ -531,7 +532,8 @@ class ProductForm(forms.models.ModelForm):
             'attribute': autocomplete.ModelSelect2Multiple(url='attribute-autocomplete')
         }
 
-    def clean(self):
+class VariantInlineFormSet(BaseInlineFormSet):
+   def clean(self):  
         check_data = []
         flag = False
         for form in self.forms:
@@ -556,8 +558,9 @@ class ProductForm(forms.models.ModelForm):
 
 class ProductVariableVariantInline(admin.TabularInline):
     model = ProductVariableVariant
-    extra = 1
+    extra = 0
     form = ProductForm
+    formset = VariantInlineFormSet
 
 @admin.register(ProductVariable)
 class ProductVariableAdmin(
