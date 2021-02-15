@@ -753,7 +753,7 @@
                 // ===---
                 if (this.quotationID && this.quotationNumber) {
                     // ===--- BEGIN: axios
-                    this.$axios.put(this.$web_url + "/quotation/number/"+this.quotationID, datas, {
+                    this.$axios.patch(this.$web_url + "/quotation/number/"+this.quotationID, datas, {
                         headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'application/json'

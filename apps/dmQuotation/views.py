@@ -15,7 +15,7 @@ from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from shop.models.customer import CustomerModel
 
 from dshop.models import ProductVariableVariant, ProductDefault
-
+from dshop.transition import quotation_new_notification
 from .models import dmQuotation, dmQuotationItem
 from .serializers import dmQuotationSerializer, dmQuotationItemSerializer
 
@@ -194,7 +194,10 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
             if request.data['status'] == '2':
                 print(request.user)
                 print(CustomerModel.objects.get(user=request.user))
+                print(args, kwargs)
                 print("Send email.")
+                quotation = dmQuotation.objects.get(id=kwargs['pk'])
+                quotation_new_notification(quotation)
         return self.partial_update(request, *args, **kwargs)
 
 class dmQuotationItemListCreateAPI(ListCreateAPIView):

@@ -1,5 +1,6 @@
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
+from shop.models.fields import JSONField
 from shop.money.fields import MoneyField
 from django.core.validators import MinValueValidator
 from shop.models.customer import CustomerModel
@@ -42,6 +43,8 @@ class dmQuotation(models.Model):
         verbose_name=_("Quotation Updated at"),
         auto_now=True
     )
+    extra = JSONField(verbose_name=_("Extra fields"))
+    stored_request = JSONField(blank=True, null=True)
 
     class Meta:
         verbose_name = _("Quotation")
