@@ -117,6 +117,12 @@ msgstr "produit"
 msgid "is low on stock"
 msgstr "en stock faible"
 
+msgid "Low on stock"
+msgstr "Stock faible"
+
+msgid "Low or Out of Stock"
+msgstr "Faible ou en rupture de stock"
+
 #: apps/dmAdminTheme/templates/admin/index.html:127
 msgid "is out of stock"
 msgstr "en rupture de stock"
@@ -2505,86 +2511,86 @@ msgstr "Votre navigateur ne supporte pas ce format vidéo."
 msgid "D-Shop - E-commerce platform"
 msgstr "D-Shop - Plate-forme de commerce en ligne"
 
-#~ msgid "with %(quantity)s sells this month"
-#~ msgstr "en %(quantity)s ventes ce mois-ci"
+msgid "with %(quantity)s sells this month"
+msgstr "en %(quantity)s ventes ce mois-ci"
 
-#~ msgid "My actions"
-#~ msgstr "Mes actions"
+msgid "My actions"
+msgstr "Mes actions"
 
-#~ msgid "Label's Colour"
-#~ msgstr "Couleur de la vignette"
+msgid "Label's Colour"
+msgstr "Couleur de la vignette"
 
-#~ msgid "Maximum 1000 characters."
-#~ msgstr "Maximum 1000 caractères."
+msgid "Maximum 1000 characters."
+msgstr "Maximum 1000 caractères."
 
-#~ msgid "You've been successfully added to our newsletter."
-#~ msgstr "Vous avez été ajouté à notre infolettre avec succès."
+msgid "You've been successfully added to our newsletter."
+msgstr "Vous avez été ajouté à notre infolettre avec succès."
 
-#~ msgid "You're already subscribed to this newsletter."
-#~ msgstr "Vous êtes déjà inscrit à cette infolettre."
+msgid "You're already subscribed to this newsletter."
+msgstr "Vous êtes déjà inscrit à cette infolettre."
 
-#~ msgid "Something went wrong, sorry."
-#~ msgstr "Une erreur est survenue, désolé."
+msgid "Something went wrong, sorry."
+msgstr "Une erreur est survenue, désolé."
 
-#~ msgid "Your answer is wrong."
-#~ msgstr "Votre réponse est fausse."
+msgid "Your answer is wrong."
+msgstr "Votre réponse est fausse."
 
-#~ msgid "Order Number: "
-#~ msgstr "Numéro de commande : "
+msgid "Order Number: "
+msgstr "Numéro de commande : "
 
-#~ msgid "Your Details"
-#~ msgstr "Vos détails"
+msgid "Your Details"
+msgstr "Vos détails"
 
-#~ msgid "Summary of Your Order %(order_number)s"
-#~ msgstr "Résumé de votre commande #%(order_number)s"
+msgid "Summary of Your Order %(order_number)s"
+msgstr "Résumé de votre commande #%(order_number)s"
 
-#~ msgid "Line Total: %(line_total)s"
-#~ msgstr "Total : %(line_total)s"
+msgid "Line Total: %(line_total)s"
+msgstr "Total : %(line_total)s"
 
-#~ msgid "Subtotal: %(subtotal)s"
-#~ msgstr "Sous-total : %(subtotal)s"
+msgid "Subtotal: %(subtotal)s"
+msgstr "Sous-total : %(subtotal)s"
 
-#~ msgid "Total: %(total)s"
-#~ msgstr "Total : %(total)s"
+msgid "Total: %(total)s"
+msgstr "Total : %(total)s"
 
-#~ msgid "Paid using Stripe"
-#~ msgstr "Payé avec Stripe"
+msgid "Paid using Stripe"
+msgstr "Payé avec Stripe"
 
-#~ msgid "Theme"
-#~ msgstr "Thème"
+msgid "Theme"
+msgstr "Thème"
 
-#~ msgid "CSS"
-#~ msgstr "CSS"
+msgid "CSS"
+msgstr "CSS"
 
-#~ msgid "Theme Setting"
-#~ msgstr "Paramètre du thème"
+msgid "Theme Setting"
+msgstr "Paramètre du thème"
 
-#~ msgid "Theme Settings"
-#~ msgstr "Paramètres du thème"
+msgid "Theme Settings"
+msgstr "Paramètres du thème"
 
-#~ msgid "Payment confirmed"
-#~ msgstr "Paiement confirmé"
+msgid "Payment confirmed"
+msgstr "Paiement confirmé"
 
-#~ msgid "Order items"
-#~ msgstr "Produits commandés"
+msgid "Order items"
+msgstr "Produits commandés"
 
-#~ msgid "Use shipping address for billing"
-#~ msgstr "Utiliser l'adresse de livraison pour la facturation"
+msgid "Use shipping address for billing"
+msgstr "Utiliser l'adresse de livraison pour la facturation"
 
-#~ msgid "Exhausted"
-#~ msgstr "Épuisé"
+msgid "Exhausted"
+msgstr "Épuisé"
 
-#~ msgid "Testimonial"
-#~ msgstr "Témoignage"
+msgid "Testimonial"
+msgstr "Témoignage"
 
-#~ msgid "Customizations"
-#~ msgstr "Personnalisations"
+msgid "Customizations"
+msgstr "Personnalisations"
 
-#~ msgid "Amount Discount"
-#~ msgstr "Montant du rabais"
+msgid "Amount Discount"
+msgstr "Montant du rabais"
 
-#~ msgid "Percent Discount"
-#~ msgstr "Pourcentage de rabais"
+msgid "Percent Discount"
+msgstr "Pourcentage de rabais"
 
-#~ msgid "Discount Type"
-#~ msgstr "Type de rabais"
+msgid "Discount Type"
+msgstr "Type de rabais"

@@ -9,6 +9,7 @@ from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse, NoReverseMatch
 from django.utils.html import format_html
+from django.db.models import Q
 
 from mptt.admin import DraggableMPTTAdmin
 
@@ -676,6 +677,43 @@ def convert_variable(modeladmin, request, queryset):
 convert_variable.short_description = _('Convertir en variable')
 
 
+####################################################################################
+
+
+class GetProductOutOrLow(admin.SimpleListFilter):
+    title = _("Low or Out of Stock")
+    parameter_name = "get_product_out_or_low"
+
+    def lookups(self, request, model_admin):
+        return (
+            ("outofstock", _("Out of stock")),
+            ("lowonstock", _("Low on stock")),
+        )
+
+    def queryset(self, request, queryset):
+        value = self.value()
+        result = Product.objects.none()
+        if value == "outofstock":
+            for p in queryset:
+                if p.polymorphic_ctype_id == 163 and p.productdefault.quantity == 0:
+                    result |= Product.objects.filter(pk=p.pk)
+                elif p.polymorphic_ctype_id == 164:
+                    for v in p.productvariable.variants.all():
+                        if v.quantity == 0:
+                            result |= Product.objects.filter(pk=p.pk)
+        elif value == "lowonstock":
+            for p in queryset:
+                if p.polymorphic_ctype_id == 163 and p.productdefault.quantity <= 3 and p.productdefault.quantity > 0:
+                    result |= Product.objects.filter(pk=p.pk)
+                elif p.polymorphic_ctype_id == 164:
+                    for v in p.productvariable.variants.all():
+                        if v.quantity <= 3 and v.quantity > 0:
+                            result |= Product.objects.filter(pk=p.pk)
+        else:
+            result = queryset
+        return result.distinct()
+
+
 @admin.register(Product)
 class ProductAdmin(PolymorphicParentModelAdmin):
     base_model = Product
@@ -693,7 +731,7 @@ class ProductAdmin(PolymorphicParentModelAdmin):
     actions = [convert_variable, ]
     list_display_links = ["product_name"]
     search_fields = ["product_name"]
-    list_filter = ["categories", "brand", "label", PolymorphicChildModelFilter]
+    list_filter = ["categories", "brand", "label", GetProductOutOrLow, PolymorphicChildModelFilter]
     list_per_page = 100
     list_max_show_all = 1000
     list_editable = ["brand", "label", "active", "is_vedette"]
