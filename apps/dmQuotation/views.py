@@ -185,7 +185,7 @@ class dmQuotationListCreateAPI(ListCreateAPIView):
 class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
 
     serializer_class = dmQuotationSerializer
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [AllowAny, ]
     lookup_field = 'pk'
     # queryset = dmQuotation.objects.all()
 
@@ -297,15 +297,20 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
         return RestResponse(context)
 
     def patch(self, request, *args, **kwargs):
-        if 'status' in request.data:
-            if request.data['status'] == '2':
-                print(request.user)
-                print(CustomerModel.objects.get(user=request.user))
-                print(args, kwargs)
-                print("Send email.")
+        status = request.data.get("status", None)
+        email = request.data.get("customer", None)
+        if status is not None and email is not None:
+            customer = CustomerModel.objects.filter(
+                email=email
+            ).last()
+            if customer and status == 2:
                 quotation = dmQuotation.objects.get(id=kwargs['pk'])
+                quotation.customer = customer
+                quotation.status = 2
+                quotation.save()
                 quotation_new_notification(quotation)
-        return self.partial_update(request, *args, **kwargs)
+                return RestResponse({"valid": True})
+        return RestResponse({"valid": False})
 
 class dmQuotationItemListCreateAPI(ListCreateAPIView):
 

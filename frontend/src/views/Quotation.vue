@@ -761,7 +761,8 @@
                 // ===---
                 let datas = {
                     "id": this.quotationID,
-                    "status": 2
+                    "status": 2,
+                    "customer": this.formCustomer.customer.email
                 }
                 // ===---
                 if (this.quotationID && this.quotationNumber) {
@@ -772,8 +773,17 @@
                             'Accept': 'application/json'
                         }
                     })
-                    .then(() => {
-                        self.$set(self, "isCompleted", true)
+                    .then((apiSuccess) => {
+                        if (apiSuccess.data.valid) {
+                            self.$set(self, "isCompleted", true)
+                            self.$set(self, "isLoadingSubmit", false)
+                        } else {
+                            self.$set(self, "hasError", self.$i18n.t("Anerroroccured"))
+                            self.$set(self, "isLoadingSubmit", false)
+                        }
+                    })
+                    .catch(() => {
+                        self.$set(self, "hasError", self.$i18n.t("Anerroroccured"))
                         self.$set(self, "isLoadingSubmit", false)
                     })
                     // ===--- END: axios
