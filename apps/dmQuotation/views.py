@@ -26,10 +26,11 @@ class dmQuotationCartMergeAPI(APIView):
         cookie = request.GET.get('cookie', None)
         session = Session.objects.filter(session_key=request.session.session_key)
         customer = None
-        if session:
+        if session.count() > 0:
             session = session[0].get_decoded()
-            user_id = session['_auth_user_id']
-            customer = CustomerModel.objects.get(user__id=user_id)
+            user_id = session.get("_auth_user_id")
+            if user_id:
+                customer = CustomerModel.objects.get(user__id=user_id)
 
         if cookie and customer:
             cookie_quotation = dmQuotation.objects.filter(
@@ -75,7 +76,7 @@ class dmQuotationCartCreateAPI(APIView):
         if not customer:
             session = Session.objects.filter(session_key=request.session.session_key)
             if session.count() > 0:
-                session = session.get_decoded()
+                session = session[0].get_decoded()
                 user_id = session.get('_auth_user_id')
                 if user_id:
                     customer = CustomerModel.objects.get(user__id=user_id)
@@ -211,16 +212,17 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
                 status=1
             ).last()
         else:
-            session = Session.objects.filter(session_key=request.session.session_key)
-            if session:
+            session = Session.objects.filter(session_key=request.session.session_key).last()
+            if session.count() > 0:
                 session = session[0].get_decoded()
-                user_id = session['_auth_user_id']
-                customer = CustomerModel.objects.get(user__id=user_id)
-                quotation = dmQuotation.objects.filter(
-                    pk=kwargs['pk'],
-                    customer__user=customer,
-                    status=1
-                ).last()
+                user_id = session.get('_auth_user_id')
+                if user_id:
+                    customer = CustomerModel.objects.get(user__id=user_id)
+                    quotation = dmQuotation.objects.filter(
+                        pk=kwargs['pk'],
+                        customer__user=customer,
+                        status=1
+                    ).last()
         if quotation is None:
             context = {'quotations': [], 'count': 0}
         else:

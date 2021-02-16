@@ -780,21 +780,23 @@ function loadMoreProduits(what = null, search = null) {
         r += '</div>'
         r += '<div class="product_info">'
         r += '<h6 class="product_title"><a href="'+product.url+'">'+product.name+'</a></h6>'
-        r += '<div class="product_price">'
-        if (product.variants) {
-          r += '<span class="price">'+product.price+'</span>'
-        } else {
-          r += '<span class="price">'+product.price+'</span>'
-          if (product.price != product.realprice) {
-            r += '<del>'+product.realprice+'</del>'
-          }
+        if (!product.is_quotation) {
+            r += '<div class="product_price">'
+            if (product.variants) {
+                r += '<span class="price">'+product.price+'</span>'
+            } else {
+                r += '<span class="price">'+product.price+'</span>'
+                if (product.price != product.realprice) {
+                    r += '<del>'+product.realprice+'</del>'
+                }
+            }
+            if (product.quantity <= 0) {
+                r += '<span class="product_sale_outofstock">'+i18n.outofstock[lang]+'</span>'
+            } else if (product.is_discounted) {
+                r += '<span class="product_sale_discounted">'+i18n.discounted[lang]+'</span>'
+            }
+            r += '</div>'
         }
-        if (product.quantity <= 0) {
-            r += '<span class="product_sale_outofstock">'+i18n.outofstock[lang]+'</span>'
-        } else if (product.is_discounted) {
-            r += '<span class="product_sale_discounted">'+i18n.discounted[lang]+'</span>'
-        }
-        r += '</div>'
         r += '<div class="pr_desc">'
         r += '<p>'+product.caption+'</p>'
         r += '</div>'
@@ -869,21 +871,23 @@ function loadMoreByCategory(cat, tab) {
                 r += '</div>'
                 r += '<div class="product_info text-left">'
                 r += '<h6 class="product_title"><a href="'+product.url+'">'+product.name+'</a></h6>'
-                r += '<div class="product_price">'
-                if (product.variants) {
-                    r += '<span class="price">'+product.price+'</span>'
-                } else {
-                    r += '<span class="price">'+product.price+'</span>'
-                    if (product.price != product.realprice) {
-                        r += '<del>'+product.realprice+'</del>'
+                if (!product.is_quotation) {
+                    r += '<div class="product_price">'
+                    if (product.variants) {
+                        r += '<span class="price">'+product.price+'</span>'
+                    } else {
+                        r += '<span class="price">'+product.price+'</span>'
+                        if (product.price != product.realprice) {
+                            r += '<del>'+product.realprice+'</del>'
+                        }
                     }
+                    if (product.quantity <= 0) {
+                        r += '<span class="product_sale_outofstock">'+i18n.outofstock[lang]+'</span>'
+                    } else if (product.is_discounted) {
+                        r += '<span class="product_sale_discounted">'+i18n.discounted[lang]+'</span>'
+                    }
+                    r += '</div>'
                 }
-                if (product.quantity <= 0) {
-                    r += '<span class="product_sale_outofstock">'+i18n.outofstock[lang]+'</span>'
-                } else if (product.is_discounted) {
-                    r += '<span class="product_sale_discounted">'+i18n.discounted[lang]+'</span>'
-                }
-                r += '</div>'
                 r += '<div class="pr_desc">'
                 r += '<p>'+product.caption+'</p>'
                 r += '</div>'
