@@ -11,7 +11,7 @@ from dshop.models import Product
 from dshop.models import ProductCategory, ProductFilter, ProductBrand
 from dshop.utils import get_coords_from_address
 
-from feature_settings import QUOTATION_FEATURE
+from feature_settings import *
 
 register = template.Library()
 

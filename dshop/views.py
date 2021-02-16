@@ -44,7 +44,7 @@ from dshop.transition import transition_change_notification
 from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
 
-from feature_settings import QUOTATION_FEATURE
+from feature_settings import *
 
 try:
     from apps.dmRabais.models import dmCustomerPromoCode
