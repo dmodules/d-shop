@@ -590,9 +590,21 @@
             // =========================================================== */
             getQuotationCart () {
                 let self = this;
+                // ===---
+                let cookie = ""
+                let current_cookies = document.cookie.split(';')
+                for(let i = 0; i < current_cookies.length; i++) {
+                    let c = current_cookies[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1, c.length)
+                    }
+                    if (c.indexOf("quotation-cookie") == 0) {
+                        cookie = c.substring("quotation-cookie".length, c.length)
+                    }
+                }
                 // ===--- BEGIN: axios
                 this.$axios
-                    .get(this.$web_url + "/quotation/current/", {
+                    .get(this.$web_url + "/quotation/current/?cookie"+cookie, {
                         headers: {
                             "Content-Type": "application/json",
                             Accept: "application/json",
