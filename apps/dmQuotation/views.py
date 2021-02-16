@@ -73,8 +73,8 @@ class dmQuotationCartCreateAPI(APIView):
             customer = CustomerModel.objects.get(user=request.user)
 
         if not customer:
-            session = Session.objects.get(session_key=request.session.session_key)
-            if session:
+            session = Session.objects.filter(session_key=request.session.session_key)
+            if session.count() > 0:
                 session = session.get_decoded()
                 user_id = session.get('_auth_user_id')
                 if user_id:
