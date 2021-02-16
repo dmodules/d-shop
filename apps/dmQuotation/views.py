@@ -67,12 +67,18 @@ class dmQuotationCartCreateAPI(APIView):
             print(e)
             return RestResponse({"valid": False})
 
-        session = Session.objects.filter(session_key=request.session.session_key)
         customer = None
-        if session:
-            session = session[0].get_decoded()
-            user_id = session['_auth_user_id']
-            customer = CustomerModel.objects.get(user__id=user_id)
+
+        if not request.user.is_anonymous:
+            customer = CustomerModel.objects.get(user=request.user)
+
+        if not customer:
+            session = Session.objects.get(session_key=request.session.session_key)
+            if session:
+                session = session.get_decoded()
+                user_id = session.get('_auth_user_id')
+                if user_id:
+                    customer = CustomerModel.objects.get(user__id=user_id)
 
         # Check for Quotation
         quotation = []
