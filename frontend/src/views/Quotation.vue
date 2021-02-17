@@ -66,7 +66,7 @@
                                                         <v-row class="align-items-center">
                                                             <v-col cols="2" md="1" class="text-center">
                                                                 <a :href="item.product_url">
-                                                                    <v-img :src="item.product_image" :alt="item.product_name" />
+                                                                    <v-img :src="item.product_image" :alt="item.product_name" width="80" />
                                                                 </a>
                                                             </v-col>
                                                             <v-col cols="10" md="5" class="text-left">
@@ -387,6 +387,41 @@
                                                         </p>
                                                     </v-col>
                                                     <v-col v-else cols="12">
+                                                        <v-list>
+                                                            <v-list-item v-if="false">
+                                                                <v-row class="align-items-center">
+                                                                    <v-col cols="12" md="6" class="text-left">
+                                                                        {{ $i18n.t("Product") }}
+                                                                    </v-col>
+                                                                    <v-col cols="10" md="3" class="text-center">
+                                                                        {{ $i18n.t("Quantity") }}
+                                                                    </v-col>
+                                                                    <v-col cols="2" md="3" class="text-right">
+                                                                        {{ $i18n.t("Remove") }}
+                                                                    </v-col>
+                                                                </v-row>
+                                                            </v-list-item>
+                                                            <template v-for="(item, n) in listProducts">
+                                                                <v-divider v-if="n > 0" :key="'divider-'+item.product_code+'-' + n" />
+                                                                <v-list-item :key="'product-' + n">
+                                                                    <v-row class="align-items-center">
+                                                                        <v-col cols="2" class="text-center">
+                                                                            <a :href="item.product_url">
+                                                                                <v-img :src="item.product_image" :alt="item.product_name" width="80" />
+                                                                            </a>
+                                                                        </v-col>
+                                                                        <v-col md="7" class="text-left">
+                                                                            <a :href="item.product_url">
+                                                                                <span v-text="item.product_name"></span>
+                                                                            </a>
+                                                                        </v-col>
+                                                                        <v-col cols="3" class="text-center">
+                                                                            <span v-text="item.quantity"></span>
+                                                                        </v-col>
+                                                                    </v-row>
+                                                                </v-list-item>
+                                                            </template>
+                                                        </v-list>
                                                         <v-btn x-large color="primary" @click="doQuotationSubmit()">
                                                             Soumettre
                                                         </v-btn>
