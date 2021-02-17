@@ -202,8 +202,7 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
         if not request.user.is_anonymous:
             quotation = dmQuotation.objects.filter(
                 pk=kwargs['pk'],
-                customer__user=request.user,
-                status=1
+                customer=request.user.customer
             ).last()
         elif cookie is not None:
             quotation = dmQuotation.objects.filter(
@@ -242,9 +241,15 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
                         product_code=item.product_code
                     ).first()
                     if current_item.main_image:
+                        current_item_image = current_item.main_image
+                    elif current_item.images.first():
+                        current_item_image = current_item.images.first()
+                    else:
+                        current_item_image = None
+                    if current_item_image is not None:
                         try:
                             current_image = get_thumbnailer(
-                                current_item.main_image
+                                current_item_image
                             ).get_thumbnail({
                                 'size': (80, 80),
                                 'upscale': True,
@@ -269,9 +274,15 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
                         product_code=item.variant_code
                     ).first()
                     if current_item.product.main_image:
+                        current_item_image = current_item.product.main_image
+                    elif current_item.product.images.first():
+                        current_item_image = current_item.product.images.first()
+                    else:
+                        current_item_image = None
+                    if current_item_image is not None:
                         try:
                             current_image = get_thumbnailer(
-                                current_item.product.main_image
+                                current_item_image
                             ).get_thumbnail({
                                 'size': (80, 80),
                                 'upscale': True,
@@ -409,9 +420,15 @@ class dmQuotationCurrent(APIView):
                         product_code=item.product_code
                     ).first()
                     if current_item.main_image:
+                        current_item_image = current_item.main_image
+                    elif current_item.images.first():
+                        current_item_image = current_item.images.first()
+                    else:
+                        current_item_image = None
+                    if current_item_image is not None:
                         try:
                             current_image = get_thumbnailer(
-                                current_item.main_image
+                                current_item_image
                             ).get_thumbnail({
                                 'size': (80, 80),
                                 'upscale': True,
@@ -436,9 +453,15 @@ class dmQuotationCurrent(APIView):
                         product_code=item.variant_code
                     ).first()
                     if current_item.product.main_image:
+                        current_item_image = current_item.product.main_image
+                    elif current_item.product.images.first():
+                        current_item_image = current_item.product.images.first()
+                    else:
+                        current_item_image = None
+                    if current_item_image is not None:
                         try:
                             current_image = get_thumbnailer(
-                                current_item.product.main_image
+                                current_item_image
                             ).get_thumbnail({
                                 'size': (80, 80),
                                 'upscale': True,
