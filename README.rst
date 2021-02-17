@@ -1,5 +1,5 @@
 ##########
-D-Shop - Simple e-commerce platform build with Django-Shop and Django-CMSfff
+D-Shop - Simple e-commerce platform build with Django-Shop and Django-CMS
 ##########
 Created by `D-Modules <https://www.d-modules.com>`_d
 
