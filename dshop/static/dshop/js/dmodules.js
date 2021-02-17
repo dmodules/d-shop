@@ -156,10 +156,14 @@ function dm_selectvariant () {
                 let varitem = $(".slick-slide > .product_gallery_item[data-variant="+getResult.variants[0].product_code+"]")
                 if (varitem.length) {
                     varitem.addClass("active")
-                    $(".product_img_box img").attr("src", varitem.data("image"))
+                    $("#product_img").attr("src", varitem.data("image"))
+                    $("#product_img").data("zoomImage", varitem.data("zoomImage"))
+                    $(".zoomContainer .zoomWindowContainer > div").css("background-image", "url("+varitem.data("zoomImage")+")")
                 } else {
                     $(".slick-slide > .product_gallery_item").first().addClass("active")
-                    $(".product_img_box img").attr("src", $(".slick-slide > .product_gallery_item").first().data("image"))
+                    $("#product_img").attr("src", $(".slick-slide > .product_gallery_item").first().data("image"))
+                    $("#product_img").data("zoomImage", $(".slick-slide > .product_gallery_item").first().data("zoomImage"))
+                    $(".zoomContainer .zoomWindowContainer > div").css("background-image", "url("+$(".slick-slide > .product_gallery_item").first().data("zoomImage")+")")
                 }
             }
             // ===---
