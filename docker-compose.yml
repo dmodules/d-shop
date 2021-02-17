@@ -6,7 +6,7 @@ services:
     links:
       - "db:postgres"
     ports:
-      - "8000:80
+      - "8000:80"
     volumes:
       - ".:/app:rw"
       - "./data:/data:rw"
