@@ -150,6 +150,7 @@ function dm_selectvariant () {
                 $(".cart_btn").hide()
                 $(".product-detail-unavailable").show()
             }
+            // ===---
             if ($(".slick-slide > .product_gallery_item").length) {
                 $(".slick-slide > .product_gallery_item").removeClass("active")
                 let varitem = $(".slick-slide > .product_gallery_item[data-variant="+getResult.variants[0].product_code+"]")
@@ -161,6 +162,7 @@ function dm_selectvariant () {
                     $(".product_img_box img").attr("src", $(".slick-slide > .product_gallery_item").first().data("image"))
                 }
             }
+            // ===---
         } else {
             $(".btn-add2cart").addClass("disabled")
             $(".product_price").html("<span class=\"price\">&nbsp;</span>")
