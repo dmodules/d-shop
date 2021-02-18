@@ -186,6 +186,13 @@ if STRIPE_SECRET_KEY is not None:
     SHOP_CART_MODIFIERS.extend(
         ["apps.dmBillingStripe.modifiers.StripePaymentModifier"])
 
+
+#######################################################################
+# Feature Settings
+
+FEATURES = os.getenv("FEATURES", "")
+
+
 #######################################################################
 # Square Settings
 
