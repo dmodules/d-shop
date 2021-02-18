@@ -43,7 +43,7 @@ from dshop.models import dmSite, dmSiteLogo, dmSiteContact, dmSiteSocial
 from dshop.models import dmSiteTermsAndConditions
 from dshop.models import BillingAddress, ShippingAddress
 from dshop.models import ProductCategory, ProductFilter, ProductBrand, ProductLabel
-from dshop.models import Product
+from dshop.models import Product, ProductDocument
 from dshop.models import Attribute, AttributeValue
 from dshop.models import ProductDefault
 from dshop.models import ProductVariable, ProductVariableVariant
@@ -562,6 +562,10 @@ class ProductVariableVariantInline(admin.TabularInline):
     form = ProductForm
     formset = VariantInlineFormSet
 
+class ProductDocumentInline(admin.TabularInline):
+    model = ProductDocument
+    extra = 0
+
 @admin.register(ProductVariable)
 class ProductVariableAdmin(
     InvalidateProductCacheMixin,
@@ -609,7 +613,7 @@ class ProductVariableAdmin(
         })
     ]
     filter_horizontal = ["categories", "filters"]
-    inlines = [ProductImageInline, ProductVariableVariantInline]
+    inlines = [ProductImageInline, ProductVariableVariantInline, ProductDocumentInline]
     readonly_fields = ("slug",)
 
     def render_text_index(self, instance):

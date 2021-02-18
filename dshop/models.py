@@ -806,6 +806,7 @@ class ProductDefault(AvailableProductMixin, Product):
 # ===---
 
 
+
 class ProductVariable(Product):
     """
     A basic variable Product, polymorphic child of Product,
@@ -949,6 +950,27 @@ class AttributeValue(models.Model):
 
     def __str__(self):
         return self.attribute.name + ' - ' + self.value
+
+
+class ProductDocument(models.Model):
+
+    product = models.ForeignKey(
+        ProductVariable,
+        on_delete=models.CASCADE,
+        verbose_name=_("Product"),
+        related_name="product_document"
+    )
+    name = models.CharField(
+        _("Document's name"),
+        max_length=50,
+    )
+    document = FilerFileField(
+        verbose_name=_("Docunebt"),
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False
+    )
+
 
 class ProductVariableVariant(AvailableProductMixin, models.Model):
     """
