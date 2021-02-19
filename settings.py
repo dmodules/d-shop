@@ -681,6 +681,7 @@ ADMIN_REORDER = (
             "dshop.ProductFilter",
             "dshop.ProductBrand",
             "dshop.Attribute",
+            "dshop.ProductVariableVariant",
             "dshop.Product",
             {
                 "model": "dshop.Order",
