@@ -715,6 +715,10 @@ ADMIN_REORDER = (
         "label": _("Shipping"),
         "models": [
             "dmShipping.ShippingManagement",
+            "dmShipping.ShippingCountry",
+            "dmShipping.ShippingState",
+            "dmShipping.ShippingCity",
+            "dmShipping.ShippingAllowed",
         ]
     },
     {
