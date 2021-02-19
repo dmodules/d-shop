@@ -17,34 +17,17 @@ register = template.Library()
 
 
 @register.simple_tag
-def dm_get_order_paymentconfirmed():
-    """Get the count of Order with status 'payment_confirmed'"""
-    result = Order.objects.filter(
-        status="payment_confirmed"
-    ).count()
-    return result
-
-
-@register.simple_tag
-def dm_get_order_readyfordelivery():
-    """Get the count of Order with status 'ready_for_delivery'"""
-    result = 0
-    result = Order.objects.filter(
-        status="ready_for_delivery"
-    ).count()
-    return result
-
-
-@register.simple_tag
 def dm_get_order_sells():
     """Get the data about this month sells"""
     result = {}
     # ===--- this month
     thismonth_amount = Money(0)
     thismonth_quantity = 0
+    thismonth_month = datetime.now().month
+    thismonth_year = datetime.now().year
     for o in Order.objects.filter(
-        created_at__year=datetime.now().year,
-        created_at__month=datetime.now().month
+        created_at__year=thismonth_year,
+        created_at__month=thismonth_month
     ):
         thismonth_amount += o.total
         thismonth_quantity += 1
@@ -57,6 +40,8 @@ def dm_get_order_sells():
         lastmonth = lastmonth.replace(year=lastmonth.year - 1)
     lastmonth_amount = Money(0)
     lastmonth_quantity = 0
+    lastmonth_month = lastmonth.month
+    lastmonth_year = lastmonth.year
     for o in Order.objects.filter(
         created_at__year=lastmonth.year,
         created_at__month=lastmonth.month
@@ -66,10 +51,14 @@ def dm_get_order_sells():
     # ===---
     result = {
         "thismonth": {
+            "month": thismonth_month,
+            "year": thismonth_year,
             "amount": thismonth_amount,
             "quantity": thismonth_quantity
         },
         "lastmonth": {
+            "month": lastmonth_month,
+            "year": lastmonth_year,
             "amount": lastmonth_amount,
             "quantity": lastmonth_quantity
         }
@@ -137,12 +126,14 @@ def dm_get_order_bestsellers():
         created_at__month=datetime.now().month
     ):
         for item in o.items.all():
+            already = False
             for x in all_selled:
-                if x["name"] == str(item.product):
+                if x["name"] == str(item):
                     x["quantity"] += item.quantity
-            else:
+                    already = True
+            if not already:
                 all_selled.append({
-                    "name": str(item.product),
+                    "name": str(item),
                     "quantity": item.quantity
                 })
     bestseller_products = sorted(all_selled, key=lambda h: (int(h["quantity"])), reverse=True)[:5]

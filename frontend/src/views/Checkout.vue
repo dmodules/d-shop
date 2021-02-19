@@ -611,9 +611,9 @@
                                         <v-list-item-title class="list-promocode">
                                             {{item}}
                                         </v-list-item-title>
-                                        <v-list-item-text v-if="!item.on_discounted" class="list-promocode">
+                                        <v-list-item-subtitle v-if="!item.on_discounted" class="list-promocode">
                                             *<span v-text="$i18n.t('Notapplicableondiscounted')"></span>
-                                        </v-list-item-text>
+                                        </v-list-item-subtitle>
                                     </v-list-item-content>
                                 </v-list-item>
                             </template>
@@ -809,6 +809,7 @@ export default {
     isLoading: false,
     isLoadingPayment: false,
     isGuest: false,
+    isVisitor: false,
     hasEmptyCart: false,
     stepCheckout: 1,
     formChoix: {
@@ -959,7 +960,6 @@ export default {
     this.getCustomer();
     this.getShippingMethods();
     this.getBillingMethods();
-    this.getPromoCodes();
   },
   methods: {
     setAuth() {
@@ -967,7 +967,6 @@ export default {
         this.getCustomer();
         this.getShippingMethods();
         this.getBillingMethods();
-        this.getPromoCodes();
     },
     /* =========================================================== //
     // ===---   getCustomer                                 ---=== //
@@ -1014,6 +1013,7 @@ export default {
                 : ""
             );
             self.$set(self, "isGuest", apiSuccess.data.customer.guest ? true : false);
+            self.$set(self, "isVisitor", apiSuccess.data.customer.is_visitor ? true : false);
             self.$set(self, "tosLink", apiSuccess.data.tos)
           }
           // set shipping address form
@@ -1182,87 +1182,89 @@ export default {
     // =========================================================== */
     getDigest() {
       let self = this;
-      // ===--- BEGIN: axios
-      this.$axios
-        .get(this.$api_url + "/checkout/digest/", {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        })
+      console.log("digest " + this.isVisitor)
+      if (!this.isVisitor) {
+        // ===--- BEGIN: axios
+        this.$axios.get(this.$api_url + "/checkout/digest/", {
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            })
         .then((apiSuccess) => {
-          if (apiSuccess.data && apiSuccess.data.cart_summary) {
-            if (apiSuccess.data.cart_summary.total_quantity > 0) {
-              self.$set(
-                self.formPayment,
-                "productsCount",
-                apiSuccess.data.cart_summary.num_items
-              );
-              self.$set(
-                self.formPayment,
-                "productsQuantity",
-                apiSuccess.data.cart_summary.total_quantity
-              );
-              self.$set(
-                self.formPayment,
-                "subtotal",
-                apiSuccess.data.cart_summary.subtotal
-              );
-              self.$set(
-                self.formPayment,
-                "total",
-                apiSuccess.data.cart_summary.total
-              );
-              self.$set(
-                self.formPayment,
-                "listExtras",
-                apiSuccess.data.cart_summary.extra_rows
-              );
-              self.$set(
-                self.formPayment,
-                "listProducts",
-                apiSuccess.data.cart_summary.items
-              );
-              self.getPromoCodes()
-            } else {
-              self.$set(self, "hasEmptyCart", true);
-            }
-          }
-          if (apiSuccess.data && apiSuccess.data.checkout_digest) {
-            self.$set(
-              self,
-              "tagCustomer",
-              apiSuccess.data.checkout_digest.customer_tag
-            );
-            self.$set(
-              self,
-              "tagShippingAddress",
-              apiSuccess.data.checkout_digest.shipping_address_tag
-            );
-            self.$set(
-              self,
-              "tagBillingAddress",
-              apiSuccess.data.checkout_digest.billing_address_tag
-            );
-            self.$set(
-              self,
-              "tagShippingMethod",
-              apiSuccess.data.checkout_digest.shipping_method_tag
-            );
-            self.$set(
-              self,
-              "tagBillingMethod",
-              apiSuccess.data.checkout_digest.payment_method_tag
-            );
-            self.$set(
-              self,
-              "tagNote",
-              apiSuccess.data.checkout_digest.extra_annotation_tag
-            );
-          }
-        })
+                if (apiSuccess.data && apiSuccess.data.cart_summary) {
+                if (apiSuccess.data.cart_summary.total_quantity > 0) {
+                    self.$set(
+                    self.formPayment,
+                    "productsCount",
+                    apiSuccess.data.cart_summary.num_items
+                    );
+                    self.$set(
+                    self.formPayment,
+                    "productsQuantity",
+                    apiSuccess.data.cart_summary.total_quantity
+                    );
+                    self.$set(
+                    self.formPayment,
+                    "subtotal",
+                    apiSuccess.data.cart_summary.subtotal
+                    );
+                    self.$set(
+                    self.formPayment,
+                    "total",
+                    apiSuccess.data.cart_summary.total
+                    );
+                    self.$set(
+                    self.formPayment,
+                    "listExtras",
+                    apiSuccess.data.cart_summary.extra_rows
+                    );
+                    self.$set(
+                    self.formPayment,
+                    "listProducts",
+                    apiSuccess.data.cart_summary.items
+                    );
+                    self.getPromoCodes()
+                } else {
+                    self.$set(self, "hasEmptyCart", true);
+                }
+                }
+                if (apiSuccess.data && apiSuccess.data.checkout_digest) {
+                self.$set(
+                    self,
+                    "tagCustomer",
+                    apiSuccess.data.checkout_digest.customer_tag
+                );
+                self.$set(
+                    self,
+                    "tagShippingAddress",
+                    apiSuccess.data.checkout_digest.shipping_address_tag
+                );
+                self.$set(
+                    self,
+                    "tagBillingAddress",
+                    apiSuccess.data.checkout_digest.billing_address_tag
+                );
+                self.$set(
+                    self,
+                    "tagShippingMethod",
+                    apiSuccess.data.checkout_digest.shipping_method_tag
+                );
+                self.$set(
+                    self,
+                    "tagBillingMethod",
+                    apiSuccess.data.checkout_digest.payment_method_tag
+                );
+                self.$set(
+                    self,
+                    "tagNote",
+                    apiSuccess.data.checkout_digest.extra_annotation_tag
+                );
+                }
+            })
         .catch(() => {});
-      // ===--- END: axios
+        // ===--- END: axios
+      }
     },
     /* =========================================================== //
     // ===---   doPurchase                                  ---=== //
@@ -1305,19 +1307,25 @@ export default {
         let self = this;
         this.$set(this, "isLoading", false)
         this.$set(this, "listPromoCodes", [])
-        // ===---
-        this.$axios.post(this.$web_url + "/discount/promocodes/?p=discounts", null, {
-            headers: { "Content-Type": "application/json", Accept: "application/json"}
-        })
-        .then((apiSuccess) => {
-            apiSuccess.data.promolist.forEach((item) => {
-                if (!item.is_expired) {
-                    self.listPromoCodes.push(item.name)
+        console.log("promo " + this.isVisitor)
+        if (!this.isVisitor) {
+            // ===--- BEGIN: axios
+            this.$axios.post(this.$web_url + "/discount/promocodes/?p=discounts", null, {
+                headers: { "Content-Type": "application/json", Accept: "application/json"}
+            })
+            .then((apiSuccess) => {
+                if (apiSuccess.data.promolist) {
+                    apiSuccess.data.promolist.forEach((item) => {
+                        if (!item.is_expired) {
+                            self.listPromoCodes.push(item.name)
+                        }
+                    })
+                    self.$set(self.formPayment, "subtotaldiscount", apiSuccess.data.price)
+                    self.$set(self.formPayment, "totaldiscount", apiSuccess.data.discount)
                 }
             })
-            self.$set(self.formPayment, "subtotaldiscount", apiSuccess.data.price)
-            self.$set(self.formPayment, "totaldiscount", apiSuccess.data.discount)
-        })
+            // ===--- END: axios
+        }
     },
     doPromoCode () {
         let self = this

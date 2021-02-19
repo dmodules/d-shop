@@ -1,5 +1,5 @@
 {% extends "admin/base_site.html" %}
-{% load i18n static dshopadmin_tags %}
+{% load i18n static dshopadmintheme_tags %}
 
 {% block extrastyle %}
     {{ block.super }}
@@ -58,9 +58,8 @@
 {% block sidebar %}
     <div id="content-related">
         <!---->
-        <div class="module" id="dm-analyze" style="margin-bottom:2rem;">
-            <h2>{% trans 'Dashboard' %}</h2>
-            <h3>{% trans 'Your Shop' %}</h3>
+        <div class="module" id="dm-analyze">
+            <h2>{% trans 'Your Shop' %}</h2>
             {% dm_get_order_sells as dshop_sells %}
             {% dm_get_order_status as dshop_orders %}
             {% dm_get_products_stocks as dshop_stocks %}
@@ -70,7 +69,7 @@
                         <span class="mdi mdi-chart-box"></span>
                     </div>
                     <div class="dm-adminshop-data">
-                        <p>{{ dshop_sells.thismonth.amount }}</p>
+                        <p><a href="/admindshop/order/?created_at__month={{ dshop_sells.thismonth.month }}&created_at__year={{ dshop_sells.thismonth.year }}">{{ dshop_sells.thismonth.amount }}</a></p>
                         <small>
                             {% blocktrans count quantity=dshop_sells.thismonth.quantity %}with {{ quantity }} sale this month{%  plural %}with {{ quantity }} sales this month{%  endblocktrans %}
                         </small>
@@ -81,7 +80,7 @@
                         <span class="mdi mdi-chart-box-outline"></span>
                     </div>
                     <div class="dm-adminshop-data">
-                        <p>{{ dshop_sells.lastmonth.amount }}</p>
+                        <p><a href="/admindshop/order/?created_at__month={{ dshop_sells.lastmonth.month }}&created_at__year={{ dshop_sells.lastmonth.year }}">{{ dshop_sells.lastmonth.amount }}</a></p>
                         <small>
                             {% blocktrans count quantity=dshop_sells.lastmonth.quantity %}with {{ quantity }} sale last month{%  plural %}with {{ quantity }} sales last month{%  endblocktrans %}
                         </small>
@@ -129,10 +128,9 @@
                     </div>
                 </div>
             </div>
-            <br /><br />
-            <h3>{% trans "Month's Bestsellers" %}</h3>
+            <h2>{% trans "Month's Bestsellers" %}</h2>
             {% dm_get_order_bestsellers as dshop_bestsellers %}
-            <div class="dm-adminshop-analyze">
+            <div class="dm-adminshop-analyze dm-adminshop-bestsellers">
                 {% for item in dshop_bestsellers.products %}
                     <div class="dm-adminshop-row">
                         <div class="dm-adminshop-icon">
