@@ -130,7 +130,7 @@
             </div>
             <h2>{% trans "Month's Bestsellers" %}</h2>
             {% dm_get_order_bestsellers as dshop_bestsellers %}
-            <div class="dm-adminshop-analyze">
+            <div class="dm-adminshop-analyze dm-adminshop-bestsellers">
                 {% for item in dshop_bestsellers.products %}
                     <div class="dm-adminshop-row">
                         <div class="dm-adminshop-icon">

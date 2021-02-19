@@ -103,6 +103,9 @@ a.section:visited {
     line-height: 0;
     padding: 10px 1px 5px 10px;
 }
+#dm-analyze .dm-adminshop-analyze.dm-adminshop-bestsellers .dm-adminshop-row:last-child {
+    border-bottom: none;
+}
 #dm-analyze .dm-adminshop-col {
     font-size: 0;
     line-height: 0;
