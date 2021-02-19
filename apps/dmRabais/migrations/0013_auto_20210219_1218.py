@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dmRabais', '0012_auto_20210219_1216'),
+        ('dmRabais', '0011_dmpromocode_apply_on_cart'),
     ]
 
     operations = [
