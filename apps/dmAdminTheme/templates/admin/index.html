@@ -58,9 +58,8 @@
 {% block sidebar %}
     <div id="content-related">
         <!---->
-        <div class="module" id="dm-analyze" style="margin-bottom:2rem;">
-            <h2>{% trans 'Dashboard' %}</h2>
-            <h3>{% trans 'Your Shop' %}</h3>
+        <div class="module" id="dm-analyze">
+            <h2>{% trans 'Your Shop' %}</h2>
             {% dm_get_order_sells as dshop_sells %}
             {% dm_get_order_status as dshop_orders %}
             {% dm_get_products_stocks as dshop_stocks %}
@@ -129,8 +128,7 @@
                     </div>
                 </div>
             </div>
-            <br /><br />
-            <h3>{% trans "Month's Bestsellers" %}</h3>
+            <h2>{% trans "Month's Bestsellers" %}</h2>
             {% dm_get_order_bestsellers as dshop_bestsellers %}
             <div class="dm-adminshop-analyze">
                 {% for item in dshop_bestsellers.products %}

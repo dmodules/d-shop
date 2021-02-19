@@ -137,12 +137,14 @@ def dm_get_order_bestsellers():
         created_at__month=datetime.now().month
     ):
         for item in o.items.all():
+            already = False
             for x in all_selled:
-                if x["name"] == str(item.product):
+                if x["name"] == str(item):
                     x["quantity"] += item.quantity
-            else:
+                    already = True
+            if not already:
                 all_selled.append({
-                    "name": str(item.product),
+                    "name": str(item),
                     "quantity": item.quantity
                 })
     bestseller_products = sorted(all_selled, key=lambda h: (int(h["quantity"])), reverse=True)[:5]

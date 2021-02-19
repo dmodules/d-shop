@@ -1,18 +1,99 @@
-.form-row .object-tools {
-    background-color: transparent;
+a,
+a:link,
+a:visited {
+    color: #458d91;
+    transition: color 0.3s;
 }
-.form-row .object-tools::before {
-    display: none;
+a:focus,
+a:hover {
+    color: #202325;
 }
 
-.form-row.field-shipping_address_text .readonly,
-.form-row.field-billing_address_text .readonly {
-    margin: 1rem 0 0 80px;
+/* ===--- Header ---=== */
+#header {
+    background-color: #202325;
+    color: #fff;
+}
+#header a,
+#header a:link,
+#header a:visited {
+    color: #fff;
+    transition: color 0.3s;
+}
+#header a:focus,
+#header a:hover {
+    color: #458d91;
+    border-bottom-color: #458d91;
+}
+#branding h1,
+#branding h1 a:link,
+#branding h1 a:visited {
+    color: #fff;
+    transition: color 0.3s;
+}
+#branding h1 a:focus,
+#branding h1 a:hover {
+    color: #458d91;
+}
+#user-tools {
+    font-weight: 600;
+}
+div.breadcrumbs {
+    background-color: #eee;
+    color: #666;
+}
+div.breadcrumbs a {
+    color: #666;
+    transition: color 0.3s;
+}
+div.breadcrumbs a:hover {
+    color: #458d91;
+}
+/* ===--- Main Sections ---=== */
+.dashboard #content {
+    width: 800px;
+}
+#content-related {
+    background: none;
+    border: none;
+    width: 380px;
+    margin-right: -420px;
+}
+#content-related > .module {
+    background: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 10px 10px 20px;
+}
+
+/* ===--- Content Main: Module/Section ---=== */
+.module h2,
+.module caption,
+.inline-group h2 {
+    background: none;
+    color: #202325;
+}
+a.section,
+a.section:link,
+a.section:visited {
+    color: #666;
+    transition: color 0.3s;
+}
+
+/**/
+#content-related .module h2 {
+    color: #666;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: color 0.3s;
 }
 
 /* ===--- Index: Analyze Block ---=== */
+#content-related #dm-analyze.module h2 {
+    margin-bottom: 0;
+}
 #dm-analyze .dm-adminshop-row {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #eaeaea;
     font-size: 0;
     line-height: 0;
     padding: 10px 1px 5px 10px;
@@ -26,7 +107,7 @@
     padding-right: 0;
 }
 #dm-analyze .dm-adminshop-col + .dm-adminshop-col {
-    border-left: 1px solid #ddd;
+    border-left: 1px solid #eaeaea;
     width: calc(50% - 5px);
     padding-left: 9px;
 }
@@ -54,8 +135,11 @@
     padding-left: 0px;
 }
 #dm-analyze .dm-adminshop-data p a {
-    color: #666;
+    color: #458d91;
     transition: color 0.3s;
+}
+#dm-analyze .dm-adminshop-data p a:hover {
+    color: #202325;
 }
 #dm-analyze .dm-adminshop-data small {
     font-size: 0.8rem;
@@ -64,48 +148,76 @@
     display: block;
     margin: 0;
 }
-/* CSS Martin */
-.dashboard #content {
-    width: 800px;
+
+/* ===--- Changelist ---=== */
+#changelist-filter li.selected {
+    border-left-color: #458d91;
 }
-#content-related {
-    width: 400px;
-    border-top: 30px solid black;
-    margin-right: -420px;
+#changelist-filter li.selected a {
+    color: #458d91;
 }
-#header {
-    background-color: black;
+#changelist-filter a:focus,
+#changelist-filter a:hover,
+#changelist-filter li.selected a:focus,
+#changelist-filter li.selected a:hover {
+    color: #458d91;
 }
-#content-related h3 {
-    font-size: 18px;
-    font-weight: normal;
-    color: #447e9b;
+
+/* ===--- Form ---=== */
+.form-row .object-tools {
+    background-color: transparent;
 }
-#branding h1 {
-    color: white;
+.form-row .object-tools::before {
+    display: none;
 }
-#branding h1, #branding h1 a:link, #branding h1 a:visited {
-    color: white;
+
+.form-row.field-shipping_address_text .readonly,
+.form-row.field-billing_address_text .readonly {
+    margin: 1rem 0 0 80px;
 }
-.module h2, .module caption, .inline-group h2 {
-    background: black;
-}
-div.breadcrumbs {
-    background-color: grey;
-}
-.button.default, input[type=submit].default, .submit-row input.default {
-    background-color: black;
+
+/* ===--- Parler Language Tabs ---=== */
+.parler-language-tabs {
+    border-bottom: 2px solid #202325;
 }
 .parler-language-tabs span.current {
-    background-color: black;
-    border-color: black;
+    background-color: #202325;
+    border-color: #202325;
 }
-.parler-language-tabs {
-    border-bottom: 2px solid black;
+
+/* ===--- Buttons ---=== */
+.button,
+.button.default,
+input[type=submit].default,
+.submit-row input.default,
+input[type=submit],
+input[type=button],
+.submit-row input,
+a.button {
+    background-color: #458d91;
+    border: 1px solid #458d91;
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
 }
-.button, input[type=submit], input[type=button], .submit-row input, a.button {
-    background-color: black;
-}
-.button:active, input[type=submit]:active, input[type=button]:active, .button:focus, input[type=submit]:focus, input[type=button]:focus, .button:hover, input[type=submit]:hover, input[type=button]:hover {
-    background-color: grey;
+.button:active,
+.button.default:active,
+input[type=submit].default:active,
+.submit-row input.default:active,
+input[type=submit]:active,
+input[type=button]:active,
+.button:focus,
+.button.default:focus,
+input[type=submit].default:focus,
+.submit-row input.default:focus,
+input[type=submit]:focus,
+input[type=button]:focus,
+.button:hover,
+.button.default:hover,
+input[type=submit].default:hover,
+.submit-row input.default:hover,
+input[type=submit]:hover,
+input[type=button]:hover {
+    background: none;
+    border: 1px solid #458d91;
+    color: #458d91;
 }
