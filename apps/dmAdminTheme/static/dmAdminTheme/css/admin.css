@@ -59,6 +59,11 @@ div.breadcrumbs a:hover {
     width: 380px;
     margin-right: -420px;
 }
+#content-main .module th a {
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+}
 #content-related > .module {
     background: #f8f8f8;
     border: 1px solid #eee;
@@ -117,6 +122,7 @@ a.section:visited {
     width: 32px;
 }
 #dm-analyze .dm-adminshop-icon span {
+    color: #4a4a50;
     font-size: 24px;
     line-height: 100%;
     vertical-align: middle;
@@ -127,7 +133,7 @@ a.section:visited {
     width: calc(100% - 32px);
 }
 #dm-analyze .dm-adminshop-data p {
-    font-size: 1rem;
+    font-size: 15px;
     font-weight: 800;
     line-height: 120%;
     display: block;

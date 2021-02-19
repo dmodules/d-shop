@@ -69,7 +69,7 @@
                         <span class="mdi mdi-chart-box"></span>
                     </div>
                     <div class="dm-adminshop-data">
-                        <p>{{ dshop_sells.thismonth.amount }}</p>
+                        <p><a href="/admindshop/order/?created_at__month={{ dshop_sells.thismonth.month }}&created_at__year={{ dshop_sells.thismonth.year }}">{{ dshop_sells.thismonth.amount }}</a></p>
                         <small>
                             {% blocktrans count quantity=dshop_sells.thismonth.quantity %}with {{ quantity }} sale this month{%  plural %}with {{ quantity }} sales this month{%  endblocktrans %}
                         </small>
@@ -80,7 +80,7 @@
                         <span class="mdi mdi-chart-box-outline"></span>
                     </div>
                     <div class="dm-adminshop-data">
-                        <p>{{ dshop_sells.lastmonth.amount }}</p>
+                        <p><a href="/admindshop/order/?created_at__month={{ dshop_sells.lastmonth.month }}&created_at__year={{ dshop_sells.lastmonth.year }}">{{ dshop_sells.lastmonth.amount }}</a></p>
                         <small>
                             {% blocktrans count quantity=dshop_sells.lastmonth.quantity %}with {{ quantity }} sale last month{%  plural %}with {{ quantity }} sales last month{%  endblocktrans %}
                         </small>
