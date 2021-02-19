@@ -10,8 +10,6 @@ from dshop.models import ProductVariableVariant
 from .models import dmPromoCode
 
 def get_discounts_byrequest(request):
-    print("================================================")
-    print("get_discounts_byrequest")
     result = [[], [], Decimal(0), Decimal(0)]
     try:
         cart = CartModel.objects.get_from_request(request)
