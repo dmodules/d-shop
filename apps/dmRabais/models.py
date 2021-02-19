@@ -24,11 +24,6 @@ class dmRabaisPerCategory(models.Model):
         max_length=100,
         help_text=_("Maximum 100 characters.")
     )
-    discount_type = models.PositiveSmallIntegerField(
-        verbose_name=_("Discount Type"),
-        choices=CHOICE_TYPE,
-        default=1
-    )
     amount = models.DecimalField(
         verbose_name=_("Amount"),
         max_digits=30,
@@ -98,11 +93,6 @@ class dmPromoCode(models.Model):
         blank=True,
         null=False,
         help_text=_("Leave blank to auto-generate a random code.")
-    )
-    discount_type = models.PositiveSmallIntegerField(
-        verbose_name=_("Discount Type"),
-        choices=CHOICE_TYPE,
-        default=1
     )
     amount = models.DecimalField(
         verbose_name=_("Amount"),
