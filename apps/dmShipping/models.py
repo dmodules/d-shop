@@ -133,7 +133,7 @@ class ShippingState(models.Model):
     )
     name = models.CharField(
         verbose_name=_("State Name"),
-        max_length=50,
+        max_length=100,
         blank=False,
         null=False,
         help_text=_("Maximum 50 characters.")
@@ -143,7 +143,6 @@ class ShippingState(models.Model):
         max_length=10,
         blank=False,
         null=False,
-        unique=True,
         help_text=_("Maximum 2 characters.")
     )
 
@@ -177,7 +176,6 @@ class ShippingCity(models.Model):
         max_length=10,
         blank=False,
         null=False,
-        unique=True,
         help_text=_("Maximum 2 characters.")
     )
 

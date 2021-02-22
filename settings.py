@@ -58,6 +58,7 @@ INSTALLED_APPS.extend([  # noqa: F821
     "cmsplugin_cascade.icon",
     "cmsplugin_cascade.segmentation",
     # ===---
+    "cities_light",
     "fsm_admin",
     "adminsortable2",
     "sass_processor",
@@ -782,6 +783,9 @@ TEMP_ADMIN_REORDER = [
     },
     {
         "app": "dmPortfolio"
+    },
+    {
+        "app": "cities_light"
     },
 ]
 
