@@ -2594,3 +2594,22 @@ msgstr "Pourcentage de rabais"
 
 msgid "Discount Type"
 msgstr "Type de rabais"
+
+msgid "Date: Recent to Old"
+msgstr "Date : Récent au plus vieux"
+
+msgid "Date: Old to Recent"
+msgstr "Date : Plus vieux au recent"
+
+msgid "Name: A to Z"
+msgstr "Nom : A à Z"
+
+msgid "Name: Z to A"
+msgstr "Nom : Z à A"
+
+msgid "Price: Low to High"
+msgstr "Prix : Plus bas au plus haut"
+
+msgid "Price: High to Low"
+msgstr "Prix : Plus haut au plus bas"
+

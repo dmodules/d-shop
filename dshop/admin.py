@@ -732,6 +732,7 @@ class ProductAdmin(PolymorphicParentModelAdmin):
         # "get_price",
         # "product_type",
         "get_quantity",
+        "created_at",
         "is_vedette",
         "active"
     ]

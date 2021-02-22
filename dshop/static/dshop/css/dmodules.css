@@ -903,7 +903,16 @@ main > .container > .row {
   padding:0 0 0 6px;
 }
 
-/* ===--- Produit : Page détail ---=== */
+/* ===--- Produits: Page liste ---=== */
+.product_header_left .custom_select {
+    display: inline-block;
+    margin: 0 8px 8px 0;
+}
+.product_header_left .custom_select select:hover {
+    cursor: pointer;
+}
+
+/* ===--- Produits: Page détail ---=== */
 .product-detail-unavailable > p {
     border: 1px solid #b52d2d;
     color: #b52d2d;

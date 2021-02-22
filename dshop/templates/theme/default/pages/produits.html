@@ -59,10 +59,21 @@
             <div class="col-12">
               <div class="product_header">
                 <div class="product_header_left">
-                  <div class="products_view">
-                    <a href="javascript:Void(0);" class="shorting_icon grid active"><i class="ti-view-grid"></i></a>
-                    <a href="javascript:Void(0);" class="shorting_icon list"><i class="ti-layout-list-thumb"></i></a>
-                  </div>
+                    <div class="custom_select">
+                        <select id="dm-productlist-sortby" class="form-control form-control-sm">
+                            <option class="sb-default" value="default" disabled selected>{% trans "Sort by" %}</option>
+                            <option class="sb-date-new" value="date-new">{% trans "Date: Recent to Old" %}</option>
+                            <option class="sb-date-old"  value="date-old">{% trans "Date: Old to Recent" %}</option>
+                            <option class="sb-alpha-asc"  value="alpha-asc">{% trans "Name: A to Z" %}</option>
+                            <option class="sb-alpha-des"  value="alpha-des">{% trans "Name: Z to A" %}</option>
+                            <option class="sb-price-asc"  value="price-asc">{% trans "Price: Low to High" %}</option>
+                            <option class="sb-price-des"  value="price-des">{% trans "Price: High to Low" %}</option>
+                        </select>
+                    </div>
+                    <div class="products_view">
+                        <a href="javascript:Void(0);" class="shorting_icon grid active"><i class="ti-view-grid"></i></a>
+                        <a href="javascript:Void(0);" class="shorting_icon list"><i class="ti-layout-list-thumb"></i></a>
+                    </div>
                 </div>
                 <div class="product_header_right">
                   <div class="products-filters">
