@@ -1,10 +1,59 @@
 import json
+from django.db.models import Q
 from django.http import HttpResponse
 from .models import ShippingManagement, \
     ShippingAllowed, \
     ShippingCountry, \
     ShippingState, \
     ShippingCity
+from dal import autocomplete
+
+class CountryAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return ShippingCountry.objects.none()
+
+        qs = ShippingCountry.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(name__istartswith=self.q))
+        return qs
+
+
+class StateAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return ShippingState.objects.none()
+
+        countries = self.forwarded.get('countries', None)
+        qs = ShippingState.objects.all()
+
+        if countries:
+            qs = qs.filter(country__id__in=countries)
+
+        if self.q:
+            qs = qs.filter(Q(name__istartswith=self.q) | Q(country__name__istartswith=self.q))
+        return qs
+
+
+class CityAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return ShippingCity.objects.none()
+
+        states = self.forwarded.get('states', None)
+        qs = ShippingCity.objects.all()
+
+        if states:
+            qs = qs.filter(state__id__in=states)
+
+        if self.q:
+            qs = qs.filter(Q(name__istartswith=self.q) | Q(state__name__istartswith=self.q))
+        return qs
+
 
 def get_data(request):
 
