@@ -33,12 +33,24 @@ def get_data(request):
 
         if shipping.states.all():
             sta = list(shipping.states.all().values_list('name', 'code'))
+            if not con:
+                for s in sta:
+                    s_obj = ShippingState.objects.get(code=s[1])
+                    con += [(s_obj.country.name, s_obj.country.code)]
         else:
             codes = [ c[1] for c in con]
             sta = list(ShippingState.objects.filter(country__code__in=codes).values_list('name', 'code'))
 
         if shipping.cities.all():
             cities  += list(shipping.cities.all().values_list('name', 'code'))
+            if not sta:
+                for c in cities:
+                    c_obj = ShippingCity.objects.get(code=c[1])
+                    sta += [(c_obj.state.name, c_obj.state.code)]
+            if not con:
+                for s in sta:
+                    s_obj = ShippingState.objects.get(code=s[1])
+                    con += [(s_obj.country.name, s_obj.country.code)]
         else:
             codes = [ c[1] for c in sta]
             cit = list(ShippingCity.objects.filter(state__code__in=codes).values_list('name', 'code'))
