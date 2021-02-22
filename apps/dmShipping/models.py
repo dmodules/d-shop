@@ -196,17 +196,17 @@ class ShippingAllowed(models.Model):
     countries = models.ManyToManyField(
         ShippingCountry,
         verbose_name=_("Countries"),
-        blank=False
+        blank=True
     )
     states = models.ManyToManyField(
         ShippingState,
         verbose_name=_("States"),
-        blank=False
+        blank=True
     )
     cities = models.ManyToManyField(
         ShippingCity,
         verbose_name=_("Cities"),
-        blank=False
+        blank=True
     )
     price = models.DecimalField(
         _("Price"),
