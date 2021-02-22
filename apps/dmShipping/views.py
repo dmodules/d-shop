@@ -47,9 +47,34 @@ def get_data(request):
         states += sta
         cities += cit
 
+    temp_co = {}
+    for c in countries:
+        if c[1] not in temp_co:
+            temp_co[c[1]] = c[0]
+
+    temp_st = {}
+    for country in temp_co:
+        temp = {}
+        for s in states:
+            st = ShippingState.objects.filter(code=s[1], country__code=country).first()
+            if st:
+                if st.code not in temp:
+                    temp[st.code] = st.name
+        temp_st[country] = temp
+
+    temp_ct = {}
+    for state in states:
+        temp = {}
+        for c in cities:
+            ct = ShippingCity.objects.filter(code=c[1], state__code=state[1]).first()
+            if ct:
+                if ct.code not in temp:
+                    temp[ct.code] = ct.name
+        temp_ct[state[1]] = temp
+
     data = {
-        'countries': countries,
-        'states': states,
-        'cities': cities,
+        'countries': temp_co,
+        'states': temp_st,
+        'cities': temp_ct,
     }
     return HttpResponse(json.dumps({'stat':' ok', 'data': data}))
