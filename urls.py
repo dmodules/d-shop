@@ -65,6 +65,7 @@ urlpatterns = [
     url(r'^contact/', include("apps.dmContact.urls")),
     url(r'^discount/', include("apps.dmRabais.urls")),
     url(r'^quotation/', include("apps.dmQuotation.urls")),
+    url(r'^shipping/', include("apps.dmShipping.urls")),
 
     url(r'^api/v1/products-list/$', ProductListView.as_view(), name='product-list'),
     # =====================
