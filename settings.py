@@ -102,6 +102,9 @@ if os.path.exists(path_to_extended):
             INSTALLED_APPS.append(app)  # noqa: F821
 
 ############################################
+
+CITIES_LIGHT_CITY_SOURCES = ['http://download.geonames.org/export/dump/cities500.zip']
+
 # Shop Payments and Order Settings
 
 SHOP_VALUE_ADDED_TAX = Decimal(0)
