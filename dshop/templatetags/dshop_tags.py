@@ -126,7 +126,7 @@ def dm_get_products_all():
 @register.simple_tag
 def dm_get_category(k):
     """Get category's data from pk/id key"""
-    result = ProductCategory.objects.get(pk=k)
+    result = ProductCategory.objects.filter(pk=k).first()
     return result
 
 
