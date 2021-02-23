@@ -103,7 +103,7 @@ class OrderView(OrderView):
 #######################################################################
 
 
-def TestPaymentView(request):
+def TestPaymentView(request):  # noqa: C901
     """
     A development test only view for Payment.
     Will emulate a successfull payment.
@@ -450,7 +450,7 @@ class LoadProduits(APIView):
 
     permission_classes = [AllowAny]
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):  # noqa: C901
         category = request.GET.get("category", None)
         brand = request.GET.get("brand", None)
         offset = int(request.GET.get("offset", 0))

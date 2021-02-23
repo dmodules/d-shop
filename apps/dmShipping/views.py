@@ -1,11 +1,7 @@
 import json
 from django.db.models import Q
 from django.http import HttpResponse
-from .models import ShippingManagement, \
-    ShippingAllowed, \
-    ShippingCountry, \
-    ShippingState, \
-    ShippingCity
+from .models import ShippingManagement, ShippingAllowed
 from cities_light.models import Country, Region, City
 from dal import autocomplete
 
@@ -55,8 +51,7 @@ class CityAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(Q(name__istartswith=self.q) | Q(region__name__istartswith=self.q))
         return qs
 
-
-def get_data(request):
+def get_data(request):  # noqa: C901
 
     identifier = request.GET.get('identifier', '')
     if not identifier:
@@ -88,11 +83,11 @@ def get_data(request):
                     s_obj = Region.objects.get(code=s[1])
                     con += [(s_obj.country.name, s_obj.country.code2)]
         else:
-            codes = [ c[1] for c in con]
+            codes = [c[1] for c in con]
             sta = list(Region.objects.filter(country__code2__in=codes).values_list('name', 'slug'))
 
         if shipping.cities.all():
-            cities  += list(shipping.cities.all().values_list('name', 'id'))
+            cities += list(shipping.cities.all().values_list('name', 'id'))
             if not sta:
                 for c in cities:
                     c_obj = City.objects.get(id=c[1])
@@ -102,7 +97,7 @@ def get_data(request):
                     s_obj = Region.objects.get(slug=s[1])
                     con += [(s_obj.country.name, s_obj.country.code2)]
         else:
-            codes = [ c[1] for c in sta]
+            codes = [c[1] for c in sta]
             cit = list(City.objects.filter(region__slug__in=codes).values_list('name', 'id'))
 
         countries += con
