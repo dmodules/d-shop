@@ -212,4 +212,3 @@ class ShippingAllowed(models.Model):
         decimal_places=3,
         help_text=_("An amount to be added to the cart price.")
     )
-
