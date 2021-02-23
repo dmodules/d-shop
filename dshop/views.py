@@ -517,8 +517,7 @@ class CustomerCheckView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        data = json.loads(request.body)
-        email = data.get("email", None)
+        email = request.data.get("email", None)
         if email is not None:
             customer = Customer.objects.filter(email=email).count()
             if customer > 0:

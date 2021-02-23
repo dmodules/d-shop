@@ -811,6 +811,7 @@ export default {
     isGuest: false,
     isVisitor: false,
     hasEmptyCart: false,
+    oldEmail: '',
     stepCheckout: 1,
     formChoix: {
       salutation: [],
@@ -1012,6 +1013,9 @@ export default {
                 ? apiSuccess.data.customer.email
                 : ""
             );
+            self.$set(
+              self, "oldEmail", apiSuccess.data.customer.email ? apiSuccess.data.customer.email : ""
+            );
             self.$set(self, "isGuest", apiSuccess.data.customer.guest ? true : false);
             self.$set(self, "isVisitor", apiSuccess.data.customer.is_visitor ? true : false);
             self.$set(self, "tosLink", apiSuccess.data.tos)
@@ -1124,7 +1128,7 @@ export default {
           this.$set(this, 'isLoadingPayment', true)
         }
         // ===--- check user email
-        if (this.stepCheckout === 1 && this.isGuest) {
+        if (this.stepCheckout === 1 && (this.isGuest || this.oldEmail !== this.formCustomer.customer.email)) {
             let data_email = {
                 email: this.formCustomer.customer.email
             }
