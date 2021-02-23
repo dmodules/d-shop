@@ -6,9 +6,9 @@ from .models import ShippingManagement, ShippingAllowed
 def get_price(identifier, country, state, city):
 
     sm = ShippingManagement.objects.get(identifier=identifier)
-    #Filter by Shipping Identifier
+    # Filter by Shipping Identifier
     sa = ShippingAllowed.objects.filter(shipping=sm)
-    #Filter by country
+    # Filter by country
     sa = sa.filter(countries__code2=country)
     if not sa:
         sa = ShippingAllowed.objects.filter(shipping=sm)
@@ -31,4 +31,3 @@ def get_price(identifier, country, state, city):
                 return 0
             else:
                 return sa[0].price
-    
