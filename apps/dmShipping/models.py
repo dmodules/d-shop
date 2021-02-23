@@ -1,5 +1,6 @@
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
+from cities_light.models import Country, City, Region
 
 #######################################################################
 # Shipping Methods
@@ -192,17 +193,17 @@ class ShippingAllowed(models.Model):
         null=False
     )
     countries = models.ManyToManyField(
-        ShippingCountry,
+        Country,
         verbose_name=_("Countries"),
         blank=True
     )
     states = models.ManyToManyField(
-        ShippingState,
+        Region,
         verbose_name=_("States"),
         blank=True
     )
     cities = models.ManyToManyField(
-        ShippingCity,
+        City,
         verbose_name=_("Cities"),
         blank=True
     )
