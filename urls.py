@@ -18,7 +18,7 @@ from shop.views.catalog import ProductListView
 
 from dshop.views import CustomerView, CustomerCheckView
 from dshop.views import LoadProduits, LoadProductsByCategory
-from dshop.views import LoadVariantSelect
+from dshop.views import LoadVariantSelect, LoadFilters, DshopProductListView
 from dshop.views import ShippingMethodsView, BillingMethodsView
 from dshop.views import TestPaymentView, AttributeAutocomplete
 from dshop.views import PasswordResetConfirmView
@@ -62,6 +62,8 @@ urlpatterns = [
     url(r'^discount/', include("apps.dmRabais.urls")),
 
     url(r'^api/v1/products-list/$', ProductListView.as_view(), name='product-list'),
+    url(r'^api/v1/d-shop-products-list/$', DshopProductListView.as_view(), name='d-shop-product-list'),
+    url(r'^api/v1/filters/$', LoadFilters.as_view(), name='product-filter'),
 
     url(r'^api/fe/customer/$', CustomerView.as_view(), name='customer'),
     url(r'^api/fe/customer-check/$', CustomerCheckView.as_view(), name="customer-check"),

@@ -43,7 +43,7 @@ from dshop.models import dmSite, dmSiteLogo, dmSiteContact, dmSiteSocial
 from dshop.models import dmSiteTermsAndConditions
 from dshop.models import BillingAddress, ShippingAddress
 from dshop.models import ProductCategory, ProductFilter, ProductBrand, ProductLabel
-from dshop.models import Product
+from dshop.models import Product, ProductFilterGroup
 from dshop.models import Attribute, AttributeValue
 from dshop.models import ProductDefault
 from dshop.models import ProductVariable, ProductVariableVariant
@@ -452,9 +452,21 @@ class ProductCategoryAdmin(DraggableMPTTAdmin):
     pass
 
 
+class ProductFilterInline(admin.TabularInline):
+    model = ProductFilter
+    extra = 0
+
+@admin.register(ProductFilterGroup)
+class ProductFilterGroupAdmin(admin.ModelAdmin):
+    list_display = ["name", "order"]
+    list_editable = ["order"]
+    inlines = [ProductFilterInline]
+
+
 @admin.register(ProductFilter)
 class ProductFilterAdmin(admin.ModelAdmin):
-    list_display = ["name", "order"]
+    list_display = ["name", "group", "order"]
+    list_editable = ["order"]
 
 
 @admin.register(ProductBrand)

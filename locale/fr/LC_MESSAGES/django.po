@@ -2594,3 +2594,10 @@ msgstr "Pourcentage de rabais"
 
 msgid "Discount Type"
 msgstr "Type de rabais"
+
+msgid "Product's Filter Group"
+msgstr "Groupe de filtres"
+
+msgid "Product's Filter Groups"
+msgstr "Groupes de filtres"
+

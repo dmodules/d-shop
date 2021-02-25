@@ -58,6 +58,7 @@ INSTALLED_APPS.extend([  # noqa: F821
     "cmsplugin_cascade.extra_fields",
     "cmsplugin_cascade.icon",
     "cmsplugin_cascade.segmentation",
+    "django_filters",
     # ===---
     "fsm_admin",
     "adminsortable2",
@@ -678,6 +679,7 @@ ADMIN_REORDER = (
         _("Shop"),
         "models": [
             "dshop.ProductCategory",
+            "dshop.ProductFilterGroup",
             "dshop.ProductFilter",
             "dshop.ProductBrand",
             "dshop.Attribute",

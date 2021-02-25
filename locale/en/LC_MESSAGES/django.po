@@ -2487,3 +2487,11 @@ msgstr ""
 #: urls.py:36
 msgid "D-Shop - E-commerce platform"
 msgstr ""
+
+#: dshop/models.py:427
+msgid "Product's Filter Group"
+msgstr ""
+
+#: dshop/models.py:428
+msgid "Product's Filter Groups"
+msgstr ""

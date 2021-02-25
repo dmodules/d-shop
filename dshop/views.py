@@ -22,7 +22,7 @@ from django.core.management import call_command
 from django.core.mail import send_mail
 from django.db.models import Q
 
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response as RestResponse
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
@@ -39,9 +39,10 @@ from shop.serializers.auth import PasswordResetConfirmSerializer
 
 from dal import autocomplete
 
-from dshop.models import Product
+from dshop.models import Product, ProductFilterGroup, ProductFilter
 from dshop.models import AttributeValue
 from dshop.transition import transition_change_notification
+from dshop.serializers import ProductSerializer
 
 from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
@@ -136,6 +137,35 @@ def TestPaymentView(request):
 #######################################################################
 # ===---   Views used in products                              ---=== #
 #######################################################################
+
+class DshopProductListView(ListAPIView):
+
+    permission_classes = [AllowAny]
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    filterset_fields = ['filters']
+
+class LoadFilters(APIView):
+
+    def get(self, request, *args, **kwargs):
+        groups = ProductFilterGroup.objects.all()
+        data = {}
+        for group in groups:
+            temp = {}
+            filters = []
+            temp['id'] = group.id
+            temp['order'] = group.order
+            for filt in ProductFilter.objects.filter(group=group):
+                filters.append({'id': filt.id, 'name': filt.name, 'order': filt.order})
+            temp['filter'] = filters
+            data[group.name] = temp
+
+        temp = {}
+        filters = []
+        for filt in ProductFilter.objects.filter(group=None):
+            filters.append({'id':filt.id, 'name': filt.name, 'order': filt.order})
+        data['default'] = {'filter': filters}
+        return RestResponse(data)
 
 
 class LoadProduits(APIView):
