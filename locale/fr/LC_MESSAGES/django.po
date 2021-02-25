@@ -2594,3 +2594,27 @@ msgstr "Pourcentage de rabais"
 
 msgid "Discount Type"
 msgstr "Type de rabais"
+
+msgid "URL Link"
+msgstr "Lien URL"
+
+msgid "Hide for 30 days"
+msgstr "Cacher pour 30 jours"
+
+msgid "Hide popup for 30 days on close, otherwise, show it everytime."
+msgstr "Cacher le popup pour 30 jours lors de la fermeture, autrement, sera affiché à chaque fois."
+
+msgid "Recommended size: 800x600."
+msgstr "Dimension recommandée : 800x600."
+
+msgid "Shown"
+msgstr "Vu"
+
+msgid "Advertising Popup"
+msgstr "Popup publicitaire"
+
+msgid "Advertising Popups"
+msgstr "Popups publicitaires"
+
+msgid "Optional."
+msgstr "Facultatif."

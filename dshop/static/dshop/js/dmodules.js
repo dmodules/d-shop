@@ -77,6 +77,33 @@ const i18n = {
 
 $.ajaxSetup({headers: { "X-CSRFToken": $("meta[name='csrf-token']").attr("content") }})
 
+//* ===--- Cookies ---=== *//
+
+function dmGetCookie(cname) {
+    var name = cname + "="
+    var decodedCookie = decodeURIComponent(document.cookie)
+    var ca = decodedCookie.split(';')
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i]
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1)
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length)
+      }
+    }
+    return ""
+}
+
+function dmSetCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+//* ===--- Main ---=== *//
+
 $(document).ready(function() {
   setClickBtn()
 })
@@ -644,6 +671,7 @@ function dmDrawerDoLogout() {
 }
 
 /* ===--- Main Menu ---=== */
+
 function toggleMainMenu() {
     $(".tophead-botnav").toggle()
 }
@@ -696,6 +724,14 @@ function toggleSearch() {
         setTimeout(function () {
             $("#topsearch").addClass("visible")
         }, 100)
+    }
+}
+
+/* ===--- Advertising: Popup ---=== */
+function dmClosePopup(popup, cookie = 0) {
+    $("#dmadvertising-popup").hide()
+    if (cookie === 1) {
+        dmSetCookie("dm_popad_"+popup, 1, 30)
     }
 }
 

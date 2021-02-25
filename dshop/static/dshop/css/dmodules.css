@@ -988,3 +988,51 @@ main > .container > .row {
 #snackbar.show{
   top:10%;
 }
+
+/* ===--- Advertising: Popup ---=== */
+#dmadvertising-popup {
+    background: rgba(0, 0, 0, 0.7);
+    font-size: 0;
+    line-height: 0;
+    display: inline-block;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999999999;
+    padding: 0;
+    margin: 0;
+}
+#dmadvertising-popup .dm-wrapper {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: inline-block;
+    width: calc(100vw - 20px);
+    max-width: 800px;
+    height: calc(100vh - 20px);
+    max-height: 600px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    padding: 0;
+    margin: auto;
+}
+#dmadvertising-popup .dm-close {
+    position: fixed;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    padding: 0 22px;
+}
+#dmadvertising-popup .dm-close::after {
+    content: "x";
+    color: #fff;
+    font-size: 66px;
+    line-height: 100%;
+}
