@@ -74,7 +74,7 @@
                           <div class="filters-text">Tous</div>
                         </label>
                         {% for filter in filters %}
-                          <label class="filters-box">
+                          <label id="filter_{{filter.id}}" class="filters-box">
                             <input type="checkbox" name="{{filter.name|slugify}}" />
                             <div class="filters-text">{{filter.name}}</div>
                           </label>
