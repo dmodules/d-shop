@@ -574,7 +574,7 @@ class ProductVariableVariantAdmin(admin.ModelAdmin):
         'quantity'
     ]
 
-    list_editable = ['unit_price']
+    list_editable = ['quantity']
 
     def get_product_name(self, obj):
         url = '/admindshop/product/' + str(obj.product.id) 
