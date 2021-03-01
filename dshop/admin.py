@@ -566,6 +566,9 @@ class ProductVariableVariantInline(admin.TabularInline):
 @admin.register(ProductVariableVariant)
 class ProductVariableVariantAdmin(admin.ModelAdmin):
 
+    search_fields = ['product_code',
+                     'product__product_name']
+
     list_display = [
         'get_product_name',
         'product_code',
