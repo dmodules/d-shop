@@ -1083,7 +1083,7 @@ export default {
         this.$set(this.formChoix, "provinces", [])
         if (this.formShipping.shipping_address.country && this.formChoix.shippingProvinces) {
             for (const [key, value] of Object.entries(this.formChoix.shippingProvinces[this.formShipping.shipping_address.country])) {
-                this.formChoix.provinces.push({text: value, value: key})
+                this.formChoix.provinces.push({text: value, value: value, code: key})
             }
         }
         let inside = false
@@ -1103,8 +1103,14 @@ export default {
     },
     setCitiesList () {
         this.$set(this.formChoix, "cities", [])
+        let province = null
+        for (const [key, value] of Object.entries(this.formChoix.shippingProvinces[this.formShipping.shipping_address.country])) {
+            if (value == this.formShipping.shipping_address.province) {
+                province = key
+            }
+        }
         if (this.formShipping.shipping_address.country && this.formShipping.shipping_address.province && this.formChoix.shippingCities) {
-            for (const [key, value] of Object.entries(this.formChoix.shippingCities[this.formShipping.shipping_address.province])) {
+            for (const [key, value] of Object.entries(this.formChoix.shippingCities[province])) {
                 this.formChoix.cities.push({text: value, value: value, code: key})
             }
         }
