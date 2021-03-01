@@ -59,11 +59,11 @@ def get_data(request):
 
     identifier = request.GET.get('identifier', '')
     if not identifier:
-        return HttpResponse(json.dumps({'stat':'failed'}))
+        return HttpResponse(json.dumps({"valid": False}))
 
     sm = ShippingManagement.objects.filter(identifier=identifier)
     if not sm:
-        return HttpResponse(json.dumps({'stat':'failed'}))
+        return HttpResponse(json.dumps({"valid": False}))
 
     sm = sm[0]
 
@@ -138,4 +138,4 @@ def get_data(request):
         'states': temp_st,
         'cities': temp_ct,
     }
-    return HttpResponse(json.dumps({'stat':' ok', 'data': data}))
+    return HttpResponse(json.dumps({"valid": True, "datas": data}))
