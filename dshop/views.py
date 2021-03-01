@@ -15,7 +15,6 @@ from django.utils.translation import get_language_from_request
 from django.utils.html import strip_tags
 from django.utils.text import Truncator
 from django.shortcuts import redirect
-from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.template.defaultfilters import slugify
 from django.core.management import call_command
@@ -56,7 +55,7 @@ except ImportError:
 #######################################################################
 
 
-def TestPaymentView(request):
+def TestPaymentView(request):  # noqa: C901
     """
     A development test only view for Payment.
     Will emulate a successfull payment.
@@ -101,23 +100,14 @@ def TestPaymentView(request):
                     datas["extra"] = i.extra
                     items.append(datas)
                 miniorder = {
-                    "number":
-                    str(referenceId),
-                    "url":
-                    "/vos-commandes/" + str(referenceId) + "/" +
-                    str(order.token),
-                    "items":
-                    items,
-                    "extra":
-                    order.extra,
-                    "subtotal":
-                    order.subtotal,
-                    "total":
-                    order.total,
-                    "billing_address_text":
-                    order.billing_address_text,
-                    "shipping_address_text":
-                    order.shipping_address_text
+                    "number": str(referenceId),
+                    "url": "/vos-commandes/" + str(referenceId) + "/" + str(order.token),
+                    "items": items,
+                    "extra": order.extra,
+                    "subtotal": order.subtotal,
+                    "total": order.total,
+                    "billing_address_text": order.billing_address_text,
+                    "shipping_address_text": order.shipping_address_text
                 }
                 transition_change_notification(order, miniorder)
             except Exception as e:
@@ -155,7 +145,7 @@ class LoadProduits(APIView):
 
     permission_classes = [AllowAny]
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):  # noqa: C901
         category = request.GET.get("category", None)
         brand = request.GET.get("brand", None)
         offset = int(request.GET.get("offset", 0))
@@ -171,21 +161,21 @@ class LoadProduits(APIView):
                 Q(categories=category) | Q(categories__parent=category)
                 | Q(categories__parent__parent=category)
                 | Q(categories__parent__parent__parent=category),
-                active=True).distinct()[offset + limit:offset + limit +
-                                        limit].count()
+                active=True).distinct()[
+                    offset + limit:offset + limit + limit].count()
         elif brand is not None:
             brand = int(brand)
             products = Product.objects.filter(
                 Q(brand=brand), active=True).distinct()[offset:offset + limit]
             next_products = Product.objects.filter(
-                brand=brand, active=True).distinct()[offset + limit:offset +
-                                                     limit + limit].count()
+                brand=brand, active=True).distinct()[
+                offset + limit:offset + limit + limit].count()
         else:
             products = Product.objects.filter(
                 active=True).distinct()[offset:offset + limit]
             next_products = Product.objects.filter(
-                active=True).distinct()[offset + limit:offset + limit +
-                                        limit].count()
+                active=True).distinct()[
+                offset + limit:offset + limit + limit].count()
         # ===---
         all_produits = []
         for produit in products:

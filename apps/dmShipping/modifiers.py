@@ -6,8 +6,8 @@ from shop.modifiers.pool import cart_modifiers_pool
 from shop.shipping.modifiers import ShippingModifier
 
 from dshop.transition import transition_change_notification
-
 from .models import ShippingManagement
+from .utils import get_price
 
 
 class PickupShippingModifier(ShippingModifier):
@@ -136,7 +136,24 @@ class StandardShippingModifier(ShippingModifier):
                 amount = Money(sm.price_after)
             else:
                 amount = Money(sm.price)
+
+            try:
+                if cart.shipping_address:
+                    price = get_price(
+                        self.identifier,
+                        cart.shipping_address.country,
+                        cart.shipping_address.province,
+                        cart.shipping_address.city
+                    )
+                    amount = Money(price)
+            except Exception as e:
+                print(str(e) + " : Error while getting shipping price")
+                print(self.identifier)
+                print("Country: " + cart.shipping_address.country)
+                print("State: " + cart.shipping_address.province)
+                print("City: " + cart.shipping_address.city)
             instance = {"label": _("Shipping costs"), "amount": amount}
+            print(instance)
             cart.extra_rows[self.identifier] = ExtraCartRow(instance)
             cart.total += amount
 
@@ -206,6 +223,23 @@ class ExpressShippingModifier(ShippingModifier):
                 amount = Money(sm.price_after)
             else:
                 amount = Money(sm.price)
+
+            try:
+                if cart.shipping_address:
+                    price = get_price(
+                        self.identifier,
+                        cart.shipping_address.country,
+                        cart.shipping_address.province,
+                        cart.shipping_address.city
+                    )
+                    amount = Money(price)
+            except Exception as e:
+                print(str(e) + " : Error while getting shipping price")
+                print(self.identifier)
+                print("Country: " + cart.shipping_address.country)
+                print("State: " + cart.shipping_address.province)
+                print("City: " + cart.shipping_address.city)
+            instance = {"label": _("Shipping costs"), "amount": amount}
             instance = {"label": _("Shipping costs"), "amount": amount}
             cart.extra_rows[self.identifier] = ExtraCartRow(instance)
             cart.total += amount
