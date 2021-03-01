@@ -165,19 +165,43 @@ def dm_get_brand(k):
     return result
 
 
-@register.simple_tag
-def dm_get_all_products(offset, limit):
+@register.simple_tag(takes_context=True)
+def dm_get_all_products(context, offset, limit):
     """Get data from all products with offset and limit"""
     offset = int(offset)
     limit = int(limit)
+    # ===---
+    sortby = context["request"].COOKIES.get("dm_psortby", "default")
+    if sortby == "date-new":
+        orderby = "-created_at"
+    elif sortby == "date-old":
+        orderby = "created_at"
+    elif sortby == "alpha-asc":
+        orderby = "product_name"
+    elif sortby == "alpha-des":
+        orderby = "-product_name"
+    elif sortby == "price-asc":
+        orderby = "order"
+    elif sortby == "price-des":
+        orderby = "order"
+    else:
+        orderby = "order"
+    # ===---
     products = Product.objects.filter(
         Q(categories__active=True) | Q(categories=None),
         active=True
-    ).order_by('id').distinct()[offset:offset+limit]
+    ).order_by(orderby).distinct()[offset:offset+limit]
+    #
     next_result = Product.objects.filter(
         Q(categories__active=True) | Q(categories=None),
         active=True
-    ).distinct().order_by('id')[offset+limit:offset+limit+limit].count()
+    ).order_by(orderby).distinct()[offset+limit:offset+limit+limit].count()
+    #
+    if sortby == "price-asc":
+        products = sorted(products, key=lambda t: t.get_price(context["request"]))
+    elif sortby == "price-des":
+        products = sorted(products, key=lambda t: t.get_price(context["request"]), reverse=True)
+    # ===---
     result = {
         "products": products,
         "next": next_result
@@ -185,21 +209,48 @@ def dm_get_all_products(offset, limit):
     return result
 
 
-@register.simple_tag
-def dm_get_products_by_category(k, offset, limit):
+@register.simple_tag(takes_context=True)
+def dm_get_products_by_category(context, k, offset, limit):
     """Get data from all products from category's pk/id key with offset and limit"""
     offset = int(offset)
     limit = int(limit)
-    products = Product.objects.filter(Q(categories=k) | Q(categories__parent=k) | Q(categories__parent__parent=k) | Q(
-        categories__parent__parent__parent=k), active=True).distinct()
-
+    # ===---
+    sortby = context["request"].COOKIES.get("dm_psortby", "default")
+    if sortby == "date-new":
+        orderby = "-created_at"
+    elif sortby == "date-old":
+        orderby = "created_at"
+    elif sortby == "alpha-asc":
+        orderby = "product_name"
+    elif sortby == "alpha-des":
+        orderby = "-product_name"
+    elif sortby == "price-asc":
+        orderby = "order"
+    elif sortby == "price-des":
+        orderby = "order"
+    else:
+        orderby = "order"
+    # ===---
+    products = Product.objects.filter(
+        Q(categories=k) | Q(categories__parent=k) | Q(categories__parent__parent=k) | Q(
+            categories__parent__parent__parent=k
+        ),
+        active=True
+    ).order_by(orderby).distinct()
     # Filter product for categories = True
     products = products.filter(categories__active=True)[offset:offset+limit]
+    # ===---
     next_result = Product.objects.filter(
         Q(categories=k) | Q(categories__parent=k) | Q(categories__parent__parent=k) | Q(
             categories__parent__parent__parent=k
         ), active=True
-    ).distinct()[offset+limit:offset+limit+limit].count()
+    ).order_by(orderby).distinct()[offset+limit:offset+limit+limit].count()
+    #
+    if sortby == "price-asc":
+        products = sorted(products, key=lambda t: t.get_price(context["request"]))
+    elif sortby == "price-des":
+        products = sorted(products, key=lambda t: t.get_price(context["request"]), reverse=True)
+    # ===---
     result = {
         "products": products,
         "next": next_result
@@ -207,17 +258,40 @@ def dm_get_products_by_category(k, offset, limit):
     return result
 
 
-@register.simple_tag
-def dm_get_products_by_brand(k, offset, limit):
+@register.simple_tag(takes_context=True)
+def dm_get_products_by_brand(context, k, offset, limit):
     """Get data from all products from brand's pk/id key with offset and limit"""
     offset = int(offset)
     limit = int(limit)
+    # ===---
+    sortby = context["request"].COOKIES.get("dm_psortby", "default")
+    if sortby == "date-new":
+        orderby = "-created_at"
+    elif sortby == "date-old":
+        orderby = "created_at"
+    elif sortby == "alpha-asc":
+        orderby = "product_name"
+    elif sortby == "alpha-des":
+        orderby = "-product_name"
+    elif sortby == "price-asc":
+        orderby = "order"
+    elif sortby == "price-des":
+        orderby = "order"
+    else:
+        orderby = "order"
+    # ===---
     products = Product.objects.filter(
         brand=k, active=True
-    ).order_by('id')[offset:offset+limit]
+    ).order_by(orderby).distinct()[offset:offset+limit]
     next_result = Product.objects.filter(
         brand=k, active=True
-    ).order_by('id')[offset+limit:offset+limit+limit].count()
+    ).order_by(orderby).distinct()[offset+limit:offset+limit+limit].count()
+    #
+    if sortby == "price-asc":
+        products = sorted(products, key=lambda t: t.get_price(context["request"]))
+    elif sortby == "price-des":
+        products = sorted(products, key=lambda t: t.get_price(context["request"]), reverse=True)
+    # ===---
     result = {
         "products": products,
         "next": next_result
