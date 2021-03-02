@@ -12,4 +12,5 @@ for feature in ALL_FEATURES:
 
 features = FEATURES.split(',')
 for feature in features:
-    exec("%s = %s" % (feature, True))
+    if feature:
+        exec("%s = %s" % (feature, True))
