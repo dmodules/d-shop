@@ -15,7 +15,10 @@ from shop.models.defaults.customer import Customer
 
 class dmRabaisPerCategory(models.Model):
     """A model to handle promo on specific product's categories"""
-
+    CHOICE_TYPE = [
+        (1, _("Amount Discount")),
+        (2, _("Percent Discount")),
+    ]
     name = models.CharField(
         verbose_name=_("Name"),
         max_length=100,
@@ -73,7 +76,10 @@ class dmRabaisPerCategory(models.Model):
 
 class dmPromoCode(models.Model):
     """A model to handle promo code with or without ending date"""
-
+    CHOICE_TYPE = [
+        (1, _("Amount Discount")),
+        (2, _("Percent Discount")),
+    ]
     name = models.CharField(
         verbose_name=_("Name"),
         max_length=100,

@@ -437,12 +437,15 @@ class CustomerView(APIView):
         else:
             tos = ""
         # ===---
+        is_visitor = True if request.customer.is_visitor else False
+        # ===---
         if request.user.is_authenticated:
             customer = {
                 "salutation": request.user.customer.salutation,
                 "first_name": request.user.first_name,
                 "last_name": request.user.last_name,
-                "email": request.user.email
+                "email": request.user.email,
+                "is_visitor": is_visitor
             }
             aso = request.user.customer.shippingaddress_set.first()
             if aso is not None:
@@ -503,7 +506,8 @@ class CustomerView(APIView):
             return RestResponse({
                 "customer": {
                     "plugin_order": 1,
-                    "guest": True
+                    "guest": True,
+                    "is_visitor": is_visitor
                 },
                 "address_shipping": {
                     "plugin_order": 1,
@@ -521,8 +525,7 @@ class CustomerCheckView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        data = json.loads(request.body)
-        email = data.get("email", None)
+        email = request.data.get("email", None)
         if email is not None:
             customer = Customer.objects.filter(email=email).count()
             if customer > 0:
