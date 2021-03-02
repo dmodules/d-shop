@@ -72,6 +72,10 @@ const i18n = {
   cantloginwithinfos: {
       fr: "Impossible de se connecter avec les informations d'identification fournies.",
       en: "Unable to log in with provided credentials."
+  },
+  productaddedtoquotation: {
+      fr: "Produit ajouté au devis",
+      en: "Product added to quotation"
   }
 }
 
@@ -137,28 +141,33 @@ function setClickBtn() {
     // ===---
     $.get("/api/fe/load-variant/?product="+pk+"&attributes="+encodeURIComponent(attrs), function(getResult) {
         if (getResult.variants.length > 0) {
-            $(".btn-add2cart").removeClass("disabled")
-            $(".btn-add2cart").data("variant", getResult.variants[0].product_code)
-            price = getResult.variants[0].unit_price
-            dprice = getResult.variants[0].real_price
-            if (price != dprice) {
-                $(".product_price").html("<span class=\"price\">"+dprice+"</span><del>"+price+"</del>")
+            if (getResult.variants[0].quotation == 1){
+                $(".btn-add2quotation").removeClass("disabled")
+                $(".btn-add2quotation").data("variant", getResult.variants[0].product_code)
             } else {
-                $(".product_price").html("<span class=\"price\">"+price+"</span>")
-            }
-            if (getResult.variants[0].is_discounted) {
-                $(".product_title .variant-tag").html("<span class='product-detail-discounted'>"+i18n.discounted[lang]+"</span>")
-            } else {
-                $(".product_title .variant-tag").html("")
-            }
-            if (getResult.variants[0].quantity > 0) {
-                $(".cart-product-quantity").show()
-                $(".cart_btn").show()
-                $(".product-detail-unavailable").hide()
-            } else {
-                $(".cart-product-quantity").hide()
-                $(".cart_btn").hide()
-                $(".product-detail-unavailable").show()
+                $(".btn-add2cart").removeClass("disabled")
+                $(".btn-add2cart").data("variant", getResult.variants[0].product_code)
+                price = getResult.variants[0].unit_price
+                dprice = getResult.variants[0].real_price
+                if (price != dprice) {
+                    $(".product_price").html("<span class=\"price\">"+dprice+"</span><del>"+price+"</del>")
+                } else {
+                    $(".product_price").html("<span class=\"price\">"+price+"</span>")
+                }
+                if (getResult.variants[0].is_discounted) {
+                    $(".product_title .variant-tag").html("<span class='product-detail-discounted'>"+i18n.discounted[lang]+"</span>")
+                } else {
+                    $(".product_title .variant-tag").html("")
+                }
+                if (getResult.variants[0].quantity > 0) {
+                    $(".cart-product-quantity").show()
+                    $(".cart_btn").show()
+                    $(".product-detail-unavailable").hide()
+                } else {
+                    $(".cart-product-quantity").hide()
+                    $(".cart_btn").hide()
+                    $(".product-detail-unavailable").show()
+                }
             }
         } else {
             $(".btn-add2cart").addClass("disabled")
@@ -315,75 +324,77 @@ function dm_plus2cart(button, endpoint, pk, qty) {
 }
 
 function getPanier() {
-  $.get(shop + "cart/", function(getResult) {
-    if (getResult.num_items) {
-      $("#dm-cart-items").show()
-      $("#dm-cart-items").text(getResult.total_quantity)
-      if (getResult.num_items > 1) {
-        $("#drawer-items-count").text(getResult.num_items + " " + i18n.products[lang])
-      } else {
-        $("#drawer-items-count").text(getResult.num_items + " " + i18n.product[lang])
-      }
-      if (getResult.items.length >= 1) {
-        let items = getResult.items.sort(
-            (a,b) => (
-                a.summary.product_name > b.summary.product_name
-            ) ? 1 : (
-                (
-                    b.summary.product_name > a.summary.product_name
-                ) ? -1 : 0
-            )
-        )
-        let itemlist = "<ul>"
-        items.forEach((item) => {
-          itemlist += "<li>"
-          itemlist += "<div class='container-fluid'><div class='row'>"
-          itemlist += "<div class='col-3'>"
-          itemlist += item.summary.media
-          itemlist += "</div>"
-          itemlist += "<div class='col-8 text-left'>"
-          itemlist += "<div><a href='"+item.summary.product_url+"'>" + item.summary.product_name + "</a></div>"
-          if (item.extra && item.extra.variables && item.extra.variables.attributes) {
-              itemlist += "<div class='drawer-cart-attributes'>"
-              for (let i = 0; i < item.extra.variables.attributes.length; i++) {
-                itemlist += "<div>"+item.extra.variables.attributes[i]+"</div>"
-              }
-              itemlist += "</div>"
-          }
-          itemlist += "<div class='mt-2'>"
-          itemlist += "<div class='cart-change-quantity'><span class='minus"
-          if (item.quantity <= 1) {
-            itemlist += " disabled'"
-          } else {
-            itemlist += "' onclick='return dm_minus2cart($(this), "+JSON.stringify(item.url.split("/cart/")[1])+", "+item.product+", "+(item.quantity-1)+")'"
-          }
-          itemlist += ">-</span>"+item.quantity+"<span class='plus' onclick='return dm_plus2cart($(this), "+JSON.stringify(item.url.split("/cart/")[1])+", "+item.product+", "+(item.quantity+1)+")'>+</span></div>"
-          itemlist += " x " + item.unit_price + "</div>"
-          itemlist += "<a href='#' class='dm-item-delete' onclick='return dm_delete2cart("+JSON.stringify(item.url.split("/cart/")[1])+")'>X</a>"
-          itemlist += "</div>"
-          itemlist += "</div></div>"
-          itemlist += "</li>"
-          $("#drawer-items-list").html(itemlist)
+    if ($("#drawer-items-list").length) {
+        $.get(shop + "cart/", function(getResult) {
+            if (getResult.num_items) {
+                $("#dm-cart-items").show()
+                $("#dm-cart-items").text(getResult.total_quantity)
+                if (getResult.num_items > 1) {
+                    $("#drawer-items-count").text(getResult.num_items + " " + i18n.products[lang])
+                } else {
+                    $("#drawer-items-count").text(getResult.num_items + " " + i18n.product[lang])
+                }
+                if (getResult.items.length >= 1) {
+                    let items = getResult.items.sort(
+                        (a,b) => (
+                            a.summary.product_name > b.summary.product_name
+                        ) ? 1 : (
+                            (
+                                b.summary.product_name > a.summary.product_name
+                            ) ? -1 : 0
+                        )
+                    )
+                    let itemlist = "<ul>"
+                    items.forEach((item) => {
+                        itemlist += "<li>"
+                        itemlist += "<div class='container-fluid'><div class='row'>"
+                        itemlist += "<div class='col-3'>"
+                        itemlist += item.summary.media
+                        itemlist += "</div>"
+                        itemlist += "<div class='col-8 text-left'>"
+                        itemlist += "<div><a href='"+item.summary.product_url+"'>" + item.summary.product_name + "</a></div>"
+                        if (item.extra && item.extra.variables && item.extra.variables.attributes) {
+                            itemlist += "<div class='drawer-cart-attributes'>"
+                            for (let i = 0; i < item.extra.variables.attributes.length; i++) {
+                                itemlist += "<div>"+item.extra.variables.attributes[i]+"</div>"
+                            }
+                            itemlist += "</div>"
+                        }
+                        itemlist += "<div class='mt-2'>"
+                        itemlist += "<div class='cart-change-quantity'><span class='minus"
+                        if (item.quantity <= 1) {
+                            itemlist += " disabled'"
+                        } else {
+                            itemlist += "' onclick='return dm_minus2cart($(this), "+JSON.stringify(item.url.split("/cart/")[1])+", "+item.product+", "+(item.quantity-1)+")'"
+                        }
+                        itemlist += ">-</span>"+item.quantity+"<span class='plus' onclick='return dm_plus2cart($(this), "+JSON.stringify(item.url.split("/cart/")[1])+", "+item.product+", "+(item.quantity+1)+")'>+</span></div>"
+                        itemlist += " x " + item.unit_price + "</div>"
+                        itemlist += "<a href='#' class='dm-item-delete' onclick='return dm_delete2cart("+JSON.stringify(item.url.split("/cart/")[1])+")'>X</a>"
+                        itemlist += "</div>"
+                        itemlist += "</div></div>"
+                        itemlist += "</li>"
+                        $("#drawer-items-list").html(itemlist)
+                    })
+                    itemlist += "</ul>"
+                    $(".btn-order").removeClass("disabled")
+                } else {
+                    $("#dm-cart-items").hide()
+                    $("#dm-cart-items").text("0")
+                    $("#drawer-items-count").text("0 " + i18n.product[lang])
+                    $("#drawer-items-list").html('')
+                    $(".btn-order").addClass("disabled")
+                }
+                $("#dm-drawer-price").text(getResult.subtotal)
+            } else {
+                $("#dm-cart-items").hide()
+                $("#dm-cart-items").text("0")
+                $("#drawer-items-count").text("0 " + i18n.product[lang])
+                $("#drawer-items-list").html('')
+                $("#dm-drawer-price").text("-")
+                $(".btn-order").addClass("disabled")
+            }
         })
-        itemlist += "</ul>"
-        $(".btn-order").removeClass("disabled")
-      } else {
-        $("#dm-cart-items").hide()
-        $("#dm-cart-items").text("0")
-        $("#drawer-items-count").text("0 " + i18n.product[lang])
-        $("#drawer-items-list").html('')
-        $(".btn-order").addClass("disabled")
-      }
-      $("#dm-drawer-price").text(getResult.subtotal)
-    } else {
-      $("#dm-cart-items").hide()
-      $("#dm-cart-items").text("0")
-      $("#drawer-items-count").text("0 " + i18n.product[lang])
-      $("#drawer-items-list").html('')
-      $("#dm-drawer-price").text("-")
-      $(".btn-order").addClass("disabled")
     }
-  })
 }
 
 /* ======================================================== //
@@ -465,25 +476,6 @@ window.addEventListener('resize', () => {
 window.addEventListener('scroll', () => {
     stickyMenu()
 });
-
-function mobilevh () {
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-}
-
-function checkInfolettre () {
-    var urlParams = window.location.search
-    if (urlParams == '?infolettre=success') {
-        showAdd2cartSnack(i18n.infolettresuccess[lang])
-    } else if (urlParams == '?infolettre=already') {
-        showAdd2cartSnack(i18n.infolettrealready[lang])
-    } else if (urlParams == '?infolettre=wrong') {
-        showAdd2cartSnack(i18n.infolettrewrong[lang])
-    } else if (urlParams == '?infolettre=error') {
-        showAdd2cartSnack(i18n.infolettreerror[lang])
-    }
-
-}
 
 $(document).ready(function() {
   mobilevh()
@@ -579,6 +571,25 @@ $(document).ready(function() {
    /* ===--- ---=== */
 });
 
+function mobilevh () {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+function checkInfolettre () {
+    var urlParams = window.location.search
+    if (urlParams == '?infolettre=success') {
+        showAdd2cartSnack(i18n.infolettresuccess[lang])
+    } else if (urlParams == '?infolettre=already') {
+        showAdd2cartSnack(i18n.infolettrealready[lang])
+    } else if (urlParams == '?infolettre=wrong') {
+        showAdd2cartSnack(i18n.infolettrewrong[lang])
+    } else if (urlParams == '?infolettre=error') {
+        showAdd2cartSnack(i18n.infolettreerror[lang])
+    }
+
+}
+
 function dmDrawerTabUserLogin() {
   $('.dm-drawer-tabs-login .btn').addClass('disabled')
   $('.dm-drawer-tabs-register .btn').removeClass('disabled')
@@ -611,6 +622,9 @@ function dmDrawerDoLogin() {
     contentType: "application/json;charset=UTF-8",
     success: function() {
       window.location = '/'
+      if(typeof(quotationMerge) === typeof(Function)) {
+          quotationMerge()
+      }
     }
   }).fail(function(failResult) {
     $('.dm-drawer-logs-login-error').show()
@@ -654,6 +668,9 @@ function dmDrawerDoRegister() {
     contentType: "application/json;charset=UTF-8",
     success: function() {
       window.location = '/'
+      if(typeof(quotationMerge) === typeof(Function)) {
+          quotationMerge()
+      }
     }
   }).fail(function(failResult) {
     $('.dm-drawer-logs-register-error').show()
@@ -685,6 +702,10 @@ function dmDrawerDoLogout() {
     contentType: "application/json;charset=UTF-8",
     success: function() {
       window.location = '/'
+      if(typeof(setCookie) === typeof(Function)) {
+        setCookie('quotation-cookie', '')
+      }
+
     }
   })
   return false
@@ -794,12 +815,20 @@ function loadMoreProduits(what = null, search = null) {
         r += '<a href="'+product.url+'"><i class="ti-info-alt"></i></a>'
         r += '</li>'
         if (!product.variants && product.quantity > 0) {
-          r += '<li>'
-          r += '<a href="/" onclick="dm_add2cart($(this)); return false" class="dm-add2cart" data-product="'+product.slug+'"><i class="icon-basket-loaded"></i></a>'
-          r += '</li>'
+            r += '<li>'
+            if (product.is_quotation) {
+                r += '<a href="/" onclick="dm_add2quotation($(this)); return false" class="dm-add2cart btn" data-product="'+product.product_code+'"><i class="icon-basket-loaded"></i></a>'
+            } else {
+                r += '<a href="/" onclick="dm_add2cart($(this)); return false" class="dm-add2cart btn" data-product="'+product.slug+'"><i class="icon-basket-loaded"></i></a>'
+            }
+            r += '</li>'
         } else if (product.variants_count === 1) {
             r += '<li>'
-            r += '<a href="/" onclick="dm_add2cart_variant($(this)); return false" data-product="'+product.slug+'" data-variant="'+product.variants_product_code+'"><i class="icon-basket-loaded"></i></a>'
+            if (product.is_quotation) {
+                r += '<a href="/" onclick="dm_add2quotation_variant($(this)); return false" data-product="'+product.variants_product_code+'" data-variant="'+product.variants_product_code+'"><i class="icon-basket-loaded"></i></a>'
+            } else {
+                r += '<a href="/" onclick="dm_add2cart_variant($(this)); return false" data-product="'+product.slug+'" data-variant="'+product.variants_product_code+'"><i class="icon-basket-loaded"></i></a>'
+            }
             r += '</li>'
         }
         r += '</ul>'
@@ -810,17 +839,19 @@ function loadMoreProduits(what = null, search = null) {
         r += '</div>'
         r += '<div class="product_info">'
         r += '<h6 class="product_title"><a href="'+product.url+'">'+product.name+'</a></h6>'
-        r += '<div class="product_price">'
-        r += '<span class="price">'+product.price+'</span>'
-        if (product.price != product.realprice) {
-            r += '<del>'+product.realprice+'</del>'
+        if (!product.is_quotation) {
+            r += '<div class="product_price">'
+            r += '<span class="price">'+product.price+'</span>'
+            if (product.price != product.realprice) {
+                r += '<del>'+product.realprice+'</del>'
+            }
+            if (product.quantity <= 0) {
+                r += '<span class="product_sale_outofstock">'+i18n.outofstock[lang]+'</span>'
+            } else if (product.is_discounted) {
+                r += '<span class="product_sale_discounted">'+i18n.discounted[lang]+'</span>'
+            }
+            r += '</div>'
         }
-        if (product.quantity <= 0) {
-            r += '<span class="product_sale_outofstock">'+i18n.outofstock[lang]+'</span>'
-        } else if (product.is_discounted) {
-            r += '<span class="product_sale_discounted">'+i18n.discounted[lang]+'</span>'
-        }
-        r += '</div>'
         r += '<div class="pr_desc">'
         r += '<p>'+product.caption+'</p>'
         r += '</div>'
@@ -848,7 +879,7 @@ function loadMoreProduits(what = null, search = null) {
 
 //* ===---   Load Products By Category   ---=== *//
 
-function pbc_tab(cat, tab) {
+function loadMoreByCategory(cat, tab) {
     $.get("/api/fe/products-by-category/?category="+cat, function(getResult) {
         $('#tab'+tab+' .shop_container').html('')
         let r = ''
@@ -872,11 +903,19 @@ function pbc_tab(cat, tab) {
                 r += '</li>'
                 if (!product.variants && product.quantity > 0) {
                     r += '<li>'
-                    r += '<a href="/" onclick="dm_add2cart($(this)); return false" class="dm-add2cart btn" data-product="'+product.slug+'"><i class="icon-basket-loaded"></i></a>'
+                    if (product.is_quotation) {
+                        r += '<a href="/" onclick="dm_add2quotation($(this)); return false" class="dm-add2cart btn" data-product="'+product.product_code+'"><i class="icon-basket-loaded"></i></a>'
+                    } else {
+                        r += '<a href="/" onclick="dm_add2cart($(this)); return false" class="dm-add2cart btn" data-product="'+product.slug+'"><i class="icon-basket-loaded"></i></a>'
+                    }
                     r += '</li>'
                 } else if (product.variants_count === 1) {
                     r += '<li>'
-                    r += '<a href="/" onclick="dm_add2cart_variant($(this)); return false" data-product="'+product.slug+'" data-variant="'+product.variants_product_code+'"><i class="icon-basket-loaded"></i></a>'
+                    if (product.is_quotation) {
+                        r += '<a href="/" onclick="dm_add2quotation_variant($(this)); return false" data-product="'+product.variants_product_code+'" data-variant="'+product.variants_product_code+'"><i class="icon-basket-loaded"></i></a>'
+                    } else {
+                        r += '<a href="/" onclick="dm_add2cart_variant($(this)); return false" data-product="'+product.slug+'" data-variant="'+product.variants_product_code+'"><i class="icon-basket-loaded"></i></a>'
+                    }
                     r += '</li>'
                 }
                 r += '</ul>'
@@ -887,17 +926,19 @@ function pbc_tab(cat, tab) {
                 r += '</div>'
                 r += '<div class="product_info text-left">'
                 r += '<h6 class="product_title"><a href="'+product.url+'">'+product.name+'</a></h6>'
-                r += '<div class="product_price">'
-                r += '<span class="price">'+product.price+'</span>'
-                if (product.price != product.realprice) {
-                    r += '<del>'+product.realprice+'</del>'
+                if (!product.is_quotation) {
+                    r += '<div class="product_price">'
+                    r += '<span class="price">'+product.price+'</span>'
+                    if (product.price != product.realprice) {
+                        r += '<del>'+product.realprice+'</del>'
+                    }
+                    if (product.quantity <= 0) {
+                        r += '<span class="product_sale_outofstock">'+i18n.outofstock[lang]+'</span>'
+                    } else if (product.is_discounted) {
+                        r += '<span class="product_sale_discounted">'+i18n.discounted[lang]+'</span>'
+                    }
+                    r += '</div>'
                 }
-                if (product.quantity <= 0) {
-                    r += '<span class="product_sale_outofstock">'+i18n.outofstock[lang]+'</span>'
-                } else if (product.is_discounted) {
-                    r += '<span class="product_sale_discounted">'+i18n.discounted[lang]+'</span>'
-                }
-                r += '</div>'
                 r += '<div class="pr_desc">'
                 r += '<p>'+product.caption+'</p>'
                 r += '</div>'

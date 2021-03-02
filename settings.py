@@ -83,6 +83,7 @@ INSTALLED_APPS.extend([  # noqa: F821
     "apps.dmShipping",
     "apps.dmTaxes",
     "apps.dmSearch",
+    "apps.dmQuotation",
     # ===---
     "shop",
     "dshop",
@@ -202,6 +203,13 @@ STRIPE_ACCOUNT_ID = os.getenv("STRIPE_ACCOUNT_ID")
 if STRIPE_SECRET_KEY is not None:
     SHOP_CART_MODIFIERS.extend(
         ["apps.dmBillingStripe.modifiers.StripePaymentModifier"])
+
+
+#######################################################################
+# Feature Settings
+
+FEATURES = os.getenv("FEATURES", "")
+
 
 #######################################################################
 # Square Settings
@@ -696,6 +704,9 @@ ADMIN_REORDER = (
             # {"model": "dshop.ShippingAddress", "label":_("Shipping's Addresses")},
             # {"model": "dshop.BillingAddress", "label":_("Billing's Addresses")},
         ]
+    },
+    {
+        "app": "dmQuotation"
     },
     {
         "app":

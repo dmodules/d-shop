@@ -1,3 +1,5 @@
+
+import json
 from django.contrib.auth.models import AnonymousUser
 from django.core.management import call_command
 from django.db import models
@@ -7,6 +9,7 @@ from django.utils.six.moves.urllib.parse import urlparse
 from post_office import mail
 from post_office.models import EmailTemplate
 
+from settings import SHOP_VENDOR_EMAIL
 from shop.conf import app_settings
 from shop.models.order import BaseOrder
 from shop.models.notification import Notification
@@ -103,3 +106,59 @@ def transition_change_notification(order, miniorder=None):
         emails_in_queue = True
     if emails_in_queue:
         email_queued()
+
+def quotation_new_notification(quotation):
+    emails_in_queue = False
+    emulated_request = EmulateHttpRequest(quotation.customer, quotation.stored_request)
+    customer_serializer = app_settings.CUSTOMER_SERIALIZER(quotation.customer)
+    render_context = {'request': emulated_request, 'render_label': 'email'}
+    language = quotation.stored_request.get('language')
+    quotation_items = []
+    for item in quotation.quotation.all():
+        data = {}
+        data['name'] = item.product_name
+        if item.product_type == 1:
+            data['code'] = item.product_code
+        else:
+            data['code'] = item.variant_code
+        data['quantity'] = item.quantity
+        if item.variant_attribute:
+            data['attributes'] = "(" + item.variant_attribute + ")"
+        else:
+            data['attributes'] = ""
+        quotation_items.append(data)
+    quotation_data = {
+        'id': quotation.id,
+        'number': quotation.number,
+        'items': quotation_items
+    }
+    try:
+       shipping = quotation.customer.shippingaddress_set.all()[0].as_text()
+    except Exception as e:
+        print(e)
+    
+    context = {
+        'customer': customer_serializer.data,
+        'quotation': quotation_data,
+        'shipping': shipping,
+        'render_language': language,
+    }
+    if quotation.extra:
+        context['phone'] = json.loads(quotation.extra)["phone"] if json.loads(quotation.extra)["phone"] != "" else None
+    else:
+        context['phone'] = ""
+    attachments = {}
+    template = EmailTemplate.objects.get(name='customer_quotation_receipt')
+    mail.send(
+        [SHOP_VENDOR_EMAIL],
+        template=template,
+        context=context,
+        attachments=attachments,
+        render_on_delivery=True
+    )
+    emails_in_queue = True
+    if emails_in_queue:
+        email_queued()
+        call_command('send_queued_mail')
+
+

@@ -29,6 +29,7 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework.views import APIView
 from rest_framework import status
 
+from shop.money import Money
 from shop.models.defaults.customer import Customer
 from shop.modifiers.pool import cart_modifiers_pool
 from shop.models.order import OrderModel
@@ -45,6 +46,8 @@ from dshop.transition import transition_change_notification
 
 from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
+
+from feature_settings import *
 
 try:
     from apps.dmRabais.models import dmCustomerPromoCode
@@ -177,6 +180,10 @@ class LoadProduits(APIView):
         else:
             orderby = "order"
         # ===---
+        try:
+            is_quotation = QUOTATION_FEATURE
+        except Exception:
+            is_quotation = False
         if category is not None:
             category = int(category)
             products = Product.objects.filter(
@@ -284,12 +291,14 @@ class LoadProduits(APIView):
                     data['is_discounted'] = False
                     data['quantity'] = 0
             else:
+                data['product_code'] = produit.product_code
                 data['price'] = produit.get_price(request)
                 data['realprice'] = produit.unit_price
                 data['variants'] = False
                 data['variants_count'] = 0
                 data['is_discounted'] = produit.is_discounted
                 data['quantity'] = produit.quantity
+            data['is_quotation'] = is_quotation
             all_produits.append(data)
         # ===---
         result = {"products": all_produits, "next": next_products}
@@ -307,6 +316,10 @@ class LoadProductsByCategory(APIView):
         category = request.GET.get("category", None)
         products = None
         all_produits = []
+        try:
+            is_quotation = QUOTATION_FEATURE
+        except Exception:
+            is_quotation = False
         if category is not None:
             category = int(category)
             products = Product.objects.filter(
@@ -382,12 +395,14 @@ class LoadProductsByCategory(APIView):
                         data['is_discounted'] = False
                         data['quantity'] = 0
                 else:
+                    data['product_code'] = produit.product_code
                     data['price'] = produit.get_price(request)
                     data['realprice'] = produit.unit_price
                     data['variants'] = False
                     data['variants_count'] = 0
                     data['is_discounted'] = produit.is_discounted
                     data['quantity'] = produit.quantity
+                data['is_quotation'] = is_quotation
                 all_produits.append(data)
 
         # ===---
@@ -406,6 +421,11 @@ class LoadVariantSelect(APIView):
         product_pk = request.GET.get("product", None)
         attributes = request.GET.get("attributes", None)
         variants = []
+        QUOTATION = False
+        try:
+            QUOTATION = QUOTATION_FEATURE
+        except Exception:
+            pass
         if product_pk is not None and attributes is not None:
             attributes = attributes.replace(",", "//separator//").replace(
                 "//comma//", ",")
@@ -422,6 +442,9 @@ class LoadVariantSelect(APIView):
                 datas = {}
                 datas["product_code"] = v.product_code
                 datas["unit_price"] = v.unit_price
+                datas["quotation"] = 0
+                if QUOTATION:
+                    datas["quotation"] = 1
                 try:
                     datas["real_price"] = v.get_price(request)
                 except Exception:

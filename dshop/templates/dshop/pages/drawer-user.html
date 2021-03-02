@@ -1,55 +1,64 @@
-{% load i18n cms_tags %}
+{% load i18n cms_tags dshop_tags %}
 
 {% if customer.is_authenticated %}
-  <div class="dm-drawer-inner">
-    <h2 class="drawer-title mb-1">{% trans 'My Account' %}</h2>
-    <div class="dm-drawer-user-account">
-      <ul class="list">
-        <li>
-          <a href="/commande/profil/">{% trans 'Profile' %}</a>
-        </li>
-        <li>
-          <a href="{% page_url 'orders' %}">{% trans 'My Orders' %}</a>
-        </li>
-        <!--<li>
-          <a href="/commande/promocodes/">{% trans 'Promo Codes' %}</a>
-        </li>-->
-        <li>
-          <a href="#" onclick="return dmDrawerDoLogout()">{% trans 'Logout' %}</a>
-        </li>
-      </ul>
+    {% dm_quotation_feature as is_quotation %}
+    <div class="dm-drawer-inner">
+        <h2 class="drawer-title mb-1">{% trans 'My Account' %}</h2>
+        <div class="dm-drawer-user-account">
+            <ul class="list">
+                <li>
+                    <a href="/commande/profil/">{% trans 'Profile' %}</a>
+                </li>
+                {% if not is_quotation %}
+                    <li>
+                        <a href="{% page_url 'orders' %}">{% trans 'My Orders' %}</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="/commande/{% trans 'slugmyquotations' %}/">{% trans 'My Quotations' %}</a>
+                    </li>
+                {% endif %}
+                <li>
+                    <a href="#" onclick="return dmDrawerDoLogout()">{% trans 'Logout' %}</a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
-  {% else %}
-  <div class="dm-drawer-inner no-bottom">
+{% else %}
+    <div class="dm-drawer-inner no-bottom">
     <h2 class="drawer-title mb-3">{% trans 'My Account' %}</h2>
     <div class="dm-drawer-user-tabs">
-      <div class="dm-drawer-tabs-login">
+        <div class="dm-drawer-tabs-login">
         <a href="#" class="btn disabled" onclick="return dmDrawerTabUserLogin()">{% trans 'Login' %}</a>
-      </div>
-      <div class="dm-drawer-tabs-register">
+        </div>
+        <div class="dm-drawer-tabs-register">
         <a href="#" class="btn" onclick="return dmDrawerTabUserRegister()">{% trans 'Registration' %}</a>
-      </div>
+        </div>
     </div>
     <div class="dm-drawer-user-logs">
-      <div class="dm-drawer-logs-login">
+        <div class="dm-drawer-logs-login">
         <form id="dm-drawer-form-login" class="default-form">
-          <input id="dm-drawer-form-login-email" name="email" placeholder="{% trans 'Your email' %}" type="email" class="default-input" />
-          <input id="dm-drawer-form-login-password" name="password" placeholder="{% trans 'Password' %}" type="password" class="default-input" />
-          <div class="dm-drawer-logs-login-error" style="display:none;"></div>
+            <input id="dm-drawer-form-login-email" name="email" placeholder="{% trans 'Your email' %}" type="email"
+            class="default-input" />
+            <input id="dm-drawer-form-login-password" name="password" placeholder="{% trans 'Password' %}" type="password"
+            class="default-input" />
+            <div class="dm-drawer-logs-login-error" style="display:none;"></div>
         </form>
         <a href="/commande/password/reset/" class="mb-3 d-block">Récupérer le mot de passe</a>
         <a href="/" class="btn btn-fill-out btn-addtocart" onclick="return dmDrawerDoLogin()">{% trans 'Log In' %}</a>
-      </div>
-      <div class="dm-drawer-logs-register">
+        </div>
+        <div class="dm-drawer-logs-register">
         <form id="dm-drawer-form-register" class="default-form">
-          <input id="dm-drawer-form-register-email" placeholder="{% trans 'Your email' %}" type="email" class="default-input" />
-          <input id="dm-drawer-form-register-password1" placeholder="{% trans 'Password' %}" type="password" class="default-input" />
-          <input id="dm-drawer-form-register-password2" placeholder="{% trans 'Confirm Password' %}" type="password" class="default-input" />
+            <input id="dm-drawer-form-register-email" placeholder="{% trans 'Your email' %}" type="email"
+            class="default-input" />
+            <input id="dm-drawer-form-register-password1" placeholder="{% trans 'Password' %}" type="password"
+            class="default-input" />
+            <input id="dm-drawer-form-register-password2" placeholder="{% trans 'Confirm Password' %}" type="password"
+            class="default-input" />
         </form>
         <div class="dm-drawer-logs-register-error" style="display:none;"></div>
         <a href="/" class="btn btn-fill-out btn-addtocart" onclick="return dmDrawerDoRegister()">{% trans 'Sign In' %}</a>
-      </div>
+        </div>
     </div>
-  </div>
+    </div>
 {% endif %}

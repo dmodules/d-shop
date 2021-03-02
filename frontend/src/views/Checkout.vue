@@ -1393,36 +1393,6 @@ export default {
 </script>
 
 <style>
-    #app .v-stepper--alt-labels .v-stepper__step {
-        flex-basis: 130px;
-    }
-    @media (max-width: 959px) {
-        #app .v-stepper--alt-labels .v-stepper__step {
-            flex-basis: 100px;
-        }
-        #app .v-stepper__content {
-            padding: 24px 14px 16px 14px;
-        }
-    }
-    #app .v-stepper .v-stepper__step--active .v-stepper__label{
-        text-shadow: none;
-    }
-    #app .v-stepper--alt-labels .v-stepper__header .v-divider {
-    margin-left: -25px;
-    margin-right: -25px;
-    }
-    #app .theme--light.v-stepper .v-stepper__label {
-    color: inherit;
-    }
-    #app .v-stepper,
-    #app .v-stepper__header {
-    box-shadow: none;
-    }
-    #app .v-stepper__step__step {
-    width: 30px;
-    min-width: 30px;
-    height: 30px;
-    }
     /*===*/
     #app .dm-payment-resume .v-list-item__title {
         white-space: normal;

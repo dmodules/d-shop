@@ -85,5 +85,24 @@
 
   "PasswordReset": "Reset Password",
   "Password": "Password",
-  "PasswordConfirm": "Password Confirmation"
+  "PasswordConfirm": "Password Confirmation",
+
+  "YourQuotation": "Your Quotation",
+  "MyQuotations": "My Quotations",
+  "Cart": "Cart",
+  "Product": "Product",
+  "Quantity": "Quantity",
+  "Remove": "Remove",
+  "Thanksforquotation": "Your quotation has been successfully send",
+  "Thanks": "Thanks",
+
+  "Created": "Created",
+  "Submitted": "Submitted",
+  "Approved": "Approved",
+  "Ordered": "Ordered",
+  "Rejected": "Rejected",
+  "Unknown": "Unknown",
+  
+  "LastUpdate": "Last Update",
+  "Thisquotationnotexist": "This quotation doesn't exist"
 }

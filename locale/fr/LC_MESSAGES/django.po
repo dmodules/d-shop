@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-11 10:17-0500\n"
+"POT-Creation-Date: 2021-02-10 11:37-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -169,7 +169,7 @@ msgstr "Début"
 msgid "End"
 msgstr "Fin"
 
-#: apps/dmAdvertising/apps.py:7 settings.py:659 test_settings.py:664
+#: apps/dmAdvertising/apps.py:7 settings.py:652 test_settings.py:664
 msgid "Advertising"
 msgstr "Alerte Publicitaire"
 
@@ -240,7 +240,7 @@ msgstr "+ {}% de frais"
 msgid "Order"
 msgstr "Commande"
 
-#: apps/dmBillingSquare/payment.py:83 apps/dmTaxes/apps.py:6 settings.py:712
+#: apps/dmBillingSquare/payment.py:83 apps/dmTaxes/apps.py:6 settings.py:705
 #: test_settings.py:713
 msgid "Taxes"
 msgstr "Taxes"
@@ -278,11 +278,76 @@ msgstr "Carte de crédit (Stripe)"
 msgid "Contact"
 msgstr "Contact"
 
+#: apps/dmQuotation/apps.py:7 apps/dmQuotation/models.py:44
+msgid "Quotation"
+msgstr "Devis"
+
+#: apps/dmQuotation/models.py:12
+msgid "CREATED"
+msgstr "Créé"
+
+#: apps/dmQuotation/models.py:13
+msgid "SUBMITTED"
+msgstr "Soumis"
+
+#: apps/dmQuotation/models.py:14
+msgid "APPROVED"
+msgstr "Approuvé"
+
+#: apps/dmQuotation/models.py:15
+msgid "ORDERED"
+msgstr "Commandé"
+
+#: apps/dmQuotation/models.py:16
+msgid "REJECTED"
+msgstr "Rejeté"
+
+#: apps/dmQuotation/models.py:26
+msgid "Quotation Number"
+msgstr "Numéro du devis"
+
+#: apps/dmQuotation/models.py:30
+msgid "Quotation Status"
+msgstr "Status du devis"
+
+#: apps/dmQuotation/models.py:35
+msgid "Quotation Created at"
+msgstr "Créé"
+
+#: apps/dmQuotation/models.py:39
+msgid "Quotation Updated at"
+msgstr "Mis à jour"
+
+#: apps/dmQuotation/models.py:45
+msgid "Quotations"
+msgstr "Devis"
+
+#: apps/dmQuotation/models.py:58 dshop/models.py:530
+msgid "Product's Name"
+msgstr "Nom du produit"
+
+#: apps/dmQuotation/models.py:62 dshop/models.py:647 dshop/models.py:966
+msgid "Product's Code"
+msgstr "Code du produit"
+
+#: apps/dmQuotation/models.py:67
+msgid "Variant's Code"
+msgstr "Code de la variante"
+
+#: apps/dmQuotation/models.py:72 dshop/models.py:653 dshop/models.py:976
+msgid "Unit Price"
+msgstr "Prix unitaire"
+
+#: apps/dmQuotation/models.py:77 dshop/admin.py:716 dshop/models.py:658
+#: dshop/models.py:981 dshop/templates/theme/default/email/order-detail.html:26
+msgid "Quantity"
+msgstr "Quantité"
+
 #: apps/dmRabais/admin.py:74
 msgid "Limitations"
 msgstr "Limitations"
 
-#: apps/dmRabais/apps.py:7 apps/dmRabais/modifiers.py:52 settings.py:696
+#: apps/dmRabais/apps.py:7 apps/dmRabais/modifiers.py:52 settings.py:689
 #: test_settings.py:697
 msgid "Discounts"
 msgstr "Rabais"
@@ -455,7 +520,7 @@ msgid "Create a discount on shipping"
 msgstr "Créer un rabais sur la livraison"
 
 #: apps/dmShipping/apps.py:7 dshop/templates/dshop/admin/order-extra.html:8
-#: settings.py:705 test_settings.py:706
+#: settings.py:698 test_settings.py:706
 msgid "Shipping"
 msgstr "Livraison"
 
@@ -1402,7 +1467,7 @@ msgstr ""
 msgid "Data"
 msgstr "Données"
 
-#: dshop/admin.py:388 settings.py:677 test_settings.py:680
+#: dshop/admin.py:388 settings.py:670 test_settings.py:680
 msgid "Orders"
 msgstr "Commandes"
 
@@ -1468,12 +1533,7 @@ msgstr "Convertir en variable"
 msgid "Price starting at"
 msgstr "Prix débutant par"
 
-#: dshop/admin.py:716 dshop/models.py:658 dshop/models.py:981
-#: dshop/templates/theme/default/email/order-detail.html:26
-msgid "Quantity"
-msgstr "Quantité"
-
-#: dshop/apps.py:8 settings.py:668 test_settings.py:671
+#: dshop/apps.py:8 settings.py:661 test_settings.py:671
 msgid "Shop"
 msgstr "Boutique"
 
@@ -1747,10 +1807,6 @@ msgstr "Vignette de produit"
 msgid "Product's Labels"
 msgstr "Vignettes de produit"
 
-#: dshop/models.py:530
-msgid "Product's Name"
-msgstr "Nom du produit"
-
 #: dshop/models.py:544
 msgid "Filters"
 msgstr "Filtres"
@@ -1765,7 +1821,7 @@ msgstr "Vignette personnalisée"
 
 #: dshop/models.py:560
 msgid "Add a custom label to the product."
-msgstr ""
+msgstr "Ajouter une vignette personnalisée au produit."
 
 #: dshop/models.py:563
 msgid "Featured"
@@ -1792,17 +1848,9 @@ msgstr "Description"
 msgid "Long description."
 msgstr "Description longue."
 
-#: dshop/models.py:647 dshop/models.py:966
-msgid "Product's Code"
-msgstr "Code du produit"
-
 #: dshop/models.py:650
 msgid "A unique code."
 msgstr "Un code unique."
-
-#: dshop/models.py:653 dshop/models.py:976
-msgid "Unit Price"
-msgstr "Prix unitaire"
 
 #: dshop/models.py:655 dshop/models.py:978
 msgid "Net price for this product."
@@ -2280,13 +2328,13 @@ msgid "Discounted"
 msgstr "Promotion"
 
 #: dshop/templates/theme/default/catalog/productdefault-detail.html:113
-#: dshop/templates/theme/default/catalog/productvariable-detail.html:135
+#: dshop/templates/theme/default/catalog/productvariable-detail.html:145
 msgid "Add to cart"
 msgstr "Ajouter au panier"
 
 #: dshop/templates/theme/default/catalog/productdefault-detail.html:118
 #: dshop/templates/theme/default/catalog/productdefault-detail.html:211
-#: dshop/templates/theme/default/catalog/productvariable-detail.html:139
+#: dshop/templates/theme/default/catalog/productvariable-detail.html:150
 #: dshop/templates/theme/default/pages/produits.html:151
 #: dshop/templates/theme/default/pages/produits.html:163
 #: dshop/templates/theme/default/plugins/products-by-category.html:95
@@ -2298,6 +2346,10 @@ msgstr "Ajouter au panier"
 #: templates/plugins/products-vedette.html:78
 msgid "Out of stock"
 msgstr "Rupture de stock"
+
+#: dshop/templates/theme/default/catalog/productvariable-detail.html:139
+msgid "Add to quotation"
+msgstr "Ajouter au devis"
 
 #: dshop/templates/theme/default/email/order-detail.html:10
 msgid "Shipping ID"
@@ -2344,7 +2396,7 @@ msgstr "Vous n'avez jamais commandé sur ce site."
 msgid "Page navigation"
 msgstr "Navigation de la page"
 
-#: dshop/templates/theme/default/pages/__init__.py:4 settings.py:480
+#: dshop/templates/theme/default/pages/__init__.py:4 settings.py:473
 #: test_settings.py:477
 msgid "Default"
 msgstr "Par défaut"
@@ -2411,6 +2463,11 @@ msgstr "Produits trouvés :"
 msgid "See product"
 msgstr "Voir le produit"
 
+#: dshop/templates/theme/default/pages/search.html:52
+#: templates/admin/index.html:157
+msgid "No product found"
+msgstr "Aucun produit trouvé"
+
 #: dshop/templates/theme/default/plugins/products-by-category.html:121
 #: templates/plugins/products-by-category.html:118
 msgid "Loading"
@@ -2434,53 +2491,179 @@ msgstr "Facture"
 msgid "Ordered on"
 msgstr "Commandé"
 
-#: dshop/views.py:593
+#: dshop/views.py:603
 msgid "You successfully been added to our newsletter."
 msgstr "Vous avez été ajouté à notre infolettre avec succès."
 
-#: dshop/views.py:597
+#: dshop/views.py:607
 msgid "An error occurred, sorry."
 msgstr "Une erreur est survenue, désolé."
 
-#: dshop/views.py:600
+#: dshop/views.py:610
 msgid "Your answer was wrong."
 msgstr "Votre réponse est fausse."
 
-#: dshop/views.py:644
+#: dshop/views.py:654
 msgid "Invalid POST data."
 msgstr "Données invalides."
 
-#: dshop/views.py:651
+#: dshop/views.py:661
 msgid "Password has been reset with the new password."
 msgstr "Le mot de passe été réinitialisé avec le nouveau mot de passe."
 
-#: settings.py:477 test_settings.py:474
+#: settings.py:470 test_settings.py:474
 msgid "Product Heading"
 msgstr "Entête de produit"
 
-#: settings.py:681 test_settings.py:684
+#: settings.py:674 test_settings.py:684
 msgid "Delivery"
 msgstr "Livraison"
 
-#: settings.py:685 test_settings.py:688
+#: settings.py:678 test_settings.py:688
 msgid "DeliveryItem"
 msgstr "Objet de livraison"
 
-#: settings.py:721 test_settings.py:720
+#: settings.py:714 test_settings.py:720
 msgid "Sending Emails"
 msgstr "Envoi de courriels"
 
-#: settings.py:725 test_settings.py:725
+#: settings.py:718 test_settings.py:725
 msgid "Email Templates"
 msgstr "Gabarits de courriel"
 
-#: settings.py:728 test_settings.py:729
+#: settings.py:721 test_settings.py:729
 msgid "Sent Emails"
 msgstr "Courriels envoyés"
 
-#: settings.py:734 test_settings.py:736
+#: settings.py:727 test_settings.py:736
 msgid "Theme Management"
 msgstr "Thème"
+
+#: templates/admin/base.html:33
+msgid "Welcome,"
+msgstr "Bienvenue,"
+
+#: templates/admin/base.html:38
+msgid "View site"
+msgstr "Voir le site"
+
+#: templates/admin/base.html:43
+msgid "Documentation"
+msgstr "Documentation"
+
+#: templates/admin/base.html:47
+msgid "Change password"
+msgstr "Changer le mot de passe"
+
+#: templates/admin/base.html:49
+msgid "Log out"
+msgstr "Déconnexion"
+
+#: templates/admin/base.html:59
+msgid "Home"
+msgstr "Accueil"
+
+#: templates/admin/index.html:22
+#, python-format
+msgid "Models in the %(name)s application"
+msgstr "Modèle de l'application %(name)s"
+
+#: templates/admin/index.html:33
+msgid "Add"
+msgstr "Ajouter"
+
+#: templates/admin/index.html:40
+msgid "View"
+msgstr "Voir"
+
+#: templates/admin/index.html:42
+msgid "Change"
+msgstr "Changer"
+
+#: templates/admin/index.html:53
+msgid "You don't have permission to view or edit anything."
+msgstr "Vous n'avez pas la permission de voir ou de modifier quoi que ce soit."
+
+#: templates/admin/index.html:62
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+#: templates/admin/index.html:63
+msgid "Your Shop"
+msgstr "Votre boutique"
+
+#: templates/admin/index.html:74
+#, python-format
+msgid "with %(quantity)s sale this month"
+msgid_plural "with %(quantity)s sales this month"
+msgstr[0] "en %(quantity)s vente ce mois-ci"
+msgstr[1] "en %(quantity)s ventes ce mois-ci"
+
+#: templates/admin/index.html:85
+#, python-format
+msgid "with %(quantity)s sale last month"
+msgid_plural "with %(quantity)s sales last month"
+msgstr[0] "en %(quantity)s vente le mois dernier"
+msgstr[1] "en %(quantity)s ventes le mois dernier"
+
+#: templates/admin/index.html:96 templates/admin/index.html:105
+msgid "orders"
+msgstr "commandes"
+
+#: templates/admin/index.html:96 templates/admin/index.html:105
+msgid "order"
+msgstr "commande"
+
+#: templates/admin/index.html:97
+msgid "need to be processed"
+msgstr "en attente"
+
+#: templates/admin/index.html:106
+msgid "need to be shipped"
+msgstr "en attente de livraison"
+
+#: templates/admin/index.html:116 templates/admin/index.html:125
+msgid "products"
+msgstr "produits"
+
+#: templates/admin/index.html:116 templates/admin/index.html:125
+msgid "product"
+msgstr "produit"
+
+#: templates/admin/index.html:117
+msgid "is low on stock"
+msgstr "en stock faible"
+
+#: templates/admin/index.html:126
+msgid "is out of stock"
+msgstr "en rupture de stock"
+
+#: templates/admin/index.html:132
+msgid "Month's Bestsellers"
+msgstr "Meilleures ventes du mois"
+
+#: templates/admin/index.html:148
+#, python-format
+msgid "with %(quantity)s sale"
+msgid_plural "with %(quantity)s sales"
+msgstr[0] "avec %(quantity)s vente"
+msgstr[1] "avec %(quantity)s ventes"
+
+#: templates/admin/index.html:166
+msgid "Recent actions"
+msgstr "Actions récentes"
+
+#: templates/admin/index.html:170
+msgid "None available"
+msgstr "Aucun disponible"
+
+#: templates/admin/index.html:183
+msgid "By"
+msgstr "Par"
+
+#: templates/admin/index.html:185
+msgid "Unknown content"
+msgstr "Contenu inconnu"
 
 #: templates/cms/plugins/widgets/ckeditor.html:25
 #: templates/cms/plugins/widgets/ckeditor.html:28
@@ -2589,32 +2772,23 @@ msgstr "Personnalisations"
 msgid "Amount Discount"
 msgstr "Montant du rabais"
 
-msgid "Percent Discount"
-msgstr "Pourcentage de rabais"
-
-msgid "Discount Type"
-msgstr "Type de rabais"
-
-msgid "URL Link"
-msgstr "Lien URL"
-
-msgid "Hide for 30 days"
-msgstr "Cacher pour 30 jours"
-
-msgid "Hide popup for 30 days on close, otherwise, show it everytime."
-msgstr "Cacher le popup pour 30 jours lors de la fermeture, autrement, sera affiché à chaque fois."
-
-msgid "Recommended size: 800x600."
-msgstr "Dimension recommandée : 800x600."
-
-msgid "Shown"
-msgstr "Vu"
-
 msgid "Advertising Popup"
 msgstr "Popup publicitaire"
 
 msgid "Advertising Popups"
 msgstr "Popups publicitaires"
 
-msgid "Optional."
-msgstr "Facultatif."
+msgid "Send"
+msgstr "Envoyer"
+
+msgid "My Quotation"
+msgstr "Mon devis"
+
+msgid "slugquotation"
+msgstr "devis"
+
+msgid "slugmyquotations"
+msgstr "mes-devis"
+
+msgid "My Quotations"
+msgstr "Mes devis"
