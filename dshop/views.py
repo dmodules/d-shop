@@ -160,32 +160,70 @@ class LoadProduits(APIView):
         brand = request.GET.get("brand", None)
         offset = int(request.GET.get("offset", 0))
         limit = int(request.GET.get("limit", 2))
+        # ===---
+        sortby = request.COOKIES.get("dm_psortby", "default")
+        if sortby == "date-new":
+            orderby = "-created_at"
+        elif sortby == "date-old":
+            orderby = "created_at"
+        elif sortby == "alpha-asc":
+            orderby = "product_name"
+        elif sortby == "alpha-des":
+            orderby = "-product_name"
+        elif sortby == "price-asc":
+            orderby = "order"
+        elif sortby == "price-des":
+            orderby = "order"
+        else:
+            orderby = "order"
+        # ===---
         if category is not None:
             category = int(category)
             products = Product.objects.filter(
                 Q(categories=category) | Q(categories__parent=category)
                 | Q(categories__parent__parent=category)
                 | Q(categories__parent__parent__parent=category),
-                active=True).distinct()[offset:offset + limit]
+                active=True).order_by(orderby).distinct()
             next_products = Product.objects.filter(
                 Q(categories=category) | Q(categories__parent=category)
                 | Q(categories__parent__parent=category)
-                | Q(categories__parent__parent__parent=category),
-                active=True).distinct()[offset + limit:offset + limit +
-                                        limit].count()
+                | Q(categories__parent__parent__parent=category), active=True
+            ).order_by(orderby).distinct()[
+                offset + limit:offset + limit + limit
+            ].count()
         elif brand is not None:
             brand = int(brand)
             products = Product.objects.filter(
-                Q(brand=brand), active=True).distinct()[offset:offset + limit]
+                Q(brand=brand), active=True
+            ).order_by(orderby).distinct()
             next_products = Product.objects.filter(
-                brand=brand, active=True).distinct()[offset + limit:offset +
-                                                     limit + limit].count()
+                brand=brand, active=True
+            ).order_by(orderby).distinct()[
+                offset + limit:offset + limit + limit
+            ].count()
         else:
             products = Product.objects.filter(
-                active=True).distinct()[offset:offset + limit]
+                Q(categories__active=True) | Q(categories=None),
+                active=True
+            ).order_by(orderby).distinct()
             next_products = Product.objects.filter(
-                active=True).distinct()[offset + limit:offset + limit +
-                                        limit].count()
+                Q(categories__active=True) | Q(categories=None),
+                active=True
+            ).order_by(orderby).distinct()[
+                offset + limit:offset + limit + limit
+            ].count()
+        # ===---
+        if sortby == "price-asc":
+            products = sorted(
+                products, key=lambda t: t.get_price(request)
+            )
+        elif sortby == "price-des":
+            products = sorted(
+                products, key=lambda t: t.get_price(request),
+                reverse=True
+            )
+        # ===---
+        products = products[offset:offset+limit]
         # ===---
         all_produits = []
         for produit in products:
@@ -230,7 +268,8 @@ class LoadProduits(APIView):
                 if produit.variants.first():
                     data['variants_product_code'] = produit.variants.first(
                     ).product_code
-                    data['price'] = produit.variants.first().unit_price
+                    data['price'] = produit.variants.first().get_price(request)
+                    data['realprice'] = produit.variants.first().unit_price
                     data['is_discounted'] = False
                     for v in produit.variants.all():
                         if v.is_discounted:

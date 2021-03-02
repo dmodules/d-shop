@@ -666,10 +666,7 @@ ADMIN_REORDER = (
     },
     {
         "app": "dmAdvertising",
-        "label": _("Advertising"),
-        "models": [
-            "dmAdvertising.dmAdvertisingTopBanner",
-        ]
+        "label": _("Advertising")
     },
     {
         "app":
@@ -681,6 +678,7 @@ ADMIN_REORDER = (
             "dshop.ProductFilter",
             "dshop.ProductBrand",
             "dshop.Attribute",
+            "dshop.ProductVariableVariant",
             "dshop.Product",
             {
                 "model": "dshop.Order",

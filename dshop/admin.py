@@ -2,6 +2,7 @@ import pytz
 
 from datetime import datetime, timedelta
 
+from django.utils.html import mark_safe
 from django import forms
 from django.contrib import admin
 from django.template.context import Context
@@ -562,6 +563,33 @@ class ProductVariableVariantInline(admin.TabularInline):
     form = ProductForm
     formset = VariantInlineFormSet
 
+@admin.register(ProductVariableVariant)
+class ProductVariableVariantAdmin(admin.ModelAdmin):
+
+    search_fields = ['product_code',
+                     'product__product_name']
+
+    list_display = [
+        'get_product_name',
+        'product_code',
+        'get_attribute',
+        'unit_price',
+        'quantity'
+    ]
+
+    list_editable = ['quantity']
+
+    def get_product_name(self, obj):
+        url = '/admindshop/product/' + str(obj.product.id) 
+        tag = '<a href="' + url + '/">' + obj.product.product_name + '</a>'
+        return mark_safe(tag)
+    get_product_name.short_description = _("Product Name")
+
+    def get_attribute(self, obj):
+        attrs = "<br>".join([atr.attribute.name + " : " + atr.value for atr in obj.attribute.all()])
+        return mark_safe(attrs)
+    get_attribute.short_description = _("Attributes")
+
 @admin.register(ProductVariable)
 class ProductVariableAdmin(
     InvalidateProductCacheMixin,
@@ -732,6 +760,7 @@ class ProductAdmin(PolymorphicParentModelAdmin):
         # "get_price",
         # "product_type",
         "get_quantity",
+        "created_at",
         "is_vedette",
         "active"
     ]
