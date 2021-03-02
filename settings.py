@@ -659,7 +659,7 @@ if STAGE == 'local':
 # Admin Reordering
 
 MIDDLEWARE.extend(["dshop.middleware.AdminReorderMiddleware"])  # noqa: F821
-ADMIN_REORDER = (
+TEMP_ADMIN_REORDER = [
     {
         "app":
         "shop",
@@ -704,9 +704,6 @@ ADMIN_REORDER = (
             # {"model": "dshop.ShippingAddress", "label":_("Shipping's Addresses")},
             # {"model": "dshop.BillingAddress", "label":_("Billing's Addresses")},
         ]
-    },
-    {
-        "app": "dmQuotation"
     },
     {
         "app":
@@ -761,8 +758,12 @@ ADMIN_REORDER = (
     {
         "app": "filer"
     },
-)
+]
 
+if 'QUOTATION' in FEATURES:
+    TEMP_ADMIN_REORDER.append({"app": "dmQuotation"})
+
+ADMIN_REORDER = tuple(TEMP_ADMIN_REORDER)
 
 if STAGE != 'local':
     import sentry_sdk
