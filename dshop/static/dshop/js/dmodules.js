@@ -811,13 +811,9 @@ function loadMoreProduits(what = null, search = null) {
         r += '<div class="product_info">'
         r += '<h6 class="product_title"><a href="'+product.url+'">'+product.name+'</a></h6>'
         r += '<div class="product_price">'
-        if (product.variants) {
-          r += '<span class="price">'+product.price+'</span>'
-        } else {
-          r += '<span class="price">'+product.price+'</span>'
-          if (product.price != product.realprice) {
+        r += '<span class="price">'+product.price+'</span>'
+        if (product.price != product.realprice) {
             r += '<del>'+product.realprice+'</del>'
-          }
         }
         if (product.quantity <= 0) {
             r += '<span class="product_sale_outofstock">'+i18n.outofstock[lang]+'</span>'
@@ -892,13 +888,9 @@ function pbc_tab(cat, tab) {
                 r += '<div class="product_info text-left">'
                 r += '<h6 class="product_title"><a href="'+product.url+'">'+product.name+'</a></h6>'
                 r += '<div class="product_price">'
-                if (product.variants) {
-                    r += '<span class="price">'+product.price+'</span>'
-                } else {
-                    r += '<span class="price">'+product.price+'</span>'
-                    if (product.price != product.realprice) {
-                        r += '<del>'+product.realprice+'</del>'
-                    }
+                r += '<span class="price">'+product.price+'</span>'
+                if (product.price != product.realprice) {
+                    r += '<del>'+product.realprice+'</del>'
                 }
                 if (product.quantity <= 0) {
                     r += '<span class="product_sale_outofstock">'+i18n.outofstock[lang]+'</span>'
