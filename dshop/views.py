@@ -183,9 +183,7 @@ class LoadProduits(APIView):
                 Q(categories=category) | Q(categories__parent=category)
                 | Q(categories__parent__parent=category)
                 | Q(categories__parent__parent__parent=category),
-                active=True).order_by(orderby).distinct()[
-                    offset:offset + limit
-                ]
+                active=True).order_by(orderby).distinct()
             next_products = Product.objects.filter(
                 Q(categories=category) | Q(categories__parent=category)
                 | Q(categories__parent__parent=category)
@@ -197,9 +195,7 @@ class LoadProduits(APIView):
             brand = int(brand)
             products = Product.objects.filter(
                 Q(brand=brand), active=True
-            ).order_by(orderby).distinct()[
-                offset:offset + limit
-            ]
+            ).order_by(orderby).distinct()
             next_products = Product.objects.filter(
                 brand=brand, active=True
             ).order_by(orderby).distinct()[
@@ -207,9 +203,11 @@ class LoadProduits(APIView):
             ].count()
         else:
             products = Product.objects.filter(
+                Q(categories__active=True) | Q(categories=None),
                 active=True
-            ).order_by(orderby).distinct()[offset:offset + limit]
+            ).order_by(orderby).distinct()
             next_products = Product.objects.filter(
+                Q(categories__active=True) | Q(categories=None),
                 active=True
             ).order_by(orderby).distinct()[
                 offset + limit:offset + limit + limit
@@ -224,6 +222,8 @@ class LoadProduits(APIView):
                 products, key=lambda t: t.get_price(request),
                 reverse=True
             )
+        # ===---
+        products = products[offset:offset+limit]
         # ===---
         all_produits = []
         for produit in products:
@@ -268,7 +268,8 @@ class LoadProduits(APIView):
                 if produit.variants.first():
                     data['variants_product_code'] = produit.variants.first(
                     ).product_code
-                    data['price'] = produit.variants.first().unit_price
+                    data['price'] = produit.variants.first().get_price(request)
+                    data['realprice'] = produit.variants.first().unit_price
                     data['is_discounted'] = False
                     for v in produit.variants.all():
                         if v.is_discounted:
