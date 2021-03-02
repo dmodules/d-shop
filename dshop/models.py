@@ -760,8 +760,8 @@ class ProductDefault(AvailableProductMixin, Product):
                                     discount = Money(
                                         Decimal(self.unit_price) * pourcent)
                                     r = r - discount
-                except Exception as e:
-                    print(e)
+                except Exception:
+                    print("Error on ProductDefault's get_price")
         if Decimal(r) <= 0:
             r = Money(0)
         return r
@@ -1059,8 +1059,8 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
                                     pourcent = Decimal(d.promocode.percent) / Decimal("100")
                                     discount = Money(Decimal(self.unit_price) * pourcent)
                                     r = r - discount
-                except Exception as e:
-                    print(e)
+                except Exception:
+                    print("Error on ProductVariableVariant's get_price")
         if Decimal(r) <= 0:
             r = Money(0)
         return r
