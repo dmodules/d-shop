@@ -1,4 +1,7 @@
 from django.contrib import admin
+from django.utils.translation import pgettext_lazy
+from django.urls import reverse, NoReverseMatch
+from django.utils.html import format_html
 
 from .models import dmQuotation, dmQuotationItem
 
@@ -22,13 +25,21 @@ class dmQuotationAdmin(admin.ModelAdmin):
     fieldsets = [(None, {
         "fields": [
             "number",
-            "customer",
+            "get_customer_link",
             "status",
             ("created_at", "updated_at"),
         ]
     })]
-    readonly_fields = ['created_at', 'updated_at']
+    readonly_fields = ['created_at', 'updated_at', 'get_customer_link']
     inlines = [dmQuotationItemInline]
     list_display = [
         "number", "customer", "status", "created_at", "updated_at"
     ]
+
+    def get_customer_link(self, obj):
+        try:
+            url = reverse('admin:shop_customerproxy_change', args=(obj.customer.pk,))
+            return format_html('<a href="{0}" target="_new">{1}</a>', url, obj.customer.get_username())
+        except NoReverseMatch:
+            return format_html('<strong>{0}</strong>', obj.customer.get_username())
+    get_customer_link.short_description = pgettext_lazy('admin', "Customer")
