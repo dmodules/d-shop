@@ -84,7 +84,6 @@ class Command(BaseCommand):
             ProductLabel.objects.all().delete()
             Attribute.objects.all().delete()
             AttributeValue.objects.all().delete()
-            dmQuotation.objects.all().delete()
             dmRabaisPerCategory.objects.all().delete()
             dmPromoCode.objects.all().delete()
             dmCustomerPromoCode.objects.all().delete()
@@ -100,5 +99,6 @@ class Command(BaseCommand):
             dmAdvertisingTopBanner.objects.all().delete()
             File.objects.all().delete()
             Folder.objects.all().delete()
+            dmQuotation.objects.all().delete()
         except Exception as e:
             print("Error from cleanning DB command: " + str (e))
