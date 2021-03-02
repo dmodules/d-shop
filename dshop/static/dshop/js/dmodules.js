@@ -153,7 +153,7 @@ function dm_selectvariant () {
             // ===---
             if ($(".slick-slide > .product_gallery_item").length) {
                 $(".slick-slide > .product_gallery_item").removeClass("active")
-                let varitem = $(".slick-slide > .product_gallery_item[data-variant="+getResult.variants[0].product_code+"]")
+                let varitem = $(".slick-slide > .product_gallery_item[data-variant='"+getResult.variants[0].product_code+"']")
                 if (varitem.length) {
                     varitem.addClass("active")
                     $("#product_img").attr("src", varitem.data("image"))
