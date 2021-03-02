@@ -381,6 +381,7 @@ class LoadProductsByCategory(APIView):
                         data['variants_product_code'] = produit.variants.first(
                         ).product_code
                         data['price'] = produit.variants.first().unit_price
+                        data['realprice'] = produit.variants.first().unit_price
                         data['is_discounted'] = False
                         for v in produit.variants.all():
                             if v.is_discounted:
