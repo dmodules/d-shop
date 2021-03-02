@@ -190,7 +190,7 @@ def dm_get_all_products(context, offset, limit):
     products = Product.objects.filter(
         Q(categories__active=True) | Q(categories=None),
         active=True
-    ).order_by(orderby).distinct()[offset:offset+limit]
+    ).order_by(orderby).distinct()
     #
     next_result = Product.objects.filter(
         Q(categories__active=True) | Q(categories=None),
@@ -202,10 +202,13 @@ def dm_get_all_products(context, offset, limit):
     elif sortby == "price-des":
         products = sorted(products, key=lambda t: t.get_price(context["request"]), reverse=True)
     # ===---
+    products = products[offset:offset+limit]
+    # ===---
     result = {
         "products": products,
         "next": next_result
     }
+    print(result)
     return result
 
 
@@ -238,7 +241,7 @@ def dm_get_products_by_category(context, k, offset, limit):
         active=True
     ).order_by(orderby).distinct()
     # Filter product for categories = True
-    products = products.filter(categories__active=True)[offset:offset+limit]
+    products = products.filter(categories__active=True)
     # ===---
     next_result = Product.objects.filter(
         Q(categories=k) | Q(categories__parent=k) | Q(categories__parent__parent=k) | Q(
@@ -250,6 +253,8 @@ def dm_get_products_by_category(context, k, offset, limit):
         products = sorted(products, key=lambda t: t.get_price(context["request"]))
     elif sortby == "price-des":
         products = sorted(products, key=lambda t: t.get_price(context["request"]), reverse=True)
+    # ===---
+    products = products[offset:offset+limit]
     # ===---
     result = {
         "products": products,
@@ -282,7 +287,7 @@ def dm_get_products_by_brand(context, k, offset, limit):
     # ===---
     products = Product.objects.filter(
         brand=k, active=True
-    ).order_by(orderby).distinct()[offset:offset+limit]
+    ).order_by(orderby).distinct()
     next_result = Product.objects.filter(
         brand=k, active=True
     ).order_by(orderby).distinct()[offset+limit:offset+limit+limit].count()
@@ -291,6 +296,8 @@ def dm_get_products_by_brand(context, k, offset, limit):
         products = sorted(products, key=lambda t: t.get_price(context["request"]))
     elif sortby == "price-des":
         products = sorted(products, key=lambda t: t.get_price(context["request"]), reverse=True)
+    # ===---
+    products = products[offset:offset+limit]
     # ===---
     result = {
         "products": products,
