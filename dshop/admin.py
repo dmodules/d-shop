@@ -466,6 +466,17 @@ class ProductBrandAdmin(admin.ModelAdmin):
 class ProductLabelAdmin(admin.ModelAdmin):
     list_display = ["name"]
 
+
+#######################################################################
+# Documents
+#######################################################################
+
+
+class ProductDocumentInline(admin.TabularInline):
+    model = ProductDocument
+    extra = 0
+
+
 #######################################################################
 # Produits
 #######################################################################
@@ -520,7 +531,7 @@ class ProductDefaultAdmin(
             ]
         })
     )
-    inlines = [ProductImageInline]
+    inlines = [ProductImageInline, ProductDocumentInline]
     filter_horizontal = ["categories", "filters"]
     readonly_fields = ("slug",)
 
@@ -561,10 +572,6 @@ class ProductVariableVariantInline(admin.TabularInline):
     extra = 0
     form = ProductForm
     formset = VariantInlineFormSet
-
-class ProductDocumentInline(admin.TabularInline):
-    model = ProductDocument
-    extra = 0
 
 @admin.register(ProductVariable)
 class ProductVariableAdmin(
@@ -613,7 +620,7 @@ class ProductVariableAdmin(
         })
     ]
     filter_horizontal = ["categories", "filters"]
-    inlines = [ProductImageInline, ProductVariableVariantInline, ProductDocumentInline]
+    inlines = [ProductImageInline, ProductDocumentInline, ProductVariableVariantInline]
     readonly_fields = ("slug",)
 
     def render_text_index(self, instance):
