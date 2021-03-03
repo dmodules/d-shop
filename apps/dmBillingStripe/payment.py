@@ -2,7 +2,7 @@ import stripe
 
 from decimal import Decimal
 
-from settings import STRIPE_SECRET_KEY
+from settings import STRIPE_SECRET_KEY, SHOP_DEFAULT_CURRENCY
 
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.sites.models import Site
@@ -62,9 +62,10 @@ class StripePayment(PaymentProvider):
                     for d in order.extra['rows']:
                         if d[0] == mod:
                             shipping_cost = order.extra['rows'][
-                                order.extra['rows'].index(d)][1]['charge']
+                                order.extra['rows'].index(d)
+                            ][1]['charge']
             except Exception as e:
-                print(e)
+                print("Error on Stripe Payment Shipping Cost : " + str(e))
                 shipping_cost = order.extra['rows'][order.extra['rows'].index(
                     d)][1]['amount']
                 shipping_cost_1 = shipping_cost.split(' ')[1].split(',')[0]
@@ -77,50 +78,34 @@ class StripePayment(PaymentProvider):
                 "/billing-stripe/cancel/?referenceId="+str(referenceId)
             line_items = []
             # Create product line data
-            for item in order.items.values():
-                line_data = {
-                    "name": str(item['product_name']),
-                    "quantity": str(item['quantity']),
-                    "currency": "cad",
-                    "amount": str(int(item['_unit_price'] * 100))
-                }
-                line_items.append(line_data)
-            # Create shipping cost line data
-            if shipping_cost != 0:
-                line_data = {
-                    "name": "Shipping Price",
-                    "quantity": 1,
-                    "currency": "cad",
-                    "amount": shipping_cost
-                }
-                line_items.append(line_data)
+            line_data = {
+                "name": str(_("Order") + " #" + str(referenceId)),
+                "quantity": "1",
+                "currency": str(SHOP_DEFAULT_CURRENCY),
+                "amount": str(int(order.subtotal * 100))
+            }
+            line_items.append(line_data)
             # Create Tax line data
-            all_discounts = []
             for d in order.extra['rows']:
-                if d[0] in ["data1", "data2", "data3", "data4"]:
+                if d[0] in ["canadiantaxes"]:
                     line_data = {
-                        "name": d[1]['label'],
+                        "name": _("Taxes"),
                         "quantity": 1,
-                        "currency": "cad",
+                        "currency": str(SHOP_DEFAULT_CURRENCY),
                         "amount": int(
                             float(".".join(d[1]['amount'].split(' ')[1].split(','))) * 100
                         )
                     }
                     line_items.append(line_data)
-                if d[0] in ["discounts"]:
-                    coupon = stripe.Coupon.create(
-                        name=str(_("Discount")),
-                        amount_off=int(
-                            float(".".join(d[1]['amount'].split(' ')[1].split(','))) * 100
-                        ),
-                        currency="cad",
-                        duration='once',
-                    )
-                    all_discounts.append({
-                        "coupon": coupon.id
-                    })
-                    success_url = success_url + '&cp='+coupon.id
-                    cancel_url = cancel_url + '&cp='+coupon.id
+            # Create shipping cost line data
+            if shipping_cost != 0:
+                line_data = {
+                    "name": _("Shipping"),
+                    "quantity": 1,
+                    "currency": str(SHOP_DEFAULT_CURRENCY),
+                    "amount": shipping_cost
+                }
+                line_items.append(line_data)
 
             # ===---
             session = stripe.checkout.Session.create(
@@ -128,7 +113,6 @@ class StripePayment(PaymentProvider):
                 cancel_url=cancel_url,
                 payment_method_types=["card"],
                 line_items=line_items,
-                discounts=all_discounts,
                 mode="payment",
             )
             redirect_url = '/billing-stripe/checkout/?referenceId=' + \
