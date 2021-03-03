@@ -6,7 +6,6 @@ from django.contrib.sessions.models import Session
 from easy_thumbnails.files import get_thumbnailer
 
 from rest_framework.permissions import AllowAny
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response as RestResponse
@@ -178,9 +177,11 @@ class dmQuotationListCreateAPI(ListCreateAPIView):
     permission_classes = [AllowAny, ]
 
     def get_queryset(self):
-        user = self.request.user
-        queryset = self.queryset.filter(customer__user=user)
-        return queryset
+        if not self.request.user.is_anonymous:
+            user = self.request.user
+            queryset = self.queryset.filter(customer__user=user)
+            return queryset
+        return dmQuotation.objects.none()
 
 class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
 
@@ -196,7 +197,7 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
         )
         return query
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):    # noqa: C901
         cookie = request.GET.get('cookie', None)
         quotation = None
         if not request.user.is_anonymous:
@@ -212,7 +213,7 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
             ).last()
         else:
             session = Session.objects.filter(session_key=request.session.session_key).last()
-            if session.count() > 0:
+            if session and session.count() > 0:
                 session = session[0].get_decoded()
                 user_id = session.get('_auth_user_id')
                 if user_id:
@@ -378,7 +379,7 @@ def dmQuotationPage(request):
     return HttpResponse(template.render(context, request))
 
 class dmQuotationCurrent(APIView):
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):    # noqa: C901
         cookie = request.GET.get('cookie', None)
         quotation = None
         if not request.user.is_anonymous:
