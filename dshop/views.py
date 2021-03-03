@@ -380,7 +380,7 @@ class LoadProductsByCategory(APIView):
                     if produit.variants.first():
                         data['variants_product_code'] = produit.variants.first(
                         ).product_code
-                        data['price'] = produit.variants.first().unit_price
+                        data['price'] = produit.variants.first().get_price(request)
                         data['realprice'] = produit.variants.first().unit_price
                         data['is_discounted'] = False
                         for v in produit.variants.all():
