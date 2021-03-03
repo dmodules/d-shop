@@ -737,17 +737,17 @@ PAGE JS
 		},
 		callbacks: {
 			elementParse: function(item) {
-				item.src = item.el.attr('data-zoom-image');
+				item.src = item.el.data("zoomImage");
 			}
 		}
 	});
 	
 	// Zoom image when click on icon
 	$('.product_img_zoom').on('click', function(){
-		var atual = $('#pr_item_gallery a').attr('data-zoom-image');
+        var atual = $('#product_img').attr("src");
 		$('body').addClass('zoom_gallery_image');
 		$('#pr_item_gallery .item').each(function(){
-			if( atual == $(this).find('.product_gallery_item').attr('data-zoom-image') ) {
+			if( atual == $(this).find('.product_gallery_item').data("image") ) {
 				return galleryZoom.magnificPopup('open', $(this).index());
 			}
 		});
