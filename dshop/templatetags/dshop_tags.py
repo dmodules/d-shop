@@ -11,6 +11,8 @@ from dshop.models import Product
 from dshop.models import ProductCategory, ProductFilter, ProductBrand
 from dshop.utils import get_coords_from_address
 
+from feature_settings import QUOTATION
+
 register = template.Library()
 
 #######################################################################
@@ -360,3 +362,8 @@ def dm_variants_is_discounted(k):
         if variant.is_discounted:
             result = True
     return result
+
+
+@register.simple_tag
+def dm_quotation_feature():
+    return QUOTATION
