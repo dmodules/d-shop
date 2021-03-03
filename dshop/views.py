@@ -431,14 +431,22 @@ class LoadVariantSelect(APIView):
             attributes = attributes.replace(",", "//separator//").replace(
                 "//comma//", ",")
             product = Product.objects.get(pk=product_pk)
-            attrs = AttributeValue.objects.filter(
-                value__in=attributes.split("//separator//"))
+            attr_list = attributes.split("//separator//")
+            attrs = AttributeValue.objects.none()
+            for a in attr_list:
+                attrs |= AttributeValue.objects.filter(
+                    value=a.split("_____")[1],
+                    attribute__name=a.split("_____")[0]
+                )
+            print(attrs)
             if attrs.count() > 0:
                 variant_all = product.variants.all()
             else:
                 variant_all = []
             for a in attrs:
-                variant_all = variant_all.filter(attribute=a)
+                variant_all = variant_all.filter(
+                    attribute=a
+                )
             for v in variant_all:
                 datas = {}
                 datas["product_code"] = v.product_code

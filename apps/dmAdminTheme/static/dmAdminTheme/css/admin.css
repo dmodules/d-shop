@@ -93,6 +93,52 @@ a.section:visited {
     transition: color 0.3s;
 }
 
+/* ===--- CSS Martin ---=== */
+.dashboard #content {
+    width: 800px;
+}
+#content-related {
+    width: 400px;
+    border-top: 30px solid black;
+    margin-right: -420px;
+}
+#header {
+    background-color: black;
+}
+#content-related h3 {
+    font-size: 18px;
+    font-weight: normal;
+    color: #447e9b;
+}
+#branding h1 {
+    color: white;
+}
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color: white;
+}
+.module h2, .module caption, .inline-group h2 {
+    background: black;
+}
+div.breadcrumbs {
+    background-color: grey;
+}
+.button.default, input[type=submit].default, .submit-row input.default {
+    background-color: black;
+}
+.parler-language-tabs span.current {
+    background-color: black;
+    border-color: black;
+}
+.parler-language-tabs {
+    border-bottom: 2px solid black;
+}
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background-color: black;
+}
+.button:active, input[type=submit]:active, input[type=button]:active, .button:focus, input[type=submit]:focus, input[type=button]:focus, .button:hover, input[type=submit]:hover, input[type=button]:hover {
+    background-color: grey;
+}
+
 /* ===--- Index: Analyze Block ---=== */
 #content-related #dm-analyze.module h2 {
     margin-bottom: 0;
@@ -157,7 +203,16 @@ a.section:visited {
     display: block;
     margin: 0;
 }
-
+/* ===--- Product ---=== */
+form .form-row .field-variant_image .filer-dropzone {
+    padding: 1px;
+}
+form .form-row .field-variant_image .filer-dropzone.filer-dropzone-mobile .dz-message {
+    display: none;
+    margin-top: 0;
+}
+form .form-row .field-variant_image .filer-dropzone.filer-dropzone-mobile .filerFile {
+    top: 8px;
 /* ===--- Changelist ---=== */
 #changelist-filter li.selected {
     border-left-color: #458d91;

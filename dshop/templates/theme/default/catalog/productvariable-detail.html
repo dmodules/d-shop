@@ -54,7 +54,7 @@
                         {% thumbnail product.main_image 810x900 background="#ffffff" upscale as p_zoom %}
                         {% thumbnail product.main_image 150x160 background="#ffffff" upscale as p_small %}
                         <div class="item">
-                        <a href="#" class="product_gallery_item active" data-image="{{p_img.url}}" data-zoom-image="{{p_zoom.url}}">
+                        <a href="#" class="product_gallery_item" data-image="{{p_img.url}}" data-zoom-image="{{p_zoom.url}}">
                             <img src="{{p_small.url}}" alt="product_small_img1" />
                         </a>
                         </div>
@@ -64,10 +64,22 @@
                         {% thumbnail pimg 810x900 background="#ffffff" upscale as p_zoom %}
                         {% thumbnail pimg 150x160 background="#ffffff" upscale as p_small %}
                         <div class="item">
-                            <a href="#" class="product_gallery_item active" data-image="{{p_img.url}}" data-zoom-image="{{p_zoom.url}}">
+                            <a href="#" class="product_gallery_item" data-image="{{p_img.url}}" data-zoom-image="{{p_zoom.url}}">
                                 <img src="{{p_small.url}}" alt="product_small_img1" />
                             </a>
                         </div>
+                    {% endfor %}
+                    {% for v in product.variants.all %}
+                        {% if v.variant_image %}
+                            {% thumbnail v.variant_image 540x600 background="#ffffff" upscale as p_img %}
+                            {% thumbnail v.variant_image 810x900 background="#ffffff" upscale as p_zoom %}
+                            {% thumbnail v.variant_image 150x160 background="#ffffff" upscale as p_small %}
+                            <div class="item">
+                                <a href="#" class="product_gallery_item" data-variant="{{v.product_code}}" data-image="{{p_img.url}}" data-zoom-image="{{p_zoom.url}}">
+                                    <img src="{{p_small.url}}" alt="product_small_img1" />
+                                </a>
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
               </div>
@@ -119,7 +131,7 @@
                             <option disabled selected>{{key}}</option>
                             {% for v in value %}
                                 {% if v in attributes.value %}
-                                    <option class="choix" value="{{v}}" {% if v in attr_list %}selected{% endif %}>{{v}}</option>
+                                    <option class="choix" value="{{key}}_____{{v}}" {% if v in attr_list %}selected{% endif %}>{{v}}</option>
                                 {% endif %}
                             {% endfor %}
                         </select>

@@ -1003,6 +1003,13 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         blank=True,
         help_text=_("Stop DateTime Discount"),
     )
+    variant_image = image.FilerImageField(
+        verbose_name=_("Variant Image"),
+        on_delete=models.SET_NULL,
+        related_name="variant_image",
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return _("{product}").format(product=self.product)
