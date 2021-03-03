@@ -1186,7 +1186,6 @@ export default {
     // =========================================================== */
     getDigest() {
       let self = this;
-      console.log("digest " + this.isVisitor)
       if (!this.isVisitor) {
         // ===--- BEGIN: axios
         this.$axios.get(this.$api_url + "/checkout/digest/", {
@@ -1311,7 +1310,6 @@ export default {
         let self = this;
         this.$set(this, "isLoading", false)
         this.$set(this, "listPromoCodes", [])
-        console.log("promo " + this.isVisitor)
         if (!this.isVisitor) {
             // ===--- BEGIN: axios
             this.$axios.post(this.$web_url + "/discount/promocodes/?p=discounts", null, {
