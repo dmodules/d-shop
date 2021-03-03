@@ -607,7 +607,6 @@ function dmDrawerTabUserRegister() {
 }
 
 function dmDrawerDoLogin() {
-    console.log("dmDrawerDoLogin")
   $('.dm-drawer-logs-login-error').hide()
   let datas = {
     form_data: {

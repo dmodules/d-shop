@@ -27,13 +27,17 @@ from dshop.views import unclone_customers, send_queued_mail
 def trigger_error(request):
     division_by_zero = 1 / 0
 
+
 sitemaps = {"cmspages": CMSSitemap, "products": ProductSitemap}
+
 
 def render_robots(request):
     permission = "noindex" in settings.ROBOTS_META_TAGS and "Disallow" or "Allow"
     return HttpResponse("User-Agent: *\n%s: /\n" % permission, content_type="text/plain")
 
+
 admin.site.site_header = _('D-Shop - E-commerce platform')
+
 
 path_to_extended = '/app/extended_apps/'
 EXTENDED_APP_DIR = 'extended_apps'
@@ -75,6 +79,28 @@ urlpatterns = [
     url(r'^api/fe/send-email/$', send_queued_mail),
 
     url(r'^test-payment/$', TestPaymentView),
+
+    ############################
+    # ===--- FRONTEND   ---=== #
+    ############################
+    url(r'^commande/media/(?!uploads)/(?P<path>.*)$', serve, {
+        'document_root': os.path.join(settings.VUE_ROOT, 'media')
+    }),
+    url(r'^commande/icons/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'icons')}),
+    url(r'^commande/img/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'img')}),
+    url(r'^commande/js/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'js')}),
+    url(r'^commande/css/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'css')}),
+    url(r'^commande/fonts/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'fonts')}),
+    # ===---
+    url(r'media/(?!uploads)/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'media')}),
+    url(r'icons/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'icons')}),
+    url(r'img/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'img')}),
+    url(r'js/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'js')}),
+    url(r'css/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'css')}),
+    url(r'fonts/(?P<path>.*)$', serve, {'document_root': os.path.join(settings.VUE_ROOT, 'fonts')}),
+    ############################
+    # ===------------------=== #
+    ############################
 
 ] + extended_urls + aldryn_addons.urls.patterns() + i18n_patterns(
 
