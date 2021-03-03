@@ -21,7 +21,19 @@ class QuotationFunctionalTest(TestCase):
 
     def test_quotation_create(self):
         response = self.client.post('/quotation/list/')
+        data = {
+            "product_name": "123",
+            "product_type": 1,
+            "product_code": "666",
+            "variant_code": "777",
+            "quantity": 10,
+            "quotation": 1
+        }
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        response = self.client.post('/quotation/item/', data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        response = self.client.get('/quotation/list/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_quotation_list(self):
         response = self.client.post('/quotation/list/')
@@ -44,7 +56,7 @@ class QuotationFunctionalTest(TestCase):
         response = self.client.post('/quotation/list/')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(number + 1, int(json.loads(response.content)['number']))
-        
+
     def test_quotation_merge(self):
         response = self.client.get('/quotation/merge-cart/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
