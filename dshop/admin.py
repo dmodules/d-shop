@@ -44,7 +44,7 @@ from dshop.models import dmSite, dmSiteLogo, dmSiteContact, dmSiteSocial
 from dshop.models import dmSiteTermsAndConditions
 from dshop.models import BillingAddress, ShippingAddress
 from dshop.models import ProductCategory, ProductFilter, ProductBrand, ProductLabel
-from dshop.models import Product
+from dshop.models import Product, ProductDocument
 from dshop.models import Attribute, AttributeValue
 from dshop.models import ProductDefault
 from dshop.models import ProductVariable, ProductVariableVariant
@@ -467,6 +467,17 @@ class ProductBrandAdmin(admin.ModelAdmin):
 class ProductLabelAdmin(admin.ModelAdmin):
     list_display = ["name"]
 
+
+#######################################################################
+# Documents
+#######################################################################
+
+
+class ProductDocumentInline(admin.TabularInline):
+    model = ProductDocument
+    extra = 0
+
+
 #######################################################################
 # Produits
 #######################################################################
@@ -521,7 +532,7 @@ class ProductDefaultAdmin(
             ]
         })
     )
-    inlines = [ProductImageInline]
+    inlines = [ProductImageInline, ProductDocumentInline]
     filter_horizontal = ["categories", "filters"]
     readonly_fields = ("slug",)
 
@@ -637,7 +648,7 @@ class ProductVariableAdmin(
         })
     ]
     filter_horizontal = ["categories", "filters"]
-    inlines = [ProductImageInline, ProductVariableVariantInline]
+    inlines = [ProductImageInline, ProductDocumentInline, ProductVariableVariantInline]
     readonly_fields = ("slug",)
 
     def render_text_index(self, instance):
