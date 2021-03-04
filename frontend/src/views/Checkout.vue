@@ -165,7 +165,7 @@
                       <h4>{{ $i18n.t("Adressedelivraison") }}</h4>
                     </v-card-title>
                     <v-card-text>
-                      <v-form v-model="formShipping.valid">
+                      <v-form v-model="formShipping.valid" ref="formShipping">
                         <v-row>
                           <v-col cols="12">
                             <v-text-field
@@ -972,6 +972,7 @@ export default {
   methods: {
     setAuth() {
         this.$set(this, "isAuth", true);
+        // ===---
         this.getCustomer();
         this.getShippingMethods();
         this.getBillingMethods();
@@ -1102,8 +1103,8 @@ export default {
                 }
                 self.setCountriesList()
             }
-        }).catch((apiFail) => {
-            console.log(apiFail)
+        }).catch(() => {
+            //
         })
         // ===--- END: axios
     },
@@ -1125,6 +1126,9 @@ export default {
                 this.$set(this.formShipping.shipping_address, "country", null)
                 this.$set(this.formShipping.shipping_address, "province", null)
                 this.$set(this.formShipping.shipping_address, "city", null)
+                // ===---
+                this.$refs.formShipping.resetValidation();
+
             } else {
                 this.setProvincesList()
             }
@@ -1147,6 +1151,8 @@ export default {
             if (!inside) {
                 this.$set(this.formShipping.shipping_address, "province", null)
                 this.$set(this.formShipping.shipping_address, "city", null)
+                // ===---
+                this.$refs.formShipping.resetValidation();
             } else {
                 this.setCitiesList()
             }
@@ -1174,6 +1180,8 @@ export default {
             }
             if (!inside) {
                 this.$set(this.formShipping.shipping_address, "city", null)
+                // ===---
+                this.$refs.formShipping.resetValidation();
             }
         }
     },
