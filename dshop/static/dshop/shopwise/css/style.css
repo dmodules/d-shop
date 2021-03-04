@@ -5065,6 +5065,24 @@ footer .widget_title {
     left: 10px;
     padding: 5px 18px 4px;
 }
+.product_documents {
+    font-size: 0;
+    line-height: 0;
+    padding: 0 4px;
+}
+.product_documents a {
+    font-size: 1rem;
+    line-height: 120%;
+    text-align: left;
+    vertical-align: top;
+    display: inline-block;
+    width: 100%;
+}
+.product_documents a.doc-link-both {
+    display: inline-block;
+    width: 45%;
+    margin-right: 5%;
+}
 .product_img .product_sale_customlabel {
     background-color: #fff;
     border: 1px solid #000;
@@ -5415,6 +5433,10 @@ footer .widget_title {
 }
 .pr_detail .pr_desc p {
     margin-bottom: 15px;
+}
+.pr_detail .pr_desc ul,
+.pr_detail .pr_desc ol {
+    margin: 15px 2rem;
 }
 .pr_detail .rating_wrap {
   float: right;
