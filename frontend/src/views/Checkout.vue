@@ -165,7 +165,7 @@
                       <h4>{{ $i18n.t("Adressedelivraison") }}</h4>
                     </v-card-title>
                     <v-card-text>
-                      <v-form v-model="formShipping.valid">
+                      <v-form v-model="formShipping.valid" ref="formShipping">
                         <v-row>
                           <v-col cols="12">
                             <v-text-field
@@ -924,6 +924,7 @@ export default {
   methods: {
     setAuth() {
         this.$set(this, "isAuth", true);
+        // ===---
         this.getCustomer();
         this.getShippingMethods();
         this.getBillingMethods();
@@ -1051,8 +1052,8 @@ export default {
                 }
                 self.setCountriesList()
             }
-        }).catch((apiFail) => {
-            console.log(apiFail)
+        }).catch(() => {
+            //
         })
         // ===--- END: axios
     },
@@ -1074,6 +1075,9 @@ export default {
                 this.$set(this.formShipping.shipping_address, "country", null)
                 this.$set(this.formShipping.shipping_address, "province", null)
                 this.$set(this.formShipping.shipping_address, "city", null)
+                // ===---
+                this.$refs.formShipping.resetValidation();
+
             } else {
                 this.setProvincesList()
             }
@@ -1096,6 +1100,8 @@ export default {
             if (!inside) {
                 this.$set(this.formShipping.shipping_address, "province", null)
                 this.$set(this.formShipping.shipping_address, "city", null)
+                // ===---
+                this.$refs.formShipping.resetValidation();
             } else {
                 this.setCitiesList()
             }
@@ -1123,6 +1129,8 @@ export default {
             }
             if (!inside) {
                 this.$set(this.formShipping.shipping_address, "city", null)
+                // ===---
+                this.$refs.formShipping.resetValidation();
             }
         }
     },
@@ -1204,34 +1212,34 @@ export default {
         }
     },
     doUpload (next = false, datas) {
-    let self = this
-    // ===--- BEGIN: axios
-    this.$axios.put(this.$api_url+'/checkout/upload/', datas, {
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
-    })
-    .then(() => {
-        self.getDigest()
-        if (next) {
-        // if button 'next' was clicked, go to next step
-        self.$vuetify.goTo(100)
-        self.$set(self, 'stepCheckout', self.stepCheckout + 1)
-        } else if (self.stepCheckout === 4) {
-        // if all is okay, purchase
-        self.doPurchase()
-        }
-    })
-    .catch((apiFail) => {
-        self.$set(self, 'isLoadingPayment', false)
-        if (apiFail.response && apiFail.response.data) {
-        if (apiFail.response.data.customer_form) {
-            self.$set(self.formError.customer, 'salutation', apiFail.response.data.customer_form.salutation ? apiFail.response.data.customer_form.salutation : null)
-            self.$set(self.formError.customer, 'first_name', apiFail.response.data.customer_form.first_name ? apiFail.response.data.customer_form.first_name : null)
-            self.$set(self.formError.customer, 'last_name', apiFail.response.data.customer_form.last_name ? apiFail.response.data.customer_form.last_name : null)
-            self.$set(self.formError.customer, 'email', apiFail.response.data.customer_form.email ? apiFail.response.data.customer_form.email : null)
-        }
-        }
-    })
-    // ===--- END: axios
+        let self = this
+        // ===--- BEGIN: axios
+        this.$axios.put(this.$api_url+'/checkout/upload/', datas, {
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+        })
+        .then(() => {
+            self.getDigest()
+            if (next) {
+            // if button 'next' was clicked, go to next step
+            self.$vuetify.goTo(100)
+            self.$set(self, 'stepCheckout', self.stepCheckout + 1)
+            } else if (self.stepCheckout === 4) {
+            // if all is okay, purchase
+            self.doPurchase()
+            }
+        })
+        .catch((apiFail) => {
+            self.$set(self, 'isLoadingPayment', false)
+            if (apiFail.response && apiFail.response.data) {
+            if (apiFail.response.data.customer_form) {
+                self.$set(self.formError.customer, 'salutation', apiFail.response.data.customer_form.salutation ? apiFail.response.data.customer_form.salutation : null)
+                self.$set(self.formError.customer, 'first_name', apiFail.response.data.customer_form.first_name ? apiFail.response.data.customer_form.first_name : null)
+                self.$set(self.formError.customer, 'last_name', apiFail.response.data.customer_form.last_name ? apiFail.response.data.customer_form.last_name : null)
+                self.$set(self.formError.customer, 'email', apiFail.response.data.customer_form.email ? apiFail.response.data.customer_form.email : null)
+            }
+            }
+        })
+        // ===--- END: axios
     },
     /* =========================================================== //
     // ===---   getDigest                                   ---=== //
