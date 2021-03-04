@@ -29,6 +29,7 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework.views import APIView
 from rest_framework import status
 
+from shop.money import Money
 from shop.models.defaults.customer import Customer
 from shop.modifiers.pool import cart_modifiers_pool
 from shop.models.order import OrderModel
@@ -45,6 +46,8 @@ from dshop.transition import transition_change_notification
 
 from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
+
+from feature_settings import *
 
 try:
     from apps.dmRabais.models import dmCustomerPromoCode
@@ -160,32 +163,74 @@ class LoadProduits(APIView):
         brand = request.GET.get("brand", None)
         offset = int(request.GET.get("offset", 0))
         limit = int(request.GET.get("limit", 2))
+        # ===---
+        sortby = request.COOKIES.get("dm_psortby", "default")
+        if sortby == "date-new":
+            orderby = "-created_at"
+        elif sortby == "date-old":
+            orderby = "created_at"
+        elif sortby == "alpha-asc":
+            orderby = "product_name"
+        elif sortby == "alpha-des":
+            orderby = "-product_name"
+        elif sortby == "price-asc":
+            orderby = "order"
+        elif sortby == "price-des":
+            orderby = "order"
+        else:
+            orderby = "order"
+        # ===---
+        try:
+            is_quotation = QUOTATION_FEATURE
+        except Exception:
+            is_quotation = False
         if category is not None:
             category = int(category)
             products = Product.objects.filter(
                 Q(categories=category) | Q(categories__parent=category)
                 | Q(categories__parent__parent=category)
                 | Q(categories__parent__parent__parent=category),
-                active=True).distinct()[offset:offset + limit]
+                active=True).order_by(orderby).distinct()
             next_products = Product.objects.filter(
                 Q(categories=category) | Q(categories__parent=category)
                 | Q(categories__parent__parent=category)
-                | Q(categories__parent__parent__parent=category),
-                active=True).distinct()[offset + limit:offset + limit +
-                                        limit].count()
+                | Q(categories__parent__parent__parent=category), active=True
+            ).order_by(orderby).distinct()[
+                offset + limit:offset + limit + limit
+            ].count()
         elif brand is not None:
             brand = int(brand)
             products = Product.objects.filter(
-                Q(brand=brand), active=True).distinct()[offset:offset + limit]
+                Q(brand=brand), active=True
+            ).order_by(orderby).distinct()
             next_products = Product.objects.filter(
-                brand=brand, active=True).distinct()[offset + limit:offset +
-                                                     limit + limit].count()
+                brand=brand, active=True
+            ).order_by(orderby).distinct()[
+                offset + limit:offset + limit + limit
+            ].count()
         else:
             products = Product.objects.filter(
-                active=True).distinct()[offset:offset + limit]
+                Q(categories__active=True) | Q(categories=None),
+                active=True
+            ).order_by(orderby).distinct()
             next_products = Product.objects.filter(
-                active=True).distinct()[offset + limit:offset + limit +
-                                        limit].count()
+                Q(categories__active=True) | Q(categories=None),
+                active=True
+            ).order_by(orderby).distinct()[
+                offset + limit:offset + limit + limit
+            ].count()
+        # ===---
+        if sortby == "price-asc":
+            products = sorted(
+                products, key=lambda t: t.get_price(request)
+            )
+        elif sortby == "price-des":
+            products = sorted(
+                products, key=lambda t: t.get_price(request),
+                reverse=True
+            )
+        # ===---
+        products = products[offset:offset+limit]
         # ===---
         all_produits = []
         for produit in products:
@@ -230,7 +275,8 @@ class LoadProduits(APIView):
                 if produit.variants.first():
                     data['variants_product_code'] = produit.variants.first(
                     ).product_code
-                    data['price'] = produit.variants.first().unit_price
+                    data['price'] = produit.variants.first().get_price(request)
+                    data['realprice'] = produit.variants.first().unit_price
                     data['is_discounted'] = False
                     for v in produit.variants.all():
                         if v.is_discounted:
@@ -245,12 +291,14 @@ class LoadProduits(APIView):
                     data['is_discounted'] = False
                     data['quantity'] = 0
             else:
+                data['product_code'] = produit.product_code
                 data['price'] = produit.get_price(request)
                 data['realprice'] = produit.unit_price
                 data['variants'] = False
                 data['variants_count'] = 0
                 data['is_discounted'] = produit.is_discounted
                 data['quantity'] = produit.quantity
+            data['is_quotation'] = is_quotation
             all_produits.append(data)
         # ===---
         result = {"products": all_produits, "next": next_products}
@@ -268,6 +316,10 @@ class LoadProductsByCategory(APIView):
         category = request.GET.get("category", None)
         products = None
         all_produits = []
+        try:
+            is_quotation = QUOTATION_FEATURE
+        except Exception:
+            is_quotation = False
         if category is not None:
             category = int(category)
             products = Product.objects.filter(
@@ -328,7 +380,8 @@ class LoadProductsByCategory(APIView):
                     if produit.variants.first():
                         data['variants_product_code'] = produit.variants.first(
                         ).product_code
-                        data['price'] = produit.variants.first().unit_price
+                        data['price'] = produit.variants.first().get_price(request)
+                        data['realprice'] = produit.variants.first().unit_price
                         data['is_discounted'] = False
                         for v in produit.variants.all():
                             if v.is_discounted:
@@ -343,12 +396,14 @@ class LoadProductsByCategory(APIView):
                         data['is_discounted'] = False
                         data['quantity'] = 0
                 else:
+                    data['product_code'] = produit.product_code
                     data['price'] = produit.get_price(request)
                     data['realprice'] = produit.unit_price
                     data['variants'] = False
                     data['variants_count'] = 0
                     data['is_discounted'] = produit.is_discounted
                     data['quantity'] = produit.quantity
+                data['is_quotation'] = is_quotation
                 all_produits.append(data)
 
         # ===---
@@ -367,22 +422,38 @@ class LoadVariantSelect(APIView):
         product_pk = request.GET.get("product", None)
         attributes = request.GET.get("attributes", None)
         variants = []
+        QUOTATION = False
+        try:
+            QUOTATION = QUOTATION_FEATURE
+        except Exception:
+            pass
         if product_pk is not None and attributes is not None:
             attributes = attributes.replace(",", "//separator//").replace(
                 "//comma//", ",")
             product = Product.objects.get(pk=product_pk)
-            attrs = AttributeValue.objects.filter(
-                value__in=attributes.split("//separator//"))
+            attr_list = attributes.split("//separator//")
+            attrs = AttributeValue.objects.none()
+            for a in attr_list:
+                attrs |= AttributeValue.objects.filter(
+                    value=a.split("_____")[1],
+                    attribute__name=a.split("_____")[0]
+                )
+            print(attrs)
             if attrs.count() > 0:
                 variant_all = product.variants.all()
             else:
                 variant_all = []
             for a in attrs:
-                variant_all = variant_all.filter(attribute=a)
+                variant_all = variant_all.filter(
+                    attribute=a
+                )
             for v in variant_all:
                 datas = {}
                 datas["product_code"] = v.product_code
                 datas["unit_price"] = v.unit_price
+                datas["quotation"] = 0
+                if QUOTATION:
+                    datas["quotation"] = 1
                 try:
                     datas["real_price"] = v.get_price(request)
                 except Exception:
@@ -429,12 +500,15 @@ class CustomerView(APIView):
         else:
             tos = ""
         # ===---
+        is_visitor = True if request.customer.is_visitor else False
+        # ===---
         if request.user.is_authenticated:
             customer = {
                 "salutation": request.user.customer.salutation,
                 "first_name": request.user.first_name,
                 "last_name": request.user.last_name,
-                "email": request.user.email
+                "email": request.user.email,
+                "is_visitor": is_visitor
             }
             aso = request.user.customer.shippingaddress_set.first()
             if aso is not None:
@@ -495,7 +569,8 @@ class CustomerView(APIView):
             return RestResponse({
                 "customer": {
                     "plugin_order": 1,
-                    "guest": True
+                    "guest": True,
+                    "is_visitor": is_visitor
                 },
                 "address_shipping": {
                     "plugin_order": 1,
@@ -513,8 +588,7 @@ class CustomerCheckView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        data = json.loads(request.body)
-        email = data.get("email", None)
+        email = request.data.get("email", None)
         if email is not None:
             customer = Customer.objects.filter(email=email).count()
             if customer > 0:

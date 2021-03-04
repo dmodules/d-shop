@@ -1,5 +1,7 @@
  {% load static thumbnail cms_tags i18n dshop_tags dmrabais_tags %}
 
+ {% dm_quotation_feature as is_quotation %}
+
 <!-- BEGIN: en vedette -->
   <section class="section-vedette py-5">
     <div class="container">
@@ -44,11 +46,27 @@
                       </li>
                       {% if not product.variants and product.quantity > 0 %}
                         <li>
-                            <a href="/" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}"><i class="icon-basket-loaded"></i></a>
+                            {% if is_quotation %}
+                                <a href="#" onclick="dm_add2quotation($(this)); return false" data-product="{{product.product_code}}">
+                                    <i class="icon-basket-loaded"></i>
+                                </a>
+                            {% else %}
+                                <a href="#" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}">
+                                    <i class="icon-basket-loaded"></i>
+                                </a>
+                            {% endif %}
                         </li>
                       {% elif product.variants and product.variants.count == 1 %}
                         <li>
-                            <a href="/" onclick="dm_add2cart_variant($(this)); return false" data-product="{{product.slug}}" data-variant="{{product.variants.first.product_code}}"><i class="icon-basket-loaded"></i></a>
+                            {% if is_quotation %}
+                                <a href="#" onclick="dm_add2quotation_variant($(this)); return false" data-product="{{product.product_code}}" data-variant="{{product.variants.first.product_code}}">
+                                    <i class="icon-basket-loaded"></i>
+                                </a>
+                            {% else %}
+                                <a href="#" onclick="dm_add2cart_variant($(this)); return false" data-product="{{product.slug}}" data-variant="{{product.variants.first.product_code}}">
+                                    <i class="icon-basket-loaded"></i>
+                                </a>
+                            {% endif %}
                         </li>
                       {% endif %}
                     </ul>
@@ -59,37 +77,39 @@
                 </div>
                 <div class="product_info text-left">
                   <h6 class="product_title"><a href="{{product.get_absolute_url}}">{{product.product_name}}</a></h6>
-                  <div class="product_price">
-                    {% if product.variants %}
-                        {% if product.variants.count > 0 %}
-                            {% product_variant_discount_price product.variants.first.id as real_price %}
-                                <span class="price">{{real_price}}</span>
-                            {% if real_price != product.variants.first.unit_price %}
-                                <del>{{product.variants.first.unit_price}}</del>
+                  {% if not is_quotation %}
+                    <div class="product_price">
+                        {% if product.variants %}
+                            {% if product.variants.count > 0 %}
+                                {% product_variant_discount_price product.variants.first.id as real_price %}
+                                    <span class="price">{{real_price}}</span>
+                                {% if real_price != product.variants.first.unit_price %}
+                                    <del>{{product.variants.first.unit_price}}</del>
+                                {% endif %}
+                            {% else %}
+                                <span class="price">-</span>
+                            {% endif %}
+                            {% dm_variants_is_outofstock product.variants as variants_outofstock %}
+                            {% dm_variants_is_discounted product.variants as variants_isdiscounted %}
+                            {% if variants_outofstock %}
+                                <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
+                            {% elif variants_isdiscounted %}
+                                <span class="product_sale_discounted">{% trans "Discounted" %}</span>
                             {% endif %}
                         {% else %}
-                            <span class="price">-</span>
+                        {% product_discount_price product.id as real_price %}
+                        <span class="price">{{real_price}}</span>
+                        {% if real_price != product.unit_price %}
+                            <del>{{product.unit_price}}</del>
                         {% endif %}
-                        {% dm_variants_is_outofstock product.variants as variants_outofstock %}
-                        {% dm_variants_is_discounted product.variants as variants_isdiscounted %}
-                        {% if variants_outofstock %}
-                            <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
-                        {% elif variants_isdiscounted %}
-                            <span class="product_sale_discounted">{% trans "Discounted" %}</span>
                         {% endif %}
-                    {% else %}
-                      {% product_discount_price product.id as real_price %}
-                      <span class="price">{{real_price}}</span>
-                      {% if real_price != product.unit_price %}
-                        <del>{{product.unit_price}}</del>
-                      {% endif %}
-                    {% endif %}
-                    {% if product.quantity == 0 %}
-                      <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
-                    {% elif product.is_discounted %}
-                      <span class="product_sale_discounted">{% trans "Discounted" %}</span>
-                    {% endif %}
-                  </div>
+                        {% if product.quantity == 0 %}
+                        <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
+                        {% elif product.is_discounted %}
+                        <span class="product_sale_discounted">{% trans "Discounted" %}</span>
+                        {% endif %}
+                    </div>
+                  {% endif %}
                 </div>
               </div>
             </div>

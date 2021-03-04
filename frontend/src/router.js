@@ -14,6 +14,33 @@ const routes = [
     component: () => import('@/views/Checkout.vue')
   },
   {
+    path: '/fr/commande/devis/',
+    name: 'Quotation',
+    component: () => import('@/views/Quotation.vue')
+  },
+  {
+    path: '/en/commande/quotation/',
+    component: () => import('@/views/Quotation.vue')
+  },
+  {
+    path: '/fr/commande/mes-devis/',
+    name: 'QuotationsList',
+    component: () => import('@/views/QuotationsList.vue')
+  },
+  {
+    path: '/en/commande/my-quotations/',
+    component: () => import('@/views/QuotationsList.vue')
+  },
+  {
+    path: '/fr/commande/mes-devis/:number',
+    name: 'QuotationsDetail',
+    component: () => import('@/views/QuotationsList.vue')
+  },
+  {
+    path: '/en/commande/my-quotations/:number',
+    component: () => import('@/views/QuotationsList.vue')
+  },
+  {
     path: '/fr/commande/profil/',
     name: 'Profil',
     component: () => import('@/views/Profil.vue')

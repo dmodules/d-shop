@@ -78,7 +78,7 @@
                     </v-row>
                     <v-row>
                     <v-col cols="12">
-                        <v-btn tile color="primary" :disabled="!formProfil.valid" @click="setUpload()">{{$i18n.t('Modifier')}}</v-btn>
+                        <v-btn tile color="primary" :disabled="!formProfil.valid" @click="doSend()">{{$i18n.t('Modifier')}}</v-btn>
                     </v-col>
                     </v-row>
                 </v-form>
@@ -102,6 +102,7 @@
       isLoading: true,
       isLoadingProfil: false,
       isAuth: false,
+      oldEmail: '',
       listSalutation: [],
       formProfil: {
         valid: false,
@@ -158,6 +159,7 @@
             self.$set(self.formProfil.customer, 'first_name', apiSuccess.data.customer.first_name ? apiSuccess.data.customer.first_name : '')
             self.$set(self.formProfil.customer, 'last_name', apiSuccess.data.customer.last_name ? apiSuccess.data.customer.last_name : '')
             self.$set(self.formProfil.customer, 'email', apiSuccess.data.customer.email ? apiSuccess.data.customer.email : '')
+            self.$set(self, 'oldEmail', apiSuccess.data.customer.email ? apiSuccess.data.customer.email : '')
           }
           self.$set(self, 'isLoading', false)
         })
@@ -167,9 +169,35 @@
         // ===--- END: axios
       },
       /* =========================================================== //
-      // ===---   setUpload                                   ---=== //
+      // ===---   doUpload                                    ---=== //
       // =========================================================== */
-      setUpload () {
+      doSend () {
+        let self = this
+        // ===--- check user email
+        if (this.oldEmail !== this.formProfil.customer.email) {
+            let data_email = {
+                email: this.formProfil.customer.email
+            }
+            // ===--- BEGIN: axios
+            this.$axios.post(this.$web_url+'/api/fe/customer-check/', data_email, {
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+            })
+            .then((apiSuccess) => {
+                if (apiSuccess.data.exist) {
+                    self.$set(self.formError.customer, 'email', self.$i18n.t("Thisemailexist"))
+                } else {
+                    self.doUpload()
+                }
+            })
+            .catch(() => {
+                self.$set(self.formError.customer, 'email', self.$i18n.t("Anerroroccured"))
+            })
+            // ===--- END: axios
+        } else {
+            this.doUpload()
+        }
+      },
+      doUpload () {
         let self = this
         // reset
         this.$set(this.formProfil, 'success', null)

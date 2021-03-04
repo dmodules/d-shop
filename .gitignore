@@ -30,7 +30,7 @@ Thumbs.db
 .vscode
 .env-local
 #package-lock.json
-#webpack-dev.json
+webpack-pro.json
 
 #coverage
 htmlcov/

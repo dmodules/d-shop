@@ -61,12 +61,10 @@ a:hover{
   color:#fff;
   opacity:1;
 }
-.dm-drawer-inner #drawer-items-list .col-8 a,
-.dm-drawer-inner #drawer-soumission-list .col-8 a{
+.dm-drawer-inner #drawer-items-list .col-8 a{
   color:#458d91;
 }
-.dm-drawer-inner #drawer-items-list .col-8 a:hover,
-.dm-drawer-inner #drawer-soumission-list .col-8 a:hover{
+.dm-drawer-inner #drawer-items-list .col-8 a:hover{
   color:#202325;
 }
 .dm-drawer-total{
@@ -79,12 +77,10 @@ a:hover{
     .dm-drawer-inner #drawer-items-list .col-8 {
         padding: 0 5px;
     }
-    .dm-drawer-inner #drawer-items-list .col-8 a,
-    .dm-drawer-inner #drawer-soumission-list .col-8 a {
+    .dm-drawer-inner #drawer-items-list .col-8 a {
         font-size: 0.9rem;
     }
-    .dm-drawer-inner #drawer-items-list a.dm-item-delete,
-    .dm-drawer-inner #drawer-soumission-list a.dm-item-delete {
+    .dm-drawer-inner #drawer-items-list a.dm-item-delete {
         right: -24px;
     }
     .dm-drawer-total {
@@ -303,7 +299,8 @@ a:hover{
   color:#458d91;
 }
 #app.theme--light .v-card,
-#app.theme--light .v-stepper{
+#app.theme--light .v-stepper,
+#app.theme--light .v-data-table{
     background:transparent;
 }
 #app.theme--light .v-menu__content{

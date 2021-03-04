@@ -1,70 +1,99 @@
-.form-row .object-tools {
-    background-color: transparent;
+a,
+a:link,
+a:visited {
+    color: #458d91;
+    transition: color 0.3s;
 }
-.form-row .object-tools::before {
-    display: none;
+a:focus,
+a:hover {
+    color: #202325;
 }
 
-.form-row.field-shipping_address_text .readonly,
-.form-row.field-billing_address_text .readonly {
-    margin: 1rem 0 0 80px;
+/* ===--- Header ---=== */
+#header {
+    background-color: #202325;
+    color: #fff;
 }
-
-/* ===--- Index: Analyze Block ---=== */
-#dm-analyze .dm-adminshop-row {
-    border-bottom: 1px solid #ddd;
-    font-size: 0;
-    line-height: 0;
-    padding: 10px 1px 5px 10px;
+#header a,
+#header a:link,
+#header a:visited {
+    color: #fff;
+    transition: color 0.3s;
 }
-#dm-analyze .dm-adminshop-col {
-    font-size: 0;
-    line-height: 0;
-    display: inline-block;
-    width: calc(50% - 5px);
-    padding-left: 0;
-    padding-right: 0;
+#header a:focus,
+#header a:hover {
+    color: #458d91;
+    border-bottom-color: #458d91;
 }
-#dm-analyze .dm-adminshop-col + .dm-adminshop-col {
-    border-left: 1px solid #ddd;
-    width: calc(50% - 5px);
-    padding-left: 9px;
+#branding h1,
+#branding h1 a:link,
+#branding h1 a:visited {
+    color: #fff;
+    transition: color 0.3s;
 }
-#dm-analyze .dm-adminshop-icon {
-    vertical-align: middle;
-    display: inline-block;
-    width: 32px;
+#branding h1 a:focus,
+#branding h1 a:hover {
+    color: #458d91;
 }
-#dm-analyze .dm-adminshop-icon span {
-    font-size: 24px;
-    line-height: 100%;
-    vertical-align: middle;
+#user-tools {
+    font-weight: 600;
 }
-#dm-analyze .dm-adminshop-data {
-    vertical-align: middle;
-    display: inline-block;
-    width: calc(100% - 32px);
+div.breadcrumbs {
+    background-color: #eee;
+    color: #666;
 }
-#dm-analyze .dm-adminshop-data p {
-    font-size: 1rem;
-    font-weight: 800;
-    line-height: 120%;
-    display: block;
-    margin: 0 0 2px!important;
-    padding-left: 0px;
-}
-#dm-analyze .dm-adminshop-data p a {
+div.breadcrumbs a {
     color: #666;
     transition: color 0.3s;
 }
-#dm-analyze .dm-adminshop-data small {
-    font-size: 0.8rem;
-    font-weight: 400;
-    line-height: 120%;
-    display: block;
-    margin: 0;
+div.breadcrumbs a:hover {
+    color: #458d91;
 }
-/* CSS Martin */
+/* ===--- Main Sections ---=== */
+.dashboard #content {
+    width: 800px;
+}
+#content-related {
+    background: none;
+    border: none;
+    width: 380px;
+    margin-right: -420px;
+}
+#content-main .module th a {
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+}
+#content-related > .module {
+    background: #f8f8f8;
+    border: 1px solid #eee;
+    padding: 10px 10px 20px;
+}
+
+/* ===--- Content Main: Module/Section ---=== */
+.module h2,
+.module caption,
+.inline-group h2 {
+    background: none;
+    color: #202325;
+}
+a.section,
+a.section:link,
+a.section:visited {
+    color: #666;
+    transition: color 0.3s;
+}
+
+/**/
+#content-related .module h2 {
+    color: #666;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+}
+
+/* ===--- CSS Martin ---=== */
 .dashboard #content {
     width: 800px;
 }
@@ -108,4 +137,151 @@ div.breadcrumbs {
 }
 .button:active, input[type=submit]:active, input[type=button]:active, .button:focus, input[type=submit]:focus, input[type=button]:focus, .button:hover, input[type=submit]:hover, input[type=button]:hover {
     background-color: grey;
+}
+
+/* ===--- Index: Analyze Block ---=== */
+#content-related #dm-analyze.module h2 {
+    margin-bottom: 0;
+}
+#dm-analyze .dm-adminshop-row {
+    border-bottom: 1px solid #eaeaea;
+    font-size: 0;
+    line-height: 0;
+    padding: 10px 1px 5px 10px;
+}
+#dm-analyze .dm-adminshop-analyze.dm-adminshop-bestsellers .dm-adminshop-row:last-child {
+    border-bottom: none;
+}
+#dm-analyze .dm-adminshop-col {
+    font-size: 0;
+    line-height: 0;
+    display: inline-block;
+    width: calc(50% - 5px);
+    padding-left: 0;
+    padding-right: 0;
+}
+#dm-analyze .dm-adminshop-col + .dm-adminshop-col {
+    border-left: 1px solid #eaeaea;
+    width: calc(50% - 5px);
+    padding-left: 9px;
+}
+#dm-analyze .dm-adminshop-icon {
+    vertical-align: middle;
+    display: inline-block;
+    width: 32px;
+}
+#dm-analyze .dm-adminshop-icon span {
+    color: #4a4a50;
+    font-size: 24px;
+    line-height: 100%;
+    vertical-align: middle;
+}
+#dm-analyze .dm-adminshop-data {
+    vertical-align: middle;
+    display: inline-block;
+    width: calc(100% - 32px);
+}
+#dm-analyze .dm-adminshop-data p {
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 120%;
+    display: block;
+    margin: 0 0 2px!important;
+    padding-left: 0px;
+}
+#dm-analyze .dm-adminshop-data p a {
+    color: #458d91;
+    transition: color 0.3s;
+}
+#dm-analyze .dm-adminshop-data p a:hover {
+    color: #202325;
+}
+#dm-analyze .dm-adminshop-data small {
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 120%;
+    display: block;
+    margin: 0;
+}
+/* ===--- Product ---=== */
+form .form-row .field-variant_image .filer-dropzone {
+    padding: 1px;
+}
+form .form-row .field-variant_image .filer-dropzone.filer-dropzone-mobile .dz-message {
+    display: none;
+    margin-top: 0;
+}
+form .form-row .field-variant_image .filer-dropzone.filer-dropzone-mobile .filerFile {
+    top: 8px;
+/* ===--- Changelist ---=== */
+#changelist-filter li.selected {
+    border-left-color: #458d91;
+}
+#changelist-filter li.selected a {
+    color: #458d91;
+}
+#changelist-filter a:focus,
+#changelist-filter a:hover,
+#changelist-filter li.selected a:focus,
+#changelist-filter li.selected a:hover {
+    color: #458d91;
+}
+
+/* ===--- Form ---=== */
+.form-row .object-tools {
+    background-color: transparent;
+}
+.form-row .object-tools::before {
+    display: none;
+}
+
+.form-row.field-shipping_address_text .readonly,
+.form-row.field-billing_address_text .readonly {
+    margin: 1rem 0 0 80px;
+}
+
+/* ===--- Parler Language Tabs ---=== */
+.parler-language-tabs {
+    border-bottom: 2px solid #202325;
+}
+.parler-language-tabs span.current {
+    background-color: #202325;
+    border-color: #202325;
+}
+
+/* ===--- Buttons ---=== */
+.button,
+.button.default,
+input[type=submit].default,
+.submit-row input.default,
+input[type=submit],
+input[type=button],
+.submit-row input,
+a.button {
+    background-color: #458d91;
+    border: 1px solid #458d91;
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+}
+.button:active,
+.button.default:active,
+input[type=submit].default:active,
+.submit-row input.default:active,
+input[type=submit]:active,
+input[type=button]:active,
+.button:focus,
+.button.default:focus,
+input[type=submit].default:focus,
+.submit-row input.default:focus,
+input[type=submit]:focus,
+input[type=button]:focus,
+.button:hover,
+.button.default:hover,
+input[type=submit].default:hover,
+.submit-row input.default:hover,
+input[type=submit]:hover,
+input[type=button]:hover {
+    background: none;
+    border: 1px solid #458d91;
+    color: #458d91;
 }

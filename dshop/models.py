@@ -760,8 +760,8 @@ class ProductDefault(AvailableProductMixin, Product):
                                     discount = Money(
                                         Decimal(self.unit_price) * pourcent)
                                     r = r - discount
-                except Exception as e:
-                    print(e)
+                except Exception:
+                    print("Error on ProductDefault's get_price")
         if Decimal(r) <= 0:
             r = Money(0)
         return r
@@ -1005,6 +1005,13 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         blank=True,
         help_text=_("Stop DateTime Discount"),
     )
+    variant_image = image.FilerImageField(
+        verbose_name=_("Variant Image"),
+        on_delete=models.SET_NULL,
+        related_name="variant_image",
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return _("{product}").format(product=self.product)
@@ -1061,8 +1068,8 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
                                     pourcent = Decimal(d.promocode.percent) / Decimal("100")
                                     discount = Money(Decimal(self.unit_price) * pourcent)
                                     r = r - discount
-                except Exception as e:
-                    print(e)
+                except Exception:
+                    print("Error on ProductVariableVariant's get_price")
         if Decimal(r) <= 0:
             r = Money(0)
         return r

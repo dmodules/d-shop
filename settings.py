@@ -83,6 +83,7 @@ INSTALLED_APPS.extend([  # noqa: F821
     "apps.dmShipping",
     "apps.dmTaxes",
     "apps.dmSearch",
+    "apps.dmQuotation",
     # ===---
     "shop",
     "dshop",
@@ -202,6 +203,13 @@ STRIPE_ACCOUNT_ID = os.getenv("STRIPE_ACCOUNT_ID")
 if STRIPE_SECRET_KEY is not None:
     SHOP_CART_MODIFIERS.extend(
         ["apps.dmBillingStripe.modifiers.StripePaymentModifier"])
+
+
+#######################################################################
+# Feature Settings
+
+FEATURES = os.getenv("FEATURES", "")
+
 
 #######################################################################
 # Square Settings
@@ -651,7 +659,7 @@ if STAGE == 'local':
 # Admin Reordering
 
 MIDDLEWARE.extend(["dshop.middleware.AdminReorderMiddleware"])  # noqa: F821
-ADMIN_REORDER = (
+TEMP_ADMIN_REORDER = [
     {
         "app":
         "shop",
@@ -666,10 +674,7 @@ ADMIN_REORDER = (
     },
     {
         "app": "dmAdvertising",
-        "label": _("Advertising"),
-        "models": [
-            "dmAdvertising.dmAdvertisingTopBanner",
-        ]
+        "label": _("Advertising")
     },
     {
         "app":
@@ -681,6 +686,7 @@ ADMIN_REORDER = (
             "dshop.ProductFilter",
             "dshop.ProductBrand",
             "dshop.Attribute",
+            "dshop.ProductVariableVariant",
             "dshop.Product",
             {
                 "model": "dshop.Order",
@@ -752,8 +758,12 @@ ADMIN_REORDER = (
     {
         "app": "filer"
     },
-)
+]
 
+if 'QUOTATION' in FEATURES:
+    TEMP_ADMIN_REORDER.append({"app": "dmQuotation"})
+
+ADMIN_REORDER = tuple(TEMP_ADMIN_REORDER)
 
 if STAGE != 'local':
     import sentry_sdk

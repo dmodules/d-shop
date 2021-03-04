@@ -1,7 +1,16 @@
 
-from dshop.models import FeatureList
+from settings import FEATURES
 
-features = FeatureList.objects.all()
+ALL_FEATURES = [
+    'QUOTATION',
+    'FEATURE1',
+    'FEATURE2'
+]
 
+for feature in ALL_FEATURES:
+    exec("%s = %s" % (feature, False))
+
+features = FEATURES.split(',')
 for feature in features:
-    exec("%s = %s" % (feature.feature_name, feature.is_enabled))
+    if feature:
+        exec("%s = %s" % (feature, True))

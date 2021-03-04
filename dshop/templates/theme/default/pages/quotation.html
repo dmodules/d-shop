@@ -1,0 +1,67 @@
+{% extends "theme/default/pages/base.html" %}
+{% load cms_tags i18n thumbnail %}
+
+{% block title %}{% trans 'Quotation' %}{% endblock %}
+
+{% block content %}
+    <div class="container py-5 mb-5 section-quotation">
+        <div class="row">
+            <div class="col-12 pb-4">
+                <h1 class="mb-1">{% trans 'Quotation' %}</h1>
+                {% if count >= 0 %}
+                    <p>{% trans 'Quotation:' %} {{count}}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% if count >= 0 %}
+            <table>
+            {% for quot in quotations %}
+                <div class="row quotation-product">
+                    <div class="col-6 col-md-7 quotation-name">
+                        <tr class="row">
+                        <div>
+                            {% if quot.status == "CREATED" %}
+                                <td class="col-md-3"><a href="#" onclick="openModal({{quot.items}});">{{quot.number}}</a></td>
+                            {% else %}
+                                <td class="col-md-3">{{quot.number}}</td>
+                            {% endif %}
+                            <td class="col-md-3">{{quot.status}}</td>
+                            <td class="col-md-3">{{quot.created_at}}</td>
+                            <td class="col-md-3">{{quot.updated_at}}</td>
+                        </div>
+                        </tr>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="row pb-5">
+                    <div class="col-12 pb-5 text-center">
+                        {% trans 'No quotation found' %}
+                    </div>
+                </div>
+            {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+
+<!-- Modal -->
+<div class="modal fade" id="quotation-item-modal" tabindex="-1" role="dialog" aria-labelledby="quotation-item-modal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="quotation-item">Quotation Item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="quotation-modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send Quotation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+

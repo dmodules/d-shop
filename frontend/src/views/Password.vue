@@ -8,7 +8,7 @@
       </v-row>
     </div>
     <div v-else class="container">
-      <v-row v-if="this.$route.params.action === 'reset'">
+      <v-row v-if="$route.params.action === 'reset'">
             <v-col cols="12" class="text-left">
                 <h2>{{$i18n.t('PasswordReset')}}</h2>
             </v-col>

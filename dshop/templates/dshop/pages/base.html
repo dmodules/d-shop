@@ -1,4 +1,7 @@
 {% load static cms_tags menu_tags sekizai_tags i18n thumbnail dshop_tags %}
+
+{% dm_quotation_feature as is_quotation %}
+
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
   <head>
@@ -63,12 +66,18 @@
     {% block drawer %}
       <div class="dm-drawer">
         <div class="drawer-nav">
-          <div class="drawer-menu dm-drawer-cart">
-            {% include "dshop/pages/drawer-cart.html" %}
-          </div>
-          <div class="drawer-menu dm-drawer-user">
-            {% include "dshop/pages/drawer-user.html" %}
-          </div>
+            {% if is_quotation %}
+                <div class="drawer-menu dm-drawer-cart">
+                    {% include "dshop/pages/drawer-quotation.html" %}
+                </div>
+            {% else %}
+                <div class="drawer-menu dm-drawer-cart">
+                    {% include "dshop/pages/drawer-cart.html" %}
+                </div>
+            {% endif %}
+            <div class="drawer-menu dm-drawer-user">
+                {% include "dshop/pages/drawer-user.html" %}
+            </div>
         </div>
       </div>
     {% endblock drawer %}
@@ -229,6 +238,9 @@
     <script src="{% static 'dshop/js/iscroll.min.js' %}"></script>
     <script src="{% static 'dshop/js/drawer.min.js' %}"></script>
     <script src="{% static 'dshop/js/dmodules.js' %}"></script>
+    {% if is_quotation %}
+        <script src="{% static 'dshop/js/dmQuotation.js' %}"></script>
+    {% endif %}
     {% render_block "js" %}
     {% block foot %}{% endblock foot %}
   </body>

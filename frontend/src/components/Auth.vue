@@ -206,6 +206,7 @@
         })
         .then(() => {
           // self.setAuth()
+          self.doQuotationMerge()
           window.location = window.location.href
           self.$set(self, 'isLoadingLogin', false)
         })
@@ -242,6 +243,7 @@
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
         })
         .then(() => {
+          self.doQuotationMerge()
           self.setAuth()
           self.$set(self, 'isLoadingRegister', false)
         })
@@ -267,10 +269,37 @@
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
         })
         .then(() => {
+          self.doQuotationMerge()
           self.setAuth()
           self.$set(self, 'isLoadingGuest', false)
         })
         .catch(() => {})
+        // ===--- END: axios
+      },
+      /* =========================================================== //
+      // ===---   doQuotationMerge                            ---=== //
+      // =========================================================== */
+      doQuotationMerge () {
+        let cookie = ""
+        let current_cookies = document.cookie.split(';')
+        for(let i = 0; i < current_cookies.length; i++) {
+            let c = current_cookies[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1, c.length)
+            }
+            if (c.indexOf("quotation-cookie") == 0) {
+                cookie = c.substring("quotation-cookie".length, c.length)
+            }
+        }
+        // ===--- BEGIN: axios
+        this.$axios.get(this.$web_url + "/quotation/merge-cart/?cookie"+cookie, {
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+        })
+        .then(() => {})
+        .catch(() => {});
         // ===--- END: axios
       }
       /* =========================================================== //
