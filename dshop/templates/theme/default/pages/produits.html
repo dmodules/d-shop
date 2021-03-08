@@ -103,6 +103,44 @@
                             </div>
                             </div>
                         </div>
+  <div class="section pt-0">
+    <div class="container">
+      <div class="row">
+        {% dm_get_categories_parents as categories %}
+        {% dm_get_brands_all as brands %}
+        <!--<div class="{% if categories.count > 0 or brands.count > 0 %}col-lg-9{% else %}col-12{% endif %}">-->
+          <div class="col-12">
+          <div class="row align-items-center mb-4 pb-1">
+            <div class="col-12">
+              <div class="product_header">
+                <div class="product_header_left">
+                  <div class="products_view">
+                    <a href="javascript:Void(0);" class="shorting_icon grid active"><i class="ti-view-grid"></i></a>
+                    <a href="javascript:Void(0);" class="shorting_icon list"><i class="ti-layout-list-thumb"></i></a>
+                  </div>
+                </div>
+                <div class="product_header_right">
+                  <div class="products-filters">
+                    {% dm_get_filters_all as filters %}
+                    {% if filters.count > 0 %}
+                      <div class="filters-boxes">
+                        <label class="filters-box dm-tous checked">
+                          <input type="checkbox" name="tous" checked />
+                          <div class="filters-text">Tous</div>
+                        </label>
+                        {% for filter in filters %}
+                          <label id="filter_{{filter.id}}" class="filters-box">
+                            <input type="checkbox" name="{{filter.name|slugify}}" />
+                            <div class="filters-text">{{filter.name}}</div>
+                          </label>
+                        {% endfor %}
+                      </div>
+                    {% else %}
+                        <div class="filters-boxes" style="display:none;">
+                          <label class="filters-box dm-tous checked">
+                            <input type="checkbox" name="tous" checked />
+                            <div class="filters-text">Tous</div>
+                          </label>
                         </div>
                     </div>
                     <div class="row shop_container grid produits">

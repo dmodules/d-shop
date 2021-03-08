@@ -2,7 +2,14 @@ from rest_framework import serializers
 
 from shop.models.cart import CartModel
 from shop.serializers.defaults.catalog import AddToCartSerializer
+from .models import Product
 
+
+class ProductSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Product
+        fields = "__all__"
 
 class AddProductVariableToCartSerializer(AddToCartSerializer):
     """
