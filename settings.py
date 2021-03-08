@@ -1,6 +1,5 @@
 import os
 import six
-
 from decimal import Decimal
 from slugify import slugify
 
@@ -95,7 +94,6 @@ if os.path.exists(path_to_extended):
     for item in os.listdir(path_to_extended):
         app = ".".join([EXTENDED_APP_DIR, str(item)])
         app_path = os.path.join(path_to_extended, item)
-
         if os.path.isdir(app_path) and app not in INSTALLED_APPS:  # noqa: F821
             INSTALLED_APPS.append(app)  # noqa: F821
 
@@ -762,6 +760,14 @@ TEMP_ADMIN_REORDER = [
 
 if 'QUOTATION' in FEATURES:
     TEMP_ADMIN_REORDER.append({"app": "dmQuotation"})
+if os.path.exists(path_to_extended):
+    for item in os.listdir(path_to_extended):
+        app = ".".join([EXTENDED_APP_DIR, str(item)])
+        app_path = os.path.join(path_to_extended, item)
+        admin_file = os.path.join(app_path, '.admin')
+        if os.path.exists(admin_file):
+            data = {"app": item}
+            TEMP_ADMIN_REORDER.append(data)
 
 ADMIN_REORDER = tuple(TEMP_ADMIN_REORDER)
 

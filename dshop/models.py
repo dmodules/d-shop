@@ -414,11 +414,42 @@ class ProductCategory(MPTTModel):
         return result
 
 
+class ProductFilterGroup(models.Model):
+
+    name = models.CharField(
+        verbose_name=_("Filter's Group Name"),
+        max_length=100,
+        null=False,
+        blank=False
+    )
+    order = models.PositiveSmallIntegerField(
+        verbose_name=_("Sort by"),
+        default=0,
+        blank=False,
+        null=False
+    )
+
+    class Meta:
+        verbose_name = _("Product's Filter Group")
+        verbose_name_plural = _("Product's Filter Groups")
+        ordering = ["order", "name"]
+
+    def __str__(self):
+        return self.name
+
 class ProductFilter(models.Model):
     """
     A model to help to filter products.
     Product can have multiple filters.
     """
+    group = models.ForeignKey(
+        ProductFilterGroup,
+        on_delete=models.SET_NULL,
+        verbose_name=_("Filter Group"),
+        blank=True,
+        null=True,
+        help_text=_("Add a group to Filter.")
+    )
 
     name = models.CharField(
         verbose_name=_("Filter's Name"),
@@ -436,9 +467,11 @@ class ProductFilter(models.Model):
     class Meta:
         verbose_name = _("Product's Filter")
         verbose_name_plural = _("Product's Filters")
-        ordering = ["order", "name"]
+        ordering = ["group", "order", "name"]
 
     def __str__(self):
+        if self.group:
+            return self.group.name + " : " + self.name
         return self.name
 
 

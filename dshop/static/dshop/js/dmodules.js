@@ -590,6 +590,31 @@ $(document).ready(function() {
     }
    }
    /* ===--- ---=== */
+   /* ===--- Apply filter---=== */
+   var urlParams;
+   (window.onpopstate = function () {
+      var match,
+          pl     = /\+/g,  // Regex for replacing addition symbol with a space
+          search = /([^&=]+)=?([^&]*)/g,
+          decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+          query  = window.location.search.substring(1);
+
+      urlParams = {};
+      while (match = search.exec(query))
+         urlParams[decode(match[1])] = decode(match[2]);
+   })();
+   
+   filters = urlParams['filters'].split(",")
+   filters.forEach(function (item, index) {
+      $("#filter_" + item).addClass('checked')
+      $("#filter_" + item).children('input').prop("checked", true)
+   });
+   if (filters){
+     $('.filters-box.dm-tous').removeClass('checked')
+     $('.filters-box.dm-tous').children('input').prop("checked", false)
+   }
+  doProductsByFilters()
+ 
 });
 
 function mobilevh () {
