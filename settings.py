@@ -65,6 +65,7 @@ INSTALLED_APPS.extend([  # noqa: F821
     "webpack_loader",
     "colorfield",
     # ===---
+    "django_filters",
     "rest_framework",
     "rest_framework.authtoken",
     "rest_auth",
