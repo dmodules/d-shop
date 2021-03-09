@@ -77,30 +77,30 @@
                                     </div>
                                 </div>
                                 <div class="product_header_right">
-                                <div class="products-filters">
-                                    {% dm_get_filters_all as filters %}
-                                    {% if filters.count > 0 %}
-                                        <div class="filters-boxes">
-                                            <label class="filters-box dm-tous checked">
-                                            <input type="checkbox" name="tous" checked />
-                                            <div class="filters-text">Tous</div>
-                                            </label>
-                                            {% for filter in filters %}
-                                            <label class="filters-box">
-                                                <input type="checkbox" name="{{filter.name|slugify}}" />
-                                                <div class="filters-text">{{filter.name}}</div>
-                                            </label>
-                                            {% endfor %}
-                                        </div>
-                                    {% else %}
-                                        <div class="filters-boxes" style="display:none;">
-                                        <label class="filters-box dm-tous checked">
-                                            <input type="checkbox" name="tous" checked />
-                                            <div class="filters-text">Tous</div>
-                                        </label>
-                                        </div>
-                                    {% endif %}
-                                </div>
+                                    <div class="products-filters">
+                                        {% dm_get_filters_all as filters %}
+                                        {% if filters.count > 0 %}
+                                            <div class="filters-boxes">
+                                                <label class="filters-box dm-tous checked">
+                                                    <input type="checkbox" name="tous" checked />
+                                                    <div class="filters-text">Tous</div>
+                                                </label>
+                                                {% for filter in filters %}
+                                                    <label id="filter_{{filter.id}}" class="filters-box">
+                                                        <input type="checkbox" name="{{filter.name|slugify}}" />
+                                                        <div class="filters-text">{{filter.name}}</div>
+                                                    </label>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            <div class="filters-boxes" style="display:none;">
+                                                <label class="filters-box dm-tous checked">
+                                                    <input type="checkbox" name="tous" checked />
+                                                    <div class="filters-text">Tous</div>
+                                                </label>
+                                            </div>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
