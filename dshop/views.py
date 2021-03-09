@@ -41,7 +41,7 @@ from shop.serializers.auth import PasswordResetConfirmSerializer
 from dal import autocomplete
 
 from dshop.models import Product, ProductFilterGroup, ProductFilter
-from dshop.models import AttributeValue
+from dshop.models import Attribute, AttributeValue
 from dshop.transition import transition_change_notification
 from dshop.serializers import ProductSerializer
 
@@ -177,7 +177,18 @@ class LoadFilters(APIView):
         for filt in ProductFilter.objects.filter(group=None):
             filters.append({'id':filt.id, 'name': filt.name, 'order': filt.order})
         data['default'] = {'filter': filters}
-        return RestResponse(data)
+
+
+        a_data = {}
+        for attr in Attribute.objects.all():
+            a_data[attr.name] = []
+            for val in AttributeValue.objects.filter(attribute=attr):
+                a_data[attr.name].append({
+                    'id': val.id,
+                    'name': val.value
+                })
+
+        return RestResponse({'filter': data, 'attribute': a_data})
 
 
 class LoadProduits(APIView):
