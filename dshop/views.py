@@ -159,7 +159,16 @@ class LoadFilters(APIView):
             temp['id'] = group.id
             temp['order'] = group.order
             for filt in ProductFilter.objects.filter(group=group):
-                filters.append({'id': filt.id, 'name': filt.name, 'order': filt.order})
+                url = ''
+                if filt.image:
+                    url = filt.image.url
+                filters.append({
+                    'id': filt.id,
+                    'name': filt.name,
+                    'order': filt.order,
+                    'image': url,
+                    'description': filt.description
+                })
             temp['filter'] = filters
             data[group.name] = temp
 

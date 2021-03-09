@@ -457,6 +457,15 @@ class ProductFilter(models.Model):
         null=False,
         blank=False
     )
+    image = image.FilerImageField(
+        verbose_name=_("image"),
+        related_name="filter_image",
+        on_delete=models.SET_NULL,
+        null=True, blank=True
+    )
+    description = models.TextField(
+        null=True, blank=True
+    )
     order = models.PositiveSmallIntegerField(
         verbose_name=_("Sort by"),
         default=0,
