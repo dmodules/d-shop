@@ -137,7 +137,7 @@
                                                     <option disabled selected>{{key}}</option>
                                                     {% for v in value %}
                                                         {% if v in attributes.value %}
-                                                            <option class="choix" value="{{v}}" {% if v in attr_list %}selected{% endif %}>{{v}}</option>
+                                                            <option class="choix" value="{{key}}_____{{v}}" {% if v in attr_list %}selected{% endif %}>{{v}}</option>
                                                         {% endif %}
                                                     {% endfor %}
                                                 </select>
