@@ -58,89 +58,51 @@
                 <div class="col-12">
                     <div class="row align-items-center mb-4 pb-1">
                         <div class="col-12">
-                        <div class="product_header">
-                            <div class="product_header_left">
-                                <div class="custom_select">
-                                    <select id="dm-productlist-sortby" class="form-control form-control-sm">
-                                        <option class="sb-default" value="default" disabled selected>{% trans "Sort by" %}</option>
-                                        <option class="sb-date-new" value="date-new">{% trans "Date: Recent to Old" %}</option>
-                                        <option class="sb-date-old"  value="date-old">{% trans "Date: Old to Recent" %}</option>
-                                        <option class="sb-alpha-asc"  value="alpha-asc">{% trans "Name: A to Z" %}</option>
-                                        <option class="sb-alpha-des"  value="alpha-des">{% trans "Name: Z to A" %}</option>
-                                        <option class="sb-price-asc"  value="price-asc">{% trans "Price: Low to High" %}</option>
-                                        <option class="sb-price-des"  value="price-des">{% trans "Price: High to Low" %}</option>
-                                    </select>
-                                </div>
-                                <div class="products_view">
-                                    <a href="javascript:Void(0);" class="shorting_icon grid active"><i class="ti-view-grid"></i></a>
-                                    <a href="javascript:Void(0);" class="shorting_icon list"><i class="ti-layout-list-thumb"></i></a>
-                                </div>
-                            </div>
-                            <div class="product_header_right">
-                            <div class="products-filters">
-                                {% dm_get_filters_all as filters %}
-                                {% if filters.count > 0 %}
-                                <div class="filters-boxes">
-                                    <label class="filters-box dm-tous checked">
-                                    <input type="checkbox" name="tous" checked />
-                                    <div class="filters-text">Tous</div>
-                                    </label>
-                                    {% for filter in filters %}
-                                    <label class="filters-box">
-                                        <input type="checkbox" name="{{filter.name|slugify}}" />
-                                        <div class="filters-text">{{filter.name}}</div>
-                                    </label>
-                                    {% endfor %}
-                                </div>
-                                {% else %}
-                                    <div class="filters-boxes" style="display:none;">
-                                    <label class="filters-box dm-tous checked">
-                                        <input type="checkbox" name="tous" checked />
-                                        <div class="filters-text">Tous</div>
-                                    </label>
+                            <div class="product_header">
+                                <div class="product_header_left">
+                                    <div class="custom_select">
+                                        <select id="dm-productlist-sortby" class="form-control form-control-sm">
+                                            <option class="sb-default" value="default" disabled selected>{% trans "Sort by" %}</option>
+                                            <option class="sb-date-new" value="date-new">{% trans "Date: Recent to Old" %}</option>
+                                            <option class="sb-date-old"  value="date-old">{% trans "Date: Old to Recent" %}</option>
+                                            <option class="sb-alpha-asc"  value="alpha-asc">{% trans "Name: A to Z" %}</option>
+                                            <option class="sb-alpha-des"  value="alpha-des">{% trans "Name: Z to A" %}</option>
+                                            <option class="sb-price-asc"  value="price-asc">{% trans "Price: Low to High" %}</option>
+                                            <option class="sb-price-des"  value="price-des">{% trans "Price: High to Low" %}</option>
+                                        </select>
                                     </div>
-                                {% endif %}
+                                    <div class="products_view">
+                                        <a href="javascript:Void(0);" class="shorting_icon grid active"><i class="ti-view-grid"></i></a>
+                                        <a href="javascript:Void(0);" class="shorting_icon list"><i class="ti-layout-list-thumb"></i></a>
+                                    </div>
+                                </div>
+                                <div class="product_header_right">
+                                <div class="products-filters">
+                                    {% dm_get_filters_all as filters %}
+                                    {% if filters.count > 0 %}
+                                        <div class="filters-boxes">
+                                            <label class="filters-box dm-tous checked">
+                                            <input type="checkbox" name="tous" checked />
+                                            <div class="filters-text">Tous</div>
+                                            </label>
+                                            {% for filter in filters %}
+                                            <label class="filters-box">
+                                                <input type="checkbox" name="{{filter.name|slugify}}" />
+                                                <div class="filters-text">{{filter.name}}</div>
+                                            </label>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <div class="filters-boxes" style="display:none;">
+                                        <label class="filters-box dm-tous checked">
+                                            <input type="checkbox" name="tous" checked />
+                                            <div class="filters-text">Tous</div>
+                                        </label>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                </div>
                             </div>
-                            </div>
-                        </div>
-  <div class="section pt-0">
-    <div class="container">
-      <div class="row">
-        {% dm_get_categories_parents as categories %}
-        {% dm_get_brands_all as brands %}
-        <!--<div class="{% if categories.count > 0 or brands.count > 0 %}col-lg-9{% else %}col-12{% endif %}">-->
-          <div class="col-12">
-          <div class="row align-items-center mb-4 pb-1">
-            <div class="col-12">
-              <div class="product_header">
-                <div class="product_header_left">
-                  <div class="products_view">
-                    <a href="javascript:Void(0);" class="shorting_icon grid active"><i class="ti-view-grid"></i></a>
-                    <a href="javascript:Void(0);" class="shorting_icon list"><i class="ti-layout-list-thumb"></i></a>
-                  </div>
-                </div>
-                <div class="product_header_right">
-                  <div class="products-filters">
-                    {% dm_get_filters_all as filters %}
-                    {% if filters.count > 0 %}
-                      <div class="filters-boxes">
-                        <label class="filters-box dm-tous checked">
-                          <input type="checkbox" name="tous" checked />
-                          <div class="filters-text">Tous</div>
-                        </label>
-                        {% for filter in filters %}
-                          <label id="filter_{{filter.id}}" class="filters-box">
-                            <input type="checkbox" name="{{filter.name|slugify}}" />
-                            <div class="filters-text">{{filter.name}}</div>
-                          </label>
-                        {% endfor %}
-                      </div>
-                    {% else %}
-                        <div class="filters-boxes" style="display:none;">
-                          <label class="filters-box dm-tous checked">
-                            <input type="checkbox" name="tous" checked />
-                            <div class="filters-text">Tous</div>
-                          </label>
                         </div>
                     </div>
                     <div class="row shop_container grid produits">
