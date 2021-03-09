@@ -15,7 +15,6 @@ from django.utils.translation import get_language_from_request
 from django.utils.html import strip_tags
 from django.utils.text import Truncator
 from django.shortcuts import redirect
-from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.template.defaultfilters import slugify
 from django.core.management import call_command
@@ -41,7 +40,7 @@ from shop.serializers.auth import PasswordResetConfirmSerializer
 from dal import autocomplete
 
 from dshop.models import Product, ProductFilterGroup, ProductFilter
-from dshop.models import AttributeValue
+from dshop.models import Attribute, AttributeValue
 from dshop.transition import transition_change_notification
 from dshop.serializers import ProductSerializer
 
@@ -105,23 +104,14 @@ def TestPaymentView(request):
                     datas["extra"] = i.extra
                     items.append(datas)
                 miniorder = {
-                    "number":
-                    str(referenceId),
-                    "url":
-                    "/vos-commandes/" + str(referenceId) + "/" +
-                    str(order.token),
-                    "items":
-                    items,
-                    "extra":
-                    order.extra,
-                    "subtotal":
-                    order.subtotal,
-                    "total":
-                    order.total,
-                    "billing_address_text":
-                    order.billing_address_text,
-                    "shipping_address_text":
-                    order.shipping_address_text
+                    "number": str(referenceId),
+                    "url": "/vos-commandes/" + str(referenceId) + "/" + str(order.token),
+                    "items": items,
+                    "extra": order.extra,
+                    "subtotal": order.subtotal,
+                    "total": order.total,
+                    "billing_address_text": order.billing_address_text,
+                    "shipping_address_text": order.shipping_address_text
                 }
                 transition_change_notification(order, miniorder)
             except Exception as e:
@@ -148,6 +138,30 @@ class DshopProductListView(ListAPIView):
     serializer_class = ProductSerializer
     filterset_fields = ['filters']
 
+    def get_queryset(self):
+        attribute = self.request.query_params.get('attribute', None)
+        queryset = self.queryset
+        if attribute:
+            attributes = attribute.split(',')
+            attributes = AttributeValue.objects.filter(id__in=attributes)
+            attributes = [ atr.value for atr in attributes ]
+            ids = []
+            for q in queryset.all():
+                attrs = []
+                try:
+                    for var in q.variants.all():
+                        attrs += [val[0] for val in var.attribute.all().values_list('value')]
+                except Exception:
+                    continue
+
+                for atr in attributes:
+                    if atr in attrs:
+                        ids.append(q.id)
+                        break
+            return Product.objects.filter(id__in=ids)
+        return queryset
+
+
 class LoadFilters(APIView):
 
     def get(self, request, *args, **kwargs):
@@ -159,16 +173,35 @@ class LoadFilters(APIView):
             temp['id'] = group.id
             temp['order'] = group.order
             for filt in ProductFilter.objects.filter(group=group):
-                filters.append({'id': filt.id, 'name': filt.name, 'order': filt.order})
+                url = ''
+                if filt.image:
+                    url = filt.image.url
+                filters.append({
+                    'id': filt.id,
+                    'name': filt.name,
+                    'order': filt.order,
+                    'image': url,
+                    'description': filt.description
+                })
             temp['filter'] = filters
             data[group.name] = temp
 
         temp = {}
         filters = []
         for filt in ProductFilter.objects.filter(group=None):
-            filters.append({'id':filt.id, 'name': filt.name, 'order': filt.order})
+            filters.append({'id': filt.id, 'name': filt.name, 'order': filt.order})
         data['default'] = {'filter': filters}
-        return RestResponse(data)
+
+        a_data = {}
+        for attr in Attribute.objects.all():
+            a_data[attr.name] = []
+            for val in AttributeValue.objects.filter(attribute=attr):
+                a_data[attr.name].append({
+                    'id': val.id,
+                    'name': val.value
+                })
+
+        return RestResponse({'filter': data, 'attribute': a_data})
 
 
 class LoadProduits(APIView):
