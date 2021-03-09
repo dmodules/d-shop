@@ -143,6 +143,8 @@ class DshopProductListView(ListAPIView):
         queryset = self.queryset
         if attribute:
             attributes = attribute.split(',')
+            attributes = AttributeValue.objects.filter(id__in=attributes)
+            attributes = [ atr.value for atr in attributes ]
             ids = []
             for q in queryset.all():
                 attrs = []
