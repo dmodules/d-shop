@@ -315,7 +315,7 @@ class BillingAddress(BaseBillingAddress):
 # Produit: Catégorie/Filtres
 #######################################################################
 
-class ProductCategory(MPTTModel):
+class ProductCategory(CMSPageReferenceMixin, MPTTModel):
     """
     A model to help to categorize products.
     Product can have multiple categories.
