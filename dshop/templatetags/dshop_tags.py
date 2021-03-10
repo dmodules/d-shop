@@ -367,3 +367,9 @@ def dm_variants_is_discounted(k):
 @register.simple_tag
 def dm_quotation_feature():
     return QUOTATION
+
+@register.simple_tag(takes_context=True)
+def dm_get_cookie(context, k):
+    """Get value from a specific cookie"""
+    result = context["request"].COOKIES.get(str(k), None)
+    return result
