@@ -413,6 +413,9 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel):
             active=True).order_by("id")
         return result
 
+    def get_absolute_url(self):
+        name = "-".join(self.name.lower().split(' '))
+        return urljoin("/produits/category/", str(self.id) + '-' + name)
 
 class ProductFilterGroup(models.Model):
 

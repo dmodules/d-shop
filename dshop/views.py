@@ -193,6 +193,10 @@ class DshopProductListView(APIView):
         categories = ProductCategory.objects.filter(parent=None, active=True)
         brands = ProductBrand.objects.all()
         filters = ProductFilter.objects.all()
+        next_page = False
+        if products.count() > 9:
+            products = products[0:9]
+            next_page = True
         data = {
             'products': products,
             'brands': brands,
@@ -202,7 +206,7 @@ class DshopProductListView(APIView):
             'title_str': title,
             'current_category': current_category,
             'current_brand': current_brand,
-            'next': 2
+            'next': next_page
         }
         return render(request,
             'theme/{}/pages/produits.html'.format(THEME_SLUG),
