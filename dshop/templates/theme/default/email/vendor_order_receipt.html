@@ -1,0 +1,12 @@
+{% extends "theme/default/email/base.html" %}
+
+{% block email-title %}Une nouvelle commande vient d'être effectuée sur D-Shop{% endblock %}
+
+{% block email-head %}
+  {{ block.super }}
+{% endblock %}
+
+{% block email-body %}
+  {% include "theme/default/email/order-detail.html" %}
+  {% include "theme/default/email/customer-information.html" %}
+{% endblock %}

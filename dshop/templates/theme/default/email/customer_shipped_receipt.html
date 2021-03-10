@@ -1,0 +1,16 @@
+{% extends "theme/default/email/base.html" %}
+
+{% block email-title %}Bonjour, votre commande #{{ order.number }} à bien été expédiée. Au plaisir de vous revoir dans notre boutique en ligne très bientôt ! {% endblock %}
+
+{% block email-order-caption %}
+  {{ block.super }}
+  {% if delivery %}
+    <p>Méthode de livraison : {{ delivery.method }}</p>
+    <p>ID de livraison : {{ delivery.shipping_id }}</p>
+  {% endif %}
+{% endblock %}
+
+{% block email-body %}
+  {% include "theme/default/email/order-detail.html" %}
+  {% include "theme/default/email/customer-information.html" %}
+{% endblock %}

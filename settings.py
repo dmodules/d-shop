@@ -154,6 +154,7 @@ SITE_ID = 1
 
 CLIENT_TITLE = os.getenv("CLIENT_TITLE", "D-Shop")
 SHOP_VENDOR_EMAIL = os.getenv("SHOP_VENDOR_EMAIL")
+CC_EMAILS = os.getenv("CC_EMAILS")
 ADMINS = [("D-Modules", "info@d-modules.com")]
 
 ORDER_TIMEOUT = os.getenv("ORDER_TIMEOUT", 10)
@@ -787,3 +788,21 @@ if STAGE != 'local':
         send_default_pii=True
     )
 
+email_path = os.path.join('theme', THEME_SLUG, 'email')
+
+NOTIFICATION_TARGET = {
+    'payment_confirmed':
+        {
+            'email_template': os.path.join(email_path, 'customer_order_receipt.html'), 
+            'to_vendor': True,
+            'to_customer': True,
+            'cc_emails': True
+        },
+    'ready_for_delivery':
+        {
+            'email_template': os.path.join(email_path, 'customer_shipped_receipt.html'), 
+            'to_vendor': False,
+            'to_customer': True,
+            'cc_emails': True
+        }
+}

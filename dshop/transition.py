@@ -1,15 +1,20 @@
 
+import os
 import json
 from django.contrib.auth.models import AnonymousUser
 from django.core.management import call_command
 from django.db import models
 from django.http.request import HttpRequest
+from django.template import loader
 from django.utils.six.moves.urllib.parse import urlparse
 
 from post_office import mail
 from post_office.models import EmailTemplate
+from django.core.mail import send_mail
 
 from settings import SHOP_VENDOR_EMAIL
+from settings import NOTIFICATION_TARGET
+from settings import CC_EMAILS
 from shop.conf import app_settings
 from shop.models.order import BaseOrder
 from shop.models.notification import Notification
@@ -56,54 +61,71 @@ def transition_change_notification(order, miniorder=None):
     if not isinstance(order, BaseOrder):
         raise TypeError("Object order must inherit from class BaseOrder")
     emails_in_queue = False
-    for notification in Notification.objects.filter(transition_target=order.status):
-        recipient = notification.get_recipient(order)
-        if recipient is None:
-            continue
-        emulated_request = EmulateHttpRequest(order.customer,
-                                              order.stored_request)
-        customer_serializer = app_settings.CUSTOMER_SERIALIZER(order.customer)
-        render_context = {'request': emulated_request, 'render_label': 'email'}
-        if miniorder is not None:
-            order_serializer = miniorder
-        else:
-            order_serializer = None
-            #order_serializer = OrderDetailSerializer(
-            #    order, context=render_context
-            #)
-        language = order.stored_request.get('language')
-        context = {
-            'customer': customer_serializer.data,
-            'order': order_serializer,
-            'ABSOLUTE_BASE_URI':
-            emulated_request.build_absolute_uri().rstrip('/'),
-            'render_language': language,
-        }
-        try:
-            latest_delivery = order.delivery_set.latest('pk')
-            context['latest_delivery'] = DeliverySerializer(
-                latest_delivery, context=render_context
-            ).data
-        except (AttributeError, models.ObjectDoesNotExist):
-            pass
-        try:
-            template = notification.mail_template.translated_templates.get(
-                language=language)
-        except EmailTemplate.DoesNotExist as e:
-            print(e)
-            template = notification.mail_template
-        attachments = {}
-        for notiatt in notification.notificationattachment_set.all():
-            attachments[notiatt.attachment.
-                        original_filename] = notiatt.attachment.file.file
-        mail.send(
-            recipient,
-            template=template,
+
+    print(order.status)
+
+    if order.status not in NOTIFICATION_TARGET:
+        return
+
+    target = NOTIFICATION_TARGET[order.status]
+    print(target)
+
+    emulated_request = EmulateHttpRequest(order.customer,
+                                          order.stored_request)
+    customer_serializer = app_settings.CUSTOMER_SERIALIZER(order.customer)
+    render_context = {'request': emulated_request, 'render_label': 'email'}
+    if miniorder is not None:
+        order_serializer = miniorder
+    else:
+        order_serializer = None
+
+    language = order.stored_request.get('language')
+    context = {
+        'customer': customer_serializer.data,
+        'order': order_serializer,
+        'ABSOLUTE_BASE_URI':
+        emulated_request.build_absolute_uri().rstrip('/'),
+        'render_language': language,
+    }
+    try:
+        latest_delivery = order.delivery_set.latest('pk')
+        context['latest_delivery'] = DeliverySerializer(
+            latest_delivery, context=render_context
+        ).data
+    except (AttributeError, models.ObjectDoesNotExist):
+        pass
+
+    try:
+        template = NOTIFICATION_TARGET[order.status]['email_template']
+        template = loader.get_template(template)
+        html_message = template.render(context)
+    except EmailTemplate.DoesNotExist as e:
+        template = None
+        print("Error in notification: " + str(e))
+
+    # Temperory comment for testing
+    '''if target['to_vendor']:
+        cc_emails = ''
+        if target['cc_emails']:
+            cc_emails = CC_EMAILS
+        send_mail(
+            SHOP_VENDOR_EMAIL,
+            html_message=html_message,
             context=context,
-            attachments=attachments,
             render_on_delivery=True
+        )'''
+    from settings import EMAIL_HOST_USER
+    if target['to_customer']:
+        # Once email will be working, need to add subject and body
+        send_mail(
+            'Subject: test mail',
+            '',
+            EMAIL_HOST_USER,
+            [order.customer.email, ],
+            html_message=html_message,
         )
-        emails_in_queue = True
+
+    emails_in_queue = True
     if emails_in_queue:
         email_queued()
 
