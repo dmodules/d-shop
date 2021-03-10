@@ -7,7 +7,7 @@ from menus.menu_pool import menu_pool
 
 from shop.cms_apphooks import CatalogListCMSApp, OrderApp, PasswordResetApp
 from shop.rest.filters import CMSPagesFilterBackend
-
+from dshop.views import DshopProductListView
 
 class CatalogListApp(CatalogListCMSApp):
     """
@@ -24,6 +24,13 @@ class CatalogListApp(CatalogListCMSApp):
         filter_backends = [CMSPagesFilterBackend]
         filter_backends.extend(api_settings.DEFAULT_FILTER_BACKENDS)
         return [
+            # Product loading page
+            url(r'^category/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$',
+                DshopProductListView.as_view(),
+            ),
+            url(r'^brand/(?P<brand_id>[0-9]+)-(?P<brand_slug>.+)$',
+                DshopProductListView.as_view(),
+            ),
             url(r'^(?P<slug>[\w-]+)/add-to-cart', AddToCartView.as_view(), name="add_to_cart"),
             url(
                 r'^(?P<slug>[\w-]+)/add-productvariable-to-cart',
@@ -32,7 +39,8 @@ class CatalogListApp(CatalogListCMSApp):
             url(r'^(?P<slug>[\w-]+)',
                 ProductRetrieveView.as_view(use_modal_dialog=False)),
             url(r'^',
-                ProductListView.as_view(filter_backends=filter_backends)),
+                DshopProductListView.as_view(),
+                name='produits'),
         ]
 
 

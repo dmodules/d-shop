@@ -2,26 +2,15 @@
 {% load static cms_tags i18n thumbnail sekizai_tags dshop_tags dmrabais_tags %}
 
 {% block title %}
-    {% if request.resolver_match.kwargs.category_id %}
-        {% dm_get_category request.resolver_match.kwargs.category_id as current_category %}
-        {{current_category.name}}
-    {% elif request.resolver_match.kwargs.brand_id %}
-        {% dm_get_brand request.resolver_match.kwargs.brand_id as current_brand %}
-        {{current_brand.name}}
-    {% else %}
-        Produits
-    {% endif %}
+    {{ title_str }}
 {% endblock %}
 {% block meta-description %}{% page_attribute "meta_description" %}{% endblock %}
 
 {% block breadcrumb %}
-    {% if request.resolver_match.kwargs.category_id %}
-        {% dm_get_category request.resolver_match.kwargs.category_id as current_category %}
+    {% if current_category %}
         {% if current_category.image %}
             {% thumbnail current_category.image "2000x900" as category_thumb %}
         {% endif %}
-    {% elif request.resolver_match.kwargs.brand_id %}
-        {% dm_get_brand request.resolver_match.kwargs.brand_id as current_brand %}
     {% endif %}
     <section class="section-breadcrumb">
         <div class="breadcrumb_section bg_gray page-title-mini mb-4" style="{% if current_category %}{% if current_category.bg_color %}background-color:{{current_category.bg_color}}!important;{% endif %}{% if category_thumb %}background-image:url({{category_thumb.url}});{% endif %}{% endif %}">
@@ -48,43 +37,39 @@
 {% endblock breadcrumb %}
 
 {% block main-content %}
-    {% dm_quotation_feature as is_quotation %}
-    <div class="section pt-0">
-        <div class="container">
-            <div class="row">
-                {% dm_get_categories_parents as categories %}
-                {% dm_get_brands_all as brands %}
-                <!--<div class="{% if categories.count > 0 or brands.count > 0 %}col-lg-9{% else %}col-12{% endif %}">-->
-                <div class="col-12">
-                    <div class="row align-items-center mb-4 pb-1">
-                        <div class="col-12">
-                            <div class="product_header">
-                                <div class="product_header_left">
-                                    <div class="custom_select">
-                                        <select id="dm-productlist-sortby" class="form-control form-control-sm">
-                                            <option class="sb-default" value="default" disabled selected>{% trans "Sort by" %}</option>
-                                            <option class="sb-date-new" value="date-new">{% trans "Date: Recent to Old" %}</option>
-                                            <option class="sb-date-old"  value="date-old">{% trans "Date: Old to Recent" %}</option>
-                                            <option class="sb-alpha-asc"  value="alpha-asc">{% trans "Name: A to Z" %}</option>
-                                            <option class="sb-alpha-des"  value="alpha-des">{% trans "Name: Z to A" %}</option>
-                                            <option class="sb-price-asc"  value="price-asc">{% trans "Price: Low to High" %}</option>
-                                            <option class="sb-price-des"  value="price-des">{% trans "Price: High to Low" %}</option>
-                                        </select>
-                                    </div>
-                                    <div class="products_view">
-                                        <a href="javascript:Void(0);" class="shorting_icon grid active"><i class="ti-view-grid"></i></a>
-                                        <a href="javascript:Void(0);" class="shorting_icon list"><i class="ti-layout-list-thumb"></i></a>
-                                    </div>
-                                </div>
-                                <div class="product_header_right">
-                                    <div class="products-filters">
-                                        {% dm_get_filters_all as filters %}
-                                        {% if filters.count > 0 %}
-                                            <div class="filters-boxes">
-                                                <label class="filters-box dm-tous checked">
-                                                    <input type="checkbox" name="tous" checked />
-                                                    <div class="filters-text">Tous</div>
-                                                </label>
+<div class="section pt-0">
+<div class="container">
+    <div class="row">
+	<!--<div class="{% if categories.count > 0 or brands.count > 0 %}col-lg-9{% else %}col-12{% endif %}">-->
+	<div class="col-12">
+	    <div class="row align-items-center mb-4 pb-1">
+		<div class="col-12">
+		    <div class="product_header">
+			<div class="product_header_left">
+			    <div class="custom_select">
+				<select id="dm-productlist-sortby" class="form-control form-control-sm">
+				    <option class="sb-default" value="default" disabled selected>{% trans "Sort by" %}</option>
+				    <option class="sb-date-new" value="date-new">{% trans "Date: Recent to Old" %}</option>
+				    <option class="sb-date-old"  value="date-old">{% trans "Date: Old to Recent" %}</option>
+				    <option class="sb-alpha-asc"  value="alpha-asc">{% trans "Name: A to Z" %}</option>
+				    <option class="sb-alpha-des"  value="alpha-des">{% trans "Name: Z to A" %}</option>
+				    <option class="sb-price-asc"  value="price-asc">{% trans "Price: Low to High" %}</option>
+				    <option class="sb-price-des"  value="price-des">{% trans "Price: High to Low" %}</option>
+				</select>
+			    </div>
+			    <div class="products_view">
+				<a href="javascript:Void(0);" class="shorting_icon grid active"><i class="ti-view-grid"></i></a>
+				<a href="javascript:Void(0);" class="shorting_icon list"><i class="ti-layout-list-thumb"></i></a>
+			    </div>
+			</div>
+			<div class="product_header_right">
+			    <div class="products-filters">
+				{% if filters.count > 0 %}
+				    <div class="filters-boxes">
+					<label class="filters-box dm-tous checked">
+					    <input type="checkbox" name="tous" checked />
+					    <div class="filters-text">Tous</div>
+					</label>
                                                 {% for filter in filters %}
                                                     <label id="filter_{{filter.id}}" class="filters-box">
                                                         <input type="checkbox" name="{{filter.name|slugify}}" />
@@ -106,14 +91,7 @@
                         </div>
                     </div>
                     <div class="row shop_container grid produits">
-                        {% if request.resolver_match.kwargs.category_id %}
-                            {% dm_get_products_by_category request.resolver_match.kwargs.category_id 0 9 as products %}
-                        {% elif request.resolver_match.kwargs.brand_id %}
-                            {% dm_get_products_by_brand request.resolver_match.kwargs.brand_id 0 9 as products %}
-                        {% else %}
-                            {% dm_get_all_products 0 9 as products %}
-                        {% endif %}
-                        {% for product in products.products %}
+                        {% for product in products %}
                             <div class="produit col-md-4 col-6" data-filters="tous{% for filter in product.filters.all %} {{filter.name|slugify}}{% endfor %}">
                                 <div class="product">
                                     <div class="product_img">
@@ -223,11 +201,11 @@
                         {% endfor %}
                     </div>
                     <div class="row">
-                        {% if products.next > 0 %}
+                        {% if next > 0 %}
                         <div class="col-12 pt-5 text-center">
-                            {% if request.resolver_match.kwargs.category_id %}
+                            {% if current_category %}
                                 <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits('{{request.resolver_match.kwargs.category_id}}', 'category')" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
-                            {% elif request.resolver_match.kwargs.brand_id %}
+                            {% elif current_brand %}
                                 <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits('{{request.resolver_match.kwargs.brand_id}}', 'brand')" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
                             {% else %}
                                 <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits()" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>

@@ -98,7 +98,7 @@ class CMSPageReferenceMixin(object):
     def get_absolute_url(self):
         cms_page = self.cms_pages.order_by("node__path").last()
         if cms_page is None:
-            return urljoin("/produit/", self.slug)
+            return urljoin("/produits/", self.slug)
         return urljoin(cms_page.get_absolute_url(), self.slug)
 
 

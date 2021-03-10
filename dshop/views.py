@@ -15,6 +15,7 @@ from django.utils.translation import get_language_from_request
 from django.utils.html import strip_tags
 from django.utils.text import Truncator
 from django.shortcuts import redirect
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.template.defaultfilters import slugify
 from django.core.management import call_command
@@ -40,14 +41,15 @@ from shop.serializers.auth import PasswordResetConfirmSerializer
 from dal import autocomplete
 
 from dshop.models import Product, ProductFilterGroup, ProductFilter
-from dshop.models import Attribute, AttributeValue
+from dshop.models import Attribute, AttributeValue, ProductCategory, ProductBrand
 from dshop.transition import transition_change_notification
 from dshop.serializers import ProductSerializer
 
-from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL
+from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL, THEME_SLUG
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
 
-from feature_settings import *
+from feature_settings import QUOTATION
+
 
 try:
     from apps.dmRabais.models import dmCustomerPromoCode
@@ -131,22 +133,50 @@ def TestPaymentView(request):
 # ===---   Views used in products                              ---=== #
 #######################################################################
 
-class DshopProductListView(ListAPIView):
+class DshopProductListView(APIView):
 
     permission_classes = [AllowAny]
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-    filterset_fields = ['filters']
 
-    def get_queryset(self):
+    def get(self, request, *args, **kwargs):
         attribute = self.request.query_params.get('attribute', None)
-        queryset = self.queryset
+        category = self.request.query_params.get('category', None)
+        fltr = self.request.query_params.get('filter', None)
+        brand = self.request.query_params.get('brand', None)
+        products = Product.objects.filter(
+            Q(categories__active=True) | Q(categories=None),
+            active=True
+        )
+        title = 'Produits'
+        current_category = None
+        current_brand = None
+        if 'category_id' in kwargs:
+            products = products.filter(categories__id=kwargs['category_id'])
+            cat = ProductCategory.objects.filter(id=kwargs['category_id']).first()
+            if cat:
+                current_category = cat
+                title = cat.name
+        elif 'brand_id' in kwargs:
+            products = products.filter(brand=kwargs['brand_id'])
+            brnd = ProductBrand.objects.filter(id=kwargs['brand_id']).first()
+            if brnd:
+                current_brand = brnd
+                title = brnd.name
+
+        if category:
+            products = products.filter(categories__id__in=category.split(','))
+
+        if fltr:
+            products = products.filter(filters__id__in=fltr.split(','))
+
+        if brand:
+            products = products.filter(brand__id__in=brand.split(','))
+
         if attribute:
             attributes = attribute.split(',')
             attributes = AttributeValue.objects.filter(id__in=attributes)
             attributes = [ atr.value for atr in attributes ]
             ids = []
-            for q in queryset.all():
+            for q in products:
                 attrs = []
                 try:
                     for var in q.variants.all():
@@ -158,8 +188,26 @@ class DshopProductListView(ListAPIView):
                     if atr in attrs:
                         ids.append(q.id)
                         break
-            return Product.objects.filter(id__in=ids)
-        return queryset
+            products = Products.objects.filter(id__in=ids)
+        
+        categories = ProductCategory.objects.filter(parent=None, active=True)
+        brands = ProductBrand.objects.all()
+        filters = ProductFilter.objects.all()
+        data = {
+            'products': products,
+            'brands': brands,
+            'categories': categories,
+            'filters': filters,
+            'is_quotation': QUOTATION,
+            'title_str': title,
+            'current_category': current_category,
+            'current_brand': current_brand,
+            'next': 2
+        }
+        return render(request,
+            'theme/{}/pages/produits.html'.format(THEME_SLUG),
+            context=data
+        )
 
 
 class LoadFilters(APIView):
