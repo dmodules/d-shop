@@ -188,7 +188,7 @@ class DshopProductListView(APIView):
                     if atr in attrs:
                         ids.append(q.id)
                         break
-            products = Products.objects.filter(id__in=ids)
+            products = Product.objects.filter(id__in=ids)
         
         categories = ProductCategory.objects.filter(parent=None, active=True)
         brands = ProductBrand.objects.all()
@@ -345,7 +345,12 @@ class LoadProduits(APIView):
                 reverse=True
             )
         # ===---
+        print('offser: ' + str(offset), 'limit : ' + str(limit))
+        print(products)
+        print(products.count())
         products = products[offset:offset+limit]
+        print(products)
+        print(products.count())
         # ===---
         all_produits = []
         for produit in products:
