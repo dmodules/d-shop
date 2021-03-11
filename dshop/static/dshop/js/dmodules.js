@@ -99,6 +99,27 @@ function dmGetCookie(cname) {
     return ""
 }
 
+function dmApplyFilter(){
+    url = window.location.href;
+    url = url.split("?")[0];
+    filters = "filter="
+    $('[id^="filter_"]').each(function(i, obj) {
+        if (obj.name && obj.checked){
+            
+            filters += obj.name + ","
+        }
+    });
+    attributes = "attribute="
+    $('[id^="attribute_"]').each(function(i, obj) {
+        if (obj.name && obj.checked){
+            attributes += obj.name + ","
+        }
+    });
+    new_url = url + "?" + filters + "&" + attributes
+    window.location = new_url
+}
+
+
 function dmSetCookie(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -603,17 +624,21 @@ $(document).ready(function() {
         while (match = search.exec(query))
             urlParams[decode(match[1])] = decode(match[2]);
     })();
-    if (urlParams['filters']) {
-        filters = urlParams['filters'].split(",")
+    if (urlParams['filter']) {
+        filters = urlParams['filter'].split(",")
         filters.forEach(function (item, index) {
-            $("#filter_" + item).addClass('checked')
-            $("#filter_" + item).children('input').prop("checked", true)
+            if (item){
+                $("[id=filter_" + item+"]")[0].checked=true
+            }
         });
-        if (filters){
-            $('.filters-box.dm-tous').removeClass('checked')
-            $('.filters-box.dm-tous').children('input').prop("checked", false)
-        }
-        doProductsByFilters()
+    }
+    if (urlParams['attribute']) {
+        attributes = urlParams['attribute'].split(",")
+        attributes.forEach(function (item, index) {
+            if (item){
+                $("[id=attribute_" + item+"]")[0].checked=true
+            }
+        });
     }
 });
 

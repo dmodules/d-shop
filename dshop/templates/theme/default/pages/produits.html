@@ -64,130 +64,143 @@
 			</div>
 			<div class="product_header_right">
 			    <div class="products-filters">
-				{% if filters.count > 0 %}
-				    <div class="filters-boxes">
-					<label class="filters-box dm-tous checked">
-					    <input type="checkbox" name="tous" checked />
-					    <div class="filters-text">Tous</div>
-					</label>
-                                                {% for filter in filters %}
-                                                    <label id="filter_{{filter.id}}" class="filters-box">
-                                                        <input type="checkbox" name="{{filter.name|slugify}}" />
-                                                        <div class="filters-text">{{filter.name}}</div>
-                                                    </label>
-                                                {% endfor %}
-                                            </div>
-                                        {% else %}
-                                            <div class="filters-boxes" style="display:none;">
-                                                <label class="filters-box dm-tous checked">
-                                                    <input type="checkbox" name="tous" checked />
-                                                    <div class="filters-text">Tous</div>
-                                                </label>
-                                            </div>
-                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row shop_container grid produits">
-                        {% for product in products %}
-                            <div class="produit col-md-4 col-6" data-filters="tous{% for filter in product.filters.all %} {{filter.name|slugify}}{% endfor %}">
-                                <div class="product">
-                                    <div class="product_img">
-                                        <a href="{{product.get_absolute_url}}">
-                                        {% if product.main_image %}
-                                            {% thumbnail product.main_image 540x600 background="#ffffff" upscale as thumb %}
-                                            <img src="{{thumb.url}}" alt="{{product.product_name}}">
-                                        {% elif product.images.first %}
-                                            {% thumbnail product.images.first 540x600 background="#ffffff" upscale as thumb %}
-                                            <img src="{{thumb.url}}" alt="{{product.product_name}}">
-                                        {% else %}
-                                            <img src="https://via.placeholder.com/540x600/f7f8fb/f7f8fb" alt="{{product.product_name}}">
-                                        {% endif %}
-                                        </a>
-                                        <div class="product_action_box">
-                                        <ul class="list_none pr_action_btn">
-                                            <li>
-                                            <a href="{{product.get_absolute_url}}"><i class="ti-info-alt"></i></a>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <ul id="filters">
+                                {% for filt, value in filter_data.filter.items %}
+                                    <li>
+                                        <label for="filter-produits">{{ filt }}</label>
+                                    </li>
+                                    <ul style="list-style-type:none;">
+                                        {% for val in value.filter %}
+                                            <li style="margin-left: 25px;">
+                                                <input type="checkbox" id="filter_{{val.id}}" name={{val.id}} value={{val.name}}>
+                                                <label>{{val.name}}</label>
                                             </li>
-                                            {% if not product.variants and product.quantity > 0 %}
-                                                <li>
-                                                    {% if is_quotation %}
-                                                        <a href="#" onclick="dm_add2quotation($(this)); return false" data-product="{{product.product_code}}">
-                                                            <i class="icon-basket-loaded"></i>
-                                                        </a>
-                                                    {% else %}
-                                                        <a href="#" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}">
-                                                            <i class="icon-basket-loaded"></i>
-                                                        </a>
-                                                    {% endif %}
-                                                </li>
-                                            {% elif product.variants and product.variants.count == 1 %}
-                                                <li>
-                                                    {% if is_quotation %}
-                                                        <a href="#" onclick="dm_add2quotation_variant($(this)); return false" data-product="{{product.product_code}}" data-variant="{{product.variants.first.product_code}}">
-                                                            <i class="icon-basket-loaded"></i>
-                                                        </a>
-                                                    {% else %}
-                                                        <a href="#" onclick="dm_add2cart_variant($(this)); return false" data-product="{{product.slug}}" data-variant="{{product.variants.first.product_code}}">
-                                                            <i class="icon-basket-loaded"></i>
-                                                        </a>
-                                                    {% endif %}
-                                                </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endfor %}
+                            </ul>
+                            <ul id="attribute">
+                                {% for attr, value in filter_data.attribute.items %}
+                                    <li>
+                                        <label for="attribute-produits">{{ attr }}</label>
+                                    </li>
+                                    <ul style="list-style-type:none;">
+                                        {% for val in value %}
+                                            <li style="margin-left: 25px;">
+                                                <input type="checkbox" id="attribute_{{val.id}}" name={{val.id}} value={{val.name}}>
+                                                <label>{{val.name}}</label>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endfor %}
+                            </ul>
+                            <input type="button" value="submit" onclick="dmApplyFilter()">
+                        </div>
+                        <div class="col-md-10 row shop_container grid produits">
+                            {% for product in products %}
+                                <div class="produit col-md-4 col-6" data-filters="tous{% for filter in product.filters.all %} {{filter.name|slugify}}{% endfor %}">
+                                    <div class="product">
+                                        <div class="product_img">
+                                            <a href="{{product.get_absolute_url}}">
+                                            {% if product.main_image %}
+                                                {% thumbnail product.main_image 540x600 background="#ffffff" upscale as thumb %}
+                                                <img src="{{thumb.url}}" alt="{{product.product_name}}">
+                                            {% elif product.images.first %}
+                                                {% thumbnail product.images.first 540x600 background="#ffffff" upscale as thumb %}
+                                                <img src="{{thumb.url}}" alt="{{product.product_name}}">
+                                            {% else %}
+                                                <img src="https://via.placeholder.com/540x600/f7f8fb/f7f8fb" alt="{{product.product_name}}">
                                             {% endif %}
-                                        </ul>
+                                            </a>
+                                            <div class="product_action_box">
+                                            <ul class="list_none pr_action_btn">
+                                                <li>
+                                                <a href="{{product.get_absolute_url}}"><i class="ti-info-alt"></i></a>
+                                                </li>
+                                                {% if not product.variants and product.quantity > 0 %}
+                                                    <li>
+                                                        {% if is_quotation %}
+                                                            <a href="#" onclick="dm_add2quotation($(this)); return false" data-product="{{product.product_code}}">
+                                                                <i class="icon-basket-loaded"></i>
+                                                            </a>
+                                                        {% else %}
+                                                            <a href="#" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}">
+                                                                <i class="icon-basket-loaded"></i>
+                                                            </a>
+                                                        {% endif %}
+                                                    </li>
+                                                {% elif product.variants and product.variants.count == 1 %}
+                                                    <li>
+                                                        {% if is_quotation %}
+                                                            <a href="#" onclick="dm_add2quotation_variant($(this)); return false" data-product="{{product.product_code}}" data-variant="{{product.variants.first.product_code}}">
+                                                                <i class="icon-basket-loaded"></i>
+                                                            </a>
+                                                        {% else %}
+                                                            <a href="#" onclick="dm_add2cart_variant($(this)); return false" data-product="{{product.slug}}" data-variant="{{product.variants.first.product_code}}">
+                                                                <i class="icon-basket-loaded"></i>
+                                                            </a>
+                                                        {% endif %}
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                            </div>
+                                            {% if product.label %}
+                                                <span class="product_sale_customlabel" style="background-color:{{ product.label.bg_colour }};border-color:{{ product.label.colour }};color:{{ product.label.colour }};">{{ product.label.name }}</span>
+                                            {% endif %}
                                         </div>
-                                        {% if product.label %}
-                                            <span class="product_sale_customlabel" style="background-color:{{ product.label.bg_colour }};border-color:{{ product.label.colour }};color:{{ product.label.colour }};">{{ product.label.name }}</span>
-                                        {% endif %}
-                                    </div>
-                                    <div class="product_info">
-                                        <h6 class="product_title"><a href="{{product.get_absolute_url}}">{{product.product_name}}</a></h6>
-                                        <div class="product_price">
-                                            {% if product.variants %}
-                                                {% if product.variants.first %}
-                                                    {% product_variant_discount_price product.variants.first.id as real_price %}
-                                                    <span class="price">{{real_price}}</span>
-                                                    {% if real_price != product.variants.first.unit_price %}
-                                                        <del>{{product.variants.first.unit_price}}</del>
+                                        <div class="product_info">
+                                            <h6 class="product_title"><a href="{{product.get_absolute_url}}">{{product.product_name}}</a></h6>
+                                            <div class="product_price">
+                                                {% if product.variants %}
+                                                    {% if product.variants.first %}
+                                                        {% product_variant_discount_price product.variants.first.id as real_price %}
+                                                        <span class="price">{{real_price}}</span>
+                                                        {% if real_price != product.variants.first.unit_price %}
+                                                            <del>{{product.variants.first.unit_price}}</del>
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <span class="price">-</span>
+                                                    {% endif %}
+                                                    {% dm_variants_is_outofstock product.variants as variants_outofstock %}
+                                                    {% dm_variants_is_discounted product.variants as variants_isdiscounted %}
+                                                    {% if variants_outofstock %}
+                                                        <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
+                                                    {% elif variants_isdiscounted %}
+                                                        <span class="product_sale_discounted">{% trans "Discounted" %}</span>
                                                     {% endif %}
                                                 {% else %}
-                                                    <span class="price">-</span>
+                                                    {% product_discount_price product.id as real_price %}
+                                                    <span class="price">{{real_price}}</span>
+                                                    {% if real_price != product.unit_price %}
+                                                        <del>{{product.unit_price}}</del>
+                                                    {% endif %}
                                                 {% endif %}
-                                                {% dm_variants_is_outofstock product.variants as variants_outofstock %}
-                                                {% dm_variants_is_discounted product.variants as variants_isdiscounted %}
-                                                {% if variants_outofstock %}
+                                                {% if product.quantity == 0 %}
                                                     <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
-                                                {% elif variants_isdiscounted %}
+                                                {% elif product.is_discounted %}
                                                     <span class="product_sale_discounted">{% trans "Discounted" %}</span>
                                                 {% endif %}
-                                            {% else %}
-                                                {% product_discount_price product.id as real_price %}
-                                                <span class="price">{{real_price}}</span>
-                                                {% if real_price != product.unit_price %}
-                                                    <del>{{product.unit_price}}</del>
+                                            </div>
+                                            <div class="pr_desc">
+                                                {% if product.caption %}
+                                                    {{product.caption|safe}}
+                                                {% elif product.description %}
+                                                    {{product.description|safe}}
                                                 {% endif %}
-                                            {% endif %}
-                                            {% if product.quantity == 0 %}
-                                                <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
-                                            {% elif product.is_discounted %}
-                                                <span class="product_sale_discounted">{% trans "Discounted" %}</span>
-                                            {% endif %}
+                                            </div>
+                                            <div class="list_product_action_box">
+                                                <ul class="list_none">
+                                                    <button class="btn btn-fill-out btn-addtocart" type="button" onclick="location.href='{{product.get_absolute_url}}';">{% trans "See more" %}</button>
+                                                </ul>
+                                            </div>
                                         </div>
-                                        <div class="pr_desc">
-                                            {% if product.caption %}
-                                                {{product.caption|safe}}
-                                            {% elif product.description %}
-                                                {{product.description|safe}}
-                                            {% endif %}
-                                        </div>
-                                        <div class="list_product_action_box">
-                                            <ul class="list_none">
-                                                <button class="btn btn-fill-out btn-addtocart" type="button" onclick="location.href='{{product.get_absolute_url}}';">{% trans "See more" %}</button>
-                                            </ul>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         {% empty %}
@@ -199,6 +212,7 @@
                                 </div>
                             </div>
                         {% endfor %}
+                       </div>
                     </div>
                     <div class="row">
                         {% if next > 0 %}

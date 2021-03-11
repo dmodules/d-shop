@@ -163,16 +163,19 @@ class DshopProductListView(APIView):
                 title = brnd.name
 
         if category:
-            products = products.filter(categories__id__in=category.split(','))
+            category = [ val for val in category.split(',') if val ]
+            products = products.filter(categories__id__in=category).distinct()
 
         if fltr:
-            products = products.filter(filters__id__in=fltr.split(','))
+            fltr = [ val for val in fltr.split(',') if val ]
+            products = products.filter(filters__id__in=fltr).distinct()
 
         if brand:
-            products = products.filter(brand__id__in=brand.split(','))
+            brand = [ val for val in brand.split(',') if val ]
+            products = products.filter(brand__id__in=brand).distinct()
 
         if attribute:
-            attributes = attribute.split(',')
+            attributes = [ val for val in attribute.split(',') if val ]
             attributes = AttributeValue.objects.filter(id__in=attributes)
             attributes = [ atr.value for atr in attributes ]
             ids = []
@@ -197,11 +200,13 @@ class DshopProductListView(APIView):
         if products.count() > 9:
             products = products[0:9]
             next_page = True
+        filter_data = LoadFilters.as_view()(request=request._request).data
         data = {
             'products': products,
             'brands': brands,
             'categories': categories,
             'filters': filters,
+            'filter_data': filter_data,
             'is_quotation': QUOTATION,
             'title_str': title,
             'current_category': current_category,
