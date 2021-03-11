@@ -209,8 +209,15 @@ class DshopProductListView(APIView):
                         break
             products = Product.objects.filter(id__in=ids)
         
-        if orderby == 'get_p' or orderby == '-get_p':
-            products = sorted(products, key=lambda product: product.get_p)
+        if orderby == 'get_p':
+            products = sorted(
+                products, key=lambda product: product.get_price(request)
+            )
+        elif orderby == '-get_p':
+            products = sorted(
+                products, key=lambda product: product.get_price(request),
+                reverse=True
+            )
         else:
             products = products.order_by(orderby)
         categories = ProductCategory.objects.filter(parent=None, active=True)
