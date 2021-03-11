@@ -233,7 +233,7 @@ function dm_add2cart(k) {
   if ($(k).data("quantity")) {
     quantity = $(k).data("quantity")
   }
-  $.get(site + i18n.product[lang] + "/" + endpoint + "/add-to-cart", function(getResult) {
+  $.get(site + "produits/" + endpoint + "/add-to-cart", function(getResult) {
     if (getResult.availability.quantity > 0) {
         if (getResult.availability.quantity >= quantity) {
             getResult.product_code = getResult.product_code.toString()
@@ -264,7 +264,7 @@ function dm_add2cart_variant(k) {
     quantity = $(k).data("quantity")
   }
   if (variant) {
-    $.get(site + i18n.product[lang] + "/" + endpoint + "/add-productvariable-to-cart?product_code="+variant, function(getResult) {
+    $.get(site + "produits/" + endpoint + "/add-productvariable-to-cart?product_code="+variant, function(getResult) {
         if (getResult.availability.quantity > 0) {
             if (getResult.availability.quantity >= quantity) {
                 getResult.quantity = quantity
