@@ -12,9 +12,9 @@ from post_office import mail
 from post_office.models import EmailTemplate
 from django.core.mail import send_mail
 
-from settings import SHOP_VENDOR_EMAIL
+from settings import SHOP_VENDOR_EMAIL, THEME_SLUG
 from settings import NOTIFICATION_TARGET
-from settings import CC_EMAILS
+from settings import CC_EMAILS, DEFAULT_FROM_EMAIL
 from shop.conf import app_settings
 from shop.models.order import BaseOrder
 from shop.models.notification import Notification
@@ -103,24 +103,31 @@ def transition_change_notification(order, miniorder=None):
         template = None
         print("Error in notification: " + str(e))
 
+    subject = ""
+    if order.status == "payment_confirmed":
+        subject = "D-Shop - Votre commande"
+    if order.status == "":
+        subject = "D-Shop - Votre commande est expédiée"
+
     # Temperory comment for testing
-    '''if target['to_vendor']:
-        cc_emails = ''
+    if target['to_vendor']:
+        cc_emails = []
         if target['cc_emails']:
-            cc_emails = CC_EMAILS
+            if CC_EMAILS:
+                cc_emails = CC_EMAILS.split(",")
         send_mail(
-            SHOP_VENDOR_EMAIL,
+            subject,
+            '',
+            DEFAULT_FROM_EMAIL,
+            [SHOP_VENDOR_EMAIL, ] + cc_emails,
             html_message=html_message,
-            context=context,
-            render_on_delivery=True
-        )'''
-    from settings import EMAIL_HOST_USER
+        )
     if target['to_customer']:
         # Once email will be working, need to add subject and body
         send_mail(
-            'Subject: test mail',
+            subject,
             '',
-            EMAIL_HOST_USER,
+            DEFAULT_FROM_EMAIL,
             [order.customer.email, ],
             html_message=html_message,
         )
@@ -170,13 +177,18 @@ def quotation_new_notification(quotation):
     else:
         context['phone'] = ""
     attachments = {}
-    template = EmailTemplate.objects.get(name='customer_quotation_receipt')
-    mail.send(
-        [SHOP_VENDOR_EMAIL],
-        template=template,
-        context=context,
-        attachments=attachments,
-        render_on_delivery=True
+    email_path = os.path.join('theme', THEME_SLUG, 'email')
+
+    template = os.path.join(email_path, 'quotation-receipt.html')
+    template = loader.get_template(template)
+    html_message = template.render(context)
+    subject = "D-Shop - Une nouvelle commande vient d'arriver"
+    send_mail(
+        subject,
+        '',
+        DEFAULT_FROM_EMAIL,
+        [SHOP_VENDOR_EMAIL, ],
+        html_message=html_message,
     )
     emails_in_queue = True
     if emails_in_queue:

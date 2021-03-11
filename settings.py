@@ -185,7 +185,8 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 DEFAULT_TO_EMAIL = os.getenv("DEFAULT_TO_EMAIL")
 EMAIL_REPLY_TO = "info@d-modules.com"
-EMAIL_BACKEND = "post_office.EmailBackend"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_BACKEND = "post_office.EmailBackend"
 
 #######################################################################
 # Mailchimp Settings
