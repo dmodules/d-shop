@@ -142,6 +142,22 @@ class DshopProductListView(APIView):
         category = self.request.query_params.get('category', None)
         fltr = self.request.query_params.get('filter', None)
         brand = self.request.query_params.get('brand', None)
+        sortby = request.COOKIES.get("dm_psortby", "default")
+        if sortby == "date-new":
+            orderby = "-created_at"
+        elif sortby == "date-old":
+            orderby = "created_at"
+        elif sortby == "alpha-asc":
+            orderby = "product_name"
+        elif sortby == "alpha-des":
+            orderby = "-product_name"
+        elif sortby == "price-asc":
+            orderby = "get_p"
+        elif sortby == "price-des":
+            orderby = "-get_p"
+        else:
+            orderby = "order"
+
         products = Product.objects.filter(
             Q(categories__active=True) | Q(categories=None),
             active=True
@@ -193,11 +209,15 @@ class DshopProductListView(APIView):
                         break
             products = Product.objects.filter(id__in=ids)
         
+        if orderby == 'get_p' or orderby == '-get_p':
+            products = sorted(products, key=lambda product: product.get_p)
+        else:
+            products = products.order_by(orderby)
         categories = ProductCategory.objects.filter(parent=None, active=True)
         brands = ProductBrand.objects.all()
         filters = ProductFilter.objects.all()
         next_page = False
-        if products.count() > 9:
+        if len(products) > 9:
             products = products[0:9]
             next_page = True
         filter_data = LoadFilters.as_view()(request=request._request).data
@@ -350,12 +370,7 @@ class LoadProduits(APIView):
                 reverse=True
             )
         # ===---
-        print('offser: ' + str(offset), 'limit : ' + str(limit))
-        print(products)
-        print(products.count())
         products = products[offset:offset+limit]
-        print(products)
-        print(products.count())
         # ===---
         all_produits = []
         for produit in products:

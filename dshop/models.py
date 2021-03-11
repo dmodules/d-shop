@@ -763,6 +763,10 @@ class ProductDefault(AvailableProductMixin, Product):
             return True
         return False
 
+    @property
+    def get_p(self):
+        return self.get_price()
+
     def get_price(self, request=None):  # noqa C910
         r = self.unit_price
 
@@ -891,7 +895,11 @@ class ProductVariable(Product):
             return desc
         return ""
 
-    def get_price(self, request):
+    @property
+    def get_p(self):
+        return self.get_price()
+
+    def get_price(self, request=None):
         if not hasattr(self, "_price"):
             if self.variants.exists():
                 currency = self.variants.first().unit_price.currency
@@ -1073,7 +1081,11 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         elif self.start_date < today and self.end_date > today:
             return True
 
-    def get_price(self, request):  # noqa: C901
+    @property
+    def get_p(self):
+        return self.get_price()
+
+    def get_price(self, request=None):  # noqa: C901
         r = self.unit_price
 
         if self.is_discounted:
