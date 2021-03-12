@@ -99,7 +99,7 @@ function dmGetCookie(cname) {
     return ""
 }
 
-function dmApplyFilter(){
+function dmFilterURL(){
     url = window.location.href;
     url = url.split("?")[0];
     filters = "filter="
@@ -115,7 +115,12 @@ function dmApplyFilter(){
             attributes += obj.name + ","
         }
     });
-    new_url = url + "?" + filters + "&" + attributes
+    return [url, filters, attributes]
+}
+
+function dmApplyFilter(){
+    data = dmFilterURL()
+    return data[0] + "?" + data[1] + "&" + data[2]
     window.location = new_url
 }
 
@@ -855,13 +860,15 @@ function loadMoreProduits(what = null, search = null) {
     let limit = $('.dm-btn-more').data('limit')
     let cookie_sortby = dmGetCookie("dm_psortby")
     let query = ''
+    data = dmFilterURL()
     if (search == 'category') {
       query = '&category='+what
     } else if (search == 'brand') {
       query = '&brand='+what
     }
     // ===---
-    $.get("/api/fe/moreproduits/?offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
+    //$.get("/api/fe/moreproduits/?offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
+    $.get("/fr/produits/?type=1&"+data[1]+"&"+data[2]+"&offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
       let r = ''
       getResult.products.forEach((product) => {
         r = ''
@@ -940,7 +947,7 @@ function loadMoreProduits(what = null, search = null) {
       }
     }).then(function() {
       setClickBtn()
-      doProductsByFilters()
+      //doProductsByFilters()
       $('.dm-btn-more').data('offset', offset + limit)
     })
     // ===---

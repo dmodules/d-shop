@@ -222,7 +222,7 @@
                             {% elif current_brand %}
                                 <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits('{{request.resolver_match.kwargs.brand_id}}', 'brand')" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
                             {% else %}
-                                <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits()" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
+                                <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits()" data-offset="9" data-limit="9">{% trans 'See more products' %}</a>
                             {% endif %}
                         </div>
                         {% endif %}
