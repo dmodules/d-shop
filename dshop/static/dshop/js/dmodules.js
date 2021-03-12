@@ -115,12 +115,26 @@ function dmFilterURL(){
             attributes += obj.name + ","
         }
     });
-    return [url, filters, attributes]
+    categories = "category="
+    $('[id^="category_"]').each(function(i, obj) {
+        if (obj.name && obj.checked){
+            categories += obj.name + ","
+        }
+    });
+    brands = "brand="
+    $('[id^="brand_"]').each(function(i, obj) {
+        if (obj.name && obj.checked){
+            brands += obj.name + ","
+        }
+    });
+    return [url, filters, attributes, categories, brands]
 }
 
 function dmApplyFilter(){
     data = dmFilterURL()
-    return data[0] + "?" + data[1] + "&" + data[2]
+    
+    new_url = data[0] + "?" + data[1] + "&" + data[2] + "&" + data[3] + "&" + data[4]
+    alert(new_url);
     window.location = new_url
 }
 
@@ -645,6 +659,22 @@ $(document).ready(function() {
             }
         });
     }
+    if (urlParams['brand']) {
+        attributes = urlParams['brand'].split(",")
+        attributes.forEach(function (item, index) {
+            if (item){
+                $("[id=brand_" + item+"]")[0].checked=true
+            }
+        });
+    }
+    if (urlParams['category']) {
+        attributes = urlParams['category'].split(",")
+        attributes.forEach(function (item, index) {
+            if (item){
+                $("[id=category_" + item+"]")[0].checked=true
+            }
+        });
+    }
 });
 
 function mobilevh () {
@@ -868,7 +898,7 @@ function loadMoreProduits(what = null, search = null) {
     }
     // ===---
     //$.get("/api/fe/moreproduits/?offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
-    $.get("/fr/produits/?type=1&"+data[1]+"&"+data[2]+"&offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
+    $.get("/fr/produits/?type=1&"+data[1]+"&"+data[2]+"&"+data[3]+"&"+data[4]+"&offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
       let r = ''
       getResult.products.forEach((product) => {
         r = ''

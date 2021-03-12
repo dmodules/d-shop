@@ -365,7 +365,26 @@ class LoadFilters(APIView):
                     'name': val.value
                 })
 
-        return RestResponse({'filter': data, 'attribute': a_data})
+        categories = ProductCategory.objects.filter(parent=None, active=True)
+        cat_data = []
+        for cat in categories:
+            cat_d = {'id': cat.id, 'name': cat.name}
+            child_c = []
+            for child in ProductCategory.objects.filter(parent=cat, active=True):
+                child_c.append({'id': child.id, 'name': child.name})
+            cat_d['child'] = child_c
+            cat_data.append(cat_d)
+
+        brands = []
+        for brand in ProductBrand.objects.all():
+            brands.append({'id': brand.id, 'name': brand.name})
+
+        return RestResponse({
+            'filter': data,
+            'attribute': a_data,
+            'categories': cat_data,
+            'brands': brands
+        })
 
 
 class LoadProduits(APIView):
