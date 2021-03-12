@@ -1764,6 +1764,11 @@ class dmBlocEtapesChild(CMSPlugin):
 
 
 class dmBlockSalesParent(CMSPlugin):
+    CHOIX_PERLINE = [
+        (1, _("1 block")),
+        (2, _("2 blocks")),
+        (3, _("3 blocks"))
+    ]
     title = models.CharField(
         verbose_name=_("Title"),
         max_length=100,
@@ -1776,6 +1781,13 @@ class dmBlockSalesParent(CMSPlugin):
         configuration="CKEDITOR_SETTINGS_DMPLUGIN",
         null=True,
         blank=True
+    )
+    perline = models.PositiveSmallIntegerField(
+        verbose_name=_("How many block per line?"),
+        choices=CHOIX_PERLINE,
+        default=2,
+        null=False,
+        blank=False
     )
 
 
