@@ -1559,6 +1559,13 @@ class dmBlocSliderChild(CMSPlugin):
         blank=True,
         help_text=_("Maximum 100 characters.")
     )
+    suptitle = models.CharField(
+        verbose_name=_("Suptitle"),
+        max_length=200,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 200 characters.")
+    )
     subtitle = models.CharField(
         verbose_name=_("Subtitle"),
         max_length=200,
@@ -1568,6 +1575,11 @@ class dmBlocSliderChild(CMSPlugin):
     )
     title_color = ColorField(
         verbose_name=_("Title's Colour"),
+        null=True,
+        blank=True
+    )
+    suptitle_color = ColorField(
+        verbose_name=_("Suptitle's Colour"),
         null=True,
         blank=True
     )

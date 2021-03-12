@@ -2101,6 +2101,9 @@ msgstr "Nombre de logos de marque affichés en même temps."
 msgid "Subtitle"
 msgstr "Sous-titre"
 
+msgid "Suptitle"
+msgstr "Sur-titre"
+
 #: dshop/models.py:1395 dshop/models.py:1442 dshop/models.py:1493
 #: dshop/models.py:1614 dshop/models.py:1638 dshop/models.py:1666
 #: dshop/models.py:1688
