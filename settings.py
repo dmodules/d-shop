@@ -84,6 +84,7 @@ INSTALLED_APPS.extend([  # noqa: F821
     "apps.dmTaxes",
     "apps.dmSearch",
     "apps.dmQuotation",
+    "apps.dmJobModule",
     # ===---
     "shop",
     "dshop",
@@ -758,6 +759,9 @@ TEMP_ADMIN_REORDER = [
     },
     {
         "app": "filer"
+    },
+    {
+        "app": "dmJobModule"
     },
 ]
 

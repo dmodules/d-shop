@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Emplois disponibles</h2>
+                </div>
+                <div class="gaadiex-list">
+                    {% for job in data %}
+                        <div class="gaadiex-list-item">
+                             <h3><a href="/job/{{ job.id }}">{{ job.title }}</a></h3>
+                             <h4>{{ job.location }}</h4>
+                             <p>{{ job.description }}</p>
+                         </div>
+                     {% endfor %}
+                 </div>
+             </div>
+         </div>
+     </div>
+
+{% endblock content %}

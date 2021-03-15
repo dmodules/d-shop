@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2>{{ data.title }}</h2>
+                </div>
+                <div>
+                    <strong>{{ data.location }}</strong><br><br>
+                </div>
+                <div>
+                    <p>{{ data.description|linebreaks }}</p><br><br>
+                </div>
+                <div>
+                    <strong>Salaire de départ:</strong> {{ data.salary }}<br><br>
+                </div>
+                <div>
+                    <strong>Compétences requises:</strong><br><br>
+                    {{ data.skills }}<br><br>
+                </div>
+                <div class="gaadiex-list">
+                    <strong>Horaire de travail:</strong> {{ data.work_schedule }}<br><br>
+                </div>
+                <div class="gaadiex-list">
+                    <strong>Formation requise:</strong> {{ data.training }}<br><br>
+                </div>
+                <div class="gaadiex-list">
+                    <strong>Date d'entrée en poste:</strong> {{ data.joining }}<br><br>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Postulez maintenant</h2>
+                </div>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class=""{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="exampleInputName">Votre nom :</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail">Votre courriel :</label>
+                        <input type="email" class="form-control" name="email" aria-describedby="emailHelp" required>
+                        <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre e-mail avec qui que ce soit.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPhone">Votre téléphone :</label>
+                        <input type="text" class="form-control" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputMessage">Votre message :</label>
+                        <textarea class="form-control" name="message" rows="6" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlFile">Votre CV :</label>
+                        <input type="file" class="form-control-file" name="cv" required>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label" for="exampleCheck1">Capcha</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+               </form>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
