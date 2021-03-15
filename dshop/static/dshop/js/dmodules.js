@@ -99,7 +99,7 @@ function dmGetCookie(cname) {
     return ""
 }
 
-function dmApplyFilter(){
+function dmFilterURL(){
     url = window.location.href;
     url = url.split("?")[0];
     filters = "filter="
@@ -115,7 +115,26 @@ function dmApplyFilter(){
             attributes += obj.name + ","
         }
     });
-    new_url = url + "?" + filters + "&" + attributes
+    categories = "category="
+    $('[id^="category_"]').each(function(i, obj) {
+        if (obj.name && obj.checked){
+            categories += obj.name + ","
+        }
+    });
+    brands = "brand="
+    $('[id^="brand_"]').each(function(i, obj) {
+        if (obj.name && obj.checked){
+            brands += obj.name + ","
+        }
+    });
+    return [url, filters, attributes, categories, brands]
+}
+
+function dmApplyFilter(){
+    data = dmFilterURL()
+    
+    new_url = data[0] + "?" + data[1] + "&" + data[2] + "&" + data[3] + "&" + data[4]
+    alert(new_url);
     window.location = new_url
 }
 
@@ -640,6 +659,22 @@ $(document).ready(function() {
             }
         });
     }
+    if (urlParams['brand']) {
+        attributes = urlParams['brand'].split(",")
+        attributes.forEach(function (item, index) {
+            if (item){
+                $("[id=brand_" + item+"]")[0].checked=true
+            }
+        });
+    }
+    if (urlParams['category']) {
+        attributes = urlParams['category'].split(",")
+        attributes.forEach(function (item, index) {
+            if (item){
+                $("[id=category_" + item+"]")[0].checked=true
+            }
+        });
+    }
 });
 
 function mobilevh () {
@@ -855,13 +890,15 @@ function loadMoreProduits(what = null, search = null) {
     let limit = $('.dm-btn-more').data('limit')
     let cookie_sortby = dmGetCookie("dm_psortby")
     let query = ''
+    data = dmFilterURL()
     if (search == 'category') {
       query = '&category='+what
     } else if (search == 'brand') {
       query = '&brand='+what
     }
     // ===---
-    $.get("/api/fe/moreproduits/?offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
+    //$.get("/api/fe/moreproduits/?offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
+    $.get("/fr/produits/?type=1&"+data[1]+"&"+data[2]+"&"+data[3]+"&"+data[4]+"&offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
       let r = ''
       getResult.products.forEach((product) => {
         r = ''
@@ -940,7 +977,7 @@ function loadMoreProduits(what = null, search = null) {
       }
     }).then(function() {
       setClickBtn()
-      doProductsByFilters()
+      //doProductsByFilters()
       $('.dm-btn-more').data('offset', offset + limit)
     })
     // ===---

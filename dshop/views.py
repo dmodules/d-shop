@@ -6,7 +6,7 @@ from easy_thumbnails.files import get_thumbnailer
 from ipware.ip import get_client_ip as get_ip
 
 from cms.models import Title
-
+from django.db.models.functions import Lower
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -142,15 +142,18 @@ class DshopProductListView(APIView):
         category = self.request.query_params.get('category', None)
         fltr = self.request.query_params.get('filter', None)
         brand = self.request.query_params.get('brand', None)
+        response_type = self.request.query_params.get('type', None)
+        offset = int(request.GET.get("offset", 0))
+        limit = int(request.GET.get("limit", 9))
         sortby = request.COOKIES.get("dm_psortby", "default")
         if sortby == "date-new":
             orderby = "-created_at"
         elif sortby == "date-old":
             orderby = "created_at"
         elif sortby == "alpha-asc":
-            orderby = "product_name"
+            orderby = Lower("product_name")
         elif sortby == "alpha-des":
-            orderby = "-product_name"
+            orderby = Lower("product_name").desc()
         elif sortby == "price-asc":
             orderby = "get_p"
         elif sortby == "price-des":
@@ -224,9 +227,12 @@ class DshopProductListView(APIView):
         brands = ProductBrand.objects.all()
         filters = ProductFilter.objects.all()
         next_page = False
-        if len(products) > 9:
-            products = products[0:9]
+
+        if len(products) > offset + limit:
+            products = products[ offset : limit]
             next_page = True
+        else:
+            products = products[ offset : ]
         filter_data = LoadFilters.as_view()(request=request._request).data
         data = {
             'products': products,
@@ -240,10 +246,84 @@ class DshopProductListView(APIView):
             'current_brand': current_brand,
             'next': next_page
         }
-        return render(request,
-            'theme/{}/pages/produits.html'.format(THEME_SLUG),
-            context=data
-        )
+
+        if not response_type:
+            return render(request,
+                'theme/{}/pages/produits.html'.format(THEME_SLUG),
+                context=data
+            )
+        # ===---
+        all_produits = []
+        for produit in products:
+            data = {}
+            data['name'] = produit.product_name
+            data['url'] = produit.get_absolute_url()
+            data['caption'] = strip_tags(Truncator(produit.caption).words(18))
+            data['slug'] = produit.slug
+            if produit.main_image:
+                data['image'] = get_thumbnailer(
+                    produit.main_image).get_thumbnail({
+                        'size': (540, 600),
+                        'upscale': True,
+                        'background': "#ffffff"
+                    }).url
+            elif produit.images.first():
+                data['image'] = get_thumbnailer(
+                    produit.images.first()).get_thumbnail({
+                        'size': (540, 600),
+                        'upscale':
+                        True,
+                        'background':
+                        "#ffffff"
+                    }).url
+            else:
+                data['image'] = None
+            if produit.filters.all():
+                data['filters'] = " ".join(
+                    [slugify(d.name) for d in produit.filters.all()])
+            else:
+                data['filters'] = None
+            if produit.label:
+                data['label'] = {}
+                data['label']['name'] = produit.label.name
+                data['label']['colour'] = produit.label.colour
+                data['label']['bg_colour'] = produit.label.bg_colour
+            else:
+                data['label'] = None
+            if hasattr(produit, 'variants'):
+                data['variants'] = True
+                data['variants_count'] = produit.variants.all().count()
+                if produit.variants.first():
+                    data['variants_product_code'] = produit.variants.first(
+                    ).product_code
+                    data['price'] = produit.variants.first().get_price(request)
+                    data['realprice'] = produit.variants.first().unit_price
+                    data['is_discounted'] = False
+                    for v in produit.variants.all():
+                        if v.is_discounted:
+                            data['is_discounted'] = True
+                    data['quantity'] = 0
+                    for v in produit.variants.all():
+                        if v.quantity > 0:
+                            data['quantity'] = v.quantity
+                else:
+                    data['variants_product_code'] = ""
+                    data['price'] = "-"
+                    data['is_discounted'] = False
+                    data['quantity'] = 0
+            else:
+                data['product_code'] = produit.product_code
+                data['price'] = produit.get_price(request)
+                data['realprice'] = produit.unit_price
+                data['variants'] = False
+                data['variants_count'] = 0
+                data['is_discounted'] = produit.is_discounted
+                data['quantity'] = produit.quantity
+            data['is_quotation'] = QUOTATION
+            all_produits.append(data)
+        # ===---
+        result = {"products": all_produits, "next": next_page}
+        return RestResponse(result)
 
 
 class LoadFilters(APIView):
@@ -285,7 +365,26 @@ class LoadFilters(APIView):
                     'name': val.value
                 })
 
-        return RestResponse({'filter': data, 'attribute': a_data})
+        categories = ProductCategory.objects.filter(parent=None, active=True)
+        cat_data = []
+        for cat in categories:
+            cat_d = {'id': cat.id, 'name': cat.name}
+            child_c = []
+            for child in ProductCategory.objects.filter(parent=cat, active=True):
+                child_c.append({'id': child.id, 'name': child.name})
+            cat_d['child'] = child_c
+            cat_data.append(cat_d)
+
+        brands = []
+        for brand in ProductBrand.objects.all():
+            brands.append({'id': brand.id, 'name': brand.name})
+
+        return RestResponse({
+            'filter': data,
+            'attribute': a_data,
+            'categories': cat_data,
+            'brands': brands
+        })
 
 
 class LoadProduits(APIView):
