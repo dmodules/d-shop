@@ -69,6 +69,27 @@ def dm_get_site_contacts():
 
 
 @register.simple_tag
+def dm_get_site_contact():
+    """Get contacts's data from the first Site registered in admin panel"""
+    result = dmSite.objects.first()
+    if not result:
+        return []
+    else:
+        result = result.contacts.first()
+        count = 0
+        if result.address:
+            count += 1
+        if result.email:
+            count += 1
+        if result.phone:
+            count += 1
+        return {
+            "result": result,
+            "count": count
+        }
+
+
+@register.simple_tag
 def dm_get_site_coord():
     """Get coordinates's data from Site's address"""
     coords = {

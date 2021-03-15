@@ -2771,3 +2771,6 @@ msgstr "Groupes de filtres"
 
 msgid "How many block per line?"
 msgstr "Combien de bloc par ligne ?"
+
+msgid "Schedule"
+msgstr "Horaire"

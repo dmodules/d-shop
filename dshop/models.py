@@ -1250,6 +1250,11 @@ class dmSiteContact(models.Model):
         blank=True,
         null=True
     )
+    schedule = models.TextField(
+        verbose_name=_("Schedule"),
+        blank=True,
+        null=True
+    )
 
     class Meta:
         verbose_name = _("Contacts")

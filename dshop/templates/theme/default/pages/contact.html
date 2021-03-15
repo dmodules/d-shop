@@ -4,57 +4,57 @@
 {% block title %}{% page_attribute "page_title" %}{% endblock %}
 
 {% block main-content %}
-{% dm_get_site_contacts as contacts %}
+{% dm_get_site_contact as c %}
 <div class="section pb_70">
-  <div class="container">
-    <div class="row justify-content-center">
-      {% if contacts.address %}
-      <div class="col-xl-4 col-md-12">
-        <div class="contact_wrap contact_style3 contact-same-height">
-          <div class="contact_icon">
-            <i class="linearicons-map2"></i>
-          </div>
-          <div class="contact_text">
-            <span>Adresse</span>
-            <p>{{contacts.address}}</p>
-          </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            {% if c.result.address %}
+                <div class="col-12 {% if c.count == 2 %}col-xl-6{% elif c.count == 3 %}col-xl-4{% elif c.count == 4 %}col-xl-3{% endif %}">
+                    <div class="contact_wrap contact_style3 contact-same-height">
+                        <div class="contact_icon">
+                            <i class="linearicons-map2"></i>
+                        </div>
+                        <div class="contact_text">
+                            <span>Adresse</span>
+                            <p>{{c.result.address}}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if c.result.email %}
+                <div class="col-12 {% if c.count == 2 %}col-xl-6{% elif c.count == 3 %}col-md-6 col-xl-4{% elif c.count == 4 %}col-xl-3{% endif %}">
+                    <div class="contact_wrap contact_style3 contact-same-height">
+                        <div class="contact_icon">
+                            <i class="linearicons-envelope-open"></i>
+                        </div>
+                        <div class="contact_text">
+                            <span>Courriel</span>
+                            <p>
+                            <br />
+                            <a href="mailto:{{c.result.email}}">{{c.result.email}}</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if c.result.phone %}
+                <div class="col-12 {% if c.count == 2 %}col-xl-6{% elif c.count == 3 %}col-md-6 col-xl-4{% elif c.count == 4 %}col-xl-3{% endif %}">
+                    <div class="contact_wrap contact_style3 contact-same-height">
+                        <div class="contact_icon">
+                            <i class="linearicons-tablet2"></i>
+                        </div>
+                        <div class="contact_text">
+                            <span>Téléphone</span>
+                            <p>
+                            <br />
+                            <a href="tel:{{c.result.phone|phone_canadian}}">{{c.result.phone}}</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
-      </div>
-      {% endif %}
-      {% if contacts.email %}
-      <div class="col-xl-4 col-md-6">
-        <div class="contact_wrap contact_style3 contact-same-height">
-          <div class="contact_icon">
-            <i class="linearicons-envelope-open"></i>
-          </div>
-          <div class="contact_text">
-            <span>Courriel</span>
-            <p>
-              <br />
-              <a href="mailto:{{contacts.email}}">{{contacts.email}}</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      {% endif %}
-      {% if contacts.phone %}
-      <div class="col-xl-4 col-md-6">
-        <div class="contact_wrap contact_style3 contact-same-height">
-          <div class="contact_icon">
-            <i class="linearicons-tablet2"></i>
-          </div>
-          <div class="contact_text">
-            <span>Téléphone</span>
-            <p>
-              <br />
-              <a href="tel:{{contacts.phone|phone_canadian}}">{{contacts.phone}}</a>
-            </p>
-          </div>
-        </div>
-      </div>
-      {% endif %}
     </div>
-  </div>
 </div>
 
 <div class="section pt-0">
