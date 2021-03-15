@@ -138,6 +138,12 @@ class dmPromoCode(models.Model):
         null=False,
         help_text=_("Leave to 0 if you doesn't want this code to expire after a specific number of customer's uses.")
     )
+    customer = models.ManyToManyField(
+        Customer,
+        related_name='customerpromo',
+        verbose_name=_("Customers"),
+        blank=False,
+    )
     categories = models.ManyToManyField(
         "dshop.ProductCategory",
         related_name="promocode",
