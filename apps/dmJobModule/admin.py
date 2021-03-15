@@ -7,8 +7,9 @@ from .models import dmJobApplication
 @admin.register(dmJobDescription)
 class dmJobDescriptionAdmin(admin.ModelAdmin):
     list_display = [
-        "title", "is_active", "created_at"
+        "title", "slug", "is_active", "created_at"
     ]
+    readonly_fields  = ['slug', ]
     list_filter = ["is_active", ]
     search_fields = ["title"]
 

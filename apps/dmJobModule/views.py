@@ -27,6 +27,7 @@ class JobListView(APIView):
             data = {
                 'id': job.id,
                 'title': job.title,
+                'slug': job.slug,
                 'location': job.location,
                 'description': job.description[0:200]
             }
@@ -39,14 +40,14 @@ class JobDescView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
-        job = dmJobDescription.objects.filter(id=kwargs['job_id']).first()
+        job = dmJobDescription.objects.filter(slug=kwargs['job_slug']).first()
         if job:
             return render(request, 'job_desc.html', {'data': job})
         return render(request, 'job_desc.html')
 
     def post(self, request, *args, **kwargs):
         cv = request.FILES.get('cv', None)
-        job = dmJobDescription.objects.filter(id=kwargs['job_id']).first()
+        job = dmJobDescription.objects.filter(slug=kwargs['job_slug']).first()
         if not cv:
             msg = "Veuillez télécharger le fichier CV"
             messages.error(request, msg)
