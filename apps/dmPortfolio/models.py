@@ -9,7 +9,7 @@ class dmPortfolio(models.Model):
         max_length=250,
         help_text=_("Maximum 250 characters.")
     )
-    description  = models.TextField(
+    description = models.TextField(
         verbose_name=_("Description de l'emploi")
     )
     image = image.FilerImageField(
@@ -29,4 +29,3 @@ class dmPortfolio(models.Model):
 
     def __str__(self):
         return self.title
-

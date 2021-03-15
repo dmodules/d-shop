@@ -1,5 +1,4 @@
 # from haystack.query import SearchQuerySet
-from django.conf import settings
 from django.shortcuts import render
 
 from rest_framework.permissions import AllowAny
@@ -23,4 +22,4 @@ class PortfolioListView(APIView):
                 'description': port.description
             }
             ports_data.append(data)
-        return render(request, 'port_list.html', {"data": ports_data, "column":column})
+        return render(request, 'port_list.html', {"data": ports_data, "column": column})
