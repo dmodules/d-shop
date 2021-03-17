@@ -122,7 +122,7 @@
 .banner_section:not(.full_screen) .carousel-item, 
 .banner_section:not(.full_screen) .banner_content_wrap, 
 .banner_section:not(.full_screen) .banner_content_wrap .carousel-item {
-	height: 600px;
+	height: 600px!important;
 }
 .banner_section.slide_medium, 
 .banner_section.slide_medium .carousel-item, 
@@ -611,13 +611,13 @@
 .banner_section:not(.full_screen) .carousel-item, 
 .banner_section:not(.full_screen) .banner_content_wrap, 
 .banner_section:not(.full_screen) .banner_content_wrap .carousel-item {
-	height: 600px;
+	height: 600px!important;
 }
 .banner_section:not(.full_screen), 
 .banner_section:not(.full_screen) .carousel-item, 
 .banner_section:not(.full_screen) .banner_content_wrap, 
 .banner_section:not(.full_screen) .banner_content_wrap .carousel-item {
-	height: 500px;
+	height: 500px!important;
 }
 .banner_section.full_screen.banner_half_content,
 .banner_section:not(.full_screen).banner_half_content,
@@ -957,13 +957,13 @@ div.banner_large_pad {
 .banner_section:not(.full_screen) .carousel-item, 
 .banner_section:not(.full_screen) .banner_content_wrap, 
 .banner_section:not(.full_screen) .banner_content_wrap .carousel-item {
-	height: 500px;
+	height: 500px!important;
 }
 .banner_section:not(.full_screen), 
 .banner_section:not(.full_screen) .carousel-item, 
 .banner_section:not(.full_screen) .banner_content_wrap, 
 .banner_section:not(.full_screen) .banner_content_wrap .carousel-item {
-	height: 400px;
+	height: 400px!important;
 }
 .banner_section.slide_medium, 
 .banner_section.slide_medium .carousel-item, 
@@ -1303,7 +1303,7 @@ p {
 	height: 250px;
 }
 .banner_section:not(.full_screen), .banner_section:not(.full_screen) .carousel-item, .banner_section:not(.full_screen) .banner_content_wrap, .banner_section:not(.full_screen) .banner_content_wrap .carousel-item {
-	height: 250px;
+	height: 250px!important;
 }
 .banner_content h2 {
 	font-size: 28px;

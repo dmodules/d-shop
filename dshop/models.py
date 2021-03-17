@@ -1548,7 +1548,11 @@ class dmBlocEnteteVideo(CMSPlugin):
 
 
 class dmBlocSliderParent(CMSPlugin):
-    pass
+    height = models.PositiveSmallIntegerField(
+        verbose_name=_("Height"),
+        default=500,
+        help_text=_("Height of the slider (will be automatically shrinked on mobile version).")
+    )
 
 
 class dmBlocSliderChild(CMSPlugin):
