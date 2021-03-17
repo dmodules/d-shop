@@ -1,24 +1,43 @@
-{% extends "base.html" %}
+{% extends "theme/default/pages/base.html" %}
+{% load i18n %}
 
 {% block content %}
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Emplois disponibles</h2>
+    <section class="section-breadcrumb">
+        <div class="breadcrumb_section bg_gray page-title-mini mb-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <div class="page-title">
+                            <h1>{% trans "Available Jobs" %}</h1>
+                        </div>
+                    </div>
                 </div>
-                <div class="gaadiex-list">
-                    {% for job in data %}
-                        <div class="gaadiex-list-item">
-                             <h3><a href="/job/{{ job.slug }}">{{ job.title }}</a></h3>
-                             <h4>{{ job.location }}</h4>
-                             <p>{{ job.description }}</p>
-                         </div>
-                     {% endfor %}
-                 </div>
-             </div>
-         </div>
-     </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section pt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col col-1"></div>
+                <div class="col col-10">
+                    <div class="gaadiex-list">
+                        {% for job in data %}
+                            {% if not forloop.first %}
+                                <hr />
+                            {% endif %}
+                            <div class="gaadiex-list-item">
+                                <h3><a href="/job/{{ job.slug }}">{{ job.title }}</a></h3>
+                                <h4>{{ job.location }}</h4>
+                                <p>{{ job.description }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col col-1"></div>
+            </div>
+        </div>
+    </div>
 
 {% endblock content %}

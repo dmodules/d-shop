@@ -1,81 +1,96 @@
-{% extends "base.html" %}
+{% extends "theme/default/pages/base.html" %}
+{% load i18n %}
 
 {% block content %}
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h2>{{ data.title }}</h2>
-                </div>
-                <div>
-                    <strong>{{ data.location }}</strong><br><br>
-                </div>
-                <div>
-                    <p>{{ data.description|linebreaks }}</p><br><br>
-                </div>
-                <div>
-                    <strong>Salaire de départ:</strong> {{ data.salary }}<br><br>
-                </div>
-                <div>
-                    <strong>Compétences requises:</strong><br><br>
-                    {{ data.skills }}<br><br>
-                </div>
-                <div class="gaadiex-list">
-                    <strong>Horaire de travail:</strong> {{ data.work_schedule }}<br><br>
-                </div>
-                <div class="gaadiex-list">
-                    <strong>Formation requise:</strong> {{ data.training }}<br><br>
-                </div>
-                <div class="gaadiex-list">
-                    <strong>Date d'entrée en poste:</strong> {{ data.joining }}<br><br>
+    <section class="section-breadcrumb">
+        <div class="breadcrumb_section bg_gray page-title-mini mb-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <div class="page-title">
+                            <h1>{{ data.title }}</h1>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Postulez maintenant</h2>
+    <div class="section pt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col col-12 col-md-7 pb-5">
+                    {% if data.location %}
+                        <div>
+                            <strong>{{ data.location }}</strong>
+                        </div>
+                    {% endif %}
+                    {% if data.description %}
+                        <div>
+                            <p>{{ data.description|linebreaks }}</p>
+                        </div>
+                    {% endif %}
+                    {% if data.salary %}
+                        <div>
+                            <p><strong>{% trans "Starting Salary" %} :</strong> {{ data.salary }}</p>
+                        </div>
+                    {% endif %}
+                    {% if data.skills %}
+                        <div>
+                            <p><strong>{% trans "Required Skills" %} :</strong> {{ data.skills }}</p>
+                        </div>
+                    {% endif %}
+                    {% if data.work_schedule %}
+                        <div>
+                            <p><strong>{% trans "Work Schedule" %} :</strong> {{ data.work_schedule }}</p>
+                        </div>
+                    {% endif %}
+                    {% if data.training %}
+                        <div>
+                            <p><strong>{% trans "Required Training" %} :</strong> {{ data.training }}</p>
+                        </div>
+                    {% endif %}
+                    {% if data.joining %}
+                        <div>
+                            <p><strong>{% trans "Starting Date" %} :</strong> {{ data.joining }}</p>
+                        </div>
+                    {% endif %}
                 </div>
-                {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li{% if message.tags %} class=""{% endif %}>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="exampleInputName">Votre nom :</label>
-                        <input type="text" class="form-control" name="name" required>
+                <div class="col col-12 col-md-5">
+                    <div class="dmjob-applyform">
+                        <h2 class="mb-5">{% trans "Apply Now" %}</h2>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="form-group col col-12">
+                                    <input required="required" placeholder="{% trans 'Name' %}*" id="apply_name" class="form-control" name="name" type="text" />
+                                </div>
+                                <div class="form-group col col-12">
+                                    <input aria-describedby="apply_email_help" required="required" placeholder="{% trans 'Email' %}*" id="apply_email" class="form-control" name="email" type="email" />
+                                    <small id="apply_email_help" class="form-text text-muted px-1">Nous ne partagerons jamais votre e-mail avec qui que ce soit.</small>
+                                </div>
+                                <div class="form-group col col-12">
+                                    <input required="required" placeholder="{% trans 'Phone' %}*" id="apply_phone" class="form-control" name="phone" type="text" />
+                                </div>
+                                <div class="form-group col col-12">
+                                    <textarea required="required" placeholder="{% trans 'Message' %}*" id="apply_message" class="form-control" name="message" rows="4"></textarea>
+                                </div>
+                                <div class="form-group col col-12">
+                                    <input required="required" placeholder="{% trans 'Your CV' %}*" id="apply_cv" class="form-control" name="cv" type="file" />
+                                </div>
+                                <div class="form-group col col-12">
+                                    <label class="form-check-label" for="apply_captcha">Captcha</label>
+                                </div>
+                                <div class="form-group col col-12">
+                                    <button type="submit" class="btn btn-fill-out">{% trans "Send" %}</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail">Votre courriel :</label>
-                        <input type="email" class="form-control" name="email" aria-describedby="emailHelp" required>
-                        <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre e-mail avec qui que ce soit.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPhone">Votre téléphone :</label>
-                        <input type="text" class="form-control" name="phone" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputMessage">Votre message :</label>
-                        <textarea class="form-control" name="message" rows="6" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlFile">Votre CV :</label>
-                        <input type="file" class="form-control-file" name="cv" required>
-                    </div>
-                    <div class="form-group form-check">
-                        <label class="form-check-label" for="exampleCheck1">Capcha</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Envoyer</button>
-               </form>
+                </div>
             </div>
         </div>
-
     </div>
 
 {% endblock %}
