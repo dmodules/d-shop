@@ -903,6 +903,111 @@ main > .container > .row {
 .product_header_left .custom_select select:hover {
     cursor: pointer;
 }
+/* ===---=== */
+.dmfilters-mobile {
+    vertical-align: middle;
+    display: inline-block;
+}
+.dmfilters-mobile a{
+    background-color: #458d91;
+    border: 1px solid #458d91;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+    line-height: 45px;
+    float: left;
+    width: 45px;
+    height: 45px;
+    margin-right: 10px;
+}
+.dmfilters-list {
+    display: block;
+    position: relative;
+}
+@media (max-width: 767px) {
+    .dmfilters-list {
+        display: none;
+    }
+}
+.dmfilters-list h5 {
+    display: block;
+    margin: 0 0 1rem;
+}
+.dmfilters-list h5 + ul {
+    display: block;
+    margin: 0 0 2rem;
+}
+.dmfilters-list ul {
+    list-style-type: none;
+}
+.dmfilters-list ul li {
+    position: relative;
+}
+.dmfilters-list ul > li > ul {
+    display: none;
+    margin: 0 0 0 15px;
+}
+.dmfilters-list label {
+    display: block;
+}
+.dmfilters-list label:hover {
+    color: #000;
+    cursor: pointer;
+}
+.dmfilters-list label:not([for]):hover {
+    color: #6c757d;
+    cursor: default;
+}
+.dmfilters-list .toggle{
+    background-color:#f7f6fa;
+    color:#758987;
+    line-height:24px;
+    text-align:center;
+    display:inline-block;
+    width:24px;
+    height:24px;
+    position:absolute;
+    top: 0;
+    right:0;
+}
+.dmfilters-list .toggle:hover{
+    background-color:#48a89e;
+    color:#fff;
+    cursor:pointer;
+}
+.dmfilters-list input[type="checkbox"] {
+    display: none;
+}
+.dmfilters-list input[type="checkbox"] + span::before {
+    content: ".";
+    background: transparent;
+    border: 1px solid #CED4DA;
+    border-radius: 4px;
+    color: #fff;
+    font-family: 'themify';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    font-size: 0.8em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: inline-block;
+    width: calc(1em + 5px);
+    height: calc(1em + 5px);
+    position: relative;
+    top: 0px;
+    padding: 2px;
+    margin: 0 5px 0 0;
+}
+.dmfilters-list input[type="checkbox"]:checked + span::before {
+    content: "\e64c";
+    background-color: #458d91;
+    border: 1px solid #458d91;
+}
 
 /* ===--- Produits: Page détail ---=== */
 .product-detail-unavailable > p {

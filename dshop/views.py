@@ -331,6 +331,7 @@ class LoadFilters(APIView):
     def get(self, request, *args, **kwargs):
         groups = ProductFilterGroup.objects.all()
         data = {}
+        # ===--- Filters with group
         for group in groups:
             temp = {}
             filters = []
@@ -349,18 +350,21 @@ class LoadFilters(APIView):
                 })
             temp['filter'] = filters
             data[group.name] = temp
-
         temp = {}
+        # ===--- Filters without group
         filters = []
         for filt in ProductFilter.objects.filter(group=None):
             filters.append({'id': filt.id, 'name': filt.name, 'order': filt.order})
         data['default'] = {'filter': filters}
+        # ===---
 
         a_data = {}
         for attr in Attribute.objects.all():
-            a_data[attr.name] = []
+            a_data[attr.name] = {}
+            a_data[attr.name]["id"] = attr.id
+            a_data[attr.name]["values"] = []
             for val in AttributeValue.objects.filter(attribute=attr):
-                a_data[attr.name].append({
+                a_data[attr.name]["values"].append({
                     'id': val.id,
                     'name': val.value
                 })
