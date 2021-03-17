@@ -75,6 +75,7 @@ class dmPromoCodeAdmin(admin.ModelAdmin):
             "fields": [
                 ("valid_from", "valid_until"),
                 "valid_uses",
+                "customer",
                 "categories",
                 "products"
             ]

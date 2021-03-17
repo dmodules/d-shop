@@ -2,7 +2,7 @@
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from filer.fields.file import FilerFileField
-from datetime import datetime
+from django.template.defaultfilters import slugify
 
 class dmJobDescription(models.Model):
     title = models.CharField(
@@ -10,7 +10,11 @@ class dmJobDescription(models.Model):
         max_length=250,
         help_text=_("Maximum 250 characters.")
     )
-    description  = models.TextField(
+    slug = models.SlugField(
+        max_length=200,
+        null=True, blank=True
+    )
+    description = models.TextField(
         verbose_name=_("Description de l'emploi")
     )
     skills = models.CharField(
@@ -63,6 +67,12 @@ class dmJobDescription(models.Model):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = slugify(self.title)
+
+        super(dmJobDescription, self).save(*args, **kwargs)
+
 class dmJobApplication(models.Model):
 
     job = models.ForeignKey(
@@ -106,4 +116,3 @@ class dmJobApplication(models.Model):
 
     def __str__(self):
         return self.name + " : " + self.email
-

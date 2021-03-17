@@ -1,0 +1,20 @@
+{% extends "theme/default/pages/base.html" %}
+
+{% block content %}
+
+        {% for port in data %}
+            {% if forloop.first %}<div class="row">{% endif %}
+
+            <div class="card col-4" style="width: 18rem;">
+                <img src="{{port.image}}" class="card-img-top" alt="">
+                <div class="card-body">
+                    <h3 class="card-text">{{port.title}}</h3>
+                    <p class="card-text">{{port.description}}</p>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:column %}</div><div class="row">{% endif %}
+            {% if forloop.last %}</div>{% endif %}
+
+        {% endfor %}
+
+{% endblock content %}
