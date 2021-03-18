@@ -31,7 +31,7 @@
                                 <span>{{ job.title|slice:1 }}</span>
                             </div>
                             <div class="icon_box_content">
-                                <h5><a href="/{% if dmjobmodule %}{{ dmjobmodule }}{% else %}job{% endif %}/{{ job.slug }}">{{ job.title }}</a></h5>
+                                <h5><a href="{% if dmjobmodule %}{{ dmjobmodule }}{% else %}/job/{% endif %}{{ job.slug }}">{{ job.title }}</a></h5>
                                 <p>{{ job.description|truncatechars:100 }}</p>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                 {% if instance.btn_label %}
                     <div class="row justify-content-center">
                         <div class="col col-12">
-                            <a href="/{% if dmjobmodule %}{{ dmjobmodule }}{% else %}job{% endif %}/" class="btn btn-fill-out">{{ instance.btn_label }}</a>
+                            <a href="{% if dmjobmodule %}{{ dmjobmodule }}{% else %}/job{% endif %}" class="btn btn-fill-out">{{ instance.btn_label }}</a>
                         </div>
                     </div>
                 {% endif %}
