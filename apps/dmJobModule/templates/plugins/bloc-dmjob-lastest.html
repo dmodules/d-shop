@@ -1,0 +1,51 @@
+{% load static cms_tags thumbnail dmjob_tags %}
+
+<!-- BEGIN: plugin dmJobLastest -->
+{% dmjob_get_lastjob 3 as jobs %}
+{% if jobs|length > 0 %}
+    {% page_url "dmjobmodule" as dmjobmodule %}
+    {% if instance.image %}
+        {% thumbnail instance.image "1920x800" upscale crop as bg_thumb %}
+    {% endif %}
+    <div class="section dmjob-plugin" style="{% if bg_thumb %}background-image:url('{{ bg_thumb.url }}');{% endif %}{% if instance.bg_color %}background-color:{{ instance.bg_color }};{% endif %}">
+        <div class="container pb-4">
+            {% if instance.title or instance.text %}
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-8">
+                        {% if instance.title %}
+                            <div class="heading_s1 text-center">
+                                <h2 style="{% if instance.title_color %}color:{{ instance.title_color }};{% endif %}">{{ instance.title }}</h2>
+                            </div>
+                        {% endif %}
+                        {% if instance.text %}
+                            <div class="text-center leads" style="{% if instance.text_color %}color:{{ instance.text_color }};{% endif %}">{{ instance.text }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+            <div class="row justify-content-center">
+                {% for job in jobs %}
+                    <div class="col col-12 {% if jobs|length == 3 %}col-lg-4{% elif jobs|length == 2 %}col-lg-6{% endif %}">
+                        <div class="icon_box icon_box_style4 box_shadow1 dmjob-plugin-box" style="{% if instance.box_bg_color %}background-color:{{ instance.box_bg_color }};{% endif %}{% if instance.box_text_color %}color:{{ instance.box_text_color }};{% endif %}">
+                            <div class="icon">
+                                <span>{{ job.title|slice:1 }}</span>
+                            </div>
+                            <div class="icon_box_content">
+                                <h5><a href="/{% if dmjobmodule %}{{ dmjobmodule }}{% else %}job{% endif %}/{{ job.slug }}">{{ job.title }}</a></h5>
+                                <p>{{ job.description|truncatechars:100 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% if instance.btn_label %}
+                    <div class="row justify-content-center">
+                        <div class="col col-12">
+                            <a href="/{% if dmjobmodule %}{{ dmjobmodule }}{% else %}job{% endif %}/" class="btn btn-fill-out">{{ instance.btn_label }}</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+<!-- END: plugin dmJobLastest --> 

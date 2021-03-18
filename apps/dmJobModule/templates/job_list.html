@@ -1,5 +1,5 @@
 {% extends "theme/default/pages/base.html" %}
-{% load i18n %}
+{% load i18n cms_tags %}
 
 {% block content %}
 
@@ -28,7 +28,8 @@
                                 <hr />
                             {% endif %}
                             <div class="pt-2">
-                                <h3><a href="/job/{{ job.slug }}">{{ job.title }}</a></h3>
+                                {% page_url "dmjobmodule" as dmjobmodule %}
+                                <h3><a href="/{% if dmjobmodule %}{{ dmjobmodule }}{% else %}job{% endif %}/{{ job.slug }}">{{ job.title }}</a></h3>
                                 <h4>{{ job.location }}</h4>
                                 <p>{{ job.description }}</p>
                             </div>

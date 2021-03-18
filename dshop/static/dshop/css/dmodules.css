@@ -1151,3 +1151,27 @@ main > .container > .row {
     padding: 40px 20px;
     margin-bottom: 30px;
 }
+.dmjob-plugin {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.dmjob-plugin .icon_box_style4 .icon span {
+    background-color: #458d91;
+    border-radius: 100%;
+    color: #fff;
+    font-size: 31px;
+    line-height: 60px;
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+}
+.dmjob-plugin-box {
+    overflow: hidden;
+    overflow-y: hidden;
+    min-height: 220px;
+    max-height: 220px;
+}
+.dmjob-plugin-box:hover {
+    overflow-y: auto;
+}
