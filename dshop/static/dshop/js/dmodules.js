@@ -137,6 +137,10 @@ function setClickBtn() {
   $(".up-arrow").on("click", function() {quantityPlus()})
 }
 
+function quantityExact() {
+    $(".btn-add2cart").data("quantity", $(".input-num").val())
+}
+
 function quantityMinus() {
   if ($(".input-num").val() > parseInt($(".input-num").attr('min'))) {
     $(".input-num").val(+$(".input-num").val() - 1)

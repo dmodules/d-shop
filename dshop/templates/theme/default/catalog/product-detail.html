@@ -147,7 +147,7 @@
                                     <div class="cart-product-quantity" style="display:{% if product.variants.first and product.variants.first.quantity == 0 %}none{% else %}block{% endif %};">
                                         <div class="quantity">
                                             <input type="button" value="-" class="minus" onclick="quantityMinus()" />
-                                            <input type="number" name="quantity" value="1" title="Qty" class="qty input-num" min="1" max="99" />
+                                            <input type="number" name="quantity" value="1" title="Qty" class="qty input-num" min="1" max="99" onchange="quantityExact()" />
                                             <input type="button" value="+" class="plus" onclick="quantityPlus()" />
                                         </div>
                                     </div>
@@ -164,7 +164,7 @@
                                         <div class="cart-product-quantity">
                                             <div class="quantity">
                                                 <input type="button" value="-" class="minus" onclick="quantityMinus()" />
-                                                <input type="number" name="quantity" value="1" title="Qty" class="qty input-num" min="1" max="99" />
+                                                <input type="number" name="quantity" value="1" title="Qty" class="qty input-num" min="1" max="99" onchange="quantityExact()" />
                                                 <input type="button" value="+" class="plus" onclick="quantityPlus()" />
                                             </div>
                                         </div>

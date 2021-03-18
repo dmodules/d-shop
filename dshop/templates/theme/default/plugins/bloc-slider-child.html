@@ -1,7 +1,7 @@
 {% load static cms_tags thumbnail %}
 
 {% if instance.image %}
-  {% thumbnail instance.image "1920x500" crop upscale as thumb %}
+{% thumbnail instance.image "1920x900" crop as thumb %}
   <div class="carousel-item background_bg{% if loop %} active{% endif %}" data-img-src="{{thumb.url}}" style="{% if instance.bg_color %}background-color:{{instance.bg_color}};{% endif %}{% if height %}height:{{ height }}px;{% endif %}">
 {% else %}
   <div class="carousel-item background_bg{% if loop %} active{% endif %}" style="{% if instance.bg_color %}background-color:{{instance.bg_color}};{% endif %}{% if height %}height:{{ height }}px;{% endif %}">
