@@ -1404,6 +1404,11 @@ class dmProductsByCategory(CMSPlugin):
         null=True,
         blank=True
     )
+    text_color = ColorField(
+        verbose_name=_("Text's Colour"),
+        null=True,
+        blank=True
+    )
     bg_color = ColorField(
         verbose_name=_("Background's Colour"),
         null=True,

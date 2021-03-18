@@ -13,12 +13,12 @@
         <div class="row">
             <div class="col-12">
                 {% if instance.title %}
-                    <h2 class="title">
+                    <h2 class="title" style="{% if instance.text_color %}color:{{instance.text_color}};{% endif %}">
                         {{instance.title}}
                     </h2>
                 {% endif %}
                 {% if instance.text %}
-                    <div class="subtitle">
+                    <div class="subtitle" style="{% if instance.text_color %}color:{{instance.text_color}};{% endif %}">
                         {{instance.text|safe}}
                     </div>
                 {% endif %}
@@ -28,11 +28,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="tab-style1">
-                    <ul class="nav nav-tabs justify-content-center" role="tablist">
+                    <ul class="nav nav-tabs justify-content-center" role="tablist" style="{% if instance.text_color %}color:{{instance.text_color}};{% endif %}">
                         {% dm_get_categories_parents as categories %}
                             {% for category in categories %}
                             <li class="nav-item">
-                                <a class="nav-link pbc-tab{% if forloop.first %}  active{% endif %}" id="tab{{forloop.counter}}-tab" data-toggle="tab" href="#tab{{forloop.counter}}" role="tab" aria-controls="tab{{forloop.counter}}" onclick="loadMoreByCategory({{category.pk}}, {{forloop.counter}});" aria-selected="true">{{category.name}}</a>
+                                <a class="nav-link pbc-tab{% if forloop.first %} active{% endif %}" id="tab{{forloop.counter}}-tab" data-toggle="tab" href="#tab{{forloop.counter}}" role="tab" aria-controls="tab{{forloop.counter}}" onclick="loadMoreByCategory({{category.pk}}, {{forloop.counter}});" aria-selected="true">{{category.name}}</a>
                             </li>
                         {% endfor %}
                     </ul>
