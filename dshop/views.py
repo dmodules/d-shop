@@ -6,7 +6,7 @@ from easy_thumbnails.files import get_thumbnailer
 from ipware.ip import get_client_ip as get_ip
 
 from cms.models import Title
-
+from django.db.models.functions import Lower
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -15,7 +15,7 @@ from django.utils.translation import get_language_from_request
 from django.utils.html import strip_tags
 from django.utils.text import Truncator
 from django.shortcuts import redirect
-from django.db.models import Q
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.template.defaultfilters import slugify
 from django.core.management import call_command
@@ -41,14 +41,15 @@ from shop.serializers.auth import PasswordResetConfirmSerializer
 from dal import autocomplete
 
 from dshop.models import Product, ProductFilterGroup, ProductFilter
-from dshop.models import AttributeValue
+from dshop.models import Attribute, AttributeValue, ProductCategory, ProductBrand
 from dshop.transition import transition_change_notification
 from dshop.serializers import ProductSerializer
 
-from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL
+from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL, THEME_SLUG
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
 
-from feature_settings import *
+from feature_settings import QUOTATION
+
 
 try:
     from apps.dmRabais.models import dmCustomerPromoCode
@@ -105,23 +106,14 @@ def TestPaymentView(request):
                     datas["extra"] = i.extra
                     items.append(datas)
                 miniorder = {
-                    "number":
-                    str(referenceId),
-                    "url":
-                    "/vos-commandes/" + str(referenceId) + "/" +
-                    str(order.token),
-                    "items":
-                    items,
-                    "extra":
-                    order.extra,
-                    "subtotal":
-                    order.subtotal,
-                    "total":
-                    order.total,
-                    "billing_address_text":
-                    order.billing_address_text,
-                    "shipping_address_text":
-                    order.shipping_address_text
+                    "number": str(referenceId),
+                    "url": "/vos-commandes/" + str(referenceId) + "/" + str(order.token),
+                    "items": items,
+                    "extra": order.extra,
+                    "subtotal": order.subtotal,
+                    "total": order.total,
+                    "billing_address_text": order.billing_address_text,
+                    "shipping_address_text": order.shipping_address_text
                 }
                 transition_change_notification(order, miniorder)
             except Exception as e:
@@ -141,34 +133,262 @@ def TestPaymentView(request):
 # ===---   Views used in products                              ---=== #
 #######################################################################
 
-class DshopProductListView(ListAPIView):
+class DshopProductListView(APIView):
 
     permission_classes = [AllowAny]
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-    filterset_fields = ['filters']
+
+    def get(self, request, *args, **kwargs):
+        attribute = self.request.query_params.get('attribute', None)
+        category = self.request.query_params.get('category', None)
+        fltr = self.request.query_params.get('filter', None)
+        brand = self.request.query_params.get('brand', None)
+        response_type = self.request.query_params.get('type', None)
+        offset = int(request.GET.get("offset", 0))
+        limit = int(request.GET.get("limit", 9))
+        sortby = request.COOKIES.get("dm_psortby", "default")
+        if sortby == "date-new":
+            orderby = "-created_at"
+        elif sortby == "date-old":
+            orderby = "created_at"
+        elif sortby == "alpha-asc":
+            orderby = Lower("product_name")
+        elif sortby == "alpha-des":
+            orderby = Lower("product_name").desc()
+        elif sortby == "price-asc":
+            orderby = "get_p"
+        elif sortby == "price-des":
+            orderby = "-get_p"
+        else:
+            orderby = "order"
+
+        products = Product.objects.filter(
+            Q(categories__active=True) | Q(categories=None),
+            active=True
+        )
+        title = 'Produits'
+        current_category = None
+        current_brand = None
+        if 'category_id' in kwargs:
+            products = products.filter(categories__id=kwargs['category_id'])
+            cat = ProductCategory.objects.filter(id=kwargs['category_id']).first()
+            if cat:
+                current_category = cat
+                title = cat.name
+        elif 'brand_id' in kwargs:
+            products = products.filter(brand=kwargs['brand_id'])
+            brnd = ProductBrand.objects.filter(id=kwargs['brand_id']).first()
+            if brnd:
+                current_brand = brnd
+                title = brnd.name
+
+        if category:
+            category = [ val for val in category.split(',') if val ]
+            products = products.filter(categories__id__in=category).distinct()
+
+        if fltr:
+            fltr = [ val for val in fltr.split(',') if val ]
+            products = products.filter(filters__id__in=fltr).distinct()
+
+        if brand:
+            brand = [ val for val in brand.split(',') if val ]
+            products = products.filter(brand__id__in=brand).distinct()
+
+        if attribute:
+            attributes = [ val for val in attribute.split(',') if val ]
+            attributes = AttributeValue.objects.filter(id__in=attributes)
+            attributes = [ atr.value for atr in attributes ]
+            ids = []
+            for q in products:
+                attrs = []
+                try:
+                    for var in q.variants.all():
+                        attrs += [val[0] for val in var.attribute.all().values_list('value')]
+                except Exception:
+                    continue
+
+                for atr in attributes:
+                    if atr in attrs:
+                        ids.append(q.id)
+                        break
+            products = Product.objects.filter(id__in=ids)
+        
+        if orderby == 'get_p':
+            products = sorted(
+                products, key=lambda product: product.get_price(request)
+            )
+        elif orderby == '-get_p':
+            products = sorted(
+                products, key=lambda product: product.get_price(request),
+                reverse=True
+            )
+        else:
+            products = products.order_by(orderby)
+        categories = ProductCategory.objects.filter(parent=None, active=True)
+        brands = ProductBrand.objects.all()
+        filters = ProductFilter.objects.all()
+        next_page = False
+
+        if len(products) > offset + limit:
+            products = products[ offset : limit]
+            next_page = True
+        else:
+            products = products[ offset : ]
+        filter_data = LoadFilters.as_view()(request=request._request).data
+        data = {
+            'products': products,
+            'brands': brands,
+            'categories': categories,
+            'filters': filters,
+            'filter_data': filter_data,
+            'is_quotation': QUOTATION,
+            'title_str': title,
+            'current_category': current_category,
+            'current_brand': current_brand,
+            'next': next_page
+        }
+
+        if not response_type:
+            return render(request,
+                'theme/{}/pages/produits.html'.format(THEME_SLUG),
+                context=data
+            )
+        # ===---
+        all_produits = []
+        for produit in products:
+            data = {}
+            data['name'] = produit.product_name
+            data['url'] = produit.get_absolute_url()
+            data['caption'] = strip_tags(Truncator(produit.caption).words(18))
+            data['slug'] = produit.slug
+            if produit.main_image:
+                data['image'] = get_thumbnailer(
+                    produit.main_image).get_thumbnail({
+                        'size': (540, 600),
+                        'upscale': True,
+                        'background': "#ffffff"
+                    }).url
+            elif produit.images.first():
+                data['image'] = get_thumbnailer(
+                    produit.images.first()).get_thumbnail({
+                        'size': (540, 600),
+                        'upscale':
+                        True,
+                        'background':
+                        "#ffffff"
+                    }).url
+            else:
+                data['image'] = None
+            if produit.filters.all():
+                data['filters'] = " ".join(
+                    [slugify(d.name) for d in produit.filters.all()])
+            else:
+                data['filters'] = None
+            if produit.label:
+                data['label'] = {}
+                data['label']['name'] = produit.label.name
+                data['label']['colour'] = produit.label.colour
+                data['label']['bg_colour'] = produit.label.bg_colour
+            else:
+                data['label'] = None
+            if hasattr(produit, 'variants'):
+                data['variants'] = True
+                data['variants_count'] = produit.variants.all().count()
+                if produit.variants.first():
+                    data['variants_product_code'] = produit.variants.first(
+                    ).product_code
+                    data['price'] = produit.variants.first().get_price(request)
+                    data['realprice'] = produit.variants.first().unit_price
+                    data['is_discounted'] = False
+                    for v in produit.variants.all():
+                        if v.is_discounted:
+                            data['is_discounted'] = True
+                    data['quantity'] = 0
+                    for v in produit.variants.all():
+                        if v.quantity > 0:
+                            data['quantity'] = v.quantity
+                else:
+                    data['variants_product_code'] = ""
+                    data['price'] = "-"
+                    data['is_discounted'] = False
+                    data['quantity'] = 0
+            else:
+                data['product_code'] = produit.product_code
+                data['price'] = produit.get_price(request)
+                data['realprice'] = produit.unit_price
+                data['variants'] = False
+                data['variants_count'] = 0
+                data['is_discounted'] = produit.is_discounted
+                data['quantity'] = produit.quantity
+            data['is_quotation'] = QUOTATION
+            all_produits.append(data)
+        # ===---
+        result = {"products": all_produits, "next": next_page}
+        return RestResponse(result)
+
 
 class LoadFilters(APIView):
 
     def get(self, request, *args, **kwargs):
         groups = ProductFilterGroup.objects.all()
         data = {}
+        # ===--- Filters with group
         for group in groups:
             temp = {}
             filters = []
             temp['id'] = group.id
             temp['order'] = group.order
             for filt in ProductFilter.objects.filter(group=group):
-                filters.append({'id': filt.id, 'name': filt.name, 'order': filt.order})
+                url = ''
+                if filt.image:
+                    url = filt.image.url
+                filters.append({
+                    'id': filt.id,
+                    'name': filt.name,
+                    'order': filt.order,
+                    'image': url,
+                    'description': filt.description
+                })
             temp['filter'] = filters
             data[group.name] = temp
-
         temp = {}
+        # ===--- Filters without group
         filters = []
         for filt in ProductFilter.objects.filter(group=None):
-            filters.append({'id':filt.id, 'name': filt.name, 'order': filt.order})
+            filters.append({'id': filt.id, 'name': filt.name, 'order': filt.order})
         data['default'] = {'filter': filters}
-        return RestResponse(data)
+        # ===---
+
+        a_data = {}
+        for attr in Attribute.objects.all():
+            a_data[attr.name] = {}
+            a_data[attr.name]["id"] = attr.id
+            a_data[attr.name]["values"] = []
+            for val in AttributeValue.objects.filter(attribute=attr):
+                a_data[attr.name]["values"].append({
+                    'id': val.id,
+                    'name': val.value
+                })
+
+        categories = ProductCategory.objects.filter(parent=None, active=True)
+        cat_data = []
+        for cat in categories:
+            cat_d = {'id': cat.id, 'name': cat.name}
+            child_c = []
+            for child in ProductCategory.objects.filter(parent=cat, active=True):
+                child_c.append({'id': child.id, 'name': child.name})
+            cat_d['child'] = child_c
+            cat_data.append(cat_d)
+
+        brands = []
+        for brand in ProductBrand.objects.all():
+            brands.append({'id': brand.id, 'name': brand.name})
+
+        return RestResponse({
+            'filter': data,
+            'attribute': a_data,
+            'categories': cat_data,
+            'brands': brands
+        })
 
 
 class LoadProduits(APIView):

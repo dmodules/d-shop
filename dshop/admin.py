@@ -264,7 +264,7 @@ class dmSiteLogoInline(admin.TabularInline):
     max_num = 1
 
 
-class dmSiteContactInline(admin.TabularInline):
+class dmSiteContactInline(admin.StackedInline):
     model = dmSiteContact
     extra = 1
     max_num = 1

@@ -130,6 +130,7 @@ class dmBlocSliderChildPlugin(BoutiquePlugin):
         (_("Texts"), {
             "fields": [
                 ("title", "title_color"),
+                ("suptitle", "suptitle_color"),
                 ("subtitle", "subtitle_color"),
                 "position_text"
             ]

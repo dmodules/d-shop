@@ -98,7 +98,7 @@ class CMSPageReferenceMixin(object):
     def get_absolute_url(self):
         cms_page = self.cms_pages.order_by("node__path").last()
         if cms_page is None:
-            return urljoin("/produit/", self.slug)
+            return urljoin("/produits/", self.slug)
         return urljoin(cms_page.get_absolute_url(), self.slug)
 
 
@@ -315,7 +315,7 @@ class BillingAddress(BaseBillingAddress):
 # Produit: Catégorie/Filtres
 #######################################################################
 
-class ProductCategory(MPTTModel):
+class ProductCategory(CMSPageReferenceMixin, MPTTModel):
     """
     A model to help to categorize products.
     Product can have multiple categories.
@@ -413,6 +413,9 @@ class ProductCategory(MPTTModel):
             active=True).order_by("id")
         return result
 
+    def get_absolute_url(self):
+        name = "-".join(self.name.lower().split(' '))
+        return urljoin("/produits/category/", str(self.id) + '-' + name)
 
 class ProductFilterGroup(models.Model):
 
@@ -456,6 +459,15 @@ class ProductFilter(models.Model):
         max_length=100,
         null=False,
         blank=False
+    )
+    image = image.FilerImageField(
+        verbose_name=_("image"),
+        related_name="filter_image",
+        on_delete=models.SET_NULL,
+        null=True, blank=True
+    )
+    description = models.TextField(
+        null=True, blank=True
     )
     order = models.PositiveSmallIntegerField(
         verbose_name=_("Sort by"),
@@ -879,7 +891,7 @@ class ProductVariable(Product):
             return desc
         return ""
 
-    def get_price(self, request):
+    def get_price(self, request=None):
         if not hasattr(self, "_price"):
             if self.variants.exists():
                 currency = self.variants.first().unit_price.currency
@@ -1061,7 +1073,7 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         elif self.start_date < today and self.end_date > today:
             return True
 
-    def get_price(self, request):  # noqa: C901
+    def get_price(self, request=None):  # noqa: C901
         r = self.unit_price
 
         if self.is_discounted:
@@ -1235,6 +1247,11 @@ class dmSiteContact(models.Model):
     address = models.CharField(
         verbose_name=_("Address"),
         max_length=1000,
+        blank=True,
+        null=True
+    )
+    schedule = models.TextField(
+        verbose_name=_("Schedule"),
         blank=True,
         null=True
     )
@@ -1531,7 +1548,11 @@ class dmBlocEnteteVideo(CMSPlugin):
 
 
 class dmBlocSliderParent(CMSPlugin):
-    pass
+    height = models.PositiveSmallIntegerField(
+        verbose_name=_("Height"),
+        default=500,
+        help_text=_("Height of the slider (will be automatically shrinked on mobile version).")
+    )
 
 
 class dmBlocSliderChild(CMSPlugin):
@@ -1547,6 +1568,13 @@ class dmBlocSliderChild(CMSPlugin):
         blank=True,
         help_text=_("Maximum 100 characters.")
     )
+    suptitle = models.CharField(
+        verbose_name=_("Suptitle"),
+        max_length=200,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 200 characters.")
+    )
     subtitle = models.CharField(
         verbose_name=_("Subtitle"),
         max_length=200,
@@ -1556,6 +1584,11 @@ class dmBlocSliderChild(CMSPlugin):
     )
     title_color = ColorField(
         verbose_name=_("Title's Colour"),
+        null=True,
+        blank=True
+    )
+    suptitle_color = ColorField(
+        verbose_name=_("Suptitle's Colour"),
         null=True,
         blank=True
     )
@@ -1752,6 +1785,11 @@ class dmBlocEtapesChild(CMSPlugin):
 
 
 class dmBlockSalesParent(CMSPlugin):
+    CHOIX_PERLINE = [
+        (1, _("1 block")),
+        (2, _("2 blocks")),
+        (3, _("3 blocks"))
+    ]
     title = models.CharField(
         verbose_name=_("Title"),
         max_length=100,
@@ -1764,6 +1802,13 @@ class dmBlockSalesParent(CMSPlugin):
         configuration="CKEDITOR_SETTINGS_DMPLUGIN",
         null=True,
         blank=True
+    )
+    perline = models.PositiveSmallIntegerField(
+        verbose_name=_("How many block per line?"),
+        choices=CHOIX_PERLINE,
+        default=2,
+        null=False,
+        blank=False
     )
 
 

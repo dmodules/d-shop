@@ -190,6 +190,12 @@
                                 <p><a href="tel:{{contacts.phone|phone_canadian}}">{{contacts.phone}}</a></p>
                             </li>
                         {% endif %}
+                        {% if contacts.schedule %}
+                            <li>
+                                <i class="ti-alarm-clock"></i>
+                                {{contacts.schedule|linebreaks}}
+                            </li>
+                        {% endif %}
                     </ul>
                     </div>
                 </div>

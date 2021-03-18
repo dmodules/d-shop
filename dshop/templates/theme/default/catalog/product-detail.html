@@ -19,7 +19,7 @@
                         {% if product.categories.count > 0 %}
                             <div class="breadcrumbs-item">
                             {% for category in product.categories.all %}
-                                <a href="{% page_url 'produits' %}{{category.id}}-{{category.name|slugify}}">{{category.name}}</a>
+                                <a href="{{category.get_absolute_url}}">{{category.name}}</a>
                             {% endfor %}
                             </div>
                         {% endif %}
@@ -137,7 +137,7 @@
                                                     <option disabled selected>{{key}}</option>
                                                     {% for v in value %}
                                                         {% if v in attributes.value %}
-                                                            <option class="choix" value="{{v}}" {% if v in attr_list %}selected{% endif %}>{{v}}</option>
+                                                            <option class="choix" value="{{key}}_____{{v}}" {% if v in attr_list %}selected{% endif %}>{{v}}</option>
                                                         {% endif %}
                                                     {% endfor %}
                                                 </select>

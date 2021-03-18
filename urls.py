@@ -18,7 +18,7 @@ from shop.views.catalog import ProductListView
 
 from dshop.views import CustomerView, CustomerCheckView
 from dshop.views import LoadProduits, LoadProductsByCategory
-from dshop.views import LoadVariantSelect, LoadFilters, DshopProductListView
+from dshop.views import LoadVariantSelect, LoadFilters
 from dshop.views import ShippingMethodsView, BillingMethodsView
 from dshop.views import TestPaymentView, AttributeAutocomplete
 from dshop.views import PasswordResetConfirmView
@@ -67,7 +67,11 @@ urlpatterns = [
     url(r'^quotation/', include("apps.dmQuotation.urls")),
 
     url(r'^api/v1/products-list/$', ProductListView.as_view(), name='product-list'),
-    url(r'^api/v1/d-shop-products-list/$', DshopProductListView.as_view(), name='d-shop-product-list'),
+    # =====================
+    # url(r'^api/v1/d-shop-products-list/$', DshopProductListView.as_view(), name='d-shop-product-list'),
+    # url(r'^api/v1/d-shop-products-list/category/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', DshopProductListView.as_view(), name='d-shop-product-list'),
+    # url(r'^api/v1/d-shop-products-list/brand/(?P<brand_id>[0-9]+)-(?P<brand_slug>.+)$', DshopProductListView.as_view(), name='d-shop-product-list'),
+    # =====================
     url(r'^api/v1/filters/$', LoadFilters.as_view(), name='product-filter'),
 
     url(r'^api/fe/customer/$', CustomerView.as_view(), name='customer'),
@@ -112,15 +116,15 @@ urlpatterns = [
         template_name="theme/{}/pages/message-envoye.html".format(settings.THEME_SLUG)
     )),
 
-    url(r'^produits/b(?P<brand_id>[0-9]+)-(?P<brand_slug>.+)$', TemplateView.as_view(
-        template_name='theme/{}/pages/produits.html'.format(settings.THEME_SLUG)
-    )),
-    url(r'^produits/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', TemplateView.as_view(
-        template_name='theme/{}/pages/produits.html'.format(settings.THEME_SLUG)
-    )),
-    url(r'^produits/', TemplateView.as_view(
-        template_name='theme/{}/pages/produits.html'.format(settings.THEME_SLUG)
-    ), name='produits'),
+    # url(r'^produits/b(?P<brand_id>[0-9]+)-(?P<brand_slug>.+)$', TemplateView.as_view(
+    #     template_name='theme/{}/pages/produits.html'.format(settings.THEME_SLUG)
+    # )),
+    # url(r'^produits/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', TemplateView.as_view(
+    #     template_name='theme/{}/pages/produits.html'.format(settings.THEME_SLUG)
+    # )),
+    # url(r'^produits/', TemplateView.as_view(
+    #     template_name='theme/{}/pages/produits.html'.format(settings.THEME_SLUG)
+    # ), name='produits'),
 
     url(r'^search/', include("apps.dmSearch.urls")),
 

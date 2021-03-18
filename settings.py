@@ -65,6 +65,7 @@ INSTALLED_APPS.extend([  # noqa: F821
     "webpack_loader",
     "colorfield",
     # ===---
+    "django_filters",
     "rest_framework",
     "rest_framework.authtoken",
     "rest_auth",
@@ -83,6 +84,8 @@ INSTALLED_APPS.extend([  # noqa: F821
     "apps.dmTaxes",
     "apps.dmSearch",
     "apps.dmQuotation",
+    "apps.dmJobModule",
+    "apps.dmPortfolio",
     # ===---
     "shop",
     "dshop",
@@ -153,6 +156,7 @@ SITE_ID = 1
 
 CLIENT_TITLE = os.getenv("CLIENT_TITLE", "D-Shop")
 SHOP_VENDOR_EMAIL = os.getenv("SHOP_VENDOR_EMAIL")
+CC_EMAILS = os.getenv("CC_EMAILS")
 ADMINS = [("D-Modules", "info@d-modules.com")]
 
 ORDER_TIMEOUT = os.getenv("ORDER_TIMEOUT", 10)
@@ -183,13 +187,20 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 DEFAULT_TO_EMAIL = os.getenv("DEFAULT_TO_EMAIL")
 EMAIL_REPLY_TO = "info@d-modules.com"
-EMAIL_BACKEND = "post_office.EmailBackend"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_BACKEND = "post_office.EmailBackend"
 
 #######################################################################
 # Mailchimp Settings
 
 MAILCHIMP_KEY = os.getenv("MAILCHIMP_KEY")
 MAILCHIMP_LISTID = os.getenv("MAILCHIMP_LISTID")
+
+#######################################################################
+# ReCaptcha Settings
+
+RECAPTCHA_PUBLIC_KEY = os.getenv("RECAPTCHA_PUBLIC_KEY")
+RECAPTCHA_SECRET_KEY = os.getenv("RECAPTCHA_SECRET_KEY")
 
 #######################################################################
 # Stripe Settings
@@ -756,6 +767,12 @@ TEMP_ADMIN_REORDER = [
     {
         "app": "filer"
     },
+    {
+        "app": "dmJobModule"
+    },
+    {
+        "app": "dmPortfolio"
+    },
 ]
 
 if 'QUOTATION' in FEATURES:
@@ -786,3 +803,21 @@ if STAGE != 'local':
         send_default_pii=True
     )
 
+email_path = os.path.join('theme', THEME_SLUG, 'email')
+
+NOTIFICATION_TARGET = {
+    'payment_confirmed':
+        {
+            'email_template': os.path.join(email_path, 'customer_order_receipt.html'), 
+            'to_vendor': True,
+            'to_customer': True,
+            'cc_emails': True
+        },
+    'ready_for_delivery':
+        {
+            'email_template': os.path.join(email_path, 'customer_shipped_receipt.html'), 
+            'to_vendor': False,
+            'to_customer': True,
+            'cc_emails': True
+        }
+}
