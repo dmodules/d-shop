@@ -40,8 +40,9 @@ class PromoCodesCreate(APIView):
             customer = CustomerModel.objects.get_from_request(request)
             try:
                 promocode = dmPromoCode.objects.get(code=data)
-                if customer not in promocode.customer.all():
-                    return RestResponse({"valid": False})
+                if promocode.customer.all():
+                    if customer not in promocode.customer.all():
+                        return RestResponse({"valid": False})
 
                 usercodes = dmCustomerPromoCode.objects.filter(
                     customer=customer,
