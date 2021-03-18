@@ -214,8 +214,9 @@ a:hover{
 }
 
 .tab-style1 .nav-tabs li.nav-item a.active, .tab-style1 .nav-tabs li.nav-item a.active:hover,
-.tab-style2 .nav-tabs li.nav-item a.active, .tab-style2 .nav-tabs li.nav-item a.active:hover {
-	color: #495057;
+.tab-style2 .nav-tabs li.nav-item a.active, .tab-style2 .nav-tabs li.nav-item a.active:hover,
+.nav-tabs li.nav-item a:hover {
+	color: inherit;
 }
 
 /* ===--- Filtres ---=== */
