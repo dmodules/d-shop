@@ -1,8 +1,16 @@
 
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
-from filer.fields.file import FilerFileField
 from django.template.defaultfilters import slugify
+
+from djangocms_text_ckeditor.fields import HTMLField
+
+from cms.models import CMSPlugin
+
+from filer.fields.file import FilerFileField
+
+from colorfield.fields import ColorField
+
 
 class dmJobDescription(models.Model):
     title = models.CharField(
@@ -116,3 +124,67 @@ class dmJobApplication(models.Model):
 
     def __str__(self):
         return self.name + " : " + self.email
+
+
+##############################################################################
+# ===---                           PLUGINS                            ---=== #
+##############################################################################
+
+
+class dmJobLastest(CMSPlugin):
+    title = models.CharField(
+        verbose_name=_("Title"),
+        max_length=100,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 100 characters.")
+    )
+    title_color = ColorField(
+        verbose_name=_("Title's Colour"),
+        null=True,
+        blank=True
+    )
+    text = HTMLField(
+        verbose_name=_("Text"),
+        configuration="CKEDITOR_SETTINGS_DMPLUGIN",
+        null=True,
+        blank=True
+    )
+    text_color = ColorField(
+        verbose_name=_("Text's Colour"),
+        null=True,
+        blank=True
+    )
+    btn_label = models.CharField(
+        verbose_name=_("See All Offers Link's Label"),
+        max_length=30,
+        default=_("Voir toutes les offres"),
+        null=True,
+        blank=True,
+        help_text=_("Maximum 30 characters.")
+    )
+    btn_blank = models.BooleanField(
+        verbose_name=_("Open on new tab?"),
+        default=False
+    )
+    box_text_color = ColorField(
+        verbose_name=_("Box Text's Colour"),
+        null=True,
+        blank=True
+    )
+    box_bg_color = ColorField(
+        verbose_name=_("Box's Colour"),
+        null=True,
+        blank=True
+    )
+    bg_color = ColorField(
+        verbose_name=_("Background's Colour"),
+        null=True,
+        blank=True
+    )
+    image = models.ImageField(
+        verbose_name=_("Image"),
+        null=True,
+        blank=True,
+        help_text=_("Leave blank to hide image.")
+    )

@@ -3021,3 +3021,6 @@ msgstr "Personnalisations"
 
 msgid "Discount Type"
 msgstr "Type de rabais"
+
+msgid "Last Job Offers"
+msgstr "Dernières offres d'emploi"
