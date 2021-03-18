@@ -81,11 +81,11 @@ class dmJobApplication(models.Model):
         related_name="job",
     )
     name = models.CharField(
-        max_length=50,
+        max_length=250,
         verbose_name=_("Nom")
     )
     email = models.CharField(
-        max_length=20,
+        max_length=1000,
         verbose_name=_("E-mail")
     )
     phone = models.CharField(

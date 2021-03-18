@@ -197,6 +197,12 @@ MAILCHIMP_KEY = os.getenv("MAILCHIMP_KEY")
 MAILCHIMP_LISTID = os.getenv("MAILCHIMP_LISTID")
 
 #######################################################################
+# ReCaptcha Settings
+
+RECAPTCHA_PUBLIC_KEY = os.getenv("RECAPTCHA_PUBLIC_KEY")
+RECAPTCHA_SECRET_KEY = os.getenv("RECAPTCHA_SECRET_KEY")
+
+#######################################################################
 # Stripe Settings
 
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")

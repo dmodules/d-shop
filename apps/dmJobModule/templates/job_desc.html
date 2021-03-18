@@ -1,5 +1,5 @@
 {% extends "theme/default/pages/base.html" %}
-{% load i18n %}
+{% load i18n dshop_tags %}
 
 {% block content %}
 
@@ -64,26 +64,27 @@
                             {% csrf_token %}
                             <div class="row">
                                 <div class="form-group col col-12">
-                                    <input required="required" placeholder="{% trans 'Name' %}*" id="apply_name" class="form-control" name="name" type="text" />
+                                    <input required="required" placeholder="{% trans 'Name' %}*" id="apply_name" class="form-control" name="name" type="text" maxlength="200" />
                                 </div>
                                 <div class="form-group col col-12">
-                                    <input aria-describedby="apply_email_help" required="required" placeholder="{% trans 'Email' %}*" id="apply_email" class="form-control" name="email" type="email" />
-                                    <small id="apply_email_help" class="form-text text-muted px-1">Nous ne partagerons jamais votre e-mail avec qui que ce soit.</small>
+                                    <input aria-describedby="apply_email_help" required="required" placeholder="{% trans 'Email' %}*" id="apply_email" class="form-control" name="email" type="email" maxlength="500" />
+                                    <small id="apply_email_help" class="form-text text-muted px-1">{% trans "We will never share your email with anyone." %}</small>
                                 </div>
                                 <div class="form-group col col-12">
-                                    <input required="required" placeholder="{% trans 'Phone' %}*" id="apply_phone" class="form-control" name="phone" type="text" />
+                                    <input placeholder="{% trans 'Phone' %}" id="apply_phone" class="form-control" name="phone" type="text" maxlength="20" />
                                 </div>
                                 <div class="form-group col col-12">
                                     <textarea required="required" placeholder="{% trans 'Message' %}*" id="apply_message" class="form-control" name="message" rows="4"></textarea>
                                 </div>
                                 <div class="form-group col col-12">
-                                    <input required="required" placeholder="{% trans 'Your CV' %}*" id="apply_cv" class="form-control" name="cv" type="file" />
+                                    <h5>{% trans "Your CV" %}</h5>
+                                    <input required="required" placeholder="{% trans 'Your CV' %}" id="apply_cv" class="form-control" name="cv" type="file" />
                                 </div>
                                 <div class="form-group col col-12">
-                                    <label class="form-check-label" for="apply_captcha">Captcha</label>
+                                    <div class="g-recaptcha" data-sitekey="{% get_setting 'RECAPTCHA_PUBLIC_KEY' %}" data-callback="dmCaptcha"></div>
                                 </div>
                                 <div class="form-group col col-12">
-                                    <button type="submit" class="btn btn-fill-out">{% trans "Send" %}</button>
+                                    <button type="submit" id="btn-contact-submit" class="btn btn-fill-out">{% trans "Send" %}</button>
                                 </div>
                             </div>
                         </form>
@@ -94,3 +95,14 @@
     </div>
 
 {% endblock %}
+
+{% block foot %}
+    {{ block.super }}
+    <script type="text/javascript">
+        var onloadCallback = function() {};
+        var dmCaptcha = function() {
+            $('#btn-contact-submit').prop('disabled', false)
+        }
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock foot %}
