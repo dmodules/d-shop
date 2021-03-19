@@ -1,9 +1,11 @@
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
+from django import forms
 
 from decimal import Decimal
 
 from shop.money import Money
+from shop.models.customer import CustomerModel as Customer
 
 from .models import dmRabaisPerCategory
 from .models import dmPromoCode
@@ -58,6 +60,9 @@ class dmRabaisPerCategoryAdmin(admin.ModelAdmin):
 # Promo Code
 #######################################################################
 
+class CustomerMultipleChoiceField(forms.ModelMultipleChoiceField):
+     def label_from_instance(self, obj):
+         return str(obj.user.first_name) + " : " + str(obj.user.last_name) + " : " + str(obj.user.email)
 
 @admin.register(dmPromoCode)
 class dmPromoCodeAdmin(admin.ModelAdmin):
@@ -85,6 +90,12 @@ class dmPromoCodeAdmin(admin.ModelAdmin):
     list_filter = ["is_active", "categories"]
     filter_horizontal = ["categories", "products"]
     search_fields = ["name"]
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "customer":
+            return CustomerMultipleChoiceField(queryset=Customer.objects.filter(recognized=2))
+        return super(dmPromoCodeAdmin, self).formfield_for_manytomany(
+            db_field, request, **kwargs)
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
