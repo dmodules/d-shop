@@ -144,7 +144,6 @@ class dmPromoCode(models.Model):
         verbose_name=_("Customers"),
         limit_choices_to={'recognized': 2},
         blank=True,
-        null=True,
     )
     categories = models.ManyToManyField(
         "dshop.ProductCategory",
