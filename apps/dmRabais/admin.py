@@ -93,7 +93,7 @@ class dmPromoCodeAdmin(admin.ModelAdmin):
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         if db_field.name == "customer":
-            return CustomerMultipleChoiceField(queryset=Customer.objects.filter(recognized=2))
+            return CustomerMultipleChoiceField(queryset=Customer.objects.filter(recognized=2), required=False)
         return super(dmPromoCodeAdmin, self).formfield_for_manytomany(
             db_field, request, **kwargs)
 
