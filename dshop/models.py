@@ -1860,6 +1860,22 @@ class dmBlockSalesChild(CMSPlugin):
         null=True,
         blank=True
     )
+    btn_text_color = ColorField(
+        verbose_name=_("Button Text's Colour"),
+        default="#292b2c"
+    )
+    btn_border_color = ColorField(
+        verbose_name=_("Button Border's Colour"),
+        null=True,
+        blank=True,
+        help_text=_("Leave blank to use transparent.")
+    )
+    btn_bg_color = ColorField(
+        verbose_name=_("Button Background's Colour"),
+        null=True,
+        blank=True,
+        help_text=_("Leave blank to use transparent.")
+    )
     bg_color = ColorField(
         verbose_name=_("Background's Colour"),
         default="#f2f2f3"

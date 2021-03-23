@@ -220,7 +220,7 @@ button:focus {
 	border: 1px solid #333;
 	overflow: hidden;
 	position: relative;
-	color: #fff !important;
+	color: #fff;
 	transition: all 0.8s ease 0s;
 	z-index: 1;
 }
@@ -246,6 +246,25 @@ button:focus {
 .btn-fill-line:hover {
 	color: #333 !important;
 }
+/**/
+.single_banner_info .btn-fill-out:hover {
+    background-color: transparent!important;
+    color: inherit!important;
+}
+.single_banner_info .btn-fill-out:before,
+.single_banner_info .btn-fill-out:after {
+    background-color: inherit;
+}
+.single_banner_info .btn-fill-line:before,
+.single_banner_info .btn-fill-line:after {
+    background-color: transparent;
+}
+.single_banner_info .btn-fill-line:hover,
+.single_banner_info .btn-fill-line:hover {
+    border-color: inherit!important;
+    color: inherit!important;
+}
+/**/
 .btn-border-fill {
 	border: 1px solid #458d91;
 	color: #458d91;
