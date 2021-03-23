@@ -113,8 +113,9 @@ class dmPromoCode(models.Model):
         default=True
     )
     allow_multiple = models.BooleanField(
-        verbose_name=_("Autoriser plusieurs utilisateurs"),
-        default=False
+        verbose_name=_("Allow multiple uses?"),
+        default=False,
+        help_text=_("Allow customers to use this code multiple time?")
     )
     can_apply_on_discounted = models.BooleanField(
         verbose_name=_("Can Apply On Discounted Product?"),
@@ -144,10 +145,11 @@ class dmPromoCode(models.Model):
     )
     customer = models.ManyToManyField(
         Customer,
-        related_name='customerpromo',
+        related_name="customerpromo",
         verbose_name=_("Customers"),
-        limit_choices_to={'recognized': 2},
+        limit_choices_to={"recognized": 2},
         blank=True,
+        help_text=_("Only allow these customers to use this code. Leave blank to allow anyone.")
     )
     categories = models.ManyToManyField(
         "dshop.ProductCategory",

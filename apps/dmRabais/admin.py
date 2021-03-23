@@ -1,4 +1,5 @@
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib import admin
 from django import forms
 
@@ -61,8 +62,8 @@ class dmRabaisPerCategoryAdmin(admin.ModelAdmin):
 #######################################################################
 
 class CustomerMultipleChoiceField(forms.ModelMultipleChoiceField):
-     def label_from_instance(self, obj):
-         return str(obj.user.first_name) + " : " + str(obj.user.last_name) + " : " + str(obj.user.email)
+    def label_from_instance(self, obj):
+        return str(obj.user.first_name) + " : " + str(obj.user.last_name) + " : " + str(obj.user.email)
 
 @admin.register(dmPromoCode)
 class dmPromoCodeAdmin(admin.ModelAdmin):
@@ -89,14 +90,22 @@ class dmPromoCodeAdmin(admin.ModelAdmin):
     ]
     list_display = ["name", "code", "is_active", "get_debut", "get_fin"]
     list_filter = ["is_active", "categories"]
-    filter_horizontal = ["categories", "products"]
+    filter_horizontal = ["customer", "categories", "products"]
     search_fields = ["name"]
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         if db_field.name == "customer":
-            return CustomerMultipleChoiceField(queryset=Customer.objects.filter(recognized=2), required=False)
+            return CustomerMultipleChoiceField(
+                queryset=Customer.objects.filter(recognized=2),
+                required=False,
+                widget=FilteredSelectMultiple(
+                    verbose_name=_("Customers"),
+                    is_stacked=False
+                )
+            )
         return super(dmPromoCodeAdmin, self).formfield_for_manytomany(
-            db_field, request, **kwargs)
+            db_field, request, **kwargs
+        )
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
