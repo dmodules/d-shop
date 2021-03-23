@@ -56,9 +56,15 @@ class PromoCodesCreate(APIView):
                 elif today < promocode.valid_from:
                     return RestResponse({"valid": False})
                 #
+                # Allow multiple time to user Promocode
+                # If users are selected or Boolean is True
+                allow = False
+                if promocode.allow_multiple or promocode.customer.all():
+                    allow = True                
+
                 if not promocode.is_active:
                     return RestResponse({"valid": "expired"})
-                elif not promocode.customer.all() and usercodes.count() > 0:
+                elif not allow and usercodes.count() > 0:
                     return RestResponse({"valid": "already"})
                 else:
                     cpromo = dmCustomerPromoCode.objects.create(

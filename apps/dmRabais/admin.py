@@ -72,6 +72,7 @@ class dmPromoCodeAdmin(admin.ModelAdmin):
                 "name",
                 "code",
                 ("is_active", "can_apply_on_discounted"),
+                "allow_multiple",
                 "apply_on_cart",
                 "amount",
                 "percent"]
