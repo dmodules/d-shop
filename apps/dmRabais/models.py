@@ -112,6 +112,10 @@ class dmPromoCode(models.Model):
         verbose_name=_("Active"),
         default=True
     )
+    allow_multiple = models.BooleanField(
+        verbose_name=_("Autoriser plusieurs utilisateurs"),
+        default=False
+    )
     can_apply_on_discounted = models.BooleanField(
         verbose_name=_("Can Apply On Discounted Product?"),
         default=False
