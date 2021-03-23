@@ -55,18 +55,15 @@ class PromoCodesCreate(APIView):
                     promocode.save()
                 elif today < promocode.valid_from:
                     return RestResponse({"valid": False})
-                #
-                # Allow multiple time to user Promocode
-                # If users are selected or Boolean is True
-                allow = False
-                if promocode.allow_multiple or promocode.customer.all():
-                    allow = True                
-
                 if not promocode.is_active:
                     return RestResponse({"valid": "expired"})
-                elif not allow and usercodes.count() > 0:
+                elif usercodes.count() > 0 and not usercodes[0].promocode.allow_multiple:
+                    return RestResponse({"valid": "already"})
+                elif usercodes.count() > 0 and usercodes[0].promocode.allow_multiple and usercodes[0].promocode.customer.all().count() > 0 and not customer in usercodes[0].promocode.customer.all():
                     return RestResponse({"valid": "already"})
                 else:
+                    if usercodes.count() > 0 and usercodes[0].promocode.allow_multiple and (usercodes[0].promocode.customer.all().count() == 0 or usercodes[0].promocode.customer.all().count() > 0 and customer in usercodes[0].promocode.customer.all()):
+                        usercodes[0].delete()
                     cpromo = dmCustomerPromoCode.objects.create(
                         customer=customer,
                         promocode=promocode
@@ -140,8 +137,13 @@ class PromoCodesList(APIView):
                     p.save()
                 # expire if already used
                 if p.promocode.code in used_promolist:
-                    p.is_expired = True
-                    p.save()
+                    # un-expire promocode if multiple_allowed and all/selected customer
+                    if p.promocode.allow_multiple and (p.promocode.customer.all().count() == 0 or customer in p.promocode.customer.all()):
+                        p.is_expired = p.is_expired
+                        p.save()
+                    else:
+                        p.is_expired = True
+                        p.save()
                 # add to list
                 datas = {}
                 datas["name"] = p.promocode.name
@@ -220,8 +222,13 @@ class PromoCodesList(APIView):
                     p.save()
                 # expire if already used
                 if p.promocode.code in used_promolist:
-                    p.is_expired = True
-                    p.save()
+                    # un-expire promocode if multiple_allowed and all/selected customer
+                    if p.promocode.allow_multiple and (p.promocode.customer.all().count() == 0 or customer in p.promocode.customer.all()):
+                        p.is_expired = p.is_expired
+                        p.save()
+                    else:
+                        p.is_expired = True
+                        p.save()
                 # add to list
                 datas = {}
                 if p.promocode.name in all_promocodes:
