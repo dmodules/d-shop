@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-24 11:46-0400\n"
+"POT-Creation-Date: 2021-03-24 12:52-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -167,9 +167,10 @@ msgstr ""
 #: apps/dmAdvertising/models.py:15 apps/dmJobModule/models.py:148
 #: dshop/models.py:357 dshop/models.py:1338 dshop/models.py:1362
 #: dshop/models.py:1386 dshop/models.py:1402 dshop/models.py:1435
-#: dshop/models.py:1482 dshop/models.py:1722 dshop/models.py:1784
-#: dshop/models.py:1806 dshop/models.py:1833 dshop/models.py:1906
-#: dshop/models.py:1958 dshop/models.py:2023 dshop/models.py:2058
+#: dshop/models.py:1482 dshop/models.py:1533 dshop/models.py:1784
+#: dshop/models.py:1846 dshop/models.py:1868 dshop/models.py:1895
+#: dshop/models.py:1968 dshop/models.py:2020 dshop/models.py:2085
+#: dshop/models.py:2120
 msgid "Text"
 msgstr ""
 
@@ -177,7 +178,7 @@ msgstr ""
 msgid "Maximum 75 characters."
 msgstr ""
 
-#: apps/dmAdvertising/models.py:20 dshop/models.py:1618
+#: apps/dmAdvertising/models.py:20 dshop/models.py:1680
 msgid "URL"
 msgstr ""
 
@@ -216,17 +217,17 @@ msgstr ""
 #: apps/dmAdvertising/models.py:55 apps/dmJobModule/models.py:136
 #: apps/dmPortfolio/models.py:8 dshop/models.py:1355 dshop/models.py:1379
 #: dshop/models.py:1395 dshop/models.py:1428 dshop/models.py:1454
-#: dshop/models.py:1468 dshop/models.py:1515 dshop/models.py:1570
-#: dshop/models.py:1698 dshop/models.py:1755 dshop/models.py:1778
-#: dshop/models.py:1799 dshop/models.py:1826 dshop/models.py:1892
-#: dshop/models.py:1951 dshop/models.py:2016
+#: dshop/models.py:1468 dshop/models.py:1519 dshop/models.py:1577
+#: dshop/models.py:1632 dshop/models.py:1760 dshop/models.py:1817
+#: dshop/models.py:1840 dshop/models.py:1861 dshop/models.py:1888
+#: dshop/models.py:1954 dshop/models.py:2013 dshop/models.py:2078
 msgid "Title"
 msgstr ""
 
 #: apps/dmAdvertising/models.py:60 apps/dmJobModule/models.py:186
-#: apps/dmPortfolio/models.py:16 dshop/models.py:1488 dshop/models.py:1634
-#: dshop/models.py:1741 dshop/models.py:1772 dshop/models.py:1884
-#: dshop/models.py:1943
+#: apps/dmPortfolio/models.py:16 dshop/models.py:1488 dshop/models.py:1568
+#: dshop/models.py:1696 dshop/models.py:1803 dshop/models.py:1834
+#: dshop/models.py:1946 dshop/models.py:2005
 msgid "Image"
 msgstr ""
 
@@ -333,7 +334,7 @@ msgid "Titre"
 msgstr "Title"
 
 #: apps/dmJobModule/models.py:19 apps/dmPortfolio/models.py:10
-#: dshop/models.py:1896 dshop/models.py:1903 dshop/models.py:2046
+#: dshop/models.py:1958 dshop/models.py:1965 dshop/models.py:2108
 msgid "Maximum 250 characters."
 msgstr ""
 
@@ -412,21 +413,21 @@ msgstr "Job Offers"
 #: apps/dmJobModule/models.py:140 apps/dmRabais/models.py:25
 #: apps/dmRabais/models.py:88 dshop/models.py:1359 dshop/models.py:1383
 #: dshop/models.py:1399 dshop/models.py:1432 dshop/models.py:1472
-#: dshop/models.py:1519 dshop/models.py:1574 dshop/models.py:1702
-#: dshop/models.py:1759 dshop/models.py:1803 dshop/models.py:1830
-#: dshop/models.py:1837 dshop/models.py:1955 dshop/models.py:1971
-#: dshop/models.py:2020
+#: dshop/models.py:1523 dshop/models.py:1581 dshop/models.py:1636
+#: dshop/models.py:1764 dshop/models.py:1821 dshop/models.py:1865
+#: dshop/models.py:1892 dshop/models.py:1899 dshop/models.py:2017
+#: dshop/models.py:2033 dshop/models.py:2082
 msgid "Maximum 100 characters."
 msgstr ""
 
-#: apps/dmJobModule/models.py:143 dshop/models.py:1591 dshop/models.py:1705
-#: dshop/models.py:1913
+#: apps/dmJobModule/models.py:143 dshop/models.py:1653 dshop/models.py:1767
+#: dshop/models.py:1975
 msgid "Title's Colour"
 msgstr ""
 
 #: apps/dmJobModule/models.py:154 dshop/models.py:370 dshop/models.py:544
-#: dshop/models.py:1408 dshop/models.py:1728 dshop/models.py:1840
-#: dshop/models.py:1921
+#: dshop/models.py:1408 dshop/models.py:1790 dshop/models.py:1902
+#: dshop/models.py:1983
 msgid "Text's Colour"
 msgstr ""
 
@@ -438,11 +439,11 @@ msgstr ""
 msgid "Voir toutes les offres"
 msgstr ""
 
-#: apps/dmJobModule/models.py:164 dshop/models.py:1615
+#: apps/dmJobModule/models.py:164 dshop/models.py:1677
 msgid "Maximum 30 characters."
 msgstr ""
 
-#: apps/dmJobModule/models.py:167 dshop/models.py:1625
+#: apps/dmJobModule/models.py:167 dshop/models.py:1687
 msgid "Open on new tab?"
 msgstr ""
 
@@ -455,12 +456,12 @@ msgid "Box's Colour"
 msgstr ""
 
 #: apps/dmJobModule/models.py:181 dshop/models.py:375 dshop/models.py:550
-#: dshop/models.py:1413 dshop/models.py:1629 dshop/models.py:1747
-#: dshop/models.py:1880 dshop/models.py:1938 dshop/models.py:2029
+#: dshop/models.py:1413 dshop/models.py:1691 dshop/models.py:1809
+#: dshop/models.py:1942 dshop/models.py:2000 dshop/models.py:2091
 msgid "Background's Colour"
 msgstr ""
 
-#: apps/dmJobModule/models.py:189 dshop/models.py:1637 dshop/models.py:1744
+#: apps/dmJobModule/models.py:189 dshop/models.py:1699 dshop/models.py:1806
 msgid "Leave blank to hide image."
 msgstr ""
 
@@ -490,12 +491,12 @@ msgstr ""
 
 #: apps/dmJobModule/templates/job_desc.html:67 apps/dmRabais/models.py:23
 #: apps/dmRabais/models.py:84 apps/dmShipping/models.py:40 dshop/admin.py:296
-#: dshop/models.py:1967 dshop/models.py:2042
+#: dshop/models.py:2029 dshop/models.py:2104
 msgid "Name"
 msgstr ""
 
 #: apps/dmJobModule/templates/job_desc.html:70 dshop/models.py:1242
-#: dshop/models.py:1987
+#: dshop/models.py:2049
 #: dshop/templates/theme/default/email/customer-information.html:8
 #: dshop/templates/theme/default/email/q-customer-information.html:8
 #: dshop/templates/theme/default/email/q-customer-information.html:12
@@ -1879,99 +1880,103 @@ msgstr ""
 msgid "Shop"
 msgstr ""
 
-#: dshop/cms_plugins.py:33
+#: dshop/cms_plugins.py:34
 msgid "Page's Header"
 msgstr ""
 
-#: dshop/cms_plugins.py:51
+#: dshop/cms_plugins.py:52
 msgid "Text With Media"
 msgstr ""
 
-#: dshop/cms_plugins.py:69
+#: dshop/cms_plugins.py:70 dshop/cms_plugins.py:89
+msgid "Text With Carrousel"
+msgstr ""
+
+#: dshop/cms_plugins.py:109
 msgid "Text with two columns"
 msgstr ""
 
-#: dshop/cms_plugins.py:87
+#: dshop/cms_plugins.py:127
 msgid "Header With Video"
 msgstr ""
 
-#: dshop/cms_plugins.py:105
+#: dshop/cms_plugins.py:145
 msgid "Slider"
 msgstr ""
 
-#: dshop/cms_plugins.py:124
+#: dshop/cms_plugins.py:164
 msgid "Slider's Element"
 msgstr ""
 
-#: dshop/cms_plugins.py:130
+#: dshop/cms_plugins.py:170
 msgid "Texts"
 msgstr ""
 
-#: dshop/cms_plugins.py:137
+#: dshop/cms_plugins.py:177
 msgid "Background"
 msgstr ""
 
-#: dshop/cms_plugins.py:143 dshop/models.py:1292
+#: dshop/cms_plugins.py:183 dshop/models.py:1292
 msgid "Link"
 msgstr ""
 
-#: dshop/cms_plugins.py:167
+#: dshop/cms_plugins.py:207
 msgid "Steps"
 msgstr ""
 
-#: dshop/cms_plugins.py:186
+#: dshop/cms_plugins.py:226
 msgid "Steps's Element"
 msgstr ""
 
-#: dshop/cms_plugins.py:206
+#: dshop/cms_plugins.py:246
 msgid "Team"
 msgstr ""
 
-#: dshop/cms_plugins.py:225
+#: dshop/cms_plugins.py:265
 msgid "Team's Element"
 msgstr ""
 
-#: dshop/cms_plugins.py:245
+#: dshop/cms_plugins.py:285
 msgid "Call To Action"
 msgstr ""
 
-#: dshop/cms_plugins.py:263
+#: dshop/cms_plugins.py:303
 msgid "Contact Card"
 msgstr ""
 
-#: dshop/cms_plugins.py:281
+#: dshop/cms_plugins.py:321
 msgid "Newsletter"
 msgstr ""
 
-#: dshop/cms_plugins.py:304
+#: dshop/cms_plugins.py:344
 msgid "Products Categories"
 msgstr ""
 
-#: dshop/cms_plugins.py:322
+#: dshop/cms_plugins.py:362
 msgid "Featured Products"
 msgstr ""
 
-#: dshop/cms_plugins.py:340
+#: dshop/cms_plugins.py:380
 msgid "Products By Category"
 msgstr ""
 
-#: dshop/cms_plugins.py:358 dshop/models.py:516
+#: dshop/cms_plugins.py:398 dshop/models.py:516
 msgid "Product's Brands"
 msgstr ""
 
-#: dshop/cms_plugins.py:376
+#: dshop/cms_plugins.py:416
 msgid "Sales"
 msgstr ""
 
-#: dshop/cms_plugins.py:395
+#: dshop/cms_plugins.py:435
 msgid "Sales's Element"
 msgstr ""
 
-#: dshop/cms_plugins.py:415
+#: dshop/cms_plugins.py:455
 msgid "Testimonials"
 msgstr ""
 
-#: dshop/cms_plugins.py:434
+#: dshop/cms_plugins.py:474
 msgid "Testimonial's Element"
 msgstr ""
 
@@ -2032,8 +2037,8 @@ msgstr ""
 msgid "Billing Addresses"
 msgstr ""
 
-#: dshop/models.py:325 dshop/models.py:1464 dshop/models.py:1565
-#: dshop/models.py:1822
+#: dshop/models.py:325 dshop/models.py:1464 dshop/models.py:1515
+#: dshop/models.py:1627 dshop/models.py:1884
 msgid "Left"
 msgstr ""
 
@@ -2041,8 +2046,8 @@ msgstr ""
 msgid "Center"
 msgstr ""
 
-#: dshop/models.py:327 dshop/models.py:1465 dshop/models.py:1567
-#: dshop/models.py:1823
+#: dshop/models.py:327 dshop/models.py:1465 dshop/models.py:1516
+#: dshop/models.py:1629 dshop/models.py:1885
 msgid "Right"
 msgstr ""
 
@@ -2149,7 +2154,7 @@ msgstr ""
 msgid "Label's Name"
 msgstr ""
 
-#: dshop/models.py:541 dshop/models.py:1855 dshop/models.py:1929
+#: dshop/models.py:541 dshop/models.py:1917 dshop/models.py:1991
 msgid "Maximum 25 characters."
 msgstr ""
 
@@ -2346,8 +2351,8 @@ msgstr ""
 msgid "Terms and Conditions"
 msgstr ""
 
-#: dshop/models.py:1368 dshop/models.py:1687 dshop/models.py:1733
-#: dshop/models.py:1851 dshop/models.py:1925
+#: dshop/models.py:1368 dshop/models.py:1749 dshop/models.py:1795
+#: dshop/models.py:1913 dshop/models.py:1987
 msgid "Button's Label"
 msgstr ""
 
@@ -2355,7 +2360,7 @@ msgstr ""
 msgid "Leave blank to hide button."
 msgstr ""
 
-#: dshop/models.py:1418 dshop/models.py:2034
+#: dshop/models.py:1418 dshop/models.py:2096
 msgid "Background's Image"
 msgstr ""
 
@@ -2363,14 +2368,15 @@ msgstr ""
 msgid "How many brand's logo to be show at the same time."
 msgstr ""
 
-#: dshop/models.py:1475 dshop/models.py:1522 dshop/models.py:1584
-#: dshop/models.py:1710 dshop/models.py:1762 dshop/models.py:1899
+#: dshop/models.py:1475 dshop/models.py:1526 dshop/models.py:1584
+#: dshop/models.py:1646 dshop/models.py:1772 dshop/models.py:1824
+#: dshop/models.py:1961
 msgid "Subtitle"
 msgstr ""
 
-#: dshop/models.py:1479 dshop/models.py:1526 dshop/models.py:1581
-#: dshop/models.py:1588 dshop/models.py:1714 dshop/models.py:1738
-#: dshop/models.py:1766 dshop/models.py:1788
+#: dshop/models.py:1479 dshop/models.py:1530 dshop/models.py:1588
+#: dshop/models.py:1643 dshop/models.py:1650 dshop/models.py:1776
+#: dshop/models.py:1800 dshop/models.py:1828 dshop/models.py:1850
 msgid "Maximum 200 characters."
 msgstr ""
 
@@ -2386,185 +2392,213 @@ msgstr ""
 msgid "Leave blank to hide or use image instead."
 msgstr ""
 
-#: dshop/models.py:1501
+#: dshop/models.py:1501 dshop/models.py:1539
 msgid "Align text and media vertically?"
 msgstr ""
 
-#: dshop/models.py:1505
+#: dshop/models.py:1505 dshop/models.py:1543
 msgid "Image's Position"
 msgstr ""
 
-#: dshop/models.py:1529
-msgid "Left Text"
+#: dshop/models.py:1550
+msgid "Crop Image?"
 msgstr ""
 
-#: dshop/models.py:1535
-msgid "Right Text"
+#: dshop/models.py:1552
+msgid "If checked, will crop images to fit the same ratio."
 msgstr ""
 
-#: dshop/models.py:1541
-msgid "Align texts vertically?"
-msgstr ""
-
-#: dshop/models.py:1548
-msgid "Video File"
+#: dshop/models.py:1555
+msgid "Show Dots?"
 msgstr ""
 
 #: dshop/models.py:1557
+msgid "If checked, will display dots under carrousel for each image."
+msgstr ""
+
+#: dshop/models.py:1560
+msgid "Show Navigation Arrows?"
+msgstr ""
+
+#: dshop/models.py:1562
+msgid "If checked, will display navigation arrows both sides of the carrousel."
+msgstr ""
+
+#: dshop/models.py:1571
+msgid "Max sizes : 600x600. Always use the same ratio on the same carrousel."
+msgstr ""
+
+#: dshop/models.py:1591
+msgid "Left Text"
+msgstr ""
+
+#: dshop/models.py:1597
+msgid "Right Text"
+msgstr ""
+
+#: dshop/models.py:1603
+msgid "Align texts vertically?"
+msgstr ""
+
+#: dshop/models.py:1610
+msgid "Video File"
+msgstr ""
+
+#: dshop/models.py:1619
 msgid "Height"
 msgstr ""
 
-#: dshop/models.py:1559
+#: dshop/models.py:1621
 msgid ""
 "Height of the slider (will be automatically shrinked on mobile version)."
 msgstr ""
 
-#: dshop/models.py:1566
+#: dshop/models.py:1628
 msgid "Middle"
 msgstr ""
 
-#: dshop/models.py:1577
+#: dshop/models.py:1639
 msgid "Suptitle"
 msgstr ""
 
-#: dshop/models.py:1596
+#: dshop/models.py:1658
 msgid "Suptitle's Colour"
 msgstr ""
 
-#: dshop/models.py:1601 dshop/models.py:1717 dshop/models.py:1917
+#: dshop/models.py:1663 dshop/models.py:1779 dshop/models.py:1979
 msgid "Subtitle's Colour"
 msgstr ""
 
-#: dshop/models.py:1606 dshop/models.py:1844
+#: dshop/models.py:1668 dshop/models.py:1906
 msgid "Text's Position"
 msgstr ""
 
-#: dshop/models.py:1611
+#: dshop/models.py:1673
 msgid "Link's Label"
 msgstr ""
 
-#: dshop/models.py:1622
+#: dshop/models.py:1684
 msgid "Maximum 1 000 characters."
 msgstr ""
 
-#: dshop/models.py:1643
+#: dshop/models.py:1705
 msgid "Schedule - Top"
 msgstr ""
 
-#: dshop/models.py:1647 dshop/models.py:1654 dshop/models.py:1661
-#: dshop/models.py:1669 dshop/models.py:1684 dshop/models.py:1692
+#: dshop/models.py:1709 dshop/models.py:1716 dshop/models.py:1723
+#: dshop/models.py:1731 dshop/models.py:1746 dshop/models.py:1754
 msgid "Maximum 50 characters."
 msgstr ""
 
-#: dshop/models.py:1650
+#: dshop/models.py:1712
 msgid "Schedule - Bottom"
 msgstr ""
 
-#: dshop/models.py:1657
+#: dshop/models.py:1719
 msgid "Phone - Top"
 msgstr ""
 
-#: dshop/models.py:1664
+#: dshop/models.py:1726
 msgid "Phone - Bottom"
 msgstr ""
 
-#: dshop/models.py:1672
+#: dshop/models.py:1734
 msgid "Address - Top"
 msgstr ""
 
-#: dshop/models.py:1676
+#: dshop/models.py:1738
 msgid "Maximum 120 characters."
 msgstr ""
 
-#: dshop/models.py:1679
+#: dshop/models.py:1741
 msgid "Address - Bottom"
 msgstr ""
 
-#: dshop/models.py:1775
+#: dshop/models.py:1837
 msgid "Sizes : 160x160."
 msgstr ""
 
-#: dshop/models.py:1794
+#: dshop/models.py:1856
 msgid "1 block"
 msgstr ""
 
-#: dshop/models.py:1795
+#: dshop/models.py:1857
 msgid "2 blocks"
 msgstr ""
 
-#: dshop/models.py:1796
+#: dshop/models.py:1858
 msgid "3 blocks"
 msgstr ""
 
-#: dshop/models.py:1812
+#: dshop/models.py:1874
 msgid "How many block per line?"
 msgstr ""
 
-#: dshop/models.py:1858 dshop/models.py:1932
+#: dshop/models.py:1920 dshop/models.py:1994
 msgid "Button's URL"
 msgstr ""
 
-#: dshop/models.py:1864
+#: dshop/models.py:1926
 msgid "Button Text's Colour"
 msgstr ""
 
-#: dshop/models.py:1868
+#: dshop/models.py:1930
 msgid "Button Border's Colour"
 msgstr ""
 
-#: dshop/models.py:1871 dshop/models.py:1877
+#: dshop/models.py:1933 dshop/models.py:1939
 msgid "Leave blank to use transparent."
 msgstr ""
 
-#: dshop/models.py:1874
+#: dshop/models.py:1936
 msgid "Button Background's Colour"
 msgstr ""
 
-#: dshop/models.py:1910
+#: dshop/models.py:1972
 msgid "Maximum 500 characters."
 msgstr ""
 
-#: dshop/models.py:1974
+#: dshop/models.py:2036
 msgid "Job"
 msgstr ""
 
-#: dshop/models.py:1980 dshop/models.py:2053
+#: dshop/models.py:2042 dshop/models.py:2115
 msgid "Photo"
 msgstr ""
 
-#: dshop/models.py:1997
+#: dshop/models.py:2059
 msgid "Ex.: https://www.facebook.com/<username>"
 msgstr ""
 
-#: dshop/models.py:2004
+#: dshop/models.py:2066
 msgid "Ex.: https://twitter.com/<username>"
 msgstr ""
 
-#: dshop/models.py:2011
+#: dshop/models.py:2073
 msgid "Ex.: https://www.instagram.com/<username>"
 msgstr ""
 
-#: dshop/models.py:2037
+#: dshop/models.py:2099
 msgid "Facultative. Size: 2000x900."
 msgstr ""
 
-#: dshop/models.py:2049
+#: dshop/models.py:2111
 msgid "Name's Colour"
 msgstr ""
 
-#: dshop/models.py:2068
+#: dshop/models.py:2130
 msgid "Feature Name"
 msgstr ""
 
-#: dshop/models.py:2072
+#: dshop/models.py:2134
 msgid "Is enabled?"
 msgstr ""
 
-#: dshop/models.py:2077
+#: dshop/models.py:2139
 msgid "Feature List"
 msgstr ""
 
-#: dshop/models.py:2078
+#: dshop/models.py:2140
 msgid "Feature Lists"
 msgstr ""
 

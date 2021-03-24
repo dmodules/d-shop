@@ -1202,3 +1202,12 @@ main > .container > .row {
     display: block;
     padding: 1rem;
 }
+/* ===--- Plugin: TextCarrousel ---=== */
+.dmplugin-textcarrousel {
+    margin: 0 50px;
+}
+@media (max-width: 1199px) {
+    .dmplugin-textcarrousel {
+        margin: 0;
+    }
+}

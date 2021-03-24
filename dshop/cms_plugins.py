@@ -6,6 +6,7 @@ from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
 from .models import dmBlocTextMedia, dmBlocText2Column
+from .models import dmBlocTextCarrousel, dmBlocTextCarrouselImage
 from .models import dmBlocEntete, dmBlocEnteteVideo
 from .models import dmBlocSliderParent, dmBlocSliderChild
 from .models import dmBlocContact, dmInfolettre
@@ -61,6 +62,45 @@ class dmBlocTextMediaPlugin(BoutiquePlugin):
             "theme/{}/plugins/bloc-textmedia.html".format(
                 settings.THEME_SLUG
             ), "plugins/bloc-textmedia.html"
+        ])
+
+
+@plugin_pool.register_plugin
+class dmBlocTextCarrouselPlugin(BoutiquePlugin):
+    name = _("Text With Carrousel")
+    model = dmBlocTextCarrousel
+    allow_children = True
+    child_classes = ["dmBlocTextCarrouselImagePlugin"]
+
+    def render(self, context, instance, placeholder):
+        context = super(dmBlocTextCarrouselPlugin, self).render(context, instance, placeholder)
+        return context
+
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            "theme/{}/plugins/bloc-textcarrousel-parent.html".format(
+                settings.THEME_SLUG
+            ), "plugins/bloc-textcarrousel-parent.html"
+        ])
+
+
+@plugin_pool.register_plugin
+class dmBlocTextCarrouselImagePlugin(BoutiquePlugin):
+    name = _("Text With Carrousel")
+    model = dmBlocTextCarrouselImage
+    allow_children = False
+    require_parent = True
+    parent_classes = ["dmBlocTextCarrouselPlugin"]
+
+    def render(self, context, instance, placeholder):
+        context = super(dmBlocTextCarrouselImagePlugin, self).render(context, instance, placeholder)
+        return context
+
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            "theme/{}/plugins/bloc-textcarrousel-child.html".format(
+                settings.THEME_SLUG
+            ), "plugins/bloc-textcarrousel-child.html"
         ])
 
 

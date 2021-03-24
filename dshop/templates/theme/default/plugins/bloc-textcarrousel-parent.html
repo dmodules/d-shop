@@ -1,0 +1,61 @@
+{% load cms_tags %}
+
+<!-- BEGIN: Plugin: TextCarrousel -->
+<section class="about-section section-textcarrousel py-5">
+    <div class="container">
+        <div class="row">
+            {% if instance.colposition == 0 and instance.child_plugin_instances %}
+                <div class="col-xl-6 col-lg-6 col-md-12 py-3 py-lg-0 wow fadeInLeft animated{% if instance.text_align %} align-self-center{% endif %}">
+                    <div class="dmplugin-textcarrousel">
+                        <div class="product_slider carousel_slider owl-carousel owl-theme nav_style1" data-loop="true" data-dots="{% if instance.see_dots %}true{% else %}false{% endif %}" data-nav="{% if instance.see_navs %}true{% else %}false{% endif %}" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "1"}, "768":{"items": "1"}, "1199":{"items": "1"}}'>
+                            {% for plugin in instance.child_plugin_instances %}
+                                {% with instance.crop_image as crop_image %}
+                                    {% with forloop.counter as loop %}
+                                        {% render_plugin plugin %}
+                                    {% endwith %}
+                                {% endwith %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="{% if instance.child_plugin_instances %}col-xl-6 col-lg-6 col-md-12{% else %}col-12{% endif %} mb-md-75 mb-sm-50 wow {% if instance.colposition == 0 %}fadeInRight{% else %}fadeInLeft{% endif %} animated{% if instance.text_align %} align-self-center{% endif %}">
+                {% if instance.title or instance.subtitle %}
+                    <div class="title-bl">
+                        {% if instance.title %}
+                            <div class="title">
+                                {{instance.title}}
+                            </div>
+                        {% endif %}
+                        {% if instance.subtitle %}
+                            <div class="subtitle color-5">
+                                {{instance.subtitle}}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+                <div class="mt50">
+                    {% if instance.text %}
+                        {{instance.text}}
+                    {% endif %}
+                </div>
+            </div>
+            {% if instance.colposition == 1 and instance.child_plugin_instances %}
+                <div class="col-xl-6 col-lg-6 col-md-12 py-3 py-lg-0 wow fadeInRight animated{% if instance.text_align %} align-self-center{% endif %}">
+                    <div class="dmplugin-textcarrousel">
+                        <div class="product_slider carousel_slider owl-carousel owl-theme nav_style1" data-loop="true" data-dots="{% if instance.see_dots %}true{% else %}false{% endif %}" data-nav="{% if instance.see_navs %}true{% else %}false{% endif %}" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "1"}, "768":{"items": "1"}, "1199":{"items": "1"}}'>
+                            {% for plugin in instance.child_plugin_instances %}
+                                {% with instance.crop_image as crop_image %}
+                                    {% with forloop.counter as loop %}
+                                        {% render_plugin plugin %}
+                                    {% endwith %}
+                                {% endwith %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+<!-- END: Plugin: TextCarrousel -->
