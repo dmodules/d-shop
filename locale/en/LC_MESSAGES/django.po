@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-24 11:33-0400\n"
+"POT-Creation-Date: 2021-03-24 11:46-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2786,6 +2786,14 @@ msgstr ""
 
 #: dshop/templates/theme/default/pages/accueil.html:24
 msgid "Close"
+msgstr ""
+
+#: dshop/templates/theme/default/pages/app.html:5
+msgid "Checkout"
+msgstr ""
+
+#: dshop/templates/theme/default/pages/app.html:6
+msgid "Checkout and order."
 msgstr ""
 
 #: dshop/templates/theme/default/pages/message-envoye.html:4

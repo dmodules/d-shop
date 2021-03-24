@@ -1,4 +1,24 @@
 {% extends "theme/default/pages/base.html" %}
+{% load i18n cms_tags %}
+
+{% block title %}{% page_attribute "page_title" %}{% endblock %}
+{% block meta-description %}{% page_attribute "meta_description" %}{% endblock %}
+
+{% block breadcrumb %}
+    <section class="section-breadcrumb">
+        <div class="breadcrumb_section bg_gray page-title-mini mb-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <div class="page-title">
+                            <h1>{% page_attribute "page_title" %}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock breadcrumb %}
 
 {% block content %}
     <section class="section-portfolio py-5">

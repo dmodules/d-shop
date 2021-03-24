@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-24 11:33-0400\n"
+"POT-Creation-Date: 2021-03-24 11:46-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2812,6 +2812,14 @@ msgstr "Page : Contact"
 msgid "Close"
 msgstr "Fermer"
 
+#: dshop/templates/theme/default/pages/app.html:5
+msgid "Checkout"
+msgstr "Commander"
+
+#: dshop/templates/theme/default/pages/app.html:6
+msgid "Checkout and order."
+msgstr "Commander et payer."
+
 #: dshop/templates/theme/default/pages/message-envoye.html:4
 #: dshop/templates/theme/default/pages/message-envoye.html:11
 msgid "Message Sent!"
@@ -2993,7 +3001,7 @@ msgstr "Votre navigateur ne supporte pas ce format vidéo."
 
 #: urls.py:39
 msgid "D-Shop - E-commerce platform"
-msgstr "D-Shop - Plate-forme de commerce en ligne"
+msgstr "D-Shop - Plateforme de commerce en ligne"
 
 msgid "Add to quotation"
 msgstr "Ajouter au devis"
