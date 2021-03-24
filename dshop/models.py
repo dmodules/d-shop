@@ -1546,6 +1546,11 @@ class dmBlocTextCarrousel(CMSPlugin):
         null=False,
         blank=False
     )
+    howmany_image = models.PositiveSmallIntegerField(
+        verbose_name=_("How Many Images?"),
+        default=1,
+        help_text=_("How many images to show at the same time on desktop.")
+    )
     crop_image = models.BooleanField(
         verbose_name=_("Crop Image?"),
         default=False,
