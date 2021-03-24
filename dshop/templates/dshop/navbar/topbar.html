@@ -7,7 +7,7 @@
             {% for social in socials %}
                 <span>
                     <a href="{{social.url}}" target="_blank">
-                    <i class="{% if social.social == 1 %}icon-social-facebook{% elif social.social == 2 %}ion-social-instagram{% elif social.social == 3 %}icon-social-youtube{% endif %}" aria-hidden="true"></i>
+                    <i class="{% if social.social == 1 %}fab fa-facebook-square{% elif social.social == 2 %}ion-social-instagram{% elif social.social == 3 %}icon-social-youtube{% endif %}" aria-hidden="true"></i>
                     </a>
                 </span>
             {% endfor %}

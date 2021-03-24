@@ -1,0 +1,28 @@
+{% extends "theme/default/pages/base.html" %}
+
+{% block content %}
+    <section class="section-portfolio py-5">
+        <div class="container">
+            <div class="row">
+                {% for item in data %}
+                    <div class="col-4">
+                        <div class="portfolio_item">
+                            <div class="portfolio_img">
+                                <a href="{{ item.image }}" data-title="{{ item.title }}" data-description="{{ item.description }}" data-lightbox="gallery-portfolio" class="item-img">
+                                    <img src="{{ item.image }}" alt="{{ item.title }}" />
+                                </a>
+                            </div>
+                            <div class="portfolio_info text-center">
+                                <h6 class="portfolio_title">
+                                    <a href="{{ item.image }}" data-title="{{ item.title }}" data-description="{{ item.description }}" data-lightbox="gallery-portfolio">
+                                        {{ item.title }}
+                                    </a>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock content %}

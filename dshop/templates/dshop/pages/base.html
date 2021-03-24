@@ -47,6 +47,8 @@
       <link rel="stylesheet" href="{% static 'dshop/shopwise/css/slick-theme.css' %}" />
       <link rel="stylesheet" href="{% static 'dshop/shopwise/css/style.css' %}" />
       <link rel="stylesheet" href="{% static 'dshop/shopwise/css/responsive.css' %}" />
+      <!-- Lightbox CSS -->
+      <link rel="stylesheet" href="{% static 'dshop/shopwise/css/lightbox.min.css' %}" />
       <!-- -->
       <script src="{% static 'dshop/shopwise/js/jquery-1.12.4.min.js' %}"></script>
     {% endblock main-head %}
@@ -124,7 +126,7 @@
                   <ul class="social_icons social_white">
                     {% dm_get_site_socials as socials %}
                     {% for social in socials %}
-                      <li><a href="{{social.url}}" target="_blank"><i class="{% if social.social == 1 %}ion-social-facebook{% elif social.social == 2 %}ion-social-instagram{% elif social.social == 3 %}ion-social-youtube{% endif %}"></i></a></li>
+                      <li><a href="{{social.url}}" target="_blank"><i class="{% if social.social == 1 %}fab fa-facebook-square{% elif social.social == 2 %}ion-social-instagram{% elif social.social == 3 %}ion-social-youtube{% endif %}"></i></a></li>
                     {% endfor %}
                   </ul>
                 </div>
@@ -238,6 +240,7 @@
       <script src="{% static 'dshop/shopwise/js/jquery.dd.min.js' %}"></script>
       <script src="{% static 'dshop/shopwise/js/slick.min.js' %}"></script>
       <script src="{% static 'dshop/shopwise/js/jquery.elevatezoom.js' %}"></script>
+      <script src="{% static 'dshop/shopwise/js/lightbox.min.js' %}"></script>
       <script src="{% static 'dshop/shopwise/js/scripts.js' %}"></script>
     {% endblock main-foot %}
     <!---->

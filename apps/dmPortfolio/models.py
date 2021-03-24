@@ -5,15 +5,15 @@ from filer.fields import image
 
 class dmPortfolio(models.Model):
     title = models.CharField(
-        verbose_name=_("Titre"),
+        verbose_name=_("Title"),
         max_length=250,
         help_text=_("Maximum 250 characters.")
     )
     description = models.TextField(
-        verbose_name=_("Description de l'emploi")
+        verbose_name=_("Description")
     )
     image = image.FilerImageField(
-        verbose_name=_("Header's Image"),
+        verbose_name=_("Image"),
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -24,8 +24,8 @@ class dmPortfolio(models.Model):
     )
 
     class Meta:
-        verbose_name = _("Portefeuille")
-        verbose_name_plural = _("Portefeuilles")
+        verbose_name = _("Portfolio's Item")
+        verbose_name_plural = _("Portfolio's Items")
 
     def __str__(self):
         return self.title
