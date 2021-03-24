@@ -1234,7 +1234,7 @@ class dmSiteContact(models.Model):
     )
     phone = models.CharField(
         verbose_name=_("Phone"),
-        max_length=25,
+        max_length=50,
         blank=True,
         null=True
     )
