@@ -1,6 +1,9 @@
 {% extends 'theme/default/pages/base.html' %}
 {% load render_bundle from webpack_loader %}
-{% load static sekizai_tags %}
+{% load i18n static sekizai_tags %}
+
+{% block title %}{% trans "Checkout" %}{% endblock %}
+{% block meta-description %}{% trans "Checkout and order." %}{% endblock %}
 
 {% block head %}
   {% render_bundle 'chunk-vendors' %}

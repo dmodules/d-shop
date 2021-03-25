@@ -1510,6 +1510,73 @@ class dmBlocTextMedia(CMSPlugin):
     )
 
 
+class dmBlocTextCarrousel(CMSPlugin):
+    CHOIX_POSITION = [
+        (0, _("Left")),
+        (1, _("Right"))
+    ]
+    title = models.CharField(
+        verbose_name=_("Title"),
+        max_length=100,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 100 characters.")
+    )
+    subtitle = models.CharField(
+        verbose_name=_("Subtitle"),
+        max_length=200,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 200 characters.")
+    )
+    text = HTMLField(
+        verbose_name=_("Text"),
+        configuration="CKEDITOR_SETTINGS_DMBLOCKPLUGIN",
+        null=True,
+        blank=True
+    )
+    text_align = models.BooleanField(
+        verbose_name=_("Align text and media vertically?"),
+        default=True
+    )
+    colposition = models.PositiveSmallIntegerField(
+        verbose_name=_("Image's Position"),
+        choices=CHOIX_POSITION,
+        default=1,
+        null=False,
+        blank=False
+    )
+    howmany_image = models.PositiveSmallIntegerField(
+        verbose_name=_("How Many Images?"),
+        default=1,
+        help_text=_("How many images to show at the same time on desktop.")
+    )
+    crop_image = models.BooleanField(
+        verbose_name=_("Crop Image?"),
+        default=False,
+        help_text=_("If checked, will crop images to fit the same ratio.")
+    )
+    see_dots = models.BooleanField(
+        verbose_name=_("Show Dots?"),
+        default=False,
+        help_text=_("If checked, will display dots under carrousel for each image.")
+    )
+    see_navs = models.BooleanField(
+        verbose_name=_("Show Navigation Arrows?"),
+        default=True,
+        help_text=_("If checked, will display navigation arrows both sides of the carrousel.")
+    )
+
+
+class dmBlocTextCarrouselImage(CMSPlugin):
+    image = models.ImageField(
+        verbose_name=_("Image"),
+        null=False,
+        blank=False,
+        help_text=_("Max sizes : 600x600. Always use the same ratio on the same carrousel.")
+    )
+
+
 class dmBlocText2Column(CMSPlugin):
     title = models.CharField(
         verbose_name=_("Title"),
@@ -1859,6 +1926,22 @@ class dmBlockSalesChild(CMSPlugin):
         max_length=1000,
         null=True,
         blank=True
+    )
+    btn_text_color = ColorField(
+        verbose_name=_("Button Text's Colour"),
+        default="#292b2c"
+    )
+    btn_border_color = ColorField(
+        verbose_name=_("Button Border's Colour"),
+        null=True,
+        blank=True,
+        help_text=_("Leave blank to use transparent.")
+    )
+    btn_bg_color = ColorField(
+        verbose_name=_("Button Background's Colour"),
+        null=True,
+        blank=True,
+        help_text=_("Leave blank to use transparent.")
     )
     bg_color = ColorField(
         verbose_name=_("Background's Colour"),

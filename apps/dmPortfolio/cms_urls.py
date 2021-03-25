@@ -2,5 +2,5 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^', views.PortfolioListView.as_view(), name="jobs"),
+    url(r'^', views.PortfolioListView.as_view(), name="portfolio"),
 ]

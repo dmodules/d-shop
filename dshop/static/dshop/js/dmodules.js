@@ -76,6 +76,10 @@ const i18n = {
   productaddedtoquotation: {
       fr: "Produit ajouté au devis",
       en: "Product added to quotation"
+  },
+  xofx: {
+      fr: "de",
+      en: "of"
   }
 }
 

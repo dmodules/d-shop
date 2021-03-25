@@ -11,15 +11,15 @@ class PortfolioListView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
-        ports = dmPortfolio.objects.filter(active=True).order_by('id')
+        portfolios = dmPortfolio.objects.filter(active=True).order_by('id')
         column = 3
-        ports_data = []
-        for port in ports:
+        portfolio_data = []
+        for p in portfolios:
             data = {
-                'id': port.id,
-                'title': port.title,
-                'image': port.image.url,
-                'description': port.description
+                'id': p.id,
+                'title': p.title,
+                'image': p.image.url,
+                'description': p.description
             }
-            ports_data.append(data)
-        return render(request, 'port_list.html', {"data": ports_data, "column": column})
+            portfolio_data.append(data)
+        return render(request, 'portfolio_list.html', {"data": portfolio_data, "column": column})
