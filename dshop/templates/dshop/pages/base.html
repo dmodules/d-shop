@@ -186,10 +186,10 @@
                                 <a href="mailto:{{contacts.email}}">{{contacts.email}}</a>
                             </li>
                         {% endif %}
-                        {% if contacts.phone %}
+                        {% if contacts.phone or contacts.phone_secondary %}
                             <li>
                                 <i class="ti-mobile"></i>
-                                <p><a href="tel:{{contacts.phone|phone_canadian}}">{{contacts.phone}}</a></p>
+                                <p><a href="tel:{{contacts.phone|phone_canadian}}">{{contacts.phone}}</a>{% if contacts.phone_secondary %}<br /><a href="tel:{{contacts.phone_secondary|phone_canadian}}">{{contacts.phone_secondary}}</a>{% endif %}</p>
                             </li>
                         {% endif %}
                         {% if contacts.schedule %}

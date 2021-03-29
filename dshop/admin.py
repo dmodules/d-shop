@@ -268,6 +268,12 @@ class dmSiteContactInline(admin.StackedInline):
     model = dmSiteContact
     extra = 1
     max_num = 1
+    fields = [
+        ("phone", "phone_secondary"),
+        ("email"),
+        ("address"),
+        ("schedule")
+    ]
 
 
 class dmSiteSocialInline(admin.TabularInline):

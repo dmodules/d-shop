@@ -17,6 +17,11 @@
                     <a href="tel:{{contacts.phone|phone_canadian}}">{{contacts.phone}}</a>
                 </span>
             {% endif %}
+            {% if contacts.phone_secondary %}
+                <span>
+                    <a href="tel:{{contacts.phone_secondary|phone_canadian}}">{{contacts.phone_secondary}}</a>
+                </span>
+            {% endif %}
         </div>
         <div class="topbar-center">
             {% get_advertisingtopbanner as alerts %}

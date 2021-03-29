@@ -514,6 +514,9 @@ msgstr "Nous ne partagerons jamais votre courriel avec qui que ce soit."
 msgid "Phone"
 msgstr "Téléphone"
 
+msgid "Secondary Phone"
+msgstr "Téléphone secondaire"
+
 #: apps/dmJobModule/templates/job_desc.html:77
 msgid "Message"
 msgstr "Message"
