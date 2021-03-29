@@ -46,8 +46,9 @@
                         <div class="contact_text">
                             <span>Téléphone</span>
                             <p>
-                            <br />
-                            <a href="tel:{{c.result.phone|phone_canadian}}">{{c.result.phone}}</a>
+                                {% if not c.result.phone_secondary %}<br />{% endif %}
+                                <a href="tel:{{c.result.phone|phone_canadian}}">{{c.result.phone}}</a>
+                                {% if c.result.phone_secondary %}<br /><a href="tel:{{c.result.phone_secondary|phone_canadian}}">{{c.result.phone_secondary}}</a>{% endif %}
                             </p>
                         </div>
                     </div>
