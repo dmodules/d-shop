@@ -58,6 +58,11 @@ class ShippingManagement(models.Model):
         decimal_places=3,
         help_text=_("An amount to be added to the cart price.")
     )
+    taxed_shipping = models.BooleanField(
+        verbose_name=_("Tax shipping?"),
+        default=False,
+        help_text=_("Leave unchecked if you don't want to tax shipping.")
+    )
     use_separator = models.BooleanField(
         verbose_name=_("Use an amount to separate two price?"),
         default=True

@@ -16,6 +16,7 @@ class ShippingManagementAdmin(admin.ModelAdmin):
             "identifier",
             "name",
             "price",
+            "taxed_shipping"
         ],
     }), (_("Create a discount on shipping"), {
         "fields": [

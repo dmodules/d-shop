@@ -110,8 +110,6 @@ SHOP_CART_MODIFIERS = [
     "dshop.modifiers.PrimaryCartModifier",
     # ===--- discounts methods
     "apps.dmRabais.modifiers.DiscountsModifier",
-    # ===--- taxes methods
-    "apps.dmTaxes.modifiers.CanadaTaxModifier",
     # ===--- shipping methods
     "apps.dmShipping.modifiers.PickupShippingModifier",
     "apps.dmShipping.modifiers.FreeShippingModifier",
@@ -119,6 +117,8 @@ SHOP_CART_MODIFIERS = [
     "apps.dmShipping.modifiers.ExpressShippingModifier",
     "apps.dmShipping.modifiers.StandardShippingWithSeparatorModifier",
     "apps.dmShipping.modifiers.ExpressShippingWithSeparatorModifier",
+    # ===--- taxes methods
+    "apps.dmTaxes.modifiers.CanadaTaxModifier",
     # ===---- tests
     # "dshop.modifiers.TestPaymentModifier"
 ]

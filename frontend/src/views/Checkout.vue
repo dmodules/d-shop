@@ -689,7 +689,7 @@
                                     </v-list-item>
                                 </template>
                                 <template v-for="(item, n) in formPayment.listExtras">
-                                    <v-list-item v-if="item.modifier !== 'subtotal-before-discounts' && item.modifier !== 'discounts' && item.modifier !== 'cart-discounts' && item.modifier !== 'applied-promocodes' && item.modifier !== 'canadiantaxes'" :key="'extra-' + n">
+                                    <v-list-item v-if="item.modifier !== 'subtotal-before-discounts' && item.modifier !== 'discounts' && item.modifier !== 'cart-discounts' && item.modifier !== 'applied-promocodes' && item.modifier !== 'shipping-is-taxed' && item.modifier !== 'data1' && item.modifier !== 'data2' && item.modifier !== 'data3' && item.modifier !== 'data4' && item.modifier !== 'canadiantaxes' && item.modifier !== 'standard-shipping' && item.modifier !== 'express-shipping' && item.modifier !== 'standard-separator-shipping' && item.modifier !== 'express-separator-shipping' && item.modifier !== 'pickup-in-store' && item.modifier !== 'free-shipping'" :key="'extra-' + n">
                                         <v-list-item-content>
                                         <v-list-item-title>
                                             {{ item.label }}
@@ -701,6 +701,52 @@
                                         </v-list-item-title>
                                         </v-list-item-action>
                                     </v-list-item>
+                                </template>
+                                <template v-if="isShippingTaxed">
+                                    <template v-for="(item, n) in formPayment.listExtras">
+                                        <v-list-item v-if="item.modifier == 'pickup-in-store' || item.modifier == 'free-shipping' || item.modifier == 'standard-shipping' || item.modifier == 'express-shipping' || item.modifier == 'standard-separator-shipping' || item.modifier == 'express-separator-shipping'" :key="'extra-taxes-' + n">
+                                            <v-list-item-content>
+                                            <v-list-item-title>
+                                                {{ item.label }}
+                                            </v-list-item-title>
+                                            </v-list-item-content>
+                                            <v-list-item-action>
+                                            <v-list-item-title class="font-weight-bold">
+                                                <span v-text="item.amount"></span>
+                                            </v-list-item-title>
+                                            </v-list-item-action>
+                                        </v-list-item>
+                                    </template>
+                                </template>
+                                <template v-for="(item, n) in formPayment.listExtras">
+                                    <v-list-item v-if="item.modifier == 'data1' || item.modifier == 'data2' || item.modifier == 'data3' || item.modifier == 'data4'" :key="'extra-taxes-' + n">
+                                        <v-list-item-content>
+                                        <v-list-item-title>
+                                            {{ item.label }}
+                                        </v-list-item-title>
+                                        </v-list-item-content>
+                                        <v-list-item-action>
+                                        <v-list-item-title class="font-weight-bold">
+                                            <span v-text="item.amount"></span>
+                                        </v-list-item-title>
+                                        </v-list-item-action>
+                                    </v-list-item>
+                                </template>
+                                <template v-if="!isShippingTaxed">
+                                    <template v-for="(item, n) in formPayment.listExtras">
+                                        <v-list-item v-if="item.modifier == 'pickup-in-store' || item.modifier == 'free-shipping' || item.modifier == 'standard-shipping' || item.modifier == 'express-shipping' || item.modifier == 'standard-separator-shipping' || item.modifier == 'express-separator-shipping'" :key="'extra-taxes-' + n">
+                                            <v-list-item-content>
+                                            <v-list-item-title>
+                                                {{ item.label }}
+                                            </v-list-item-title>
+                                            </v-list-item-content>
+                                            <v-list-item-action>
+                                            <v-list-item-title class="font-weight-bold">
+                                                <span v-text="item.amount"></span>
+                                            </v-list-item-title>
+                                            </v-list-item-action>
+                                        </v-list-item>
+                                    </template>
                                 </template>
                                 <v-form v-model="formPromo.valid">
                                   <div class="add-promo">
@@ -810,6 +856,7 @@ export default {
     isLoadingPayment: false,
     isGuest: false,
     isVisitor: false,
+    isShippingTaxed: false,
     hasEmptyCart: false,
     oldEmail: '',
     stepCheckout: 1,
@@ -1152,34 +1199,34 @@ export default {
         }
     },
     doUpload (next = false, datas) {
-    let self = this
-    // ===--- BEGIN: axios
-    this.$axios.put(this.$api_url+'/checkout/upload/', datas, {
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
-    })
-    .then(() => {
-        self.getDigest()
-        if (next) {
-        // if button 'next' was clicked, go to next step
-        self.$vuetify.goTo(100)
-        self.$set(self, 'stepCheckout', self.stepCheckout + 1)
-        } else if (self.stepCheckout === 4) {
-        // if all is okay, purchase
-        self.doPurchase()
-        }
-    })
-    .catch((apiFail) => {
-        self.$set(self, 'isLoadingPayment', false)
-        if (apiFail.response && apiFail.response.data) {
-        if (apiFail.response.data.customer_form) {
-            self.$set(self.formError.customer, 'salutation', apiFail.response.data.customer_form.salutation ? apiFail.response.data.customer_form.salutation : null)
-            self.$set(self.formError.customer, 'first_name', apiFail.response.data.customer_form.first_name ? apiFail.response.data.customer_form.first_name : null)
-            self.$set(self.formError.customer, 'last_name', apiFail.response.data.customer_form.last_name ? apiFail.response.data.customer_form.last_name : null)
-            self.$set(self.formError.customer, 'email', apiFail.response.data.customer_form.email ? apiFail.response.data.customer_form.email : null)
-        }
-        }
-    })
-    // ===--- END: axios
+        let self = this
+        // ===--- BEGIN: axios
+        this.$axios.put(this.$api_url+'/checkout/upload/', datas, {
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+        })
+        .then(() => {
+            self.getDigest()
+            if (next) {
+                // if button 'next' was clicked, go to next step
+                self.$vuetify.goTo(100)
+                self.$set(self, 'stepCheckout', self.stepCheckout + 1)
+            } else if (self.stepCheckout === 4) {
+                // if all is okay, purchase
+                self.doPurchase()
+            }
+        })
+        .catch((apiFail) => {
+            self.$set(self, 'isLoadingPayment', false)
+            if (apiFail.response && apiFail.response.data) {
+                if (apiFail.response.data.customer_form) {
+                    self.$set(self.formError.customer, 'salutation', apiFail.response.data.customer_form.salutation ? apiFail.response.data.customer_form.salutation : null)
+                    self.$set(self.formError.customer, 'first_name', apiFail.response.data.customer_form.first_name ? apiFail.response.data.customer_form.first_name : null)
+                    self.$set(self.formError.customer, 'last_name', apiFail.response.data.customer_form.last_name ? apiFail.response.data.customer_form.last_name : null)
+                    self.$set(self.formError.customer, 'email', apiFail.response.data.customer_form.email ? apiFail.response.data.customer_form.email : null)
+                }
+            }
+        })
+        // ===--- END: axios
     },
     /* =========================================================== //
     // ===---   getDigest                                   ---=== //
@@ -1193,9 +1240,9 @@ export default {
                 "Content-Type": "application/json",
                 Accept: "application/json",
             },
-            })
+        })
         .then((apiSuccess) => {
-                if (apiSuccess.data && apiSuccess.data.cart_summary) {
+            if (apiSuccess.data && apiSuccess.data.cart_summary) {
                 if (apiSuccess.data.cart_summary.total_quantity > 0) {
                     self.$set(
                     self.formPayment,
@@ -1203,36 +1250,37 @@ export default {
                     apiSuccess.data.cart_summary.num_items
                     );
                     self.$set(
-                    self.formPayment,
-                    "productsQuantity",
-                    apiSuccess.data.cart_summary.total_quantity
+                        self.formPayment,
+                        "productsQuantity",
+                        apiSuccess.data.cart_summary.total_quantity
                     );
                     self.$set(
-                    self.formPayment,
-                    "subtotal",
-                    apiSuccess.data.cart_summary.subtotal
+                        self.formPayment,
+                        "subtotal",
+                        apiSuccess.data.cart_summary.subtotal
                     );
                     self.$set(
-                    self.formPayment,
-                    "total",
-                    apiSuccess.data.cart_summary.total
+                        self.formPayment,
+                        "total",
+                        apiSuccess.data.cart_summary.total
                     );
                     self.$set(
-                    self.formPayment,
-                    "listExtras",
-                    apiSuccess.data.cart_summary.extra_rows
+                        self.formPayment,
+                        "listExtras",
+                        apiSuccess.data.cart_summary.extra_rows
                     );
                     self.$set(
-                    self.formPayment,
-                    "listProducts",
-                    apiSuccess.data.cart_summary.items
+                        self.formPayment,
+                        "listProducts",
+                        apiSuccess.data.cart_summary.items
                     );
                     self.getPromoCodes()
+                    self.setTaxedShipping(apiSuccess.data.cart_summary.extra_rows)
                 } else {
                     self.$set(self, "hasEmptyCart", true);
                 }
-                }
-                if (apiSuccess.data && apiSuccess.data.checkout_digest) {
+            }
+            if (apiSuccess.data && apiSuccess.data.checkout_digest) {
                 self.$set(
                     self,
                     "tagCustomer",
@@ -1263,8 +1311,8 @@ export default {
                     "tagNote",
                     apiSuccess.data.checkout_digest.extra_annotation_tag
                 );
-                }
-            })
+            }
+        })
         .catch(() => {});
         // ===--- END: axios
       }
@@ -1381,6 +1429,23 @@ export default {
             })
         } else {
             this.$set(this.formPromo, 'loading', false)
+        }
+    },
+    /* =========================================================== //
+    // ===---   setTaxedShipping                            ---=== //
+    // =========================================================== */
+    setTaxedShipping (k) {
+        let self = this
+        let taxed = false
+        k.forEach((item) => {
+            if (item.modifier == 'shipping-is-taxed') {
+                taxed = true
+            }
+        })
+        if (taxed) {
+            self.$set(self, 'isShippingTaxed', true)
+        } else {
+            self.$set(self, 'isShippingTaxed', false)
         }
     }
     /* =========================================================== //
