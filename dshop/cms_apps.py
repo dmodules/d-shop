@@ -7,7 +7,7 @@ from menus.menu_pool import menu_pool
 
 from shop.cms_apphooks import CatalogListCMSApp, OrderApp, PasswordResetApp
 from shop.rest.filters import CMSPagesFilterBackend
-from dshop.views import DshopProductListView
+from dshop.views import DshopProductListView, OrderView
 
 class CatalogListApp(CatalogListCMSApp):
     """
@@ -41,6 +41,18 @@ class CatalogListApp(CatalogListCMSApp):
             url(r'^',
                 DshopProductListView.as_view(),
                 name='produits'),
+        ]
+
+
+class OrderApp(OrderApp):
+
+    def get_urls(self, page=None, language=None, **kwargs):
+        from django.conf.urls import url
+
+        return [
+            url(r'^(?P<slug>[\w-]+)/(?P<secret>[\w-]+)', OrderView.as_view(many=False)),  # publicly accessible
+            url(r'^(?P<slug>[\w-]+)', OrderView.as_view(many=False)),  # requires authentication
+            url(r'^', OrderView.as_view()),  # requires authentication
         ]
 
 
