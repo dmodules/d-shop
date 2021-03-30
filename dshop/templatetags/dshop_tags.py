@@ -386,6 +386,15 @@ def dm_variants_is_discounted(k):
 
 
 @register.simple_tag
+def dm_check_shipping_taxed(k):
+    result = False
+    for key, value in k:
+        if key == "shipping-is-taxed":
+            result = True
+    return result
+
+
+@register.simple_tag
 def dm_quotation_feature():
     return QUOTATION
 
