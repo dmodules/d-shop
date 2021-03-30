@@ -1,3 +1,4 @@
+import re
 from decimal import Decimal
 
 from django.utils.translation import ugettext_lazy as _
@@ -8,6 +9,9 @@ from shop.serializers.cart import ExtraCartRow
 from shop.modifiers.base import BaseCartModifier
 
 from dshop.models import ShippingAddress
+from dshop.serializers import ExtraCartRowContent
+
+from apps.dmShipping.models import ShippingManagement
 
 from .models import CanadaTaxManagement
 
@@ -17,15 +21,50 @@ from .models import CanadaTaxManagement
 
 
 class CanadaTaxModifier(BaseCartModifier):
-    identifier = 'canadiantaxes'
+    identifier = "canadiantaxes"
     taxes = 1 - 1 / (1 + app_settings.VALUE_ADDED_TAX / 100)
 
-    def add_extra_cart_row(self, cart, request):
-        amount = cart.subtotal * self.taxes
+    def add_extra_cart_row(self, cart, request):  # noqa: C901
+        # ===---
+        if cart.extra["shipping_modifier"]:
+            try:
+                shipping_method = ShippingManagement.objects.filter(
+                    identifier=cart.extra["shipping_modifier"]
+                ).first()
+                taxed_shipping = (
+                    True if shipping_method.taxed_shipping else False
+                )
+            except Exception:
+                taxed_shipping = False
+        else:
+            taxed_shipping = False
+        # ===---
+        if taxed_shipping:
+            shiptotal = float(
+                re.sub(
+                    r"[^.\-\d]",
+                    "",
+                    cart.extra_rows[
+                        cart.extra["shipping_modifier"]
+                    ].data["amount"]
+                )
+            ) / 100
+            shiptotal = Money(shiptotal)
+            subtotal = cart.subtotal + shiptotal
+            cart.extra_rows["shipping-is-taxed"] = ExtraCartRowContent({
+                "label": _("Shipping is Taxed"),
+                "content": _("Yes"),
+                "content_extra": shiptotal
+            })
+        else:
+            subtotal = cart.subtotal
+        # ===---
+        amount = subtotal * self.taxes
         instance = {
-            'label': _("{}% VAT incl.").format(app_settings.VALUE_ADDED_TAX),
-            'amount': amount,
+            "label": _("{}% VAT incl.").format(app_settings.VALUE_ADDED_TAX),
+            "amount": amount,
         }
+        # ===---
         try:
             shippingaddress = ShippingAddress.objects.filter(
                 customer=request.customer
@@ -39,7 +78,7 @@ class CanadaTaxModifier(BaseCartModifier):
                 pst = tax.pst if tax.pst else Decimal('0')
                 qst = tax.qst if tax.qst else Decimal('0')
                 tax = (hst + gst + pst + qst)
-                amount = cart.subtotal * tax / 100
+                amount = subtotal * tax / 100
                 instance = {
                     'label': _("{}% TOTAL incl.").format(tax),
                     'amount': amount,
@@ -50,25 +89,25 @@ class CanadaTaxModifier(BaseCartModifier):
             if hst != Decimal('0'):
                 data1 = {
                     'label': _("{}% HST incl.").format(hst),
-                    'amount': cart.subtotal * hst / 100,
+                    'amount': subtotal * hst / 100,
                 }
                 cart.extra_rows['data1'] = ExtraCartRow(data1)
             if gst != Decimal('0'):
                 data2 = {
                     'label': _("{}% GST incl.").format(gst),
-                    'amount': cart.subtotal * gst / 100,
+                    'amount': subtotal * gst / 100,
                 }
                 cart.extra_rows['data2'] = ExtraCartRow(data2)
             if pst != Decimal('0'):
                 data3 = {
                     'label': _("{}% PST incl.").format(pst),
-                    'amount': cart.subtotal * pst / 100,
+                    'amount': subtotal * pst / 100,
                 }
                 cart.extra_rows['data3'] = ExtraCartRow(data3)
             if qst != Decimal('0'):
                 data4 = {
                     'label': _("{}% QST incl.").format(qst),
-                    'amount': cart.subtotal * qst / 100,
+                    'amount': subtotal * qst / 100,
                 }
                 cart.extra_rows['data4'] = ExtraCartRow(data4)
         except Exception:

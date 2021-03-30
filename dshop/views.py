@@ -28,6 +28,7 @@ from rest_framework.response import Response as RestResponse
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework.permissions import BasePermission
 
 from shop.money import Money
 from shop.models.defaults.customer import Customer
@@ -36,6 +37,7 @@ from shop.models.order import OrderModel
 from shop.models.order import OrderPayment
 from shop.money import MoneyMaker
 from shop.rest.renderers import CMSPageRenderer
+from shop.views.order import OrderView
 from shop.serializers.auth import PasswordResetConfirmSerializer
 
 from dal import autocomplete
@@ -55,6 +57,45 @@ try:
     from apps.dmRabais.models import dmCustomerPromoCode
 except ImportError:
     dmCustomerPromoCode = None
+
+#######################################################################
+# ===---   OrderView Bug fix                                   ---=== #
+#######################################################################
+
+
+class OrderPermission(BasePermission):
+    """
+    Allow access to a given Order if the user is entitled to.
+    """
+    def has_permission(self, request, view):
+        if view.many and request.customer.is_visitor:
+            detail = _("Only signed in customers can view their list of orders.")
+            raise PermissionDenied(detail=detail)
+        return True
+
+    def has_object_permission(self, request, view, order):
+        if request.user.is_authenticated and not request.user.is_staff and not request.user.is_superuser:
+            return order.customer.pk == request.user.pk
+        if order.secret and order.secret == view.kwargs.get('secret') or request.user.is_staff or request.user.is_superuser:
+            return True
+        detail = _("This order does not belong to you.")
+        raise PermissionDenied(detail=detail)
+
+
+class OrderView(OrderView):
+
+    permission_classes = [OrderPermission]
+
+    def get_queryset(self):
+        queryset = OrderModel.objects.all()
+        if self.request.customer.user.is_staff or self.request.customer.user.is_superuser:
+            return queryset
+        if self.request.customer.is_visitor:
+            return queryset.none()
+        if self.request.customer.is_authenticated:
+            queryset = queryset.filter(customer=self.request.customer).order_by('-updated_at')
+        return queryset
+
 
 #######################################################################
 # ===---   TestPaymentView                                     ---=== #

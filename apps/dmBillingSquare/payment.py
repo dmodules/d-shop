@@ -76,6 +76,12 @@ class SquarePayment(PaymentProvider):
             body['order']['order']['line_items'][0]['applied_taxes'][0]['tax_uid'] = 'total-taxes'
             # ===---
             body['order']['order']['taxes'] = []
+            # Check if shipping is taxed
+            shipping_taxed = False
+            for key, item in order.extra['rows']:
+                if key == 'shipping-is-taxed':
+                    shipping_taxed = True
+            # ===---
             for key, item in order.extra['rows']:
                 if key == 'canadiantaxes':
                     body['order']['order']['taxes'].append({})
@@ -97,6 +103,11 @@ class SquarePayment(PaymentProvider):
                     shipping_data['base_price_money'] = {}
                     shipping_data['base_price_money']['amount'] = shipping
                     shipping_data['base_price_money']['currency'] = 'CAD'
+                    if shipping_taxed:
+                        shipping_data['applied_taxes'] = []
+                        shipping_data['applied_taxes'].append({})
+                        shipping_data['applied_taxes'][0]['uid'] = str(uuid.uuid1())
+                        shipping_data['applied_taxes'][0]['tax_uid'] = 'total-taxes'
                     body['order']['order']['line_items'].append(shipping_data)
             # ===---
             body['order']['location_id'] = str(uuid.uuid1())

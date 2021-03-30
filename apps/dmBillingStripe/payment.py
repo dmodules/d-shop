@@ -85,6 +85,22 @@ class StripePayment(PaymentProvider):
                 "amount": str(int(order.subtotal * 100))
             }
             line_items.append(line_data)
+            # Check if shipping is taxed
+            shipping_taxed = False
+            for d in order.extra['rows']:
+                if d[0] in ["shipping-is-taxed"]:
+                    shipping_taxed = True
+            # Create shipping cost line data before taxe
+            # if shipping is taxed
+            if shipping_taxed:
+                if shipping_cost != 0:
+                    line_data = {
+                        "name": _("Shipping"),
+                        "quantity": 1,
+                        "currency": str(SHOP_DEFAULT_CURRENCY),
+                        "amount": shipping_cost
+                    }
+                    line_items.append(line_data)
             # Create Tax line data
             for d in order.extra['rows']:
                 if d[0] in ["canadiantaxes"]:
@@ -97,15 +113,17 @@ class StripePayment(PaymentProvider):
                         )
                     }
                     line_items.append(line_data)
-            # Create shipping cost line data
-            if shipping_cost != 0:
-                line_data = {
-                    "name": _("Shipping"),
-                    "quantity": 1,
-                    "currency": str(SHOP_DEFAULT_CURRENCY),
-                    "amount": shipping_cost
-                }
-                line_items.append(line_data)
+            # Create shipping cost line data after taxe
+            # if shipping is not taxed
+            if not shipping_taxed:
+                if shipping_cost != 0:
+                    line_data = {
+                        "name": _("Shipping"),
+                        "quantity": 1,
+                        "currency": str(SHOP_DEFAULT_CURRENCY),
+                        "amount": shipping_cost
+                    }
+                    line_items.append(line_data)
 
             # ===---
             session = stripe.checkout.Session.create(

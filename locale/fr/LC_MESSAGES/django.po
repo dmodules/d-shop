@@ -3125,3 +3125,9 @@ msgstr "Personnalisations"
 
 msgid "Discount Type"
 msgstr "Type de rabais"
+
+msgid "Tax shipping?"
+msgstr "Taxer la livraison ?"
+
+msgid "Leave unchecked if you don't want to tax shipping."
+msgstr "Laissez décoché si vous ne voulez pas taxer la livraison."

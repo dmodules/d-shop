@@ -128,14 +128,35 @@
               {{ data.subtotal }}
             </div>
           </div>
+          {% dm_check_shipping_taxed data.extra.rows as shippingistaxed %}
+          {% if shippingistaxed %}
+            {% for key, extra_row in data.extra.rows %}
+                {% if key == "pickup-in-store" or key == "free-shipping" or key == "standard-shipping" or key == "express-shipping" or key == "standard-separator-shipping" or key == "express-separator-shipping" %}
+                    <div class="row py-2">
+                        <div class="col-6 text-right text-nowrap">{{ extra_row.label }}</div>
+                        <div class="col-4 col-md-6 text-right text-nowrap">{{ extra_row.amount }}</div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+          {% endif %}
           {% for key, extra_row in data.extra.rows %}
-            {% if key != "subtotal-before-discounts" and key != "discounts" and key != "applied-promocodes" and key != "canadiantaxes" %}
+            {% if key != "subtotal-before-discounts" and key != "discounts" and key != "applied-promocodes" and key != "canadiantaxes" and key != "cart-discounts" and key != "shipping-is-taxed" and key != "pickup-in-store" and key != "free-shipping" and key != "standard-shipping" and key != "express-shipping" and key != "standard-separator-shipping" and key != "express-separator-shipping" %}
                 <div class="row py-2">
                     <div class="col-6 text-right text-nowrap">{{ extra_row.label }}</div>
                     <div class="col-4 col-md-6 text-right text-nowrap">{{ extra_row.amount }}</div>
                 </div>
             {% endif %}
           {% endfor %}
+          {% if not shippingistaxed %}
+            {% for key, extra_row in data.extra.rows %}
+                {% if key == "pickup-in-store" or key == "free-shipping" or key == "standard-shipping" or key == "express-shipping" or key == "standard-separator-shipping" or key == "express-separator-shipping" %}
+                    <div class="row py-2">
+                        <div class="col-6 text-right text-nowrap">{{ extra_row.label }}</div>
+                        <div class="col-4 col-md-6 text-right text-nowrap">{{ extra_row.amount }}</div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+          {% endif %}
           <div class="row py-2 shop-double-border lead font-weight-bold">
             <div class="col-6 text-right text-nowrap">{% trans "Total" %}</div>
             <div class="col-4 col-md-6 text-right text-nowrap">{{ data.total }}</div>
