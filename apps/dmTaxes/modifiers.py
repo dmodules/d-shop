@@ -26,7 +26,7 @@ class CanadaTaxModifier(BaseCartModifier):
 
     def add_extra_cart_row(self, cart, request):  # noqa: C901
         # ===---
-        if cart.extra["shipping_modifier"]:
+        if "shipping_modifier" in cart.extra:
             try:
                 shipping_method = ShippingManagement.objects.filter(
                     identifier=cart.extra["shipping_modifier"]
