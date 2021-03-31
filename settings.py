@@ -548,21 +548,21 @@ CMSPLUGIN_CASCADE = {
 }
 
 CKEDITOR_SETTINGS = {
-    'language':
-    '{{ language }}',
-    'skin':
-    'moono-lisa',
-    'toolbar_CMS':
-    [['Undo', 'Redo'], ['cmsplugins', '-', 'ShowBlocks'], ['Format'],
-     ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'], '/',
-     [
-         'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
-         'Superscript', '-', 'RemoveFormat'
-     ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-     ['HorizontalRule'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
-     ['Source']],
-    'stylesSet':
-    format_lazy('default:{}', reverse_lazy('admin:cascade_texteditor_config')),
+    'language': '{{ language }}',
+    'skin': 'moono-lisa',
+    'toolbar_CMS': [
+        ['Undo', 'Redo'],
+        ['cmsplugins', '-', 'ShowBlocks'],
+        ['Format'],
+        ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'],
+        '/',
+        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript','Superscript', '-', 'RemoveFormat'],
+        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+        ['HorizontalRule'],
+        ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+        ['Source']
+    ],
+    'stylesSet': format_lazy('default:{}', reverse_lazy('admin:cascade_texteditor_config')),
 }
 
 CKEDITOR_SETTINGS_CAPTION = {
@@ -598,33 +598,39 @@ CKEDITOR_SETTINGS_DESCRIPTION = {
 }
 
 CKEDITOR_SETTINGS_DMPLUGIN = {
-    'language':
-    '{{ language }}',
-    'skin':
-    'moono-lisa',
-    'height':
-    250,
-    'toolbar_HTMLField': [['Undo', 'Redo'], ['TextColor', 'BGColor'],
-                          [
-                              'Bold', 'Italic', 'Underline', '-', 'Subscript',
-                              'Superscript', '-', 'RemoveFormat'
-                          ], ['Source']]
+    'language': '{{ language }}',
+    'skin': 'moono-lisa',
+    'height': 250,
+    'toolbar_HTMLField': [
+        ['Undo', 'Redo'],
+        ['ShowBlocks'],
+        ['Format', 'Styles'],
+        ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
+        '/',
+        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript','Superscript', '-', 'RemoveFormat'],
+        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+        ['HorizontalRule'],
+        ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+        ['Source']
+    ]
 }
 
 CKEDITOR_SETTINGS_DMBLOCKPLUGIN = {
-    'language':
-    '{{ language }}',
-    'skin':
-    'moono-lisa',
-    'height':
-    250,
-    'toolbar_HTMLField':
-    [['Undo', 'Redo'], ['Format', 'Styles'], ['TextColor', 'BGColor'],
-     [
-         'Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-',
-         'RemoveFormat'
-     ], ['HorizontalRule'],
-     ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'], ['Source']]
+    'language': '{{ language }}',
+    'skin': 'moono-lisa',
+    'height': 250,
+    'toolbar_HTMLField': [
+        ['Undo', 'Redo'],
+        ['ShowBlocks'],
+        ['Format', 'Styles'],
+        ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
+        '/',
+        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript','Superscript', '-', 'RemoveFormat'],
+        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+        ['HorizontalRule'],
+        ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+        ['Source']
+    ]
 }
 
 SELECT2_CSS = 'node_modules/select2/dist/css/select2.min.css'
