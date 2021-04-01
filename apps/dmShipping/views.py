@@ -80,18 +80,22 @@ def get_data(request):  # noqa: C901
             sta = list(shipping.states.all().values_list("name", "slug"))
             if not con:
                 for s in sta:
-                    s_obj = Region.objects.get(code=s[1])
+                    s_obj = Region.objects.get(slug=s[1])
                     con += [(s_obj.country.name, s_obj.country.code2)]
         else:
             codes = [c[1] for c in con]
             sta = list(Region.objects.filter(country__code2__in=codes).values_list("name", "slug"))
 
         if shipping.cities.all():
-            cities += list(shipping.cities.all().values_list("name", "id"))
+            s_slug = [ s[1] for s in sta ]
+            cities += list(shipping.cities.exclude(region__slug__in=s_slug).values_list("name", "id"))
             if not sta:
-                for c in cities:
-                    c_obj = City.objects.get(id=c[1])
-                    sta += [(c_obj.region.name, c_obj.region.slug)]
+                city_id = [ c[1] for c in cities ]
+                city_obj = City.objects.filter(id__in=city_id)
+                for c_obj in city_obj:
+                    tpl = (c_obj.region.name, c_obj.region.slug)
+                    if tpl not in sta:
+                        sta.append(tpl)
             if not con:
                 for s in sta:
                     s_obj = Region.objects.get(slug=s[1])
@@ -120,13 +124,18 @@ def get_data(request):  # noqa: C901
         temp_st[country] = temp
 
     temp_ct = {}
+    processed = []
     for state in states:
         temp = {}
-        for c in cities:
-            ct = City.objects.filter(id=c[1], region__slug=state[1]).first()
-            if ct:
-                if ct.id not in temp:
-                    temp[ct.id] = ct.name
+        if state[1] in processed:
+            continue
+        processed.append(state[1])
+        city_id = [ c[1] for c in cities ]
+        city_obj = City.objects.filter(id__in=city_id, region__slug=state[1])
+        for c in city_obj:
+            if c.id not in temp:
+                temp[c.id] = c.name
+        
         temp_ct[state[1]] = temp
 
     data = {
