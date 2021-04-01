@@ -29,6 +29,7 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.permissions import BasePermission
+from rest_framework.exceptions import PermissionDenied
 
 from shop.money import Money
 from shop.models.defaults.customer import Customer
