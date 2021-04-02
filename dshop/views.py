@@ -51,8 +51,14 @@ from dshop.serializers import ProductSerializer
 from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL, THEME_SLUG
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
 
-from feature_settings import QUOTATION
+from shop.views.auth import AuthFormsView as ShopAuthFormView
+from django.contrib.auth import logout, get_user_model
+from django.core.exceptions import NON_FIELD_ERRORS
+from rest_framework import status
+from rest_framework.response import Response
+from shop.models.customer import CustomerModel
 
+from feature_settings import QUOTATION
 
 try:
     from apps.dmRabais.models import dmCustomerPromoCode
@@ -883,7 +889,7 @@ class CustomerCheckView(APIView):
     def post(self, request, *args, **kwargs):
         email = request.data.get("email", None)
         if email is not None:
-            customer = Customer.objects.filter(email=email).count()
+            customer = Customer.objects.filter(email=email, user__is_active=True).count()
             if customer > 0:
                 return RestResponse({"exist": True})
             else:
@@ -1068,3 +1074,43 @@ class AttributeAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(Q(value__istartswith=self.q) | Q(attribute__name__istartswith=self.q))
 
         return qs
+
+class DshopAuthFormView(ShopAuthFormView):
+    serializer_class = None
+    form_class = None
+
+    def post(self, request, *args, **kwargs):
+        if request.customer.is_visitor:
+            customer = CustomerModel.objects.get_or_create_from_request(request)
+        else:
+            customer = request.customer
+        form_data = request.data.get(self.form_class.scope_prefix, {})
+        form = self.form_class(data=form_data, instance=customer)
+       
+        if form.is_valid():
+            form.save(request=request)
+            # Code to merge all inactive user's order
+            if form.form_name == "register_user_form":
+                new_user = request.user
+                new_customer = CustomerModel.objects.get(user=new_user)
+                email = form.cleaned_data['email']
+                customers = CustomerModel.objects.filter(email=email, user__is_active=False)
+                for customer in customers:
+                    for order in OrderModel.objects.filter(customer=customer):
+                        order.customer = new_customer
+                        order.save()
+                    customer.email = ""
+                    customer.save()
+                    customer.user.email = ""
+                    customer.user.save()
+            # End of code
+                
+            response_data = {form.form_name: {
+                'success_message': _("Successfully registered yourself."),
+            }}
+            return Response(response_data, status=status.HTTP_200_OK)
+        errors = dict(form.errors)
+        if 'email' in errors:
+            errors.update({NON_FIELD_ERRORS: errors.pop('email')})
+        return Response({form.form_name: errors}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
