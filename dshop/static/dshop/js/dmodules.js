@@ -872,7 +872,7 @@ function dmDrawerDoRegister() {
     }
   }
   $.ajax({
-    url: auth + "register/",
+    url: "/dshop/auth/register/",
     type: "POST",
     data: JSON.stringify(datas),
     contentType: "application/json;charset=UTF-8",
