@@ -86,6 +86,9 @@
                 <textarea required placeholder="Message" id="description" class="form-control" name="message"
                   rows="4"></textarea>
               </div>
+              <div class="form-group col col-12">
+                  <div class="g-recaptcha" data-sitekey="{% get_setting 'RECAPTCHA_PUBLIC_KEY' %}" data-callback="dmCaptcha"></div>
+              </div>
               <div class="col-md-12">
                 <button type="submit" title="Envoyer" class="btn btn-fill-out" id="submitButton" name="submit"
                   value="Submit">Envoyer</button>
@@ -110,30 +113,37 @@
 {% endblock main-content %}
 
 {% block foot %}
-{{ block.super }}
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7TypZFTl4Z3gVtikNOdGSfNTpnmq-ahQ"></script>
-<script type="text/javascript">
-  if ($("#map").length > 0) {
-    google.maps.event.addDomListener(window, 'load', init);
-  }
-  var map_selector = $('#map');
+    {{ block.super }}
+    <script type="text/javascript">
+        var onloadCallback = function() {};
+        var dmCaptcha = function() {
+            $('#btn-contact-submit').prop('disabled', false)
+        }
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!---->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7TypZFTl4Z3gVtikNOdGSfNTpnmq-ahQ"></script>
+    <script type="text/javascript">
+    if ($("#map").length > 0) {
+        google.maps.event.addDomListener(window, 'load', init);
+    }
+    var map_selector = $('#map');
 
-  function init() {
-    var mapOptions = {
-      zoom: map_selector.data("zoom"),
-      mapTypeControl: false,
-      center: new google.maps.LatLng(map_selector.data("latitude"), map_selector.data("longitude")), // New York
-    };
-    var mapElement = document.getElementById('map');
-    var map = new google.maps.Map(mapElement, mapOptions);
-    var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(map_selector.data("latitude"), map_selector.data("longitude")),
-      map: map,
-      icon: map_selector.data("icon"),
-      title: map_selector.data("title"),
-    });
-    marker.setAnimation(google.maps.Animation.BOUNCE);
-  }
-
-</script>
+    function init() {
+        var mapOptions = {
+        zoom: map_selector.data("zoom"),
+        mapTypeControl: false,
+        center: new google.maps.LatLng(map_selector.data("latitude"), map_selector.data("longitude")), // New York
+        };
+        var mapElement = document.getElementById('map');
+        var map = new google.maps.Map(mapElement, mapOptions);
+        var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(map_selector.data("latitude"), map_selector.data("longitude")),
+        map: map,
+        icon: map_selector.data("icon"),
+        title: map_selector.data("title"),
+        });
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+    </script>
 {% endblock foot %}
