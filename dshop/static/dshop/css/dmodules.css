@@ -160,6 +160,7 @@ main > .container > .row {
 
 #tophead .tophead-topnav .tophead-icon {
     color: #141617;
+    font-size: 1.4rem;
     display: inline-block;
     position: relative;
     cursor: pointer;
