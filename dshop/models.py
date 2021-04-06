@@ -1176,7 +1176,11 @@ class dmSite(models.Model):
         sites.models.Site,
         on_delete=models.CASCADE
     )
-
+    google_analytics = models.TextField(
+        verbose_name=_("Google Analytics Snippet"),
+        blank=True,
+        null=True
+    )
     class Meta:
         verbose_name = _("Site")
         verbose_name_plural = _("Site")

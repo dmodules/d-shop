@@ -1,6 +1,7 @@
 {% load static cms_tags menu_tags sekizai_tags i18n thumbnail dshop_tags %}
 
 {% dm_quotation_feature as is_quotation %}
+{% dm_get_google_analytics as google_analytics %}
 
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
@@ -250,6 +251,9 @@
     {% if is_quotation %}
         <script src="{% static 'dshop/js/dmQuotation.js' %}"></script>
     {% endif %}
+
+    {{ google_analytics|safe }}
+
     {% render_block "js" %}
     {% block foot %}{% endblock foot %}
   </body>
