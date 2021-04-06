@@ -1176,7 +1176,11 @@ class dmSite(models.Model):
         sites.models.Site,
         on_delete=models.CASCADE
     )
-
+    google_analytics = models.TextField(
+        verbose_name=_("Google Analytics Snippet"),
+        blank=True,
+        null=True
+    )
     class Meta:
         verbose_name = _("Site")
         verbose_name_plural = _("Site")
@@ -1258,6 +1262,18 @@ class dmSiteContact(models.Model):
     )
     schedule = models.TextField(
         verbose_name=_("Schedule"),
+        blank=True,
+        null=True
+    )
+    map_latitude = models.CharField(
+        verbose_name=_("Map Latitude"),
+        max_length=120,
+        blank=True,
+        null=True
+    )
+    map_longitude = models.CharField(
+        verbose_name=_("Map Longitude"),
+        max_length=120,
         blank=True,
         null=True
     )

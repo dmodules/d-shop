@@ -239,7 +239,7 @@
           }
         }
         // ===--- BEGIN: axios
-        this.$axios.post(this.$web_url+'/shop/auth/register/', datas, {
+        this.$axios.post(this.$web_url+'/dshop/auth/register/', datas, {
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
         })
         .then(() => {

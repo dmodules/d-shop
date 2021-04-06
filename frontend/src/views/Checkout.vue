@@ -140,14 +140,10 @@
                             cols="12"
                           >
                             <v-radio-group
-                              v-model="
-                                formShippingMethod.shipping_method
-                                  .shipping_modifier
-                              "
-                              :rules="[
-                                (v) => !!v || $i18n.t('Cechampsesrrequis'),
-                              ]"
+                              v-model="formShippingMethod.shipping_method.shipping_modifier"
+                              :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis')]"
                               required
+                              @change="setShippingMethod()"
                             >
                               <v-radio
                                 v-for="(item, n) in formChoix.shippingMethods"
@@ -169,7 +165,7 @@
                       <h4>{{ $i18n.t("Adressedelivraison") }}</h4>
                     </v-card-title>
                     <v-card-text>
-                      <v-form v-model="formShipping.valid">
+                      <v-form v-model="formShipping.valid" ref="formShipping">
                         <v-row>
                           <v-col cols="12">
                             <v-text-field
@@ -218,30 +214,28 @@
                               placeholder=" "
                               :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis')]"
                               :items="formChoix.countries"
-                              :item-text="'name'"
-                              :item-value="'alpha2'"
                               :error-messages="formError.shipping_address.country"
                               required
                               filled
                               attach
                               @keydown="formError.shipping_address.country = null"
-                              @change="formShipping.shipping_address.province = null"
+                              @change="setProvincesList()"
                             />
                           </v-col>
-                          <v-col v-if="formShipping.shipping_address.country == 'CA'" cols="12" md="6">
+
+                          <v-col v-if="formChoix.provinces.length > 0" cols="12" md="6">
                             <v-autocomplete
                               v-model="formShipping.shipping_address.province"
                               :label="$i18n.t('Province')"
                               placeholder=" "
                               :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis')]"
-                              :items="formChoix.provincesCA"
-                              :item-text="'name'"
-                              :item-value="'alpha2'"
+                              :items="formChoix.provinces"
                               :error-messages="formError.shipping_address.province"
                               required
                               filled
                               attach
                               @keydown="formError.shipping_address.province = null"
+                              @change="setCitiesList()"
                             />
                           </v-col>
                           <v-col v-else cols="12" md="6">
@@ -253,21 +247,39 @@
                               :error-messages="formError.shipping_address.province"
                               required
                               filled
+                              attach
                               @keydown="formError.shipping_address.province = null"
+                              @change="formError.shipping_address.city = null"
                             />
                           </v-col>
-                          <v-col cols="12" md="6">
+                          <v-col v-if="formChoix.cities.length > 0" cols="12" md="6">
+                            <v-autocomplete
+                              v-model="formShipping.shipping_address.city"
+                              :label="$i18n.t('Ville')"
+                              placeholder=" "
+                              :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis')]"
+                              :items="formChoix.cities"
+                              :error-messages="formError.shipping_address.city"
+                              required
+                              filled
+                              attach
+                              @keydown="formError.shipping_address.city = null"
+                              @change="formError.shipping_address.city = null"
+                            />
+                          </v-col>
+                          <v-col v-else cols="12" md="6">
                             <v-text-field
                               v-model="formShipping.shipping_address.city"
                               :label="$i18n.t('Ville')"
                               placeholder=" "
-                              :rules="[
-                                (v) => !!v || $i18n.t('Cechampsesrrequis'),
-                              ]"
+                              :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis')]"
+                              :items="formChoix.cities"
                               :error-messages="formError.shipping_address.city"
                               required
                               filled
+                              attach
                               @keydown="formError.shipping_address.city = null"
+                              @change="formError.shipping_address.city = null"
                             />
                           </v-col>
                           <v-col cols="12" md="6">
@@ -395,41 +407,18 @@
                             />
                           </v-col>
                           <v-col cols="12" md="6">
-                            <v-autocomplete
+                            <v-text-field
                               v-model="formBilling.billing_address.country"
                               :label="$i18n.t('Pays')"
                               placeholder=" "
-                              :rules="[
-                                (v) => !!v || $i18n.t('Cechampsesrrequis'),
-                              ]"
-                              :items="formChoix.countries"
-                              :item-text="'name'"
-                              :item-value="'alpha2'"
+                              :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis'),]"
                               :error-messages="formError.billing_address.country"
                               required
                               filled
-                              attach
                               @keydown="formError.billing_address.country = null"
-                              @change="formBilling.billing_address.province = null"
                             />
                           </v-col>
-                          <v-col v-if="formBilling.billing_address.country == 'CA'" cols="12" md="6">
-                            <v-autocomplete
-                              v-model="formBilling.billing_address.province"
-                              :label="$i18n.t('Province')"
-                              placeholder=" "
-                              :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis')]"
-                              :items="formChoix.provincesCA"
-                              :item-text="'name'"
-                              :item-value="'alpha2'"
-                              :error-messages="formError.billing_address.province"
-                              required
-                              filled
-                              attach
-                              @keydown="formError.billing_address.province = null"
-                            />
-                          </v-col>
-                          <v-col v-else cols="12" md="6">
+                          <v-col cols="12" md="6">
                             <v-text-field
                               v-model="formBilling.billing_address.province"
                               :label="$i18n.t('Province')"
@@ -863,7 +852,12 @@ export default {
     formChoix: {
       salutation: [],
       shippingAddress: [],
+      shippingCountries: [],
+      shippingProvinces: [],
+      shippingCities: [],
       countries: [],
+      provinces: [],
+      cities: [],
       provincesCA: [],
       shippingMethods: [],
       billingMethods: [],
@@ -1005,13 +999,11 @@ export default {
       { text: this.$i18n.t("Monsieur"), value: "mr" },
       { text: this.$i18n.t("Preferepasrepondre"), value: "na" },
     ]);
-    this.getCustomer();
-    this.getShippingMethods();
-    this.getBillingMethods();
   },
   methods: {
     setAuth() {
         this.$set(this, "isAuth", true);
+        // ===---
         this.getCustomer();
         this.getShippingMethods();
         this.getBillingMethods();
@@ -1022,8 +1014,7 @@ export default {
     getCustomer() {
       let self = this;
       // ===--- BEGIN: axios
-      this.$axios
-        .get(this.$web_url + "/api/fe/customer/", {
+      this.$axios.get(this.$web_url + "/api/fe/customer/", {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
@@ -1110,16 +1101,120 @@ export default {
               }
             });
             if (self.formChoix.shippingMethods.length > 0) {
-              self.$set(
-                self.formShippingMethod.shipping_method,
-                "shipping_modifier",
-                self.formChoix.shippingMethods[0][0]
-              );
+              self.$set(self.formShippingMethod.shipping_method, "shipping_modifier", self.formChoix.shippingMethods[0][0])
+              self.setShippingMethod()
             }
           }
         })
         .catch(() => {});
       // ===--- END: axios
+    },
+    /* =========================================================== //
+    // ===---   setShippingMethod                           ---=== //
+    // =========================================================== */
+    setShippingMethod () {
+        let self = this
+        let modifier = this.formShippingMethod.shipping_method.shipping_modifier
+        // ===--- BEGIN: axios
+        this.$axios.get(this.$web_url + "/shipping/get-data/?identifier="+modifier, {
+            headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            },
+        }).then((apiSuccess) => {
+            if (apiSuccess.data && apiSuccess.data.valid) {
+                if (apiSuccess.data.datas.countries) {
+                    self.$set(self.formChoix, "shippingCountries", apiSuccess.data.datas.countries)
+                }
+                if (apiSuccess.data.datas.states) {
+                    self.$set(self.formChoix, "shippingProvinces", apiSuccess.data.datas.states)
+                }
+                if (apiSuccess.data.datas.cities) {
+                    self.$set(self.formChoix, "shippingCities", apiSuccess.data.datas.cities)
+                }
+                self.setCountriesList()
+            }
+        }).catch(() => {
+            //
+        })
+        // ===--- END: axios
+    },
+    setCountriesList () {
+        this.$set(this.formChoix, "countries", [])
+        if (this.formChoix.shippingCountries) {
+            for (const [key, value] of Object.entries(this.formChoix.shippingCountries)) {
+                this.formChoix.countries.push({text: value, value: key})
+            }
+        }
+        let inside = false
+        if (this.formShipping.shipping_address.country) {
+            for(var i = 0; i < this.formChoix.countries.length; i++) {
+                if (this.formChoix.countries[i].value == this.formShipping.shipping_address.country) {
+                    inside = true
+                }
+            }
+            if (!inside) {
+                this.$set(this.formShipping.shipping_address, "country", null)
+                this.$set(this.formShipping.shipping_address, "province", null)
+                this.$set(this.formShipping.shipping_address, "city", null)
+                // ===---
+                this.$refs.formShipping.resetValidation();
+
+            } else {
+                this.setProvincesList()
+            }
+        }
+    },
+    setProvincesList () {
+        this.$set(this.formChoix, "provinces", [])
+        if (this.formShipping.shipping_address.country && this.formChoix.shippingProvinces) {
+            for (const [key, value] of Object.entries(this.formChoix.shippingProvinces[this.formShipping.shipping_address.country])) {
+                this.formChoix.provinces.push({text: value, value: value, code: key})
+            }
+        }
+        let inside = false
+        if (this.formShipping.shipping_address.province) {
+            for(var i = 0; i < this.formChoix.provinces.length; i++) {
+                if (this.formChoix.provinces[i].value == this.formShipping.shipping_address.province) {
+                    inside = true
+                }
+            }
+            if (!inside) {
+                this.$set(this.formShipping.shipping_address, "province", null)
+                this.$set(this.formShipping.shipping_address, "city", null)
+                // ===---
+                this.$refs.formShipping.resetValidation();
+            } else {
+                this.setCitiesList()
+            }
+        }
+    },
+    setCitiesList () {
+        this.$set(this.formChoix, "cities", [])
+        let province = null
+        for (const [key, value] of Object.entries(this.formChoix.shippingProvinces[this.formShipping.shipping_address.country])) {
+            if (value == this.formShipping.shipping_address.province) {
+                province = key
+            }
+        }
+        if (this.formShipping.shipping_address.country && this.formShipping.shipping_address.province && this.formChoix.shippingCities) {
+            for (const [key, value] of Object.entries(this.formChoix.shippingCities[province])) {
+                this.formChoix.cities.push({text: value, value: value, code: key})
+            }
+        }
+        let inside = false
+        if (this.formShipping.shipping_address.city) {
+            for(var i = 0; i < this.formChoix.cities.length; i++) {
+                if (this.formChoix.cities[i].value == this.formShipping.shipping_address.city) {
+                    inside = true
+                }
+            }
+            if (!inside) {
+                this.$set(this.formShipping.shipping_address, "city", null)
+                // ===---
+                this.$refs.formShipping.resetValidation();
+            }
+        }
     },
     /* =========================================================== //
     // ===---   getBillingMethods                           ---=== //

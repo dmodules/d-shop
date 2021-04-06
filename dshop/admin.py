@@ -11,7 +11,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse, NoReverseMatch
 from django.utils.html import format_html
 from django.forms.models import BaseInlineFormSet
-from django.db.models import Q
 
 from dal import autocomplete
 
@@ -268,11 +267,21 @@ class dmSiteContactInline(admin.StackedInline):
     model = dmSiteContact
     extra = 1
     max_num = 1
-    fields = [
-        ("phone", "phone_secondary"),
-        ("email"),
-        ("address"),
-        ("schedule")
+    fieldsets = [
+        (None, {
+            "fields": [
+                ("phone", "phone_secondary"),
+                ("email"),
+                ("address"),
+                ("schedule")
+            ]
+        }),
+        (_("Map"), {
+            "fields": [
+                ("map_latitude", "map_longitude")
+            ],
+            "classes": ["collapse"]
+        })
     ]
 
 
@@ -564,7 +573,7 @@ class ProductForm(forms.models.ModelForm):
         }
 
 class VariantInlineFormSet(BaseInlineFormSet):
-   def clean(self):  
+    def clean(self):
         check_data = []
         flag = False
         for form in self.forms:
@@ -755,7 +764,7 @@ class GetProductOutOrLow(admin.SimpleListFilter):
             ("lowonstock", _("Low on stock")),
         )
 
-    def queryset(self, request, queryset):
+    def queryset(self, request, queryset):  # noqa: C901
         value = self.value()
         result = Product.objects.none()
         if value == "outofstock":
@@ -802,7 +811,6 @@ class ProductAdmin(PolymorphicParentModelAdmin):
     list_max_show_all = 1000
     list_editable = ["brand", "label", "active", "is_vedette"]
 
-
     def get_price(self, obj):
         return str(obj.get_real_instance().get_price(None))
     get_price.short_description = _("Price starting at")
@@ -826,4 +834,3 @@ class FeatureListAdmin(admin.ModelAdmin):
 
     list_display = ["feature_name", "is_enabled"]
     list_editable = ("is_enabled",)
-

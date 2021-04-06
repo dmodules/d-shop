@@ -13,7 +13,7 @@ from django.http import HttpResponse
 from django.contrib.sitemaps.views import sitemap
 from cms.sitemaps import CMSSitemap
 from dshop.sitemap import ProductSitemap
-
+from shop.forms.auth import RegisterUserForm
 from shop.views.catalog import ProductListView
 
 from dshop.views import CustomerView, CustomerCheckView
@@ -21,7 +21,7 @@ from dshop.views import LoadProduits, LoadProductsByCategory
 from dshop.views import LoadVariantSelect, LoadFilters
 from dshop.views import ShippingMethodsView, BillingMethodsView
 from dshop.views import TestPaymentView, AttributeAutocomplete
-from dshop.views import PasswordResetConfirmView
+from dshop.views import PasswordResetConfirmView, DshopAuthFormView
 from dshop.views import unclone_customers, send_queued_mail
 
 def trigger_error(request):
@@ -58,6 +58,7 @@ urlpatterns = [
     url(r'^sitemap\.xml$', sitemap, {"sitemaps": sitemaps}, name="sitemap"),
 
     url(r'^shop/', include("shop.urls")),
+    url(r'^dshop/auth/register/', DshopAuthFormView.as_view(form_class=RegisterUserForm)),
     url(r'^shop/auth/password/reset-confirm/', PasswordResetConfirmView.as_view()),
     url(r'^billing-stripe/', include("apps.dmBillingStripe.urls")),
     url(r'^billing-square/', include("apps.dmBillingSquare.urls")),
@@ -65,6 +66,7 @@ urlpatterns = [
     url(r'^contact/', include("apps.dmContact.urls")),
     url(r'^discount/', include("apps.dmRabais.urls")),
     url(r'^quotation/', include("apps.dmQuotation.urls")),
+    url(r'^shipping/', include("apps.dmShipping.urls")),
 
     url(r'^api/v1/products-list/$', ProductListView.as_view(), name='product-list'),
     # =====================

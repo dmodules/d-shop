@@ -58,6 +58,7 @@ INSTALLED_APPS.extend([  # noqa: F821
     "cmsplugin_cascade.icon",
     "cmsplugin_cascade.segmentation",
     # ===---
+    "cities_light",
     "fsm_admin",
     "adminsortable2",
     "sass_processor",
@@ -101,6 +102,9 @@ if os.path.exists(path_to_extended):
             INSTALLED_APPS.append(app)  # noqa: F821
 
 ############################################
+
+CITIES_LIGHT_CITY_SOURCES = ['http://download.geonames.org/export/dump/cities500.zip']
+
 # Shop Payments and Order Settings
 
 SHOP_VALUE_ADDED_TAX = Decimal(0)
@@ -736,6 +740,10 @@ TEMP_ADMIN_REORDER = [
         "label": _("Shipping"),
         "models": [
             "dmShipping.ShippingManagement",
+            "dmShipping.ShippingCountry",
+            "dmShipping.ShippingState",
+            "dmShipping.ShippingCity",
+            "dmShipping.ShippingAllowed",
         ]
     },
     {
@@ -778,6 +786,9 @@ TEMP_ADMIN_REORDER = [
     },
     {
         "app": "dmPortfolio"
+    },
+    {
+        "app": "cities_light"
     },
 ]
 

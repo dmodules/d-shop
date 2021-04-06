@@ -49,6 +49,12 @@ def get_setting(name):
     """Get the value of a setting from key name"""
     return getattr(settings, name, "")
 
+@register.simple_tag
+def dm_get_google_analytics():
+    result = dmSite.objects.first()
+    if not result:
+        return ""
+    return result.google_analytics
 
 @register.simple_tag
 def dm_get_logos():
