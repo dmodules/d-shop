@@ -83,12 +83,13 @@ def get_data(request):  # noqa: C901
                     s_obj = Region.objects.get(slug=s[1])
                     con += [(s_obj.country.name, s_obj.country.code2)]
         else:
-            codes = [c[1] for c in con]
+            codes = [c[1] for c in con if c[1] == "CA" ]
             sta = list(Region.objects.filter(country__code2__in=codes).values_list("name", "slug"))
 
         if shipping.cities.all():
             s_slug = [ s[1] for s in sta ]
-            cities += list(shipping.cities.exclude(region__slug__in=s_slug).values_list("name", "id"))
+            # cities += list(shipping.cities.exclude(region__slug__in=s_slug).values_list("name", "id"))
+            cities += list(shipping.cities.all().values_list("name", "id"))
             if not sta:
                 city_id = [ c[1] for c in cities ]
                 city_obj = City.objects.filter(id__in=city_id)
@@ -100,15 +101,19 @@ def get_data(request):  # noqa: C901
                 for s in sta:
                     s_obj = Region.objects.get(slug=s[1])
                     con += [(s_obj.country.name, s_obj.country.code2)]
-        else:
-            codes = [c[1] for c in sta]
-            cit = list(City.objects.filter(region__slug__in=codes).values_list('name', 'id'))
+        # else:
+        #     codes = [c[1] for c in sta]
+        #     cit = list(City.objects.filter(region__slug__in=codes).values_list('name', 'id'))
 
         countries += con
         states += sta
         cities += cit
 
     temp_co = {}
+    if not countries and not states and not cities:
+        countries = Country.objects.all().values_list("name", "code2")
+        states = Region.objects.filter(country__code2="CA").values_list("name", "slug")
+
     for c in countries:
         if c[1] not in temp_co:
             temp_co[c[1]] = c[0]
@@ -116,27 +121,31 @@ def get_data(request):  # noqa: C901
     temp_st = {}
     for country in temp_co:
         temp = {}
+        if not sa and not country == "CA":
+            continue
         for s in states:
             st = Region.objects.filter(slug=s[1], country__code2=country).first()
             if st:
                 if st.slug not in temp:
                     temp[st.slug] = st.name
-        temp_st[country] = temp
+        if temp:
+            temp_st[country] = temp
 
     temp_ct = {}
     processed = []
-    for state in states:
-        temp = {}
-        if state[1] in processed:
-            continue
-        processed.append(state[1])
-        city_id = [ c[1] for c in cities ]
-        city_obj = City.objects.filter(id__in=city_id, region__slug=state[1])
-        for c in city_obj:
-            if c.id not in temp:
-                temp[c.id] = c.name
-        
-        temp_ct[state[1]] = temp
+    if cities:
+        for state in states:
+            temp = {}
+            if state[1] in processed:
+                continue
+            processed.append(state[1])
+            city_id = [ c[1] for c in cities ]
+            city_obj = City.objects.filter(id__in=city_id, region__slug=state[1])
+            for c in city_obj:
+                if c.id not in temp:
+                    temp[c.id] = c.name
+            if temp:
+                temp_ct[state[1]] = temp
 
     data = {
         'countries': temp_co,

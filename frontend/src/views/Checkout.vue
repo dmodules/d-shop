@@ -222,7 +222,8 @@
                               @change="setProvincesList()"
                             />
                           </v-col>
-                          <v-col cols="12" md="6">
+
+                          <v-col v-if="formChoix.provinces.length > 0" cols="12" md="6">
                             <v-autocomplete
                               v-model="formShipping.shipping_address.province"
                               :label="$i18n.t('Province')"
@@ -237,7 +238,21 @@
                               @change="setCitiesList()"
                             />
                           </v-col>
-                          <v-col cols="12" md="6">
+                          <v-col v-else cols="12" md="6">
+                            <v-text-field
+                              v-model="formShipping.shipping_address.province"
+                              :label="$i18n.t('Province')"
+                              placeholder=" "
+                              :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis'),]"
+                              :error-messages="formError.shipping_address.province"
+                              required
+                              filled
+                              attach
+                              @keydown="formError.shipping_address.province = null"
+                              @change="formError.shipping_address.city = null"
+                            />
+                          </v-col>
+                          <v-col v-if="formChoix.cities.length > 0" cols="12" md="6">
                             <v-autocomplete
                               v-model="formShipping.shipping_address.city"
                               :label="$i18n.t('Ville')"
@@ -249,6 +264,22 @@
                               filled
                               attach
                               @keydown="formError.shipping_address.city = null"
+                              @change="formError.shipping_address.city = null"
+                            />
+                          </v-col>
+                          <v-col v-else cols="12" md="6">
+                            <v-text-field
+                              v-model="formShipping.shipping_address.city"
+                              :label="$i18n.t('Ville')"
+                              placeholder=" "
+                              :rules="[(v) => !!v || $i18n.t('Cechampsesrrequis')]"
+                              :items="formChoix.cities"
+                              :error-messages="formError.shipping_address.city"
+                              required
+                              filled
+                              attach
+                              @keydown="formError.shipping_address.city = null"
+                              @change="formError.shipping_address.city = null"
                             />
                           </v-col>
                           <v-col cols="12" md="6">

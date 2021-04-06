@@ -8,6 +8,8 @@ def get_price(identifier, country, state, city):
     sm = ShippingManagement.objects.get(identifier=identifier)
     # Filter by Shipping Identifier
     sa = ShippingAllowed.objects.filter(shipping=sm)
+    if not sa:
+        return sm.price
     # Filter by country
     sa = sa.filter(countries__code2=country)
     if not sa:
