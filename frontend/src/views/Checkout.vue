@@ -863,7 +863,7 @@ export default {
       billingMethods: [],
     },
     formCustomer: {
-      valid: false,
+      valid: true,
       customer: {
         plugin_order: 1,
         salutation: null,
@@ -873,7 +873,7 @@ export default {
       },
     },
     formShipping: {
-      valid: false,
+      valid: true,
       shipping_address: {
         plugin_order: 1,
         active_priority: 1,
@@ -1023,34 +1023,34 @@ export default {
         .then((apiSuccess) => {
           // set customer form
           if (apiSuccess.data.customer) {
-            self.$set(
-              self.formCustomer.customer,
-              "salutation",
-              apiSuccess.data.customer.salutation
-                ? apiSuccess.data.customer.salutation
-                : ""
-            );
-            self.$set(
-              self.formCustomer.customer,
-              "first_name",
-              apiSuccess.data.customer.first_name
-                ? apiSuccess.data.customer.first_name
-                : ""
-            );
-            self.$set(
-              self.formCustomer.customer,
-              "last_name",
-              apiSuccess.data.customer.last_name
-                ? apiSuccess.data.customer.last_name
-                : ""
-            );
-            self.$set(
-              self.formCustomer.customer,
-              "email",
-              apiSuccess.data.customer.email
-                ? apiSuccess.data.customer.email
-                : ""
-            );
+              if (apiSuccess.data.customer.salutation) {
+                self.$set(
+                    self.formCustomer.customer,
+                    "salutation",
+                    apiSuccess.data.customer.salutation
+                )
+              }
+              if (apiSuccess.data.customer.first_name) {
+                self.$set(
+                    self.formCustomer.customer,
+                    "first_name",
+                    apiSuccess.data.customer.first_name
+                )
+              }
+              if (apiSuccess.data.customer.last_name) {
+                self.$set(
+                    self.formCustomer.customer,
+                    "last_name",
+                    apiSuccess.data.customer.last_name
+                )
+              }
+              if (apiSuccess.data.customer.email) {
+                self.$set(
+                    self.formCustomer.customer,
+                    "email",
+                    apiSuccess.data.customer.email
+                )
+              }
             self.$set(
               self, "oldEmail", apiSuccess.data.customer.email ? apiSuccess.data.customer.email : ""
             );
@@ -1140,6 +1140,7 @@ export default {
         // ===--- END: axios
     },
     setCountriesList () {
+        this.$refs.formShipping.resetValidation();
         this.$set(this.formChoix, "countries", [])
         if (this.formChoix.shippingCountries) {
             for (const [key, value] of Object.entries(this.formChoix.shippingCountries)) {
@@ -1158,7 +1159,6 @@ export default {
                 this.$set(this.formShipping.shipping_address, "province", null)
                 this.$set(this.formShipping.shipping_address, "city", null)
                 // ===---
-                this.$refs.formShipping.resetValidation();
 
             } else {
                 this.setProvincesList()
