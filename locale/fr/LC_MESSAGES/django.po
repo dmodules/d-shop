@@ -3131,3 +3131,12 @@ msgstr "Taxer la livraison ?"
 
 msgid "Leave unchecked if you don't want to tax shipping."
 msgstr "Laissez décoché si vous ne voulez pas taxer la livraison."
+
+msgid "Map"
+msgstr "Carte"
+
+msgid "Map Latitude"
+msgstr "Latitude"
+
+msgid "Map Longitude"
+msgstr "Longitude"

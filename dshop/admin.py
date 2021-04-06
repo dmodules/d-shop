@@ -267,11 +267,21 @@ class dmSiteContactInline(admin.StackedInline):
     model = dmSiteContact
     extra = 1
     max_num = 1
-    fields = [
-        ("phone", "phone_secondary"),
-        ("email"),
-        ("address"),
-        ("schedule")
+    fieldsets = [
+        (None, {
+            "fields": [
+                ("phone", "phone_secondary"),
+                ("email"),
+                ("address"),
+                ("schedule")
+            ]
+        }),
+        (_("Map"), {
+            "fields": [
+                ("map_latitude", "map_longitude")
+            ],
+            "classes": ["collapse"]
+        })
     ]
 
 

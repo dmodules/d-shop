@@ -101,10 +101,12 @@
         </div>
       </div>
       <div class="col-lg-6 pt-2 pt-lg-0 mt-4 mt-lg-0">
-        {% dm_get_site_coord as coords %}
+        {% if not c.result.map_latitude %}
+            {% dm_get_site_coord as coords %}
+        {% endif %}
         <div id="map" class="contact_map2" data-zoom="15"
-          data-latitude="{% if coords.lat %}{{coords.lat}}{% else %}48.6525144{% endif %}"
-          data-longitude="{% if coords.lon %}{{coords.lon}}{% else %}-72.445567{% endif %}"
+          data-latitude="{% if c.result.map_latitude %}{{ c.result.map_latitude }}{% elif coords.lat %}{{coords.lat}}{% else %}48.6525144{% endif %}"
+          data-longitude="{% if c.result.map_longitude %}{{ c.result.map_longitude }}{% elif coords.lon %}{{coords.lon}}{% else %}-72.445567{% endif %}"
           data-icon="{% static 'dshop/shopwise/images/marker.png' %}"></div>
       </div>
     </div>

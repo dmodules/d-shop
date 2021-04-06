@@ -1261,6 +1261,18 @@ class dmSiteContact(models.Model):
         blank=True,
         null=True
     )
+    map_latitude = models.CharField(
+        verbose_name=_("Map Latitude"),
+        max_length=120,
+        blank=True,
+        null=True
+    )
+    map_longitude = models.CharField(
+        verbose_name=_("Map Longitude"),
+        max_length=120,
+        blank=True,
+        null=True
+    )
 
     class Meta:
         verbose_name = _("Contacts")
