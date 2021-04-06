@@ -105,8 +105,6 @@ if os.path.exists(path_to_extended):
 
 CITIES_LIGHT_CITY_SOURCES = ['http://download.geonames.org/export/dump/cities500.zip']
 
-MIGRATION_COMMANDS.append('python manage.py cities_light')
-
 # Shop Payments and Order Settings
 
 SHOP_VALUE_ADDED_TAX = Decimal(0)
