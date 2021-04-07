@@ -251,8 +251,9 @@
     {% if is_quotation %}
         <script src="{% static 'dshop/js/dmQuotation.js' %}"></script>
     {% endif %}
-
-    {{ google_analytics|safe }}
+    {% if google_analytics %}
+        {{ google_analytics|safe }}
+    {% endif %}
 
     {% render_block "js" %}
     {% block foot %}{% endblock foot %}
