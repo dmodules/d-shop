@@ -257,10 +257,24 @@ __all__ = ["customer"]
 # Site
 #######################################################################
 
-class dmSiteLogoInline(admin.TabularInline):
+class dmSiteLogoInline(admin.StackedInline):
     model = dmSiteLogo
     extra = 1
     max_num = 1
+    fieldsets = [
+        (None, {
+            "fields": [
+                ("logolight", "logodark")
+            ]
+        }),
+        (_("Favicon"), {
+            "fields": [
+                ("favico_180", "favico_192", "favico_512"),
+                ("favico_ico")
+            ],
+            "classes": ["collapse"]
+        })
+    ]
 
 
 class dmSiteContactInline(admin.StackedInline):

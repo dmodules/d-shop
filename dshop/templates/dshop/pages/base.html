@@ -16,10 +16,26 @@
     <meta data-dm="dmodules" data-stage="{% get_setting 'STAGE' %}" />
     {% block main-favicon %}
       <!--Favicons-->
-      <link rel="apple-touch-icon" sizes="180x180" href="{% static 'dshop/icons/apple-touch-icon.png' %}" />
-      <link rel="icon" type="image/png" sizes="512x512" href="{% static 'dshop/icons/android-chrome-512x512.png' %}" />
-      <link rel="icon" type="image/png" sizes="192x192" href="{% static 'dshop/icons/android-chrome-192x192.png' %}" />
-      <link rel="shortcut icon" href="{% static 'dshop/icons/favicon.ico' %}" />
+      {% if request.site.dmsite.first.logos.first.favico_180 %}
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ request.site.dmsite.first.logos.first.favico_180.url }}" />
+      {% else %}
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'dshop/icons/apple-touch-icon.png' %}" />
+      {% endif %}
+      {% if request.site.dmsite.first.logos.first.favico_192 %}
+        <link rel="icon" type="image/png" sizes="192x192" href="{{ request.site.dmsite.first.logos.first.favico_192.url }}" />
+      {% else %}
+        <link rel="icon" type="image/png" sizes="192x192" href="{% static 'dshop/icons/android-chrome-192x192.png' %}" />
+      {% endif %}
+      {% if request.site.dmsite.first.logos.first.favico_512 %}
+        <link rel="icon" type="image/png" sizes="512x512" href="{{ request.site.dmsite.first.logos.first.favico_512.url }}" />
+      {% else %}
+        <link rel="icon" type="image/png" sizes="512x512" href="{% static 'dshop/icons/android-chrome-512x512.png' %}" />
+      {% endif %}
+      {% if request.site.dmsite.first.logos.first.favico_ico %}
+        <link rel="shortcut icon" href="{{ request.site.dmsite.first.logos.first.favico_ico.url }}" />
+      {% else %}
+        <link rel="shortcut icon" href="{% static 'dshop/icons/favicon.ico' %}" />
+      {% endif %}
       <link rel="manifest" href="{% static 'dshop/icons/site.webmanifest' %}" />
     {% endblock main-favicon %}
     {% block main-head %}
