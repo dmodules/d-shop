@@ -1174,13 +1174,15 @@ class dmSite(models.Model):
 
     site = models.ForeignKey(
         sites.models.Site,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="dmsite"
     )
     google_analytics = models.TextField(
         verbose_name=_("Google Analytics Snippet"),
         blank=True,
         null=True
     )
+
     class Meta:
         verbose_name = _("Site")
         verbose_name_plural = _("Site")
@@ -1214,6 +1216,38 @@ class dmSiteLogo(models.Model):
         related_name="logo_dark",
         blank=False,
         null=True
+    )
+    favico_180 = image.FilerImageField(
+        verbose_name=_("Favicon 180x180"),
+        on_delete=models.SET_NULL,
+        related_name="favico_180",
+        blank=True,
+        null=True,
+        help_text=_("Size: 180x180. Format: .png")
+    )
+    favico_192 = image.FilerImageField(
+        verbose_name=_("Favicon 192x192"),
+        on_delete=models.SET_NULL,
+        related_name="favico_192",
+        blank=True,
+        null=True,
+        help_text=_("Size: 192x192. Format: .png")
+    )
+    favico_512 = image.FilerImageField(
+        verbose_name=_("Favicon 512x512"),
+        on_delete=models.SET_NULL,
+        related_name="favico_512",
+        blank=True,
+        null=True,
+        help_text=_("Size: 512x512. Format: .png")
+    )
+    favico_ico = FilerFileField(
+        verbose_name=_("Favicon 48x48"),
+        on_delete=models.SET_NULL,
+        related_name="favico_ico",
+        blank=True,
+        null=True,
+        help_text=_("Size: 48x48. Format: .ico")
     )
 
     class Meta:
