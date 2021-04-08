@@ -127,6 +127,7 @@ class StripePayment(PaymentProvider):
                     line_items.append(line_data)
 
             # ===---
+            total_amount = 0
             for data in line_items:
                 total_amount += int(data['amount'])
             error = {}
