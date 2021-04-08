@@ -1,0 +1,27 @@
+{% extends "theme/default/pages/base.html" %}
+{% load cms_tags i18n thumbnail %}
+
+{% block title %}{% trans 'Search' %}{% endblock %}
+
+{% block content %}
+    <div class="container py-5 mb-5">
+        <div class="row">
+            <div class="col-12 pb-6">
+                <h1 class="mb-1">{% trans 'Payment Error' %}</h1>
+            </div>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>{% trans 'Code' %}</td>
+                        <td>{{ error_code }}</td>
+                    </tr>
+                    <tr>
+                        <td>{% trans 'Message' %}</td>
+                        <td>{{ error_message</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}
+

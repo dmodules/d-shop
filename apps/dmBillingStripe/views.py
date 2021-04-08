@@ -5,6 +5,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.db import transaction
+from django.http import HttpResponse
+from django.template import loader
+from django.conf import settings
 
 from settings import STRIPE_SECRET_KEY, SQUARE_SYNC
 
@@ -63,14 +66,22 @@ def StripePaymentCancelView(request):
                             pv = db_product.variants.get(product_code=p_code)
                             pv.quantity += item.quantity
                             pv.save()
-                # Param to identify order is cancel
+                # Param to identify order is canceled
                 order.extra['cancel'] = '1'
                 order.save()
             except Exception as e:
                 print("Error while cancelling Stripe Payment.")
                 print(e)
                 # !TODO
-    return redirect("/")
+
+    template = loader.get_template(
+        "theme/{}/pages/payment_error.html".format(settings.THEME_SLUG)
+    )
+    context = {
+        'error_code': error_code,
+        'error_message': error_message
+    }
+    return HttpResponse(template.render(context, request))
 
 def StripePaymentView(request):  # noqa: C901
     referenceId = request.GET.get("referenceId", None)

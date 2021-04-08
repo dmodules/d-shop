@@ -1473,7 +1473,6 @@ export default {
     doPurchase() {
       let self = this;
       let data = {'token': self.stripe_token.id};
-      console.log(data)
       this.$set(this, "isLoading", true);
       this.$vuetify.goTo(0);
       // ===--- BEGIN: axios
