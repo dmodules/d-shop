@@ -389,20 +389,24 @@ class LoadFilters(APIView):
                 url = ''
                 if filt.image:
                     url = filt.image.url
+                name = filt.name_trans if filt.name_trans else filt.name
+                # ===---
                 filters.append({
                     'id': filt.id,
-                    'name': filt.name,
+                    'name': name,
                     'order': filt.order,
                     'image': url,
                     'description': filt.description
                 })
             temp['filter'] = filters
-            data[group.name] = temp
+            group_name = group.name_trans if group.name_trans else group.name
+            data[group_name] = temp
         temp = {}
         # ===--- Filters without group
         filters = []
         for filt in ProductFilter.objects.filter(group=None):
-            filters.append({'id': filt.id, 'name': filt.name, 'order': filt.order})
+            name = filt.name_trans if filt.name_trans else filt.name
+            filters.append({'id': filt.id, 'name': name, 'order': filt.order})
         data['default'] = {'filter': filters}
         # ===---
 

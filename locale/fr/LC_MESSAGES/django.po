@@ -2154,6 +2154,10 @@ msgstr "Ajouter un groupe au filtre."
 msgid "Filter's Name"
 msgstr "Nom du filtre"
 
+#: dshop/models.py:458
+msgid "Translated Filter's Name"
+msgstr "Traduction du nom du filtre"
+
 #: dshop/models.py:464
 msgid "image"
 msgstr "image"

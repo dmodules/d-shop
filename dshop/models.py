@@ -417,7 +417,8 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel):
         name = "-".join(self.name.lower().split(' '))
         return urljoin("/produits/category/", str(self.id) + '-' + name)
 
-class ProductFilterGroup(models.Model):
+
+class ProductFilterGroup(TranslatableModel):
 
     name = models.CharField(
         verbose_name=_("Filter's Group Name"),
@@ -425,6 +426,7 @@ class ProductFilterGroup(models.Model):
         null=False,
         blank=False
     )
+    name_trans = TranslatedField()
     order = models.PositiveSmallIntegerField(
         verbose_name=_("Sort by"),
         default=0,
@@ -440,7 +442,29 @@ class ProductFilterGroup(models.Model):
     def __str__(self):
         return self.name
 
-class ProductFilter(models.Model):
+
+class ProductFilterGroupTranslation(TranslatedFieldsModel):
+    """
+    A model to handle translations of ProductFilterGroup
+    """
+
+    master = models.ForeignKey(
+        ProductFilterGroup,
+        on_delete=models.CASCADE,
+        related_name="translations",
+        null=True
+    )
+    name_trans = models.CharField(
+        verbose_name=_("Translated Filter's Group Name"),
+        max_length=100,
+        null=True,
+        blank=True
+    )
+
+    class Meta:
+        unique_together = [("language_code", "master")]
+
+class ProductFilter(TranslatableModel):
     """
     A model to help to filter products.
     Product can have multiple filters.
@@ -453,20 +477,18 @@ class ProductFilter(models.Model):
         null=True,
         help_text=_("Add a group to Filter.")
     )
-
     name = models.CharField(
         verbose_name=_("Filter's Name"),
         max_length=100,
         null=False,
         blank=False
     )
+    name_trans = TranslatedField()
+    description = TranslatedField()
     image = image.FilerImageField(
         verbose_name=_("image"),
         related_name="filter_image",
         on_delete=models.SET_NULL,
-        null=True, blank=True
-    )
-    description = models.TextField(
         null=True, blank=True
     )
     order = models.PositiveSmallIntegerField(
@@ -479,12 +501,37 @@ class ProductFilter(models.Model):
     class Meta:
         verbose_name = _("Product's Filter")
         verbose_name_plural = _("Product's Filters")
-        ordering = ["group", "order", "name"]
+        ordering = ["group", "order", "-pk"]
 
     def __str__(self):
         if self.group:
             return self.group.name + " : " + self.name
         return self.name
+
+
+class ProductFilterTranslation(TranslatedFieldsModel):
+    """
+    A model to handle translations of ProductFilter
+    """
+
+    master = models.ForeignKey(
+        ProductFilter,
+        on_delete=models.CASCADE,
+        related_name="translations",
+        null=True
+    )
+    name_trans = models.CharField(
+        verbose_name=_("Translated Filter's Name"),
+        max_length=100,
+        null=True,
+        blank=True
+    )
+    description = models.TextField(
+        null=True, blank=True
+    )
+
+    class Meta:
+        unique_together = [("language_code", "master")]
 
 
 class ProductBrand(models.Model):
@@ -849,7 +896,6 @@ class ProductDefault(AvailableProductMixin, Product):
 
 
 # ===---
-
 
 
 class ProductVariable(Product):
