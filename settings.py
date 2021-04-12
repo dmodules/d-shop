@@ -123,8 +123,6 @@ SHOP_CART_MODIFIERS = [
     "apps.dmShipping.modifiers.ExpressShippingWithSeparatorModifier",
     # ===--- taxes methods
     "apps.dmTaxes.modifiers.CanadaTaxModifier",
-    # ===---- tests
-    # "dshop.modifiers.TestPaymentModifier"
 ]
 
 SHOP_ORDER_WORKFLOWS = [
