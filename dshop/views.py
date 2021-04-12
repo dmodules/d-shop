@@ -104,7 +104,7 @@ class DshopProductListView(APIView):
 
     permission_classes = [AllowAny]
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):  # noqa: C901
         attribute = self.request.query_params.get('attribute', None)
         category = self.request.query_params.get('category', None)
         fltr = self.request.query_params.get('filter', None)
@@ -149,21 +149,21 @@ class DshopProductListView(APIView):
                 title = brnd.name
 
         if category:
-            category = [ val for val in category.split(',') if val ]
+            category = [val for val in category.split(',') if val]
             products = products.filter(categories__id__in=category).distinct()
 
         if fltr:
-            fltr = [ val for val in fltr.split(',') if val ]
+            fltr = [val for val in fltr.split(',') if val]
             products = products.filter(filters__id__in=fltr).distinct()
 
         if brand:
-            brand = [ val for val in brand.split(',') if val ]
+            brand = [val for val in brand.split(',') if val]
             products = products.filter(brand__id__in=brand).distinct()
 
         if attribute:
-            attributes = [ val for val in attribute.split(',') if val ]
+            attributes = [val for val in attribute.split(',') if val]
             attributes = AttributeValue.objects.filter(id__in=attributes)
-            attributes = [ atr.value for atr in attributes ]
+            attributes = [atr.value for atr in attributes]
             ids = []
             for q in products:
                 attrs = []
@@ -178,7 +178,7 @@ class DshopProductListView(APIView):
                         ids.append(q.id)
                         break
             products = Product.objects.filter(id__in=ids)
-        
+
         if orderby == 'get_p':
             products = sorted(
                 products, key=lambda product: product.get_price(request)
@@ -196,10 +196,10 @@ class DshopProductListView(APIView):
         next_page = False
 
         if len(products) > offset + limit:
-            products = products[ offset : limit]
+            products = products[offset:limit]
             next_page = True
         else:
-            products = products[ offset : ]
+            products = products[offset:]
         filter_data = LoadFilters.as_view()(request=request._request).data
         data = {
             'products': products,
@@ -215,7 +215,8 @@ class DshopProductListView(APIView):
         }
 
         if not response_type:
-            return render(request,
+            return render(
+                request,
                 'theme/{}/pages/produits.html'.format(THEME_SLUG),
                 context=data
             )
