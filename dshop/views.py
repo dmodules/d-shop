@@ -1,4 +1,7 @@
 import json
+import operator
+
+from functools import reduce
 
 from mailchimp3 import MailChimp
 from easy_thumbnails.files import get_thumbnailer
@@ -150,15 +153,24 @@ class DshopProductListView(APIView):
 
         if category:
             category = [val for val in category.split(',') if val]
-            products = products.filter(categories__id__in=category).distinct()
+            q = reduce(
+                operator.and_, (Q(categories__id=i) for i in category)
+            )
+            products = products.exclude(~q).distinct()
 
         if fltr:
             fltr = [val for val in fltr.split(',') if val]
-            products = products.filter(filters__id__in=fltr).distinct()
+            q = reduce(
+                operator.and_, (Q(filters__id=i) for i in fltr)
+            )
+            products = products.exclude(~q).distinct()
 
         if brand:
             brand = [val for val in brand.split(',') if val]
-            products = products.filter(brand__id__in=brand).distinct()
+            q = reduce(
+                operator.and_, (Q(brand__id=i) for i in brand)
+            )
+            products = products.exclude(~q).distinct()
 
         if attribute:
             attributes = [val for val in attribute.split(',') if val]
@@ -177,7 +189,10 @@ class DshopProductListView(APIView):
                     if atr in attrs:
                         ids.append(q.id)
                         break
-            products = Product.objects.filter(id__in=ids)
+            q = reduce(
+                operator.and_, (Q(id=i) for i in ids)
+            )
+            products = products.exclude(~q).distinct()
 
         if orderby == 'get_p':
             products = sorted(
