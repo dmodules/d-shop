@@ -825,14 +825,15 @@ email_path = os.path.join('theme', THEME_SLUG, 'email')
 NOTIFICATION_TARGET = {
     'payment_confirmed':
         {
-            'email_template': os.path.join(email_path, 'customer_order_receipt.html'), 
+            'email_template_vendor': os.path.join(email_path, 'vendor_order_receipt.html'),
+            'email_template_customer': os.path.join(email_path, 'customer_order_receipt.html'),
             'to_vendor': True,
             'to_customer': True,
             'cc_emails': True
         },
     'ready_for_delivery':
         {
-            'email_template': os.path.join(email_path, 'customer_shipped_receipt.html'), 
+            'email_template': os.path.join(email_path, 'customer_shipped_receipt.html'),
             'to_vendor': False,
             'to_customer': True,
             'cc_emails': True

@@ -92,6 +92,7 @@ def SquarePaymentView(request):  # noqa: C901
                     datas["summary"] = {}
                     datas["summary"]["product_name"] = str(i)
                     datas["line_total"] = i.line_total
+                    datas["extra"] = i.extra
                     items.append(datas)
                 miniorder = {
                     "number": str(referenceId),
