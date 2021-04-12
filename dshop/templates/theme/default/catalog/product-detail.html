@@ -6,6 +6,7 @@
 {% block meta-description %}{{ product.caption|striptags|truncatechars:150 }}{% endblock %}
 
 {% block breadcrumb %}
+    {% page_url 'produits' as url_produits %}
     <section class="section-breadcrumb">
         <div class="breadcrumb_section bg_gray page-title-mini mb-4">
             <div class="container">
@@ -18,9 +19,20 @@
                     <div class="col-md-6 text-md-right">
                         {% if product.categories.count > 0 %}
                             <div class="breadcrumbs-item">
-                            {% for category in product.categories.all %}
-                                <a href="{{category.get_absolute_url}}">{{category.name}}</a>
-                            {% endfor %}
+                                {% for category in product.categories.all %}
+                                    <a href="{% if produits_url %}{{ url_produits }}{% else %}/produits/{% endif %}category/{{category.id}}-{{category.name|slugify}}">{{category.name}}</a>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        {% if product.filters.count > 0 %}
+                            <div class="breadcrumbs-item">
+                                <small>
+                                    {% for f in product.filters.all %}
+                                        <a href="{% if produits_url %}{{ url_produits }}{% else %}/produits/{% endif %}?filter={{f.id}}">
+                                            {% if f.group and f.group.name_trans %}{{ f.group.name_trans }} :{% elif f.group %}{{ f.group.name }} :{% endif %} {% if f.name_trans %}{{ f.name_trans }}{% else %}{{ f.name }}{% endif %}
+                                        </a>
+                                    {% endfor %}
+                                </small>
                             </div>
                         {% endif %}
                     </div>

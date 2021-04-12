@@ -61,24 +61,19 @@ def transition_change_notification(order, miniorder=None):
     if not isinstance(order, BaseOrder):
         raise TypeError("Object order must inherit from class BaseOrder")
     emails_in_queue = False
-
-    print(order.status)
-
     if order.status not in NOTIFICATION_TARGET:
         return
-
     target = NOTIFICATION_TARGET[order.status]
-    print(target)
-
-    emulated_request = EmulateHttpRequest(order.customer,
-                                          order.stored_request)
+    emulated_request = EmulateHttpRequest(
+        order.customer,
+        order.stored_request
+    )
     customer_serializer = app_settings.CUSTOMER_SERIALIZER(order.customer)
     render_context = {'request': emulated_request, 'render_label': 'email'}
     if miniorder is not None:
         order_serializer = miniorder
     else:
         order_serializer = None
-
     language = order.stored_request.get('language')
     context = {
         'customer': customer_serializer.data,
@@ -96,9 +91,12 @@ def transition_change_notification(order, miniorder=None):
         pass
 
     try:
-        template = NOTIFICATION_TARGET[order.status]['email_template']
+        template = NOTIFICATION_TARGET[order.status]['email_template_vendor']
         template = loader.get_template(template)
-        html_message = template.render(context)
+        vendor_html_message = template.render(context)
+        template = NOTIFICATION_TARGET[order.status]['email_template_customer']
+        template = loader.get_template(template)
+        customer_html_message = template.render(context)
     except EmailTemplate.DoesNotExist as e:
         template = None
         print("Error in notification: " + str(e))
@@ -120,7 +118,7 @@ def transition_change_notification(order, miniorder=None):
             '',
             DEFAULT_FROM_EMAIL,
             [SHOP_VENDOR_EMAIL, ] + cc_emails,
-            html_message=html_message,
+            html_message=vendor_html_message,
         )
     if target['to_customer']:
         # Once email will be working, need to add subject and body
@@ -129,7 +127,7 @@ def transition_change_notification(order, miniorder=None):
             '',
             DEFAULT_FROM_EMAIL,
             [order.customer.email, ],
-            html_message=html_message,
+            html_message=customer_html_message,
         )
 
     emails_in_queue = True

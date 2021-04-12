@@ -143,7 +143,7 @@
                   <ul class="social_icons social_white">
                     {% dm_get_site_socials as socials %}
                     {% for social in socials %}
-                      <li><a href="{{social.url}}" target="_blank"><i class="{% if social.social == 1 %}fab fa-facebook-square{% elif social.social == 2 %}ion-social-instagram{% elif social.social == 3 %}ion-social-youtube{% endif %}"></i></a></li>
+                      <li><a href="{{social.url}}" target="_blank"><i class="{% if social.social == 1 %}fab fa-facebook-square{% elif social.social == 2 %}fab fa-instagram{% elif social.social == 3 %}ion-social-youtube{% endif %}"></i></a></li>
                     {% endfor %}
                   </ul>
                 </div>

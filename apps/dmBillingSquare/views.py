@@ -1,6 +1,7 @@
 import re
 
 from django.shortcuts import redirect
+from django.utils.translation import ugettext_lazy as _
 
 from shop.money import MoneyMaker
 from shop.models.order import OrderModel
@@ -40,7 +41,7 @@ def SquarePaymentView(request):  # noqa: C901
                 order=order,
                 amount=amount,
                 transaction_id=transactionId,
-                payment_method="Square"
+                payment_method=_("Credit Card (via Square)")
             )
             order.acknowledge_payment()
             order.save()
@@ -92,6 +93,7 @@ def SquarePaymentView(request):  # noqa: C901
                     datas["summary"] = {}
                     datas["summary"]["product_name"] = str(i)
                     datas["line_total"] = i.line_total
+                    datas["extra"] = i.extra
                     items.append(datas)
                 miniorder = {
                     "number": str(referenceId),

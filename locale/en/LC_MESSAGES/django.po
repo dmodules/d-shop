@@ -314,8 +314,12 @@ msgid "Shipping"
 msgstr ""
 
 #: apps/dmBillingStripe/views.py:86
-msgid "Credit Card (Stripe)"
-msgstr ""
+msgid "Credit Card (via Stripe)"
+msgstr "Credit Card (via Stripe)"
+
+#:
+msgid "Credit Card (via Square)"
+msgstr "Credit Card (via Square)"
 
 #: apps/dmContact/apps.py:7 dshop/templates/dshop/pages/base.html:175
 msgid "Contact"

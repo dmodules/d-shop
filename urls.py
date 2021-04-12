@@ -20,7 +20,7 @@ from dshop.views import CustomerView, CustomerCheckView
 from dshop.views import LoadProduits, LoadProductsByCategory
 from dshop.views import LoadVariantSelect, LoadFilters
 from dshop.views import ShippingMethodsView, BillingMethodsView
-from dshop.views import TestPaymentView, AttributeAutocomplete
+from dshop.views import AttributeAutocomplete
 from dshop.views import PasswordResetConfirmView, DshopAuthFormView
 from dshop.views import unclone_customers, send_queued_mail
 
@@ -85,8 +85,6 @@ urlpatterns = [
     url(r'^api/fe/billing-methods/$', BillingMethodsView.as_view(), name='billing-method'),
     url(r'^api/fe/send-unclone/$', unclone_customers),
     url(r'^api/fe/send-email/$', send_queued_mail),
-
-    url(r'^test-payment/$', TestPaymentView),
 
     ############################
     # ===--- FRONTEND   ---=== #
