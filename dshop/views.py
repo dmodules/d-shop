@@ -1,4 +1,3 @@
-import re
 import json
 
 from mailchimp3 import MailChimp
@@ -22,7 +21,7 @@ from django.core.management import call_command
 from django.core.mail import send_mail
 from django.db.models import Q
 
-from rest_framework.generics import GenericAPIView, ListAPIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response as RestResponse
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
@@ -31,12 +30,9 @@ from rest_framework import status
 from rest_framework.permissions import BasePermission
 from rest_framework.exceptions import PermissionDenied
 
-from shop.money import Money
 from shop.models.defaults.customer import Customer
 from shop.modifiers.pool import cart_modifiers_pool
 from shop.models.order import OrderModel
-from shop.models.order import OrderPayment
-from shop.money import MoneyMaker
 from shop.rest.renderers import CMSPageRenderer
 from shop.views.order import OrderView
 from shop.serializers.auth import PasswordResetConfirmSerializer
@@ -45,16 +41,12 @@ from dal import autocomplete
 
 from dshop.models import Product, ProductFilterGroup, ProductFilter
 from dshop.models import Attribute, AttributeValue, ProductCategory, ProductBrand
-from dshop.transition import transition_change_notification
-from dshop.serializers import ProductSerializer
 
 from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL, THEME_SLUG
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
 
 from shop.views.auth import AuthFormsView as ShopAuthFormView
-from django.contrib.auth import logout, get_user_model
 from django.core.exceptions import NON_FIELD_ERRORS
-from rest_framework import status
 from rest_framework.response import Response
 from shop.models.customer import CustomerModel
 
@@ -102,79 +94,6 @@ class OrderView(OrderView):
         if self.request.customer.is_authenticated:
             queryset = queryset.filter(customer=self.request.customer).order_by('-updated_at')
         return queryset
-
-
-#######################################################################
-# ===---   TestPaymentView                                     ---=== #
-#######################################################################
-
-
-def TestPaymentView(request):  # noqa: C901
-    """
-    A development test only view for Payment.
-    Will emulate a successfull payment.
-    """
-
-    print("Test Payment View")
-
-    referenceId = request.GET.get("referenceId", None)
-    transactionId = request.GET.get("transactionId", None)
-
-    if referenceId is not None and transactionId is not None:
-        order = OrderModel.objects.get(number=re.sub(r"\D", "", referenceId))
-        try:
-            Money = MoneyMaker(order.currency)
-            amount = Money(order._total)
-            OrderPayment.objects.create(order=order,
-                                        amount=amount,
-                                        transaction_id=transactionId,
-                                        payment_method="Test (development)")
-            order.acknowledge_payment()
-            order.save()
-            # ===---
-            if dmCustomerPromoCode is not None:
-                for extra in order.extra["rows"]:
-                    if "applied-promocodes" in extra:
-                        promo = extra[1]["content_extra"].split(", ")
-                        for pm in promo:
-                            cpc = dmCustomerPromoCode.objects.get(
-                                customer=request.user.customer,
-                                promocode__code=pm)
-                            cpc.is_expired = True
-                            cpc.save()
-            # ===---
-            try:
-                items = []
-                for i in order.items.all():
-                    datas = {}
-                    datas["quantity"] = i.quantity
-                    datas["summary"] = {}
-                    datas["summary"]["product_name"] = str(i)
-                    datas["line_total"] = i.line_total
-                    datas["extra"] = i.extra
-                    items.append(datas)
-                miniorder = {
-                    "number": str(referenceId),
-                    "url": "/vos-commandes/" + str(referenceId) + "/" + str(order.token),
-                    "items": items,
-                    "extra": order.extra,
-                    "subtotal": order.subtotal,
-                    "total": order.total,
-                    "billing_address_text": order.billing_address_text,
-                    "shipping_address_text": order.shipping_address_text
-                }
-                transition_change_notification(order, miniorder)
-            except Exception as e:
-                print("When : transition_change_notification")
-                print(e)
-            # ===---
-            return redirect(order.get_absolute_url())
-        except Exception as e:
-            print(e)
-            order.save()
-            return redirect("/vos-commandes/")
-    else:
-        return redirect("/vos-commandes/")
 
 
 #######################################################################
