@@ -211,10 +211,10 @@ class DshopProductListView(APIView):
         next_page = False
 
         if len(products) > offset + limit:
-            products = products[offset:limit]
+            products = products.distinct()[offset:limit]
             next_page = True
         else:
-            products = products[offset:]
+            products = products.distinct()[offset:]
         filter_data = LoadFilters.as_view()(request=request._request).data
         data = {
             'products': products,
