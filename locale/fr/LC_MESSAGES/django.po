@@ -3148,3 +3148,6 @@ msgstr "Latitude"
 
 msgid "Map Longitude"
 msgstr "Longitude"
+
+msgid "Payment Error"
+msgstr "Erreur de paiement"
