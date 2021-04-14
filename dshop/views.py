@@ -1,5 +1,7 @@
-import re
 import json
+import operator
+
+from functools import reduce
 
 from mailchimp3 import MailChimp
 from easy_thumbnails.files import get_thumbnailer
@@ -22,7 +24,7 @@ from django.core.management import call_command
 from django.core.mail import send_mail
 from django.db.models import Q
 
-from rest_framework.generics import GenericAPIView, ListAPIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response as RestResponse
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
@@ -31,12 +33,9 @@ from rest_framework import status
 from rest_framework.permissions import BasePermission
 from rest_framework.exceptions import PermissionDenied
 
-from shop.money import Money
 from shop.models.defaults.customer import Customer
 from shop.modifiers.pool import cart_modifiers_pool
 from shop.models.order import OrderModel
-from shop.models.order import OrderPayment
-from shop.money import MoneyMaker
 from shop.rest.renderers import CMSPageRenderer
 from shop.views.order import OrderView
 from shop.serializers.auth import PasswordResetConfirmSerializer
@@ -45,16 +44,12 @@ from dal import autocomplete
 
 from dshop.models import Product, ProductFilterGroup, ProductFilter
 from dshop.models import Attribute, AttributeValue, ProductCategory, ProductBrand
-from dshop.transition import transition_change_notification
-from dshop.serializers import ProductSerializer
 
 from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL, THEME_SLUG
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
 
 from shop.views.auth import AuthFormsView as ShopAuthFormView
-from django.contrib.auth import logout, get_user_model
 from django.core.exceptions import NON_FIELD_ERRORS
-from rest_framework import status
 from rest_framework.response import Response
 from shop.models.customer import CustomerModel
 
@@ -105,79 +100,6 @@ class OrderView(OrderView):
 
 
 #######################################################################
-# ===---   TestPaymentView                                     ---=== #
-#######################################################################
-
-
-def TestPaymentView(request):  # noqa: C901
-    """
-    A development test only view for Payment.
-    Will emulate a successfull payment.
-    """
-
-    print("Test Payment View")
-
-    referenceId = request.GET.get("referenceId", None)
-    transactionId = request.GET.get("transactionId", None)
-
-    if referenceId is not None and transactionId is not None:
-        order = OrderModel.objects.get(number=re.sub(r"\D", "", referenceId))
-        try:
-            Money = MoneyMaker(order.currency)
-            amount = Money(order._total)
-            OrderPayment.objects.create(order=order,
-                                        amount=amount,
-                                        transaction_id=transactionId,
-                                        payment_method="Test (development)")
-            order.acknowledge_payment()
-            order.save()
-            # ===---
-            if dmCustomerPromoCode is not None:
-                for extra in order.extra["rows"]:
-                    if "applied-promocodes" in extra:
-                        promo = extra[1]["content_extra"].split(", ")
-                        for pm in promo:
-                            cpc = dmCustomerPromoCode.objects.get(
-                                customer=request.user.customer,
-                                promocode__code=pm)
-                            cpc.is_expired = True
-                            cpc.save()
-            # ===---
-            try:
-                items = []
-                for i in order.items.all():
-                    datas = {}
-                    datas["quantity"] = i.quantity
-                    datas["summary"] = {}
-                    datas["summary"]["product_name"] = str(i)
-                    datas["line_total"] = i.line_total
-                    datas["extra"] = i.extra
-                    items.append(datas)
-                miniorder = {
-                    "number": str(referenceId),
-                    "url": "/vos-commandes/" + str(referenceId) + "/" + str(order.token),
-                    "items": items,
-                    "extra": order.extra,
-                    "subtotal": order.subtotal,
-                    "total": order.total,
-                    "billing_address_text": order.billing_address_text,
-                    "shipping_address_text": order.shipping_address_text
-                }
-                transition_change_notification(order, miniorder)
-            except Exception as e:
-                print("When : transition_change_notification")
-                print(e)
-            # ===---
-            return redirect(order.get_absolute_url())
-        except Exception as e:
-            print(e)
-            order.save()
-            return redirect("/vos-commandes/")
-    else:
-        return redirect("/vos-commandes/")
-
-
-#######################################################################
 # ===---   Views used in products                              ---=== #
 #######################################################################
 
@@ -185,7 +107,7 @@ class DshopProductListView(APIView):
 
     permission_classes = [AllowAny]
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):  # noqa: C901
         attribute = self.request.query_params.get('attribute', None)
         category = self.request.query_params.get('category', None)
         fltr = self.request.query_params.get('filter', None)
@@ -230,21 +152,30 @@ class DshopProductListView(APIView):
                 title = brnd.name
 
         if category:
-            category = [ val for val in category.split(',') if val ]
-            products = products.filter(categories__id__in=category).distinct()
+            category = [val for val in category.split(',') if val]
+            q = reduce(
+                operator.and_, (Q(categories__id=i) for i in category)
+            )
+            products = products.exclude(~q).distinct()
 
         if fltr:
-            fltr = [ val for val in fltr.split(',') if val ]
-            products = products.filter(filters__id__in=fltr).distinct()
+            fltr = [val for val in fltr.split(',') if val]
+            q = reduce(
+                operator.and_, (Q(filters__id=i) for i in fltr)
+            )
+            products = products.exclude(~q).distinct()
 
         if brand:
-            brand = [ val for val in brand.split(',') if val ]
-            products = products.filter(brand__id__in=brand).distinct()
+            brand = [val for val in brand.split(',') if val]
+            q = reduce(
+                operator.and_, (Q(brand__id=i) for i in brand)
+            )
+            products = products.exclude(~q).distinct()
 
         if attribute:
-            attributes = [ val for val in attribute.split(',') if val ]
+            attributes = [val for val in attribute.split(',') if val]
             attributes = AttributeValue.objects.filter(id__in=attributes)
-            attributes = [ atr.value for atr in attributes ]
+            attributes = [atr.value for atr in attributes]
             ids = []
             for q in products:
                 attrs = []
@@ -258,8 +189,11 @@ class DshopProductListView(APIView):
                     if atr in attrs:
                         ids.append(q.id)
                         break
-            products = Product.objects.filter(id__in=ids)
-        
+            q = reduce(
+                operator.and_, (Q(id=i) for i in ids)
+            )
+            products = products.exclude(~q).distinct()
+
         if orderby == 'get_p':
             products = sorted(
                 products, key=lambda product: product.get_price(request)
@@ -277,10 +211,10 @@ class DshopProductListView(APIView):
         next_page = False
 
         if len(products) > offset + limit:
-            products = products[ offset : limit]
+            products = products.distinct()[offset:limit]
             next_page = True
         else:
-            products = products[ offset : ]
+            products = products.distinct()[offset:]
         filter_data = LoadFilters.as_view()(request=request._request).data
         data = {
             'products': products,
@@ -296,7 +230,8 @@ class DshopProductListView(APIView):
         }
 
         if not response_type:
-            return render(request,
+            return render(
+                request,
                 'theme/{}/pages/produits.html'.format(THEME_SLUG),
                 context=data
             )
@@ -389,20 +324,24 @@ class LoadFilters(APIView):
                 url = ''
                 if filt.image:
                     url = filt.image.url
+                name = filt.name_trans if filt.name_trans else filt.name
+                # ===---
                 filters.append({
                     'id': filt.id,
-                    'name': filt.name,
+                    'name': name,
                     'order': filt.order,
                     'image': url,
                     'description': filt.description
                 })
             temp['filter'] = filters
-            data[group.name] = temp
+            group_name = group.name_trans if group.name_trans else group.name
+            data[group_name] = temp
         temp = {}
         # ===--- Filters without group
         filters = []
         for filt in ProductFilter.objects.filter(group=None):
-            filters.append({'id': filt.id, 'name': filt.name, 'order': filt.order})
+            name = filt.name_trans if filt.name_trans else filt.name
+            filters.append({'id': filt.id, 'name': name, 'order': filt.order})
         data['default'] = {'filter': filters}
         # ===---
 

@@ -97,7 +97,7 @@ def StripePaymentView(request):  # noqa: C901
                 order=order,
                 amount=amount,
                 transaction_id=transactionId,
-                payment_method=_("Credit Card (Stripe)")
+                payment_method=_("Credit Card (via Stripe)")
             )
             try:
                 charge = stripe.Charge.retrieve(charge_id)
@@ -163,6 +163,7 @@ def StripePaymentView(request):  # noqa: C901
                     datas["summary"] = {}
                     datas["summary"]["product_name"] = str(i)
                     datas["line_total"] = i.line_total
+                    datas["extra"] = i.extra
                     items.append(datas)
                 miniorder = {
                     "number": str(referenceId),

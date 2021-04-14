@@ -257,10 +257,24 @@ __all__ = ["customer"]
 # Site
 #######################################################################
 
-class dmSiteLogoInline(admin.TabularInline):
+class dmSiteLogoInline(admin.StackedInline):
     model = dmSiteLogo
     extra = 1
     max_num = 1
+    fieldsets = [
+        (None, {
+            "fields": [
+                ("logolight", "logodark")
+            ]
+        }),
+        (_("Favicon"), {
+            "fields": [
+                ("favico_180", "favico_192", "favico_512"),
+                ("favico_ico")
+            ],
+            "classes": ["collapse"]
+        })
+    ]
 
 
 class dmSiteContactInline(admin.StackedInline):
@@ -474,16 +488,53 @@ class ProductFilterInline(admin.TabularInline):
     extra = 0
 
 @admin.register(ProductFilterGroup)
-class ProductFilterGroupAdmin(admin.ModelAdmin):
+class ProductFilterGroupAdmin(TranslatableAdmin):
     list_display = ["name", "order"]
     list_editable = ["order"]
+    fieldsets = (
+        (None, {
+            "fields": [
+                ("name")
+            ]
+        }),
+        (_("Translatable Fields"), {
+            "fields": [
+                "name_trans"
+            ]
+        }),
+        (None, {
+            "fields": [
+                ("order")
+            ]
+        }),
+    )
     inlines = [ProductFilterInline]
 
 
 @admin.register(ProductFilter)
-class ProductFilterAdmin(admin.ModelAdmin):
+class ProductFilterAdmin(TranslatableAdmin):
     list_display = ["name", "group", "order"]
     list_editable = ["order"]
+    fieldsets = (
+        (None, {
+            "fields": [
+                ("group"),
+                ("name")
+            ]
+        }),
+        (_("Translatable Fields"), {
+            "fields": [
+                "name_trans",
+                "description"
+            ]
+        }),
+        (None, {
+            "fields": [
+                ("image"),
+                ("order")
+            ]
+        }),
+    )
 
 
 @admin.register(ProductBrand)

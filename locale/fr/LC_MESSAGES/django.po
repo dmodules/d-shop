@@ -317,8 +317,12 @@ msgid "Shipping"
 msgstr "Livraison"
 
 #: apps/dmBillingStripe/views.py:86
-msgid "Credit Card (Stripe)"
-msgstr "Carte de crédit (Stripe)"
+msgid "Credit Card (via Stripe)"
+msgstr "Carte de crédit (via Stripe)"
+
+#:
+msgid "Credit Card (via Square)"
+msgstr "Carte de crédit (via Square)"
 
 #: apps/dmContact/apps.py:7 dshop/templates/dshop/pages/base.html:175
 msgid "Contact"
@@ -2153,6 +2157,10 @@ msgstr "Ajouter un groupe au filtre."
 #: dshop/models.py:458
 msgid "Filter's Name"
 msgstr "Nom du filtre"
+
+#: dshop/models.py:458
+msgid "Translated Filter's Name"
+msgstr "Traduction du nom du filtre"
 
 #: dshop/models.py:464
 msgid "image"

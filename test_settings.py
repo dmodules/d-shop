@@ -102,8 +102,6 @@ SHOP_CART_MODIFIERS = [
     "apps.dmShipping.modifiers.ExpressShippingModifier",
     "apps.dmShipping.modifiers.StandardShippingWithSeparatorModifier",
     "apps.dmShipping.modifiers.ExpressShippingWithSeparatorModifier",
-    # ===---- tests
-    # "dshop.modifiers.TestPaymentModifier"
 ]
 
 SHOP_ORDER_WORKFLOWS = [

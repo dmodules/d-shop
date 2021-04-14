@@ -16,7 +16,7 @@ class SquarePaymentModifier(PaymentModifier):
     commision_percentage = None
 
     def get_choice(self):
-        return (self.identifier, _("Credit Card"))
+        return (self.identifier, _("Credit Card (via Square)"))
 
     def is_disabled(self, cart):
         return cart.total == 0
