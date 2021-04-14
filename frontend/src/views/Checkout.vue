@@ -1362,6 +1362,7 @@ export default {
                 self.$set(self, 'stepCheckout', self.stepCheckout + 1)
             } else if (self.stepCheckout === 5) {
                 // if all is okay, purchase
+                self.$vuetify.goTo(100)
                 self.doPurchase()
             }
         })
@@ -1474,7 +1475,6 @@ export default {
       let self = this;
       let data = {'token': self.stripe_token.id};
       this.$set(this, "isLoading", true);
-      this.$vuetify.goTo(0);
       // ===--- BEGIN: axios
       this.$axios.post(this.$api_url + "/checkout/purchase/?token="+self.stripe_token.id, data, {
           headers: {
@@ -1483,7 +1483,6 @@ export default {
           },
         })
         .then((apiSuccess) => {
-          self.$set(self, "isLoadingPayment", false)
           eval(apiSuccess.data.expression)
         })
         .catch(() => {
