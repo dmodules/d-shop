@@ -21,8 +21,6 @@ def inventory_update(request):    # noqa: C901
 
     data = request.body
     data = json.loads(data)
-    print("In webhook call.")
-    print(data)
     if 'data' not in data:
         return HttpResponse('ERROR')
     if 'object' not in data['data']:

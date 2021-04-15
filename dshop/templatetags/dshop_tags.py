@@ -237,7 +237,6 @@ def dm_get_all_products(context, offset, limit):
         "products": products,
         "next": next_result
     }
-    print(result)
     return result
 
 

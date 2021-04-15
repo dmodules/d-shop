@@ -29,13 +29,10 @@ class StripePayment(PaymentProvider):
     namespace = 'stripe-payment'
 
     def get_payment_request(self, cart, request): # noqa
-        print('Do Stripe Payment Request')
         token = request.GET.get('token', '')
-        #
         SITE_LINK = str(Site.objects.first().domain)
         if not SITE_LINK.startswith("http"):
             SITE_LINK = "https://" + SITE_LINK
-        #
         try:
             order = OrderModel.objects.create_from_cart(cart, request)
             referenceId = order.get_number()
@@ -154,6 +151,5 @@ class StripePayment(PaymentProvider):
             js_expression = 'window.location.href="{}";'.format(redirect_url)
             return js_expression
         except Exception as e:
-            print("++++++")
             print(e)
             raise ValidationError(_("An error occurred while creating your order."))

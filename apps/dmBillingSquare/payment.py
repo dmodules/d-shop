@@ -36,12 +36,9 @@ class SquarePayment(PaymentProvider):
     namespace = "square-payment"
 
     def get_payment_request(self, cart, request):  # noqa: C901
-        print("Do Square Payment Request")
-        #
         SITE_LINK = str(Site.objects.first().domain)
         if not SITE_LINK.startswith("http"):
             SITE_LINK = "https://" + SITE_LINK
-        #
         try:
             order = OrderModel.objects.create_from_cart(cart, request)
             order_number = order.get_number()
@@ -121,8 +118,7 @@ class SquarePayment(PaymentProvider):
                 js_expression = 'window.location.href="{}";'.format(res)
                 return js_expression
             elif result.is_error():
-                print(result)
-                raise ValidationError(_("An error occurred while creating your order."))
+                raise ValidationError(_("An error occurred while creating your order"))
         except Exception as e:
             print(e)
             raise ValidationError(_("An error occurred while creating your order."))
