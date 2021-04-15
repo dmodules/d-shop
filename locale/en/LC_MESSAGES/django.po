@@ -3016,3 +3016,8 @@ msgstr ""
 #: urls.py:39
 msgid "D-Shop - E-commerce platform"
 msgstr ""
+
+#: dshop/templates/theme/default/pages/payment_error.html:11
+msgid "Payment Error"
+msgstr "Erreur de paiement"
+
