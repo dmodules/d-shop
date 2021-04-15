@@ -756,7 +756,6 @@ class AttributeAdmin(admin.ModelAdmin):
 def convert_variable(modeladmin, request, queryset):
     for product in queryset:
         if product.product_model == "productdefault":
-            print(product.id)
             product = ProductDefault.objects.get(id=product.id)
             last_id = Product.objects.all().order_by('id').last().id + 1
             try:

@@ -5,6 +5,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.db import transaction
+from django.http import HttpResponse
+from django.template import loader
+from django.conf import settings
 
 from settings import STRIPE_SECRET_KEY, SQUARE_SYNC
 
@@ -41,6 +44,8 @@ def StripeCheckout(request):
 
 def StripePaymentCancelView(request):
     referenceId = request.GET.get("referenceId", None)
+    error_code = request.GET.get("error_code", None)
+    error_message = request.GET.get("error_message", None)
     couponID = request.GET.get("cp", None)
     if referenceId is not None:
         order = OrderModel.objects.get(number=re.sub(r"\D", "", referenceId))
@@ -61,21 +66,30 @@ def StripePaymentCancelView(request):
                             pv = db_product.variants.get(product_code=p_code)
                             pv.quantity += item.quantity
                             pv.save()
-                # Param to identify order is cancel
+                # Param to identify order is canceled
                 order.extra['cancel'] = '1'
                 order.save()
             except Exception as e:
                 print("Error while cancelling Stripe Payment.")
                 print(e)
                 # !TODO
-    return redirect("/")
+
+    template = loader.get_template(
+        "theme/{}/pages/payment_error.html".format(settings.THEME_SLUG)
+    )
+    context = {
+        'error_code': error_code,
+        'error_message': error_message
+    }
+    return HttpResponse(template.render(context, request))
 
 def StripePaymentView(request):  # noqa: C901
     referenceId = request.GET.get("referenceId", None)
+    charge_id = request.GET.get("charge", None)
     couponID = request.GET.get("cp", None)
     if referenceId is not None:
         order = OrderModel.objects.get(number=re.sub(r"\D", "", referenceId))
-        transactionId = ""
+        transactionId = charge_id
         try:
             Money = MoneyMaker(order.currency)
             amount = Money(order._total)
@@ -86,20 +100,15 @@ def StripePaymentView(request):  # noqa: C901
                 payment_method=_("Credit Card (via Stripe)")
             )
             try:
-                session_id = order.extra["session_id"]
-                session = stripe.checkout.Session.retrieve(session_id)
-                payment_intent_id = session.payment_intent
-                payment_intent = stripe.PaymentIntent.retrieve(
-                    payment_intent_id
-                )
-                receipt_url = payment_intent.charges.data[0].receipt_url
+                charge = stripe.Charge.retrieve(charge_id)
+                receipt_url = charge.receipt_url
             except Exception as e:
                 print(e)
             StripeOrderData.objects.create(
                 order_payment=order_payment,
                 receipt_url=receipt_url,
-                stripe_session_data=str(session),
-                stripe_payment_data=str(payment_intent))
+                # stripe_session_data=str(session),
+                stripe_payment_data=str(charge))
             order.acknowledge_payment()
             # ===---
             # Update quantity in Square
