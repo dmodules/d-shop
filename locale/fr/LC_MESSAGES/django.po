@@ -116,7 +116,7 @@ msgstr "en stock faible"
 
 #: apps/dmAdminTheme/templates/admin/index.html:126
 msgid "is out of stock"
-msgstr "en rupture de stock"
+msgstr "épuisé"
 
 #: apps/dmAdminTheme/templates/admin/index.html:131
 msgid "Month's Bestsellers"
@@ -1983,7 +1983,7 @@ msgstr "Convertir en variable"
 
 #: dshop/admin.py:808
 msgid "Low or Out of Stock"
-msgstr "Faible ou en rupture de stock"
+msgstr "Faible ou épuisé"
 
 #: dshop/admin.py:813
 #: dshop/templates/theme/default/catalog/product-detail.html:172
@@ -1999,7 +1999,7 @@ msgstr "Faible ou en rupture de stock"
 #: templates/plugins/products-by-category.html:104
 #: templates/plugins/products-vedette.html:78
 msgid "Out of stock"
-msgstr "Rupture de stock"
+msgstr "Épuisé"
 
 #: dshop/admin.py:814
 msgid "Low on stock"
