@@ -26,7 +26,7 @@ const i18n = {
       en: "Products partially added to cart; maximum reach"
   },
   productoutofstock: {
-      fr: "Produit en rupture de stock",
+      fr: "Produit épuisé",
       en: "Product out of stock"
   },
   voirplus: {
@@ -42,7 +42,7 @@ const i18n = {
       en: "Discounted"
   },
   outofstock: {
-      fr: "Rupture de stock",
+      fr: "Épuisé",
       en: "Out of Stock"
   },
   exhausted: {

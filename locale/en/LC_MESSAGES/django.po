@@ -102,13 +102,13 @@ msgstr ""
 #: apps/dmAdminTheme/templates/admin/index.html:116
 #: apps/dmAdminTheme/templates/admin/index.html:125
 msgid "products"
-msgstr ""
+msgstr "produits"
 
 #: apps/dmAdminTheme/templates/admin/index.html:116
 #: apps/dmAdminTheme/templates/admin/index.html:125
 #: dshop/templates/dshop/pages/drawer-quotation.html:4
 msgid "product"
-msgstr ""
+msgstr "produit"
 
 #: apps/dmAdminTheme/templates/admin/index.html:117
 msgid "is low on stock"
@@ -116,7 +116,7 @@ msgstr ""
 
 #: apps/dmAdminTheme/templates/admin/index.html:126
 msgid "is out of stock"
-msgstr ""
+msgstr "is out of stock"
 
 #: apps/dmAdminTheme/templates/admin/index.html:131
 msgid "Month's Bestsellers"
@@ -1979,7 +1979,7 @@ msgstr ""
 #: templates/plugins/products-by-category.html:104
 #: templates/plugins/products-vedette.html:78
 msgid "Out of stock"
-msgstr ""
+msgstr "Out of stock"
 
 #: dshop/admin.py:814
 msgid "Low on stock"
