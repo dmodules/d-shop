@@ -34,12 +34,12 @@
                 <v-stepper-step :complete="stepCheckout > 3" :step="3">
                   {{ $i18n.t("Facturation") }}
                 </v-stepper-step>
-                <v-divider />
-                <v-stepper-step :complete="stepCheckout > 4" :step="4">
+                <v-divider v-if="isStripe" />
+                <v-stepper-step v-if="isStripe" :complete="stepCheckout > 4" :step="4">
                   {{ $i18n.t("Carte de crédit") }}
                 </v-stepper-step>
                 <v-divider />
-                <v-stepper-step :complete="stepCheckout > 5" :step="5">
+                <v-stepper-step :complete="isStripe ? stepCheckout > 5 : stepCheckout > 4" :step="isStripe ? 5 : 4">
                   {{ $i18n.t("Paiement") }}
                 </v-stepper-step>
               </v-stepper-header>
@@ -492,7 +492,7 @@
                     </v-card-actions>
                   </v-card>
                 </v-stepper-content>
-                <v-stepper-content :step="4">
+                <v-stepper-content v-if="isStripe" :step="4">
                   <v-card>
                     <v-card-title>
                       <h4>{{ $i18n.t("Carte de crédit") }}</h4>
@@ -529,7 +529,7 @@
                     </v-card-actions>
                   </v-card>
                 </v-stepper-content>
-                <v-stepper-content :step="5">
+                <v-stepper-content :step="isStripe ? 5 : 4">
                   <v-card>
                     <v-card-title>
                       <h4>{{ $i18n.t("Paiement") }}</h4>
@@ -886,6 +886,7 @@ export default {
     pulishableKey: "pk_test_oho8Q2pjlnLsmNSkXRT21wi2",
     stripe_token: '',
     isAuth: false,
+    isStripe: false,
     isLoading: false,
     isLoadingPayment: false,
     isGuest: false,
@@ -1297,6 +1298,9 @@ export default {
               "payment_modifier",
               apiSuccess.data.billing_methods[0][0]
             );
+            if (apiSuccess.data.billing_methods[0][0] == "stripe-payment") {
+                self.$set(self, "isStripe", true)
+            }
           }
         })
         .catch(() => {});
@@ -1308,6 +1312,11 @@ export default {
     setUpload(next = false) {
         let self = this
         let datas = null
+        if (!this.isStripe && this.formBillingMethod.payment_method.payment_modifier == "stripe-payment") {
+            this.$set(this, "isStripe", true)
+        } else if (this.isStripe && this.formBillingMethod.payment_method.payment_modifier != "stripe-payment") {
+            this.$set(this, "isStripe", false)
+        }
         if (this.stepCheckout === 1) {
           datas = this.formCustomer
         } else if (this.stepCheckout === 2) {
