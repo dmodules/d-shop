@@ -1329,7 +1329,7 @@ export default {
             billing_address: this.formBilling.billing_address,
             payment_method: this.formBillingMethod.payment_method
           }
-        } else if (this.stepCheckout === 5) {
+        } else if ((!this.isStripe && this.stepCheckout === 4) || (this.isStripe && this.stepCheckout === 5)) {
           datas = this.formAcceptCondition
           this.$set(this, 'isLoadingPayment', true)
         }
