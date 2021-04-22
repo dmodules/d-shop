@@ -29,12 +29,10 @@ class StripePayment(PaymentProvider):
     namespace = 'stripe-payment'
 
     def get_payment_request(self, cart, request): # noqa
-        print('Do Stripe Payment Request')
-        #
+        token = request.GET.get('token', '')
         SITE_LINK = str(Site.objects.first().domain)
         if not SITE_LINK.startswith("http"):
             SITE_LINK = "https://" + SITE_LINK
-        #
         try:
             order = OrderModel.objects.create_from_cart(cart, request)
             referenceId = order.get_number()
@@ -126,15 +124,30 @@ class StripePayment(PaymentProvider):
                     line_items.append(line_data)
 
             # ===---
-            session = stripe.checkout.Session.create(
-                success_url=success_url,
-                cancel_url=cancel_url,
-                payment_method_types=["card"],
-                line_items=line_items,
-                mode="payment",
-            )
-            redirect_url = '/billing-stripe/checkout/?referenceId=' + \
-                str(referenceId)+'&session='+str(session['id'])
+            total_amount = 0
+            for data in line_items:
+                total_amount += int(data['amount'])
+            error = {}
+            try:
+                charge = stripe.Charge.create(
+                    amount=total_amount,
+                    currency='cad',
+                    description=str(_("Order") + " #" + str(referenceId)),
+                    source=token,
+                )
+                status = charge.status
+            except Exception as e:
+                status = ''
+                error['code'] = e.error.code
+                error['message'] = e.error.message
+
+            if status == "succeeded":
+                redirect_url = '/billing-stripe/payment/?referenceId=' + \
+                str(referenceId)+'&charge='+str(charge.id)
+            else:
+                redirect_url = '/billing-stripe/cancel/?referenceId=' + \
+                str(referenceId)+'&error_code='+str(error['code']) + \
+                '&error_message='+str(error['message'])
             js_expression = 'window.location.href="{}";'.format(redirect_url)
             return js_expression
         except Exception as e:

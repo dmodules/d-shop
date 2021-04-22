@@ -153,24 +153,33 @@ class DshopProductListView(APIView):
 
         if category:
             category = [val for val in category.split(',') if val]
-            q = reduce(
-                operator.and_, (Q(categories__id=i) for i in category)
-            )
-            products = products.exclude(~q).distinct()
+            if len(category) > 0:
+                q = reduce(
+                    operator.and_, (Q(categories__id=i) for i in category)
+                )
+                products = products.exclude(~q).distinct()
+            else:
+                products = products.distinct()
 
         if fltr:
             fltr = [val for val in fltr.split(',') if val]
-            q = reduce(
-                operator.and_, (Q(filters__id=i) for i in fltr)
-            )
-            products = products.exclude(~q).distinct()
+            if len(fltr) > 0:
+                q = reduce(
+                    operator.and_, (Q(filters__id=i) for i in fltr)
+                )
+                products = products.exclude(~q).distinct()
+            else:
+                products = products.distinct()
 
         if brand:
             brand = [val for val in brand.split(',') if val]
-            q = reduce(
-                operator.and_, (Q(brand__id=i) for i in brand)
-            )
-            products = products.exclude(~q).distinct()
+            if len(brand) > 0:
+                q = reduce(
+                    operator.and_, (Q(brand__id=i) for i in brand)
+                )
+                products = products.exclude(~q).distinct()
+            else:
+                products = products.distinct()
 
         if attribute:
             attributes = [val for val in attribute.split(',') if val]
@@ -189,10 +198,13 @@ class DshopProductListView(APIView):
                     if atr in attrs:
                         ids.append(q.id)
                         break
-            q = reduce(
-                operator.and_, (Q(id=i) for i in ids)
-            )
-            products = products.exclude(~q).distinct()
+            if len(ids) > 0:
+                q = reduce(
+                    operator.and_, (Q(id=i) for i in ids)
+                )
+                products = products.exclude(~q).distinct()
+            else:
+                products = products.distinct()
 
         if orderby == 'get_p':
             products = sorted(
@@ -210,7 +222,7 @@ class DshopProductListView(APIView):
         filters = ProductFilter.objects.all()
         next_page = False
 
-        if len(products) > offset + limit:
+        if len(products.distinct()) > offset + limit:
             products = products.distinct()[offset:limit]
             next_page = True
         else:

@@ -34,8 +34,12 @@
                 <v-stepper-step :complete="stepCheckout > 3" :step="3">
                   {{ $i18n.t("Facturation") }}
                 </v-stepper-step>
+                <v-divider v-if="isStripe" />
+                <v-stepper-step v-if="isStripe" :complete="stepCheckout > 4" :step="4">
+                  {{ $i18n.t("Carte de crédit") }}
+                </v-stepper-step>
                 <v-divider />
-                <v-stepper-step :complete="stepCheckout > 4" :step="4">
+                <v-stepper-step :complete="isStripe ? stepCheckout > 5 : stepCheckout > 4" :step="isStripe ? 5 : 4">
                   {{ $i18n.t("Paiement") }}
                 </v-stepper-step>
               </v-stepper-header>
@@ -488,7 +492,44 @@
                     </v-card-actions>
                   </v-card>
                 </v-stepper-content>
-                <v-stepper-content :step="4">
+                <v-stepper-content v-if="isStripe" :step="4">
+                  <v-card>
+                    <v-card-title>
+                      <h4>{{ $i18n.t("Carte de crédit") }}</h4>
+                    </v-card-title>
+                    <v-card-text>
+                        <div>
+                            <stripe-element-card
+                                ref="elementRef"
+                                :pk="pulishableKey"
+                                @token="tokenCreated"
+                            />
+                        </div>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-row>
+                        <v-col cols="6" class="text-left">
+                          <v-btn tile color="primary" @click="prevStep()">
+                            <v-icon v-if="$vuetify.breakpoint.name == 'sm' || $vuetify.breakpoint.name == 'xs'">mdi-chevron-left</v-icon>
+                            <span v-else>{{ $i18n.t("Precedent") }}</span>
+                          </v-btn>
+                        </v-col>
+                        <v-col cols="6" class="text-right">
+                          <v-btn
+                            tile
+                            color="primary"
+                            :disabled="!formBilling.valid"
+                            @click="submit()"
+                          >
+                            <v-icon v-if="$vuetify.breakpoint.name == 'sm' || $vuetify.breakpoint.name == 'xs'">mdi-chevron-right</v-icon>
+                            <span v-else>{{ $i18n.t("Suivant") }}</span>
+                          </v-btn>
+                        </v-col>
+                      </v-row>
+                    </v-card-actions>
+                  </v-card>
+                </v-stepper-content>
+                <v-stepper-content :step="isStripe ? 5 : 4">
                   <v-card>
                     <v-card-title>
                       <h4>{{ $i18n.t("Paiement") }}</h4>
@@ -834,13 +875,18 @@
 <script>
 import countries from "@/data/countries";
 import provincesCA from "@/data/provincesCA";
+import { StripeElementCard } from '@vue-stripe/vue-stripe';
 export default {
   name: "Checkout",
   components: {
     dmAuth: () => import("@/components/Auth.vue"),
+    StripeElementCard,
   },
   data: () => ({
+    pulishableKey: "pk_test_oho8Q2pjlnLsmNSkXRT21wi2",
+    stripe_token: '',
     isAuth: false,
+    isStripe: false,
     isLoading: false,
     isLoadingPayment: false,
     isGuest: false,
@@ -1001,6 +1047,16 @@ export default {
     ]);
   },
   methods: {
+    submit () {
+      // this will trigger the process
+      this.$refs.elementRef.submit();
+    },
+    tokenCreated (token) {
+      console.log(token);
+      this.stripe_token = token;
+      // Send this token to server
+      this.nextStep();
+    },
     setAuth() {
         this.$set(this, "isAuth", true);
         // ===---
@@ -1242,6 +1298,9 @@ export default {
               "payment_modifier",
               apiSuccess.data.billing_methods[0][0]
             );
+            if (apiSuccess.data.billing_methods[0][0] == "stripe-payment") {
+                self.$set(self, "isStripe", true)
+            }
           }
         })
         .catch(() => {});
@@ -1253,6 +1312,11 @@ export default {
     setUpload(next = false) {
         let self = this
         let datas = null
+        if (!this.isStripe && this.formBillingMethod.payment_method.payment_modifier == "stripe-payment") {
+            this.$set(this, "isStripe", true)
+        } else if (this.isStripe && this.formBillingMethod.payment_method.payment_modifier != "stripe-payment") {
+            this.$set(this, "isStripe", false)
+        }
         if (this.stepCheckout === 1) {
           datas = this.formCustomer
         } else if (this.stepCheckout === 2) {
@@ -1265,7 +1329,7 @@ export default {
             billing_address: this.formBilling.billing_address,
             payment_method: this.formBillingMethod.payment_method
           }
-        } else if (this.stepCheckout === 4) {
+        } else if ((!this.isStripe && this.stepCheckout === 4) || (this.isStripe && this.stepCheckout === 5)) {
           datas = this.formAcceptCondition
           this.$set(this, 'isLoadingPayment', true)
         }
@@ -1305,8 +1369,9 @@ export default {
                 // if button 'next' was clicked, go to next step
                 self.$vuetify.goTo(100)
                 self.$set(self, 'stepCheckout', self.stepCheckout + 1)
-            } else if (self.stepCheckout === 4) {
+            } else if ((!this.isStripe && this.stepCheckout === 4) || (this.isStripe && this.stepCheckout === 5)) {
                 // if all is okay, purchase
+                self.$vuetify.goTo(100)
                 self.doPurchase()
             }
         })
@@ -1417,17 +1482,16 @@ export default {
     // =========================================================== */
     doPurchase() {
       let self = this;
+      let data = {'token': self.stripe_token.id};
       this.$set(this, "isLoading", true);
-      this.$vuetify.goTo(0);
       // ===--- BEGIN: axios
-      this.$axios.post(this.$api_url + "/checkout/purchase/", {
+      this.$axios.post(this.$api_url + "/checkout/purchase/?token="+self.stripe_token.id, data, {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
         })
         .then((apiSuccess) => {
-          self.$set(self, "isLoadingPayment", false)
           eval(apiSuccess.data.expression)
         })
         .catch(() => {
@@ -1542,7 +1606,7 @@ export default {
         } else {
             self.$set(self, 'isShippingTaxed', false)
         }
-    }
+    },
     /* =========================================================== //
     // ===-----------------------------------------------------=== //
     // =========================================================== */

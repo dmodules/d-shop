@@ -291,7 +291,7 @@
                        </div>
                     </div>
                     <div class="row">
-                        {% if next > 0 %}
+                        {% if next %}
                         <div class="col-12 pt-5 text-center">
                             {% if current_category %}
                                 <a href="#" class="btn btn-fill-out dm-btn-more" onclick="return loadMoreProduits('{{request.resolver_match.kwargs.category_id}}', 'category')" data-offset="10" data-limit="9">{% trans 'See more products' %}</a>
