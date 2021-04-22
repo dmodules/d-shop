@@ -25,7 +25,7 @@
           {% for brand in brands %}
             <div class="item" id="brandno{{forloop.counter}}">
               <div class="brand">
-                <a href="/produits/b{{brand.id}}-{{brand.name|slugify}}">
+                <a href="/produits/brand/{{brand.id}}-{{brand.name|slugify}}">
                     {% if brand.logo %}
                         {% thumbnail brand.logo "300x300" upscale as brandthumb %}
                         <img src="{{brandthumb.url}}" alt="{{brand.name}}" />
