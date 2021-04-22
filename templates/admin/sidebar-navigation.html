@@ -1,0 +1,105 @@
+{% load i18n %}
+
+<nav class="dm-admin-sidebar-navigation">
+    <ul>
+        {% for app in available_apps %}
+            {% if app.app_label == "cms" %}
+                <li class="parent {% if app_label == app.app_label %}active{% endif %}">
+                    <a href="{{ app.app_url }}">{{ app.name }}</a>
+                    <ul>
+                        {% for model in app.models %}
+                            {% if model.object_name == "Page" %}
+                                <li class="child {% if cl.opts.object_name == model.object_name %}active{% endif %}">
+                                    <a href="{{ model.admin_url }}"><i class="mdi mdi-home"></i></i> {{ model.name }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endif %}
+        {% endfor %}
+        {% for app in available_apps %}
+            {% if app.app_label == "dmAdvertising" %}
+                <li class="parent {% if app_label == app.app_label %}active{% endif %}">
+                    <a href="{{ app.app_url }}">{{ app.name }}</a>
+                    <ul>
+                        {% for model in app.models %}
+                            <li class="child {% if cl.opts.object_name == model.object_name %}active{% endif %}">
+                                <a href="{{ model.admin_url }}"><i class="mdi mdi-home"></i></i> {{ model.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endif %}
+        {% endfor %}
+        <li class="parent">
+            <span>{% trans "Shop" %}</span>
+            <ul>
+                <li class="child {% if cl.opts.object_name == 'ProductCategory' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admindshop/productcategory/"><i class="mdi mdi-home"></i></i> {% trans "Product's Categories" %}</a>
+                </li>
+                <li class="child {% if cl.opts.object_name == 'ProductFilter' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admindshop/productfilter/"><i class="mdi mdi-home"></i></i> {% trans "Product's Filters" %}</a>
+                </li>
+                <li class="child {% if cl.opts.object_name == 'ProductBrand' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admindshop/productbrand/"><i class="mdi mdi-home"></i></i> {% trans "Product's Brands" %}</a>
+                </li>
+                <li class="child {% if cl.opts.object_name == 'ProductLabel' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admindshop/productlabel/"><i class="mdi mdi-home"></i></i> {% trans "Product's Labels" %}</a>
+                </li>
+                <li class="child {% if cl.opts.object_name == 'Attribute' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admindshop/attribute/"><i class="mdi mdi-home"></i></i> {% trans "Product's Attributes" %}</a>
+                </li>
+                <li class="child {% if cl.opts.object_name == 'Product' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admindshop/product/"><i class="mdi mdi-home"></i></i> {% trans "Products" %}</a>
+                </li>
+                <li class="child {% if cl.opts.object_name == 'Order' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admindshop/order/"><i class="mdi mdi-home"></i></i> {% trans "Orders" %}</a>
+                </li>
+                <li class="child {% if cl.opts.object_name == 'CustomerProxy' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/adminshop/customerproxy/"><i class="mdi mdi-home"></i></i> {% trans "Customers" %}</a>
+                </li>
+                <li class="child {% if cl.opts.object_name == 'ProductVariableVariant' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admindshop/productvariablevariant/"><i class="mdi mdi-home"></i></i> {% trans "Update Product's Variants" %}</a>
+                </li>
+            </ul>
+        </li>
+        <li class="parent">
+            <span>{% trans "Discounts" %}</span>
+            <ul>
+                <li class="child {% if cl.opts.object_name == 'dmRabaisPerCategory' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admindmRabais/dmrabaispercategory/"><i class="mdi mdi-home"></i></i> {% trans "Discounts Per Category" %}</a>
+                </li>
+                <li class="child {% if cl.opts.object_name == 'dmPromoCode' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admindmRabais/dmpromocode/"><i class="mdi mdi-home"></i></i> {% trans "Promo Codes" %}</a>
+                </li>
+            </ul>
+        </li>
+        <li class="parent">
+            <span>{% trans "Settings" %}</span>
+            <ul>
+                <li class="child {% if cl.opts.object_name == 'dmSite' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admindshop/dmsite/"><i class="mdi mdi-home"></i></i> {% trans "Site" %}</a>
+                </li>
+                <li class="child {% if cl.opts.object_name == 'CanadaTaxManagement' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admindmTaxes/canadataxmanagement/"><i class="mdi mdi-home"></i></i> {% trans "Canadian Taxes" %}</a>
+                </li>
+                <li class="child {% if cl.opts.object_name == 'Country' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admincities_light/country/"><i class="mdi mdi-home"></i></i> {% trans "Countries" %}</a>
+                </li>
+                <li class="child {% if cl.opts.object_name == 'Region' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admincities_light/region/"><i class="mdi mdi-home"></i></i> {% trans "Provinces" %}</a>
+                </li>
+                <li class="child {% if cl.opts.object_name == 'SubRegion' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admincities_light/subregion/"><i class="mdi mdi-home"></i></i> {% trans "Region" %}</a>
+                </li>
+                <li class="child {% if cl.opts.object_name == 'City' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admincities_light/city/"><i class="mdi mdi-home"></i></i> {% trans "Cities" %}</a>
+                </li>
+                <li class="child {% if cl.opts.object_name == 'ShippingManagement' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admindmShipping/shippingmanagement/"><i class="mdi mdi-home"></i></i> {% trans "Shipping Methods" %}</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>

@@ -74,6 +74,15 @@ const routes = [
   {
     path: '/en/commande/password/:action',
     component: () => import('@/views/Password.vue')
+  },
+  /* ===--- Admin ---=== */
+  {
+      path: "/fr/admin/",
+      component: () => import("@/views/admin/Dashboard.vue")
+  },
+  {
+      path: "/en/admin/",
+      component: () => import("@/views/admin/Dashboard.vue")
   }
 ]
 

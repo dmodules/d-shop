@@ -1,7 +1,7 @@
 a,
 a:link,
 a:visited {
-    color: #41b6e6;
+    color: #066bf9;
     transition: color 0.3s;
 }
 a:focus,
@@ -22,8 +22,8 @@ a:hover {
 }
 #header a:focus,
 #header a:hover {
-    color: #41b6e6;
-    border-bottom-color: #41b6e6;
+    color: #066bf9;
+    border-bottom-color: #066bf9;
 }
 #branding h1,
 #branding h1 a:link,
@@ -33,7 +33,7 @@ a:hover {
 }
 #branding h1 a:focus,
 #branding h1 a:hover {
-    color: #41b6e6;
+    color: #066bf9;
 }
 #user-tools {
     font-weight: 600;
@@ -47,7 +47,7 @@ div.breadcrumbs a {
     transition: color 0.3s;
 }
 div.breadcrumbs a:hover {
-    color: #41b6e6;
+    color: #066bf9;
 }
 /* ===--- Main Sections ---=== */
 .dashboard #content {
@@ -143,7 +143,7 @@ a.section:visited {
     padding-left: 0px;
 }
 #dm-analyze .dm-adminshop-data p a {
-    color: #41b6e6;
+    color: #066bf9;
     transition: color 0.3s;
 }
 #dm-analyze .dm-adminshop-data p a:hover {
@@ -169,16 +169,16 @@ form .form-row .field-variant_image .filer-dropzone.filer-dropzone-mobile .filer
 }
 /* ===--- Changelist ---=== */
 #changelist-filter li.selected {
-    border-left-color: #41b6e6;
+    border-left-color: #066bf9;
 }
 #changelist-filter li.selected a {
-    color: #41b6e6;
+    color: #066bf9;
 }
 #changelist-filter a:focus,
 #changelist-filter a:hover,
 #changelist-filter li.selected a:focus,
 #changelist-filter li.selected a:hover {
-    color: #41b6e6;
+    color: #066bf9;
 }
 
 /* ===--- Form ---=== */
@@ -212,8 +212,8 @@ input[type=submit],
 input[type=button],
 .submit-row input,
 a.button {
-    background-color: #41b6e6;
-    border: 1px solid #41b6e6;
+    background-color: #066bf9;
+    border: 1px solid #066bf9;
     color: #fff;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -236,6 +236,6 @@ input[type=submit].default:hover,
 input[type=submit]:hover,
 input[type=button]:hover {
     background: none;
-    border: 1px solid #41b6e6;
-    color: #41b6e6;
+    border: 1px solid #066bf9;
+    color: #066bf9;
 }

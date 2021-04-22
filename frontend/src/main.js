@@ -49,7 +49,7 @@ const vuetify = new Vuetify({
     },
     themes: {
       light: {
-        primary: '#48a89e'
+        primary: '#066bf9'
       }
     }
   }
@@ -80,10 +80,12 @@ Vue.filter('fixdate', function (d) {
 /* ================================================================= //
 // ===--- vue ---------------------------------------------------=== //
 // ================================================================= */
-new Vue({
-  i18n,
-  router,
-  store,
-  vuetify,
-  render: h => h(App)
-}).$mount('#app')
+if (document.getElementById("app")) {
+    new Vue({
+      i18n,
+      router,
+      store,
+      vuetify,
+      render: h => h(App)
+    }).$mount("#app")
+}

@@ -1,0 +1,34 @@
+{% extends "admin/base_site.html" %}
+{% load render_bundle from webpack_loader %}
+{% load i18n static %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/dashboard.css' %}" />
+{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block appcontent %}
+    <div id="dm-admin-dashboard">
+        {% if request.user and request.user.is_staff %}
+            <div id="app">
+                <app></app>
+            </div>
+            {% render_bundle "chunk-vendors" %}
+            {% render_bundle "app" %}
+        {% endif %}
+    </div>
+{% endblock %}
+ 
+{% block content %}{% endblock %}
+
+{% block sidebar %}{% endblock %}

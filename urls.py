@@ -51,6 +51,7 @@ if os.path.exists(path_to_extended):
             new_url = url(r'^'+item+'/', include(inc_url))
             extended_urls.append(new_url)
 
+
 urlpatterns = [
 
     url(r'^attribute-autocomplete/$', AttributeAutocomplete.as_view(), name='attribute-autocomplete'),
