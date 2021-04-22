@@ -5,7 +5,22 @@ html{
 }
 body{
   background-color:#fbfbfb;
+  color:#202325;
   min-width:300px;
+}
+
+a{
+  color:#41b6e6;
+  text-decoration:none;
+  transition:color 0.3s;
+}
+a:hover{
+  color:#000;
+  text-decoration:none;
+}
+
+.bg_default{
+  background-color:#41b6e6!important;
 }
 
 main > .container > .row {
@@ -648,7 +663,7 @@ main > .container > .row {
   text-align:right;
 }
 .dm-drawer-inner #drawer-items-list a.dm-item-delete{
-  color:#41b6e6;
+  color:#e64141;
   position:absolute;
   top:0;
   right:-18px;
@@ -712,7 +727,7 @@ main > .container > .row {
     display: inline-block;
 }
 .dm-drawer .cart-change-quantity span {
-    background-color: #7cbed8;
+    background-color: #9ccee2;
     color: #fff;
     display: inline-block;
     padding: 2px 7px 0px;
@@ -910,8 +925,8 @@ main > .container > .row {
     display: inline-block;
 }
 .dmfilters-mobile a{
-    background-color: #458d91;
-    border: 1px solid #458d91;
+    background-color: #41b6e6;
+    border: 1px solid #41b6e6;
     border-radius: 4px;
     color: #fff;
     font-size: 18px;
@@ -1006,8 +1021,8 @@ main > .container > .row {
 }
 .dmfilters-list input[type="checkbox"]:checked + span::before {
     content: "\e64c";
-    background-color: #458d91;
-    border: 1px solid #458d91;
+    background-color: #41b6e6;
+    border: 1px solid #41b6e6;
 }
 
 /* ===--- Produits: Page détail ---=== */
@@ -1158,7 +1173,7 @@ main > .container > .row {
     background-position: center;
 }
 .dmjob-plugin .icon_box_style4 .icon span {
-    background-color: #458d91;
+    background-color: #41b6e6;
     border-radius: 100%;
     color: #fff;
     font-size: 31px;

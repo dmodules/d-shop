@@ -1369,7 +1369,7 @@ export default {
                 // if button 'next' was clicked, go to next step
                 self.$vuetify.goTo(100)
                 self.$set(self, 'stepCheckout', self.stepCheckout + 1)
-            } else if (self.stepCheckout === 5) {
+            } else if ((!this.isStripe && this.stepCheckout === 4) || (this.isStripe && this.stepCheckout === 5)) {
                 // if all is okay, purchase
                 self.$vuetify.goTo(100)
                 self.doPurchase()
