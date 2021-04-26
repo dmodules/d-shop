@@ -1,5 +1,8 @@
 {% extends "admin/base_site.html" %}
-{% load i18n static dshopadmintheme_tags %}
+{% load render_bundle from webpack_loader %}
+{% load i18n static %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
 
 {% block extrastyle %}
     {{ block.super }}
@@ -12,180 +15,20 @@
 
 {% block breadcrumbs %}{% endblock %}
 
-{% block content %}
-    <div id="content-main">
-        {% if app_list %}
-            {% for app in app_list %}
-                <div class="app-{{ app.app_label }} module">
-                    <table>
-                        <caption>
-                            <a href="{{ app.app_url }}" class="section" title="{% blocktrans with name=app.name %}Models in the {{ name }} application{% endblocktrans %}">{{ app.name }}</a>
-                        </caption>
-                        {% for model in app.models %}
-                            <tr class="model-{{ model.object_name|lower }}">
-                            {% if model.admin_url %}
-                                <th scope="row"><a href="{{ model.admin_url }}">{{ model.name }}</a></th>
-                            {% else %}
-                                <th scope="row">{{ model.name }}</th>
-                            {% endif %}
+{% block content_title %}{% endblock %}
 
-                            {% if model.add_url %}
-                                <td><a href="{{ model.add_url }}" class="addlink">{% trans 'Add' %}</a></td>
-                            {% else %}
-                                <td>&nbsp;</td>
-                            {% endif %}
-
-                            {% if model.admin_url %}
-                                {% if model.view_only %}
-                                <td><a href="{{ model.admin_url }}" class="viewlink">{% trans 'View' %}</a></td>
-                                {% else %}
-                                <td><a href="{{ model.admin_url }}" class="changelink">{% trans 'Change' %}</a></td>
-                                {% endif %}
-                            {% else %}
-                                <td>&nbsp;</td>
-                            {% endif %}
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>{% trans "You don't have permission to view or edit anything." %}</p>
+{% block appcontent %}
+    <div id="dm-admin-dashboard">
+        {% if request.user and request.user.is_staff %}
+            <div id="app">
+                <app></app>
+            </div>
+            {% render_bundle "chunk-vendors" %}
+            {% render_bundle "app" %}
         {% endif %}
     </div>
 {% endblock %}
+ 
+{% block content %}{% endblock %}
 
-{% block sidebar %}
-    <div id="content-related">
-        <!---->
-        <div class="module" id="dm-analyze">
-            <h2>{% trans 'Your Shop' %}</h2>
-            {% dm_get_order_sells as dshop_sells %}
-            {% dm_get_order_status as dshop_orders %}
-            {% dm_get_products_stocks as dshop_stocks %}
-            <div class="dm-adminshop-analyze">
-                <div class="dm-adminshop-row">
-                    <div class="dm-adminshop-icon">
-                        <span class="mdi mdi-chart-box"></span>
-                    </div>
-                    <div class="dm-adminshop-data">
-                        <p><a href="/admindshop/order/?created_at__month={{ dshop_sells.thismonth.month }}&created_at__year={{ dshop_sells.thismonth.year }}">{{ dshop_sells.thismonth.amount }}</a></p>
-                        <small>
-                            {% blocktrans count quantity=dshop_sells.thismonth.quantity %}with {{ quantity }} sale this month{%  plural %}with {{ quantity }} sales this month{%  endblocktrans %}
-                        </small>
-                    </div>
-                </div>
-                <div class="dm-adminshop-row">
-                    <div class="dm-adminshop-icon">
-                        <span class="mdi mdi-chart-box-outline"></span>
-                    </div>
-                    <div class="dm-adminshop-data">
-                        <p><a href="/admindshop/order/?created_at__month={{ dshop_sells.lastmonth.month }}&created_at__year={{ dshop_sells.lastmonth.year }}">{{ dshop_sells.lastmonth.amount }}</a></p>
-                        <small>
-                            {% blocktrans count quantity=dshop_sells.lastmonth.quantity %}with {{ quantity }} sale last month{%  plural %}with {{ quantity }} sales last month{%  endblocktrans %}
-                        </small>
-                    </div>
-                </div>
-                <div class="dm-adminshop-row"></div>
-                <div class="dm-adminshop-row">
-                    <div class="dm-adminshop-col">
-                        <div class="dm-adminshop-icon">
-                            <span class="mdi mdi-package-variant"></span>
-                        </div>
-                        <div class="dm-adminshop-data">
-                            <p><a href="/admindshop/order/?status=payment_confirmed">{{ dshop_orders.paymentconfirmed }} {% if dshop_orders.paymentconfirmed > 1 %}{% trans "orders" %}{% else %}{% trans "order" %}{% endif %}</a></p>
-                            <small>{% trans "need to be processed" %}</small>
-                        </div>
-                    </div>
-                    <div class="dm-adminshop-col">
-                        <div class="dm-adminshop-icon">
-                            <span class="mdi mdi-package-variant-closed"></span>
-                        </div>
-                        <div class="dm-adminshop-data">
-                            <p><a href="/admindshop/order/?status=ready_for_delivery">{{ dshop_orders.readyfordelivery }} {% if dshop_orders.readyfordelivery > 1 %}{% trans "orders" %}{% else %}{% trans "order" %}{% endif %}</a></p>
-                            <small>{% trans "need to be shipped" %}</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="dm-adminshop-row">
-                    <div class="dm-adminshop-col">
-                        <div class="dm-adminshop-icon">
-                            <span class="mdi mdi-alert-circle-outline"></span>
-                        </div>
-                        <div class="dm-adminshop-data">
-                            <p><a href="/admindshop/product/?get_product_out_or_low=lowonstock">{{ dshop_stocks.lowonstock }} {% if dshop_stocks.lowonstock > 1 %}{% trans "products" %}{% else %}{% trans "product" %}{% endif %}</a></p>
-                            <small>{% trans "is low on stock" %}</small>
-                        </div>
-                    </div>
-                    <div class="dm-adminshop-col">
-                        <div class="dm-adminshop-icon">
-                            <span class="mdi mdi-close-circle"></span>
-                        </div>
-                        <div class="dm-adminshop-data">
-                            <p><a href="/admindshop/product/?get_product_out_or_low=outofstock">{{ dshop_stocks.outofstock }} {% if dshop_stocks.outofstock > 1 %}{% trans "products" %}{% else %}{% trans "product" %}{% endif %}</a></p>
-                            <small>{% trans "is out of stock" %}</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <h2>{% trans "Month's Bestsellers" %}</h2>
-            {% dm_get_order_bestsellers as dshop_bestsellers %}
-            <div class="dm-adminshop-analyze dm-adminshop-bestsellers">
-                {% for item in dshop_bestsellers.products %}
-                    <div class="dm-adminshop-row">
-                        <div class="dm-adminshop-icon">
-                            {% if forloop.counter == 1 %}
-                                <span class="mdi mdi-numeric-{{ forloop.counter }}-box-multiple"></span>
-                            {% elif forloop.counter == 2 %}
-                                <span class="mdi mdi-numeric-{{ forloop.counter }}-box-multiple-outline"></span>
-                            {% else %}
-                                <span class="mdi mdi-numeric-{{ forloop.counter }}-box-outline"></span>
-                            {% endif %}
-                        </div>
-                        <div class="dm-adminshop-data">
-                            <p>{{ item.name }}</p>
-                            <small>{% blocktrans count quantity=item.quantity %}with {{ quantity }} sale{% plural %}with {{ quantity }} sales{%  endblocktrans %}</small>
-                        </div>
-                    </div>
-                {% empty %}
-                    <div class="dm-adminshop-row">
-                        <div class="dm-adminshop-icon">
-                            <span class="mdi mdi-emoticon-sad-outline"></span>
-                        </div>
-                        <div class="dm-adminshop-data">
-                            <p>{% trans "No product found" %}</p>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-        <!---->
-        <div class="module" id="recent-actions-module">
-            <h2>{% trans 'Recent actions' %}</h2>
-                {% load log %}
-                {% get_admin_log 10 as admin_log %}
-                {% if not admin_log %}
-                    <p>{% trans 'None available' %}</p>
-                {% else %}
-                    <ul class="actionlist">
-                        {% for entry in admin_log %}
-                            <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
-                                {% if entry.is_deletion or not entry.get_admin_url %}
-                                    {{ entry.object_repr }}
-                                {% else %}
-                                    <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
-                                {% endif %}
-                                <br>
-                                {% if entry.content_type %}
-                                    <span class="mini quiet">{% filter capfirst %}{{ entry.content_type }}{% endfilter %}</span>
-                                    <div class="mini" style="margin-top:3px;">{% trans 'By' %} {{ entry.user }}</div>
-                                {% else %}
-                                    <span class="mini quiet">{% trans 'Unknown content' %}</span>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-        </div>
-    </div>
-{% endblock %}
+{% block sidebar %}{% endblock %}
