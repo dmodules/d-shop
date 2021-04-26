@@ -238,6 +238,9 @@ input[type=submit].default:hover {
     bottom: 0;
     z-index: 1;
 }
+#dm-admin .dm-admin-sidebar h1 img {
+    max-width: 100%;
+}
 .dm-admin-sidebar a {
     color: #fff;
     transition: all 0.3s;
@@ -309,35 +312,61 @@ input[type=submit].default:hover {
 }
 
 #dm-admin .dm-admin-toggle-sidebar {
-    display: none;
+    background: var(--v-primary-base);
+    border-radius: 100%;
+    color: #fff;
+    font-size: 18px;
+    line-height: 100%;
+    overflow: hidden;
+    float: left;
+    display: inline-block;
+    transition: background 0.3s;
+    padding: 8px;
+    margin: 0 1rem 0 0;
+}
+#dm-admin .dm-admin-toggle-sidebar:hover {
+    background: #1a5bb7;
+    cursor: pointer;
+}
+#dm-admin .dm-admin-welcomename {
+    line-height: 36px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    max-width: 100%;
+}
+
+@media (min-width: 960px) {
+    #dm-admin:not(.dm-show-sidebar) .dm-admin-sidebar {
+        overflow: auto;
+        width: 50vw;
+        max-width: 50vw;
+        min-height: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+        z-index: 999999;
+        padding-bottom: 12px;
+    }
+    #dm-admin:not(.dm-show-sidebar) .dm-admin-main {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    #dm-admin.dm-show-sidebar .dm-admin-sidebar {
+        flex: 0 0 16.6666666667%;
+        max-width: 16.6666666667%;
+        transform: translateX(0);
+    }
+    #dm-admin.dm-show-sidebar .dm-admin-main {
+        flex: 0 0 83.3333333333%;
+        max-width: 83.3333333333%;
+    }
 }
 
 @media (max-width: 959px) {
-    #dm-admin .dm-admin-toggle-sidebar {
-        background: var(--v-primary-base);
-        border-radius: 100%;
-        color: #fff;
-        font-size: 18px;
-        line-height: 100%;
-        overflow: hidden;
-        float: left;
-        display: inline-block;
-        transition: background 0.3s;
-        padding: 8px;
-        margin: 0 1rem 0 0;
-    }
-    #dm-admin .dm-admin-toggle-sidebar:hover {
-        background: #1a5bb7;
-        cursor: pointer;
-    }
-    #dm-admin .dm-admin-welcomename {
-        line-height: 36px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-        display: inline-block;
-        max-width: 100%;
-    }
     #dm-admin .dm-admin-sidebar {
         overflow: auto;
         width: 50vw;

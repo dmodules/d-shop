@@ -56,7 +56,8 @@
         <link rel="stylesheet" type="text/css" href="{% static 'dmAdminTheme/css/admin.css' %}" />
         <script src="{% static 'dshop/shopwise/js/jquery-1.12.4.min.js' %}"></script>
     </head>
-    <body id="dm-admin" class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}" data-admin-utc-offset="{% now 'Z' %}">
+    <body id="dm-admin" class="dm-show-sidebar {% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}" data-admin-utc-offset="{% now 'Z' %}">
+        <script src="{% static 'dmAdminTheme/js/admin.js' %}"></script>
         <!-- Container -->
         <div id="container">
             {% block messages %}
@@ -73,7 +74,7 @@
                 <div class="container-fluid pl-0">
                     <div class="row">
                         {% if not is_popup %}
-                            <div class="col-12 col-md-3 dm-admin-sidebar">
+                            <div id="dm-admin-sidebar" class="col-12 col-md-2 dm-admin-sidebar">
                                 {% if available_apps %}
                                     <h1 id="site-name">
                                         <a href="{% url 'admin:index' %}">
@@ -90,8 +91,8 @@
                                 </div>
                             </div>
                         {% endif %}
-                        <div class="col-12 {% if not is_popup %}col-md-9{% endif %} dm-admin-main">
-                            <div class="container">
+                        <div class="col-12 {% if not is_popup %}col-md-10{% endif %} dm-admin-main">
+                            <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="dm-admin-toggle-sidebar">
@@ -123,7 +124,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="container">
+                            <div class="container-fluid">
                                 <div class="row">
                                     {% if not is_popup %}
                                         <div class="col-12 py-0">
@@ -157,6 +158,5 @@
             </div>
         </div>
         <!-- END Container -->
-        <script src="{% static 'dshop/js/admin.js' %}"></script>
     </body>
 </html>
