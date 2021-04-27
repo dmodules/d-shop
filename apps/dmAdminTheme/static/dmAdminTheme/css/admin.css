@@ -250,6 +250,8 @@ input[type=submit].default:hover {
 }
 .dm-admin-sidebar a i {
     color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    width: 1rem;
     margin: 0 0.8rem 0 0;
 }
 .dm-admin-sidebar-navigation {
