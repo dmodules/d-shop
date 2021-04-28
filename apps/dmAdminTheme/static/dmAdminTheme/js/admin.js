@@ -11,12 +11,14 @@ if (cookie_asidebar == 1 && !el.classList.contains("dm-show-sidebar")) {
 $(document).ready(function() {
     let el = $("#dm-admin")
 
-    if (window.innerWidth < 960) {
-        if (el.classList.contains("dm-show-sidebar")) {
-            el.removeClass("dm-show-sidebar")
-            dmSetCookie("dm_asidebar", 0, 7)
+    $(window).on("click", function() {
+        if (window.innerWidth < 960) {
+            if (el.hasClass("dm-show-sidebar")) {
+                el.removeClass("dm-show-sidebar")
+                dmSetCookie("dm_asidebar", 0, 7)
+            }
         }
-    }
+    })
 
     /* ===--- Listeners ---=== */
 

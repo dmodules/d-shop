@@ -212,7 +212,7 @@
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="12" md="6" lg="8">
+                <v-col cols="12">
                     <v-card style="height:100%;min-height:300px">
                         <v-card-title class="text-left caption text--secondary d-block text-truncate">
                             <span v-text="$t('CurrentWeekIncomes')"></span>
@@ -232,7 +232,7 @@
                         </v-card-text>
                     </v-card>
                 </v-col>
-                <v-col cols="12" md="6" lg="4">
+                <v-col v-if="!demoNoLocation" cols="12" md="6" lg="4">
                     <v-card style="height:100%">
                         <v-card-title class="text-left caption text--secondary d-block text-truncate">
                             <span v-text="$t('IncomesByLocation')"></span>
@@ -364,6 +364,7 @@
             dmChartChoropleth: () => import('@/components/charts/chartChoropleth.vue')
         },
         data: () => ({
+            demoNoLocation: true,
             isLoading: true,
             isLoadingCounts: true,
             isLoadingMonthlySales: true,
@@ -382,6 +383,7 @@
             hasErrorBestsellers: null,
             hasErrorStocksLow: null,
             hasErrorStocksOut: null,
+            hasErrorLogs: null,
             dataCounts: {
                 customers: {},
                 orders: {},
@@ -683,12 +685,13 @@
     .dmhover-cursor:hover {
         cursor: pointer;
     }
-    .dmadmin-bestsellers {
-        height: calc(100% - 52px)
+    .dmadmin-bestsellers > .v-data-table > .v-data-table__wrapper > table td {
+        border-bottom: none;
     }
-    .dmadmin-bestsellers > .v-data-table,
-    .dmadmin-bestsellers > .v-data-table > .v-data-table__wrapper,
-    .dmadmin-bestsellers > .v-data-table > .v-data-table__wrapper > table {
-        height: 100%
+    .dmadmin-bestsellers > .v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > td:not(.v-data-table__mobile-row),
+    .dmadmin-bestsellers > .v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > th:not(.v-data-table__mobile-row),
+    .dmadmin-bestsellers > .v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > td:last-child,
+    .dmadmin-bestsellers > .v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > th:last-child {
+        border-bottom-color: #eee;
     }
 </style>

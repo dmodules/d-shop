@@ -353,7 +353,7 @@ class AdminBestsellersView(APIView):
                     "product_quantity": item.quantity,
                     "product_amount": item._line_total
                 })
-        bestsellers = sorted(all_selled, key=lambda h: (int(h["product_quantity"])), reverse=True)[:8]
+        bestsellers = sorted(all_selled, key=lambda h: (int(h["product_quantity"])), reverse=True)[:2]
         for b in bestsellers:
             b["product_amount"] = Money(b["product_amount"])
         # ==========================================================---
