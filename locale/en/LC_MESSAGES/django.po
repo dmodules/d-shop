@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-15 13:07-0400\n"
+"POT-Creation-Date: 2021-04-28 14:13-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,136 +18,424 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps/dmAdminTheme/templates/admin/base.html:33
-msgid "Welcome,"
+#: apps/dmAdminTheme/apps.py:7
+msgid "Admin Panel"
 msgstr ""
 
-#: apps/dmAdminTheme/templates/admin/base.html:38
-msgid "View site"
+#: apps/dmAdminTheme/models.py:8
+msgid "Unknown"
 msgstr ""
 
-#: apps/dmAdminTheme/templates/admin/base.html:43
-msgid "Documentation"
+#: apps/dmAdminTheme/models.py:9
+msgid "Created"
 msgstr ""
 
-#: apps/dmAdminTheme/templates/admin/base.html:47
-msgid "Change password"
+#: apps/dmAdminTheme/models.py:10
+msgid "Updated"
 msgstr ""
 
-#: apps/dmAdminTheme/templates/admin/base.html:49
-msgid "Log out"
+#: apps/dmAdminTheme/models.py:11
+msgid "Deleted"
 msgstr ""
 
-#: apps/dmAdminTheme/templates/admin/base.html:59
+#: apps/dmAdminTheme/models.py:17
+msgid "User"
+msgstr ""
+
+#: apps/dmAdminTheme/models.py:22
+#, fuzzy
+#| msgid "Actif"
+msgid "Action"
+msgstr "Active"
+
+#: apps/dmAdminTheme/models.py:27 apps/dmAdvertising/models.py:55
+#: apps/dmJobModule/models.py:136 apps/dmPortfolio/models.py:8
+#: dshop/models.py:1457 dshop/models.py:1481 dshop/models.py:1497
+#: dshop/models.py:1530 dshop/models.py:1556 dshop/models.py:1570
+#: dshop/models.py:1621 dshop/models.py:1684 dshop/models.py:1739
+#: dshop/models.py:1867 dshop/models.py:1924 dshop/models.py:1947
+#: dshop/models.py:1968 dshop/models.py:1995 dshop/models.py:2061
+#: dshop/models.py:2120 dshop/models.py:2185
+msgid "Title"
+msgstr ""
+
+#: apps/dmAdminTheme/models.py:31
+msgid "Content"
+msgstr ""
+
+#: apps/dmAdminTheme/models.py:35 apps/dmRabais/models.py:206
+#: dshop/admin.py:454
+msgid "Created at"
+msgstr ""
+
+#: apps/dmAdminTheme/models.py:39 apps/dmRabais/models.py:212
+msgid "Updated at"
+msgstr ""
+
+#: apps/dmAdminTheme/models.py:44
+msgid "Admin Log"
+msgstr ""
+
+#: apps/dmAdminTheme/models.py:45
+msgid "Admin Logs"
+msgstr ""
+
+#: apps/dmAdminTheme/signals.py:100
+msgid "ready for delivery"
+msgstr ""
+
+#: apps/dmAdminTheme/signals.py:103 apps/dmAdminTheme/signals.py:110
+#: apps/dmBillingSquare/payment.py:65 apps/dmBillingStripe/payment.py:80
+#: apps/dmBillingStripe/payment.py:135 dshop/admin.py:423
+#: dshop/templates/theme/default/order/detail.html:10
+msgid "Order"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/app_index.html:11
+#: apps/dmAdminTheme/templates/admin/base.html:134
+#: apps/dmAdminTheme/templates/admin/change_list.html:31
 msgid "Home"
 msgstr ""
 
-#: apps/dmAdminTheme/templates/admin/index.html:22
+#: apps/dmAdminTheme/templates/admin/app_index.html:28
 #, python-format
 msgid "Models in the %(name)s application"
 msgstr ""
 
-#: apps/dmAdminTheme/templates/admin/index.html:33
+#: apps/dmAdminTheme/templates/admin/app_index.html:39
 msgid "Add"
 msgstr ""
 
-#: apps/dmAdminTheme/templates/admin/index.html:40
+#: apps/dmAdminTheme/templates/admin/app_index.html:46
 msgid "View"
 msgstr ""
 
-#: apps/dmAdminTheme/templates/admin/index.html:42
+#: apps/dmAdminTheme/templates/admin/app_index.html:48
 msgid "Change"
 msgstr ""
 
-#: apps/dmAdminTheme/templates/admin/index.html:53
+#: apps/dmAdminTheme/templates/admin/app_index.html:59
 msgid "You don't have permission to view or edit anything."
 msgstr ""
 
-#: apps/dmAdminTheme/templates/admin/index.html:62
-msgid "Your Shop"
+#: apps/dmAdminTheme/templates/admin/app_index.html:67
+msgid "Recent admin actions"
 msgstr ""
 
-#: apps/dmAdminTheme/templates/admin/index.html:74
-#, python-format
-msgid "with %(quantity)s sale this month"
-msgid_plural "with %(quantity)s sales this month"
-msgstr[0] ""
-msgstr[1] ""
+#: apps/dmAdminTheme/templates/admin/app_index.html:68
+#, fuzzy
+#| msgid "My Quotations"
+msgid "My actions"
+msgstr "My Quotations"
 
-#: apps/dmAdminTheme/templates/admin/index.html:85
-#, python-format
-msgid "with %(quantity)s sale last month"
-msgid_plural "with %(quantity)s sales last month"
-msgstr[0] ""
-msgstr[1] ""
-
-#: apps/dmAdminTheme/templates/admin/index.html:96
-#: apps/dmAdminTheme/templates/admin/index.html:105
-msgid "orders"
-msgstr ""
-
-#: apps/dmAdminTheme/templates/admin/index.html:96
-#: apps/dmAdminTheme/templates/admin/index.html:105
-msgid "order"
-msgstr ""
-
-#: apps/dmAdminTheme/templates/admin/index.html:97
-msgid "need to be processed"
-msgstr ""
-
-#: apps/dmAdminTheme/templates/admin/index.html:106
-msgid "need to be shipped"
-msgstr ""
-
-#: apps/dmAdminTheme/templates/admin/index.html:116
-#: apps/dmAdminTheme/templates/admin/index.html:125
-msgid "products"
-msgstr "produits"
-
-#: apps/dmAdminTheme/templates/admin/index.html:116
-#: apps/dmAdminTheme/templates/admin/index.html:125
-#: dshop/templates/dshop/pages/drawer-quotation.html:4
-msgid "product"
-msgstr "produit"
-
-#: apps/dmAdminTheme/templates/admin/index.html:117
-msgid "is low on stock"
-msgstr ""
-
-#: apps/dmAdminTheme/templates/admin/index.html:126
-msgid "is out of stock"
-msgstr "is out of stock"
-
-#: apps/dmAdminTheme/templates/admin/index.html:131
-msgid "Month's Bestsellers"
-msgstr ""
-
-#: apps/dmAdminTheme/templates/admin/index.html:147
-#, python-format
-msgid "with %(quantity)s sale"
-msgid_plural "with %(quantity)s sales"
-msgstr[0] ""
-msgstr[1] ""
-
-#: apps/dmAdminTheme/templates/admin/index.html:156
-#: dshop/templates/theme/default/pages/search.html:52
-msgid "No product found"
-msgstr ""
-
-#: apps/dmAdminTheme/templates/admin/index.html:164
-msgid "Recent actions"
-msgstr ""
-
-#: apps/dmAdminTheme/templates/admin/index.html:168
+#: apps/dmAdminTheme/templates/admin/app_index.html:72
 msgid "None available"
 msgstr "None available"
 
-#: apps/dmAdminTheme/templates/admin/index.html:181
+#: apps/dmAdminTheme/templates/admin/app_index.html:86
+msgid "Unknown content"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/app_index.html:90
 msgid "By"
 msgstr ""
 
-#: apps/dmAdminTheme/templates/admin/index.html:183
-msgid "Unknown content"
+#: apps/dmAdminTheme/templates/admin/base.html:103
+msgid "Welcome,"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/base.html:113
+msgid "View site"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/base.html:116
+msgid "Change password"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/base.html:118
+msgid "Log out"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/base_site.html:3
+#: apps/dmAdminTheme/templates/admin/index.html:5
+msgid "Django site admin"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/base_site.html:6
+#, fuzzy
+#| msgid "Registration"
+msgid "Django administration"
+msgstr "Registration"
+
+#: apps/dmAdminTheme/templates/admin/change_list.html:51
+msgid "Please correct the error below."
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/change_list.html:51
+msgid "Please correct the errors below."
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/change_list.html:86
+msgid "Filter"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:6
+msgid "Django CMS"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:9
+msgid "Pages"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:14
+#: apps/dmAdvertising/apps.py:7 settings.py:694 test_settings.py:662
+msgid "Advertising"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:17
+#: apps/dmAdvertising/models.py:45
+msgid "Advertising Top Banner"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:20
+#: apps/dmAdvertising/models.py:98
+msgid "Advertising Popup"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:25 dshop/apps.py:8
+#: settings.py:700 test_settings.py:669
+msgid "Shop"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:28
+#: dshop/models.py:393
+msgid "Product's Categories"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:31
+#: dshop/models.py:503
+msgid "Product's Filters"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:34
+#: dshop/cms_plugins.py:398 dshop/models.py:563
+msgid "Product's Brands"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:37
+#: dshop/models.py:605
+msgid "Product's Labels"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:40
+#: dshop/models.py:1017
+msgid "Product's Attributes"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:43
+#: apps/dmRabais/models.py:164 dshop/models.py:682
+#: dshop/templates/theme/default/pages/produits.html:29
+msgid "Products"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:46
+#: dshop/admin.py:424 settings.py:710 test_settings.py:678
+msgid "Orders"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:49
+#: apps/dmRabais/admin.py:102 apps/dmRabais/models.py:149
+msgid "Customers"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:52
+msgid "Update Product's Variants"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:57
+#: apps/dmRabais/apps.py:7 apps/dmRabais/modifiers.py:52 settings.py:729
+#: test_settings.py:695
+msgid "Discounts"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:60
+#: apps/dmRabais/models.py:66
+msgid "Discounts Per Category"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:63
+#: apps/dmRabais/models.py:171 dshop/templates/dshop/pages/base.html:178
+msgid "Promo Codes"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:68
+msgid "Settings"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:71
+#: dshop/models.py:1233 dshop/models.py:1234
+msgid "Site"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:74
+#: apps/dmTaxes/models.py:75
+msgid "Canadian Taxes"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:77
+#: apps/dmShipping/models.py:202
+msgid "Countries"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:80
+msgid "Provinces"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:83
+#, fuzzy
+#| msgid "Registration"
+msgid "Region"
+msgstr "Registration"
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:86
+#: apps/dmShipping/models.py:212
+msgid "Cities"
+msgstr ""
+
+#: apps/dmAdminTheme/templates/admin/sidebar-navigation.html:89
+#: apps/dmShipping/models.py:90
+msgid "Shipping Methods"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:21
+msgid "Months"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:22
+msgid "January"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:23
+msgid "February"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:24
+msgid "March"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:25
+msgid "April"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:26
+msgid "May"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:27
+msgid "June"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:28
+msgid "July"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:29
+msgid "August"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:30
+msgid "September"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:31
+msgid "October"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:32
+msgid "November"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:33
+msgid "December"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:180
+msgid "Current Year"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:186
+msgid "Last Year"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:246
+msgid "Monday"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:247
+msgid "Tuesday"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:248
+msgid "Wednesday"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:249
+msgid "Thursday"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:250
+msgid "Friday"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:251
+msgid "Saturday"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:252
+msgid "Sunday"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:256
+msgid "Current Week Incomes"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:263
+msgid "Last Week Incomes"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:396
+#, fuzzy
+#| msgid "is out of stock"
+msgid "Low of Stock"
+msgstr "is out of stock"
+
+#: apps/dmAdminTheme/views.py:396 apps/dmAdminTheme/views.py:406
+#: dshop/admin.py:462 dshop/templates/theme/default/email/order-detail.html:113
+#: dshop/templates/theme/default/order/detail.html:161
+#: dshop/templates/theme/default/print/invoice.html:57
+msgid "Total"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:406
+#, fuzzy
+#| msgid "Out of stock"
+msgid "Out of Stock"
+msgstr "Out of stock"
+
+#: apps/dmAdminTheme/views.py:439
+msgid "created"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:441
+msgid "updated"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:443
+msgid "deleted"
+msgstr ""
+
+#: apps/dmAdminTheme/views.py:446
+msgid "by"
 msgstr ""
 
 #: apps/dmAdvertising/admin.py:20 apps/dmAdvertising/admin.py:38
@@ -158,10 +446,6 @@ msgstr ""
 #: apps/dmAdvertising/admin.py:25 apps/dmAdvertising/admin.py:43
 #: apps/dmRabais/admin.py:57 apps/dmRabais/admin.py:124
 msgid "End"
-msgstr ""
-
-#: apps/dmAdvertising/apps.py:7 settings.py:694 test_settings.py:662
-msgid "Advertising"
 msgstr ""
 
 #: apps/dmAdvertising/models.py:15 apps/dmJobModule/models.py:148
@@ -206,22 +490,8 @@ msgstr ""
 msgid "End at"
 msgstr ""
 
-#: apps/dmAdvertising/models.py:45
-msgid "Advertising Top Banner"
-msgstr ""
-
 #: apps/dmAdvertising/models.py:46
 msgid "Advertising Top Banners"
-msgstr ""
-
-#: apps/dmAdvertising/models.py:55 apps/dmJobModule/models.py:136
-#: apps/dmPortfolio/models.py:8 dshop/models.py:1457 dshop/models.py:1481
-#: dshop/models.py:1497 dshop/models.py:1530 dshop/models.py:1556
-#: dshop/models.py:1570 dshop/models.py:1621 dshop/models.py:1684
-#: dshop/models.py:1739 dshop/models.py:1867 dshop/models.py:1924
-#: dshop/models.py:1947 dshop/models.py:1968 dshop/models.py:1995
-#: dshop/models.py:2061 dshop/models.py:2120 dshop/models.py:2185
-msgid "Title"
 msgstr ""
 
 #: apps/dmAdvertising/models.py:60 apps/dmJobModule/models.py:186
@@ -255,10 +525,6 @@ msgstr ""
 msgid "Shown"
 msgstr ""
 
-#: apps/dmAdvertising/models.py:98
-msgid "Advertising Popup"
-msgstr ""
-
 #: apps/dmAdvertising/models.py:99
 msgid "Advertising Popups"
 msgstr ""
@@ -273,12 +539,6 @@ msgstr "Credit Card (via Square)"
 
 #: apps/dmBillingSquare/modifiers.py:29 apps/dmBillingStripe/modifiers.py:29
 msgid "+ {}% handling fee"
-msgstr ""
-
-#: apps/dmBillingSquare/payment.py:65 apps/dmBillingStripe/payment.py:80
-#: apps/dmBillingStripe/payment.py:135 dshop/admin.py:423
-#: dshop/templates/theme/default/order/detail.html:10
-msgid "Order"
 msgstr ""
 
 #: apps/dmBillingSquare/payment.py:86 apps/dmBillingStripe/payment.py:106
@@ -670,15 +930,6 @@ msgstr ""
 msgid "Limitations"
 msgstr ""
 
-#: apps/dmRabais/admin.py:102 apps/dmRabais/models.py:149
-msgid "Customers"
-msgstr ""
-
-#: apps/dmRabais/apps.py:7 apps/dmRabais/modifiers.py:52 settings.py:729
-#: test_settings.py:695
-msgid "Discounts"
-msgstr ""
-
 #: apps/dmRabais/models.py:19 apps/dmRabais/models.py:80
 msgid "Amount Discount"
 msgstr ""
@@ -717,10 +968,6 @@ msgstr ""
 
 #: apps/dmRabais/models.py:65
 msgid "Discount Per Category"
-msgstr ""
-
-#: apps/dmRabais/models.py:66
-msgid "Discounts Per Category"
 msgstr ""
 
 #: apps/dmRabais/models.py:91
@@ -773,17 +1020,8 @@ msgstr ""
 msgid "Leave blank if you want to apply to all product."
 msgstr ""
 
-#: apps/dmRabais/models.py:164 dshop/models.py:682
-#: dshop/templates/theme/default/pages/produits.html:29
-msgid "Products"
-msgstr ""
-
 #: apps/dmRabais/models.py:170 apps/dmRabais/models.py:197
 msgid "Promo Code"
-msgstr ""
-
-#: apps/dmRabais/models.py:171 dshop/templates/dshop/pages/base.html:178
-msgid "Promo Codes"
 msgstr ""
 
 #: apps/dmRabais/models.py:190 dshop/admin.py:442
@@ -794,14 +1032,6 @@ msgstr ""
 
 #: apps/dmRabais/models.py:202
 msgid "Expired"
-msgstr ""
-
-#: apps/dmRabais/models.py:206 dshop/admin.py:454
-msgid "Created at"
-msgstr ""
-
-#: apps/dmRabais/models.py:212
-msgid "Updated at"
 msgstr ""
 
 #: apps/dmRabais/models.py:219
@@ -923,10 +1153,6 @@ msgstr ""
 msgid "Shipping Method"
 msgstr ""
 
-#: apps/dmShipping/models.py:90
-msgid "Shipping Methods"
-msgstr ""
-
 #: apps/dmShipping/models.py:102
 msgid "Country Name"
 msgstr ""
@@ -999,16 +1225,8 @@ msgstr ""
 msgid "Shipping Management"
 msgstr ""
 
-#: apps/dmShipping/models.py:202
-msgid "Countries"
-msgstr ""
-
 #: apps/dmShipping/models.py:207
 msgid "States"
-msgstr ""
-
-#: apps/dmShipping/models.py:212
-msgid "Cities"
 msgstr ""
 
 #: apps/dmShipping/modifiers.py:41 apps/dmShipping/modifiers.py:68
@@ -1072,10 +1290,6 @@ msgstr ""
 
 #: apps/dmTaxes/models.py:74
 msgid "Canadian Tax"
-msgstr ""
-
-#: apps/dmTaxes/models.py:75
-msgid "Canadian Taxes"
 msgstr ""
 
 #: apps/dmTaxes/modifiers.py:55
@@ -1895,10 +2109,6 @@ msgstr ""
 msgid "Data"
 msgstr ""
 
-#: dshop/admin.py:424 settings.py:710 test_settings.py:678
-msgid "Orders"
-msgstr ""
-
 #: dshop/admin.py:446 dshop/models.py:1543
 msgid "Number"
 msgstr ""
@@ -1911,12 +2121,6 @@ msgstr ""
 #: dshop/templates/theme/default/order/detail.html:125
 #: dshop/templates/theme/default/print/invoice.html:44
 msgid "Subtotal"
-msgstr ""
-
-#: dshop/admin.py:462 dshop/templates/theme/default/email/order-detail.html:113
-#: dshop/templates/theme/default/order/detail.html:161
-#: dshop/templates/theme/default/print/invoice.html:57
-msgid "Total"
 msgstr ""
 
 #: dshop/admin.py:466
@@ -1987,10 +2191,6 @@ msgstr ""
 
 #: dshop/admin.py:866
 msgid "Price starting at"
-msgstr ""
-
-#: dshop/apps.py:8 settings.py:700 test_settings.py:669
-msgid "Shop"
 msgstr ""
 
 #: dshop/cms_plugins.py:34
@@ -2071,10 +2271,6 @@ msgstr ""
 
 #: dshop/cms_plugins.py:380
 msgid "Products By Category"
-msgstr ""
-
-#: dshop/cms_plugins.py:398 dshop/models.py:563
-msgid "Product's Brands"
 msgstr ""
 
 #: dshop/cms_plugins.py:416
@@ -2207,10 +2403,6 @@ msgstr ""
 msgid "Product's Category"
 msgstr ""
 
-#: dshop/models.py:393
-msgid "Product's Categories"
-msgstr ""
-
 #: dshop/models.py:424
 msgid "Filter's Group Name"
 msgstr ""
@@ -2247,10 +2439,6 @@ msgstr ""
 msgid "Product's Filter"
 msgstr ""
 
-#: dshop/models.py:503
-msgid "Product's Filters"
-msgstr ""
-
 #: dshop/models.py:524
 msgid "Translated Filter's Name"
 msgstr ""
@@ -2277,10 +2465,6 @@ msgstr ""
 
 #: dshop/models.py:604
 msgid "Product's Label"
-msgstr ""
-
-#: dshop/models.py:605
-msgid "Product's Labels"
 msgstr ""
 
 #: dshop/models.py:636 dshop/templates/theme/default/pages/produits.html:115
@@ -2381,10 +2565,6 @@ msgstr ""
 msgid "Product's Attribute"
 msgstr ""
 
-#: dshop/models.py:1017
-msgid "Product's Attributes"
-msgstr ""
-
 #: dshop/models.py:1027 dshop/models.py:1065
 msgid "Attribute"
 msgstr ""
@@ -2412,10 +2592,6 @@ msgstr ""
 
 #: dshop/models.py:1227
 msgid "Google Analytics Snippet"
-msgstr ""
-
-#: dshop/models.py:1233 dshop/models.py:1234
-msgid "Site"
 msgstr ""
 
 #: dshop/models.py:1253
@@ -2822,6 +2998,10 @@ msgstr ""
 msgid "My Quotation"
 msgstr "My Quotation"
 
+#: dshop/templates/dshop/pages/drawer-quotation.html:4
+msgid "product"
+msgstr "produit"
+
 #: dshop/templates/dshop/pages/drawer-quotation.html:8
 msgid "slugquotation"
 msgstr "quotation"
@@ -3134,6 +3314,10 @@ msgstr ""
 msgid "See product"
 msgstr ""
 
+#: dshop/templates/theme/default/pages/search.html:52
+msgid "No product found"
+msgstr ""
+
 #: dshop/templates/theme/default/plugins/products-by-category.html:141
 #: templates/plugins/products-by-category.html:118
 msgid "Loading"
@@ -3165,27 +3349,27 @@ msgstr ""
 msgid "This order does not belong to you."
 msgstr ""
 
-#: dshop/views.py:916
+#: dshop/views.py:928
 msgid "You successfully been added to our newsletter."
 msgstr ""
 
-#: dshop/views.py:919
+#: dshop/views.py:931
 msgid "An error occurred, sorry."
 msgstr ""
 
-#: dshop/views.py:922
+#: dshop/views.py:934
 msgid "Your answer was wrong."
 msgstr ""
 
-#: dshop/views.py:966
+#: dshop/views.py:978
 msgid "Invalid POST data."
 msgstr ""
 
-#: dshop/views.py:974
+#: dshop/views.py:986
 msgid "Password has been reset with the new password."
 msgstr ""
 
-#: dshop/views.py:1048
+#: dshop/views.py:1060
 msgid "Successfully registered yourself."
 msgstr ""
 
@@ -3245,3 +3429,6 @@ msgstr ""
 #: urls.py:39
 msgid "D-Shop - E-commerce platform"
 msgstr ""
+
+#~ msgid "products"
+#~ msgstr "produits"
