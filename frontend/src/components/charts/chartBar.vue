@@ -56,7 +56,7 @@
 
 <style scoped>
     canvas {
-        height: 307px;
+        height: 260px;
         padding: 1rem;
     }
 </style>

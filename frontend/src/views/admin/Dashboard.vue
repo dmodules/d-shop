@@ -18,71 +18,255 @@
                     <v-row class="text-left" style="height:100%">
                         <v-col cols="6">
                             <v-card style="height:100%">
-                                <v-card-title class="caption text--secondary d-block text-truncate">Nombre de nouveaux clients</v-card-title>
-                                <v-card-text class="display-1 font-weight-black">27</v-card-text>
-                                <v-card-actions class="caption py-1">
-                                    <v-icon small rounded color="success">mdi-trending-up</v-icon>
-                                    <span class="success--text font-weight-black ml-1 mr-2">+100%</span>
-                                    <span class="text--secondary d-inline-block text-truncate">depuis le mois dernier</span>
-                                </v-card-actions>
+                                <v-card-title class="caption text--secondary d-block text-truncate">
+                                    <span v-text="$t('NewCustomers')"></span>
+                                </v-card-title>
+                                <v-card-text v-if="isLoadingCounts" class="text-center">
+                                    <v-progress-circular
+                                        indeterminate
+                                        :size="60"
+                                        :width="6"
+                                        color="primary"
+                                    />
+                                </v-card-text>
+                                <template v-else-if="!hasErrorCountsCustomers">
+                                    <v-card-text class="display-1 font-weight-black">
+                                        <span v-text="dataCounts.customers.thismonth"></span>
+                                    </v-card-text>
+                                    <v-card-actions class="caption py-1">
+                                        <template v-if="dataCounts.customers.percent > 0">
+                                            <v-icon small rounded color="success">mdi-trending-up</v-icon>
+                                            <span class="success--text font-weight-black ml-1 mr-2">
+                                                <span v-if="dataCounts.customers.percent > 0">+</span><span v-text="dataCounts.customers.percent"></span>%
+                                            </span>
+                                        </template>
+                                        <template v-else-if="dataCounts.customers.percent < 0">
+                                            <v-icon small rounded color="error">mdi-trending-down</v-icon>
+                                            <span class="error--text font-weight-black ml-1 mr-2">
+                                                <span v-if="dataCounts.customers.percent > 0">+</span><span v-text="dataCounts.customers.percent"></span>%
+                                            </span>
+                                        </template>
+                                        <template v-else>
+                                            <v-icon small rounded color="primary">mdi-trending-neutral</v-icon>
+                                            <span class="primary--text font-weight-black ml-1 mr-2">
+                                                <span v-if="dataCounts.customers.percent > 0">+</span><span v-text="dataCounts.customers.percent"></span>%
+                                            </span>
+                                        </template>
+                                        <span class="text--secondary d-inline-block text-truncate">depuis le mois dernier</span>
+                                    </v-card-actions>
+                                </template>
+                                <template v-else>
+                                    <v-card-text>
+                                        <v-alert text type="error">
+                                            <div v-html="hasErrorCountsCustomers"></div>
+                                        </v-alert>
+                                    </v-card-text>
+                                </template>
                             </v-card>
                         </v-col>
                         <v-col cols="6">
                             <v-card style="height:100%">
-                                <v-card-title class="caption text--secondary d-block text-truncate">Nombre de commandes</v-card-title>
-                                <v-card-text class="display-1 font-weight-black">346</v-card-text>
-                                <v-card-actions class="caption py-1">
-                                    <v-icon small rounded color="success">mdi-trending-up</v-icon>
-                                    <span class="success--text font-weight-black ml-1 mr-2">+67%</span>
-                                    <span class="text--secondary d-inline-block text-truncate">depuis le mois dernier</span>
-                                </v-card-actions>
+                                <v-card-title class="caption text--secondary d-block text-truncate">
+                                    <span v-text="$t('OrdersCount')"></span>
+                                </v-card-title>
+                                <v-card-text v-if="isLoadingCounts" class="text-center">
+                                    <v-progress-circular
+                                        indeterminate
+                                        :size="60"
+                                        :width="6"
+                                        color="primary"
+                                    />
+                                </v-card-text>
+                                <template v-else-if="!hasErrorCountsOrders">
+                                    <v-card-text class="display-1 font-weight-black">
+                                        <span v-text="dataCounts.orders.thismonth"></span>
+                                    </v-card-text>
+                                    <v-card-actions class="caption py-1">
+                                        <template v-if="dataCounts.orders.percent > 0">
+                                            <v-icon small rounded color="success">mdi-trending-up</v-icon>
+                                            <span class="success--text font-weight-black ml-1 mr-2">
+                                                <span v-if="dataCounts.orders.percent > 0">+</span><span v-text="dataCounts.orders.percent"></span>%
+                                            </span>
+                                        </template>
+                                        <template v-else-if="dataCounts.orders.percent < 0">
+                                            <v-icon small rounded color="error">mdi-trending-down</v-icon>
+                                            <span class="error--text font-weight-black ml-1 mr-2">
+                                                <span v-if="dataCounts.orders.percent > 0">+</span><span v-text="dataCounts.orders.percent"></span>%
+                                            </span>
+                                        </template>
+                                        <template v-else>
+                                            <v-icon small rounded color="primary">mdi-trending-neutral</v-icon>
+                                            <span class="primary--text font-weight-black ml-1 mr-2">
+                                                <span v-if="dataCounts.orders.percent > 0">+</span><span v-text="dataCounts.orders.percent"></span>%
+                                            </span>
+                                        </template>
+                                        <span class="text--secondary d-inline-block text-truncate">depuis le mois dernier</span>
+                                    </v-card-actions>
+                                </template>
+                                <template v-else>
+                                    <v-card-text>
+                                        <v-alert text type="error">
+                                            <div v-html="hasErrorCountsOrders"></div>
+                                        </v-alert>
+                                    </v-card-text>
+                                </template>
                             </v-card>
                         </v-col>
                         <v-col cols="6">
                             <v-card style="height:100%">
-                                <v-card-title class="caption text--secondary d-block text-truncate">Revenus</v-card-title>
-                                <v-card-text class="display-1 font-weight-black">3 467$</v-card-text>
-                                <v-card-actions class="caption py-1">
-                                    <v-icon small rounded color="success">mdi-trending-up</v-icon>
-                                    <span class="success--text font-weight-black ml-1 mr-2">+14%</span>
-                                    <span class="text--secondary d-inline-block text-truncate">depuis le mois dernier</span>
-                                </v-card-actions>
+                                <v-card-title class="caption text--secondary d-block text-truncate">
+                                    <span v-text="$t('Incomes')"></span>
+                                </v-card-title>
+                                <v-card-text v-if="isLoadingCounts" class="text-center">
+                                    <v-progress-circular
+                                        indeterminate
+                                        :size="60"
+                                        :width="6"
+                                        color="primary"
+                                    />
+                                </v-card-text>
+                                <template v-else-if="!hasErrorCountsIncomes">
+                                    <v-card-text class="headline font-weight-black">
+                                        <span v-text="dataCounts.incomes.thismonth"></span>
+                                    </v-card-text>
+                                    <v-card-actions class="caption py-1">
+                                        <template v-if="dataCounts.incomes.percent > 0">
+                                            <v-icon small rounded color="success">mdi-trending-up</v-icon>
+                                            <span class="success--text font-weight-black ml-1 mr-2">
+                                                <span v-if="dataCounts.incomes.percent > 0">+</span><span v-text="dataCounts.incomes.percent"></span>%
+                                            </span>
+                                        </template>
+                                        <template v-else-if="dataCounts.incomes.percent < 0">
+                                            <v-icon small rounded color="error">mdi-trending-down</v-icon>
+                                            <span class="error--text font-weight-black ml-1 mr-2">
+                                                <span v-if="dataCounts.incomes.percent > 0">+</span><span v-text="dataCounts.incomes.percent"></span>%
+                                            </span>
+                                        </template>
+                                        <template v-else>
+                                            <v-icon small rounded color="primary">mdi-trending-neutral</v-icon>
+                                            <span class="primary--text font-weight-black ml-1 mr-2">
+                                                <span v-if="dataCounts.incomes.percent > 0">+</span><span v-text="dataCounts.incomes.percent"></span>%
+                                            </span>
+                                        </template>
+                                        <span class="text--secondary d-inline-block text-truncate">depuis le mois dernier</span>
+                                    </v-card-actions>
+                                </template>
+                                <template v-else>
+                                    <v-card-text>
+                                        <v-alert text type="error">
+                                            <div v-html="hasErrorCountsIncomes"></div>
+                                        </v-alert>
+                                    </v-card-text>
+                                </template>
                             </v-card>
                         </v-col>
                         <v-col cols="6">
                             <v-card style="height:100%">
-                                <v-card-title class="caption text--secondary d-block text-truncate">Commandes en attente</v-card-title>
-                                <v-card-text class="display-1 font-weight-black pb-5">3</v-card-text>
-                                <v-card-actions class="caption py-1 pb-5">&nbsp;</v-card-actions>
+                                <v-card-title class="caption text--secondary d-block text-truncate">
+                                    <span v-text="$t('AwaitingOrders')"></span>
+                                </v-card-title>
+                                <v-card-text v-if="isLoadingCounts" class="text-center">
+                                    <v-progress-circular
+                                        indeterminate
+                                        :size="60"
+                                        :width="6"
+                                        color="primary"
+                                    />
+                                </v-card-text>
+                                <template v-else-if="!hasErrorCountsAwaitings">
+                                    <v-card-text class="display-1 font-weight-black pb-5">
+                                        <span v-text="dataCounts.awaitings"></span>
+                                    </v-card-text>
+                                    <v-card-actions class="caption py-1 pb-5">&nbsp;</v-card-actions>
+                                </template>
+                                <template v-else>
+                                    <v-card-text>
+                                        <v-alert text type="error">
+                                            <div v-html="hasErrorCountsAwaitings"></div>
+                                        </v-alert>
+                                    </v-card-text>
+                                </template>
                             </v-card>
                         </v-col>
                     </v-row>
                 </v-col>
                 <v-col cols="12" md="6" lg="7">
-                    <v-card style="max-height:300px">
-                        <dm-chart-bar :data="chartMonthlySales" />
+                    <v-card style="height:100%;min-height:300px">
+                        <v-card-title class="text-left caption text--secondary d-block text-truncate pb-0">
+                            <span v-text="$t('MonthlyIncomes')"></span>
+                        </v-card-title>
+                        <v-progress-circular
+                            v-if="isLoadingMonthlySales"
+                            indeterminate
+                            :size="60"
+                            :width="6"
+                            color="primary"
+                        />
+                        <dm-chart-bar v-else-if="!hasErrorMonthlySales" :data="chartMonthlySales" />
+                        <v-card-text v-else>
+                            <v-alert text type="error">
+                                <div v-html="hasErrorMonthlySales"></div>
+                            </v-alert>
+                        </v-card-text>
                     </v-card>
                 </v-col>
             </v-row>
             <v-row>
                 <v-col cols="12" md="6" lg="8">
-                    <v-card style="height:100%">
-                        <v-card-title class="text-left caption text--secondary d-block text-truncate">Revenues</v-card-title>
-                        <dm-chart-line :data="chartWeeklySales" />
+                    <v-card style="height:100%;min-height:300px">
+                        <v-card-title class="text-left caption text--secondary d-block text-truncate">
+                            <span v-text="$t('CurrentWeekIncomes')"></span>
+                        </v-card-title>
+                        <v-progress-circular
+                            v-if="isLoadingWeeklySales"
+                            indeterminate
+                            :size="60"
+                            :width="6"
+                            color="primary"
+                        />
+                        <dm-chart-line v-else-if="!hasErrorWeeklySales" :data="chartWeeklySales" />
+                        <v-card-text v-else>
+                            <v-alert text type="error">
+                                <div v-html="hasErrorMonthlySales"></div>
+                            </v-alert>
+                        </v-card-text>
                     </v-card>
                 </v-col>
                 <v-col cols="12" md="6" lg="4">
                     <v-card style="height:100%">
-                        <v-card-title class="text-left caption text--secondary d-block text-truncate">Revenus par localisation</v-card-title>
-                        <dm-chart-choropleth :geoData="chartByLocation" />
+                        <v-card-title class="text-left caption text--secondary d-block text-truncate">
+                            <span v-text="$t('IncomesByLocation')"></span>
+                        </v-card-title>
+                        <v-progress-circular
+                            v-if="isLoadingByLocation"
+                            indeterminate
+                            :size="60"
+                            :width="6"
+                            color="primary"
+                        />
+                        <dm-chart-choropleth v-else-if="!hasErrorByLocation" :geoData="chartByLocation" />
+                        <v-card-text v-else>
+                            <v-alert text type="error">
+                                <div v-html="hasErrorByLocation"></div>
+                            </v-alert>
+                        </v-card-text>
                     </v-card>
                 </v-col>
             </v-row>
             <v-row>
                 <v-col cols="12" lg="6">
                     <v-card style="height:100%">
-                        <v-card-title class="text-left caption text--secondary d-block text-truncate">Meilleures ventes du mois</v-card-title>
-                        <v-card-text>
+                        <v-card-title class="text-left caption text--secondary d-block text-truncate">
+                            <span v-text="$t('MonthBestsellers')"></span>
+                        </v-card-title>
+                        <v-progress-circular
+                            v-if="isLoadingBestsellers"
+                            indeterminate
+                            :size="60"
+                            :width="6"
+                            color="primary"
+                        />
+                        <v-card-text v-else-if="!hasErrorBestsellers" class="dmadmin-bestsellers">
                             <v-data-table
                                 :headers="headersBestsellers"
                                 :items="listBestsellers"
@@ -98,25 +282,55 @@
                                 </template>
                                 <template v-slot:item.product_price="{ item }">
                                     <div><span v-text="item.product_price"></span></div>
-                                    <div class="caption text--secondary">Prix</div>
+                                    <div class="caption text--secondary" v-text="$t('Price')"></div>
                                 </template>
                                 <template v-slot:item.product_quantity="{ item }">
                                     <div><span v-text="item.product_quantity"></span></div>
-                                    <div class="caption text--secondary">Quantité</div>
+                                    <div class="caption text--secondary" v-text="$t('Quantity')"></div>
                                 </template>
                                 <template v-slot:item.product_amount="{ item }">
                                     <div><span v-text="item.product_amount"></span></div>
-                                    <div class="caption text--secondary">Revenu</div>
+                                    <div class="caption text--secondary" v-text="$t('Income')"></div>
                                 </template>
                             </v-data-table>
+                        </v-card-text>
+                        <v-card-text v-else>
+                            <v-alert text type="error">
+                                <div v-html="hasErrorBestsellers"></div>
+                            </v-alert>
                         </v-card-text>
                     </v-card>
                 </v-col>
                 <v-col cols="12" md="6" lg="3">
                     <v-card style="height:100%">
-                        <v-card-title class="text-left caption text--secondary d-block text-truncate">Inventaire</v-card-title>
-                        <dm-chart-donut :data="chartLowStocks" />
-                        <dm-chart-donut :data="chartOutStocks" />
+                        <v-card-title class="text-left caption text--secondary d-block text-truncate">
+                            <span v-text="$t('Stocks')"></span>
+                        </v-card-title>
+                        <v-progress-circular
+                            v-if="isLoadingStocks"
+                            indeterminate
+                            :size="60"
+                            :width="6"
+                            color="primary"
+                        />
+                        <template v-else>
+                            <div class="dmhover-cursor" @click="goTo('lowofstock')">
+                                <dm-chart-donut v-if="!hasErrorStocksLow" :data="chartLowStocks" />
+                                <v-card-text v-else>
+                                    <v-alert text type="error">
+                                        <div v-html="hasErrorStocksLow"></div>
+                                    </v-alert>
+                                </v-card-text>
+                            </div>
+                            <div class="dmhover-cursor" @click="goTo('outofstock')">
+                                <dm-chart-donut v-if="!hasErrorStocksOut" :data="chartOutStocks" @click="goTo('outofstock')" />
+                                <v-card-text v-else>
+                                    <v-alert text type="error">
+                                        <div v-html="hasErrorStocksOut"></div>
+                                    </v-alert>
+                                </v-card-text>
+                            </div>
+                        </template>
                     </v-card>
                 </v-col>
                 <v-col cols="12" md="6" lg="3">
@@ -124,30 +338,12 @@
                         <v-card-title class="text-left caption text--secondary d-block text-truncate">Activités récentes</v-card-title>
                         <v-card-text>
                             <v-timeline align-top clipped dense class="dmvue-admin-timeline-activities">
-                                <v-timeline-item color="secondary" fill-dot small>
-                                    <strong class="d-block text-truncate">Produit ajouté</strong>
-                                    <div class="caption d-block text-truncate">"T-shirt rayé" ajouté aux produits</div>
-                                    <div class="caption text--disabled d-block text-truncate">22 avril 2021 à 11:12</div>
-                                </v-timeline-item>
-                                <v-timeline-item color="primary" fill-dot small>
-                                    <strong class="d-block text-truncate">Catégorie modifiée</strong>
-                                    <div class="caption d-block text-truncate">"Vêtements d'été" a été modifiée</div>
-                                    <div class="caption text--disabled d-block text-truncate">22 avril 2021 à 11:09</div>
-                                </v-timeline-item>
-                                <v-timeline-item color="error" fill-dot small>
-                                    <strong class="d-block text-truncate">Produit supprimé</strong>
-                                    <div class="caption d-block text-truncate">"Manteau polaire" a été supprimé</div>
-                                    <div class="caption text--disabled d-block text-truncate">22 avril 2021 à 9:23</div>
-                                </v-timeline-item>
-                                <v-timeline-item color="primary" fill-dot small>
-                                    <strong class="d-block text-truncate">Produit modifié</strong>
-                                    <div class="caption d-block text-truncate">"Pantalon léger" a été modifié</div>
-                                    <div class="caption text--disabled d-block text-truncate">22 avril 2021 à 10:10</div>
-                                </v-timeline-item>
-                                <v-timeline-item color="primary" fill-dot small>
-                                    <strong class="d-block text-truncate">Produit modifié</strong>
-                                    <div class="caption d-block text-truncate">"Robe soleil" a été modifié</div>
-                                    <div class="caption text--disabled d-block text-truncate">22 avril 2021 à 9:56</div>
+                                <v-timeline-item v-for="(item, n) in listLogs" :color="item.action == 1 ? 'primary' : item.action == 2 ? 'secondary' : item.action == 3 ? 'error' : 'grey'" fill-dot small :key="'logs-'+n">
+                                    <strong class="d-block text-truncate" v-text="item.title"></strong>
+                                    <div class="caption d-block text-truncate" v-text="item.content"></div>
+                                    <div class="caption text--disabled d-block text-truncate">
+                                        <span v-text="item.date"></span> <span v-text="item.user"></span>
+                                    </div>
                                 </v-timeline-item>
                             </v-timeline>
                         </v-card-text>
@@ -169,71 +365,42 @@
         },
         data: () => ({
             isLoading: true,
+            isLoadingCounts: true,
+            isLoadingMonthlySales: true,
+            isLoadingWeeklySales: true,
+            isLoadingByLocation: true,
+            isLoadingBestsellers: true,
+            isLoadingStocks: true,
+            isLoadingLogs: true,
+            hasErrorCountsCustomers: null,
+            hasErrorCountsOrders: null,
+            hasErrorCountsIncomes: null,
+            hasErrorCountsAwaitings: null,
+            hasErrorMonthlySales: null,
+            hasErrorWeeklySales: null,
+            hasErrorByLocation: null,
+            hasErrorBestsellers: null,
+            hasErrorStocksLow: null,
+            hasErrorStocksOut: null,
+            dataCounts: {
+                customers: {},
+                orders: {},
+                incomes: {},
+                awaitings: 0
+            },
             chartMonthlySales: {
-                labels: ["Jan", "Fév", "Mar", "Avr", "Mai", "Jun", "Jui", "Aoû", "Sep", "Oct", "Nov", "Déc"],
-                datasets: [
-                    {
-                        label: "Ventes du mois",
-                        data: [0, 10, 200, 256, 10, 49, 244, 10, 229, 10, 66, 146],
-                        backgroundColor: "#066bf9",
-                        barPercentage: 0.25
-                    },
-                    {
-                        label: "Ventes du mois dernier",
-                        data: [0, 22, 65, 1, 221, 11, 65, 45, 87, 111, 23, 31],
-                        backgroundColor: "#eee",
-                        barPercentage: 0.25
-                    }
-                ]
+                labels: [],
+                datasets: []
             },
             chartWeeklySales: {
-                labels: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
-                datasets: [
-                    {
-                        label: "Revenus de cette semaine",
-                        data: [0, 10, 200, 256, 10, 49, 244, 10, 229, 10, 66, 146],
-                        borderColor: "#066bf9",
-                        backgroundColor: "#066bf9",
-                        barPercentage: 0.25,
-                        fill: false
-                    },
-                    {
-                        label: "Revenus de la semaine dernière",
-                        data: [0, 22, 65, 1, 221, 11, 65, 45, 87, 111, 23, 31],
-                        borderColor: "#eee",
-                        backgroundColor: "#eee",
-                        barPercentage: 0.25,
-                        fill: false
-                    }
-                ]
+                labels: [],
+                datasets: []
             },
             chartByLocation: [
                 {name:'Canada', amount:300},
                 {name:'Brazil', amount:140},
                 {name:'France', amount:66}
             ],
-            chartLowStocks: {
-                labels: ["Stock Faible", "Total"],
-                datasets: [
-                    {
-                        label: "Revenus de cette semaine",
-                        data: [10, 90],
-                        backgroundColor: ["#066bf9", "#eee"],
-                        fill: true
-                    }
-                ]
-            },
-            chartOutStocks: {
-                labels: ["Stock Épuisé", "Total"],
-                datasets: [
-                    {
-                        label: "Revenus de cette semaine",
-                        data: [2, 98],
-                        backgroundColor: ["#066bf9", "#eee"],
-                        fill: true
-                    }
-                ]
-            },
             headersBestsellers: [
                 {
                     text: "Product",
@@ -260,59 +427,268 @@
                     sortable: false
                 }
             ],
-            listBestsellers: [
-                {
-                    product_name: "Pull Geek & Félin",
-                    product_price: "C$ 100.50",
-                    product_quantity: 5,
-                    product_amount: "C$ 502.50"
-                },
-                {
-                    product_name: "Bombers Space No-Limit",
-                    product_price: "C$ 50.00",
-                    product_quantity: 4,
-                    product_amount: "C$ 200.00"
-                },
-                {
-                    product_name: "Coupe-vent mi-automne",
-                    product_price: "C$ 10.00",
-                    product_quantity: 3,
-                    product_amount: "C$ 30.00"
-                },
-                {
-                    product_name: "Sac à dos galaxie",
-                    product_price: "C$ 100.00",
-                    product_quantity: 2,
-                    product_amount: "C$ 200.00"
-                },
-                {
-                    product_name: "Manteau polaire",
-                    product_price: "C$ 11.99",
-                    product_quantity: 1,
-                    product_amount: "C$ 11.99"
-                },
-                {
-                    product_name: "Robe soleil",
-                    product_price: "C$ 10.99",
-                    product_quantity: 1,
-                    product_amount: "C$ 10.99"
-                },
-                {
-                    product_name: "Collier demi-lune",
-                    product_price: "C$ 8.99",
-                    product_quantity: 1,
-                    product_amount: "C$ 8.99"
-                },
-                {
-                    product_name: "Souvenirs d'outre-mer",
-                    product_price: "C$ 3.99",
-                    product_quantity: 1,
-                    product_amount: "C$ 3.99"
-                }
-            ]
+            listBestsellers: [],
+            chartLowStocks: {
+                labels: [],
+                datasets: []
+            },
+            chartOutStocks: {
+                labels: [],
+                datasets: []
+            },
+            listLogs: []
         }),
         mounted () {
             this.$set(this, "isLoading", false)
+            this.getCounts()
+            this.getMonthlySales()
+            this.getWeeklySales()
+            this.getByLocation()
+            this.getBestsellers()
+            this.getStocks()
+            this.getLogs()
+        },
+        methods: {
+            /* ============================================================ //
+            // ===---   getCounts                                    ---=== //
+            // ============================================================ */
+            getCounts () {
+                let self = this
+                this.$set(this, "isLoadingCounts", true)
+                this.$set(this.dataCounts, "customers", {})
+                this.$set(this.dataCounts, "orders", {})
+                this.$set(this.dataCounts, "incomes", {})
+                this.$set(this.dataCounts, "awaitings", 0)
+                this.$set(this, "hasErrorCountsCustomers", null)
+                this.$set(this, "hasErrorCountsOrders", null)
+                this.$set(this, "hasErrorCountsIncomes", null)
+                this.$set(this, "hasErrorCountsAwaitings", null)
+                // ===--- BEGIN: axios
+                this.$axios.get(this.$web_url+"/dm-admin/counts/", {
+                    headers: { "Content-Type": "application/json", "Accept": "application/json" }
+                })
+                .then((apiSuccess) => {
+                    if (apiSuccess.data && apiSuccess.data.customers) {
+                        self.$set(self.dataCounts, "customers", apiSuccess.data.customers)
+                    } else {
+                        self.$set(self, "hasErrorCountsCustomers", self.$t("Anerroroccured"))
+                    }
+                    if (apiSuccess.data && apiSuccess.data.orders) {
+                        self.$set(self.dataCounts, "orders", apiSuccess.data.orders)
+                    } else {
+                        self.$set(self, "hasErrorCountsOrders", self.$t("Anerroroccured"))
+                    }
+                    if (apiSuccess.data && apiSuccess.data.incomes) {
+                        self.$set(self.dataCounts, "incomes", apiSuccess.data.incomes)
+                    } else {
+                        self.$set(self, "hasErrorCountsIncomes", self.$t("Anerroroccured"))
+                    }
+                    if (apiSuccess.data && apiSuccess.data.awaitings) {
+                        self.$set(self.dataCounts, "awaitings", apiSuccess.data.awaitings)
+                    } else {
+                        self.$set(self, "hasErrorCountsAwaitings", self.$t("Anerroroccured"))
+                    }
+                    self.$set(self, "isLoadingCounts", false)
+                })
+                .catch(() => {
+                    self.$set(self, "hasErrorCountsCustomers", self.$t("Anerroroccured"))
+                    self.$set(self, "hasErrorCountsOrders", self.$t("Anerroroccured"))
+                    self.$set(self, "hasErrorCountsIncomes", self.$t("Anerroroccured"))
+                    self.$set(self, "hasErrorCountsAwaitings", self.$t("Anerroroccured"))
+                    self.$set(self, "isLoadingCounts", false)
+                })
+                // ===--- END: axios
+            },
+            /* ============================================================ //
+            // ===---   getMonthlySales                              ---=== //
+            // ============================================================ */
+            getMonthlySales () {
+                let self = this
+                this.$set(this, "isLoadingMonthlySales", true)
+                this.$set(this, "chartMonthlySales", {labels: [], datasets: []})
+                this.$set(this, "hasErrorMonthlySales", null)
+                // ===--- BEGIN: axios
+                this.$axios.get(this.$web_url+"/dm-admin/monthly-sales/", {
+                    headers: { "Content-Type": "application/json", "Accept": "application/json" }
+                })
+                .then((apiSuccess) => {
+                    if (apiSuccess.data && apiSuccess.data.monthlysales) {
+                        self.$set(self, "chartMonthlySales", apiSuccess.data.monthlysales)
+                    } else {
+                        self.$set(self, "hasErrorMonthlySales", self.$t("Anerroroccured"))
+                    }
+                    self.$set(self, "isLoadingMonthlySales", false)
+                })
+                .catch(() => {
+                    self.$set(self, "hasErrorMonthlySales", self.$t("Anerroroccured"))
+                    self.$set(self, "isLoadingMonthlySales", false)
+                })
+                // ===--- END: axios
+            },
+            /* ============================================================ //
+            // ===---   getWeeklySales                               ---=== //
+            // ============================================================ */
+            getWeeklySales () {
+                let self = this
+                this.$set(this, "isLoadingWeeklySales", true)
+                this.$set(this, "chartWeeklySales", {labels: [], datasets: []})
+                this.$set(this, "hasErrorWeeklySales", null)
+                // ===--- BEGIN: axios
+                this.$axios.get(this.$web_url+"/dm-admin/weekly-sales/", {
+                    headers: { "Content-Type": "application/json", "Accept": "application/json" }
+                })
+                .then((apiSuccess) => {
+                    if (apiSuccess.data && apiSuccess.data.weeklysales) {
+                        self.$set(self, "chartWeeklySales", apiSuccess.data.weeklysales)
+                    } else {
+                        self.$set(self, "hasErrorWeeklySales", self.$t("Anerroroccured"))
+                    }
+                    self.$set(self, "isLoadingWeeklySales", false)
+                })
+                .catch(() => {
+                    self.$set(self, "hasErrorWeeklySales", self.$t("Anerroroccured"))
+                    self.$set(self, "isLoadingWeeklySales", false)
+                })
+                // ===--- END: axios
+            },
+            /* ============================================================ //
+            // ===---   getByLocation                                ---=== //
+            // ============================================================ */
+            getByLocation () {
+                let self = this
+                this.$set(this, "isLoadingByLocation", true)
+                this.$set(this, "chartByLocation", [])
+                // ===--- BEGIN: axios
+                this.$axios.get(this.$web_url+"/dm-admin/bylocation/", {
+                    headers: { "Content-Type": "application/json", "Accept": "application/json" }
+                })
+                .then((apiSuccess) => {
+                    if (apiSuccess.data && apiSuccess.data.bylocation) {
+                        self.$set(self, "chartByLocation", apiSuccess.data.bylocation)
+                    } else {
+                        self.$set(self, "hasErrorByLocation", self.$t("Anerroroccured"))
+                    }
+                    self.$set(self, "isLoadingByLocation", false)
+                })
+                .catch(() => {
+                    self.$set(self, "hasErrorByLocation", self.$t("Anerroroccured"))
+                    self.$set(self, "isLoadingByLocation", false)
+                })
+                // ===--- END: axios
+            },
+            /* ============================================================ //
+            // ===---   getBestsellers                               ---=== //
+            // ============================================================ */
+            getBestsellers () {
+                let self = this
+                this.$set(this, "isLoadingBestsellers", true)
+                this.$set(this, "listBestsellers", [])
+                this.$set(this, "hasErrorBestsellers", null)
+                // ===--- BEGIN: axios
+                this.$axios.get(this.$web_url+"/dm-admin/bestsellers/", {
+                    headers: { "Content-Type": "application/json", "Accept": "application/json" }
+                })
+                .then((apiSuccess) => {
+                    if (apiSuccess.data && apiSuccess.data.bestsellers) {
+                        self.$set(self, "listBestsellers", apiSuccess.data.bestsellers)
+                    } else {
+                        self.$set(self, "hasErrorBestsellers", self.$t("Anerroroccured"))
+                    }
+                    self.$set(self, "isLoadingBestsellers", false)
+                })
+                .catch(() => {
+                    self.$set(self, "hasErrorBestsellers", self.$t("Anerroroccured"))
+                    self.$set(self, "isLoadingBestsellers", false)
+                })
+                // ===--- END: axios
+            },
+            /* ============================================================ //
+            // ===---   getStocks                                    ---=== //
+            // ============================================================ */
+            getStocks () {
+                let self = this
+                this.$set(this, "isLoadingStocks", true)
+                this.$set(this, "chartLowStocks", {labels: [], datasets: []})
+                this.$set(this, "chartOutStocks", {labels: [], datasets: []})
+                this.$set(this, "hasErrorStocksLow", null)
+                this.$set(this, "hasErrorStocksOut", null)
+                // ===--- BEGIN: axios
+                this.$axios.get(this.$web_url+"/dm-admin/stocks/", {
+                    headers: { "Content-Type": "application/json", "Accept": "application/json" }
+                })
+                .then((apiSuccess) => {
+                    if (apiSuccess.data && apiSuccess.data.lowofstock) {
+                        self.$set(self, "chartLowStocks", apiSuccess.data.lowofstock)
+                    } else {
+                        self.$set(self, "hasErrorStocksLow", self.$t("Anerroroccured"))
+                    }
+                    if (apiSuccess.data && apiSuccess.data.outofstock) {
+                        self.$set(self, "chartOutStocks", apiSuccess.data.outofstock)
+                    } else {
+                        self.$set(self, "hasErrorStocksOut", self.$t("Anerroroccured"))
+                    }
+                    self.$set(self, "isLoadingStocks", false)
+                })
+                .catch(() => {
+                    self.$set(self, "hasErrorStocksLow", self.$t("Anerroroccured"))
+                    self.$set(self, "hasErrorStocksOut", self.$t("Anerroroccured"))
+                    self.$set(self, "isLoadingStocks", false)
+                })
+                // ===--- END: axios
+            },
+            /* ============================================================ //
+            // ===---   getLogs                                      ---=== //
+            // ============================================================ */
+            getLogs () {
+                let self = this
+                this.$set(this, "isLoadingLogs", true)
+                this.$set(this, "listLogs", [])
+                this.$set(this, "hasErrorLogs", null)
+                // ===--- BEGIN: axios
+                this.$axios.get(this.$web_url+"/dm-admin/logs/", {
+                    headers: { "Content-Type": "application/json", "Accept": "application/json" }
+                })
+                .then((apiSuccess) => {
+                    if (apiSuccess.data && apiSuccess.data.logs) {
+                        self.$set(self, "listLogs", apiSuccess.data.logs)
+                    } else {
+                        self.$set(self, "hasErrorLogs", self.$t("Anerroroccured"))
+                    }
+                    self.$set(self, "isLoadingLogs", false)
+                })
+                .catch(() => {
+                    self.$set(self, "hasErrorLogs", self.$t("Anerroroccured"))
+                    self.$set(self, "isLoadingLogs", false)
+                })
+                // ===--- END: axios
+            },
+            /* ============================================================ //
+            // ===---   goTo                                         ---=== //
+            // ============================================================ */
+            goTo (k) {
+                if (k == "lowofstock") {
+                    window.location = window.location.origin + "/" + this.$i18n.locale + "/admindshop/product/?get_product_out_or_low=lowonstock"
+                } else if (k == "outofstock") {
+                    window.location = window.location.origin + "/" + this.$i18n.locale + "/admindshop/product/?get_product_out_or_low=outofstock"
+                }
+            }
+            /* ============================================================ //
+            // ===------------------------------------------------------=== //
+            // ============================================================ */
         }
     }
 </script>
+
+<style>
+    .dmhover-cursor:hover {
+        cursor: pointer;
+    }
+    .dmadmin-bestsellers {
+        height: calc(100% - 52px)
+    }
+    .dmadmin-bestsellers > .v-data-table,
+    .dmadmin-bestsellers > .v-data-table > .v-data-table__wrapper,
+    .dmadmin-bestsellers > .v-data-table > .v-data-table__wrapper > table {
+        height: 100%
+    }
+</style>

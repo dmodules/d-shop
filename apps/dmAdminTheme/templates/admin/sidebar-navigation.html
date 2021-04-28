@@ -2,22 +2,14 @@
 
 <nav class="dm-admin-sidebar-navigation">
     <ul>
-        {% for app in available_apps %}
-            {% if app.app_label == "cms" %}
-                <li class="parent {% if app_label == app.app_label %}active{% endif %}">
-                    <a href="{{ app.app_url }}">{{ app.name }}</a>
-                    <ul>
-                        {% for model in app.models %}
-                            {% if model.object_name == "Page" %}
-                                <li class="child {% if cl.opts.object_name == model.object_name %}active{% endif %}">
-                                    <a href="{{ model.admin_url }}"><i class="fa fa-file"></i></i> {{ model.name }}</a>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
+        <li class="parent">
+            <span>{% trans "Django CMS" %}</span>
+            <ul>
+                <li class="child {% if cl.opts.object_name == 'Page' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admincms/page/"><i class="fa fa-file"></i></i> {% trans "Pages" %}</a>
                 </li>
-            {% endif %}
-        {% endfor %}
+            </ul>
+        </li>
         <li class="parent">
             <span>{% trans "Advertising" %}</span>
             <ul>
