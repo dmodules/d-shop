@@ -51,6 +51,7 @@ if os.path.exists(path_to_extended):
             new_url = url(r'^'+item+'/', include(inc_url))
             extended_urls.append(new_url)
 
+
 urlpatterns = [
 
     url(r'^attribute-autocomplete/$', AttributeAutocomplete.as_view(), name='attribute-autocomplete'),
@@ -67,6 +68,8 @@ urlpatterns = [
     url(r'^discount/', include("apps.dmRabais.urls")),
     url(r'^quotation/', include("apps.dmQuotation.urls")),
     url(r'^shipping/', include("apps.dmShipping.urls")),
+
+    url(r'^dm-admin/', include("apps.dmAdminTheme.urls")),
 
     url(r'^api/v1/products-list/$', ProductListView.as_view(), name='product-list'),
     # =====================

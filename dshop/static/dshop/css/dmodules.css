@@ -10,7 +10,7 @@ body{
 }
 
 a{
-  color:#41b6e6;
+  color:#066bf9;
   text-decoration:none;
   transition:color 0.3s;
 }
@@ -20,7 +20,7 @@ a:hover{
 }
 
 .bg_default{
-  background-color:#41b6e6!important;
+  background-color:#066bf9!important;
 }
 
 main > .container > .row {
@@ -62,7 +62,7 @@ main > .container > .row {
 }
 .topnav a:hover,
 .topnav .drawer-toggle:hover{
-  color:#41b6e6;
+  color:#066bf9;
 }
 .topnav .notif{
   font-size:1rem;
@@ -148,7 +148,7 @@ main > .container > .row {
     color: #000;
 }
 #topbar a:hover {
-    color: #41b6e6;
+    color: #066bf9;
 }
 
 @media (max-width: 1023px) {
@@ -183,7 +183,7 @@ main > .container > .row {
     margin: 1rem 0.5rem;
 }
 #tophead .tophead-topnav .tophead-icon:hover {
-    color: #41b6e6;
+    color: #066bf9;
 }
 #tophead .tophead-topnav .dm-logo {
     display: inline-block;
@@ -282,7 +282,7 @@ main > .container > .row {
     padding: 5px 10px 5px 0;
 }
 .dm-menu-toggle.active {
-    color: #41b6e6;
+    color: #066bf9;
 }
 .dm-main-menu > ul > li > .dm-menu-toggle {
     display: none;
@@ -290,7 +290,7 @@ main > .container > .row {
 .dm-main-menu > ul > li > a.selected,
 .dm-main-menu > ul > li > a:hover,
 .dm-menu-toggle:hover {
-    color: #41b6e6;
+    color: #066bf9;
     cursor: pointer;
 }
 
@@ -348,7 +348,7 @@ main > .container > .row {
 }
 .dm-main-submenu a::after {
     content: "";
-    border-top: 1px solid #41b6e6;
+    border-top: 1px solid #066bf9;
     display: block;
     width: 0;
     transition: width 0.3s;
@@ -426,7 +426,7 @@ main > .container > .row {
         display: none;
     }
     .dm-main-submenu a:hover {
-        color: #41b6e6;
+        color: #066bf9;
     }
     .dm-main-submenu li + li .dm-main-submenu.sub {
         top: 0;
@@ -503,7 +503,7 @@ main > .container > .row {
     opacity: 1;
 }
 .drawer-toggle #dm-cart-items{
-  background-color: #41b6e6;
+  background-color: #066bf9;
   border-radius: 100%;
   color: #fff;
   font-size: 10px;
@@ -624,7 +624,7 @@ main > .container > .row {
   display:none;
 }
 .dm-drawer-inner #drawer-items-list .col-8 a{
-  color:#41b6e6;
+  color:#066bf9;
   font-size:1rem;
   font-weight:800;
   line-height:120%;
@@ -643,7 +643,7 @@ main > .container > .row {
     margin: 0 0 0.5rem;
 }
 .dm-drawer-total{
-  background-color:#41b6e6;
+  background-color:#066bf9;
   color:#fff;
   font-size:0;
   line-height:0;
@@ -690,7 +690,7 @@ main > .container > .row {
   margin:0 0 0 0.5rem;
 }
 .dm-drawer-user-tabs .btn{
-  background-color:#41b6e6;
+  background-color:#066bf9;
   width:100%;
   min-width:10px;
   padding:30px 5px;
@@ -733,7 +733,7 @@ main > .container > .row {
     padding: 2px 7px 0px;
 }
 .dm-drawer .cart-change-quantity span:not(.disabled):hover {
-    background-color: #41b6e6;
+    background-color: #066bf9;
     cursor: pointer;
 }
 .dm-drawer .cart-change-quantity span.disabled {
@@ -898,10 +898,10 @@ main > .container > .row {
   color:#292b2c;
 }
 .product-card .name a:hover{
-  color:#41b6e6;
+  color:#066bf9;
 }
 .product-card .price{
-  color:#41b6e6;
+  color:#066bf9;
   font-weight:600;
 }
 .product-card .price del{
@@ -925,8 +925,8 @@ main > .container > .row {
     display: inline-block;
 }
 .dmfilters-mobile a{
-    background-color: #41b6e6;
-    border: 1px solid #41b6e6;
+    background-color: #066bf9;
+    border: 1px solid #066bf9;
     border-radius: 4px;
     color: #fff;
     font-size: 18px;
@@ -1021,8 +1021,8 @@ main > .container > .row {
 }
 .dmfilters-list input[type="checkbox"]:checked + span::before {
     content: "\e64c";
-    background-color: #41b6e6;
-    border: 1px solid #41b6e6;
+    background-color: #066bf9;
+    border: 1px solid #066bf9;
 }
 
 /* ===--- Produits: Page détail ---=== */
@@ -1050,7 +1050,7 @@ main > .container > .row {
 
 /* ===--- Vos commandes ---=== */
 .service-content-box pre{
-  border-left:2px solid #41b6e6;
+  border-left:2px solid #066bf9;
   padding-left:1rem;
 }
 .order-detail-items-list .item-media,
@@ -1173,7 +1173,7 @@ main > .container > .row {
     background-position: center;
 }
 .dmjob-plugin .icon_box_style4 .icon span {
-    background-color: #41b6e6;
+    background-color: #066bf9;
     border-radius: 100%;
     color: #fff;
     font-size: 31px;

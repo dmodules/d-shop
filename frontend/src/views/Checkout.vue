@@ -1052,7 +1052,6 @@ export default {
       this.$refs.elementRef.submit();
     },
     tokenCreated (token) {
-      console.log(token);
       this.stripe_token = token;
       // Send this token to server
       this.nextStep();
