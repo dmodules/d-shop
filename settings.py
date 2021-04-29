@@ -539,14 +539,12 @@ CMSPLUGIN_CASCADE = {
         'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
         'apiKey': 'AIzaSyD71sHrtkZMnLqTbgRmY_NsO0A9l9BQmv4',
     },
-    'bookmark_prefix':
-    '/',
+    'bookmark_prefix': '/',
     'segmentation_mixins': [
         ('shop.cascade.segmentation.EmulateCustomerModelMixin',
          'shop.cascade.segmentation.EmulateCustomerAdminMixin'),
     ],
-    'allow_plugin_hiding':
-    True,
+    'allow_plugin_hiding': True,
 }
 
 CKEDITOR_SETTINGS = {
@@ -554,11 +552,11 @@ CKEDITOR_SETTINGS = {
     'skin': 'moono-lisa',
     'toolbar_CMS': [
         ['Undo', 'Redo'],
-        ['cmsplugins', '-', 'ShowBlocks'],
-        ['Format'],
-        ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'],
-        '/',
-        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript','Superscript', '-', 'RemoveFormat'],
+        ['cmsplugins', 'ShowBlocks'],
+        ['Format', 'Styles', 'FontSize'],
+        ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
+        ['Maximize', ''], '/',
+        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
         ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
         ['HorizontalRule'],
         ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
@@ -568,35 +566,39 @@ CKEDITOR_SETTINGS = {
 }
 
 CKEDITOR_SETTINGS_CAPTION = {
-    'language':
-    '{{ language }}',
-    'skin':
-    'moono-lisa',
-    'height':
-    250,
-    'toolbar_HTMLField': [['Undo', 'Redo'], ['Format', 'Styles'],
-                          [
-                              'Bold', 'Italic', 'Underline', '-', 'Subscript',
-                              'Superscript', '-', 'RemoveFormat'
-                          ], ['Source']],
+    'language': '{{ language }}',
+    'skin': 'moono-lisa',
+    'height': 250,
+    'toolbar_HTMLField': [
+        ['Undo', 'Redo'],
+        ['cmsplugins', 'ShowBlocks'],
+        ['Format', 'Styles', 'FontSize'],
+        ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
+        ['Maximize', ''], '/',
+        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+        ['HorizontalRule'],
+        ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+        ['Source']
+    ]
 }
 
 CKEDITOR_SETTINGS_DESCRIPTION = {
-    'language':
-    '{{ language }}',
-    'skin':
-    'moono-lisa',
-    'height':
-    250,
-    'toolbar_HTMLField':
-    [['Undo', 'Redo'], ['cmsplugins', '-', 'ShowBlocks'], ['Format', 'Styles'],
-     ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'],
-     ['Maximize', ''], '/',
-     [
-         'Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript', '-',
-         'RemoveFormat'
-     ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight'], ['HorizontalRule'],
-     ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'], ['Source']]
+    'language': '{{ language }}',
+    'skin': 'moono-lisa',
+    'height': 250,
+    'toolbar_HTMLField': [
+        ['Undo', 'Redo'],
+        ['cmsplugins', 'ShowBlocks'],
+        ['Format', 'Styles', 'FontSize'],
+        ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
+        ['Maximize', ''], '/',
+        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+        ['HorizontalRule'],
+        ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+        ['Source']
+    ]
 }
 
 CKEDITOR_SETTINGS_DMPLUGIN = {
@@ -605,11 +607,11 @@ CKEDITOR_SETTINGS_DMPLUGIN = {
     'height': 250,
     'toolbar_HTMLField': [
         ['Undo', 'Redo'],
-        ['ShowBlocks'],
-        ['Format', 'Styles'],
+        ['cmsplugins', 'ShowBlocks'],
+        ['Format', 'Styles', 'FontSize'],
         ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
-        '/',
-        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript','Superscript', '-', 'RemoveFormat'],
+        ['Maximize', ''], '/',
+        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
         ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
         ['HorizontalRule'],
         ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
@@ -623,11 +625,11 @@ CKEDITOR_SETTINGS_DMBLOCKPLUGIN = {
     'height': 250,
     'toolbar_HTMLField': [
         ['Undo', 'Redo'],
-        ['ShowBlocks'],
-        ['Format', 'Styles'],
+        ['cmsplugins', 'ShowBlocks'],
+        ['Format', 'Styles', 'FontSize'],
         ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
-        '/',
-        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript','Superscript', '-', 'RemoveFormat'],
+        ['Maximize', ''], '/',
+        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
         ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
         ['HorizontalRule'],
         ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],

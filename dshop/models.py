@@ -1104,6 +1104,10 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         blank=True
     )
 
+    class Meta:
+        verbose_name = _("Product Variant")
+        verbose_name_plural = _("Product Variants")
+
     def __str__(self):
         return _("{product}").format(product=self.product)
 
@@ -1206,6 +1210,13 @@ class ProductDocument(models.Model):
         null=False,
         blank=False
     )
+
+    class Meta:
+        verbose_name = _("Product Document")
+        verbose_name_plural = _("Product Documents")
+
+    def __str__(self):
+        return self.name
 
 
 #######################################################################

@@ -13,7 +13,7 @@ $(document).ready(function() {
 
     $(window).on("click", function() {
         if (window.innerWidth < 960) {
-            if (el.hasClass("dm-show-sidebar")) {
+            if (el.hasClass("dm-show-sidebar") && !el.hasClass("popup")) {
                 el.removeClass("dm-show-sidebar")
                 dmSetCookie("dm_asidebar", 0, 7)
             }
@@ -23,7 +23,7 @@ $(document).ready(function() {
     /* ===--- Listeners ---=== */
 
     $(window).on("resize", function() {
-        if (window.innerWidth >= 960 && !el.hasClass("dm-show-sidebar")) {
+        if (window.innerWidth >= 960 && !el.hasClass("dm-show-sidebar") && !el.hasClass("popup")) {
             el.addClass("dm-show-sidebar")
             dmSetCookie("dm_asidebar", 1, 7)
         }

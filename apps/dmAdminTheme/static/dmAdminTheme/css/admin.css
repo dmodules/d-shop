@@ -357,12 +357,12 @@ input[type=submit].default:hover {
         flex: 0 0 100%;
         max-width: 100%;
     }
-    #dm-admin.dm-show-sidebar .dm-admin-sidebar {
+    #dm-admin.dm-show-sidebar:not(.popup) .dm-admin-sidebar {
         flex: 0 0 16.6666666667%;
         max-width: 16.6666666667%;
         transform: translateX(0);
     }
-    #dm-admin.dm-show-sidebar .dm-admin-main {
+    #dm-admin.dm-show-sidebar:not(.popup) .dm-admin-main {
         flex: 0 0 83.3333333333%;
         max-width: 83.3333333333%;
     }
@@ -383,14 +383,14 @@ input[type=submit].default:hover {
         z-index: 999999;
         padding-bottom: 12px;
     }
-    #dm-admin.dm-show-sidebar .dm-admin-sidebar {
+    #dm-admin.dm-show-sidebar:not(.popup) .dm-admin-sidebar {
         transform: translateX(0);
     }
     .dm-admin-sidebar-footer {
         position: relative;
         padding-top: 4rem;
     }
-    #dm-admin.dm-show-sidebar .dm-admin-main::before {
+    #dm-admin.dm-show-sidebar:not(.popup) .dm-admin-main::before {
         content: "";
         background: #000;
         position: fixed;
@@ -535,5 +535,89 @@ div.breadcrumbs a:hover {
     .col-md-9 {
         flex: 0 0 auto;
         width: 100%;
+    }
+}
+
+/* ===--- Fixes ---=== */
+input {
+    min-height: 32px;
+}
+/* ===---=== */
+.selector {
+    width: 95%;
+}
+.selector-available,
+.selector-chosen {
+    width: calc(45% - 22px);
+}
+.selector-available select,
+.selector-chosen select {
+    width: 100%;
+    min-height: 17.2em;
+}
+.selector .selector-available input {
+    width: 80%;
+}
+@media (max-width: 767px) {
+    .selector-available,
+    .selector-chosen {
+        width: 100%;
+    }
+    .selector ul.selector-chooser {
+        height: 52px;
+        margin: 10px;
+    }
+}
+/* ===---=== */
+.filer-dropzone ~ .related-widget-wrapper-link {
+    display: none;
+}
+form .form-row .filer-dropzone .filerFile .related-lookup.related-lookup-change,
+form .form-row .filer-dropzone .filerFile .filerClearer {
+    position: absolute;
+    right: 0;
+}
+form .form-row .filer-dropzone .filerFile .related-lookup.related-lookup-change {
+    top: 20px;
+}
+form .form-row .filer-dropzone .filerFile .filerClearer {
+    top: -20px;
+}
+
+@media (max-width: 767px) {
+    textarea.vLargeTextField,
+    textarea.vXMLLargeTextField {
+        width: 100%;
+        max-width: 100%;
+    }
+    form .form-row .filer-dropzone {
+        width: 100%;
+    }
+    form .form-row .filer-dropzone .filerFile {
+        text-align: center;
+    }
+    form .form-row .filer-dropzone .filerFile img,
+    form .form-row .filer-dropzone .filerFile .related-lookup {
+        float: none!important;
+    }
+}
+
+/* ===--- Page Produit ---=== */
+
+.dynamic-variants .field-product_code input {
+    width: 100%;
+    max-width: 120px;
+    min-width: 100px;
+}
+form .form-row.dynamic-variants .field-variant_image .filer-dropzone.filer-dropzone-mobile .filerFile  {
+    top: 8px!important;
+}
+form .form-row.dynamic-variants .field-variant_image .filer-dropzone .filerFile .related-lookup  {
+    margin: 24px 0;
+}
+
+@media (min-width: 1024px) {
+    form .form-row.dynamic-variants .field-variant_image .filer-dropzone.filer-dropzone-mobile .filerFile  {
+        top: 0!important;
     }
 }

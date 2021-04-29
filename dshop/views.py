@@ -336,7 +336,10 @@ class LoadFilters(APIView):
                 url = ''
                 if filt.image:
                     url = filt.image.url
-                name = filt.name_trans if filt.name_trans else filt.name
+                try:
+                    name = filt.name_trans if filt.name_trans else filt.name
+                except Exception:
+                    name = filt.name
                 # ===---
                 filters.append({
                     'id': filt.id,
@@ -352,7 +355,10 @@ class LoadFilters(APIView):
         # ===--- Filters without group
         filters = []
         for filt in ProductFilter.objects.filter(group=None):
-            name = filt.name_trans if filt.name_trans else filt.name
+            try:
+                name = filt.name_trans if filt.name_trans else filt.name
+            except Exception:
+                name = filt.name
             filters.append({'id': filt.id, 'name': name, 'order': filt.order})
         data['default'] = {'filter': filters}
         # ===---

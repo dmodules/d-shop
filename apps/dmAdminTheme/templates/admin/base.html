@@ -93,18 +93,18 @@
                             </div>
                         {% endif %}
                         <div class="col-12 {% if not is_popup %}col-md-10{% endif %} dm-admin-main">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="dm-admin-toggle-sidebar">
-                                            <i class="mdi mdi-menu"></i>
-                                        </div>
-                                        {% block welcome-msg %}
-                                            <div class="dm-admin-welcomename">{% trans 'Welcome,' %} <strong>{% firstof user.get_short_name user.get_username %}</strong>.</div>
-                                        {% endblock %}
-                                    </div>
-                                    <div class="col-6">
-                                        {% if not is_popup %}
+                            {% if not is_popup %}
+                                <div class="container-fluid">
+                                    <div class="row">
+                                            <div class="col-6">
+                                                <div class="dm-admin-toggle-sidebar">
+                                                    <i class="mdi mdi-menu"></i>
+                                                </div>
+                                                {% block welcome-msg %}
+                                                    <div class="dm-admin-welcomename">{% trans 'Welcome,' %} <strong>{% firstof user.get_short_name user.get_username %}</strong>.</div>
+                                                {% endblock %}
+                                            </div>
+                                        <div class="col-6">
                                             {% block usertools %}
                                                 {% if has_permission %}
                                                     <div id="user-tools">
@@ -121,10 +121,10 @@
                                                 {% endif %}
                                             {% endblock %}
                                             {% block nav-global %}{% endblock %}
-                                        {% endif %}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            {% endif %}
                             <div class="container-fluid">
                                 <div class="row">
                                     {% if not is_popup %}
