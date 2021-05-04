@@ -334,8 +334,6 @@ class LoadFilters(APIView):
             temp['order'] = group.order
             for filt in ProductFilter.objects.filter(group=group):
                 url = ''
-                if filt.image:
-                    url = filt.image.url
                 try:
                     name = filt.name_trans if filt.name_trans else filt.name
                 except Exception:
@@ -346,7 +344,7 @@ class LoadFilters(APIView):
                     'name': name,
                     'order': filt.order,
                     'image': url,
-                    'description': filt.description
+                    'description': ''
                 })
             temp['filter'] = filters
             group_name = group.name_trans if group.name_trans else group.name
