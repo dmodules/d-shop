@@ -525,12 +525,10 @@ class ProductFilterAdmin(TranslatableAdmin):
         (_("Translatable Fields"), {
             "fields": [
                 "name_trans",
-                "description"
             ]
         }),
         (None, {
             "fields": [
-                ("image"),
                 ("order")
             ]
         }),
