@@ -640,7 +640,7 @@ class VariantInlineFormSet(BaseInlineFormSet):
                 break
             if not check_data:
                 check_data = is_valid
-            if check_data != is_valid:
+            if sorted(check_data) != sorted(is_valid):
                 flag = True
                 message = _("You need to select same Attribute type for all variant")
                 break
