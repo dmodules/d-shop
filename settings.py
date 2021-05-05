@@ -1,53 +1,99 @@
 import os
 import six
+import dj_database_url
 from decimal import Decimal
-from slugify import slugify
+from pathlib import Path
 
 from django.urls import reverse_lazy
 from django.utils.text import format_lazy
 from django.utils.translation import ugettext_lazy as _
+from django_storage_url import dsn_configured_storage_class
 
 from cmsplugin_cascade.bootstrap4.mixins import BootstrapUtilities
 from cmsplugin_cascade.extra_fields.config import PluginExtraFieldsConfig
 
-INSTALLED_ADDONS = [
-    # <INSTALLED_ADDONS>  # Warning: text inside the INSTALLED_ADDONS tags is auto-generated. Manual changes will be overwritten.
-    'aldryn-addons',
-    'aldryn-django',
-    'aldryn-sso',
-    'aldryn-django-cms',
-    'djangocms-file',
-    'djangocms-googlemap',
-    'djangocms-history',
-    'djangocms-link',
-    'djangocms-picture',
-    'djangocms-snippet',
-    'djangocms-style',
-    'djangocms-text-ckeditor',
-    'djangocms-video',
-    'django-filer',
-    # </INSTALLED_ADDONS>
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'shop.middleware.CustomerMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'cms.middleware.language.LanguageCookieMiddleware',
+    'cms.middleware.user.CurrentUserMiddleware',
+    'cms.middleware.page.CurrentPageMiddleware',
+    'cms.middleware.toolbar.ToolbarMiddleware',
 ]
 
-import aldryn_addons.settings  # noqa: E402
-aldryn_addons.settings.load(locals())
+ROOT_URLCONF = 'urls'
 
-INSTALLED_APPS.remove('djangocms_admin_style')
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
-INSTALLED_APPS.insert(
-    INSTALLED_APPS.index('django.contrib.admin'),
-    "apps.dmAdminTheme",
-)
+WSGI_APPLICATION = 'wsgi.application'
 
-INSTALLED_APPS.insert(
-    INSTALLED_APPS.index('django.contrib.admin'),
+DATABASE_URL = os.environ.get('DATABASE_URL',
+                              'postgres://postgres@postgres:5432/db')
+
+DATABASES = {'default': dj_database_url.parse(DATABASE_URL)}
+
+
+'''AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]'''
+
+INSTALLED_APPS = [
     "dal",
-)
-
-INSTALLED_APPS.insert(
-    INSTALLED_APPS.index('django.contrib.admin'),
     "dal_select2",
-)
+    'apps.dmAdminTheme',
+    'django.contrib.admin',
+    'django.contrib.sites',
+    'django.contrib.contenttypes',
+    'django.contrib.auth',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'cms',
+    'menus',
+    'treebeard',
+    'sekizai',
+    'filer',
+    'easy_thumbnails',
+    'mptt',
+    'django_select2',
+    'djangocms_file',
+    'djangocms_googlemap',
+    'djangocms_history',
+    'djangocms_link',
+    'djangocms_picture',
+    'djangocms_snippet',
+    'djangocms_style',
+    'djangocms_text_ckeditor',
+    'djangocms_video',
+]
 
 INSTALLED_APPS.extend([  # noqa: F821
     # ===---
@@ -93,7 +139,42 @@ INSTALLED_APPS.extend([  # noqa: F821
 ])
 
 path_to_extended = '/app/extended_apps/'
-EXTENDED_APP_DIR = 'extended_apps'
+EXTENDED_APP_DIR = 'extended_apps'  # Internationalization
+# https://docs.djangoproject.com/en/3.1/topics/i18n/
+
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'UTC'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = True
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.1/howto/static-files/
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Media files
+# DEFAULT_FILE_STORAGE is configured using DEFAULT_STORAGE_DSN
+
+# read the setting value from the environment variable
+DEFAULT_STORAGE_DSN = os.environ.get('DEFAULT_STORAGE_DSN')
+
+# dsn_configured_storage_class() requires the name of the setting
+DefaultStorageClass = dsn_configured_storage_class('DEFAULT_STORAGE_DSN')
+
+# Django's DEFAULT_FILE_STORAGE requires the class name
+DEFAULT_FILE_STORAGE = 'settings.DefaultStorageClass'
+
+# only required for local file storage and serving, in development
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join('/data/media/')
+
 if os.path.exists(path_to_extended):
     for item in os.listdir(path_to_extended):
         app = ".".join([EXTENDED_APP_DIR, str(item)])
@@ -103,7 +184,9 @@ if os.path.exists(path_to_extended):
 
 ############################################
 
-CITIES_LIGHT_CITY_SOURCES = ['http://download.geonames.org/export/dump/cities500.zip']
+CITIES_LIGHT_CITY_SOURCES = [
+    'http://download.geonames.org/export/dump/cities500.zip'
+]
 
 # Shop Payments and Order Settings
 
@@ -136,17 +219,6 @@ SHOP_CASCADE_FORMS = {
 
 ############################################
 # Middleware Settings
-
-MIDDLEWARE.extend([  # noqa: F821
-    'shop.middleware.CustomerMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'django.middleware.gzip.GZipMiddleware',
-    'cms.middleware.language.LanguageCookieMiddleware',
-    'cms.middleware.user.CurrentUserMiddleware',
-    'cms.middleware.page.CurrentPageMiddleware',
-    'cms.middleware.utils.ApphookReloadMiddleware',
-    'cms.middleware.toolbar.ToolbarMiddleware',
-])
 
 STAGE = os.getenv("STAGE", "local").lower()
 
@@ -215,12 +287,10 @@ if STRIPE_SECRET_KEY is not None:
     SHOP_CART_MODIFIERS.extend(
         ["apps.dmBillingStripe.modifiers.StripePaymentModifier"])
 
-
 #######################################################################
 # Feature Settings
 
 FEATURES = os.getenv("FEATURES", "")
-
 
 #######################################################################
 # Square Settings
@@ -234,25 +304,6 @@ SQUARE_ENVIRONMENT = os.getenv("SQUARE_ENVIRONMENT")
 if SQUARE_APIKEY is not None:
     SHOP_CART_MODIFIERS.extend(
         ["apps.dmBillingSquare.modifiers.SquarePaymentModifier"])
-
-#######################################################################
-# Paths Settings
-
-BASE_DIR = os.path.dirname(__file__)
-PROJECT_ROOT = os.path.dirname(__file__)
-
-STATIC_ROOT = os.path.join(BASE_DIR, "static_collected")
-STATIC_URL = os.environ.get("STATIC_URL", "/static/")
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-
-#######################################################################
-# Internationalization
-
-TIME_ZONE = os.getenv("TIME_ZONE", "America/Toronto")
-USE_TZ = True
-
-USE_I18N = True
-USE_L10N = True
 
 USE_THOUSAND_SEPARATOR = False
 
@@ -314,8 +365,8 @@ TEMPLATES = [{
             'django.contrib.auth.context_processors.auth',
             'django.template.context_processors.debug',
             'django.template.context_processors.i18n',
-            'django.template.context_processors.media',
-            'django.template.context_processors.static',
+            #'django.template.context_processors.media',
+            #'django.template.context_processors.static',
             'django.template.context_processors.tz',
             'django.template.context_processors.csrf',
             'django.template.context_processors.request',
@@ -339,20 +390,18 @@ TEMPLATES = [{
             'django.template.context_processors.static',
             'django.template.context_processors.tz',
             'django.template.context_processors.request',
+            'cms.context_processors.cms_settings'
         ]
     }
 }]
 
-THUMBNAIL_PROCESSORS = THUMBNAIL_PROCESSORS + (
-    "easy_thumbnails.processors.background", )
-
-#######################################################################
-#
-
-POST_OFFICE = {'TEMPLATE_ENGINE': 'post_office'}
-
-#######################################################################
-#
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    'easy_thumbnails.processors.scale_and_crop',
+    'easy_thumbnails.processors.filters',
+    'easy_thumbnails.processors.background',
+)
 
 AUTH_PASSWORD_VALIDATORS = [{
     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
@@ -539,107 +588,123 @@ CMSPLUGIN_CASCADE = {
         'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
         'apiKey': 'AIzaSyD71sHrtkZMnLqTbgRmY_NsO0A9l9BQmv4',
     },
-    'bookmark_prefix': '/',
+    'bookmark_prefix':
+    '/',
     'segmentation_mixins': [
         ('shop.cascade.segmentation.EmulateCustomerModelMixin',
          'shop.cascade.segmentation.EmulateCustomerAdminMixin'),
     ],
-    'allow_plugin_hiding': True,
+    'allow_plugin_hiding':
+    True,
 }
 
 CKEDITOR_SETTINGS = {
-    'language': '{{ language }}',
-    'skin': 'moono-lisa',
-    'toolbar_CMS': [
-        ['Undo', 'Redo'],
-        ['cmsplugins', 'ShowBlocks'],
-        ['Format', 'Styles', 'FontSize'],
-        ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
-        ['Maximize', ''], '/',
-        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
-        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-        ['HorizontalRule'],
-        ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
-        ['Source']
-    ],
-    'stylesSet': format_lazy('default:{}', reverse_lazy('admin:cascade_texteditor_config')),
+    'language':
+    '{{ language }}',
+    'skin':
+    'moono-lisa',
+    'toolbar_CMS':
+    [['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
+     ['Format', 'Styles', 'FontSize'],
+     ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
+     ['Maximize', ''], '/',
+     [
+         'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
+         'Superscript', '-', 'RemoveFormat'
+     ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+     ['HorizontalRule'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+     ['Source']],
+    'stylesSet':
+    format_lazy('default:{}', reverse_lazy('admin:cascade_texteditor_config')),
 }
 
 CKEDITOR_SETTINGS_CAPTION = {
-    'language': '{{ language }}',
-    'skin': 'moono-lisa',
-    'height': 250,
-    'toolbar_HTMLField': [
-        ['Undo', 'Redo'],
-        ['cmsplugins', 'ShowBlocks'],
-        ['Format', 'Styles', 'FontSize'],
-        ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
-        ['Maximize', ''], '/',
-        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
-        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-        ['HorizontalRule'],
-        ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
-        ['Source']
-    ]
+    'language':
+    '{{ language }}',
+    'skin':
+    'moono-lisa',
+    'height':
+    250,
+    'toolbar_HTMLField':
+    [['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
+     ['Format', 'Styles', 'FontSize'],
+     ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
+     ['Maximize', ''], '/',
+     [
+         'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
+         'Superscript', '-', 'RemoveFormat'
+     ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+     ['HorizontalRule'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+     ['Source']]
 }
 
 CKEDITOR_SETTINGS_DESCRIPTION = {
-    'language': '{{ language }}',
-    'skin': 'moono-lisa',
-    'height': 250,
-    'toolbar_HTMLField': [
-        ['Undo', 'Redo'],
-        ['cmsplugins', 'ShowBlocks'],
-        ['Format', 'Styles', 'FontSize'],
-        ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
-        ['Maximize', ''], '/',
-        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
-        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-        ['HorizontalRule'],
-        ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
-        ['Source']
-    ]
+    'language':
+    '{{ language }}',
+    'skin':
+    'moono-lisa',
+    'height':
+    250,
+    'toolbar_HTMLField':
+    [['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
+     ['Format', 'Styles', 'FontSize'],
+     ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
+     ['Maximize', ''], '/',
+     [
+         'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
+         'Superscript', '-', 'RemoveFormat'
+     ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+     ['HorizontalRule'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+     ['Source']]
 }
 
 CKEDITOR_SETTINGS_DMPLUGIN = {
-    'language': '{{ language }}',
-    'skin': 'moono-lisa',
-    'height': 250,
-    'toolbar_HTMLField': [
-        ['Undo', 'Redo'],
-        ['cmsplugins', 'ShowBlocks'],
-        ['Format', 'Styles', 'FontSize'],
-        ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
-        ['Maximize', ''], '/',
-        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
-        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-        ['HorizontalRule'],
-        ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
-        ['Source']
-    ]
+    'language':
+    '{{ language }}',
+    'skin':
+    'moono-lisa',
+    'height':
+    250,
+    'toolbar_HTMLField':
+    [['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
+     ['Format', 'Styles', 'FontSize'],
+     ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
+     ['Maximize', ''], '/',
+     [
+         'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
+         'Superscript', '-', 'RemoveFormat'
+     ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+     ['HorizontalRule'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+     ['Source']]
 }
 
 CKEDITOR_SETTINGS_DMBLOCKPLUGIN = {
-    'language': '{{ language }}',
-    'skin': 'moono-lisa',
-    'height': 250,
-    'toolbar_HTMLField': [
-        ['Undo', 'Redo'],
-        ['cmsplugins', 'ShowBlocks'],
-        ['Format', 'Styles', 'FontSize'],
-        ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
-        ['Maximize', ''], '/',
-        ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
-        ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-        ['HorizontalRule'],
-        ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
-        ['Source']
-    ]
+    'language':
+    '{{ language }}',
+    'skin':
+    'moono-lisa',
+    'height':
+    250,
+    'toolbar_HTMLField':
+    [['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
+     ['Format', 'Styles', 'FontSize'],
+     ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
+     ['Maximize', ''], '/',
+     [
+         'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
+         'Superscript', '-', 'RemoveFormat'
+     ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+     ['HorizontalRule'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+     ['Source']]
 }
 
 SELECT2_CSS = 'node_modules/select2/dist/css/select2.min.css'
 SELECT2_JS = 'node_modules/select2/dist/js/select2.min.js'
 SELECT2_I18N_PATH = 'node_modules/select2/dist/js/i18n'
+
+STATICFILES_DIRS = [
+    ('node_modules', os.path.join(BASE_DIR, 'node_modules')),
+]
 
 #######################################################################
 # Full index text search settings
@@ -656,7 +721,7 @@ ELASTICSEARCH_DSL = {
 # Frontend Settings
 
 if STAGE == "live" or STAGE == "test":
-    STATICFILES_DIRS = STATICFILES_DIRS + ['/app/frontend/bundle/pro']
+    STATICFILES_DIRS = ['/app/frontend/bundle/pro']
     VUE_ROOT = os.path.join('/app/frontend/bundle/pro/')
     WEBPACK_LOADER = {
         'DEFAULT': {
@@ -665,7 +730,7 @@ if STAGE == "live" or STAGE == "test":
         }
     }
 if STAGE == 'local':
-    STATICFILES_DIRS = STATICFILES_DIRS + ['/app/frontend/bundle/dev']
+    STATICFILES_DIRS = ['/app/frontend/bundle/dev']
     VUE_ROOT = os.path.join('/app/frontend/bundle/dev/')
     WEBPACK_LOADER = {
         'DEFAULT': {
@@ -736,8 +801,10 @@ TEMP_ADMIN_REORDER = [
         ]
     },
     {
-        "app": "dshop",
-        "label": _("Shipping"),
+        "app":
+        "dshop",
+        "label":
+        _("Shipping"),
         "models": [
             "dmShipping.ShippingManagement",
             "dmShipping.ShippingCountry",
@@ -810,32 +877,59 @@ if STAGE != 'local':
     from sentry_sdk.integrations.django import DjangoIntegration
 
     sentry_sdk.init(
-        dsn="https://34444139af8548e99bce82a828909a20@o517405.ingest.sentry.io/5625175",
+        dsn=
+        "https://34444139af8548e99bce82a828909a20@o517405.ingest.sentry.io/5625175",
         integrations=[DjangoIntegration()],
         # If you wish to associate users to errors (assuming you are using
         # django.contrib.auth) you may enable sending PII data.
         debug=DEBUG,
         release=os.getenv('GIT_COMMIT', 'develop'),
         environment=os.getenv('STAGE', 'local'),
-        send_default_pii=True
-    )
+        send_default_pii=True)
 
 email_path = os.path.join('theme', THEME_SLUG, 'email')
 
 NOTIFICATION_TARGET = {
-    'payment_confirmed':
-        {
-            'email_template_vendor': os.path.join(email_path, 'vendor_order_receipt.html'),
-            'email_template_customer': os.path.join(email_path, 'customer_order_receipt.html'),
-            'to_vendor': True,
-            'to_customer': True,
-            'cc_emails': True
-        },
-    'ready_for_delivery':
-        {
-            'email_template': os.path.join(email_path, 'customer_shipped_receipt.html'),
-            'to_vendor': False,
-            'to_customer': True,
-            'cc_emails': True
-        }
+    'payment_confirmed': {
+        'email_template_vendor':
+        os.path.join(email_path, 'vendor_order_receipt.html'),
+        'email_template_customer':
+        os.path.join(email_path, 'customer_order_receipt.html'),
+        'to_vendor':
+        True,
+        'to_customer':
+        True,
+        'cc_emails':
+        True
+    },
+    'ready_for_delivery': {
+        'email_template': os.path.join(email_path,
+                                       'customer_shipped_receipt.html'),
+        'to_vendor': False,
+        'to_customer': True,
+        'cc_emails': True
+    }
 }
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get('SECRET_KEY', '4zivFCodJW7ku6h6dyeA')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.environ.get('DEBUG') == "True"
+
+DIVIO_DOMAIN = os.environ.get('DOMAIN', '')
+DIVIO_DOMAIN_ALIASES = [
+    d.strip() for d in os.environ.get('DOMAIN_ALIASES', '').split(',')
+    if d.strip()
+]
+DIVIO_DOMAIN_REDIRECTS = [
+    d.strip() for d in os.environ.get('DOMAIN_REDIRECTS', '').split(',')
+    if d.strip()
+]
+
+ALLOWED_HOSTS = [DIVIO_DOMAIN] + DIVIO_DOMAIN_ALIASES + DIVIO_DOMAIN_REDIRECTS
+
+# Redirect to HTTPS by default, unless explicitly disabled
+SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT') != "False"
+
+SELECT2_CACHE_BACKEND = "select2"

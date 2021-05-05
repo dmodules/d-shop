@@ -1,13 +1,13 @@
 import os
-import aldryn_addons.urls
 
 from django.conf import settings
 from django.conf.urls import url, include
-from aldryn_django.utils import i18n_patterns
 from django.contrib import admin
+from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import TemplateView
 from django.views.static import serve
 from django.utils.translation import ugettext_lazy as _
+from django.conf.urls.static import static
 
 from django.http import HttpResponse
 from django.contrib.sitemaps.views import sitemap
@@ -111,24 +111,11 @@ urlpatterns = [
     # ===------------------=== #
     ############################
 
-] + extended_urls + aldryn_addons.urls.patterns() + i18n_patterns(
-
-    url(r'^admin', admin.site.urls),
+] + extended_urls + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + i18n_patterns(
 
     url(r'^message-envoye/', TemplateView.as_view(
         template_name="theme/{}/pages/message-envoye.html".format(settings.THEME_SLUG)
     )),
-
-    # url(r'^produits/b(?P<brand_id>[0-9]+)-(?P<brand_slug>.+)$', TemplateView.as_view(
-    #     template_name='theme/{}/pages/produits.html'.format(settings.THEME_SLUG)
-    # )),
-    # url(r'^produits/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$', TemplateView.as_view(
-    #     template_name='theme/{}/pages/produits.html'.format(settings.THEME_SLUG)
-    # )),
-    # url(r'^produits/', TemplateView.as_view(
-    #     template_name='theme/{}/pages/produits.html'.format(settings.THEME_SLUG)
-    # ), name='produits'),
-
     url(r'^search/', include("apps.dmSearch.urls")),
 
     ############################
@@ -159,5 +146,6 @@ urlpatterns = [
 
     # MUST be the last entry!
     url('sentry-debug/', trigger_error),
-    *aldryn_addons.urls.i18n_patterns()
+    url(r'^admin/', admin.site.urls),
+    url(r'^', include('cms.urls')),
 )
