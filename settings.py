@@ -882,7 +882,7 @@ if STAGE != 'local':
         integrations=[DjangoIntegration()],
         # If you wish to associate users to errors (assuming you are using
         # django.contrib.auth) you may enable sending PII data.
-        debug=DEBUG,
+        debug=os.environ.get('DEBUG') == "True",
         release=os.getenv('GIT_COMMIT', 'develop'),
         environment=os.getenv('STAGE', 'local'),
         send_default_pii=True)
