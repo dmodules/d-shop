@@ -6,7 +6,7 @@
             <span>{% trans "Django CMS" %}</span>
             <ul>
                 <li class="child {% if cl.opts.object_name == 'Page' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admincms/page/"><i class="fa fa-file"></i></i> {% trans "Pages" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/cms/page/"><i class="fa fa-file"></i></i> {% trans "Pages" %}</a>
                 </li>
             </ul>
         </li>
@@ -14,10 +14,10 @@
             <span>{% trans "Advertising" %}</span>
             <ul>
                 <li class="child {% if cl.opts.object_name == 'dmAdvertisingTopBanner' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admindmAdvertising/dmadvertisingtopbanner/"><i class="fas fa-ad"></i></i> {% trans "Advertising Top Banner" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/dmAdvertising/dmadvertisingtopbanner/"><i class="fas fa-ad"></i></i> {% trans "Advertising Top Banner" %}</a>
                 </li>
                 <li class="child {% if cl.opts.object_name == 'dmAdvertisingPopup' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admindmAdvertising/dmadvertisingpopup/"><i class="fas fa-exclamation"></i></i> {% trans "Advertising Popup" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/dmAdvertising/dmadvertisingpopup/"><i class="fas fa-exclamation"></i></i> {% trans "Advertising Popup" %}</a>
                 </li>
             </ul>
         </li>
@@ -25,31 +25,31 @@
             <span>{% trans "Shop" %}</span>
             <ul>
                 <li class="child {% if cl.opts.object_name == 'ProductCategory' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admindshop/productcategory/"><i class="fas fa-stream"></i></i> {% trans "Product's Categories" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/dshop/productcategory/"><i class="fas fa-stream"></i></i> {% trans "Product's Categories" %}</a>
                 </li>
                 <li class="child {% if cl.opts.object_name == 'ProductFilter' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admindshop/productfilter/"><i class="fas fa-server"></i></i> {% trans "Product's Filters" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/dshop/productfilter/"><i class="fas fa-server"></i></i> {% trans "Product's Filters" %}</a>
                 </li>
                 <li class="child {% if cl.opts.object_name == 'ProductBrand' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admindshop/productbrand/"><i class="fas fa-th-large"></i></i> {% trans "Product's Brands" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/dshop/productbrand/"><i class="fas fa-th-large"></i></i> {% trans "Product's Brands" %}</a>
                 </li>
                 <li class="d-none child {% if cl.opts.object_name == 'ProductLabel' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admindshop/productlabel/"><i class="mdi mdi-home"></i></i> {% trans "Product's Labels" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/dshop/productlabel/"><i class="mdi mdi-home"></i></i> {% trans "Product's Labels" %}</a>
                 </li>
                 <li class="child {% if cl.opts.object_name == 'Attribute' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admindshop/attribute/"><i class="fas fa-th"></i></i> {% trans "Product's Attributes" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/dshop/attribute/"><i class="fas fa-th"></i></i> {% trans "Product's Attributes" %}</a>
                 </li>
                 <li class="child {% if cl.opts.object_name == 'Product' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admindshop/product/"><i class="fas fa-box-open"></i></i> {% trans "Products" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/dshop/product/"><i class="fas fa-box-open"></i></i> {% trans "Products" %}</a>
                 </li>
                 <li class="child {% if cl.opts.object_name == 'Order' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admindshop/order/"><i class="fas fa-chart-line"></i></i> {% trans "Orders" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/dshop/order/"><i class="fas fa-chart-line"></i></i> {% trans "Orders" %}</a>
                 </li>
                 <li class="child {% if cl.opts.object_name == 'CustomerProxy' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/adminshop/customerproxy/"><i class="far fa-id-badge"></i></i> {% trans "Customers" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/shop/customerproxy/"><i class="far fa-id-badge"></i></i> {% trans "Customers" %}</a>
                 </li>
                 <li class="child {% if cl.opts.object_name == 'ProductVariableVariant' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admindshop/productvariablevariant/"><i class="fas fa-spinner"></i></i> {% trans "Update Product's Variants" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/dshop/productvariablevariant/"><i class="fas fa-spinner"></i></i> {% trans "Update Product's Variants" %}</a>
                 </li>
             </ul>
         </li>
@@ -57,10 +57,10 @@
             <span>{% trans "Discounts" %}</span>
             <ul>
                 <li class="child {% if cl.opts.object_name == 'dmRabaisPerCategory' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admindmRabais/dmrabaispercategory/"><i class="fas fa-percent"></i></i> {% trans "Discounts Per Category" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/dmRabais/dmrabaispercategory/"><i class="fas fa-percent"></i></i> {% trans "Discounts Per Category" %}</a>
                 </li>
                 <li class="child {% if cl.opts.object_name == 'dmPromoCode' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admindmRabais/dmpromocode/"><i class="fas fa-barcode"></i></i> {% trans "Promo Codes" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/dmRabais/dmpromocode/"><i class="fas fa-barcode"></i></i> {% trans "Promo Codes" %}</a>
                 </li>
             </ul>
         </li>
@@ -68,25 +68,25 @@
             <span>{% trans "Settings" %}</span>
             <ul>
                 <li class="child {% if cl.opts.object_name == 'dmSite' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admindshop/dmsite/"><i class="fas fa-globe"></i></i> {% trans "Site" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/dshop/dmsite/"><i class="fas fa-globe"></i></i> {% trans "Site" %}</a>
                 </li>
                 <li class="child {% if cl.opts.object_name == 'CanadaTaxManagement' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admindmTaxes/canadataxmanagement/"><i class="fas fa-dollar-sign"></i></i> {% trans "Canadian Taxes" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/dmTaxes/canadataxmanagement/"><i class="fas fa-dollar-sign"></i></i> {% trans "Canadian Taxes" %}</a>
                 </li>
                 <li class="child {% if cl.opts.object_name == 'Country' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admincities_light/country/"><i class="fas fa-globe-americas"></i></i> {% trans "Countries" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/cities_light/country/"><i class="fas fa-globe-americas"></i></i> {% trans "Countries" %}</a>
                 </li>
                 <li class="child {% if cl.opts.object_name == 'Region' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admincities_light/region/"><i class="fas fa-map-marker-alt"></i></i> {% trans "Provinces" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/cities_light/region/"><i class="fas fa-map-marker-alt"></i></i> {% trans "Provinces" %}</a>
                 </li>
                 <li class="child {% if cl.opts.object_name == 'SubRegion' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admincities_light/subregion/"><i class="fas fa-map-marker-alt"></i></i> {% trans "Region" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/cities_light/subregion/"><i class="fas fa-map-marker-alt"></i></i> {% trans "Region" %}</a>
                 </li>
                 <li class="child {% if cl.opts.object_name == 'City' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admincities_light/city/"><i class="fas fa-map-marker-alt"></i></i> {% trans "Cities" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/cities_light/city/"><i class="fas fa-map-marker-alt"></i></i> {% trans "Cities" %}</a>
                 </li>
                 <li class="child {% if cl.opts.object_name == 'ShippingManagement' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admindmShipping/shippingmanagement/"><i class="fas fa-shipping-fast"></i></i> {% trans "Shipping Methods" %}</a>
+                    <a href="/{{ LANGUAGE_CODE }}/admin/dmShipping/shippingmanagement/"><i class="fas fa-shipping-fast"></i></i> {% trans "Shipping Methods" %}</a>
                 </li>
             </ul>
         </li>
