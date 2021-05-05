@@ -48,4 +48,4 @@ coverage==5.4
 django-mptt==0.11.0
 bs4==0.0.1
 django-cities-light==3.8.1
-sentry-python==1.0.0
+sentry-python
