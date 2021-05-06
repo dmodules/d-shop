@@ -390,7 +390,7 @@ input[type=submit].default:hover {
         position: relative;
         padding-top: 4rem;
     }
-    #dm-admin.dm-show-sidebar:not(.popup) .dm-admin-main::before {
+    #dm-admin.dm-show-sidebar:not(.popup):not(.login) .dm-admin-main::before {
         content: "";
         background: #000;
         position: fixed;
@@ -620,4 +620,55 @@ form .form-row.dynamic-variants .field-variant_image .filer-dropzone .filerFile 
     form .form-row.dynamic-variants .field-variant_image .filer-dropzone.filer-dropzone-mobile .filerFile  {
         top: 0!important;
     }
+}
+
+/* ===--- Page LOGIN ---=== */
+
+#dm-admin.login {
+    padding: 0;
+}
+#dm-admin.login #container {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+}
+
+#dm-admin.login #dm-admin-sidebar {
+    display: none!important;
+}
+#dm-admin.login #dm-admin-sidebar + .dm-admin-main {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+}
+#dm-admin.login #content-main h2 {
+    color: #666;
+    font-size: 2rem;
+    line-height: 10vh;
+    display: none;
+}
+#dm-admin.login #content-main label {
+    color: #050505;
+    display: block;
+    margin: 0 0 0.5rem;
+}
+#dm-admin.login #content-main input {
+    font-size: 1.2rem;
+    line-height: 175%;
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+#dm-admin.login #content-main .form-row {
+    display: block;
+    margin: 0 0 1rem;
+}
+#dm-admin.login #content-main .submit-row {
+    display: block;
+}
+#dm-admin.login #content-main .submit-row button {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 2rem auto 0;
 }

@@ -54,6 +54,7 @@
         {% block extrastyle %}{% endblock %}
         {% block extrahead %}{% endblock %}
         {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+        <link rel="stylesheet" type="text/css" href="{% static 'dshop/shopwise/css/style.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'dmAdminTheme/css/admin.css' %}" />
         <script src="{% static 'dshop/shopwise/js/jquery-1.12.4.min.js' %}"></script>
     </head>
@@ -76,15 +77,17 @@
                     <div class="row">
                         {% if not is_popup %}
                             <div id="dm-admin-sidebar" class="col-12 col-md-2 dm-admin-sidebar">
+                                <h1 id="site-name">
+                                    <a href="{% url 'admin:index' %}">
+                                        {% if request.site.dmsite.first.logos.first.logodark %}
+                                            {% thumbnail request.site.dmsite.first.logos.first.logodark "300x80" upscale as thumb_dark %}
+                                            <img class="dark-logo" src="{{thumb_dark.url}}" alt="logo" />
+                                        {% else %}
+                                            <img class="dark-logo" src="{% static 'dshop/img/logo-dshop.png' %}" alt="logo" />
+                                        {% endif %}
+                                    </a>
+                                </h1>
                                 {% if available_apps %}
-                                    <h1 id="site-name">
-                                        <a href="{% url 'admin:index' %}">
-                                            {% if request.site.dmsite.first.logos.first.logodark %}
-                                                {% thumbnail request.site.dmsite.first.logos.first.logodark "300x80" upscale as thumb_dark %}
-                                                <img class="dark-logo" src="{{thumb_dark.url}}" alt="logo" />
-                                            {% endif %}
-                                        </a>
-                                    </h1>
                                     {% include "admin/sidebar-navigation.html" %}
                                 {% endif %}
                                 <div class="dm-admin-sidebar-footer">
@@ -96,6 +99,7 @@
                             {% if not is_popup %}
                                 <div class="container-fluid">
                                     <div class="row">
+                                        {% if request.user.is_authenticated %}
                                             <div class="col-6">
                                                 <div class="dm-admin-toggle-sidebar">
                                                     <i class="mdi mdi-menu"></i>
@@ -104,6 +108,7 @@
                                                     <div class="dm-admin-welcomename">{% trans 'Welcome,' %} <strong>{% firstof user.get_short_name user.get_username %}</strong>.</div>
                                                 {% endblock %}
                                             </div>
+                                        {% endif %}
                                         <div class="col-6">
                                             {% block usertools %}
                                                 {% if has_permission %}
