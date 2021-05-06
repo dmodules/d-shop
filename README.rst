@@ -64,6 +64,8 @@ Installation with Docker
 * download media for demo https://test.com/
 * copy media in data/media
 * import db for demo: cat demo_data.sql | docker exec -i your-db-container psql -U postgres
+* install node packages: go to frontend folder: npm install
+* start vue.js: npm run serve
 * docker-compose up
 * open http://127.0.0.1:8000/
 
@@ -72,6 +74,13 @@ Contributions
 ********
 * How to contribute
 * Code of Conduct
+
+
+********
+TO DO
+********
+* Manage international taxs
+* Create PDF Invoice and Delivery PDF receipt
 
 ********
 Commercial support
