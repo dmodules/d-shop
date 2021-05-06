@@ -68,6 +68,12 @@ Installation with Docker
 * open http://127.0.0.1:8000/
 
 ********
+Contributions
+********
+* How to contribute
+* Code of Conduct
+
+********
 Commercial support
 ********
 
