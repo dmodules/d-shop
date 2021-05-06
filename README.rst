@@ -4,7 +4,12 @@ D-Shop - Simple e-commerce platform build with Django, Django-CMS and Vue.JS
 Created by `D-Modules <https://www.d-modules.com>`_
 
 
-Open source platform to build simple but robust e-commerce website using Python.
+Open source platform to build simple but robust e-commerce website using Python. Go to website https://d-shop-ecommerce.com
+
+********
+Demo
+********
+Go to https://demo.d-shop-ecommerce.com
 
 ********
 Features
