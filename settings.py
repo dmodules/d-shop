@@ -83,6 +83,7 @@ INSTALLED_APPS = [
     'filer',
     'easy_thumbnails',
     'mptt',
+    'parler',
     'django_select2',
     'djangocms_file',
     'djangocms_googlemap',
@@ -365,8 +366,6 @@ TEMPLATES = [{
             'django.contrib.auth.context_processors.auth',
             'django.template.context_processors.debug',
             'django.template.context_processors.i18n',
-            #'django.template.context_processors.media',
-            #'django.template.context_processors.static',
             'django.template.context_processors.tz',
             'django.template.context_processors.csrf',
             'django.template.context_processors.request',
@@ -375,22 +374,6 @@ TEMPLATES = [{
             'cms.context_processors.cms_settings',
             'shop.context_processors.customer',
             'shop.context_processors.shop_settings',
-        ]
-    }
-}, {
-    'BACKEND': 'post_office.template.backends.post_office.PostOfficeTemplates',
-    'APP_DIRS': True,
-    'DIRS': [],
-    'OPTIONS': {
-        'context_processors': [
-            'django.contrib.auth.context_processors.auth',
-            'django.template.context_processors.debug',
-            'django.template.context_processors.i18n',
-            'django.template.context_processors.media',
-            'django.template.context_processors.static',
-            'django.template.context_processors.tz',
-            'django.template.context_processors.request',
-            'cms.context_processors.cms_settings'
         ]
     }
 }]
