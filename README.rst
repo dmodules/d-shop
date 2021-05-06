@@ -81,6 +81,7 @@ TO DO
 ********
 * Manage international taxs
 * Create PDF Invoice and Delivery PDF receipt
+* Create more documentations
 
 ********
 Commercial support
