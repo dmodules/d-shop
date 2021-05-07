@@ -31,6 +31,8 @@ Hosting on DIVIO
 ********
 If you want to host your D-Shop project on a complete cloud plateform please follow this link https://d-shop-ecommerce.com/django-hosting/
 
+Documentation to deploy on DIVIO https://docs.divio.com/en/latest/how-to/deploy-django/#deployment-to-divio
+
 ********
 ENV Vars
 ********
