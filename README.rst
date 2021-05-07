@@ -1,5 +1,5 @@
 ##########
-D-Shop - Simple e-commerce platform build with Django, Django-CMS and Vue.JS
+D-Shop - C-commerce platform build with Django, Django-CMS and Vue.JS
 ##########
 Created by `D-Modules <https://www.d-modules.com>`_
 
@@ -26,6 +26,10 @@ Features
 * Payment with Stripe
 * Products search
 
+********
+Hosting on DIVIO
+********
+If you want to host your D-Shop project on a complete cloud plateform please follow this link https://d-shop-ecommerce.com/django-hosting/
 
 ********
 ENV Vars
