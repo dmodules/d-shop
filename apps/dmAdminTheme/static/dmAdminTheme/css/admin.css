@@ -189,6 +189,9 @@ input[type=submit].default:hover {
     box-shadow: 0 1px 1px rgb(90 86 82 / 10%);
     overflow: hidden;
 }
+.cms-pagetree-root.module {
+    overflow: visible;
+}
 
 #header,
 .module h2, .module caption, .inline-group h2 {
