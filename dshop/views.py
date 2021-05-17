@@ -208,11 +208,11 @@ class DshopProductListView(APIView):
 
         if orderby == 'get_p':
             products = sorted(
-                products, key=lambda product: product.get_price(request)
+                products.distinct(), key=lambda product: product.get_price(request)
             )
         elif orderby == '-get_p':
             products = sorted(
-                products, key=lambda product: product.get_price(request),
+                products.distinct(), key=lambda product: product.get_price(request),
                 reverse=True
             )
         else:
