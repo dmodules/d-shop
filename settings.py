@@ -689,6 +689,7 @@ SELECT2_I18N_PATH = 'node_modules/select2/dist/js/i18n'
 
 STATICFILES_DIRS = [
     ('node_modules', os.path.join(BASE_DIR, 'node_modules')),
+    os.path.join("/app/static")
 ]
 
 #######################################################################
@@ -706,7 +707,7 @@ ELASTICSEARCH_DSL = {
 # Frontend Settings
 
 if STAGE == "live" or STAGE == "test":
-    STATICFILES_DIRS = ['/app/frontend/bundle/pro']
+    STATICFILES_DIRS += ['/app/frontend/bundle/pro']
     VUE_ROOT = os.path.join('/app/frontend/bundle/pro/')
     WEBPACK_LOADER = {
         'DEFAULT': {
@@ -715,7 +716,7 @@ if STAGE == "live" or STAGE == "test":
         }
     }
 if STAGE == 'local':
-    STATICFILES_DIRS = ['/app/frontend/bundle/dev']
+    STATICFILES_DIRS += ['/app/frontend/bundle/dev']
     VUE_ROOT = os.path.join('/app/frontend/bundle/dev/')
     WEBPACK_LOADER = {
         'DEFAULT': {
