@@ -484,6 +484,12 @@ class ProductFilter(TranslatableModel):
         blank=False
     )
     name_trans = TranslatedField()
+    image = image.FilerImageField(
+        verbose_name=_("image"),
+        related_name="filter_image",
+        on_delete=models.SET_NULL,
+        null=True, blank=True
+    )
     order = models.PositiveSmallIntegerField(
         verbose_name=_("Sort by"),
         default=0,
