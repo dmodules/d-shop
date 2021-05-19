@@ -529,6 +529,7 @@ class ProductFilterAdmin(TranslatableAdmin):
         }),
         (None, {
             "fields": [
+                ("image"),
                 ("order")
             ]
         }),
