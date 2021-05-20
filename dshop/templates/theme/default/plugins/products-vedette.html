@@ -97,16 +97,16 @@
                                 <span class="product_sale_discounted">{% trans "Discounted" %}</span>
                             {% endif %}
                         {% else %}
-                        {% product_discount_price product.id as real_price %}
-                        <span class="price">{{real_price}}</span>
-                        {% if real_price != product.unit_price %}
-                            <del>{{product.unit_price}}</del>
-                        {% endif %}
-                        {% endif %}
-                        {% if product.quantity == 0 %}
-                            <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
-                        {% elif product.is_discounted or real_price != product.unit_price %}
-                            <span class="product_sale_discounted">{% trans "Discounted" %}</span>
+                            {% product_discount_price product.id as real_price %}
+                            <span class="price">{{real_price}}</span>
+                            {% if real_price != product.unit_price %}
+                                <del>{{product.unit_price}}</del>
+                            {% endif %}
+                            {% if product.quantity == 0 %}
+                                <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
+                            {% elif product.is_discounted or real_price != product.unit_price %}
+                                <span class="product_sale_discounted">{% trans "Discounted" %}</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                   {% endif %}
