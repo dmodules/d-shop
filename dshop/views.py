@@ -258,23 +258,26 @@ class DshopProductListView(APIView):
             data['url'] = produit.get_absolute_url()
             data['caption'] = strip_tags(Truncator(produit.caption).words(18))
             data['slug'] = produit.slug
-            if produit.main_image:
-                data['image'] = get_thumbnailer(
-                    produit.main_image).get_thumbnail({
-                        'size': (540, 600),
-                        'upscale': True,
-                        'background': "#ffffff"
-                    }).url
-            elif produit.images.first():
-                data['image'] = get_thumbnailer(
-                    produit.images.first()).get_thumbnail({
-                        'size': (540, 600),
-                        'upscale':
-                        True,
-                        'background':
-                        "#ffffff"
-                    }).url
-            else:
+            try:
+                if produit.main_image:
+                    data['image'] = get_thumbnailer(
+                        produit.main_image).get_thumbnail({
+                            'size': (540, 600),
+                            'upscale': True,
+                            'background': "#ffffff"
+                        }).url
+                elif produit.images.first():
+                    data['image'] = get_thumbnailer(
+                        produit.images.first()).get_thumbnail({
+                            'size': (540, 600),
+                            'upscale':
+                            True,
+                            'background':
+                            "#ffffff"
+                        }).url
+                else:
+                    data['image'] = None
+            except Exception:
                 data['image'] = None
             if produit.filters.all():
                 data['filters'] = " ".join(

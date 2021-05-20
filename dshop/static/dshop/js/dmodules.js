@@ -1077,7 +1077,7 @@ function loadMoreProduits(what = null, search = null) {
         r += '</div>'
         $(".produits").append(r)
       })
-      if (getResult.next === 0) {
+      if (!getResult.next || getResult.next === 0) {
         $('.dm-btn-more').hide()
       }
     }).then(function() {
