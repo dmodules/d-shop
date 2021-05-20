@@ -49,7 +49,7 @@ const vuetify = new Vuetify({
     },
     themes: {
       light: {
-        primary: '#066bf9'
+        primary: '#f16975'
       }
     }
   }

@@ -1,5 +1,5 @@
 :root {
-    --v-primary-base: #066bf9;
+    --v-primary-base: #f16975;
 }
 
 /* ===--- Base ---=== */
@@ -59,6 +59,7 @@ input[type=button],
 .submit-row input,
 a.button {
     background: #1e2221;
+    transition: opacity 0.5s;
 }
 .button:active,
 input[type=submit]:active,
@@ -69,12 +70,14 @@ input[type=button]:focus,
 .button:hover,
 input[type=submit]:hover,
 input[type=button]:hover {
-    background: #121514;
+    background: #1e2221;
+    opacity: 0.5;
 }
 .button.default,
 input[type=submit].default,
 .submit-row input.default {
     background: var(--v-primary-base);
+    transition: opacity 0.5s;
 }
 
 .button.default:active,
@@ -83,7 +86,8 @@ input[type=submit].default:active,
 input[type=submit].default:focus,
 .button.default:hover,
 input[type=submit].default:hover {
-    background: #1a5bb7;
+    background: var(--v-primary-base);
+    opacity: 0.5;
 }
 
 #dm-admin select,
@@ -100,6 +104,10 @@ input[type=submit].default:hover {
 
 #dm-admin .submit-row a.deletelink {
     height: 35px;
+    transition: opacity 0.5s;
+}
+#dm-admin .submit-row a.deletelink:hover {
+    opacity: 0.5;
 }
 
 /* ===--- ---=== */
@@ -294,12 +302,12 @@ input[type=submit].default:hover {
 }
 .dm-admin-sidebar-navigation .parent > a:hover,
 .dm-admin-sidebar-navigation .child > a:hover {
-    border-left-color: #066bf9;
+    border-left-color: #f16975;
 }
 .dm-admin-sidebar-navigation .parent.active > a,
 .dm-admin-sidebar-navigation .child.active > a {
     background: rgba(255,255,255, 0.1);
-    border-left-color: #066bf9;
+    border-left-color: #f16975;
 }
 
 /**/

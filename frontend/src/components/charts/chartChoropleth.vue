@@ -36,7 +36,7 @@
         },
         data: () => ({
             geojson,
-            colorScale: ["1e2221", "1e2221", "066bf9"],
+            colorScale: ["1e2221", "1e2221", "f16975"],
             value: {
                 key: "amount",
                 metric: ""
