@@ -79,8 +79,10 @@
                                     <ul id="brands">
                                         {% for brand in filter_data.brands %}
                                             <li>
-                                                <input type="checkbox" id="brand_{{brand.id}}" name="{{brand.id}}" value="{{e}}">
-                                                <label for="filter-produits">{{ brand.name }}</label>
+                                                <label for="brand_{{ brand.id }}">
+                                                    <input type="checkbox" id="brand_{{brand.id}}" name="{{brand.id}}" value="{{brand.id}}" />
+                                                    <span>{{ brand.name }}</span>
+                                                </label>
                                             </li>
                                         {% endfor %}
                                     </ul>
