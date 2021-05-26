@@ -29,15 +29,24 @@ class PickupShippingModifier(ShippingModifier):
             return
         # ===---
         sm = ShippingManagement.objects.filter(
-            identifier=self.identifier
-        ).first()
+            identifier=self.identifier).first()
         cp = float(str(cart.subtotal).split(" ")[1].replace(",", "."))
         if sm:
+            try:
+                if cart.shipping_address:
+                    price = get_price(
+                        self.identifier,
+                        cart.shipping_address.country,
+                        cart.shipping_address.province,
+                        cart.shipping_address.city
+                    )
+                    amount = Money(price)
+            except Exception as e:
+                print(str(e) + " : Error while getting shipping price")
             if (sm.use_separator and sm.separator is not None
                     and sm.price_after is not None and cp >= sm.separator):
                 amount = Money(sm.price_after)
-            else:
-                amount = Money(sm.price)
+            instance = {"label": _("Shipping costs"), "amount": amount}
             instance = {"label": _("Shipping costs"), "amount": amount}
             cart.extra_rows[self.identifier] = ExtraCartRow(instance)
             cart.total += amount
@@ -131,12 +140,6 @@ class StandardShippingModifier(ShippingModifier):
             identifier=self.identifier).first()
         cp = float(str(cart.subtotal).split(" ")[1].replace(",", "."))
         if sm:
-            if (sm.use_separator and sm.separator is not None
-                    and sm.price_after is not None and cp >= sm.separator):
-                amount = Money(sm.price_after)
-            else:
-                amount = Money(sm.price)
-
             try:
                 if cart.shipping_address:
                     price = get_price(
@@ -148,6 +151,10 @@ class StandardShippingModifier(ShippingModifier):
                     amount = Money(price)
             except Exception as e:
                 print(str(e) + " : Error while getting shipping price")
+            if (sm.use_separator and sm.separator is not None
+                    and sm.price_after is not None and cp >= sm.separator):
+                amount = Money(sm.price_after)
+            instance = {"label": _("Shipping costs"), "amount": amount}
             instance = {"label": _("Shipping costs"), "amount": amount}
             cart.extra_rows[self.identifier] = ExtraCartRow(instance)
             cart.total += amount
@@ -213,12 +220,6 @@ class ExpressShippingModifier(ShippingModifier):
             identifier=self.identifier).first()
         cp = float(str(cart.subtotal).split(" ")[1].replace(",", "."))
         if sm:
-            if (sm.use_separator and sm.separator is not None
-                    and sm.price_after is not None and cp >= sm.separator):
-                amount = Money(sm.price_after)
-            else:
-                amount = Money(sm.price)
-
             try:
                 if cart.shipping_address:
                     price = get_price(
@@ -230,6 +231,9 @@ class ExpressShippingModifier(ShippingModifier):
                     amount = Money(price)
             except Exception as e:
                 print(str(e) + " : Error while getting shipping price")
+            if (sm.use_separator and sm.separator is not None
+                    and sm.price_after is not None and cp >= sm.separator):
+                amount = Money(sm.price_after)
             instance = {"label": _("Shipping costs"), "amount": amount}
             instance = {"label": _("Shipping costs"), "amount": amount}
             cart.extra_rows[self.identifier] = ExtraCartRow(instance)
@@ -296,11 +300,21 @@ class StandardShippingWithSeparatorModifier(ShippingModifier):
             identifier=self.identifier).first()
         cp = float(str(cart.subtotal).split(" ")[1].replace(",", "."))
         if sm:
+            try:
+                if cart.shipping_address:
+                    price = get_price(
+                        self.identifier,
+                        cart.shipping_address.country,
+                        cart.shipping_address.province,
+                        cart.shipping_address.city
+                    )
+                    amount = Money(price)
+            except Exception as e:
+                print(str(e) + " : Error while getting shipping price")
             if (sm.use_separator and sm.separator is not None
                     and sm.price_after is not None and cp >= sm.separator):
                 amount = Money(sm.price_after)
-            else:
-                amount = Money(sm.price)
+            instance = {"label": _("Shipping costs"), "amount": amount}
             instance = {"label": _("Shipping costs"), "amount": amount}
             cart.extra_rows[self.identifier] = ExtraCartRow(instance)
             cart.total += amount
@@ -366,11 +380,21 @@ class ExpressShippingWithSeparatorModifier(ShippingModifier):
             identifier=self.identifier).first()
         cp = float(str(cart.subtotal).split(" ")[1].replace(",", "."))
         if sm:
+            try:
+                if cart.shipping_address:
+                    price = get_price(
+                        self.identifier,
+                        cart.shipping_address.country,
+                        cart.shipping_address.province,
+                        cart.shipping_address.city
+                    )
+                    amount = Money(price)
+            except Exception as e:
+                print(str(e) + " : Error while getting shipping price")
             if (sm.use_separator and sm.separator is not None
                     and sm.price_after is not None and cp >= sm.separator):
                 amount = Money(sm.price_after)
-            else:
-                amount = Money(sm.price)
+            instance = {"label": _("Shipping costs"), "amount": amount}
             instance = {"label": _("Shipping costs"), "amount": amount}
             cart.extra_rows[self.identifier] = ExtraCartRow(instance)
             cart.total += amount
