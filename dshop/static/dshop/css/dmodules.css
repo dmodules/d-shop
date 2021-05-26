@@ -1227,3 +1227,7 @@ main > .container > .row {
         margin: 0;
     }
 }
+
+.dmalign-start {
+    align-items: flex-start;
+}
