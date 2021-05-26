@@ -375,7 +375,7 @@ TEMPLATES = [{
             'sekizai.context_processors.sekizai',
             'cms.context_processors.cms_settings',
             'shop.context_processors.customer',
-            'shop.context_processors.shop_settings',
+            'shop.context_processors.shop_settings'
         ]
     }
 }]
@@ -383,9 +383,10 @@ TEMPLATES = [{
 THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.colorspace',
     'easy_thumbnails.processors.autocrop',
-    'easy_thumbnails.processors.scale_and_crop',
+    # 'easy_thumbnails.processors.scale_and_crop',
     'easy_thumbnails.processors.filters',
     'easy_thumbnails.processors.background',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location'
 )
 
 AUTH_PASSWORD_VALIDATORS = [{
@@ -683,12 +684,12 @@ CKEDITOR_SETTINGS_DMBLOCKPLUGIN = {
      ['Source']]
 }
 
-SELECT2_CSS = 'node_modules/select2/dist/css/select2.min.css'
-SELECT2_JS = 'node_modules/select2/dist/js/select2.min.js'
-SELECT2_I18N_PATH = 'node_modules/select2/dist/js/i18n'
+#SELECT2_CSS = 'node_modules/select2/dist/css/select2.min.css'
+#SELECT2_JS = 'node_modules/select2/dist/js/select2.min.js'
+#SELECT2_I18N_PATH = 'node_modules/select2/dist/js/i18n'
 
 STATICFILES_DIRS = [
-    ('node_modules', os.path.join(BASE_DIR, 'node_modules')),
+    #('node_modules', os.path.join(BASE_DIR, 'node_modules')),
     os.path.join("/app/static")
 ]
 
