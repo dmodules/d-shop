@@ -135,7 +135,10 @@ class DshopProductListView(APIView):
             Q(categories__active=True) | Q(categories=None),
             active=True
         )
-        title = 'Produits'
+        if request.LANGUAGE_CODE == "fr":
+            title = 'Produits'
+        else:
+            title = 'Products'
         current_category = None
         current_brand = None
         if 'category_id' in kwargs:

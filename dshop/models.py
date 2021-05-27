@@ -98,6 +98,8 @@ class CMSPageReferenceMixin(object):
     def get_absolute_url(self):
         cms_page = self.cms_pages.order_by("node__path").last()
         if cms_page is None:
+            if self.get_current_language() == "en":
+                return urljoin("/products/", self.slug)
             return urljoin("/produits/", self.slug)
         return urljoin(cms_page.get_absolute_url(), self.slug)
 
@@ -415,6 +417,8 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel):
 
     def get_absolute_url(self):
         name = "-".join(self.name.lower().split(' '))
+        if self.get_current_language() == "en":
+            return urljoin("/products/category/", str(self.id) + '-' + name)
         return urljoin("/produits/category/", str(self.id) + '-' + name)
 
 

@@ -242,7 +242,7 @@ function dm_add2cart(k) {
   if ($(k).data("quantity")) {
     quantity = $(k).data("quantity")
   }
-  $.get(site + "produits/" + endpoint + "/add-to-cart", function(getResult) {
+  $.get(site + i18n.products[lang] + "/" + endpoint + "/add-to-cart", function(getResult) {
     if (getResult.availability.quantity > 0) {
         if (getResult.availability.quantity >= quantity) {
             getResult.product_code = getResult.product_code.toString()
@@ -273,7 +273,7 @@ function dm_add2cart_variant(k) {
     quantity = $(k).data("quantity")
   }
   if (variant) {
-    $.get(site + "produits/" + endpoint + "/add-productvariable-to-cart?product_code="+variant, function(getResult) {
+    $.get(site + i18n.products[lang] + "/" + endpoint + "/add-productvariable-to-cart?product_code="+variant, function(getResult) {
         if (getResult.availability.quantity > 0) {
             if (getResult.availability.quantity >= quantity) {
                 getResult.quantity = quantity
@@ -1003,7 +1003,7 @@ function loadMoreProduits(what = null, search = null) {
     }
     // ===---
     //$.get("/api/fe/moreproduits/?offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
-    $.get("/fr/produits/?type=1&"+data[1]+"&"+data[2]+"&"+data[3]+"&"+data[4]+"&offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
+    $.get(site + i18n.products[lang] + "/?type=1&"+data[1]+"&"+data[2]+"&"+data[3]+"&"+data[4]+"&offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
       let r = ''
       getResult.products.forEach((product) => {
         r = ''

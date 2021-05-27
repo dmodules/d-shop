@@ -6,7 +6,11 @@
 {% block meta-description %}{{ product.caption|striptags|truncatechars:150 }}{% endblock %}
 
 {% block breadcrumb %}
-    {% page_url 'produits' as url_produits %}
+    {% if LANGUAGE_CODE == "fr" %}
+        {% page_url 'produits' as url_produits %}
+    {% else %}
+        {% page_url 'products' as url_produits %}
+    {% endif %}
     <section class="section-breadcrumb">
         <div class="breadcrumb_section bg_gray page-title-mini mb-4">
             <div class="container">
