@@ -9,6 +9,8 @@ from cms.models import CMSPlugin
 from colorfield.fields import ColorField
 from polymorphic.query import PolymorphicQuerySet
 
+from cms.models import Page
+
 from filer.fields import image
 from filer.fields.file import FilerFileField
 
@@ -25,6 +27,7 @@ from djangocms_text_ckeditor.fields import HTMLField
 from django.utils.six.moves.urllib.parse import urljoin
 from django.utils.translation import ugettext_lazy as _
 from autoslug import AutoSlugField
+from django.utils.translation import get_language_from_request
 
 from shop.money import Money, MoneyMaker
 from shop.money.fields import MoneyField
@@ -96,12 +99,10 @@ class CMSPageReferenceMixin(object):
     category_fields = ["cms_pages"]
 
     def get_absolute_url(self):
-        cms_page = self.cms_pages.order_by("node__path").last()
-        if cms_page is None:
-            if self.get_current_language() == "en":
-                return urljoin("/products/", self.slug)
-            return urljoin("/produits/", self.slug)
-        return urljoin(cms_page.get_absolute_url(), self.slug)
+        page = Page.objects.filter(reverse_id="produits").first()
+        if page is not None:
+            return page.get_absolute_url()
+        return ""
 
 
 class ProductQuerySet(TranslatableQuerySet, PolymorphicQuerySet):
@@ -418,8 +419,8 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel):
     def get_absolute_url(self):
         name = "-".join(self.name.lower().split(' '))
         if self.get_current_language() == "en":
-            return urljoin("/products/category/", str(self.id) + '-' + name)
-        return urljoin("/produits/category/", str(self.id) + '-' + name)
+            return urljoin("/en/products/category/", str(self.id) + '-' + name)
+        return urljoin("/fr/produits/category/", str(self.id) + '-' + name)
 
 
 class ProductFilterGroup(TranslatableModel):
@@ -467,6 +468,7 @@ class ProductFilterGroupTranslation(TranslatedFieldsModel):
 
     class Meta:
         unique_together = [("language_code", "master")]
+
 
 class ProductFilter(TranslatableModel):
     """
@@ -691,6 +693,12 @@ class Product(CMSPageReferenceMixin, TranslatableModelMixin, BaseProduct):
 
     def __str__(self):
         return self.product_name
+
+    def get_absolute_url(self):
+        page = Page.objects.filter(reverse_id="produits").first()
+        if page is not None:
+            return urljoin(page.get_absolute_url(), self.slug)
+        return ""
 
     @property
     def sample_image(self):

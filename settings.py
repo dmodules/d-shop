@@ -84,6 +84,7 @@ INSTALLED_APPS = [
     'easy_thumbnails',
     'mptt',
     'parler',
+    'polymorphic',
     'django_select2',
     'djangocms_file',
     'djangocms_googlemap',
