@@ -374,11 +374,15 @@ class LoadFilters(APIView):
 
         a_data = {}
         for attr in Attribute.objects.all():
-            a_data[attr.name] = {}
-            a_data[attr.name]["id"] = attr.id
-            a_data[attr.name]["values"] = []
+            try:
+                name = attr.name_trans if attr.name_trans else attr.name
+            except Exception:
+                name = attr.name
+            a_data[name] = {}
+            a_data[name]["id"] = attr.id
+            a_data[name]["values"] = []
             for val in AttributeValue.objects.filter(attribute=attr):
-                a_data[attr.name]["values"].append({
+                a_data[name]["values"].append({
                     'id': val.id,
                     'name': val.value
                 })
@@ -386,10 +390,18 @@ class LoadFilters(APIView):
         categories = ProductCategory.objects.filter(parent=None, active=True)
         cat_data = []
         for cat in categories:
-            cat_d = {'id': cat.id, 'name': cat.name}
+            try:
+                name = cat.name_trans if cat.name_trans else cat.name
+            except Exception as e:
+                name = cat.name
+            cat_d = {'id': cat.id, 'name': name}
             child_c = []
             for child in ProductCategory.objects.filter(parent=cat, active=True):
-                child_c.append({'id': child.id, 'name': child.name})
+                try:
+                    child_name = child.name_trans if child.name_trans else child.name
+                except Exception:
+                    child_name = child.name
+                child_c.append({'id': child.id, 'name': child_name})
             cat_d['child'] = child_c
             cat_data.append(cat_d)
 

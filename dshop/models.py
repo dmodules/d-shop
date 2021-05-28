@@ -2,6 +2,8 @@ import re
 import pytz
 
 from mptt.models import MPTTModel, TreeForeignKey
+from mptt.querysets import TreeQuerySet
+from mptt.managers import TreeManager
 
 from decimal import Decimal
 from datetime import datetime
@@ -318,7 +320,23 @@ class BillingAddress(BaseBillingAddress):
 # Produit: Catégorie/Filtres
 #######################################################################
 
-class ProductCategory(CMSPageReferenceMixin, MPTTModel):
+
+class CategoryQuerySet(TranslatableQuerySet, TreeQuerySet):
+
+    def as_manager(cls):
+        # make sure creating managers from querysets works.
+        manager = CategoryManager.from_queryset(cls)()
+        manager._built_with_as_manager = True
+        return manager
+    as_manager.queryset_only = True
+    as_manager = classmethod(as_manager)
+
+
+class CategoryManager(TreeManager, TranslatableManager):
+    _queryset_class = CategoryQuerySet
+
+
+class ProductCategory(CMSPageReferenceMixin, MPTTModel, TranslatableModelMixin):
     """
     A model to help to categorize products.
     Product can have multiple categories.
@@ -336,6 +354,7 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel):
         null=False,
         blank=False
     )
+    name_trans = TranslatedField()
     parent = TreeForeignKey(
         "self",
         on_delete=models.CASCADE,
@@ -391,6 +410,7 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel):
     active = models.BooleanField(default=True,
                                  verbose_name=_("Active"),)
 
+    objects = CategoryManager()
     class Meta:
         verbose_name = _("Product's Category")
         verbose_name_plural = _("Product's Categories")
@@ -421,6 +441,25 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel):
         if self.get_current_language() == "en":
             return urljoin("/en/products/category/", str(self.id) + '-' + name)
         return urljoin("/fr/produits/category/", str(self.id) + '-' + name)
+
+class ProductCategoryTranslation(TranslatedFieldsModel):
+    """
+    A model to handle translations of Product Category
+    """
+
+    master = models.ForeignKey(
+        ProductCategory,
+        on_delete=models.CASCADE,
+        related_name="translations",
+        null=True
+    )
+    name_trans = models.CharField(
+        verbose_name=_("Translated Category Name"),
+        max_length=100,
+    )
+
+    class Meta:
+        unique_together = [("language_code", "master")]
 
 
 class ProductFilterGroup(TranslatableModel):
@@ -1010,12 +1049,13 @@ class ProductVariable(Product):
             return data
 
 
-class Attribute(models.Model):
+class Attribute(TranslatableModel):
     name = models.CharField(
         _("Attribute Name"),
         max_length=250,
         help_text=_("Attribute Name")
     )
+    name_trans = TranslatedField()
     square_id = models.CharField(
         verbose_name=_("Square ID"),
         max_length=30,
@@ -1052,6 +1092,25 @@ class AttributeValue(models.Model):
 
     def __str__(self):
         return self.attribute.name + ' - ' + self.value
+
+class AttributeTranslation(TranslatedFieldsModel):
+    """
+    A model to handle translations of Attribute
+    """
+
+    master = models.ForeignKey(
+        Attribute,
+        on_delete=models.CASCADE,
+        related_name="translations",
+        null=True
+    )
+    name_trans = models.CharField(
+        verbose_name=_("Translated Attribute Name"),
+        max_length=250,
+    )
+
+    class Meta:
+        unique_together = [("language_code", "master")]
 
 
 class ProductVariableVariant(AvailableProductMixin, models.Model):

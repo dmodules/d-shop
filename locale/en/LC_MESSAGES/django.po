@@ -2225,6 +2225,10 @@ msgstr ""
 msgid "Translated Filter's Group Name"
 msgstr ""
 
+#: dshop/models.py:1096
+msgid "Translated Attribute Name"
+msgstr ""
+
 #: dshop/models.py:481
 msgid "Filter Group"
 msgstr ""

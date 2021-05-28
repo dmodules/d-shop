@@ -14,6 +14,7 @@ from django.forms.models import BaseInlineFormSet
 
 from dal import autocomplete
 
+from mptt.forms import MPTTAdminForm
 from mptt.admin import DraggableMPTTAdmin
 
 from cms.admin.placeholderadmin import PlaceholderAdminMixin
@@ -27,6 +28,7 @@ from polymorphic.admin import (
     PolymorphicChildModelFilter
 )
 
+from parler.admin import TranslatableModelForm
 from parler.admin import TranslatableAdmin, TranslatableTabularInline
 
 from filer.models import ThumbnailOption
@@ -478,9 +480,15 @@ class OrderAdmin(DeliveryOrderAdminMixin, djOrderAdmin):
 # Produit: Catégorie
 #######################################################################
 
-@admin.register(ProductCategory)
-class ProductCategoryAdmin(DraggableMPTTAdmin):
+class CategoryAdminForm(MPTTAdminForm, TranslatableModelForm):
     pass
+
+@admin.register(ProductCategory)
+class ProductCategoryAdmin(TranslatableAdmin, DraggableMPTTAdmin):
+    form = CategoryAdminForm
+
+    def get_prepopulated_fields(self, request, obj=None):
+        return {'name_trans': ('name_trans',)}  # needed for translated fields
 
 
 class ProductFilterInline(admin.TabularInline):
@@ -741,7 +749,7 @@ class AttributeValueInline(admin.TabularInline):
     exclude = ['square_id']
 
 @admin.register(Attribute)
-class AttributeAdmin(admin.ModelAdmin):
+class AttributeAdmin(TranslatableAdmin):
 
     list_display = ['name', 'value_display']
     inlines = [AttributeValueInline]
