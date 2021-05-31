@@ -15,7 +15,7 @@
                             <i class="linearicons-map2"></i>
                         </div>
                         <div class="contact_text">
-                            <span>Adresse</span>
+                            <span>{% trans "Adresse" %}</span>
                             <p>{{c.result.address}}</p>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                             <i class="linearicons-envelope-open"></i>
                         </div>
                         <div class="contact_text">
-                            <span>Courriel</span>
+                            <span>{% trans "Courriel" %}</span>
                             <p>
                             <br />
                             <a href="mailto:{{c.result.email}}">{{c.result.email}}</a>
@@ -44,7 +44,7 @@
                             <i class="linearicons-tablet2"></i>
                         </div>
                         <div class="contact_text">
-                            <span>Téléphone</span>
+                            <span>{% trans "Téléphone" %}</span>
                             <p>
                                 {% if not c.result.phone_secondary %}<br />{% endif %}
                                 <a href="tel:{{c.result.phone|phone_canadian}}">{{c.result.phone}}</a>
@@ -63,9 +63,9 @@
     <div class="row">
       <div class="col-lg-6">
         <div class="heading_s1">
-          <h2>Contactez-nous</h2>
+          <h2>{% trans "Contactez-nous" %}</h2>
         </div>
-        <p class="leads">Remplissez ce formulaire pour nous contacter.</p>
+        <p class="leads">{% trans "Remplissez ce formulaire pour nous contacter." %}</p>
         <div class="field_form dm-contact">
           <form method="post" name="enq" action="/contact/formulaire/">
             {% csrf_token %}
