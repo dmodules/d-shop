@@ -320,23 +320,22 @@ class BillingAddress(BaseBillingAddress):
 # Produit: Catégorie/Filtres
 #######################################################################
 
-
+# To user MPTT and Parler, need to overwrite Queryset
 class CategoryQuerySet(TranslatableQuerySet, TreeQuerySet):
 
     def as_manager(cls):
-        # make sure creating managers from querysets works.
         manager = CategoryManager.from_queryset(cls)()
         manager._built_with_as_manager = True
         return manager
     as_manager.queryset_only = True
     as_manager = classmethod(as_manager)
 
-
+# Need to create own CategoryManager
 class CategoryManager(TreeManager, TranslatableManager):
     _queryset_class = CategoryQuerySet
 
 
-class ProductCategory(CMSPageReferenceMixin, MPTTModel, TranslatableModelMixin):
+class ProductCategory(CMSPageReferenceMixin, MPTTModel, TranslatableModel):
     """
     A model to help to categorize products.
     Product can have multiple categories.
