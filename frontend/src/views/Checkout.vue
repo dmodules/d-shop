@@ -1695,6 +1695,9 @@ export default {
         overflow-wrap: normal;
         margin: 0;
     }
+    #app.v-application--is-ltr .v-stepper__label {
+        text-align: center;
+    }
     @media (max-width: 1263px) {
         #app .dm-payment-products .v-list-item:not(.dm-payment-footer),
         #app
