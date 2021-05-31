@@ -3582,3 +3582,6 @@ msgstr "Contactez-nous"
 
 msgid "Fill out this form to contact us."
 msgstr "Remplissez ce formulaire pour nous contacter."
+
+msgid "Subject"
+msgstr "Sujet"
