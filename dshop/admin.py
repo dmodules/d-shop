@@ -743,7 +743,7 @@ class ProductVariableAdmin(
     render_text_index.short_description = _("Text Index")
 
 
-class AttributeValueInline(admin.TabularInline):
+class AttributeValueInline(TranslatableTabularInline,):
     model = AttributeValue
     extra = 0
     exclude = ['square_id']
