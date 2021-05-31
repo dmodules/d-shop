@@ -85,10 +85,17 @@ class dmAdvertisingPopup(models.Model):
         max_length=75,
         help_text=_("Maximum 75 characters.")
     )
-    image = FilerImageField(
-        verbose_name=_("Image"),
+    image_fr = FilerImageField(
+        verbose_name=_("Image FR"),
         on_delete=models.CASCADE,
         related_name="advertisingpopup_image",
+        help_text=_("Recommended size: 800x600.")
+    )
+    image_en = FilerImageField(
+        verbose_name=_("Image EN"),
+        on_delete=models.CASCADE,
+        related_name="advertisingpopup_image_en",
+        null=True, blank=True,
         help_text=_("Recommended size: 800x600.")
     )
     link = models.CharField(

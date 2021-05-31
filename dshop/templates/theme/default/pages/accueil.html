@@ -10,7 +10,11 @@
 
     {% get_advertisingpopup as popups %}
     {% for popup in popups %}
-        {% thumbnail popup.image "800x600" as thumb %}
+        {% if LANGUAGE_CODE == "en" %}
+            {% thumbnail popup.image_en "800x600" as thumb %}
+        {% else %}
+            {% thumbnail popup.image_fr "800x600" as thumb %}
+        {% endif %}
         <div id="dmadvertising-popup">
             {% if popup.link %}
                 <a href="{{ popup.link }}">
