@@ -382,7 +382,7 @@ function getPanier() {
                         itemlist += item.summary.media
                         itemlist += "</div>"
                         itemlist += "<div class='col-8 text-left'>"
-                        itemlist += "<div><a href='"+item.summary.product_url+"'>" + item.summary.product_name + "</a></div>"
+                        itemlist += "<div><a href='"+item.summary.product_url+"'>" + item.summary.product_name_trans + "</a></div>"
                         if (item.extra && item.extra.variables && item.extra.variables.attributes) {
                             itemlist += "<div class='drawer-cart-attributes'>"
                             for (let i = 0; i < item.extra.variables.attributes.length; i++) {

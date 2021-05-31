@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from shop.serializers.bases import ProductSerializer as ShopProductSerializer
 from shop.models.cart import CartModel
 from shop.serializers.defaults.catalog import AddToCartSerializer
 from .models import Product
@@ -10,6 +11,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
+
 
 class AddProductVariableToCartSerializer(AddToCartSerializer):
     """
@@ -55,3 +57,31 @@ class ExtraCartRowContent(serializers.Serializer):
     content_extra = serializers.CharField(
         help_text="Extra content of the data.",
     )
+
+
+class dmProductSummarySerializer(ShopProductSerializer):
+    media = serializers.SerializerMethodField(
+        help_text="Returns a rendered HTML snippet",
+    )
+
+    caption = serializers.SerializerMethodField(
+        help_text="Returns the content from caption field if available",
+    )
+
+    class Meta(ProductSerializer.Meta):
+        fields = [
+            'id',
+            'product_name',
+            'product_name_trans',
+            'product_url',
+            'product_model',
+            'price',
+            'media',
+            'caption'
+        ]
+
+    def get_media(self, product):
+        return self.render_html(product, 'media')
+
+    def get_caption(self, product):
+        return getattr(product, 'caption', None)

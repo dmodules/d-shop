@@ -234,6 +234,9 @@ CC_EMAILS = os.getenv("CC_EMAILS")
 ADMINS = [("D-Modules", "info@d-modules.com")]
 
 ORDER_TIMEOUT = os.getenv("ORDER_TIMEOUT", 10)
+
+SHOP_PRODUCT_SUMMARY_SERIALIZER = "dshop.serializers.dmProductSummarySerializer"
+
 ############################################
 # Templates Settings
 

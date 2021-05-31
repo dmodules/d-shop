@@ -75,7 +75,7 @@
                     {{ item.summary.media }}
                 </div>
                 <div class="item-detail">
-                    <h5><a href="{{item.summary.product_url}}">{{item.summary.product_name}}</a></h5>
+                    <h5><a href="{{item.summary.product_url}}">{{item.summary.product_name_trans}}</a></h5>
                     {% if item.extra.variables and item.extra.variables.attributes %}
                         <div class="item-attributes">
                             {% for attribute in item.extra.variables.attributes %}

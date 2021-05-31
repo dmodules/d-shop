@@ -68,7 +68,7 @@ class ProductRetrieveView(generics.RetrieveAPIView):
             if request.current_page.node.is_root():
                 return details(request, kwargs.get('slug'))
             raise
-        except:
+        except Exception:
             raise
 
     def get_template_names(self):

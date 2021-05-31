@@ -32,7 +32,7 @@
                         {% dm_get_categories_parents as categories %}
                             {% for category in categories %}
                             <li class="nav-item">
-                                <a class="nav-link pbc-tab{% if forloop.first %} active{% endif %}" id="tab{{forloop.counter}}-tab" data-toggle="tab" href="#tab{{forloop.counter}}" role="tab" aria-controls="tab{{forloop.counter}}" onclick="loadMoreByCategory({{category.pk}}, {{forloop.counter}});" aria-selected="true">{{category.name}}</a>
+                                <a class="nav-link pbc-tab{% if forloop.first %} active{% endif %}" id="tab{{forloop.counter}}-tab" data-toggle="tab" href="#tab{{forloop.counter}}" role="tab" aria-controls="tab{{forloop.counter}}" onclick="loadMoreByCategory({{category.pk}}, {{forloop.counter}});" aria-selected="true">{{category.name_trans}}</a>
                             </li>
                         {% endfor %}
                     </ul>

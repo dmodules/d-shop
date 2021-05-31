@@ -607,7 +607,7 @@
                                       <div class="product-infos-media" v-html="item.summary.media"></div>
                                       <div class="product-infos-detail">
                                           <h5>
-                                              <a :href="item.summary.product_url" v-text="item.summary.product_name"></a>
+                                              <a :href="item.summary.product_url" v-text="item.summary.product_name_trans"></a>
                                           </h5>
                                           <p v-for="(item, i) in item.extra.variables.attributes" :key="'attr-'+item.product_code+'-'+i" v-text="item"></p>
                                       </div>
