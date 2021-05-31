@@ -1495,7 +1495,7 @@ export default {
         })
         .catch(() => {
           self.$set(self, "isLoadingPayment", false);
-          self.$(self, "isLoading", false);
+          self.$set(self, "isLoading", false);
         });
       // ===--- END: axios
     },

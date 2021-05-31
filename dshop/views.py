@@ -382,9 +382,14 @@ class LoadFilters(APIView):
             a_data[name]["id"] = attr.id
             a_data[name]["values"] = []
             for val in AttributeValue.objects.filter(attribute=attr):
+                try:
+                    value = val.value_trans if val.value_trans else val.name
+                except Exception:
+                    value = val.name
+                
                 a_data[name]["values"].append({
                     'id': val.id,
-                    'name': val.value
+                    'name': value
                 })
 
         categories = ProductCategory.objects.filter(parent=None, active=True)
