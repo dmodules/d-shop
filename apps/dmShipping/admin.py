@@ -2,6 +2,7 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.contrib import admin
 from dal import autocomplete
+from parler.admin import TranslatableAdmin
 
 from .models import ShippingManagement, ShippingAllowed
 
@@ -28,12 +29,12 @@ class ShippingAllowedInline(admin.TabularInline):
     form = ShippingAllowedForm
 
 @admin.register(ShippingManagement)
-class ShippingManagementAdmin(admin.ModelAdmin):
+class ShippingManagementAdmin(TranslatableAdmin):
     list_display = ["name", "get_price", "identifier", "use_separator"]
     fieldsets = ((None, {
         "fields": [
             "identifier",
-            "name",
+            "name_trans",
             "price",
             "taxed_shipping"
         ],

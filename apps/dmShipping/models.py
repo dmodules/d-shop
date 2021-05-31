@@ -1,13 +1,15 @@
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from cities_light.models import Country, City, Region
+from parler.models import TranslatableModel, TranslatedField
+from parler.models import TranslatedFieldsModel
 
 #######################################################################
 # Shipping Methods
 #######################################################################
 
 
-class ShippingManagement(models.Model):
+class ShippingManagement(TranslatableModel):
     """A model to handle Standard Shipping Methods"""
 
     CHOICE_IDENTIFIER = [
@@ -44,6 +46,7 @@ class ShippingManagement(models.Model):
         null=False,
         help_text=_("Maximum 255 characters.")
     )
+    name_trans = TranslatedField()
     identifier = models.CharField(
         verbose_name=_("Identifier"),
         max_length=100,
@@ -94,6 +97,26 @@ class ShippingManagement(models.Model):
         return str(self.price)
 
     get_price.short_description = _("Price")
+
+
+class ShippingManagementTranslation(TranslatedFieldsModel):
+    """
+    A model to handle translations of Attribute
+    """
+
+    master = models.ForeignKey(
+        ShippingManagement,
+        on_delete=models.CASCADE,
+        related_name="translations",
+        null=True
+    )
+    name_trans = models.CharField(
+        verbose_name=_("Translated Attribute Name"),
+        max_length=255,
+    )
+
+    class Meta:
+        unique_together = [("language_code", "master")]
 
 
 class ShippingCountry(models.Model):
