@@ -15,7 +15,7 @@
                 {% if c.attr %}
                     {{c.get_menu_title}}
                 {% elif c.name %}
-                    {{c.name}}
+                    {{c.name_trans}}
                 {% endif %}
             </a>
             {% if child.attr.reverse_id == 'produits' %}
@@ -31,7 +31,7 @@
                                 {% else %}
                                 <a href="/{{ LANGUAGE_CODE }}/products/category/{{subchild.id}}-{{subchild.name|slugify}}" class="menu-link">
                                 {% endif %}
-                                    {{subchild.name}}
+                                    {{subchild.name_trans}}
                                 </a>
                                 {% if subchild_categories %}
                                     <i class="dm-menu-toggle ion-ios-arrow-right" onclick="toggleSubmenu($(this))"></i>
@@ -43,7 +43,7 @@
                                                 {% else %}
                                                 <a href="/{{ LANGUAGE_CODE }}/products/category/{{subsubchild.id}}-{{subsubchild.name|slugify}}" class="menu-link">
                                                 {% endif %}
-                                                    {{subsubchild.name}}
+                                                    {{subsubchild.name_trans}}
                                                 </a>
                                             </li>
                                         {% endfor %}
