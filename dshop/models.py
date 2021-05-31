@@ -688,6 +688,7 @@ class Product(CMSPageReferenceMixin, TranslatableModelMixin, BaseProduct):
         _("Product's Name"),
         max_length=255
     )
+    product_name_trans = TranslatedField()
     slug = AutoSlugField(
         populate_from="product_name",
         unique=True
@@ -778,6 +779,11 @@ class ProductTranslation(TranslatedFieldsModel):
         Product,
         on_delete=models.CASCADE,
         related_name="translations",
+        null=True
+    )
+    product_name_trans = models.CharField(
+        _("Product's Name"),
+        max_length=255,
         null=True
     )
     caption = HTMLField(

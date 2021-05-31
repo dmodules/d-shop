@@ -487,9 +487,6 @@ class CategoryAdminForm(MPTTAdminForm, TranslatableModelForm):
 class ProductCategoryAdmin(TranslatableAdmin, DraggableMPTTAdmin):
     form = CategoryAdminForm
 
-    def get_prepopulated_fields(self, request, obj=None):
-        return {'name_trans': ('name_trans',)}  # needed for translated fields
-
 
 class ProductFilterInline(admin.TabularInline):
     model = ProductFilter
@@ -583,6 +580,7 @@ class ProductDefaultAdmin(
         (None, {
             "fields": [
                 ("product_name", "slug"),
+                ("product_name_trans",),
                 ("product_code", "unit_price", "discounted_price"),
                 ("start_date", "end_date"),
                 "quantity",
@@ -701,6 +699,7 @@ class ProductVariableAdmin(
         (None, {
             "fields": [
                 ("product_name", "slug"),
+                ("product_name_trans",),
                 "active",
                 "is_vedette"
             ]
