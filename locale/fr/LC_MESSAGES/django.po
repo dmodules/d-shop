@@ -3577,17 +3577,8 @@ msgstr "Type de rabais"
 
 
 #: contact.html
-msgid "Adresse"
-msgstr "Address"
+msgid "Contact us"
+msgstr "Contactez-nous"
 
-msgid "Courriel"
-msgstr "Email"
-
-msgid "Téléphone"
-msgstr "Phone"
-
-msgid "Contactez-nous"
-msgstr "Contact us"
-
-msgid "Remplissez ce formulaire pour nous contacter."
-msgstr "Fill out this form to contact us."
+msgid "Fill out this form to contact us."
+msgstr "Remplissez ce formulaire pour nous contacter."
