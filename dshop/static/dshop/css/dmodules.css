@@ -1231,3 +1231,8 @@ main > .container > .row {
 .dmalign-start {
     align-items: flex-start;
 }
+
+/* ===--- Fixes ---=== */
+fieldset.module.collapse:not(.show) {
+    display: block;
+}
