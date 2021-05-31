@@ -1002,7 +1002,6 @@ function loadMoreProduits(what = null, search = null) {
       query = '&brand='+what
     }
     // ===---
-    //$.get("/api/fe/moreproduits/?offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
     $.get(site + i18n.products[lang] + "/?type=1&"+data[1]+"&"+data[2]+"&"+data[3]+"&"+data[4]+"&offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
       let r = ''
       getResult.products.forEach((product) => {

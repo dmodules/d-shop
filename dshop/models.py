@@ -1385,7 +1385,7 @@ class dmSiteLogo(models.Model):
         return "Logo"
 
 
-class dmSiteContact(models.Model):
+class dmSiteContact(TranslatableModel):
     """
     Contact's data (phone, email, address, etc.) about the site.
     Can be used to easily retrieve and update contact's data
@@ -1421,11 +1421,7 @@ class dmSiteContact(models.Model):
         blank=True,
         null=True
     )
-    schedule = models.TextField(
-        verbose_name=_("Schedule"),
-        blank=True,
-        null=True
-    )
+    schedule = TranslatedField()
     map_latitude = models.CharField(
         verbose_name=_("Map Latitude"),
         max_length=120,
@@ -1445,6 +1441,27 @@ class dmSiteContact(models.Model):
 
     def __str__(self):
         return "Contacts"
+
+
+class dmSiteContactTranslation(TranslatedFieldsModel):
+    """
+    A model to handle translations of dmSiteContact
+    """
+
+    master = models.ForeignKey(
+        dmSiteContact,
+        on_delete=models.CASCADE,
+        related_name="translations",
+        null=True
+    )
+    schedule = models.TextField(
+        verbose_name=_("Schedule"),
+        blank=True,
+        null=True
+    )
+
+    class Meta:
+        unique_together = [("language_code", "master")]
 
 
 class dmSiteSocial(models.Model):

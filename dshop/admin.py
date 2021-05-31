@@ -29,7 +29,7 @@ from polymorphic.admin import (
 )
 
 from parler.admin import TranslatableModelForm
-from parler.admin import TranslatableAdmin, TranslatableTabularInline
+from parler.admin import TranslatableAdmin, TranslatableTabularInline, TranslatableStackedInline
 
 from filer.models import ThumbnailOption
 
@@ -279,7 +279,7 @@ class dmSiteLogoInline(admin.StackedInline):
     ]
 
 
-class dmSiteContactInline(admin.StackedInline):
+class dmSiteContactInline(TranslatableStackedInline):
     model = dmSiteContact
     extra = 1
     max_num = 1
