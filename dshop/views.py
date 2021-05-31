@@ -612,7 +612,10 @@ class LoadProductsByCategory(APIView):
             all_produits = []
             for produit in products:
                 data = {}
-                data['name'] = produit.product_name
+                if produit.product_name_trans:
+                    data['name'] = produit.product_name_trans
+                else:
+                    data['name'] = produit.product_name
                 data['url'] = produit.get_absolute_url()
                 data['caption'] = strip_tags(
                     Truncator(produit.caption).words(18))
