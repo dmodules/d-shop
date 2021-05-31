@@ -179,7 +179,7 @@ class AdminMonthlySalesView(APIView):
                 {
                     "label": _("Current Year"),
                     "data": [],
-                    "backgroundColor": "#f16975",
+                    "backgroundColor": "#066bf9",
                     "barPercentage": 0.25
                 },
                 {
@@ -255,8 +255,8 @@ class AdminWeeklySalesView(APIView):
                 {
                     "label": _("Current Week Incomes"),
                     "data": [],
-                    "borderColor": "#f16975",
-                    "backgroundColor": "#f16975",
+                    "borderColor": "#066bf9",
+                    "backgroundColor": "#066bf9",
                     "fill": False
                 },
                 {
@@ -397,7 +397,7 @@ class AdminStocksView(APIView):
             "datasets": [
                 {
                     "data": [lowofstock_count, total],
-                    "backgroundColor": ["#f16975", "#eee"],
+                    "backgroundColor": ["#066bf9", "#eee"],
                     "fill": True
                 }
             ]
@@ -407,7 +407,7 @@ class AdminStocksView(APIView):
             "datasets": [
                 {
                     "data": [outofstock_count, total],
-                    "backgroundColor": ["#f16975", "#eee"],
+                    "backgroundColor": ["#066bf9", "#eee"],
                     "fill": True
                 }
             ]

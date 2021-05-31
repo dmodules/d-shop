@@ -1,11 +1,11 @@
 :root {
-    --v-primary-base: #f16975;
+    --v-primary-admin: #066bf9;
 }
 
 /* ===--- Base ---=== */
 
 html {
-    background: var(--v-primary-base);
+    background: var(--v-primary-admin);
     overflow-y: auto;
     height: auto!important;
 }
@@ -44,7 +44,7 @@ html {
 a,
 a:link,
 a:visited {
-    color: var(--v-primary-base);
+    color: var(--v-primary-admin);
     transition: color 0.3s;
 }
 a:focus,
@@ -76,7 +76,7 @@ input[type=button]:hover {
 .button.default,
 input[type=submit].default,
 .submit-row input.default {
-    background: var(--v-primary-base);
+    background: var(--v-primary-admin);
     transition: opacity 0.5s;
 }
 
@@ -86,7 +86,7 @@ input[type=submit].default:active,
 input[type=submit].default:focus,
 .button.default:hover,
 input[type=submit].default:hover {
-    background: var(--v-primary-base);
+    background: var(--v-primary-admin);
     opacity: 0.5;
 }
 
@@ -129,8 +129,8 @@ input[type=submit].default:hover {
 }
 #header a:focus,
 #header a:hover {
-    color: var(--v-primary-base);
-    border-bottom-color: var(--v-primary-base);
+    color: var(--v-primary-admin);
+    border-bottom-color: var(--v-primary-admin);
 }
 #branding h1,
 #branding h1 a:link,
@@ -140,7 +140,7 @@ input[type=submit].default:hover {
 }
 #branding h1 a:focus,
 #branding h1 a:hover {
-    color: var(--v-primary-base);
+    color: var(--v-primary-admin);
 }
 
 
@@ -152,21 +152,21 @@ input[type=submit].default:hover {
 #user-tools a:link,
 #user-tools a:visited {
     border-bottom: none;
-    color: var(--v-primary-base);
+    color: var(--v-primary-admin);
     opacity: 1;
     transition: opacity 0.3s;
 }
 #user-tools a:focus,
 #user-tools a:hover {
     border-bottom: none;
-    color: var(--v-primary-base);
+    color: var(--v-primary-admin);
     opacity: 0.5;
 }
 
 /* ===--- Object Tools ---=== */
 .object-tools a:focus,
 .object-tools a:hover {
-    background-color: var(--v-primary-base);
+    background-color: var(--v-primary-admin);
 }
 
 /* ===--- ---=== */
@@ -203,7 +203,7 @@ input[type=submit].default:hover {
 
 #header,
 .module h2, .module caption, .inline-group h2 {
-    background-color: var(--v-primary-base);
+    background-color: var(--v-primary-admin);
 }
 
 .module .cms-pagetree h2 {
@@ -239,7 +239,7 @@ input[type=submit].default:hover {
 #dm-admin .dm-admin-sidebar h1::after {
     content: "";
     border-bottom: 1px solid rgba(255,255,255, 0.1);
-    color: var(--v-primary-base);
+    color: var(--v-primary-admin);
     font-size: 50px;
     line-height: 120%;
     letter-spacing: 4px;
@@ -302,12 +302,12 @@ input[type=submit].default:hover {
 }
 .dm-admin-sidebar-navigation .parent > a:hover,
 .dm-admin-sidebar-navigation .child > a:hover {
-    border-left-color: #f16975;
+    border-left-color: #066bf9;
 }
 .dm-admin-sidebar-navigation .parent.active > a,
 .dm-admin-sidebar-navigation .child.active > a {
     background: rgba(255,255,255, 0.1);
-    border-left-color: #f16975;
+    border-left-color: #066bf9;
 }
 
 /**/
@@ -325,7 +325,7 @@ input[type=submit].default:hover {
 }
 
 #dm-admin .dm-admin-toggle-sidebar {
-    background: var(--v-primary-base);
+    background: var(--v-primary-admin);
     border-radius: 100%;
     color: #fff;
     font-size: 18px;
@@ -431,7 +431,7 @@ div.breadcrumbs,
 }
 div.breadcrumbs a,
 .dm-admin-breadcrumbs a {
-    color: var(--v-primary-base);
+    color: var(--v-primary-admin);
     transition: color 0.3s;
 }
 div.breadcrumbs a:focus,
@@ -440,7 +440,7 @@ div.breadcrumbs a:hover {
 }
 
 #footer {
-    background-color: var(--v-primary-base);
+    background-color: var(--v-primary-admin);
 }
 
 /* ===--- PAGE: change_list ---=== */
@@ -458,7 +458,7 @@ div.breadcrumbs a:hover {
     margin: 0;
 }
 #changelist-filter li.selected a {
-    color: var(--v-primary-base);
+    color: var(--v-primary-admin);
 }
 
 .change-list .filtered .results,
@@ -482,8 +482,8 @@ div.breadcrumbs a:hover {
     padding: 0 0 0 0.25rem;
 }
 .parler-language-tabs span.current {
-    background-color: var(--v-primary-base);
-    border-color: var(--v-primary-base);
+    background-color: var(--v-primary-admin);
+    border-color: var(--v-primary-admin);
 }
 .parler-language-tabs span.available,
 .parler-language-tabs span.empty {

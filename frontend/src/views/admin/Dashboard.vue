@@ -682,6 +682,10 @@
 </script>
 
 <style>
+    :root {
+        --v-primary-base: #066bf9;
+        --v-anchor-base: #066bf9;
+    }
     .dmhover-cursor:hover {
         cursor: pointer;
     }
