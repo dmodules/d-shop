@@ -618,19 +618,13 @@ class ProductBrand(models.Model):
         return result
 
 
-class ProductLabel(models.Model):
+class ProductLabel(TranslatableModel):
     """
     A model to add a custom label
     on product's media.
     """
 
-    name = models.CharField(
-        verbose_name=_("Label's Name"),
-        max_length=25,
-        null=False,
-        blank=False,
-        help_text=_("Maximum 25 characters.")
-    )
+    name = TranslatedField()
     colour = ColorField(
         verbose_name=_("Text's Colour"),
         default="#000",
@@ -647,10 +641,38 @@ class ProductLabel(models.Model):
     class Meta:
         verbose_name = _("Product's Label")
         verbose_name_plural = _("Product's Labels")
-        ordering = ["name"]
+        ordering = ["-pk"]
 
     def __str__(self):
-        return self.name
+        try:
+            if self.name:
+                return self.name
+            return str(self.pk)
+        except Exception:
+            return str(self.pk)
+
+
+class ProductLabelTranslation(TranslatedFieldsModel):
+    """
+    A model to handle translations of ProductLabel
+    """
+
+    master = models.ForeignKey(
+        ProductLabel,
+        on_delete=models.CASCADE,
+        related_name="translations",
+        null=True
+    )
+    name = models.CharField(
+        verbose_name=_("Label's Name"),
+        max_length=25,
+        null=False,
+        blank=False,
+        help_text=_("Maximum 25 characters.")
+    )
+
+    class Meta:
+        unique_together = [("language_code", "master")]
 
 
 #######################################################################

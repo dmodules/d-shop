@@ -550,8 +550,8 @@ class ProductBrandAdmin(admin.ModelAdmin):
 
 
 @admin.register(ProductLabel)
-class ProductLabelAdmin(admin.ModelAdmin):
-    list_display = ["name"]
+class ProductLabelAdmin(TranslatableAdmin):
+    list_display = ["pk"]
 
 
 #######################################################################
