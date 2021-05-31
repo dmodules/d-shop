@@ -780,7 +780,7 @@
                                 </template>
                                 <v-form v-model="formPromo.valid">
                                   <div class="add-promo">
-                                      <v-btn v-if="!formPromo.show" tile x-small color="secondary" @click="formPromo.show = true">Ajouter un code promo</v-btn>
+                                      <v-btn v-if="!formPromo.show" tile x-small color="secondary" @click="formPromo.show = true"><span v-text="$i18n.t('Addapromocode')"></span></v-btn>
                                       <template v-else>
                                           <v-text-field
                                             v-model="formPromo.code"

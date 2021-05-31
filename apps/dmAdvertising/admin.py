@@ -1,6 +1,8 @@
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
 
+from parler.admin import TranslatableAdmin
+
 from .models import dmAdvertisingTopBanner, dmAdvertisingPopup
 
 #######################################################################
@@ -9,10 +11,28 @@ from .models import dmAdvertisingTopBanner, dmAdvertisingPopup
 
 
 @admin.register(dmAdvertisingTopBanner)
-class dmAlertPublicitaireAdmin(admin.ModelAdmin):
+class dmAlertPublicitaireAdmin(TranslatableAdmin):
     list_display = ["text", "link", "get_debut", "get_fin", "is_active"]
     list_filter = ["is_active"]
     search_fields = ["text", "link"]
+    fieldsets = [
+        (None, {
+            "fields": [
+                ("text"),
+                ("link", "open_blank"),
+                ("is_active")
+            ]
+        }),
+        (None, {
+            "fields": [
+            ]
+        }),
+        (None, {
+            "fields": [
+                ("valid_from", "valid_until")
+            ]
+        })
+    ]
 
     def get_debut(self, obj):
         return obj.valid_from

@@ -2,6 +2,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.db import models
 
+from parler.fields import TranslatedField
+from parler.managers import TranslatableManager, TranslatableQuerySet
+from parler.models import TranslatableModel, TranslatableModelMixin
+from parler.models import TranslatedFieldsModel, TranslatedFields
+
 from filer.fields.image import FilerImageField
 
 #######################################################################
@@ -9,20 +14,11 @@ from filer.fields.image import FilerImageField
 #######################################################################
 
 
-class dmAdvertisingTopBanner(models.Model):
+class dmAdvertisingTopBanner(TranslatableModel):
     """Model for Advertising Alert on a banner on top of the website"""
-    text = models.CharField(
-        verbose_name=_("Text"),
-        max_length=75,
-        help_text=_("Maximum 75 characters.")
-    )
-    link = models.CharField(
-        verbose_name=_("URL"),
-        max_length=1000,
-        blank=True,
-        null=True,
-        help_text=_("Example: https://www.test.com. Leave blank to not use link.")
-    )
+
+    text = TranslatedField()
+    link = TranslatedField()
     open_blank = models.BooleanField(
         verbose_name=_("Open on a new tab?"),
         default=False
@@ -46,7 +42,40 @@ class dmAdvertisingTopBanner(models.Model):
         verbose_name_plural = _("Advertising Top Banners")
 
     def __str__(self):
-        return self.text
+        try:
+            if self.text:
+                return self.text
+            return str(self.pk)
+        except Exception:
+            return str(self.pk)
+
+
+class dmAdvertisingTopBannerTranslation(TranslatedFieldsModel):
+    """
+    A model to handle translations of dmAdvertisingTopBanner
+    """
+
+    master = models.ForeignKey(
+        dmAdvertisingTopBanner,
+        on_delete=models.CASCADE,
+        related_name="translations",
+        null=True
+    )
+    text = models.CharField(
+        verbose_name=_("Text"),
+        max_length=75,
+        help_text=_("Maximum 75 characters.")
+    )
+    link = models.CharField(
+        verbose_name=_("URL"),
+        max_length=1000,
+        blank=True,
+        null=True,
+        help_text=_("Example: https://www.test.com. Leave blank to not use link.")
+    )
+
+    class Meta:
+        unique_together = [("language_code", "master")]
 
 
 class dmAdvertisingPopup(models.Model):
