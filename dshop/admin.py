@@ -483,9 +483,35 @@ class OrderAdmin(DeliveryOrderAdminMixin, djOrderAdmin):
 class CategoryAdminForm(MPTTAdminForm, TranslatableModelForm):
     pass
 
+
 @admin.register(ProductCategory)
 class ProductCategoryAdmin(TranslatableAdmin, DraggableMPTTAdmin):
     form = CategoryAdminForm
+    fieldsets = (
+        (None, {
+            "fields": [
+                ("name"),
+                ("name_trans"),
+                ("parent"),
+                ("order"),
+                ("active")
+            ]
+        }),
+        (None, {
+            "fields": [
+                "text",
+                "text_position",
+                "text_color",
+                "bg_color",
+                "image"
+            ]
+        }),
+        (None, {
+            "fields": [
+                "square_id",
+            ]
+        }),
+    )
 
 
 class ProductFilterInline(admin.TabularInline):

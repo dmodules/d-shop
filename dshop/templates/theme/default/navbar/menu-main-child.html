@@ -27,11 +27,11 @@
                             {% dm_get_category_by_category subchild.id as subchild_categories %}
                             <li>
                                 {% if LANGUAGE_CODE == "fr" %}
-                                <a href="/{{ LANGUAGE_CODE }}/produits/category/{{subchild.id}}-{{subchild.name|slugify}}" class="menu-link">
+                                    <a href="/{{ LANGUAGE_CODE }}/produits/category/{{subchild.id}}-{{subchild.name|slugify}}" class="menu-link">
                                 {% else %}
-                                <a href="/{{ LANGUAGE_CODE }}/products/category/{{subchild.id}}-{{subchild.name|slugify}}" class="menu-link">
+                                    <a href="/{{ LANGUAGE_CODE }}/products/category/{{subchild.id}}-{{subchild.name|slugify}}" class="menu-link">
                                 {% endif %}
-                                    {{subchild.name}}
+                                    {{subchild.name_trans}}
                                 </a>
                                 {% if subchild_categories %}
                                     <i class="dm-menu-toggle ion-ios-arrow-right" onclick="toggleSubmenu($(this))"></i>

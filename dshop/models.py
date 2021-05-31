@@ -411,6 +411,7 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel, TranslatableModelMixin):
                                  verbose_name=_("Active"),)
 
     objects = CategoryManager()
+
     class Meta:
         verbose_name = _("Product's Category")
         verbose_name_plural = _("Product's Categories")
@@ -441,6 +442,7 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel, TranslatableModelMixin):
         if self.get_current_language() == "en":
             return urljoin("/en/products/category/", str(self.id) + '-' + name)
         return urljoin("/fr/produits/category/", str(self.id) + '-' + name)
+
 
 class ProductCategoryTranslation(TranslatedFieldsModel):
     """
