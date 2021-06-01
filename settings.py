@@ -312,8 +312,8 @@ USE_THOUSAND_SEPARATOR = False
 
 LANGUAGE_CODE = 'fr'
 LANGUAGES = [
-    ('fr', "French"),
-    ('en', "English"),
+    ('fr', _("French")),
+    ('en', _("English")),
 ]
 PARLER_DEFAULT_LANGUAGE = 'fr'
 PARLER_LANGUAGES = {
@@ -334,21 +334,21 @@ CMS_LANGUAGES = {
         'fallbacks': ['fr', 'en'],
         'redirect_on_fallback': True,
         'public': True,
-        'hide_untranslated': False,
+        'hide_untranslated': True,
     },
     1: [
         {
             'public': True,
             'code': 'fr',
             'hide_untranslated': False,
-            'name': 'French',
+            'name': _("French"),
             'redirect_on_fallback': True,
         },
         {
             'public': True,
             'code': 'en',
-            'hide_untranslated': False,
-            'name': 'English',
+            'hide_untranslated': True,
+            'name': _("English"),
             'redirect_on_fallback': True,
         },
     ]
