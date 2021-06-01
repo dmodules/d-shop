@@ -11,7 +11,7 @@ from django.utils.six.moves.urllib.parse import urlparse
 from post_office import mail
 from post_office.models import EmailTemplate
 from django.core.mail import send_mail
-
+from django.utils.translation import ugettext_lazy as _
 from settings import SHOP_VENDOR_EMAIL, THEME_SLUG
 from settings import NOTIFICATION_TARGET
 from settings import CC_EMAILS, DEFAULT_FROM_EMAIL
