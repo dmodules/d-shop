@@ -103,9 +103,9 @@ def transition_change_notification(order, miniorder=None):
 
     subject = ""
     if order.status == "payment_confirmed":
-        subject = "D-Shop - Votre commande"
+        subject = _("D-Shop - Your Order")
     if order.status == "":
-        subject = "D-Shop - Votre commande est expédiée"
+        subject = _("D-Shop - Your Order Is Shipped")
 
     # Temperory comment for testing
     if target['to_vendor']:
@@ -180,7 +180,7 @@ def quotation_new_notification(quotation):
     template = os.path.join(email_path, 'quotation-receipt.html')
     template = loader.get_template(template)
     html_message = template.render(context)
-    subject = "D-Shop - Une nouvelle commande vient d'arriver"
+    subject = _("D-Shop - A New Order Has Arrived")
     send_mail(
         subject,
         '',
