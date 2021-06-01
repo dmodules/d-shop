@@ -257,7 +257,7 @@ class DshopProductListView(APIView):
         all_produits = []
         for produit in products:
             data = {}
-            data['name'] = produit.product_name
+            data['name'] = produit.product_name_trans
             data['url'] = produit.get_absolute_url()
             data['caption'] = strip_tags(Truncator(produit.caption).words(18))
             data['slug'] = produit.slug
