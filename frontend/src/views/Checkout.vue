@@ -664,7 +664,7 @@
                         </v-col>
                         <v-col cols="12" md="6" lg="5" class="text-left text-md-right">
                           <h5>{{ $i18n.t("Resumedevotrefacture") }}</h5>
-                          <v-form v-model="formAcceptCondition.valid">
+                          <v-form v-model="formAcceptCondition.valid" @submit.prevent="">
                             <v-list class="dm-payment dm-payment-resume">
                                 <template v-if="formPayment.totaldiscount">
                                     <v-list-item>
@@ -778,7 +778,6 @@
                                         </v-list-item>
                                     </template>
                                 </template>
-                                <v-form v-model="formPromo.valid">
                                   <div class="add-promo">
                                       <v-btn v-if="!formPromo.show" tile x-small color="secondary" @click="formPromo.show = true"><span v-text="$i18n.t('Addapromocode')"></span></v-btn>
                                       <template v-else>
@@ -791,12 +790,12 @@
                                             required
                                             filled
                                             @keydown="formPromo.error = null"
+                                            @keyup.enter.prevent="doPromoCode()"
                                             class="mt-4"
                                           ></v-text-field>
                                           <v-btn tile small color="primary" :loading="formPromo.loading" @click="doPromoCode()">{{$i18n.t('Add')}}</v-btn>
                                       </template>
                                   </div>
-                              </v-form>
                               <v-divider />
                               <v-list-item class="dm-payment-total">
                                 <v-list-item-content>
