@@ -75,7 +75,7 @@
                     {{ item.summary.media }}
                 </div>
                 <div class="item-detail">
-                    <h5><a href="{{item.summary.product_url}}">{{item.summary.product_name}}</a></h5>
+                    <h5><a href="{{item.summary.product_url}}">{{item.summary.product_name_trans}}</a></h5>
                     {% if item.extra.variables and item.extra.variables.attributes %}
                         <div class="item-attributes">
                             {% for attribute in item.extra.variables.attributes %}
@@ -133,7 +133,7 @@
             {% for key, extra_row in data.extra.rows %}
                 {% if key == "pickup-in-store" or key == "free-shipping" or key == "standard-shipping" or key == "express-shipping" or key == "standard-separator-shipping" or key == "express-separator-shipping" %}
                     <div class="row py-2">
-                        <div class="col-6 text-right text-nowrap">{{ extra_row.label }}</div>
+                        <div class="col-6 text-right text-nowrap">{% trans "Shipping Cost" %}</div>
                         <div class="col-4 col-md-6 text-right text-nowrap">{{ extra_row.amount }}</div>
                     </div>
                 {% endif %}
@@ -151,7 +151,7 @@
             {% for key, extra_row in data.extra.rows %}
                 {% if key == "pickup-in-store" or key == "free-shipping" or key == "standard-shipping" or key == "express-shipping" or key == "standard-separator-shipping" or key == "express-separator-shipping" %}
                     <div class="row py-2">
-                        <div class="col-6 text-right text-nowrap">{{ extra_row.label }}</div>
+                        <div class="col-6 text-right text-nowrap">{% trans "Shipping Cost" %}</div>
                         <div class="col-4 col-md-6 text-right text-nowrap">{{ extra_row.amount }}</div>
                     </div>
                 {% endif %}

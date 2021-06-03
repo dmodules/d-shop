@@ -71,7 +71,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row dmalign-start">
                         <div class="col-md-2 mb-5">
                             <div class="dmfilters-list">
                                 {% if filter_data.brands|length > 0 %}
@@ -79,8 +79,10 @@
                                     <ul id="brands">
                                         {% for brand in filter_data.brands %}
                                             <li>
-                                                <input type="checkbox" id="brand_{{brand.id}}" name="{{brand.id}}" value="{{e}}">
-                                                <label for="filter-produits">{{ brand.name }}</label>
+                                                <label for="brand_{{ brand.id }}">
+                                                    <input type="checkbox" id="brand_{{brand.id}}" name="{{brand.id}}" value="{{brand.id}}" />
+                                                    <span>{{ brand.name }}</span>
+                                                </label>
                                             </li>
                                         {% endfor %}
                                     </ul>
@@ -187,18 +189,18 @@
                                             <a href="{{product.get_absolute_url}}">
                                             {% if product.main_image %}
                                                 {% thumbnail product.main_image 540x600 background="#ffffff" upscale as thumb %}
-                                                <img src="{{thumb.url}}" alt="{{product.product_name}}">
+                                                <img src="{{thumb.url}}" alt="{{product.product_name_trans}}">
                                             {% elif product.images.first %}
                                                 {% thumbnail product.images.first 540x600 background="#ffffff" upscale as thumb %}
-                                                <img src="{{thumb.url}}" alt="{{product.product_name}}">
+                                                <img src="{{thumb.url}}" alt="{{product.product_name_trans}}">
                                             {% else %}
-                                                <img src="https://via.placeholder.com/540x600/f7f8fb/f7f8fb" alt="{{product.product_name}}">
+                                                <img src="https://via.placeholder.com/540x600/f7f8fb/f7f8fb" alt="{{product.product_name_trans}}">
                                             {% endif %}
                                             </a>
                                             <div class="product_action_box">
                                             <ul class="list_none pr_action_btn">
                                                 <li>
-                                                <a href="{{product.get_absolute_url}}"><i class="ti-info-alt"></i></a>
+                                                    <a href="{{product.get_absolute_url}}"><i class="ti-info-alt"></i></a>
                                                 </li>
                                                 {% if not product.variants and product.quantity > 0 %}
                                                     <li>
@@ -232,7 +234,7 @@
                                             {% endif %}
                                         </div>
                                         <div class="product_info">
-                                            <h6 class="product_title"><a href="{{product.get_absolute_url}}">{{product.product_name}}</a></h6>
+                                            <h6 class="product_title"><a href="{{product.get_absolute_url}}">{{product.product_name_trans}}</a></h6>
                                             <div class="product_price">
                                                 {% if product.variants %}
                                                     {% if product.variants.first %}
@@ -248,7 +250,7 @@
                                                     {% dm_variants_is_discounted product.variants as variants_isdiscounted %}
                                                     {% if variants_outofstock %}
                                                         <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
-                                                    {% elif variants_isdiscounted %}
+                                                    {% elif variants_isdiscounted or real_price != product.variants.first.unit_price %}
                                                         <span class="product_sale_discounted">{% trans "Discounted" %}</span>
                                                     {% endif %}
                                                 {% else %}
@@ -257,11 +259,11 @@
                                                     {% if real_price != product.unit_price %}
                                                         <del>{{product.unit_price}}</del>
                                                     {% endif %}
-                                                {% endif %}
-                                                {% if product.quantity == 0 %}
-                                                    <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
-                                                {% elif product.is_discounted %}
-                                                    <span class="product_sale_discounted">{% trans "Discounted" %}</span>
+                                                    {% if product.quantity == 0 %}
+                                                        <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
+                                                    {% elif product.is_discounted or real_price != product.unit_price %}
+                                                        <span class="product_sale_discounted">{% trans "Discounted" %}</span>
+                                                    {% endif %}
                                                 {% endif %}
                                             </div>
                                             <div class="pr_desc">

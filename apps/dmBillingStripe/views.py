@@ -161,7 +161,7 @@ def StripePaymentView(request):  # noqa: C901
                     datas = {}
                     datas["quantity"] = i.quantity
                     datas["summary"] = {}
-                    datas["summary"]["product_name"] = str(i)
+                    datas["summary"]["product_name"] = str(i.product.product_name_trans)
                     datas["line_total"] = i.line_total
                     datas["extra"] = i.extra
                     items.append(datas)

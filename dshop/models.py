@@ -2,12 +2,16 @@ import re
 import pytz
 
 from mptt.models import MPTTModel, TreeForeignKey
+from mptt.querysets import TreeQuerySet
+from mptt.managers import TreeManager
 
 from decimal import Decimal
 from datetime import datetime
 from cms.models import CMSPlugin
 from colorfield.fields import ColorField
 from polymorphic.query import PolymorphicQuerySet
+
+from cms.models import Page
 
 from filer.fields import image
 from filer.fields.file import FilerFileField
@@ -25,6 +29,7 @@ from djangocms_text_ckeditor.fields import HTMLField
 from django.utils.six.moves.urllib.parse import urljoin
 from django.utils.translation import ugettext_lazy as _
 from autoslug import AutoSlugField
+from django.utils.translation import get_language_from_request
 
 from shop.money import Money, MoneyMaker
 from shop.money.fields import MoneyField
@@ -96,10 +101,10 @@ class CMSPageReferenceMixin(object):
     category_fields = ["cms_pages"]
 
     def get_absolute_url(self):
-        cms_page = self.cms_pages.order_by("node__path").last()
-        if cms_page is None:
-            return urljoin("/produits/", self.slug)
-        return urljoin(cms_page.get_absolute_url(), self.slug)
+        page = Page.objects.filter(reverse_id="produits").first()
+        if page is not None:
+            return page.get_absolute_url()
+        return ""
 
 
 class ProductQuerySet(TranslatableQuerySet, PolymorphicQuerySet):
@@ -315,7 +320,22 @@ class BillingAddress(BaseBillingAddress):
 # Produit: Catégorie/Filtres
 #######################################################################
 
-class ProductCategory(CMSPageReferenceMixin, MPTTModel):
+# To user MPTT and Parler, need to overwrite Queryset
+class CategoryQuerySet(TranslatableQuerySet, TreeQuerySet):
+
+    def as_manager(cls):
+        manager = CategoryManager.from_queryset(cls)()
+        manager._built_with_as_manager = True
+        return manager
+    as_manager.queryset_only = True
+    as_manager = classmethod(as_manager)
+
+# Need to create own CategoryManager
+class CategoryManager(TreeManager, TranslatableManager):
+    _queryset_class = CategoryQuerySet
+
+
+class ProductCategory(CMSPageReferenceMixin, MPTTModel, TranslatableModel):
     """
     A model to help to categorize products.
     Product can have multiple categories.
@@ -333,6 +353,7 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel):
         null=False,
         blank=False
     )
+    name_trans = TranslatedField()
     parent = TreeForeignKey(
         "self",
         on_delete=models.CASCADE,
@@ -388,6 +409,8 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel):
     active = models.BooleanField(default=True,
                                  verbose_name=_("Active"),)
 
+    objects = CategoryManager()
+
     class Meta:
         verbose_name = _("Product's Category")
         verbose_name_plural = _("Product's Categories")
@@ -415,7 +438,29 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel):
 
     def get_absolute_url(self):
         name = "-".join(self.name.lower().split(' '))
-        return urljoin("/produits/category/", str(self.id) + '-' + name)
+        if self.get_current_language() == "en":
+            return urljoin("/en/products/category/", str(self.id) + '-' + name)
+        return urljoin("/fr/produits/category/", str(self.id) + '-' + name)
+
+
+class ProductCategoryTranslation(TranslatedFieldsModel):
+    """
+    A model to handle translations of Product Category
+    """
+
+    master = models.ForeignKey(
+        ProductCategory,
+        on_delete=models.CASCADE,
+        related_name="translations",
+        null=True
+    )
+    name_trans = models.CharField(
+        verbose_name=_("Translated Category Name"),
+        max_length=100,
+    )
+
+    class Meta:
+        unique_together = [("language_code", "master")]
 
 
 class ProductFilterGroup(TranslatableModel):
@@ -464,6 +509,7 @@ class ProductFilterGroupTranslation(TranslatedFieldsModel):
     class Meta:
         unique_together = [("language_code", "master")]
 
+
 class ProductFilter(TranslatableModel):
     """
     A model to help to filter products.
@@ -484,7 +530,6 @@ class ProductFilter(TranslatableModel):
         blank=False
     )
     name_trans = TranslatedField()
-    description = TranslatedField()
     image = image.FilerImageField(
         verbose_name=_("image"),
         related_name="filter_image",
@@ -574,19 +619,13 @@ class ProductBrand(models.Model):
         return result
 
 
-class ProductLabel(models.Model):
+class ProductLabel(TranslatableModel):
     """
     A model to add a custom label
     on product's media.
     """
 
-    name = models.CharField(
-        verbose_name=_("Label's Name"),
-        max_length=25,
-        null=False,
-        blank=False,
-        help_text=_("Maximum 25 characters.")
-    )
+    name = TranslatedField()
     colour = ColorField(
         verbose_name=_("Text's Colour"),
         default="#000",
@@ -603,10 +642,38 @@ class ProductLabel(models.Model):
     class Meta:
         verbose_name = _("Product's Label")
         verbose_name_plural = _("Product's Labels")
-        ordering = ["name"]
+        ordering = ["-pk"]
 
     def __str__(self):
-        return self.name
+        try:
+            if self.name:
+                return self.name
+            return str(self.pk)
+        except Exception:
+            return str(self.pk)
+
+
+class ProductLabelTranslation(TranslatedFieldsModel):
+    """
+    A model to handle translations of ProductLabel
+    """
+
+    master = models.ForeignKey(
+        ProductLabel,
+        on_delete=models.CASCADE,
+        related_name="translations",
+        null=True
+    )
+    name = models.CharField(
+        verbose_name=_("Label's Name"),
+        max_length=25,
+        null=False,
+        blank=False,
+        help_text=_("Maximum 25 characters.")
+    )
+
+    class Meta:
+        unique_together = [("language_code", "master")]
 
 
 #######################################################################
@@ -622,6 +689,7 @@ class Product(CMSPageReferenceMixin, TranslatableModelMixin, BaseProduct):
         _("Product's Name"),
         max_length=255
     )
+    product_name_trans = TranslatedField()
     slug = AutoSlugField(
         populate_from="product_name",
         unique=True
@@ -689,6 +757,12 @@ class Product(CMSPageReferenceMixin, TranslatableModelMixin, BaseProduct):
     def __str__(self):
         return self.product_name
 
+    def get_absolute_url(self):
+        page = Page.objects.filter(reverse_id="produits").first()
+        if page is not None:
+            return urljoin(page.get_absolute_url(), self.slug)
+        return ""
+
     @property
     def sample_image(self):
         if self.main_image:
@@ -706,6 +780,11 @@ class ProductTranslation(TranslatedFieldsModel):
         Product,
         on_delete=models.CASCADE,
         related_name="translations",
+        null=True
+    )
+    product_name_trans = models.CharField(
+        _("Product's Name"),
+        max_length=255,
         null=True
     )
     caption = HTMLField(
@@ -999,12 +1078,13 @@ class ProductVariable(Product):
             return data
 
 
-class Attribute(models.Model):
+class Attribute(TranslatableModel):
     name = models.CharField(
         _("Attribute Name"),
         max_length=250,
         help_text=_("Attribute Name")
     )
+    name_trans = TranslatedField()
     square_id = models.CharField(
         verbose_name=_("Square ID"),
         max_length=30,
@@ -1020,7 +1100,7 @@ class Attribute(models.Model):
         return self.name
 
 
-class AttributeValue(models.Model):
+class AttributeValue(TranslatableModel):
     attribute = models.ForeignKey(
         Attribute,
         on_delete=models.CASCADE,
@@ -1038,9 +1118,49 @@ class AttributeValue(models.Model):
         max_length=250,
         help_text=_("Attribute Value")
     )
+    value_trans = TranslatedField()
 
     def __str__(self):
         return self.attribute.name + ' - ' + self.value
+
+class AttributeTranslation(TranslatedFieldsModel):
+    """
+    A model to handle translations of Attribute
+    """
+
+    master = models.ForeignKey(
+        Attribute,
+        on_delete=models.CASCADE,
+        related_name="translations",
+        null=True
+    )
+    name_trans = models.CharField(
+        verbose_name=_("Translated Attribute Name"),
+        max_length=250,
+    )
+
+    class Meta:
+        unique_together = [("language_code", "master")]
+
+
+class AttributeValueTranslation(TranslatedFieldsModel):
+    """
+    A model to handle translations of Attribute Value
+    """
+
+    master = models.ForeignKey(
+        AttributeValue,
+        on_delete=models.CASCADE,
+        related_name="translations",
+        null=True
+    )
+    value_trans = models.CharField(
+        verbose_name=_("Translated Attribute Name"),
+        max_length=250,
+    )
+
+    class Meta:
+        unique_together = [("language_code", "master")]
 
 
 class ProductVariableVariant(AvailableProductMixin, models.Model):
@@ -1103,6 +1223,10 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         null=True,
         blank=True
     )
+
+    class Meta:
+        verbose_name = _("Product Variant")
+        verbose_name_plural = _("Product Variants")
 
     def __str__(self):
         return _("{product}").format(product=self.product)
@@ -1207,6 +1331,13 @@ class ProductDocument(models.Model):
         blank=False
     )
 
+    class Meta:
+        verbose_name = _("Product Document")
+        verbose_name_plural = _("Product Documents")
+
+    def __str__(self):
+        return self.name
+
 
 #######################################################################
 # Plugins
@@ -1304,7 +1435,7 @@ class dmSiteLogo(models.Model):
         return "Logo"
 
 
-class dmSiteContact(models.Model):
+class dmSiteContact(TranslatableModel):
     """
     Contact's data (phone, email, address, etc.) about the site.
     Can be used to easily retrieve and update contact's data
@@ -1340,11 +1471,7 @@ class dmSiteContact(models.Model):
         blank=True,
         null=True
     )
-    schedule = models.TextField(
-        verbose_name=_("Schedule"),
-        blank=True,
-        null=True
-    )
+    schedule = TranslatedField()
     map_latitude = models.CharField(
         verbose_name=_("Map Latitude"),
         max_length=120,
@@ -1364,6 +1491,27 @@ class dmSiteContact(models.Model):
 
     def __str__(self):
         return "Contacts"
+
+
+class dmSiteContactTranslation(TranslatedFieldsModel):
+    """
+    A model to handle translations of dmSiteContact
+    """
+
+    master = models.ForeignKey(
+        dmSiteContact,
+        on_delete=models.CASCADE,
+        related_name="translations",
+        null=True
+    )
+    schedule = models.TextField(
+        verbose_name=_("Schedule"),
+        blank=True,
+        null=True
+    )
+
+    class Meta:
+        unique_together = [("language_code", "master")]
 
 
 class dmSiteSocial(models.Model):

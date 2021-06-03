@@ -24,6 +24,9 @@
   "Nomdefamille": "Last Name",
   "Courriel": "Email",
 
+  "Addapromocode": "Add a promocode",
+  "Carte de crédit": "Credit Card",
+
   "Commander": "Order",
   "Connexion": "Login",
   "Inscription": "Register",
@@ -104,5 +107,17 @@
   "Unknown": "Unknown",
   
   "LastUpdate": "Last Update",
-  "Thisquotationnotexist": "This quotation doesn't exist"
+  "Thisquotationnotexist": "This quotation doesn't exist",
+
+  "Incomes": "Incomes",
+  "Income": "Income",
+  "Price": "Price",
+  "Stocks": "Stocks",
+  "NewCustomers": "New Customers",
+  "OrdersCount": "Orders Count",
+  "AwaitingOrders": "Awaiting Orders",
+  "MonthlyIncomes": "Monthly Incomes",
+  "CurrentWeekIncomes": "Current Week Incomes",
+  "IncomesByLocation": "Incomes By Location",
+  "MonthBestsellers": "Month's Bestsellers"
 }

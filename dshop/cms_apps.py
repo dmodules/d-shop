@@ -6,23 +6,18 @@ from cms.cms_menus import SoftRootCutter
 from menus.menu_pool import menu_pool
 
 from shop.cms_apphooks import CatalogListCMSApp, OrderApp, PasswordResetApp
-from shop.rest.filters import CMSPagesFilterBackend
 from dshop.views import DshopProductListView, OrderView
+
 
 class CatalogListApp(CatalogListCMSApp):
     """
     Create a useable list of urls with Product's slug.
     """
     def get_urls(self, page=None, language=None, **kwargs):
-        from shop.views.catalog import AddToCartView
-        from shop.views.catalog import ProductListView, ProductRetrieveView
-        from shop.views.catalog import AddFilterContextMixin
+        from dshop.catalog import AddToCartView
+        from dshop.catalog import ProductRetrieveView
         from dshop.serializers import AddProductVariableToCartSerializer
 
-        ProductListView = type('ProductSearchListView',
-                               (AddFilterContextMixin, ProductListView), {})
-        filter_backends = [CMSPagesFilterBackend]
-        filter_backends.extend(api_settings.DEFAULT_FILTER_BACKENDS)
         return [
             # Product loading page
             url(r'^category/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$',

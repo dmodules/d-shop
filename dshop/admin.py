@@ -14,6 +14,7 @@ from django.forms.models import BaseInlineFormSet
 
 from dal import autocomplete
 
+from mptt.forms import MPTTAdminForm
 from mptt.admin import DraggableMPTTAdmin
 
 from cms.admin.placeholderadmin import PlaceholderAdminMixin
@@ -27,7 +28,8 @@ from polymorphic.admin import (
     PolymorphicChildModelFilter
 )
 
-from parler.admin import TranslatableAdmin, TranslatableTabularInline
+from parler.admin import TranslatableModelForm
+from parler.admin import TranslatableAdmin, TranslatableTabularInline, TranslatableStackedInline
 
 from filer.models import ThumbnailOption
 
@@ -277,7 +279,7 @@ class dmSiteLogoInline(admin.StackedInline):
     ]
 
 
-class dmSiteContactInline(admin.StackedInline):
+class dmSiteContactInline(TranslatableStackedInline):
     model = dmSiteContact
     extra = 1
     max_num = 1
@@ -478,9 +480,38 @@ class OrderAdmin(DeliveryOrderAdminMixin, djOrderAdmin):
 # Produit: Catégorie
 #######################################################################
 
-@admin.register(ProductCategory)
-class ProductCategoryAdmin(DraggableMPTTAdmin):
+class CategoryAdminForm(MPTTAdminForm, TranslatableModelForm):
     pass
+
+
+@admin.register(ProductCategory)
+class ProductCategoryAdmin(TranslatableAdmin, DraggableMPTTAdmin):
+    form = CategoryAdminForm
+    fieldsets = (
+        (None, {
+            "fields": [
+                ("name"),
+                ("name_trans"),
+                ("parent"),
+                ("order"),
+                ("active")
+            ]
+        }),
+        (None, {
+            "fields": [
+                "text",
+                "text_position",
+                "text_color",
+                "bg_color",
+                "image"
+            ]
+        }),
+        (None, {
+            "fields": [
+                "square_id",
+            ]
+        }),
+    )
 
 
 class ProductFilterInline(admin.TabularInline):
@@ -525,7 +556,6 @@ class ProductFilterAdmin(TranslatableAdmin):
         (_("Translatable Fields"), {
             "fields": [
                 "name_trans",
-                "description"
             ]
         }),
         (None, {
@@ -543,8 +573,8 @@ class ProductBrandAdmin(admin.ModelAdmin):
 
 
 @admin.register(ProductLabel)
-class ProductLabelAdmin(admin.ModelAdmin):
-    list_display = ["name"]
+class ProductLabelAdmin(TranslatableAdmin):
+    list_display = ["pk"]
 
 
 #######################################################################
@@ -576,6 +606,7 @@ class ProductDefaultAdmin(
         (None, {
             "fields": [
                 ("product_name", "slug"),
+                ("product_name_trans",),
                 ("product_code", "unit_price", "discounted_price"),
                 ("start_date", "end_date"),
                 "quantity",
@@ -640,7 +671,7 @@ class VariantInlineFormSet(BaseInlineFormSet):
                 break
             if not check_data:
                 check_data = is_valid
-            if check_data != is_valid:
+            if sorted(check_data) != sorted(is_valid):
                 flag = True
                 message = _("You need to select same Attribute type for all variant")
                 break
@@ -667,7 +698,7 @@ class ProductVariableVariantAdmin(admin.ModelAdmin):
         'quantity'
     ]
 
-    list_editable = ['quantity']
+    list_editable = ['unit_price', 'quantity']
 
     def get_product_name(self, obj):
         url = '/admindshop/product/' + str(obj.product.id) 
@@ -694,6 +725,7 @@ class ProductVariableAdmin(
         (None, {
             "fields": [
                 ("product_name", "slug"),
+                ("product_name_trans",),
                 "active",
                 "is_vedette"
             ]
@@ -736,13 +768,13 @@ class ProductVariableAdmin(
     render_text_index.short_description = _("Text Index")
 
 
-class AttributeValueInline(admin.TabularInline):
+class AttributeValueInline(TranslatableTabularInline,):
     model = AttributeValue
     extra = 0
     exclude = ['square_id']
 
 @admin.register(Attribute)
-class AttributeAdmin(admin.ModelAdmin):
+class AttributeAdmin(TranslatableAdmin):
 
     list_display = ['name', 'value_display']
     inlines = [AttributeValueInline]

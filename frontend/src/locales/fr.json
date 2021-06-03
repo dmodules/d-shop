@@ -24,6 +24,9 @@
   "Nomdefamille": "Nom de famille",
   "Courriel": "Courriel",
 
+  "Addapromocode": "Ajouter un code promo",
+  "Carte de crédit": "Carte de crédit",
+
   "Commander": "Commander",
   "Connexion": "Connexion",
   "Inscription": "Inscription",
@@ -104,5 +107,17 @@
   "Unknown": "Inconnu",
 
   "LastUpdate": "Dernière mise à jour",
-  "Thisquotationnotexist": "Ce devis n'existe pas"
+  "Thisquotationnotexist": "Ce devis n'existe pas",
+
+  "Incomes": "Revenus",
+  "Income": "Revenu",
+  "Price": "Prix",
+  "Stocks": "Inventaires",
+  "NewCustomers": "Nouveaux clients",
+  "OrdersCount": "Nombre de commandes",
+  "AwaitingOrders": "Commandes en attente",
+  "MonthlyIncomes": "Revenus mensuels",
+  "CurrentWeekIncomes": "Revenus de la semaine",
+  "IncomesByLocation": "Revenus par localisation",
+  "MonthBestsellers": "Meilleures ventes du mois"
 }

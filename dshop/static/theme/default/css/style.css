@@ -8,44 +8,44 @@
 .footer_link li a:hover,
 .social_icons li a:hover,
 .footer-copyright a:hover{
-	color: #41b6e6;
+	color: #f16975;
 }
 
 .topnav a:hover,
 .topnav .drawer-toggle:hover{
-  color:#41b6e6;
+  color:#f16975;
 }
 
 .navbar .navbar-nav > li:hover > a:not(.dm-menu-split),
 .light_skin.transparent_header.nav-fixed .navbar .navbar-nav > li:hover > a:not(.dm-menu-split),
 .transparent_header.nav-fixed .light_skin .navbar .navbar-nav > li:hover > a:not(.dm-menu-split) {
-	color: #41b6e6;
+	color: #f16975;
 }
 
 .navbar .navbar-nav > li > a.dm-menu-split:hover,
 .light_skin.transparent_header.nav-fixed .navbar .navbar-nav > li > a.dm-menu-split:hover,
 .transparent_header.nav-fixed .light_skin .navbar .navbar-nav > li > a.dm-menu-split:hover {
-	color: #41b6e6;
+	color: #f16975;
 }
 
 /* ===--- Drawer ---=== */
 .drawer-toggle #dm-cart-items{
-  background-color:#41b6e6;
+  background-color:#f16975;
 }
 .dm-drawer-user-tabs .btn{
   background-color:#fff;
   border:1px solid #CED4DA;
-  color:#41b6e6;
+  color:#f16975;
 }
 .dm-drawer-user-tabs .btn.disabled{
-  background-color:#41b6e6;
+  background-color:#f16975;
   color:#fff;
   opacity:1;
 }
 .dm-drawer-total{
   background-color:#fff;
   border:1px solid #CED4DA;
-  color:#41b6e6;
+  color:#f16975;
 }
 @media (max-width: 967px) {
     .dm-drawer-inner #drawer-items-list .col-3,
@@ -106,7 +106,7 @@
 }
 .section-testimonials .testionial-text::before {
     content: "\201C";
-    color: #41b6e6;
+    color: #f16975;
     font-size: 3rem;
     line-height: 100%;
     opacity: 0.5;
@@ -147,18 +147,18 @@
 
 .product-card .name a:hover,
 .product-card .price{
-  color:#41b6e6;
+  color:#f16975;
 }
 .product .product_title a {
 	color:#202325;
 }
 .product .product_title a:hover {
-	color:#41b6e6;
+	color:#f16975;
 }
 
 .widget_categories li a:hover,
 .widget_archive li a:hover{
-  color:#41b6e6;
+  color:#f16975;
 }
 
 .tab-style1 .nav-tabs li.nav-item a.active, .tab-style1 .nav-tabs li.nav-item a.active:hover,
@@ -169,15 +169,15 @@
 
 /* ===--- Filtres ---=== */
 .products-filters .filters-boxes .filters-box.checked .filters-text {
-  background-color: #41b6e6;
+  background-color: #f16975;
   color: #fff;
 }
 .products-filters .filters-boxes .filters-box:hover .filters-text {
-  background-color: #41b6e6;
+  background-color: #f16975;
   color: #fff;
 }
 .products-filters .filters-boxes .filters-box.checked:hover  .filters-text {
-  background-color: #41b6e6;
+  background-color: #f16975;
   color: #000;
 }
 .products-filters .filters-boxes .filters-box .filters-text {
@@ -186,10 +186,10 @@
 
 /* ===--- Vos commandes ---=== */
 .text-primary{
-  color:#41b6e6!important;
+  color:#f16975!important;
 }
 .badge-primary {
-  background-color: #41b6e6;
+  background-color: #f16975;
   color: #fff;
   font-size:0.9rem;
   font-weight:500;
@@ -207,17 +207,17 @@
   padding:0.5rem;
 }
 .service-content-box pre{
-  border-left:2px solid #41b6e6;
+  border-left:2px solid #f16975;
   padding-left:1rem;
 }
 
 /**/
 .pagination .page-item a {
-    color:#41b6e6;
+    color:#f16975;
 }
 .page-item.active .page-link{
-    background-color:#41b6e6;
-    border-color:#41b6e6;
+    background-color:#f16975;
+    border-color:#f16975;
 }
 
 /**/
@@ -226,18 +226,18 @@
   min-height: 50vh;
 }
 #app.v-application .primary{
-  background-color:#41b6e6!important;
-  border-color:#41b6e6!important;
+  background-color:#f16975!important;
+  border-color:#f16975!important;
 }
 #app.v-application a.v-btn.primary{
   color:#fff!important;
 }
 #app.v-application .primary--text{
-  color:#41b6e6!important;
-  caret-color:#41b6e6!important;
+  color:#f16975!important;
+  caret-color:#f16975!important;
 }
 #app.v-application a{
-  color:#41b6e6!important;
+  color:#f16975!important;
 }
 #app.v-application a:hover{
   color:#495057;
@@ -245,7 +245,7 @@
 #app.theme--light.v-application,
 #app.theme--light .v-list{
   background:transparent;
-  color:#41b6e6;
+  color:#f16975;
 }
 #app.theme--light .v-card,
 #app.theme--light .v-stepper,
@@ -265,7 +265,7 @@
 #app .v-card__text,
 #app.theme--light.v-card > .v-card__text,
 #app.theme--light.v-card .v-card__subtitle{
-  color:#41b6e6!important;
+  color:#f16975!important;
 }
 #app .v-btn__content{
   font-weight:500;

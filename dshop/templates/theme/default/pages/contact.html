@@ -15,7 +15,7 @@
                             <i class="linearicons-map2"></i>
                         </div>
                         <div class="contact_text">
-                            <span>Adresse</span>
+                            <span>{% trans "Address" %}</span>
                             <p>{{c.result.address}}</p>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                             <i class="linearicons-envelope-open"></i>
                         </div>
                         <div class="contact_text">
-                            <span>Courriel</span>
+                            <span>{% trans "Email" %}</span>
                             <p>
                             <br />
                             <a href="mailto:{{c.result.email}}">{{c.result.email}}</a>
@@ -44,7 +44,7 @@
                             <i class="linearicons-tablet2"></i>
                         </div>
                         <div class="contact_text">
-                            <span>Téléphone</span>
+                            <span>{% trans "Phone" %}</span>
                             <p>
                                 {% if not c.result.phone_secondary %}<br />{% endif %}
                                 <a href="tel:{{c.result.phone|phone_canadian}}">{{c.result.phone}}</a>
@@ -63,24 +63,24 @@
     <div class="row">
       <div class="col-lg-6">
         <div class="heading_s1">
-          <h2>Contactez-nous</h2>
+          <h2>{% trans "Contact us" %}</h2>
         </div>
-        <p class="leads">Remplissez ce formulaire pour nous contacter.</p>
+        <p class="leads">{% trans "Fill out this form to contact us." %}</p>
         <div class="field_form dm-contact">
           <form method="post" name="enq" action="/contact/formulaire/">
             {% csrf_token %}
             <div class="row">
               <div class="form-group col-md-6">
-                <input required placeholder="Nom" id="name" class="form-control" name="name" type="text">
+                <input required placeholder={% trans "Name" %} id="name" class="form-control" name="name" type="text">
               </div>
               <div class="form-group col-md-6">
-                <input required placeholder="Courriel" id="email" class="form-control" name="email" type="email">
+                <input required placeholder={% trans "Email" %} id="email" class="form-control" name="email" type="email">
               </div>
               <div class="form-group col-md-6">
-                <input required placeholder="Téléphone" id="phone" class="form-control" name="phone">
+                <input required placeholder={% trans "Phone" %} id="phone" class="form-control" name="phone">
               </div>
               <div class="form-group col-md-6">
-                <input placeholder="Sujet" id="subject" class="form-control" name="subject">
+                <input placeholder={% trans "Subject" %} id="subject" class="form-control" name="subject">
               </div>
               <div class="form-group col-md-12">
                 <textarea required placeholder="Message" id="description" class="form-control" name="message"
@@ -91,7 +91,7 @@
               </div>
               <div class="col-md-12">
                 <button type="submit" title="Envoyer" class="btn btn-fill-out" id="submitButton" name="submit"
-                  value="Submit">Envoyer</button>
+                  value="Submit">{% trans "Send" %}</button>
               </div>
               <div class="col-md-12">
                 <div id="alert-msg" class="alert-msg text-center"></div>

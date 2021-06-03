@@ -66,8 +66,12 @@ class StripePayment(PaymentProvider):
                 print("Error on Stripe Payment Shipping Cost : " + str(e))
                 shipping_cost = order.extra['rows'][order.extra['rows'].index(
                     d)][1]['amount']
-                shipping_cost_1 = shipping_cost.split(' ')[1].split(',')[0]
-                shipping_cost_2 = shipping_cost.split(' ')[1].split(',')[1]
+                if "," in shipping_cost:
+                    shipping_cost_1 = shipping_cost.split(' ')[1].split(',')[0]
+                    shipping_cost_2 = shipping_cost.split(' ')[1].split(',')[1]
+                if "." in shipping_cost:
+                    shipping_cost_1 = shipping_cost.split(' ')[1].split('.')[0]
+                    shipping_cost_2 = shipping_cost.split(' ')[1].split('.')[1]
                 shipping_cost = int(shipping_cost_1) * 100 + int(shipping_cost_2)
             site = SITE_LINK
             success_url = site + \

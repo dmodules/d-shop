@@ -1,4 +1,4 @@
-{% load i18n cms_tags dshop_tags dmadvertising_tags %}
+{% load i18n menu_tags cms_tags dshop_tags dmadvertising_tags %}
 
 <div id="topbar">
     <div class="topbar-wrapper">
@@ -37,6 +37,20 @@
                 <span>
                     <a href="{{tos}}">{% trans "Terms and Conditions" %}</a>
                 </span>
+            {% endif %}
+            {% if LANGUAGES|length > 1 %}
+                <div class="dm-choose-language">
+                    <span>{{ LANGUAGE_CODE }} <i class="mdi mdi-chevron-down"></i></span>
+                    <div class="dm-choose-language-wrapper">
+                        <ul>
+                            {% for lang in LANGUAGES %}
+                                <li>
+                                    <a class="dm-choose-language-{{ lang.0 }}{% ifequal current_language lang.0 %} selected{% endifequal %}" href="{% page_language_url lang.0 %}">{{ lang.1 }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
             {% endif %}
         </div>
     </div>

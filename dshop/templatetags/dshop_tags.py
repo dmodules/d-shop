@@ -27,6 +27,8 @@ def ts_to_str(timestamp):
         ts = datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%f-05:00")
     elif timestamp.endswith("-04:00"):
         ts = datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%f-04:00")
+    elif timestamp.endswith("Z"):
+        ts = timestamp.split("T")[0]
     else:
         ts = timestamp
     return ts

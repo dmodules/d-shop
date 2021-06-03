@@ -242,7 +242,7 @@ function dm_add2cart(k) {
   if ($(k).data("quantity")) {
     quantity = $(k).data("quantity")
   }
-  $.get(site + "produits/" + endpoint + "/add-to-cart", function(getResult) {
+  $.get(site + i18n.products[lang] + "/" + endpoint + "/add-to-cart", function(getResult) {
     if (getResult.availability.quantity > 0) {
         if (getResult.availability.quantity >= quantity) {
             getResult.product_code = getResult.product_code.toString()
@@ -273,7 +273,7 @@ function dm_add2cart_variant(k) {
     quantity = $(k).data("quantity")
   }
   if (variant) {
-    $.get(site + "produits/" + endpoint + "/add-productvariable-to-cart?product_code="+variant, function(getResult) {
+    $.get(site + i18n.products[lang] + "/" + endpoint + "/add-productvariable-to-cart?product_code="+variant, function(getResult) {
         if (getResult.availability.quantity > 0) {
             if (getResult.availability.quantity >= quantity) {
                 getResult.quantity = quantity
@@ -382,7 +382,7 @@ function getPanier() {
                         itemlist += item.summary.media
                         itemlist += "</div>"
                         itemlist += "<div class='col-8 text-left'>"
-                        itemlist += "<div><a href='"+item.summary.product_url+"'>" + item.summary.product_name + "</a></div>"
+                        itemlist += "<div><a href='"+item.summary.product_url+"'>" + item.summary.product_name_trans + "</a></div>"
                         if (item.extra && item.extra.variables && item.extra.variables.attributes) {
                             itemlist += "<div class='drawer-cart-attributes'>"
                             for (let i = 0; i < item.extra.variables.attributes.length; i++) {
@@ -1002,8 +1002,7 @@ function loadMoreProduits(what = null, search = null) {
       query = '&brand='+what
     }
     // ===---
-    //$.get("/api/fe/moreproduits/?offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
-    $.get("/fr/produits/?type=1&"+data[1]+"&"+data[2]+"&"+data[3]+"&"+data[4]+"&offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
+    $.get(site + i18n.products[lang] + "/?type=1&"+data[1]+"&"+data[2]+"&"+data[3]+"&"+data[4]+"&offset="+offset+'&limit='+limit+'&sortby='+cookie_sortby+query, function(getResult) {
       let r = ''
       getResult.products.forEach((product) => {
         r = ''
@@ -1018,7 +1017,7 @@ function loadMoreProduits(what = null, search = null) {
         if (product.image) {
           r += '<img src="'+product.image+'" alt="" class="img-fluid">'
         } else {
-          r += '<img src="https://via.placeholder.com/540x600/f7f8fb/f7f8fb" alt="" class="img-fluid">'
+          r += '<img src="https://via.placeholder.com/540x600/f7f8fb/f7f8fb" alt="" class="img-fluid" />'
         }
         r += '</a>'
         r += '<div class="product_action_box">'
@@ -1059,7 +1058,7 @@ function loadMoreProduits(what = null, search = null) {
             }
             if (product.quantity <= 0) {
                 r += '<span class="product_sale_outofstock">'+i18n.outofstock[lang]+'</span>'
-            } else if (product.is_discounted) {
+            } else if (product.is_discounted || product.price != product.realprice) {
                 r += '<span class="product_sale_discounted">'+i18n.discounted[lang]+'</span>'
             }
             r += '</div>'
@@ -1077,7 +1076,7 @@ function loadMoreProduits(what = null, search = null) {
         r += '</div>'
         $(".produits").append(r)
       })
-      if (getResult.next === 0) {
+      if (!getResult.next || getResult.next === 0) {
         $('.dm-btn-more').hide()
       }
     }).then(function() {
@@ -1146,7 +1145,7 @@ function loadMoreByCategory(cat, tab) {
                     }
                     if (product.quantity <= 0) {
                         r += '<span class="product_sale_outofstock">'+i18n.outofstock[lang]+'</span>'
-                    } else if (product.is_discounted) {
+                    } else if (product.is_discounted || product.price != product.realprice) {
                         r += '<span class="product_sale_discounted">'+i18n.discounted[lang]+'</span>'
                     }
                     r += '</div>'

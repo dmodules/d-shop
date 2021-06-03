@@ -135,7 +135,10 @@ class DshopProductListView(APIView):
             Q(categories__active=True) | Q(categories=None),
             active=True
         )
-        title = 'Produits'
+        if request.LANGUAGE_CODE == "fr":
+            title = 'Produits'
+        else:
+            title = 'Products'
         current_category = None
         current_brand = None
         if 'category_id' in kwargs:
@@ -208,11 +211,11 @@ class DshopProductListView(APIView):
 
         if orderby == 'get_p':
             products = sorted(
-                products, key=lambda product: product.get_price(request)
+                products.distinct(), key=lambda product: product.get_price(request)
             )
         elif orderby == '-get_p':
             products = sorted(
-                products, key=lambda product: product.get_price(request),
+                products.distinct(), key=lambda product: product.get_price(request),
                 reverse=True
             )
         else:
@@ -222,11 +225,14 @@ class DshopProductListView(APIView):
         filters = ProductFilter.objects.all()
         next_page = False
 
-        if len(products.distinct()) > offset + limit:
-            products = products.distinct()[offset:limit]
+        if not type(products) == list:
+            products = products.distinct()
+
+        if len(products) > offset + limit:
+            products = products[offset:limit]
             next_page = True
         else:
-            products = products.distinct()[offset:]
+            products = products[offset:]
         filter_data = LoadFilters.as_view()(request=request._request).data
         data = {
             'products': products,
@@ -251,27 +257,30 @@ class DshopProductListView(APIView):
         all_produits = []
         for produit in products:
             data = {}
-            data['name'] = produit.product_name
+            data['name'] = produit.product_name_trans
             data['url'] = produit.get_absolute_url()
             data['caption'] = strip_tags(Truncator(produit.caption).words(18))
             data['slug'] = produit.slug
-            if produit.main_image:
-                data['image'] = get_thumbnailer(
-                    produit.main_image).get_thumbnail({
-                        'size': (540, 600),
-                        'upscale': True,
-                        'background': "#ffffff"
-                    }).url
-            elif produit.images.first():
-                data['image'] = get_thumbnailer(
-                    produit.images.first()).get_thumbnail({
-                        'size': (540, 600),
-                        'upscale':
-                        True,
-                        'background':
-                        "#ffffff"
-                    }).url
-            else:
+            try:
+                if produit.main_image:
+                    data['image'] = get_thumbnailer(
+                        produit.main_image).get_thumbnail({
+                            'size': (540, 600),
+                            'upscale': True,
+                            'background': "#ffffff"
+                        }).url
+                elif produit.images.first():
+                    data['image'] = get_thumbnailer(
+                        produit.images.first()).get_thumbnail({
+                            'size': (540, 600),
+                            'upscale':
+                            True,
+                            'background':
+                            "#ffffff"
+                        }).url
+                else:
+                    data['image'] = None
+            except Exception:
                 data['image'] = None
             if produit.filters.all():
                 data['filters'] = " ".join(
@@ -336,14 +345,17 @@ class LoadFilters(APIView):
                 url = ''
                 if filt.image:
                     url = filt.image.url
-                name = filt.name_trans if filt.name_trans else filt.name
+                try:
+                    name = filt.name_trans if filt.name_trans else filt.name
+                except Exception:
+                    name = filt.name
                 # ===---
                 filters.append({
                     'id': filt.id,
                     'name': name,
                     'order': filt.order,
                     'image': url,
-                    'description': filt.description
+                    'description': ''
                 })
             temp['filter'] = filters
             group_name = group.name_trans if group.name_trans else group.name
@@ -352,29 +364,49 @@ class LoadFilters(APIView):
         # ===--- Filters without group
         filters = []
         for filt in ProductFilter.objects.filter(group=None):
-            name = filt.name_trans if filt.name_trans else filt.name
+            try:
+                name = filt.name_trans if filt.name_trans else filt.name
+            except Exception:
+                name = filt.name
             filters.append({'id': filt.id, 'name': name, 'order': filt.order})
         data['default'] = {'filter': filters}
         # ===---
 
         a_data = {}
         for attr in Attribute.objects.all():
-            a_data[attr.name] = {}
-            a_data[attr.name]["id"] = attr.id
-            a_data[attr.name]["values"] = []
+            try:
+                name = attr.name_trans if attr.name_trans else attr.name
+            except Exception:
+                name = attr.name
+            a_data[name] = {}
+            a_data[name]["id"] = attr.id
+            a_data[name]["values"] = []
             for val in AttributeValue.objects.filter(attribute=attr):
-                a_data[attr.name]["values"].append({
+                try:
+                    value = val.value_trans if val.value_trans else val.name
+                except Exception:
+                    value = val.name
+                
+                a_data[name]["values"].append({
                     'id': val.id,
-                    'name': val.value
+                    'name': value
                 })
 
         categories = ProductCategory.objects.filter(parent=None, active=True)
         cat_data = []
         for cat in categories:
-            cat_d = {'id': cat.id, 'name': cat.name}
+            try:
+                name = cat.name_trans if cat.name_trans else cat.name
+            except Exception as e:
+                name = cat.name
+            cat_d = {'id': cat.id, 'name': name}
             child_c = []
             for child in ProductCategory.objects.filter(parent=cat, active=True):
-                child_c.append({'id': child.id, 'name': child.name})
+                try:
+                    child_name = child.name_trans if child.name_trans else child.name
+                except Exception:
+                    child_name = child.name
+                child_c.append({'id': child.id, 'name': child_name})
             cat_d['child'] = child_c
             cat_data.append(cat_d)
 
@@ -484,7 +516,7 @@ class LoadProduits(APIView):
         all_produits = []
         for produit in products:
             data = {}
-            data['name'] = produit.product_name
+            data['name'] = produit.product_name_trans
             data['url'] = produit.get_absolute_url()
             data['caption'] = strip_tags(Truncator(produit.caption).words(18))
             data['slug'] = produit.slug
@@ -580,7 +612,10 @@ class LoadProductsByCategory(APIView):
             all_produits = []
             for produit in products:
                 data = {}
-                data['name'] = produit.product_name
+                if produit.product_name_trans:
+                    data['name'] = produit.product_name_trans
+                else:
+                    data['name'] = produit.product_name
                 data['url'] = produit.get_absolute_url()
                 data['caption'] = strip_tags(
                     Truncator(produit.caption).words(18))
