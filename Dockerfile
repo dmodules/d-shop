@@ -21,6 +21,6 @@ RUN npm run build
 WORKDIR /app
 
 RUN pip install -r requirements.txt
-#RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput
 
 CMD uwsgi --http=0.0.0.0:80 --module=wsgi
