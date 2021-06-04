@@ -683,3 +683,28 @@ form .form-row.dynamic-variants .field-variant_image .filer-dropzone .filerFile 
     max-width: 400px;
     margin: 2rem auto 0;
 }
+
+/* ===--- Forms Visual ---=== */
+.aligned .vCheckboxLabel {
+    vertical-align: middle;
+    padding: 0 0 0 5px;
+}
+.dm-admin-main .aligned label {
+    display: inline-block;
+    width: 160px;
+}
+.dm-admin-main .aligned label + input {
+    display: inline-block;
+    width: calc(100% - 160px);
+}
+@media (max-width: 767px) {
+    .dm-admin-main .aligned label:not(.vCheckboxLabel) {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .dm-admin-main .aligned label + input {
+        display: block;
+        width: 100%;
+    }
+}
