@@ -527,6 +527,16 @@ div.breadcrumbs a:hover {
     opacity: 0.6;
 }
 
+.deletelink-box a.cms-btn-group {
+    color: var(--v-primary-admin);
+}
+.deletelink-box a.cms-btn-group:hover {
+    opacity: 0.5;
+}
+.deletelink-box a.cms-btn-group.cms-btn-active {
+    color: #848484;
+}
+
 /* ===--- VUE ---=== */
 #dm-admin .v-application .text-truncate {
     max-width: 100%;
