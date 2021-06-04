@@ -73,6 +73,7 @@ input[type=button]:hover {
     background: #1e2221;
     opacity: 0.5;
 }
+
 .button.default,
 input[type=submit].default,
 .submit-row input.default {
@@ -88,6 +89,15 @@ input[type=submit].default:focus,
 input[type=submit].default:hover {
     background: var(--v-primary-admin);
     opacity: 0.5;
+}
+input[type=button].language_button {
+    background: #1e2221;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin: 0 0 0 5px;
+}
+input[type=button].language_button.selected {
+    background: var(--v-primary-admin);
 }
 
 #dm-admin select,
@@ -481,11 +491,36 @@ div.breadcrumbs a:hover {
     border-bottom: none;
     padding: 0 0 0 0.25rem;
 }
+.parler-language-tabs span {
+    border-radius: 4px 4px 0 0;
+    font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 120%;
+    opacity: 1;
+    transition: opacity 0.5s;
+    padding: 10px 15px;
+}
+.parler-language-tabs span:not(.current):hover {
+    opacity: 0.5;
+}
 .parler-language-tabs span.current {
     background-color: var(--v-primary-admin);
     border-color: var(--v-primary-admin);
+    border-radius: 4px 4px 0 0;
 }
 .parler-language-tabs span.available,
+.parler-language-tabs span.empty {
+    border-radius: 4px 4px 0 0;
+}
+.parler-language-tabs span.available {
+    background-color: #1e2221;
+    border-color: #1e2221;
+    color: #fff;
+}
+.parler-language-tabs span.available a {
+    color: #fff;
+}
 .parler-language-tabs span.empty {
     background-color: #fff;
     border-color: #fff;
