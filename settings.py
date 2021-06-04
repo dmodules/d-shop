@@ -172,8 +172,10 @@ DefaultStorageClass = dsn_configured_storage_class('DEFAULT_STORAGE_DSN')
 DEFAULT_FILE_STORAGE = 'settings.DefaultStorageClass'
 
 # only required for local file storage and serving, in development
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join('/data/media/')
+
+THUMBNAIL_DEFAULT_STORAGE = DEFAULT_FILE_STORAGE
 
 if os.path.exists(path_to_extended):
     for item in os.listdir(path_to_extended):
