@@ -8806,6 +8806,24 @@
     }
 },
 {
+    "model": "menus.cachekey",
+    "pk": 386,
+    "fields": {
+        "language": "fr",
+        "site": 1,
+        "key": "cms_3.8.0_menu_nodes_fr_1_36_user:draft"
+    }
+},
+{
+    "model": "menus.cachekey",
+    "pk": 387,
+    "fields": {
+        "language": "fr",
+        "site": 1,
+        "key": "cms_3.8.0_menu_nodes_fr_1_36_user:public"
+    }
+},
+{
     "model": "post_office.log",
     "pk": 1,
     "fields": {
