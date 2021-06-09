@@ -52,13 +52,16 @@ def handle_product(sender, instance, created, raw, **kwargs):
 @receiver(post_delete, sender=ProductDefault)
 @receiver(post_delete, sender=ProductVariable)
 def handle_product_delete(sender, instance, **kwargs):
-    for entry in reversed(inspect.stack()):
-        try:
-            user = entry[0].f_locals["request"].user
-            break
-        except Exception:
-            user = None
-    create_log(user, 3, instance._meta.verbose_name, instance.product_name)
+    try:
+        for entry in reversed(inspect.stack()):
+            try:
+                user = entry[0].f_locals["request"].user
+                break
+            except Exception:
+                user = None
+        create_log(user, 3, instance._meta.verbose_name, instance.product_name)
+    except Exception:
+        pass
 
 
 @receiver(post_save, sender=ProductVariableVariant)
@@ -152,13 +155,16 @@ def handle_modelwithname(sender, instance, created, raw, **kwargs):
 @receiver(post_delete, sender=dmRabaisPerCategory)
 @receiver(post_delete, sender=dmPromoCode)
 def handle_modelwithname_delete(sender, instance, **kwargs):
-    for entry in reversed(inspect.stack()):
-        try:
-            user = entry[0].f_locals["request"].user
-            break
-        except Exception:
-            user = None
-    create_log(user, 3, instance._meta.verbose_name, instance.name)
+    try:
+        for entry in reversed(inspect.stack()):
+            try:
+                user = entry[0].f_locals["request"].user
+                break
+            except Exception:
+                user = None
+        create_log(user, 3, instance._meta.verbose_name, instance.name)
+    except Exception:
+        pass
 
 
 @receiver(post_save, sender=dmAdvertisingTopBanner)
@@ -181,14 +187,17 @@ def handle_advertisingtopbanner(sender, instance, created, raw, **kwargs):
 
 @receiver(post_delete, sender=dmAdvertisingTopBanner)
 def handle_advertisingtopbanner_delete(sender, instance, **kwargs):
-    for entry in reversed(inspect.stack()):
-        try:
-            user = entry[0].f_locals["request"].user
-            break
-        except Exception:
-            user = None
-    content = instance.text[0:32]+"..." if len(instance.text) > 32 else instance.text
-    create_log(user, 3, instance._meta.verbose_name, content)
+    try:
+        for entry in reversed(inspect.stack()):
+            try:
+                user = entry[0].f_locals["request"].user
+                break
+            except Exception:
+                user = None
+        content = instance.text[0:32]+"..." if len(instance.text) > 32 else instance.text
+        create_log(user, 3, instance._meta.verbose_name, content)
+    except Exception:
+        pass
 
 
 @receiver(post_save, sender=dmAdvertisingPopup)
@@ -211,11 +220,14 @@ def handle_advertisingpopup(sender, instance, created, raw, **kwargs):
 
 @receiver(post_delete, sender=dmAdvertisingPopup)
 def handle_advertisingpopup_delete(sender, instance, **kwargs):
-    for entry in reversed(inspect.stack()):
-        try:
-            user = entry[0].f_locals["request"].user
-            break
-        except Exception:
-            user = None
-    content = instance.title[0:32]+"..." if len(instance.title) > 32 else instance.title
-    create_log(user, 3, instance._meta.verbose_name, content)
+    try:
+        for entry in reversed(inspect.stack()):
+            try:
+                user = entry[0].f_locals["request"].user
+                break
+            except Exception:
+                user = None
+        content = instance.title[0:32]+"..." if len(instance.title) > 32 else instance.title
+        create_log(user, 3, instance._meta.verbose_name, content)
+    except Exception:
+        pass
