@@ -8,4 +8,4 @@ services:
 before_script: pip install docker-compose
 
 script:
-  - docker-compose run --rm web python manage.py test && flake8
+  - docker-compose -f docker-compose-test.yml run --rm web python manage.py test && flake8
