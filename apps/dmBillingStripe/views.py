@@ -83,6 +83,7 @@ def StripePaymentCancelView(request):
     }
     return HttpResponse(template.render(context, request))
 
+
 def StripePaymentView(request):  # noqa: C901
     referenceId = request.GET.get("referenceId", None)
     charge_id = request.GET.get("charge", None)
@@ -161,13 +162,15 @@ def StripePaymentView(request):  # noqa: C901
                     datas = {}
                     datas["quantity"] = i.quantity
                     datas["summary"] = {}
-                    datas["summary"]["product_name"] = str(i.product.product_name_trans)
+                    name = str(i.product.product_name_trans)
+                    datas["summary"]["product_name"] = name
                     datas["line_total"] = i.line_total
                     datas["extra"] = i.extra
                     items.append(datas)
+                url = "/vos-commandes/"+str(referenceId)+"/"+str(order.token)
                 miniorder = {
                     "number": str(referenceId),
-                    "url": "/vos-commandes/"+str(referenceId)+"/"+str(order.token),
+                    "url": url,
                     "items": items,
                     "extra": order.extra,
                     "subtotal": order.subtotal,

@@ -25,6 +25,7 @@ stripe.api_key = STRIPE_SECRET_KEY
 # ===---   StripePayment                                       ---=== #
 #######################################################################
 
+
 class StripePayment(PaymentProvider):
     namespace = 'stripe-payment'
 
@@ -72,12 +73,15 @@ class StripePayment(PaymentProvider):
                 if "." in shipping_cost:
                     shipping_cost_1 = shipping_cost.split(' ')[1].split('.')[0]
                     shipping_cost_2 = shipping_cost.split(' ')[1].split('.')[1]
-                shipping_cost = int(shipping_cost_1) * 100 + int(shipping_cost_2)
-            site = SITE_LINK
-            success_url = site + \
-                "/billing-stripe/payment/?referenceId="+str(referenceId)
-            cancel_url = site + \
-                "/billing-stripe/cancel/?referenceId="+str(referenceId)
+
+                s_c_1 = int(shipping_cost_1)
+                s_c_2 = int(shipping_cost_2)
+                shipping_cost = s_c_1 * 100 + s_c_2
+            # site = SITE_LINK
+            # success_url = site + \
+            #     "/billing-stripe/payment/?referenceId="+str(referenceId)
+            # cancel_url = site + \
+            #     "/billing-stripe/cancel/?referenceId="+str(referenceId)
             line_items = []
             # Create product line data
             line_data = {
@@ -111,7 +115,11 @@ class StripePayment(PaymentProvider):
                         "quantity": 1,
                         "currency": str(SHOP_DEFAULT_CURRENCY),
                         "amount": int(
-                            float(".".join(d[1]['amount'].split(' ')[1].split(','))) * 100
+                            float(
+                                ".".join(
+                                    d[1]['amount'].split(' ')[1].split(',')
+                                )
+                            ) * 100
                         )
                     }
                     line_items.append(line_data)
@@ -147,13 +155,15 @@ class StripePayment(PaymentProvider):
 
             if status == "succeeded":
                 redirect_url = '/billing-stripe/payment/?referenceId=' + \
-                str(referenceId)+'&charge='+str(charge.id)
+                    str(referenceId)+'&charge='+str(charge.id)
             else:
                 redirect_url = '/billing-stripe/cancel/?referenceId=' + \
-                str(referenceId)+'&error_code='+str(error['code']) + \
-                '&error_message='+str(error['message'])
+                    str(referenceId)+'&error_code='+str(error['code']) + \
+                    '&error_message='+str(error['message'])
             js_expression = 'window.location.href="{}";'.format(redirect_url)
             return js_expression
         except Exception as e:
             print(e)
-            raise ValidationError(_("An error occurred while creating your order."))
+            raise ValidationError(
+                _("An error occurred while creating your order.")
+            )

@@ -4,6 +4,7 @@ from django.test import TestCase
 from .utils import create_advertise_top_banner
 from apps.dmAdvertising.models import dmAdvertisingTopBanner
 
+
 class AdvertiseModelTest(TestCase):
 
     def test_advertising_top_banner_create(self):
