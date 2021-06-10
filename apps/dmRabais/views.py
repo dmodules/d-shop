@@ -62,10 +62,7 @@ class PromoCodesCreate(APIView):
                     return RestResponse({"valid": "expired"})
                 elif usercodes.count() > 0 and not usercodes[0].promocode.allow_multiple: # noqa
                     return RestResponse({"valid": "already"})
-                elif usercodes.count() > 0 and \
-                  usercodes[0].promocode.allow_multiple and \ # noqa
-                  usercodes[0].promocode.customer.all().count() > 0 and \ # noqa
-                  customer not in usercodes[0].promocode.customer.all(): # noqa
+                elif usercodes.count() > 0 and usercodes[0].promocode.allow_multiple and usercodes[0].promocode.customer.all().count() > 0 and customer not in usercodes[0].promocode.customer.all(): # noqa
                     return RestResponse({"valid": "already"})
                 else:
                     if usercodes.count() > 0 and \
