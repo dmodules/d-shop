@@ -136,7 +136,11 @@ def dm_get_order_bestsellers():
                     "name": str(item),
                     "quantity": item.quantity
                 })
-    bestseller_products = sorted(all_selled, key=lambda h: (int(h["quantity"])), reverse=True)[:5]
+    bestseller_products = sorted(
+        all_selled,
+        key=lambda h: (int(h["quantity"])),
+        reverse=True
+    )[:5]
     # ===---
     result = {
         "products": bestseller_products,

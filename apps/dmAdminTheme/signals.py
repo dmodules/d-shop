@@ -5,14 +5,18 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.db.models.signals import pre_save, post_save, post_delete
 
-from dshop.models import ProductDefault, ProductVariable, ProductVariableVariant
+from dshop.models import \
+    ProductDefault, \
+    ProductVariable, \
+    ProductVariableVariant
 from dshop.models import ProductCategory, ProductBrand, ProductLabel
 from dshop.models import ProductFilterGroup, ProductFilter
 from dshop.models import Order
 
 from apps.dmRabais.models import dmRabaisPerCategory, dmPromoCode
 
-from apps.dmAdvertising.models import dmAdvertisingTopBanner, dmAdvertisingPopup
+from apps.dmAdvertising.models import \
+    dmAdvertisingTopBanner, dmAdvertisingPopup
 
 from .models import dmAdminLogs
 
@@ -43,11 +47,16 @@ def handle_product(sender, instance, created, raw, **kwargs):
             except Exception:
                 user = None
         if created:
-            create_log(user, 1, instance._meta.verbose_name, instance.product_name)
+            create_log(
+                user, 1, instance._meta.verbose_name, instance.product_name
+            )
         else:
-            create_log(user, 2, instance._meta.verbose_name, instance.product_name)
+            create_log(
+                user, 2, instance._meta.verbose_name, instance.product_name
+            )
     except Exception:
         pass
+
 
 @receiver(post_delete, sender=ProductDefault)
 @receiver(post_delete, sender=ProductVariable)
@@ -104,9 +113,13 @@ def handle_order_pre(sender, instance, raw, **kwargs):
             except Exception:
                 user = None
         old = Order.objects.filter(pk=instance.pk).first()
-        if old is not None and old.status == "payment_confirmed" and old.status != instance.status:
+        if old is not None and \
+           old.status == "payment_confirmed" and \
+           old.status != instance.status:
             if instance.status == "ready_for_delivery":
-                content = "#"+str(instance.get_number())+" : "+str(_("ready for delivery"))
+                content = "#"+str(
+                    instance.get_number()
+                )+" : "+str(_("ready for delivery"))
             else:
                 content = "#"+str(instance.get_number())
             create_log(user, 2, str(_("Order")), content)
@@ -176,7 +189,10 @@ def handle_advertisingtopbanner(sender, instance, created, raw, **kwargs):
                 break
             except Exception:
                 user = None
-        content = instance.text[0:32]+"..." if len(instance.text) > 32 else instance.text
+        if len(instance.title) > 32:
+            content = instance.title[0:32]+"..."
+        else:
+            content = instance.title
         if created:
             create_log(user, 1, instance._meta.verbose_name, content)
         else:
@@ -194,7 +210,10 @@ def handle_advertisingtopbanner_delete(sender, instance, **kwargs):
                 break
             except Exception:
                 user = None
-        content = instance.text[0:32]+"..." if len(instance.text) > 32 else instance.text
+        if len(instance.title) > 32:
+            content = instance.title[0:32]+"..."
+        else:
+            content = instance.title
         create_log(user, 3, instance._meta.verbose_name, content)
     except Exception:
         pass
@@ -209,7 +228,10 @@ def handle_advertisingpopup(sender, instance, created, raw, **kwargs):
                 break
             except Exception:
                 user = None
-        content = instance.title[0:32]+"..." if len(instance.title) > 32 else instance.title
+        if len(instance.title) > 32:
+            content = instance.title[0:32]+"..."
+        else:
+            content = instance.title
         if created:
             create_log(user, 1, instance._meta.verbose_name, content)
         else:
@@ -227,7 +249,10 @@ def handle_advertisingpopup_delete(sender, instance, **kwargs):
                 break
             except Exception:
                 user = None
-        content = instance.title[0:32]+"..." if len(instance.title) > 32 else instance.title
+        if len(instance.title) > 32:
+            content = instance.title[0:32]+"..."
+        else:
+            content = instance.title
         create_log(user, 3, instance._meta.verbose_name, content)
     except Exception:
         pass

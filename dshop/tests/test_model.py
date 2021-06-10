@@ -3,7 +3,6 @@ from django.db import IntegrityError
 from django.test import TestCase
 
 from dshop.models import Product, \
-    ProductBrand, \
     ProductCategory, \
     Attribute, \
     AttributeValue
@@ -13,7 +12,6 @@ from dshop.tests.utils import product, \
     category, \
     attribute, \
     attribute_value, \
-    product_brand, \
     attach_attribute
 
 
