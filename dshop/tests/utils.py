@@ -25,11 +25,11 @@ def get_image():
     image_temp_file = NamedTemporaryFile(delete=True)
     image_temp_file.write(r.content)
     image_temp_file.flush()
-    f = File(image_temp_file, name='test.png')
+    f = File(image_temp_file, name='image.png')
     img = Image.objects.create(
-        original_filename='test',
+        original_filename='image',
         file=f,
-        name='test'
+        name='image'
     )
     return img
 
