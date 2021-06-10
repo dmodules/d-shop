@@ -8,6 +8,7 @@ from dshop.tests.utils import \
     category, \
     product
 
+
 class CategoryDiscountTestProduct(TestCase):
 
     def setUp(self):

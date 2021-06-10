@@ -10,6 +10,7 @@ from apps.dmRabais.models import \
     dmRabaisPerCategory, \
     dmPromoCode
 
+
 class RabaisModelTest(TestCase):
 
     def test_category_discount_create(self):
@@ -34,7 +35,7 @@ class RabaisModelTest(TestCase):
             'amount': 10,
             'percent': 10,
             'is_active': True,
-            'valid_from': pytz.utc.localize(datetime.today() - timedelta(days=2)),
+            'valid_from': pytz.utc.localize(datetime.today() - timedelta(days=2)),  # noqa
             'valid_until': pytz.utc.localize(datetime.today()),
         }
 

@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from .utils import create_taxes
 from apps.dmTaxes.models import CanadaTaxManagement
 
+
 class TaxModelTest(TestCase):
 
     def test_tax_create(self):

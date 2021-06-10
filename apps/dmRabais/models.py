@@ -30,13 +30,13 @@ class dmRabaisPerCategory(models.Model):
         decimal_places=3,
         blank=True,
         null=True,
-        help_text=_("An amount to substract to the original price, leave blank to use 'Percent'.")
+        help_text=_("An amount to substract to the original price, leave blank to use 'Percent'.") # noqa
     )
     percent = models.PositiveSmallIntegerField(
         verbose_name=_("Percent"),
         blank=True,
         null=True,
-        help_text=_("A percent to substract to the original price, unused if there's an 'Amount'.")
+        help_text=_("A percent to substract to the original price, unused if there's an 'Amount'.") # noqa
     )
     is_active = models.BooleanField(
         verbose_name=_("Active"),
@@ -100,13 +100,13 @@ class dmPromoCode(models.Model):
         decimal_places=3,
         blank=True,
         null=True,
-        help_text=_("An amount to substract to the original price, leave blank to use 'Percent'.")
+        help_text=_("An amount to substract to the original price, leave blank to use 'Percent'.") # noqa
     )
     percent = models.PositiveSmallIntegerField(
         verbose_name=_("Percent"),
         blank=True,
         null=True,
-        help_text=_("A percent to substract to the original price, unused if there's an 'Amount'.")
+        help_text=_("A percent to substract to the original price, unused if there's an 'Amount'.") # noqa
     )
     is_active = models.BooleanField(
         verbose_name=_("Active"),
@@ -124,7 +124,7 @@ class dmPromoCode(models.Model):
     apply_on_cart = models.BooleanField(
         verbose_name=_("Apply on cart's total only"),
         default=False,
-        help_text=_("Check to apply this promocode on the cart's total instead of individual product.")
+        help_text=_("Check to apply this promocode on the cart's total instead of individual product.") # noqa
     )
     valid_from = models.DateTimeField(
         verbose_name=_("Start at"),
@@ -134,14 +134,14 @@ class dmPromoCode(models.Model):
         verbose_name=_("End at"),
         blank=True,
         null=True,
-        help_text=_("Leave blank if you doesn't want this code to expire after a specific time.")
+        help_text=_("Leave blank if you doesn't want this code to expire after a specific time.") # noqa
     )
     valid_uses = models.PositiveSmallIntegerField(
         verbose_name=_("Number of Customer"),
         default=0,
         blank=False,
         null=False,
-        help_text=_("Leave to 0 if you doesn't want this code to expire after a specific number of customer's uses.")
+        help_text=_("Leave to 0 if you doesn't want this code to expire after a specific number of customer's uses.") # noqa
     )
     customer = models.ManyToManyField(
         Customer,
@@ -149,7 +149,7 @@ class dmPromoCode(models.Model):
         verbose_name=_("Customers"),
         limit_choices_to={"recognized": 2},
         blank=True,
-        help_text=_("Only allow these customers to use this code. Leave blank to allow anyone.")
+        help_text=_("Only allow these customers to use this code. Leave blank to allow anyone.") # noqa
     )
     categories = models.ManyToManyField(
         "dshop.ProductCategory",

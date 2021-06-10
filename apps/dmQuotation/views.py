@@ -23,7 +23,9 @@ class dmQuotationCartMergeAPI(APIView):
 
     def get(self, request, *args, **kwargs):
         cookie = request.GET.get('cookie', None)
-        session = Session.objects.filter(session_key=request.session.session_key)
+        session = Session.objects.filter(
+            session_key=request.session.session_key
+        )
         customer = None
         if session.count() > 0:
             session = session[0].get_decoded()
@@ -40,16 +42,21 @@ class dmQuotationCartMergeAPI(APIView):
             for quot in cookie_quotation:
                 quot.customer = customer
                 quot.save()
-            check_quotation = dmQuotation.objects.filter(customer=customer, status=1)
+            check_quotation = dmQuotation.objects.filter(
+                customer=customer, status=1
+            )
             if check_quotation.count() > 1:
                 first_quotation = check_quotation.order_by('id').first()
-                check_quotation = check_quotation.exclude(id=first_quotation.id)
+                check_quotation = check_quotation.exclude(
+                    id=first_quotation.id
+                )
                 for quot in check_quotation:
                     for item in dmQuotationItem.objects.filter(quotation=quot):
                         item.quotation = first_quotation
                         item.save()
                     quot.delete()
         return HttpResponse('Ok')
+
 
 class dmQuotationCartCreateAPI(APIView):
 
@@ -62,7 +69,7 @@ class dmQuotationCartCreateAPI(APIView):
             if product is not None:
                 product_obj = ProductDefault.objects.get(product_code=product)
             elif variant is not None:
-                product_obj = ProductVariableVariant.objects.get(product_code=variant)
+                product_obj = ProductVariableVariant.objects.get(product_code=variant)   # noqa
         except Exception as e:
             print(e)
             return RestResponse({"valid": False})
@@ -73,7 +80,9 @@ class dmQuotationCartCreateAPI(APIView):
             customer = CustomerModel.objects.get(user=request.user)
 
         if not customer:
-            session = Session.objects.filter(session_key=request.session.session_key)
+            session = Session.objects.filter(
+                session_key=request.session.session_key
+            )
             if session.count() > 0:
                 session = session[0].get_decoded()
                 user_id = session.get('_auth_user_id')
@@ -124,10 +133,14 @@ class dmQuotationCartCreateAPI(APIView):
                     for quot in cookie_quotation:
                         quot.customer = customer
                         quot.save()
-            check_quotation = dmQuotation.objects.filter(customer=customer, status=1)
+            check_quotation = dmQuotation.objects.filter(
+                customer=customer, status=1
+            )
             if check_quotation.count() > 1:
                 first_quotation = check_quotation.order_by('id').first()
-                check_quotation = check_quotation.exclude(id=first_quotation.id)
+                check_quotation = check_quotation.exclude(
+                    id=first_quotation.id
+                )
                 for quot in check_quotation:
                     for item in dmQuotationItem.objects.filter(quotation=quot):
                         item.quotation = first_quotation
@@ -156,7 +169,7 @@ class dmQuotationCartCreateAPI(APIView):
                 'quantity': quantity,
             }
             if variant is not None:
-                attributes = ",".join([attr.value for attr in product_obj.attribute.all()])
+                attributes = ",".join([attr.value for attr in product_obj.attribute.all()])  # noqa
                 data['product_type'] = 2
                 data['variant_code'] = product_obj.product_code
                 data['variant_attribute'] = attributes
@@ -170,6 +183,7 @@ class dmQuotationCartCreateAPI(APIView):
             dmQuotationItem.objects.create(**data)
         return RestResponse({"valid": True})
 
+
 class dmQuotationListCreateAPI(ListCreateAPIView):
 
     serializer_class = dmQuotationSerializer
@@ -182,6 +196,7 @@ class dmQuotationListCreateAPI(ListCreateAPIView):
             queryset = self.queryset.filter(customer__user=user)
             return queryset
         return dmQuotation.objects.none()
+
 
 class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
 
@@ -212,7 +227,9 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
                 status=1
             ).last()
         else:
-            session = Session.objects.filter(session_key=request.session.session_key).last()
+            session = Session.objects.filter(
+                session_key=request.session.session_key
+            ).last()
             if session and session.count() > 0:
                 session = session[0].get_decoded()
                 user_id = session.get('_auth_user_id')
@@ -229,7 +246,7 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
             quot = {
                 'id': quotation.id,
                 'number': quotation.number,
-                'status': dmQuotation.CHOICE_STATUS[int(quotation.status)-1][0],
+                'status': dmQuotation.CHOICE_STATUS[int(quotation.status)-1][0],  # noqa
                 'created_at': quotation.created_at,
                 'updated_at': quotation.updated_at
             }
@@ -277,7 +294,7 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
                     if current_item.product.main_image:
                         current_item_image = current_item.product.main_image
                     elif current_item.product.images.first():
-                        current_item_image = current_item.product.images.first()
+                        current_item_image = current_item.product.images.first()  # noqa
                     else:
                         current_item_image = None
                     if current_item_image is not None:
@@ -324,11 +341,13 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
                 return RestResponse({"valid": True})
         return RestResponse({"valid": False})
 
+
 class dmQuotationItemListCreateAPI(ListCreateAPIView):
 
     serializer_class = dmQuotationItemSerializer
     permission_classes = [AllowAny, ]
     queryset = dmQuotationItem.objects.all()
+
 
 class dmQuotationItemRetrieve(RetrieveUpdateDestroyAPIView):
 
@@ -336,6 +355,7 @@ class dmQuotationItemRetrieve(RetrieveUpdateDestroyAPIView):
     permission_classes = [AllowAny, ]
     lookup_field = 'pk'
     queryset = dmQuotationItem.objects.all()
+
 
 def dmQuotationPage(request):
     cookie = request.GET.get('cookie', '')
@@ -358,7 +378,7 @@ def dmQuotationPage(request):
             quot = {
                 'id': quotation.id,
                 'number': quotation.number,
-                'status': dmQuotation.CHOICE_STATUS[int(quotation.status)-1][1],
+                'status': dmQuotation.CHOICE_STATUS[int(quotation.status)-1][1],  # noqa
                 'created_at': quotation.created_at,
                 'updated_at': quotation.updated_at
             }
@@ -378,6 +398,7 @@ def dmQuotationPage(request):
         context = {'quotations': data, 'count': len(data)}
     return HttpResponse(template.render(context, request))
 
+
 class dmQuotationCurrent(APIView):
     def get(self, request, *args, **kwargs):    # noqa: C901
         cookie = request.GET.get('cookie', None)
@@ -393,7 +414,9 @@ class dmQuotationCurrent(APIView):
                 status=1
             ).last()
         else:
-            session = Session.objects.filter(session_key=request.session.session_key)
+            session = Session.objects.filter(
+                session_key=request.session.session_key
+            )
             if session:
                 session = session[0].get_decoded()
                 user_id = session['_auth_user_id']
@@ -408,7 +431,7 @@ class dmQuotationCurrent(APIView):
             quot = {
                 'id': quotation.id,
                 'number': quotation.number,
-                'status': dmQuotation.CHOICE_STATUS[int(quotation.status)-1][1],
+                'status': dmQuotation.CHOICE_STATUS[int(quotation.status)-1][1],  # noqa
                 'created_at': quotation.created_at,
                 'updated_at': quotation.updated_at
             }
@@ -456,7 +479,7 @@ class dmQuotationCurrent(APIView):
                     if current_item.product.main_image:
                         current_item_image = current_item.product.main_image
                     elif current_item.product.images.first():
-                        current_item_image = current_item.product.images.first()
+                        current_item_image = current_item.product.images.first()  # noqa
                     else:
                         current_item_image = None
                     if current_item_image is not None:

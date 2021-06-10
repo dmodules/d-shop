@@ -5,6 +5,7 @@ from .models import ShippingManagement, ShippingAllowed
 from cities_light.models import Country, Region, City
 from dal import autocomplete
 
+
 class CountryAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):
@@ -31,7 +32,9 @@ class StateAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(country__id__in=countries)
 
         if self.q:
-            qs = qs.filter(Q(name__istartswith=self.q) | Q(country__name__istartswith=self.q))
+            qs = qs.filter(
+                Q(name__istartswith=self.q) | Q(country__name__istartswith=self.q) # noqa
+            )
         return qs
 
 
@@ -48,8 +51,11 @@ class CityAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(region_id__in=states)
 
         if self.q:
-            qs = qs.filter(Q(name__istartswith=self.q) | Q(region__name__istartswith=self.q))
+            qs = qs.filter(
+                Q(name__istartswith=self.q) | Q(region__name__istartswith=self.q) # noqa
+            )
         return qs
+
 
 def get_data(request):  # noqa: C901
 
@@ -83,15 +89,13 @@ def get_data(request):  # noqa: C901
                     s_obj = Region.objects.get(slug=s[1])
                     con += [(s_obj.country.name, s_obj.country.code2)]
         else:
-            codes = [c[1] for c in con if c[1] == "CA" ]
-            sta = list(Region.objects.filter(country__code2__in=codes).values_list("name", "slug"))
+            codes = [c[1] for c in con if c[1] == "CA"]
+            sta = list(Region.objects.filter(country__code2__in=codes).values_list("name", "slug")) # noqa
 
         if shipping.cities.all():
-            s_slug = [ s[1] for s in sta ]
-            # cities += list(shipping.cities.exclude(region__slug__in=s_slug).values_list("name", "id"))
             cities += list(shipping.cities.all().values_list("name", "id"))
             if not sta:
-                city_id = [ c[1] for c in cities ]
+                city_id = [c[1] for c in cities]
                 city_obj = City.objects.filter(id__in=city_id)
                 for c_obj in city_obj:
                     tpl = (c_obj.region.name, c_obj.region.slug)
@@ -101,9 +105,6 @@ def get_data(request):  # noqa: C901
                 for s in sta:
                     s_obj = Region.objects.get(slug=s[1])
                     con += [(s_obj.country.name, s_obj.country.code2)]
-        # else:
-        #     codes = [c[1] for c in sta]
-        #     cit = list(City.objects.filter(region__slug__in=codes).values_list('name', 'id'))
 
         countries += con
         states += sta
@@ -112,7 +113,9 @@ def get_data(request):  # noqa: C901
     temp_co = {}
     if not countries and not states and not cities:
         countries = Country.objects.all().values_list("name", "code2")
-        states = Region.objects.filter(country__code2="CA").values_list("name", "slug")
+        states = Region.objects.filter(
+            country__code2="CA"
+        ).values_list("name", "slug")
 
     for c in countries:
         if c[1] not in temp_co:
@@ -124,7 +127,9 @@ def get_data(request):  # noqa: C901
         if not sa and not country == "CA":
             continue
         for s in states:
-            st = Region.objects.filter(slug=s[1], country__code2=country).first()
+            st = Region.objects.filter(
+                slug=s[1], country__code2=country
+            ).first()
             if st:
                 if st.slug not in temp:
                     temp[st.slug] = st.name
@@ -139,8 +144,10 @@ def get_data(request):  # noqa: C901
             if state[1] in processed:
                 continue
             processed.append(state[1])
-            city_id = [ c[1] for c in cities ]
-            city_obj = City.objects.filter(id__in=city_id, region__slug=state[1])
+            city_id = [c[1] for c in cities]
+            city_obj = City.objects.filter(
+                id__in=city_id, region__slug=state[1]
+            )
             for c in city_obj:
                 if c.id not in temp:
                     temp[c.id] = c.name

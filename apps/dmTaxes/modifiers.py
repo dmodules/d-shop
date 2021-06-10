@@ -115,6 +115,7 @@ class CanadaTaxModifier(BaseCartModifier):
         cart.extra_rows[self.identifier] = ExtraCartRow(instance)
         cart.total += Money(round(Decimal(amount), 2))
 
+
 def state_fr_to_en(state):
     if state == "Colombie-Britannique":
         state = "British Columbia"

@@ -12,13 +12,21 @@ class dmQuotationItemSerializer(serializers.ModelSerializer):
             'unit_price': {'read_only': True}
         }
 
+
 class dmQuotationSerializer(serializers.ModelSerializer):
 
     items = serializers.SerializerMethodField()
 
     class Meta:
         model = dmQuotation
-        fields = ('id', 'number', 'status', 'created_at', 'updated_at', 'items')
+        fields = (
+            'id',
+            'number',
+            'status',
+            'created_at',
+            'updated_at',
+            'items'
+        )
         extra_kwargs = {
             'number': {'required': False}
         }

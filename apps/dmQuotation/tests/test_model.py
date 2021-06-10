@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from shop.models.customer import CustomerModel
 from apps.dmQuotation.models import dmQuotation, dmQuotationItem
 
+
 class QuotationModelTest(TestCase):
 
     def test_quotation_create(self):

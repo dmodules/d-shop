@@ -9,6 +9,7 @@ from dshop.models import ProductVariableVariant
 
 from .models import dmPromoCode
 
+
 def get_discounts_byrequest(request):
     result = [[], [], Decimal(0), Decimal(0)]
     try:
@@ -30,10 +31,10 @@ def get_discounts_byrequest(request):
                 else:
                     result[0].append(pc.promocode.name)
                     result[1].append(pc.promocode.code)
-            result[2] = result[2] + (Decimal(cproduct.unit_price) * item.quantity)
+            result[2] = result[2] + (Decimal(cproduct.unit_price) * item.quantity) # noqa
             result[3] = result[3] + (
                 Decimal(
-                    (cproduct.unit_price * item.quantity) - (cproduct.get_price(request) * item.quantity)
+                    (cproduct.unit_price * item.quantity) - (cproduct.get_price(request) * item.quantity) # noqa
                 )
             )
         result[0] = list(dict.fromkeys(result[0]))
@@ -41,6 +42,7 @@ def get_discounts_byrequest(request):
     except Exception as e:
         print(e)
     return result
+
 
 def get_cart_discounts(promolist):
     result = [Decimal(0), 0]

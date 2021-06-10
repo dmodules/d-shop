@@ -63,7 +63,10 @@ class dmRabaisPerCategoryAdmin(admin.ModelAdmin):
 
 class CustomerMultipleChoiceField(forms.ModelMultipleChoiceField):
     def label_from_instance(self, obj):
-        return str(obj.user.first_name) + " : " + str(obj.user.last_name) + " : " + str(obj.user.email)
+        return str(
+            obj.user.first_name
+        ) + " : " + str(obj.user.last_name) + " : " + str(obj.user.email)
+
 
 @admin.register(dmPromoCode)
 class dmPromoCodeAdmin(admin.ModelAdmin):

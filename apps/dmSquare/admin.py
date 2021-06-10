@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from .models import dmStockLog
 
+
 @admin.register(dmStockLog)
 class dmStockLogAdmin(admin.ModelAdmin):
     fieldsets = [(None, {
@@ -13,7 +14,11 @@ class dmStockLogAdmin(admin.ModelAdmin):
         ]
     })]
     list_display = [
-        "product_name", "old_quantity", "new_quantity", "update_from", "stock_update_date"
+        "product_name",
+        "old_quantity",
+        "new_quantity",
+        "update_from",
+        "stock_update_date"
     ]
     readonly_fields = [
         "product_name",
@@ -25,4 +30,6 @@ class dmStockLogAdmin(admin.ModelAdmin):
         "update_from"
     ]
     list_filter = ["update_from"]
-    search_fields = ["product_name", "product_square_code", "variant_square_code"]
+    search_fields = [
+        "product_name", "product_square_code", "variant_square_code"
+    ]

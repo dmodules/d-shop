@@ -21,7 +21,7 @@ class CategoryDiscountTestProduct(TestCase):
         prod = Product.objects.all().first()
 
         prod.discounted_price = 50
-        prod.start_date = pytz.utc.localize(datetime.today() - timedelta(days=2))
+        prod.start_date = pytz.utc.localize(datetime.today() - timedelta(days=2)) # noqa
         prod.end_date = pytz.utc.localize(datetime.today() + timedelta(days=2))
         prod.save()
 
@@ -33,8 +33,8 @@ class CategoryDiscountTestProduct(TestCase):
         prod = Product.objects.all().first()
 
         prod.discounted_price = 50
-        prod.start_date = pytz.utc.localize(datetime.today() - timedelta(days=2))
-        prod.end_date = pytz.utc.localize(datetime.today() - timedelta(days=1))
+        prod.start_date = pytz.utc.localize(datetime.today() - timedelta(days=2)) # noqa
+        prod.end_date = pytz.utc.localize(datetime.today() - timedelta(days=1)) # noqa
         prod.save()
 
         prod = Product.objects.all().first()
@@ -59,8 +59,8 @@ class CategoryDiscountTestProduct(TestCase):
             'name': 'Test Discount',
             'percent': 10,
             'is_active': True,
-            'valid_from': pytz.utc.localize(datetime.today() - timedelta(days=2)),
-            'valid_until': pytz.utc.localize(datetime.today() + timedelta(days=3)),
+            'valid_from': pytz.utc.localize(datetime.today() - timedelta(days=2)), # noqa
+            'valid_until': pytz.utc.localize(datetime.today() + timedelta(days=3)), # noqa
         }
         prod = Product.objects.all().first()
         old_price = prod.get_price()

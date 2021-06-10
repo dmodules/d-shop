@@ -9,8 +9,19 @@ from .models import dmQuotation, dmQuotationItem
 class dmQuotationItemInline(admin.TabularInline):
 
     model = dmQuotationItem
-    fields = ('product_name', 'product_code_c', 'variant_attribute', 'quantity', 'unit_price',)
-    readonly_fields = ('product_name', 'product_code_c', 'variant_attribute', 'quantity',)
+    fields = (
+        'product_name',
+        'product_code_c',
+        'variant_attribute',
+        'quantity',
+        'unit_price',
+    )
+    readonly_fields = (
+        'product_name',
+        'product_code_c',
+        'variant_attribute',
+        'quantity',
+    )
     extra = 0
 
     def product_code_c(self, obj):
@@ -19,6 +30,7 @@ class dmQuotationItemInline(admin.TabularInline):
         else:
             return obj.variant_code
     product_code_c.short_description = 'Product Code'
+
 
 @admin.register(dmQuotation)
 class dmQuotationAdmin(admin.ModelAdmin):
@@ -38,8 +50,15 @@ class dmQuotationAdmin(admin.ModelAdmin):
 
     def get_customer_link(self, obj):
         try:
-            url = reverse('admin:shop_customerproxy_change', args=(obj.customer.pk,))
-            return format_html('<a href="{0}" target="_new">{1}</a>', url, obj.customer.get_username())
+            url = reverse(
+               'admin:shop_customerproxy_change', args=(obj.customer.pk,)
+            )
+            return format_html(
+                '<a href="{0}" target="_new">{1}</a>',
+                url, obj.customer.get_username()
+            )
         except NoReverseMatch:
-            return format_html('<strong>{0}</strong>', obj.customer.get_username())
+            return format_html(
+                '<strong>{0}</strong>', obj.customer.get_username()
+            )
     get_customer_link.short_description = pgettext_lazy('admin', "Customer")

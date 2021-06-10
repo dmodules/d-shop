@@ -4,6 +4,7 @@ from django.test import TestCase
 from .utils import create_shipping
 from apps.dmShipping.models import ShippingManagement
 
+
 class ShippingModelTest(TestCase):
 
     def test_shipping_create(self):

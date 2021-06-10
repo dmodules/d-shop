@@ -1,6 +1,7 @@
 
 from apps.dmShipping.models import ShippingManagement
 
+
 def create_shipping(data=None):
     data = {
         'name': 'Shipping Method',

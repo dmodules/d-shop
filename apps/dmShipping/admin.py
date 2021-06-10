@@ -17,16 +17,18 @@ class ShippingAllowedForm(forms.models.ModelForm):
         model = ShippingAllowed
         fields = ('countries', 'states', 'cities', 'price')
         widgets = {
-            'countries': autocomplete.ModelSelect2Multiple(url='country-autocomplete'),
-            'states': autocomplete.ModelSelect2Multiple(url='state-autocomplete', forward=['countries']),
-            'cities': autocomplete.ModelSelect2Multiple(url='city-autocomplete', forward=['states'])
+            'countries': autocomplete.ModelSelect2Multiple(url='country-autocomplete'), # noqa
+            'states': autocomplete.ModelSelect2Multiple(url='state-autocomplete', forward=['countries']), # noqa
+            'cities': autocomplete.ModelSelect2Multiple(url='city-autocomplete', forward=['states']) # noqa
         }
+
 
 class ShippingAllowedInline(admin.TabularInline):
 
     model = ShippingAllowed
     extra = 0
     form = ShippingAllowedForm
+
 
 @admin.register(ShippingManagement)
 class ShippingManagementAdmin(TranslatableAdmin):
