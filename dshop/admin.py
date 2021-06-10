@@ -29,7 +29,10 @@ from polymorphic.admin import (
 )
 
 from parler.admin import TranslatableModelForm
-from parler.admin import TranslatableAdmin, TranslatableTabularInline, TranslatableStackedInline
+from parler.admin import \
+    TranslatableAdmin, \
+    TranslatableTabularInline, \
+    TranslatableStackedInline
 
 from filer.models import ThumbnailOption
 
@@ -44,9 +47,13 @@ from shop.models.cart import CartModel, CartItemModel
 from dshop.models import dmSite, dmSiteLogo, dmSiteContact, dmSiteSocial
 from dshop.models import dmSiteTermsAndConditions
 from dshop.models import BillingAddress, ShippingAddress
-from dshop.models import ProductCategory, ProductFilter, ProductBrand, ProductLabel
+from dshop.models import \
+    ProductCategory, \
+    ProductFilter, \
+    ProductBrand, \
+    ProductLabel
 from dshop.models import Product, ProductDocument
-from dshop.models import Product, ProductFilterGroup
+from dshop.models import ProductFilterGroup
 from dshop.models import Attribute, AttributeValue
 from dshop.models import ProductDefault
 from dshop.models import ProductVariable, ProductVariableVariant
@@ -259,6 +266,7 @@ __all__ = ["customer"]
 # Site
 #######################################################################
 
+
 class dmSiteLogoInline(admin.StackedInline):
     model = dmSiteLogo
     extra = 1
@@ -349,6 +357,7 @@ class CartItemModelInline(admin.TabularInline):
     model = CartItemModel
     extra = 0
 
+
 @admin.register(CartModel)
 class BaseCartAdmin(admin.ModelAdmin):
     list_display = ["pk", "customer"]
@@ -431,14 +440,20 @@ class OrderAdmin(DeliveryOrderAdminMixin, djOrderAdmin):
             today = pytz.utc.localize(datetime.utcnow())
             if r.status == "new" and r.updated_at + timedelta(hours=1) < today:
                 r.delete()
-            if r.status == "created" and r.updated_at + timedelta(hours=6) < today:
+            if r.status == "created" and \
+               r.updated_at + timedelta(hours=6) < today:
                 r.delete()
         return super(OrderAdmin, self).get_queryset(request).all()
 
     def get_customer(self, obj):
         try:
-            url = reverse('admin:shop_customerproxy_change', args=(obj.customer.pk,))
-            return format_html('<a href="{0}" target="_new">{1}</a>', url, obj.customer.email)
+            url = reverse(
+                'admin:shop_customerproxy_change', args=(obj.customer.pk,)
+            )
+            return format_html(
+                '<a href="{0}" target="_new">{1}</a>',
+                url, obj.customer.email
+            )
         except NoReverseMatch:
             return format_html('<strong>{0}</strong>', obj.customer.email)
     get_customer.short_description = _("Customer")
@@ -480,6 +495,7 @@ class OrderAdmin(DeliveryOrderAdminMixin, djOrderAdmin):
 # Produit: Catégorie
 #######################################################################
 
+
 class CategoryAdminForm(MPTTAdminForm, TranslatableModelForm):
     pass
 
@@ -517,6 +533,7 @@ class ProductCategoryAdmin(TranslatableAdmin, DraggableMPTTAdmin):
 class ProductFilterInline(admin.TabularInline):
     model = ProductFilter
     extra = 0
+
 
 @admin.register(ProductFilterGroup)
 class ProductFilterGroupAdmin(TranslatableAdmin):
@@ -646,13 +663,17 @@ class ProductDefaultAdmin(
     filter_horizontal = ["categories", "filters"]
     readonly_fields = ("slug",)
 
+
 class ProductForm(forms.models.ModelForm):
     class Meta:
         model = ProductVariableVariant
         fields = '__all__'
         widgets = {
-            'attribute': autocomplete.ModelSelect2Multiple(url='attribute-autocomplete')
+            'attribute': autocomplete.ModelSelect2Multiple(
+                             url='attribute-autocomplete'
+                         )
         }
+
 
 class VariantInlineFormSet(BaseInlineFormSet):
     def clean(self):
@@ -665,7 +686,8 @@ class VariantInlineFormSet(BaseInlineFormSet):
                     is_valid.append(attr.attribute.name)
                 else:
                     flag = True
-                    message = _("You can not select same Attribute type for one variant")
+                    message = _("You can not select same Attribute \
+                        type for one variant")
                     break
             if flag:
                 break
@@ -673,16 +695,19 @@ class VariantInlineFormSet(BaseInlineFormSet):
                 check_data = is_valid
             if sorted(check_data) != sorted(is_valid):
                 flag = True
-                message = _("You need to select same Attribute type for all variant")
+                message = _("You need to select same Attribute \
+                    type for all variant")
                 break
         if flag:
             raise forms.ValidationError(message)
+
 
 class ProductVariableVariantInline(admin.TabularInline):
     model = ProductVariableVariant
     extra = 0
     form = ProductForm
     formset = VariantInlineFormSet
+
 
 @admin.register(ProductVariableVariant)
 class ProductVariableVariantAdmin(admin.ModelAdmin):
@@ -701,15 +726,17 @@ class ProductVariableVariantAdmin(admin.ModelAdmin):
     list_editable = ['unit_price', 'quantity']
 
     def get_product_name(self, obj):
-        url = '/admin/dshop/product/' + str(obj.product.id) 
+        url = '/admin/dshop/product/' + str(obj.product.id)
         tag = '<a href="' + url + '/">' + obj.product.product_name + '</a>'
         return mark_safe(tag)
     get_product_name.short_description = _("Product Name")
 
     def get_attribute(self, obj):
-        attrs = "<br>".join([atr.attribute.name + " : " + atr.value for atr in obj.attribute.all()])
+        attrs = "<br>".join([atr.attribute.name + " : " +
+                             atr.value for atr in obj.attribute.all()])
         return mark_safe(attrs)
     get_attribute.short_description = _("Attributes")
+
 
 @admin.register(ProductVariable)
 class ProductVariableAdmin(
@@ -759,7 +786,11 @@ class ProductVariableAdmin(
         })
     ]
     filter_horizontal = ["categories", "filters"]
-    inlines = [ProductImageInline, ProductDocumentInline, ProductVariableVariantInline]
+    inlines = [
+        ProductImageInline,
+        ProductDocumentInline,
+        ProductVariableVariantInline
+    ]
     readonly_fields = ("slug",)
 
     def render_text_index(self, instance):
@@ -773,6 +804,7 @@ class AttributeValueInline(TranslatableTabularInline,):
     extra = 0
     exclude = ['square_id']
 
+
 @admin.register(Attribute)
 class AttributeAdmin(TranslatableAdmin):
 
@@ -784,6 +816,7 @@ class AttributeAdmin(TranslatableAdmin):
         return ", ".join([
             val.value for val in AttributeValue.objects.filter(attribute=obj)
         ])
+
 
 def convert_variable(modeladmin, request, queryset):
     for product in queryset:
@@ -833,7 +866,7 @@ def convert_variable(modeladmin, request, queryset):
 convert_variable.short_description = _('Convertir en variable')
 
 
-####################################################################################
+####################################################################
 
 
 class GetProductOutOrLow(admin.SimpleListFilter):
@@ -851,7 +884,8 @@ class GetProductOutOrLow(admin.SimpleListFilter):
         result = Product.objects.none()
         if value == "outofstock":
             for p in queryset:
-                if p.polymorphic_ctype_id == 163 and p.productdefault.quantity == 0:
+                if p.polymorphic_ctype_id == 163 and \
+                   p.productdefault.quantity == 0:
                     result |= Product.objects.filter(pk=p.pk)
                 elif p.polymorphic_ctype_id == 164:
                     for v in p.productvariable.variants.all():
@@ -859,7 +893,9 @@ class GetProductOutOrLow(admin.SimpleListFilter):
                             result |= Product.objects.filter(pk=p.pk)
         elif value == "lowonstock":
             for p in queryset:
-                if p.polymorphic_ctype_id == 163 and p.productdefault.quantity <= 3 and p.productdefault.quantity > 0:
+                if p.polymorphic_ctype_id == 163 and \
+                   p.productdefault.quantity <= 3 and \
+                   p.productdefault.quantity > 0:
                     result |= Product.objects.filter(pk=p.pk)
                 elif p.polymorphic_ctype_id == 164:
                     for v in p.productvariable.variants.all():
@@ -888,7 +924,10 @@ class ProductAdmin(PolymorphicParentModelAdmin):
     actions = [convert_variable, ]
     list_display_links = ["product_name"]
     search_fields = ["product_name"]
-    list_filter = ["categories", "brand", "label", GetProductOutOrLow, PolymorphicChildModelFilter]
+    list_filter = [
+        "categories", "brand",
+        "label", GetProductOutOrLow, PolymorphicChildModelFilter
+    ]
     list_per_page = 100
     list_max_show_all = 1000
     list_editable = ["brand", "label", "active", "is_vedette"]

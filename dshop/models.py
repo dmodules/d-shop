@@ -29,7 +29,6 @@ from djangocms_text_ckeditor.fields import HTMLField
 from django.utils.six.moves.urllib.parse import urljoin
 from django.utils.translation import ugettext_lazy as _
 from autoslug import AutoSlugField
-from django.utils.translation import get_language_from_request
 
 from shop.money import Money, MoneyMaker
 from shop.money.fields import MoneyField
@@ -330,6 +329,7 @@ class CategoryQuerySet(TranslatableQuerySet, TreeQuerySet):
     as_manager.queryset_only = True
     as_manager = classmethod(as_manager)
 
+
 # Need to create own CategoryManager
 class CategoryManager(TreeManager, TranslatableManager):
     _queryset_class = CategoryQuerySet
@@ -379,7 +379,10 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel, TranslatableModel):
         configuration="CKEDITOR_SETTINGS_DMPLUGIN",
         null=True,
         blank=True,
-        help_text=_("A text that will be shown on the top of the page of the Products of this category.")
+        help_text=_(
+            "A text that will be shown on the top of \
+            the page of the Products of this category."
+        )
     )
     text_position = models.PositiveSmallIntegerField(
         verbose_name=_("Position"),
@@ -403,7 +406,10 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel, TranslatableModel):
         related_name="category_image",
         null=True,
         blank=True,
-        help_text=_("An image that will be shown on the top of the page of the Products of this category.")
+        help_text=_(
+            "An image that will be shown on the top of \
+            the page of the Products of this category."
+        )
     )
 
     active = models.BooleanField(default=True,
@@ -422,7 +428,8 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel, TranslatableModel):
     def __str__(self):
         if self.parent is not None:
             if self.parent.parent is not None:
-                return self.parent.parent.name + " | " + self.parent.name + " | " + self.name
+                return self.parent.parent.name + " | " + \
+                    self.parent.name + " | " + self.name
             else:
                 return self.parent.name + " | " + self.name
         else:
@@ -905,26 +912,36 @@ class ProductDefault(AvailableProductMixin, Product):
                 try:
                     customer = CustomerModel.objects.get_from_request(request)
                     today = pytz.utc.localize(datetime.utcnow())
+                    all_cat = self.categories.all()
                     all_codes = dmCustomerPromoCode.objects.filter(
                         (
-                            Q(promocode__categories=None) | Q(promocode__categories__in=self.categories.all())
+                            Q(promocode__categories=None)
+                            | Q(promocode__categories__in=all_cat)
                         ) & (
-                            Q(promocode__products=None) | Q(promocode__products__in=[self])
+                            Q(promocode__products=None)
+                            | Q(promocode__products__in=[self])
                         ) & Q(promocode__is_active=True) & (
-                            Q(promocode__valid_from__isnull=True) | Q(promocode__valid_from__lte=today)
+                            Q(promocode__valid_from__isnull=True)
+                            | Q(promocode__valid_from__lte=today)
                         ) & (
-                            Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today)
+                            Q(promocode__valid_until__isnull=True)
+                            | Q(promocode__valid_until__gt=today)
                         ) & Q(promocode__apply_on_cart=False),
                         customer=customer,
                         is_expired=False
                     ).distinct()
                     if all_codes.count() > 0:
                         for d in all_codes:
+                            is_true = d.promocode.can_apply_on_discounted
                             if not self.is_discounted or (
-                                self.is_discounted and d.promocode.can_apply_on_discounted
+                                self.is_discounted and is_true
                             ):
                                 if d.promocode.amount is not None:
-                                    r = Money(Decimal(r) - Decimal(d.promocode.amount))
+                                    r = Money(
+                                        Decimal(r) - Decimal(
+                                                         d.promocode.amount
+                                                     )
+                                    )
                                 elif d.promocode.percent is not None:
                                     pourcent = Decimal(
                                         d.promocode.percent) / Decimal("100")
@@ -944,27 +961,36 @@ class ProductDefault(AvailableProductMixin, Product):
             if self.is_discounted:
                 all_codes = dmCustomerPromoCode.objects.filter(
                     (
-                        Q(promocode__categories=None) | Q(promocode__categories__in=self.categories.all())
+                        Q(promocode__categories=None)
+                        | Q(promocode__categories__in=self.categories.all())
                     ) & (
-                        Q(promocode__products=None) | Q(promocode__products__in=[self])
-                    )
-                    & Q(promocode__is_active=True) & (
-                        Q(promocode__valid_from__isnull=True) | Q(promocode__valid_from__lte=today)
-                    ) & (Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today))
-                    & Q(promocode__can_apply_on_discounted=True),
+                        Q(promocode__products=None)
+                        | Q(promocode__products__in=[self])
+                    ) & Q(promocode__is_active=True)
+                    & (
+                        Q(promocode__valid_from__isnull=True)
+                        | Q(promocode__valid_from__lte=today)
+                    ) & (
+                        Q(promocode__valid_until__isnull=True)
+                        | Q(promocode__valid_until__gt=today)
+                    ) & Q(promocode__can_apply_on_discounted=True),
                     customer=customer,
                     is_expired=False
                 ).distinct()
             else:
                 all_codes = dmCustomerPromoCode.objects.filter(
                     (
-                        Q(promocode__categories=None) | Q(promocode__categories__in=self.categories.all())
+                        Q(promocode__categories=None)
+                        | Q(promocode__categories__in=self.categories.all())
                     ) & (
-                        Q(promocode__products=None) | Q(promocode__products__in=[self])
+                        Q(promocode__products=None)
+                        | Q(promocode__products__in=[self])
                     )
                     & Q(promocode__is_active=True) & (
-                        Q(promocode__valid_from__isnull=True) | Q(promocode__valid_from__lte=today)
-                    ) & (Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today)),
+                        Q(promocode__valid_from__isnull=True)
+                        | Q(promocode__valid_from__lte=today)
+                    ) & (Q(promocode__valid_until__isnull=True)
+                         | Q(promocode__valid_until__gt=today)),
                     customer=customer,
                     is_expired=False
                 ).distinct()
@@ -1061,7 +1087,11 @@ class ProductVariable(Product):
                 if a.attribute.name not in data:
                     data[a.attribute.name] = []
             for d in data:
-                data[d] = list(AttributeValue.objects.filter(attribute__name=d).values_list('value', flat=True))
+                data[d] = list(
+                    AttributeValue.objects.filter(
+                        attribute__name=d
+                    ).values_list('value', flat=True)
+                )
             return data
 
     def get_attribute_values(self):
@@ -1122,6 +1152,7 @@ class AttributeValue(TranslatableModel):
 
     def __str__(self):
         return self.attribute.name + ' - ' + self.value
+
 
 class AttributeTranslation(TranslatedFieldsModel):
     """
@@ -1251,7 +1282,11 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
 
         # ===--- GET DISCOUNTS
         if dmRabaisPerCategory is not None:
-            r = get_apply_discountpercategory(self.product, r, self.is_discounted)
+            r = get_apply_discountpercategory(
+                self.product,
+                r,
+                self.is_discounted
+            )
 
         if request:
             # ===--- GET PROMOCODE
@@ -1259,15 +1294,20 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
                 try:
                     customer = CustomerModel.objects.get_from_request(request)
                     today = pytz.utc.localize(datetime.utcnow())
+                    all_cat = self.product.categories.all()
                     all_codes = dmCustomerPromoCode.objects.filter(
                         (
-                            Q(promocode__categories=None) | Q(promocode__categories__in=self.product.categories.all())
+                            Q(promocode__categories=None)
+                            | Q(promocode__categories__in=all_cat)
                         ) & (
-                            Q(promocode__products=None) | Q(promocode__products__in=[self.product])
+                            Q(promocode__products=None)
+                            | Q(promocode__products__in=[self.product])
                         ) & Q(promocode__is_active=True) & (
-                            Q(promocode__valid_from__isnull=True) | Q(promocode__valid_from__lte=today)
+                            Q(promocode__valid_from__isnull=True)
+                            | Q(promocode__valid_from__lte=today)
                         ) & (
-                            Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today)
+                            Q(promocode__valid_until__isnull=True)
+                            | Q(promocode__valid_until__gt=today)
                         ) & Q(promocode__apply_on_cart=False),
                         customer=customer,
                         is_expired=False
@@ -1275,13 +1315,22 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
                     if all_codes.count() > 0:
                         for d in all_codes:
                             if not self.is_discounted or (
-                                self.is_discounted and d.promocode.can_apply_on_discounted
+                                self.is_discounted and
+                                d.promocode.can_apply_on_discounted
                             ):
                                 if d.promocode.amount is not None:
-                                    r = Money(Decimal(r) - Decimal(d.promocode.amount))
+                                    r = Money(
+                                        Decimal(r) - Decimal(
+                                                         d.promocode.amount
+                                                     )
+                                    )
                                 elif d.promocode.percent is not None:
-                                    pourcent = Decimal(d.promocode.percent) / Decimal("100")
-                                    discount = Money(Decimal(self.unit_price) * pourcent)
+                                    pourcent = Decimal(
+                                        d.promocode.percent
+                                    ) / Decimal("100")
+                                    discount = Money(
+                                        Decimal(self.unit_price) * pourcent
+                                    )
                                     r = r - discount
                 except Exception:
                     print("Error on ProductVariableVariant's get_price")
@@ -1295,13 +1344,19 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
             today = pytz.utc.localize(datetime.utcnow())
             all_codes = dmCustomerPromoCode.objects.filter(
                 (
-                    Q(promocode__categories=None) | Q(promocode__categories__in=self.product.categories.all())
+                    Q(promocode__categories=None)
+                    | Q(
+                        promocode__categories__in=self.product.categories.all()
+                    )
                 ) & (
-                    Q(promocode__products=None) | Q(promocode__products__in=[self.product])
+                    Q(promocode__products=None)
+                    | Q(promocode__products__in=[self.product])
                 ) & Q(promocode__is_active=True) & (
-                    Q(promocode__valid_from__isnull=True) | Q(promocode__valid_from__lte=today)
+                    Q(promocode__valid_from__isnull=True)
+                    | Q(promocode__valid_from__lte=today)
                 ) & (
-                    Q(promocode__valid_until__isnull=True) | Q(promocode__valid_until__gt=today)
+                    Q(promocode__valid_until__isnull=True)
+                    | Q(promocode__valid_until__gt=today)
                 ),
                 customer=customer,
                 is_expired=False
@@ -1692,7 +1747,9 @@ class dmProductsBrands(CMSPlugin):
         default=5,
         blank=False,
         null=False,
-        help_text=_("How many brand's logo to be show at the same time.")
+        help_text=_(
+            "How many brand's logo to be show at the same time."
+        )
     )
 
 
@@ -1809,12 +1866,17 @@ class dmBlocTextCarrousel(CMSPlugin):
     see_dots = models.BooleanField(
         verbose_name=_("Show Dots?"),
         default=False,
-        help_text=_("If checked, will display dots under carrousel for each image.")
+        help_text=_(
+            "If checked, will display dots under carrousel for each image."
+        )
     )
     see_navs = models.BooleanField(
         verbose_name=_("Show Navigation Arrows?"),
         default=True,
-        help_text=_("If checked, will display navigation arrows both sides of the carrousel.")
+        help_text=_(
+            "If checked, will display navigation \
+            arrows both sides of the carrousel."
+        )
     )
 
 
@@ -1823,7 +1885,10 @@ class dmBlocTextCarrouselImage(CMSPlugin):
         verbose_name=_("Image"),
         null=False,
         blank=False,
-        help_text=_("Max sizes : 600x600. Always use the same ratio on the same carrousel.")
+        help_text=_(
+            "Max sizes : 600x600. Always \
+            use the same ratio on the same carrousel."
+        )
     )
 
 
@@ -1873,7 +1938,10 @@ class dmBlocSliderParent(CMSPlugin):
     height = models.PositiveSmallIntegerField(
         verbose_name=_("Height"),
         default=500,
-        help_text=_("Height of the slider (will be automatically shrinked on mobile version).")
+        help_text=_(
+           "Height of the slider \
+           (will be automatically shrinked on mobile version)."
+        )
     )
 
 
@@ -2328,6 +2396,7 @@ class dmTeamChild(CMSPlugin):
         help_text=_("Ex.: https://www.instagram.com/<username>")
     )
 
+
 class dmTestimonialParent(CMSPlugin):
     title = models.CharField(
         verbose_name=_("Title"),
@@ -2353,6 +2422,7 @@ class dmTestimonialParent(CMSPlugin):
         blank=True,
         help_text=_("Facultative. Size: 2000x900.")
     )
+
 
 class dmTestimonialChild(CMSPlugin):
     name = models.CharField(

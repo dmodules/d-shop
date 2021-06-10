@@ -16,6 +16,7 @@ from dshop.tests.utils import product, \
     product_brand, \
     attach_attribute
 
+
 class ProductModelTest(TestCase):
 
     def test_same_product(self):

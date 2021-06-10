@@ -34,7 +34,12 @@ class AddProductVariableToCartSerializer(AddToCartSerializer):
             "product": product.id,
             "product_code": variant.product_code,
             "unit_price": variant.unit_price,
-            "is_in_cart": bool(product.is_in_cart(cart, product_code=variant.product_code)),
+            "is_in_cart": bool(
+                              product.is_in_cart(
+                                  cart,
+                                  product_code=variant.product_code
+                              )
+                          ),
             "availability": variant.get_availability(request)
         }
         return instance
@@ -42,7 +47,8 @@ class AddProductVariableToCartSerializer(AddToCartSerializer):
 
 class ExtraCartRowContent(serializers.Serializer):
     """
-    This data structure holds extra information for each item, or for the whole cart, while
+    This data structure holds extra information
+    for each item, or for the whole cart, while
     processing the cart using their modifiers.
     """
     label = serializers.CharField(

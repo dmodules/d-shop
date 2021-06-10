@@ -51,12 +51,14 @@ def get_setting(name):
     """Get the value of a setting from key name"""
     return getattr(settings, name, "")
 
+
 @register.simple_tag
 def dm_get_google_analytics():
     result = dmSite.objects.first()
     if not result:
         return ""
     return result.google_analytics
+
 
 @register.simple_tag
 def dm_get_logos():
@@ -130,7 +132,9 @@ def dm_get_site_socials():
 
 @register.simple_tag
 def dm_get_site_termsandconditions():
-    """Get Terms and Conditions's text from the first Site registered in admin panel"""
+    """Get Terms and Conditions's text from the first Site
+       registered in admin panel
+    """
     result = dmSite.objects.first()
     return result.termsandconditions.first()
 
@@ -150,7 +154,10 @@ def dm_get_attributes_list(k):
 @register.simple_tag
 def dm_get_products_all():
     """Get data from all active products"""
-    result = Product.objects.filter(active=True, categories__active=True).order_by('-id')
+    result = Product.objects.filter(
+        active=True,
+        categories__active=True
+    ).order_by('-id')
     return result
 
 
@@ -229,9 +236,16 @@ def dm_get_all_products(context, offset, limit):
     ).order_by(orderby).distinct()[offset+limit:offset+limit+limit].count()
     #
     if sortby == "price-asc":
-        products = sorted(products, key=lambda t: t.get_price(context["request"]))
+        products = sorted(
+            products,
+            key=lambda t: t.get_price(context["request"])
+        )
     elif sortby == "price-des":
-        products = sorted(products, key=lambda t: t.get_price(context["request"]), reverse=True)
+        products = sorted(
+            products,
+            key=lambda t: t.get_price(context["request"]),
+            reverse=True
+        )
     # ===---
     products = products[offset:offset+limit]
     # ===---
@@ -244,7 +258,9 @@ def dm_get_all_products(context, offset, limit):
 
 @register.simple_tag(takes_context=True)
 def dm_get_products_by_category(context, k, offset, limit):
-    """Get data from all products from category's pk/id key with offset and limit"""
+    """Get data from all products from category's pk/id
+       key with offset and limit
+    """
     offset = int(offset)
     limit = int(limit)
     # ===---
@@ -265,7 +281,10 @@ def dm_get_products_by_category(context, k, offset, limit):
         orderby = "order"
     # ===---
     products = Product.objects.filter(
-        Q(categories=k) | Q(categories__parent=k) | Q(categories__parent__parent=k) | Q(
+        Q(categories=k)
+        | Q(categories__parent=k)
+        | Q(categories__parent__parent=k)
+        | Q(
             categories__parent__parent__parent=k
         ),
         active=True
@@ -274,15 +293,25 @@ def dm_get_products_by_category(context, k, offset, limit):
     products = products.filter(categories__active=True)
     # ===---
     next_result = Product.objects.filter(
-        Q(categories=k) | Q(categories__parent=k) | Q(categories__parent__parent=k) | Q(
+        Q(categories=k)
+        | Q(categories__parent=k)
+        | Q(categories__parent__parent=k)
+        | Q(
             categories__parent__parent__parent=k
         ), active=True
     ).order_by(orderby).distinct()[offset+limit:offset+limit+limit].count()
     #
     if sortby == "price-asc":
-        products = sorted(products, key=lambda t: t.get_price(context["request"]))
+        products = sorted(
+            products,
+            key=lambda t: t.get_price(context["request"])
+        )
     elif sortby == "price-des":
-        products = sorted(products, key=lambda t: t.get_price(context["request"]), reverse=True)
+        products = sorted(
+            products,
+            key=lambda t: t.get_price(context["request"]),
+            reverse=True
+        )
     # ===---
     products = products[offset:offset+limit]
     # ===---
@@ -295,7 +324,9 @@ def dm_get_products_by_category(context, k, offset, limit):
 
 @register.simple_tag(takes_context=True)
 def dm_get_products_by_brand(context, k, offset, limit):
-    """Get data from all products from brand's pk/id key with offset and limit"""
+    """Get data from all products from brand's pk/id key
+       with offset and limit
+    """
     offset = int(offset)
     limit = int(limit)
     # ===---
@@ -323,9 +354,16 @@ def dm_get_products_by_brand(context, k, offset, limit):
     ).order_by(orderby).distinct()[offset+limit:offset+limit+limit].count()
     #
     if sortby == "price-asc":
-        products = sorted(products, key=lambda t: t.get_price(context["request"]))
+        products = sorted(
+            products,
+            key=lambda t: t.get_price(context["request"])
+        )
     elif sortby == "price-des":
-        products = sorted(products, key=lambda t: t.get_price(context["request"]), reverse=True)
+        products = sorted(
+            products,
+            key=lambda t: t.get_price(context["request"]),
+            reverse=True
+        )
     # ===---
     products = products[offset:offset+limit]
     # ===---
@@ -338,7 +376,9 @@ def dm_get_products_by_brand(context, k, offset, limit):
 
 @register.simple_tag
 def dm_get_products_related(categories, id):
-    """Get data from all product from categories but the specified product by pk/id key"""
+    """Get data from all product from categories
+       but the specified product by pk/id key
+    """
     products = Product.objects.none()
     for k in categories.all():
         products = products | Product.objects.filter(
@@ -354,9 +394,19 @@ def dm_get_products_related(categories, id):
             ).exclude(pk=id).exclude(pk__in=products).distinct()
         if products.count() < 4 and k.parent and k.parent.parent is not None:
             products = products | Product.objects.filter(
-                Q(categories=k.parent.parent) | Q(categories__parent=k.parent.parent) | Q(
+                Q(
+                    categories=k.parent.parent
+                    )
+                | Q(
+                        categories__parent=k.parent.parent
+                     )
+                | Q(
                     categories__parent__parent=k.parent.parent
-                ) | Q(categories__parent__parent__parent=k.parent.parent), active=True
+                    )
+                | Q(
+                        categories__parent__parent__parent=k.
+                        parent.parent
+                      ), active=True
             ).exclude(pk=id).exclude(pk__in=products).distinct()
     result = {
         "products": products[:4]
@@ -404,6 +454,7 @@ def dm_check_shipping_taxed(k):
 @register.simple_tag
 def dm_quotation_feature():
     return QUOTATION
+
 
 @register.simple_tag(takes_context=True)
 def dm_get_cookie(context, k):

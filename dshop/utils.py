@@ -23,7 +23,10 @@ def get_coords_from_address(address):
         return location
     else:
         try:
-            postalcode = re.findall(r"[A-Za-z]{1}[0-9]{1}[A-Za-z]{1} [0-9]{1}[A-Za-z]{1}[0-9]{1}", address)[0]
+            postalcode = re.findall(
+                r"[A-Za-z]{1}[0-9]{1}[A-Za-z]{1} [0-9]{1}[A-Za-z]{1}[0-9]{1}",
+                address
+            )[0]
             if postalcode != address:
                 postal_location = get_coords_from_address(postalcode)
         except Exception:
@@ -39,7 +42,12 @@ def get_coords_from_address(address):
             else:
                 return location
 
-def get_apply_discountpercategory(product, current_price, is_discounted=False):  # noqa: C901
+
+def get_apply_discountpercategory(
+    product,
+    current_price,
+    is_discounted=False
+):  # noqa: C901
     r = current_price
     if dmRabaisPerCategory is not None:
         today = pytz.utc.localize(datetime.utcnow())

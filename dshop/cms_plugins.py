@@ -20,6 +20,7 @@ from .models import dmProductsCategories
 from .models import dmProductsVedette, dmProductsByCategory
 from .models import dmProductsBrands
 
+
 class BoutiquePlugin(CMSPluginBase):
     module = 'A Boutique Plugin'
 
@@ -36,7 +37,10 @@ class dmBlocEntetePlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocEntetePlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmBlocEntetePlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -54,7 +58,10 @@ class dmBlocTextMediaPlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocTextMediaPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmBlocTextMediaPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -73,7 +80,10 @@ class dmBlocTextCarrouselPlugin(BoutiquePlugin):
     child_classes = ["dmBlocTextCarrouselImagePlugin"]
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocTextCarrouselPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmBlocTextCarrouselPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -93,7 +103,10 @@ class dmBlocTextCarrouselImagePlugin(BoutiquePlugin):
     parent_classes = ["dmBlocTextCarrouselPlugin"]
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocTextCarrouselImagePlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmBlocTextCarrouselImagePlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -111,7 +124,10 @@ class dmBlocText2ColumnPlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocText2ColumnPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmBlocText2ColumnPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -129,7 +145,10 @@ class dmBlocEnteteVideoPlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocEnteteVideoPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmBlocEnteteVideoPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -148,7 +167,10 @@ class dmBlocSliderParentPlugin(BoutiquePlugin):
     child_classes = ["dmBlocSliderChildPlugin"]
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocSliderParentPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmBlocSliderParentPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -191,7 +213,10 @@ class dmBlocSliderChildPlugin(BoutiquePlugin):
     ]
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocSliderChildPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmBlocSliderChildPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -210,7 +235,10 @@ class dmBlocEtapesParentPlugin(BoutiquePlugin):
     child_classes = ["dmBlocEtapesChildPlugin"]
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocEtapesParentPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmBlocEtapesParentPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -230,7 +258,10 @@ class dmBlocEtapesChildPlugin(BoutiquePlugin):
     parent_classes = ["dmBlocEtapesParentPlugin"]
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocEtapesChildPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmBlocEtapesChildPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -249,7 +280,10 @@ class dmTeamParentPlugin(BoutiquePlugin):
     child_classes = ["dmTeamChildPlugin"]
 
     def render(self, context, instance, placeholder):
-        context = super(dmTeamParentPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmTeamParentPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -269,7 +303,10 @@ class dmTeamChildPlugin(BoutiquePlugin):
     parent_classes = ["dmTeamParentPlugin"]
 
     def render(self, context, instance, placeholder):
-        context = super(dmTeamChildPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmTeamChildPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -287,7 +324,10 @@ class dmCalltoactionPlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmCalltoactionPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmCalltoactionPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -305,7 +345,10 @@ class dmBlocContactPlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlocContactPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmBlocContactPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -323,7 +366,10 @@ class dmInfolettrePlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmInfolettrePlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmInfolettrePlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -346,7 +392,10 @@ class dmProductsCategoriesPlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmProductsCategoriesPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmProductsCategoriesPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -364,7 +413,10 @@ class dmProductsVedettePlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmProductsVedettePlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmProductsVedettePlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -382,7 +434,10 @@ class dmProductsByCategpryPlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmProductsByCategpryPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmProductsByCategpryPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -400,7 +455,10 @@ class dmProductsBrandsPlugin(BoutiquePlugin):
     allow_children = False
 
     def render(self, context, instance, placeholder):
-        context = super(dmProductsBrandsPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmProductsBrandsPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -419,7 +477,10 @@ class dmBlockSalesParentPlugin(BoutiquePlugin):
     child_classes = ["dmBlockSalesChildPlugin"]
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlockSalesParentPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmBlockSalesParentPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -439,7 +500,10 @@ class dmBlockSalesChildPlugin(BoutiquePlugin):
     parent_classes = ["dmBlockSalesParentPlugin"]
 
     def render(self, context, instance, placeholder):
-        context = super(dmBlockSalesChildPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmBlockSalesChildPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -458,7 +522,10 @@ class dmTestimonialParentPlugin(BoutiquePlugin):
     child_classes = ["dmTestimonialChildPlugin"]
 
     def render(self, context, instance, placeholder):
-        context = super(dmTestimonialParentPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmTestimonialParentPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
@@ -487,7 +554,10 @@ class dmTestimonialChildPlugin(BoutiquePlugin):
     ]
 
     def render(self, context, instance, placeholder):
-        context = super(dmTestimonialChildPlugin, self).render(context, instance, placeholder)
+        context = super(
+                      dmTestimonialChildPlugin,
+                      self
+                  ).render(context, instance, placeholder)
         return context
 
     def get_render_template(self, context, instance, placeholder):
