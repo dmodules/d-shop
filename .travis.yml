@@ -5,6 +5,9 @@ python:
 services:
   - docker
 
+install:
+  - pip install flake8
+
 before_script: pip install docker-compose
 
 script:
