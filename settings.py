@@ -237,7 +237,7 @@ ADMINS = [("D-Modules", "info@d-modules.com")]
 
 ORDER_TIMEOUT = os.getenv("ORDER_TIMEOUT", 10)
 
-SHOP_PRODUCT_SUMMARY_SERIALIZER = "dshop.serializers.dmProductSummarySerializer"
+SHOP_PRODUCT_SUMMARY_SERIALIZER = "dshop.serializers.dmProductSummarySerializer" # noqa
 
 ############################################
 # Templates Settings
@@ -267,7 +267,7 @@ DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 DEFAULT_TO_EMAIL = os.getenv("DEFAULT_TO_EMAIL")
 EMAIL_REPLY_TO = "info@d-modules.com"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_BACKEND = "post_office.EmailBackend"
+# EMAIL_BACKEND = "post_office.EmailBackend"
 
 #######################################################################
 # Mailchimp Settings
@@ -575,9 +575,9 @@ CMSPLUGIN_CASCADE = {
     },
     'leaflet': {
         'tilesURL':
-        'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+        'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', # noqa
         'accessToken':
-        'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
+        'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', # noqa
         'apiKey': 'AIzaSyD71sHrtkZMnLqTbgRmY_NsO0A9l9BQmv4',
     },
     'bookmark_prefix':
@@ -690,12 +690,12 @@ CKEDITOR_SETTINGS_DMBLOCKPLUGIN = {
      ['Source']]
 }
 
-#SELECT2_CSS = 'node_modules/select2/dist/css/select2.min.css'
-#SELECT2_JS = 'node_modules/select2/dist/js/select2.min.js'
-#SELECT2_I18N_PATH = 'node_modules/select2/dist/js/i18n'
+# SELECT2_CSS = 'node_modules/select2/dist/css/select2.min.css'
+# SELECT2_JS = 'node_modules/select2/dist/js/select2.min.js'
+# SELECT2_I18N_PATH = 'node_modules/select2/dist/js/i18n'
 
 STATICFILES_DIRS = [
-    #('node_modules', os.path.join(BASE_DIR, 'node_modules')),
+    # ('node_modules', os.path.join(BASE_DIR, 'node_modules')),
     os.path.join("/app/static")
 ]
 
@@ -778,8 +778,8 @@ TEMP_ADMIN_REORDER = [
                 "label": _("DeliveryItem")
             },
             # {"model": "dshop.Cart", "label": _("Carts")},
-            # {"model": "dshop.ShippingAddress", "label":_("Shipping's Addresses")},
-            # {"model": "dshop.BillingAddress", "label":_("Billing's Addresses")},
+            # {"model": "dshop.ShippingAddress", "label":_("Shipping's Addresses")}, # noqa
+            # {"model": "dshop.BillingAddress", "label":_("Billing's Addresses")}, # noqa
         ]
     },
     {
@@ -864,8 +864,8 @@ if STAGE != 'local':
     from sentry_sdk.integrations.django import DjangoIntegration
 
     sentry_sdk.init(
-        dsn=
-        "https://34444139af8548e99bce82a828909a20@o517405.ingest.sentry.io/5625175",
+        dsn= # noqa
+        "https://34444139af8548e99bce82a828909a20@o517405.ingest.sentry.io/5625175", # noqa
         integrations=[DjangoIntegration()],
         # If you wish to associate users to errors (assuming you are using
         # django.contrib.auth) you may enable sending PII data.
