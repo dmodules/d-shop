@@ -1,13 +1,11 @@
 from django.test import TestCase, Client
 from django.urls import reverse
-# import pytz
-# import random
-# from datetime import datetime, timedelta
+import pytz
+import random
+from datetime import datetime, timedelta
 from rest_framework import status
 
-from dshop.models import Product
-# ProductCategory, Attribute
-'''
+from dshop.models import Product, ProductCategory, Attribute
 from dshop.templatetags.dshop_tags import \
     dm_variants_is_outofstock, \
     dm_variants_is_discounted, \
@@ -16,12 +14,11 @@ from dshop.templatetags.dshop_tags import \
     dm_get_products_all, \
     dm_get_brands_all, \
     dm_get_brand, \
-    dm_get_categories_parents, \
     dm_get_filters_all, \
     dm_get_category_by_category, \
+    dm_get_categories_parents, \
     dm_get_category, \
     dm_get_attributes_list
-'''
 from dshop.utils import get_coords_from_address
 from dshop.tests.utils import filter_p, \
     category, \
@@ -84,8 +81,7 @@ class DShopAPITest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
-# temp commented
-'''class DShopAATemplate(TestCase):
+class DShopAATemplate(TestCase):
 
     def setUp(self):
         create_data()
@@ -159,7 +155,6 @@ class DShopAPITest(TestCase):
         attr = Attribute.objects.get(name='Color')
         data = dm_get_attributes_list(attr)
         self.assertEqual(3, len(data))
-'''
 
 
 class TestUtils(TestCase):
