@@ -55,7 +55,8 @@ class QuotationFunctionalTest(TestCase):
 
         response = self.client.post('/quotation/list/')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(number + 1, int(json.loads(response.content)['number']))
+        compare = int(json.loads(response.content)['number'])
+        self.assertEqual(number + 1, compare)
 
     def test_quotation_merge(self):
         response = self.client.get('/quotation/merge-cart/')

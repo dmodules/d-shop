@@ -5,6 +5,7 @@ from shop.money.fields import MoneyField
 from django.core.validators import MinValueValidator
 from shop.models.customer import CustomerModel
 
+
 class dmQuotation(models.Model):
 
     CHOICE_STATUS = [
@@ -52,6 +53,7 @@ class dmQuotation(models.Model):
 
     def __str__(self):
         return self.number
+
 
 class dmQuotationItem(models.Model):
 

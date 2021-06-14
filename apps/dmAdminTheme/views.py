@@ -12,7 +12,11 @@ from dshop.models import OrderItem
 from shop.money import Money
 
 from dshop.models import Customer
-from dshop.models import Product, ProductDefault, ProductVariable, ProductVariableVariant
+from dshop.models import \
+    Product, \
+    ProductDefault, \
+    ProductVariable, \
+    ProductVariableVariant
 
 from .models import dmAdminLogs
 
@@ -42,10 +46,13 @@ class AdminCountsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_active or not request.user.is_staff:
+        if not request.user.is_authenticated or\
+           not request.user.is_active or not request.user.is_staff:
             return RestResponse({"valid": False})
         # ==========================================================---
-        f = timezone.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        f = timezone.now().replace(
+            day=1, hour=0, minute=0, second=0, microsecond=0
+        )
         thismonth = 0
         lastmonth = 0
         # ===---
@@ -168,10 +175,13 @@ class AdminMonthlySalesView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_active or not request.user.is_staff:
+        if not request.user.is_authenticated or\
+           not request.user.is_active or not request.user.is_staff:
             return RestResponse({"valid": False})
         # ==========================================================---
-        f = timezone.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        f = timezone.now().replace(
+            day=1, hour=0, minute=0, second=0, microsecond=0
+        )
         # ===---
         data_monthlysales = {
             "labels": [],
@@ -219,8 +229,12 @@ class AdminMonthlySalesView(APIView):
                 lastyear_incomes += o.total
             # ===---
             data_monthlysales["labels"].append(months[s.month])
-            data_monthlysales["datasets"][0]["data"].append(float(thisyear_incomes))
-            data_monthlysales["datasets"][1]["data"].append(float(lastyear_incomes))
+            data_monthlysales["datasets"][0]["data"].append(
+                float(thisyear_incomes)
+            )
+            data_monthlysales["datasets"][1]["data"].append(
+                float(lastyear_incomes)
+            )
         # ==========================================================---
         return RestResponse({
             "monthlysales": data_monthlysales,
@@ -236,7 +250,8 @@ class AdminWeeklySalesView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_active or not request.user.is_staff:
+        if not request.user.is_authenticated or\
+           not request.user.is_active or not request.user.is_staff:
             return RestResponse({"valid": False})
         # ==========================================================---
         f = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
@@ -280,7 +295,9 @@ class AdminWeeklySalesView(APIView):
             thisweek_incomes = 0
             for o in thisweek_day:
                 thisweek_incomes += o.total
-            data_weeklysales["datasets"][0]["data"].append(float(thisweek_incomes))
+            data_weeklysales["datasets"][0]["data"].append(
+                float(thisweek_incomes)
+            )
         # ===---
         f = f - timedelta(f.weekday()) - timedelta(7)
         for i in [0, 1, 2, 3, 4, 5, 6]:
@@ -292,7 +309,9 @@ class AdminWeeklySalesView(APIView):
             lastweek_incomes = 0
             for o in lastweek_day:
                 lastweek_incomes += o.total
-            data_weeklysales["datasets"][1]["data"].append(float(lastweek_incomes))
+            data_weeklysales["datasets"][1]["data"].append(
+                float(lastweek_incomes)
+            )
         # ==========================================================---
         return RestResponse({
             "weeklysales": data_weeklysales,
@@ -308,7 +327,8 @@ class AdminByLocationView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_active or not request.user.is_staff:
+        if not request.user.is_authenticated or\
+           not request.user.is_active or not request.user.is_staff:
             return RestResponse({"valid": False})
         # ==========================================================---
         bylocation = []
@@ -327,7 +347,8 @@ class AdminBestsellersView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_active or not request.user.is_staff:
+        if not request.user.is_authenticated or\
+           not request.user.is_active or not request.user.is_staff:
             return RestResponse({"valid": False})
         # ==========================================================---
         bestsellers = []
@@ -344,16 +365,23 @@ class AdminBestsellersView(APIView):
                     already = True
             if not already:
                 if type(item.product) == ProductDefault:
-                    unitprice = ProductDefault.objects.filter(product_code=item.product_code).first().unit_price
+                    unitprice = ProductDefault.objects.filter(
+                        product_code=item.product_code
+                    ).first().unit_price
                 elif type(item.product) == ProductVariable:
-                    unitprice = ProductVariableVariant.objects.filter(product_code=item.product_code).first().unit_price
+                    unitprice = ProductVariableVariant.objects.filter(
+                        product_code=item.product_code
+                    ).first().unit_price
                 all_selled.append({
                     "product_name": str(item),
                     "product_price": unitprice,
                     "product_quantity": item.quantity,
                     "product_amount": item._line_total
                 })
-        bestsellers = sorted(all_selled, key=lambda h: (int(h["product_quantity"])), reverse=True)[:2]
+        bestsellers = sorted(
+            all_selled, key=lambda h: (int(h["product_quantity"])),
+            reverse=True
+        )[:2]
         for b in bestsellers:
             b["product_amount"] = Money(b["product_amount"])
         # ==========================================================---
@@ -371,7 +399,8 @@ class AdminStocksView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_active or not request.user.is_staff:
+        if not request.user.is_authenticated or\
+           not request.user.is_active or not request.user.is_staff:
             return RestResponse({"valid": False})
         # ==========================================================---
         total = 0
@@ -429,7 +458,8 @@ class AdminLogsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_active or not request.user.is_staff:
+        if not request.user.is_authenticated or \
+           not request.user.is_active or not request.user.is_staff:
             return RestResponse({"valid": False})
         # ==========================================================---
         logs = []
@@ -450,7 +480,9 @@ class AdminLogsView(APIView):
             logs.append({
                 "title": log.title + " " + str(title_action),
                 "content": "\""+log.content+"\"",
-                "date": log.created_at.astimezone(timezone.get_current_timezone()).strftime("%Y-%m-%d %H:%M"),
+                "date": log.created_at.astimezone(
+                            timezone.get_current_timezone()
+                        ).strftime("%Y-%m-%d %H:%M"),
                 "user": user_text,
                 "action": log.user_action
             })

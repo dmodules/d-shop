@@ -43,7 +43,8 @@ from shop.serializers.auth import PasswordResetConfirmSerializer
 from dal import autocomplete
 
 from dshop.models import Product, ProductFilterGroup, ProductFilter
-from dshop.models import Attribute, AttributeValue, ProductCategory, ProductBrand
+from dshop.models import Attribute, \
+    AttributeValue, ProductCategory, ProductBrand
 
 from settings import DEFAULT_FROM_EMAIL, DEFAULT_TO_EMAIL, THEME_SLUG
 from settings import MAILCHIMP_KEY, MAILCHIMP_LISTID
@@ -71,14 +72,20 @@ class OrderPermission(BasePermission):
     """
     def has_permission(self, request, view):
         if view.many and request.customer.is_visitor:
-            detail = _("Only signed in customers can view their list of orders.")
+            detail = _("Only signed in customers can \
+                view their list of orders.")
             raise PermissionDenied(detail=detail)
         return True
 
     def has_object_permission(self, request, view, order):
-        if request.user.is_authenticated and not request.user.is_staff and not request.user.is_superuser:
+        if request.user.is_authenticated and \
+           not request.user.is_staff and \
+           not request.user.is_superuser:
             return order.customer.pk == request.user.pk
-        if order.secret and order.secret == view.kwargs.get('secret') or request.user.is_staff or request.user.is_superuser:
+        if order.secret and \
+           order.secret == view.kwargs.get('secret') or \
+           request.user.is_staff or \
+           request.user.is_superuser:
             return True
         detail = _("This order does not belong to you.")
         raise PermissionDenied(detail=detail)
@@ -90,12 +97,15 @@ class OrderView(OrderView):
 
     def get_queryset(self):
         queryset = OrderModel.objects.all()
-        if self.request.customer.user.is_staff or self.request.customer.user.is_superuser:
+        if self.request.customer.user.is_staff or \
+           self.request.customer.user.is_superuser:
             return queryset
         if self.request.customer.is_visitor:
             return queryset.none()
         if self.request.customer.is_authenticated:
-            queryset = queryset.filter(customer=self.request.customer).order_by('-updated_at')
+            queryset = queryset.filter(
+                customer=self.request.customer
+            ).order_by('-updated_at')
         return queryset
 
 
@@ -143,7 +153,9 @@ class DshopProductListView(APIView):
         current_brand = None
         if 'category_id' in kwargs:
             products = products.filter(categories__id=kwargs['category_id'])
-            cat = ProductCategory.objects.filter(id=kwargs['category_id']).first()
+            cat = ProductCategory.objects.filter(
+                id=kwargs['category_id']
+            ).first()
             if cat:
                 current_category = cat
                 title = cat.name
@@ -193,7 +205,10 @@ class DshopProductListView(APIView):
                 attrs = []
                 try:
                     for var in q.variants.all():
-                        attrs += [val[0] for val in var.attribute.all().values_list('value')]
+                        attrs += [
+                            val[0] for val in
+                            var.attribute.all().values_list('value')
+                        ]
                 except Exception:
                     continue
 
@@ -211,11 +226,13 @@ class DshopProductListView(APIView):
 
         if orderby == 'get_p':
             products = sorted(
-                products.distinct(), key=lambda product: product.get_price(request)
+                products.distinct(),
+                key=lambda product: product.get_price(request)
             )
         elif orderby == '-get_p':
             products = sorted(
-                products.distinct(), key=lambda product: product.get_price(request),
+                products.distinct(),
+                key=lambda product: product.get_price(request),
                 reverse=True
             )
         else:
@@ -386,7 +403,6 @@ class LoadFilters(APIView):
                     value = val.value_trans if val.value_trans else val.name
                 except Exception:
                     value = val.name
-                
                 a_data[name]["values"].append({
                     'id': val.id,
                     'name': value
@@ -397,13 +413,19 @@ class LoadFilters(APIView):
         for cat in categories:
             try:
                 name = cat.name_trans if cat.name_trans else cat.name
-            except Exception as e:
+            except Exception:
                 name = cat.name
             cat_d = {'id': cat.id, 'name': name}
             child_c = []
-            for child in ProductCategory.objects.filter(parent=cat, active=True):
+            categories = ProductCategory.objects.filter(
+                parent=cat, active=True
+            )
+            for child in categories:
                 try:
-                    child_name = child.name_trans if child.name_trans else child.name
+                    if child.name_trans:
+                        child_name = child.name_trans
+                    else:
+                        child_name = child.name
                 except Exception:
                     child_name = child.name
                 child_c.append({'id': child.id, 'name': child_name})
@@ -462,7 +484,7 @@ class LoadProduits(APIView):
             orderby = "order"
         # ===---
         try:
-            is_quotation = QUOTATION_FEATURE
+            is_quotation = QUOTATION_FEATURE # noqa
         except Exception:
             is_quotation = False
         if category is not None:
@@ -598,7 +620,7 @@ class LoadProductsByCategory(APIView):
         products = None
         all_produits = []
         try:
-            is_quotation = QUOTATION_FEATURE
+            is_quotation = QUOTATION_FEATURE # noqa
         except Exception:
             is_quotation = False
         if category is not None:
@@ -664,8 +686,10 @@ class LoadProductsByCategory(APIView):
                     if produit.variants.first():
                         data['variants_product_code'] = produit.variants.first(
                         ).product_code
-                        data['price'] = produit.variants.first().get_price(request)
-                        data['realprice'] = produit.variants.first().unit_price
+                        data['price'] = produit.variants.first(
+                            ).get_price(request)
+                        data['realprice'] = produit.variants.first(
+                            ).unit_price
                         data['is_discounted'] = False
                         for v in produit.variants.all():
                             if v.is_discounted:
@@ -708,7 +732,7 @@ class LoadVariantSelect(APIView):
         variants = []
         QUOTATION = False
         try:
-            QUOTATION = QUOTATION_FEATURE
+            QUOTATION = QUOTATION_FEATURE # noqa
         except Exception:
             pass
         if product_pk is not None and attributes is not None:
@@ -875,7 +899,10 @@ class CustomerCheckView(APIView):
     def post(self, request, *args, **kwargs):
         email = request.data.get("email", None)
         if email is not None:
-            customer = Customer.objects.filter(email=email, user__is_active=True).count()
+            customer = Customer.objects.filter(
+                email=email,
+                user__is_active=True
+            ).count()
             if customer > 0:
                 return RestResponse({"exist": True})
             else:
@@ -1057,9 +1084,13 @@ class AttributeAutocomplete(autocomplete.Select2QuerySetView):
         qs = AttributeValue.objects.all()
 
         if self.q:
-            qs = qs.filter(Q(value__istartswith=self.q) | Q(attribute__name__istartswith=self.q))
+            qs = qs.filter(
+                Q(value__istartswith=self.q) |
+                Q(attribute__name__istartswith=self.q)
+            )
 
         return qs
+
 
 class DshopAuthFormView(ShopAuthFormView):
     serializer_class = None
@@ -1067,12 +1098,14 @@ class DshopAuthFormView(ShopAuthFormView):
 
     def post(self, request, *args, **kwargs):
         if request.customer.is_visitor:
-            customer = CustomerModel.objects.get_or_create_from_request(request)
+            customer = CustomerModel.objects.get_or_create_from_request(
+                request
+            )
         else:
             customer = request.customer
         form_data = request.data.get(self.form_class.scope_prefix, {})
         form = self.form_class(data=form_data, instance=customer)
-       
+
         if form.is_valid():
             form.save(request=request)
             # Code to merge all inactive user's order
@@ -1080,7 +1113,9 @@ class DshopAuthFormView(ShopAuthFormView):
                 new_user = request.user
                 new_customer = CustomerModel.objects.get(user=new_user)
                 email = form.cleaned_data['email']
-                customers = CustomerModel.objects.filter(email=email, user__is_active=False)
+                customers = CustomerModel.objects.filter(
+                    email=email, user__is_active=False
+                )
                 for customer in customers:
                     for order in OrderModel.objects.filter(customer=customer):
                         order.customer = new_customer
@@ -1090,7 +1125,6 @@ class DshopAuthFormView(ShopAuthFormView):
                     customer.user.email = ""
                     customer.user.save()
             # End of code
-                
             response_data = {form.form_name: {
                 'success_message': _("Successfully registered yourself."),
             }}
@@ -1098,5 +1132,7 @@ class DshopAuthFormView(ShopAuthFormView):
         errors = dict(form.errors)
         if 'email' in errors:
             errors.update({NON_FIELD_ERRORS: errors.pop('email')})
-        return Response({form.form_name: errors}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
-
+        return Response(
+            {form.form_name: errors},
+            status=status.HTTP_422_UNPROCESSABLE_ENTITY
+        )

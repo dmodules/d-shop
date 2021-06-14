@@ -28,11 +28,20 @@ def handle_termsandconditions(sender, instance, **kwargs):
         }
         create_page(**data)
     elif pages.count() > 0:
-        if Title.objects.filter(page__reverse_id="terms-and-conditions", language=instance.language_code).count() == 0:
+        if Title.objects.filter(
+           page__reverse_id="terms-and-conditions",
+           language=instance.language_code
+           ).count() == 0:
             data = {
                 "language": instance.language_code,
                 "title": str(trans_title),
                 "page": pages.first()
             }
             create_title(**data)
-            publish_page(pages.first(), User.objects.filter(is_superuser=True).first(), instance.language_code)
+            publish_page(
+                pages.first(),
+                User.objects.filter(
+                    is_superuser=True
+                ).first(),
+                instance.language_code
+            )

@@ -3,6 +3,7 @@ from django.db import models
 
 from datetime import datetime
 
+
 class dmStockLog(models.Model):
 
     CHOICE_TYPE = [

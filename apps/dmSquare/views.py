@@ -16,6 +16,7 @@ client = Client(
     environment=SQUARE_ENVIRONMENT,
 )
 
+
 @csrf_exempt
 def inventory_update(request):    # noqa: C901
 
@@ -46,9 +47,9 @@ def inventory_update(request):    # noqa: C901
         for change in square_data['changes']:
             if 'adjustment' in change:
                 if 'source' in change['adjustment']:
-                    inventory_updated = change['adjustment']['created_at'].split('.')[0]
+                    inventory_updated = change['adjustment']['created_at'].split('.')[0] # noqa
                     if inventory_updated == created_at:
-                        print("Stock updated by D-shop API so ignore this webhook.")
+                        print("Stock updated by D-shop API so ignore this webhook.") # noqa
                         return HttpResponse('Ok')
 
     # Update Stock
@@ -82,6 +83,7 @@ def inventory_update(request):    # noqa: C901
         print("product quantity after: " + str(pvv.quantity))
         print("Stock updated")
     return HttpResponse('Ok')
+
 
 def square_update_stock(quantity, product_code):
     print("Update quantity in square..")

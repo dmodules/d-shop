@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 
 from apps.dmAdvertising.models import dmAdvertisingTopBanner
 
+
 def create_advertise_top_banner(data=None):
     data = {
         'text': 'Top Banner',

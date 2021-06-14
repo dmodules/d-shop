@@ -24,7 +24,8 @@ class AdminReorderMiddleware(MiddlewareMixin):
             raise ImproperlyConfigured("ADMIN_REORDER config is not defined.")
         if not isinstance(self.config, (tuple, list)):
             raise ImproperlyConfigured(
-                "ADMIN_REORDER config parameter must be tuple or list. Got {config}"
+                "ADMIN_REORDER config parameter must be \
+                 tuple or list. Got {config}"
                 .format(config=self.config))
         admin_index = admin.site.index(request)
         try:
@@ -88,7 +89,8 @@ class AdminReorderMiddleware(MiddlewareMixin):
     def process_models(self, models_config):
         if not isinstance(models_config, (dict, list, tuple)):
             raise TypeError(
-                "'models' config for ADMIN_REORDER list item must be dict or list/tuple. Got %s"
+                "'models' config for ADMIN_REORDER list item \
+                  must be dict or list/tuple. Got %s"
                 % repr(models_config))
         ordered_models_list = []
         for model_config in models_config:

@@ -31,7 +31,9 @@ def SquarePaymentView(request):  # noqa: C901
     checkoutId = request.GET.get("checkoutId", None)
     referenceId = request.GET.get("referenceId", None)
     transactionId = request.GET.get("transactionId", None)
-    if checkoutId is not None and referenceId is not None and transactionId is not None:
+    if checkoutId is not None and \
+       referenceId is not None and \
+       transactionId is not None:
         oid = re.sub(r"\D", "", referenceId)
         order = OrderModel.objects.get(number=oid)
         try:
@@ -95,9 +97,10 @@ def SquarePaymentView(request):  # noqa: C901
                     datas["line_total"] = i.line_total
                     datas["extra"] = i.extra
                     items.append(datas)
+                url = "/vos-commandes/"+str(referenceId)+"/"+str(order.token)
                 miniorder = {
                     "number": str(referenceId),
-                    "url": "/vos-commandes/"+str(referenceId)+"/"+str(order.token),
+                    "url": url,
                     "items": items,
                     "extra": order.extra,
                     "subtotal": order.subtotal,

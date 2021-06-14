@@ -11,6 +11,7 @@ from dshop.serializers import ExtraCartRowContent
 
 from .utils import get_discounts_byrequest, get_cart_discounts
 
+
 class DiscountsModifier(BaseCartModifier):
     identifier = "discounts"
 
@@ -37,7 +38,7 @@ class DiscountsModifier(BaseCartModifier):
             cart.total -= all_cart_discounts
             if Decimal(cart.total) < 0:
                 cart.total = Money(0)
-            all_discounts = all_discounts + cart_discounts[0] + Decimal(percent_discount)
+            all_discounts = all_discounts + cart_discounts[0] + Decimal(percent_discount) # noqa
         # ===---
         if all_discounts > 0:
             cart.extra_rows["subtotal-before-discounts"] = ExtraCartRow({
@@ -61,19 +62,23 @@ class DiscountsModifier(BaseCartModifier):
 
     def add_extra_cart_item_row(self, cart_item, request):
         if type(cart_item.product) == ProductDefault:
-            product = ProductDefault.objects.get(product_code=cart_item.product_code)
+            product = ProductDefault.objects.get(
+                product_code=cart_item.product_code
+            )
         else:
-            product = ProductVariableVariant.objects.get(product_code=cart_item.product_code)
+            product = ProductVariableVariant.objects.get(
+                product_code=cart_item.product_code
+            )
         if product.get_price(request) != product.unit_price:
             cart_item.extra_rows["price-before-discounts"] = ExtraCartRow({
                 "label": _("Price before discounts"),
                 "amount": product.unit_price * cart_item.quantity
             })
-            cart_item.extra_rows["unit-price-before-discounts"] = ExtraCartRow({
+            cart_item.extra_rows["unit-price-before-discounts"] = ExtraCartRow({ # noqa
                 "label": _("Unit price before discounts"),
                 "amount": product.unit_price
             })
-        promolist = ", ".join([str(p) + " ("+str(p.promocode.code)+")" for p in product.get_promocodes(request)])
+        promolist = ", ".join([str(p) + " ("+str(p.promocode.code)+")" for p in product.get_promocodes(request)]) # noqa
         if promolist:
             cart_item.extra_rows["applied-promocodes"] = ExtraCartRowContent({
                 "label": _("Applied promocodes"),

@@ -8,7 +8,6 @@ from django.http.request import HttpRequest
 from django.template import loader
 from django.utils.six.moves.urllib.parse import urlparse
 
-from post_office import mail
 from post_office.models import EmailTemplate
 from django.core.mail import send_mail
 from django.utils.translation import ugettext_lazy as _
@@ -17,8 +16,6 @@ from settings import NOTIFICATION_TARGET
 from settings import CC_EMAILS, DEFAULT_FROM_EMAIL
 from shop.conf import app_settings
 from shop.models.order import BaseOrder
-from shop.models.notification import Notification
-from shop.serializers.order import OrderDetailSerializer
 from shop.serializers.delivery import DeliverySerializer
 from shop.signals import email_queued
 
@@ -44,7 +41,8 @@ class EmulateHttpRequest(HttpRequest):
             self.LANGUAGE_CODE = self.COOKIES[
                 'django_language'] = stored_request.get('language')
             self.customer = customer
-            self.user = customer.is_anonymous and AnonymousUser or customer.user
+            self.user = customer.is_anonymous and \
+                AnonymousUser or customer.user
             self.current_page = None
         except Exception as e:
             print(e)
@@ -134,11 +132,10 @@ def transition_change_notification(order, miniorder=None):
     if emails_in_queue:
         email_queued()
 
+
 def quotation_new_notification(quotation):
     emails_in_queue = False
-    emulated_request = EmulateHttpRequest(quotation.customer, quotation.stored_request)
     customer_serializer = app_settings.CUSTOMER_SERIALIZER(quotation.customer)
-    render_context = {'request': emulated_request, 'render_label': 'email'}
     language = quotation.stored_request.get('language')
     quotation_items = []
     for item in quotation.quotation.all():
@@ -160,10 +157,10 @@ def quotation_new_notification(quotation):
         'items': quotation_items
     }
     try:
-       shipping = quotation.customer.shippingaddress_set.all()[0].as_text()
+        shipping = quotation.customer.shippingaddress_set.all()[0].as_text()
     except Exception as e:
         print(e)
-    
+
     context = {
         'customer': customer_serializer.data,
         'quotation': quotation_data,
@@ -171,10 +168,11 @@ def quotation_new_notification(quotation):
         'render_language': language,
     }
     if quotation.extra:
-        context['phone'] = json.loads(quotation.extra)["phone"] if json.loads(quotation.extra)["phone"] != "" else None
+        context['phone'] = None
+        if json.loads(quotation.extra)["phone"] != "":
+            context['phone'] = json.loads(quotation.extra)["phone"]
     else:
         context['phone'] = ""
-    attachments = {}
     email_path = os.path.join('theme', THEME_SLUG, 'email')
 
     template = os.path.join(email_path, 'quotation-receipt.html')
@@ -192,5 +190,3 @@ def quotation_new_notification(quotation):
     if emails_in_queue:
         email_queued()
         call_command('send_queued_mail')
-
-

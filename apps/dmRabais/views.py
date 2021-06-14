@@ -14,7 +14,10 @@ from shop.money import Money
 from shop.models.customer import CustomerModel
 from shop.models.defaults.order import Order
 
-from dshop.models import ProductDefault, ProductVariable, ProductVariableVariant
+from dshop.models import \
+    ProductDefault, \
+    ProductVariable, \
+    ProductVariableVariant
 
 from .models import dmPromoCode
 from .models import dmCustomerPromoCode
@@ -50,19 +53,25 @@ class PromoCodesCreate(APIView):
                 )
                 # Check date validation
                 today = pytz.utc.localize(datetime.utcnow())
-                if promocode.valid_until is not None and today > promocode.valid_until:
+                if promocode.valid_until is not None and today > promocode.valid_until: # noqa
                     promocode.is_active = False
                     promocode.save()
                 elif today < promocode.valid_from:
                     return RestResponse({"valid": False})
                 if not promocode.is_active:
                     return RestResponse({"valid": "expired"})
-                elif usercodes.count() > 0 and not usercodes[0].promocode.allow_multiple:
+                elif usercodes.count() > 0 and not usercodes[0].promocode.allow_multiple: # noqa
                     return RestResponse({"valid": "already"})
-                elif usercodes.count() > 0 and usercodes[0].promocode.allow_multiple and usercodes[0].promocode.customer.all().count() > 0 and not customer in usercodes[0].promocode.customer.all():
+                elif usercodes.count() > 0 and usercodes[0].promocode.allow_multiple and usercodes[0].promocode.customer.all().count() > 0 and customer not in usercodes[0].promocode.customer.all(): # noqa
                     return RestResponse({"valid": "already"})
                 else:
-                    if usercodes.count() > 0 and usercodes[0].promocode.allow_multiple and (usercodes[0].promocode.customer.all().count() == 0 or usercodes[0].promocode.customer.all().count() > 0 and customer in usercodes[0].promocode.customer.all()):
+                    if usercodes.count() > 0 and \
+                       usercodes[0].promocode.allow_multiple and \
+                       (
+                           usercodes[0].promocode.customer.all().count() == 0 or # noqa
+                           usercodes[0].promocode.customer.all().count() > 0 and # noqa
+                           customer in usercodes[0].promocode.customer.all()
+                       ):
                         usercodes[0].delete()
                     cpromo = dmCustomerPromoCode.objects.create(
                         customer=customer,
@@ -132,13 +141,18 @@ class PromoCodesList(APIView):
             for p in all_promo:
                 # expire if date passed
                 today = pytz.utc.localize(datetime.utcnow())
-                if p.promocode.valid_until is not None and today > p.promocode.valid_until:
+                if p.promocode.valid_until is not None and \
+                   today > p.promocode.valid_until:
                     p.is_expired = True
                     p.save()
                 # expire if already used
                 if p.promocode.code in used_promolist:
-                    # un-expire promocode if multiple_allowed and all/selected customer
-                    if p.promocode.allow_multiple and (p.promocode.customer.all().count() == 0 or customer in p.promocode.customer.all()):
+                    # un-expire promocode if multiple_allowed and all/selected customer # noqa
+                    if p.promocode.allow_multiple and \
+                       (
+                           p.promocode.customer.all().count() == 0 or
+                           customer in p.promocode.customer.all()
+                       ):
                         p.is_expired = p.is_expired
                         p.save()
                     else:
@@ -192,7 +206,7 @@ class PromoCodesList(APIView):
                     )
                 else:
                     percent_discount = Money(0)
-                all_discounts = all_discounts + cart_discounts[0] + Decimal(percent_discount)
+                all_discounts = all_discounts + cart_discounts[0] + Decimal(percent_discount) # noqa
             if all_discounts < 0:
                 all_discounts = 0
             # get all used promocodes
@@ -217,13 +231,18 @@ class PromoCodesList(APIView):
             for p in all_promo:
                 # expire if date passed
                 today = pytz.utc.localize(datetime.utcnow())
-                if p.promocode.valid_until is not None and today > p.promocode.valid_until:
+                if p.promocode.valid_until is not None and \
+                   today > p.promocode.valid_until:
                     p.is_expired = True
                     p.save()
                 # expire if already used
                 if p.promocode.code in used_promolist:
-                    # un-expire promocode if multiple_allowed and all/selected customer
-                    if p.promocode.allow_multiple and (p.promocode.customer.all().count() == 0 or customer in p.promocode.customer.all()):
+                    # un-expire promocode if multiple_allowed and all/selected customer  # noqa
+                    if p.promocode.allow_multiple and \
+                       (
+                           p.promocode.customer.all().count() == 0 or
+                           customer in p.promocode.customer.all()
+                       ):
                         p.is_expired = p.is_expired
                         p.save()
                     else:
@@ -234,7 +253,7 @@ class PromoCodesList(APIView):
                 if p.promocode.name in all_promocodes:
                     datas["name"] = p.promocode.name
                     datas["is_expired"] = p.is_expired
-                    datas["on_discounted"] = p.promocode.can_apply_on_discounted
+                    datas["on_discounted"] = p.promocode.can_apply_on_discounted # noqa
                     promolist.append(datas)
             ###############
             return RestResponse({

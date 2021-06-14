@@ -13,20 +13,23 @@ from dshop.models import ProductDefault, \
     AttributeValue, \
     ProductBrand
 
+
 def get_image():
     url = 'https://www.d-modules.com/static/img/logo-dmodules-black.png'
     try:
         r = requests.get(url)
     except Exception:
-        r = requests.get('https://miro.medium.com/max/2800/0*xMaFF2hSXpf_kIfG.jpg')
+        r = requests.get(
+                'https://miro.medium.com/max/2800/0*xMaFF2hSXpf_kIfG.jpg'
+            )
     image_temp_file = NamedTemporaryFile(delete=True)
     image_temp_file.write(r.content)
     image_temp_file.flush()
-    f = File(image_temp_file, name='test.png')
+    f = File(image_temp_file, name='image.png')
     img = Image.objects.create(
-        original_filename='test',
+        original_filename='image',
         file=f,
-        name='test'
+        name='image'
     )
     return img
 
@@ -34,6 +37,7 @@ def get_image():
 def filter_p():
     filt = ProductFilter.objects.create(name='ALL')
     return filt
+
 
 def product_brand(data=None):
     if not data:
@@ -45,22 +49,28 @@ def product_brand(data=None):
     brand, created = ProductBrand.objects.get_or_create(**data)
     return brand
 
+
 def category(data=None):
     if not data:
         data = {'name': 'Vegetable'}
     cat, created = ProductCategory.objects.get_or_create(**data)
     return cat
 
+
 def attribute(name="KG"):
     attr, created = Attribute.objects.get_or_create(name=name)
     return attr
 
+
 def attribute_value(attr, values=[1, 5]):
     value_list = []
     for val in values:
-        attr_value, created = AttributeValue.objects.get_or_create(attribute=attr, value=val)
+        attr_value, created = AttributeValue.objects.get_or_create(
+                                  attribute=attr, value=val
+                              )
         value_list.append(attr_value)
     return value_list
+
 
 def product(filter_p, category, data=None):
 
@@ -86,6 +96,7 @@ def product(filter_p, category, data=None):
 
     return product
 
+
 def product_variable(data=None):
 
     try:
@@ -100,6 +111,7 @@ def product_variable(data=None):
     except Exception as e:
         return type(e)
     return product
+
 
 def product_variant(product, data=None):
 
@@ -117,6 +129,7 @@ def product_variant(product, data=None):
 
     return product_variant
 
+
 def attach_attribute(product_v, attribute):
 
     try:
@@ -129,11 +142,13 @@ def attach_attribute(product_v, attribute):
 
     return True
 
+
 def clear_data():
     ProductVariable.objects.all().delete()
     ProductCategory.objects.all().delete()
     ProductBrand.objects.all().delete()
     Attribute.objects.all().delete()
+
 
 def create_data():
     clear_data()

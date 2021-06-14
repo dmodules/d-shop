@@ -1,0 +1,24 @@
+version: "2"
+
+services:
+  web:
+    build: "."
+    links:
+      - "db:postgres"
+    ports:
+      - "8000:80"
+    volumes:
+      - ".:/app:rw"
+      - "./data:/data:rw"
+    command: python manage.py runserver 0.0.0.0:80
+
+  db:
+    image: postgres:9.6-alpine
+    environment:
+      POSTGRES_DB: "db"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+      SERVICE_MANAGER: "fsm-postgres"
+    volumes:
+      - ".:/app:rw"
+    ports:
+      - "5435:5432"

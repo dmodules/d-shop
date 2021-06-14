@@ -1,5 +1,4 @@
 from django.conf.urls import url
-from rest_framework.settings import api_settings
 
 from cms.apphook_pool import apphook_pool
 from cms.cms_menus import SoftRootCutter
@@ -20,22 +19,33 @@ class CatalogListApp(CatalogListCMSApp):
 
         return [
             # Product loading page
-            url(r'^category/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$',
+            url(
+                r'^category/(?P<category_id>[0-9]+)-(?P<category_slug>.+)$',
                 DshopProductListView.as_view(),
             ),
-            url(r'^brand/(?P<brand_id>[0-9]+)-(?P<brand_slug>.+)$',
+            url(
+                r'^brand/(?P<brand_id>[0-9]+)-(?P<brand_slug>.+)$',
                 DshopProductListView.as_view(),
             ),
-            url(r'^(?P<slug>[\w-]+)/add-to-cart', AddToCartView.as_view(), name="add_to_cart"),
+            url(
+                r'^(?P<slug>[\w-]+)/add-to-cart',
+                AddToCartView.as_view(), name="add_to_cart"
+            ),
             url(
                 r'^(?P<slug>[\w-]+)/add-productvariable-to-cart',
                 AddToCartView.as_view(
-                    serializer_class=AddProductVariableToCartSerializer, ), name="add_productvariable_to_cart"),
-            url(r'^(?P<slug>[\w-]+)',
-                ProductRetrieveView.as_view(use_modal_dialog=False)),
-            url(r'^',
+                    serializer_class=AddProductVariableToCartSerializer,
+                ), name="add_productvariable_to_cart"
+            ),
+            url(
+                r'^(?P<slug>[\w-]+)',
+                ProductRetrieveView.as_view(use_modal_dialog=False)
+            ),
+            url(
+                r'^',
                 DshopProductListView.as_view(),
-                name='produits'),
+                name='produits'
+            ),
         ]
 
 
@@ -45,9 +55,12 @@ class OrderApp(OrderApp):
         from django.conf.urls import url
 
         return [
-            url(r'^(?P<slug>[\w-]+)/(?P<secret>[\w-]+)', OrderView.as_view(many=False)),  # publicly accessible
-            url(r'^(?P<slug>[\w-]+)', OrderView.as_view(many=False)),  # requires authentication
-            url(r'^', OrderView.as_view()),  # requires authentication
+            url(r'^(?P<slug>[\w-]+)/(?P<secret>[\w-]+)',
+                OrderView.as_view(many=False)),  # publicly accessible
+            url(r'^(?P<slug>[\w-]+)',
+                OrderView.as_view(many=False)),  # requires authentication
+            url(r'^',
+                OrderView.as_view()),  # requires authentication
         ]
 
 

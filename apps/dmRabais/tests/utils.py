@@ -7,6 +7,7 @@ from apps.dmRabais.models import \
     dmRabaisPerCategory, \
     dmPromoCode
 
+
 def create_discount(data=None):
     data = {
         'name': 'Test Discount',
@@ -23,6 +24,7 @@ def create_discount(data=None):
         print(e)
         return False
     return True
+
 
 def create_promo(data=None):
     data = {

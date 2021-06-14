@@ -34,7 +34,11 @@ class AddToCartView(views.APIView):
         assert self.lookup_url_kwarg in kwargs
         filter_kwargs = {self.lookup_field: kwargs.pop(self.lookup_url_kwarg)}
         if hasattr(self.product_model, 'translations'):
-            filter_kwargs.update(translations__language_code=get_language_from_request(self.request))
+            filter_kwargs.update(
+                translations__language_code=get_language_from_request(
+                    self.request
+                )
+            )
         queryset = self.product_model.objects.filter(slug=self.kwargs["slug"])
         product = get_object_or_404(queryset)
         return {'product': product, 'request': request}
@@ -54,7 +58,9 @@ class AddToCartView(views.APIView):
 
 class ProductRetrieveView(generics.RetrieveAPIView):
 
-    renderer_classes = (ShopTemplateHTMLRenderer, JSONRenderer, BrowsableAPIRenderer)
+    renderer_classes = (
+        ShopTemplateHTMLRenderer, JSONRenderer, BrowsableAPIRenderer
+    )
     lookup_field = lookup_url_kwarg = 'slug'
     product_model = ProductModel
     serializer_class = ProductSerializer
@@ -101,7 +107,13 @@ class ProductRetrieveView(generics.RetrieveAPIView):
                 self.lookup_field: self.kwargs[self.lookup_url_kwarg],
             }
             if hasattr(self.product_model, 'translations'):
-                filter_kwargs.update(translations__language_code=get_language_from_request(self.request))
-            queryset = self.product_model.objects.filter(slug=self.kwargs["slug"])
+                filter_kwargs.update(
+                    translations__language_code=get_language_from_request(
+                        self.request
+                    )
+                )
+            queryset = self.product_model.objects.filter(
+                slug=self.kwargs["slug"]
+            )
             self._product = get_object_or_404(queryset)
         return self._product

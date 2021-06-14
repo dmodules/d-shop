@@ -77,7 +77,7 @@ class ShippingManagement(TranslatableModel):
         decimal_places=3,
         blank=True,
         null=True,
-        help_text=_("The amount of the cart price to separate the shipping price before and after it.")
+        help_text=_("The amount of the cart price to separate the shipping price before and after it.") # noqa
     )
     price_after = models.DecimalField(
         verbose_name=_("Shipping price when the amount has been reached"),
@@ -85,7 +85,7 @@ class ShippingManagement(TranslatableModel):
         decimal_places=3,
         blank=True,
         null=True,
-        help_text=_("The price to replace the original shipping price if the separator's amount has been reached.")
+        help_text=_("The price to replace the original shipping price if the separator's amount has been reached.") # noqa
     )
 
     class Meta:
@@ -145,6 +145,7 @@ class ShippingCountry(models.Model):
     def __str__(self):
         return str(self.name) + " : " + str(self.code)
 
+
 class ShippingState(models.Model):
 
     country = models.ForeignKey(
@@ -176,7 +177,8 @@ class ShippingState(models.Model):
         ordering = ["country", "code"]
 
     def __str__(self):
-        return str(self.country.name) + " : " + str(self.name) + " : " + str(self.code)
+        return str(self.country.name) + " : " + str(self.name) + " : " + str(self.code) # noqa
+
 
 class ShippingCity(models.Model):
 
@@ -209,7 +211,8 @@ class ShippingCity(models.Model):
         ordering = ["state", "code"]
 
     def __str__(self):
-        return str(self.state.name) + " : " + str(self.name) + " : " + str(self.code)
+        return str(self.state.name) + " : " + str(self.name) + " : " + str(self.code) # noqa
+
 
 class ShippingAllowed(models.Model):
 

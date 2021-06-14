@@ -3,9 +3,8 @@ from django.utils import timezone
 from django.db import models
 
 from parler.fields import TranslatedField
-from parler.managers import TranslatableManager, TranslatableQuerySet
-from parler.models import TranslatableModel, TranslatableModelMixin
-from parler.models import TranslatedFieldsModel, TranslatedFields
+from parler.models import TranslatableModel
+from parler.models import TranslatedFieldsModel
 
 from filer.fields.image import FilerImageField
 
@@ -71,7 +70,9 @@ class dmAdvertisingTopBannerTranslation(TranslatedFieldsModel):
         max_length=1000,
         blank=True,
         null=True,
-        help_text=_("Example: https://www.test.com. Leave blank to not use link.")
+        help_text=_(
+            "Example: https://www.test.com. Leave blank to not use link."
+        )
     )
 
     class Meta:
@@ -108,7 +109,9 @@ class dmAdvertisingPopup(models.Model):
     close_30days = models.BooleanField(
         verbose_name=_("Hide for 30 days"),
         default=True,
-        help_text=_("Hide popup for 30 days on close, otherwise, show it everytime.")
+        help_text=_(
+            "Hide popup for 30 days on close, otherwise, show it everytime."
+        )
     )
     is_active = models.BooleanField(
         verbose_name=_("Active"),

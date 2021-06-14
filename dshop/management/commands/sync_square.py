@@ -17,12 +17,14 @@ client = Client(
     environment=SQUARE_ENVIRONMENT,
 )
 
+
 class Command(BaseCommand):
 
     def handle(self, **options): # noqa
 
         if not SQUARE_TOKEN or not SQUARE_ENVIRONMENT:
-            print("Plese add SQUARE_TOKEN and SQUARE_ENV variable in .env-local")
+            print("Plese add SQUARE_TOKEN and SQUARE_ENV\
+                variable in .env-local")
             return
 
         # Request for Categories
@@ -176,7 +178,9 @@ class Command(BaseCommand):
             for d in data['objects']:
                 if d['type'] == 'ITEM':
                     if 'category_id' in d['item_data']:
-                        cat = ProductCategory.objects.get(square_id=d['item_data']['category_id'])
+                        cat = ProductCategory.objects.get(
+                            square_id=d['item_data']['category_id']
+                        )
                     description = ''
                     if 'description' in d['item_data']:
                         description = d['item_data']['description']
@@ -189,13 +193,17 @@ class Command(BaseCommand):
                         'order': 1
                     }
                     if ProductVariable.objects.filter(square_id=d['id']):
-                        product_variable = ProductVariable.objects.get(square_id=d['id'])
+                        product_variable = ProductVariable.objects.get(
+                            square_id=d['id']
+                        )
                         product_variable.product_name = d['item_data']['name']
                         product_variable.description = description
                         product_variable.caption = description
                         product_variable.save()
                     else:
-                        product_variable = ProductVariable.objects.create(**p_data)
+                        product_variable = ProductVariable.objects.create(
+                            **p_data
+                        )
 
                     if 'image_id' in d:
                         img = Image.objects.filter(name=d['image_id'])
@@ -213,12 +221,20 @@ class Command(BaseCommand):
                     if 'variations' not in d['item_data']:
                         continue
                     for vari in d['item_data']['variations']:
-                        result = client.inventory.retrieve_inventory_count(catalog_object_id=vari['id'])
+                        result = client.inventory.retrieve_inventory_count(
+                            catalog_object_id=vari['id']
+                        )
                         r_body = result.body
                         product_code = vari['id']
                         quantity = 0
                         try:
-                            price = vari['item_variation_data']['price_money']['amount']
+                            price = vari[
+                                'item_variation_data'
+                                ][
+                                'price_money'
+                                ][
+                                'amount'
+                            ]
                         except Exception:
                             price = 0
                         if r_body:
@@ -233,7 +249,9 @@ class Command(BaseCommand):
                             'discounted_price': price/100,
                             'quantity': quantity
                         }
-                        pvv = ProductVariableVariant.objects.filter(product_code=product_code)
+                        pvv = ProductVariableVariant.objects.filter(
+                            product_code=product_code
+                        )
                         if pvv:
                             try:
                                 pvv = pvv[0]
@@ -242,28 +260,42 @@ class Command(BaseCommand):
                                 pvv.save()
                             except Exception as e:
                                 print("Unable to update variant: " + str(e))
-                                print("Square product: " + product_variable.square_id)
+                                print("Square product: " +
+                                      product_variable.square_id)
                                 print("Variant data: " + str(pv_data))
                         else:
                             try:
-                                pvv = ProductVariableVariant.objects.create(**pv_data)
+                                pvv = ProductVariableVariant.objects.create(
+                                    **pv_data
+                                )
                             except Exception as e:
                                 print("Unable to create variant: " + str(e))
-                                print("Square product: " + product_variable.square_id)
+                                print("Square product: " +
+                                      product_variable.square_id)
                                 print("Variant data: " + str(pv_data))
 
                         if 'item_option_values' in vari['item_variation_data']:
-                            for value_id in vari['item_variation_data']['item_option_values']:
-                                attribute_value_id = value_id['item_option_value_id']
-                                attribute_value_obj = AttributeValue.objects.filter(
+                            data = vari[
+                                'item_variation_data'
+                                ][
+                                'item_option_values'
+                            ]
+                            for value_id in data:
+                                attribute_value_id = value_id[
+                                                         'item_option_value_id'
+                                                         ]
+                                attr_value_obj = AttributeValue.objects.filter(
                                     square_id=attribute_value_id
                                 ).order_by('id')[0]
-                                pvv.attribute.add(attribute_value_obj)
+                                pvv.attribute.add(attr_value_obj)
 
                     # Remove Variants
                     existing_var = product_variable.variants.all().count()
                     from_square_var = len(d['item_data']['variations'])
-                    from_square_var_id = [v['id'] for v in d['item_data']['variations']]
+                    from_square_var_id = [
+                                             v['id'] for v
+                                             in d['item_data']['variations']
+                                         ]
                     if existing_var > from_square_var:
                         for pv in product_variable.variants.all():
                             print(pv.product_code)

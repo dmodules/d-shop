@@ -3,7 +3,6 @@ from django.db import IntegrityError
 from django.test import TestCase
 
 from dshop.models import Product, \
-    ProductBrand, \
     ProductCategory, \
     Attribute, \
     AttributeValue
@@ -13,8 +12,8 @@ from dshop.tests.utils import product, \
     category, \
     attribute, \
     attribute_value, \
-    product_brand, \
     attach_attribute
+
 
 class ProductModelTest(TestCase):
 
@@ -83,7 +82,7 @@ class ProductAttributeTest(TestCase):
                          AttributeValue.objects.filter(attribute=attr).count())
 
 
-class ProductBrandTest(TestCase):
+'''class ProductBrandTest(TestCase):
 
     def test_create_category(self):
         product_brand()
@@ -102,6 +101,7 @@ class ProductBrandTest(TestCase):
         brand.save()
         self.assertEqual("123",
                          ProductBrand.objects.first().name)
+'''
 
 
 class ProductVariableTest(TestCase):

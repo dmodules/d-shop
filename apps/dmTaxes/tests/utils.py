@@ -1,6 +1,7 @@
 
 from apps.dmTaxes.models import CanadaTaxManagement
 
+
 def create_taxes(data=None):
     data = {
         'state': 'Quebec',

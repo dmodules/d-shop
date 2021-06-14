@@ -95,7 +95,7 @@ class FreeShippingModifier(ShippingModifier):
             miniorder = {
                 "status": delivery.order.status,
                 "number": str(order_number),
-                "url": "/vos-commandes/"+str(order_number)+"/"+str(delivery.order.token),
+                "url": "/vos-commandes/"+str(order_number)+"/"+str(delivery.order.token), # noqa
                 "items": items,
                 "extra": delivery.order.extra,
                 "subtotal": delivery.order.subtotal,
@@ -176,7 +176,7 @@ class StandardShippingModifier(ShippingModifier):
             miniorder = {
                 "status": delivery.order.status,
                 "number": str(order_number),
-                "url": "/vos-commandes/"+str(order_number)+"/"+str(delivery.order.token),
+                "url": "/vos-commandes/"+str(order_number)+"/"+str(delivery.order.token), # noqa
                 "items": items,
                 "extra": delivery.order.extra,
                 "subtotal": delivery.order.subtotal,
@@ -256,7 +256,7 @@ class ExpressShippingModifier(ShippingModifier):
             miniorder = {
                 "status": delivery.order.status,
                 "number": str(order_number),
-                "url": "/vos-commandes/"+str(order_number)+"/"+str(delivery.order.token),
+                "url": "/vos-commandes/"+str(order_number)+"/"+str(delivery.order.token), # noqa
                 "items": items,
                 "extra": delivery.order.extra,
                 "subtotal": delivery.order.subtotal,
@@ -336,7 +336,7 @@ class StandardShippingWithSeparatorModifier(ShippingModifier):
             miniorder = {
                 "status": delivery.order.status,
                 "number": str(order_number),
-                "url": "/vos-commandes/"+str(order_number)+"/"+str(delivery.order.token),
+                "url": "/vos-commandes/"+str(order_number)+"/"+str(delivery.order.token), # noqa
                 "items": items,
                 "extra": delivery.order.extra,
                 "subtotal": delivery.order.subtotal,
@@ -416,7 +416,7 @@ class ExpressShippingWithSeparatorModifier(ShippingModifier):
             miniorder = {
                 "status": delivery.order.status,
                 "number": str(order_number),
-                "url": "/vos-commandes/"+str(order_number)+"/"+str(delivery.order.token),
+                "url": "/vos-commandes/"+str(order_number)+"/"+str(delivery.order.token), # noqa
                 "items": items,
                 "extra": delivery.order.extra,
                 "subtotal": delivery.order.subtotal,

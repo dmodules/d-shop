@@ -2,7 +2,6 @@ import pytz
 
 from django import template
 from django.db.models import Q
-from django.utils import timezone
 
 from datetime import datetime
 
@@ -14,6 +13,7 @@ register = template.Library()
 #######################################################################
 # Alerte Publicitaire
 #######################################################################
+
 
 @register.simple_tag
 def get_advertisingtopbanner():

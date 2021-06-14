@@ -1,10 +1,4 @@
-from django.utils.translation import ugettext_lazy as _
-
-from decimal import Decimal
-
-from shop.serializers.cart import ExtraCartRow
 from shop.modifiers.defaults import DefaultCartModifier
-from shop.payment.modifiers import PaymentModifier
 
 from .models import ProductVariable
 

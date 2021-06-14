@@ -12,6 +12,7 @@ from settings import STRIPE_SECRET_KEY, ORDER_TIMEOUT
 stripe.api_key = STRIPE_SECRET_KEY
 timeout_second = int(ORDER_TIMEOUT) * 60
 
+
 class Command(BaseCommand):
 
     def handle(self, **options): # noqa
@@ -24,7 +25,10 @@ class Command(BaseCommand):
                 continue
             # Check for order payment and status
             order_payment = OrderPayment.objects.filter(order=order)
-            if order_payment and order.status in ['payment_confirmed', 'ready_for_delivery']:
+            if order_payment and order.status in [
+                                                     'payment_confirmed',
+                                                     'ready_for_delivery'
+                                                 ]:
                 # Order payment is done so check next order
                 continue
 
@@ -41,12 +45,14 @@ class Command(BaseCommand):
                     for item in cart.items.all():
                         db_product = item.product
                         if type(db_product) == ProductDefault:
-                            print('Default product: ' + str(db_product.product_name))
+                            print('Default product: ' +
+                                  str(db_product.product_name))
                             db_product.quantity += item.quantity
                             db_product.save()
                             print('Quantity: ' + str(item.quantity))
                         else:
-                            print('Variable product: ' + str(db_product.product_name))
+                            print('Variable product: ' +
+                                  str(db_product.product_name))
                             p_code = item.product_code
                             pv = db_product.variants.get(product_code=p_code)
                             pv.quantity += item.quantity
