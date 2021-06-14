@@ -1,5 +1,5 @@
 .. D-shop documentation master file, created by
-   sphinx-quickstart on Mon Jun 14 19:20:49 2021.
+   sphinx-quickstart on Mon Jun 14 19:28:13 2021.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
