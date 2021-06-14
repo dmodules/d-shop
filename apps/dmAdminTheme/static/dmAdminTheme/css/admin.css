@@ -112,11 +112,13 @@ input[type=button].language_button.selected {
     margin: 4px;
 }
 
-#dm-admin .submit-row a.deletelink {
+#dm-admin .submit-row a.deletelink,
+.delete-confirmation form .cancel-link {
     height: 35px;
     transition: opacity 0.5s;
 }
-#dm-admin .submit-row a.deletelink:hover {
+#dm-admin .submit-row a.deletelink:hover,
+.delete-confirmation form .cancel-link:hover {
     opacity: 0.5;
 }
 
@@ -422,6 +424,11 @@ input[type=button].language_button.selected {
         opacity: 0.7;
         z-index: 999998;
     }
+}
+
+#dm-admin.cms-admin-modal .dm-admin-sidebar,
+#dm-admin.cms-admin-modal .dm-admin-toggle-sidebar {
+    display: none!important;
 }
 
 /* ===--- ---=== */
