@@ -189,11 +189,9 @@ function getQuotationCart() {
                     itemlist += "</div>"
                     itemlist += "<div class='col-8 text-left'>"
                     itemlist += "<div><a href='"+item.product_url+"'>" + item.product_name + "</a></div>"
-                    if (item.extra && item.extra.variables && item.extra.variables.attributes) {
+                    if (item.variant_attribute) {
                         itemlist += "<div class='drawer-cart-attributes'>"
-                        for (let i = 0; i < item.extra.variables.attributes.length; i++) {
-                            itemlist += "<div>"+item.extra.variables.attributes[i]+"</div>"
-                        }
+                        itemlist += "<div>"+item.variant_attribute+"</div>"
                         itemlist += "</div>"
                     }
                     itemlist += "<div class='mt-2'>"

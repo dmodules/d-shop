@@ -1,4 +1,6 @@
-{% load i18n %}
+{% load i18n dshop_tags %}
+
+{% dm_quotation_feature as is_quotation %}
 
 <nav class="dm-admin-sidebar-navigation">
     <ul>
@@ -42,9 +44,15 @@
                 <li class="child {% if cl.opts.object_name == 'Product' %}active{% endif %}">
                     <a href="/{{ LANGUAGE_CODE }}/admin/dshop/product/"><i class="fas fa-box-open"></i></i> {% trans "Products" %}</a>
                 </li>
-                <li class="child {% if cl.opts.object_name == 'Order' %}active{% endif %}">
-                    <a href="/{{ LANGUAGE_CODE }}/admin/dshop/order/"><i class="fas fa-chart-line"></i></i> {% trans "Orders" %}</a>
-                </li>
+                {% if is_quotation %}
+                    <li class="child {% if cl.opts.object_name == 'dmQuotation' %}active{% endif %}">
+                        <a href="/{{ LANGUAGE_CODE }}/admin/dmQuotation/dmquotation/"><i class="fas fa-chart-line"></i></i> {% trans "Quotation" %}</a>
+                    </li>
+                {% else %}
+                    <li class="child {% if cl.opts.object_name == 'Order' %}active{% endif %}">
+                        <a href="/{{ LANGUAGE_CODE }}/admin/dshop/order/"><i class="fas fa-chart-line"></i></i> {% trans "Orders" %}</a>
+                    </li>
+                {% endif %}
                 <li class="child {% if cl.opts.object_name == 'CustomerProxy' %}active{% endif %}">
                     <a href="/{{ LANGUAGE_CODE }}/admin/shop/customerproxy/"><i class="far fa-id-badge"></i></i> {% trans "Customers" %}</a>
                 </li>

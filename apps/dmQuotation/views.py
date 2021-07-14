@@ -285,6 +285,7 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
                         'product_image': current_image,
                         'variant_attribute': None,
                         'quantity': item.quantity,
+                        'price': (item.quantity * item.unit_price) if item.unit_price else None
                     }
                 elif item.product_type == 2:
                     # ===---
@@ -319,6 +320,7 @@ class dmQuotationRetrieve(RetrieveUpdateDestroyAPIView):
                         'product_image': current_image,
                         'variant_attribute': item.variant_attribute,
                         'quantity': item.quantity,
+                        'price': (item.quantity * item.unit_price) if item.unit_price else None
                     }
                 items.append(itm)
             quot["items"] = items

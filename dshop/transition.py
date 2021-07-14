@@ -11,7 +11,7 @@ from django.utils.six.moves.urllib.parse import urlparse
 from post_office.models import EmailTemplate
 from django.core.mail import send_mail
 from django.utils.translation import ugettext_lazy as _
-from settings import SHOP_VENDOR_EMAIL, THEME_SLUG
+from settings import SHOP_VENDOR_EMAIL, THEME_SLUG, CLIENT_TITLE
 from settings import NOTIFICATION_TARGET
 from settings import CC_EMAILS, DEFAULT_FROM_EMAIL
 from shop.conf import app_settings
@@ -101,9 +101,11 @@ def transition_change_notification(order, miniorder=None):
 
     subject = ""
     if order.status == "payment_confirmed":
-        subject = _("D-Shop - Your Order")
+        title = _(" - Your Order")
+        subject = CLIENT_TITLE+str(title)
     if order.status == "":
-        subject = _("D-Shop - Your Order Is Shipped")
+        title = _(" - Your Order Is Shipped")
+        subject = CLIENT_TITLE+str(title)
 
     # Temperory comment for testing
     if target['to_vendor']:
@@ -178,7 +180,8 @@ def quotation_new_notification(quotation):
     template = os.path.join(email_path, 'quotation-receipt.html')
     template = loader.get_template(template)
     html_message = template.render(context)
-    subject = _("D-Shop - A New Order Has Arrived")
+    title = _(" - A New Quotation Has Arrived")
+    subject = CLIENT_TITLE+str(title)
     send_mail(
         subject,
         '',
