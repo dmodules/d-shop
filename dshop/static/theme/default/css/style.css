@@ -1,31 +1,84 @@
+a {
+    color:#f16975;
+}
+a:hover {
+    color:#000;
+}
+
 .section-textmedia ul,
 .container > .row > .col ul:not([class]) {
     margin: 0.5rem 2rem 25px;
 }
 
+.contact_icon i,
+.dm-choose-language > span:hover,
+#topbar a:hover,
+.dm-drawer-inner #drawer-items-list .col-8 a,
 .widget_links li a:hover,
 .contact_info_light li a:hover,
 .footer_link li a:hover,
 .social_icons li a:hover,
-.footer-copyright a:hover{
-	color: #f16975;
-}
-
+.footer-copyright a:hover,
+.footer_dark a:hover, .footer_dark .widget_links li a:hover, .widget_links li a:hover, .footer_dark .footer_link li a:hover, .footer_link li a:hover,
 .topnav a:hover,
-.topnav .drawer-toggle:hover{
-  color:#f16975;
-}
-
+.topnav .drawer-toggle:hover,
+.price,
 .navbar .navbar-nav > li:hover > a:not(.dm-menu-split),
 .light_skin.transparent_header.nav-fixed .navbar .navbar-nav > li:hover > a:not(.dm-menu-split),
-.transparent_header.nav-fixed .light_skin .navbar .navbar-nav > li:hover > a:not(.dm-menu-split) {
-	color: #f16975;
-}
-
+.transparent_header.nav-fixed .light_skin .navbar .navbar-nav > li:hover > a:not(.dm-menu-split),
+#tophead .tophead-topnav .tophead-icon:hover,
+.dm-main-menu > ul > li > a.selected, .dm-main-menu > ul > li > a:hover, .dm-menu-toggle:hover,
 .navbar .navbar-nav > li > a.dm-menu-split:hover,
 .light_skin.transparent_header.nav-fixed .navbar .navbar-nav > li > a.dm-menu-split:hover,
 .transparent_header.nav-fixed .light_skin .navbar .navbar-nav > li > a.dm-menu-split:hover {
 	color: #f16975;
+}
+
+.tab-style3 .nav-tabs .nav-item a.active {
+    border-bottom-color: #f16975;
+	color: #f16975;
+}
+
+.btn-fill-out {
+	border: 1px solid #f16975;
+	color: #fff;
+}
+.contact_style3 .contact_icon::before,
+.btn-fill-out::before,
+.btn-fill-out::after {
+	background-color: #f16975;
+}
+.btn-fill-out:hover {
+	color: #f16975 !important;
+}
+
+.dm-main-submenu a::after {
+    border-top: 1px solid #f16975;
+}
+.dmfilters-list .toggle:hover,
+.pr_action_btn li a:hover {
+	background-color: #f16975;
+	color: #fff;
+}
+
+.dm-drawer .cart-change-quantity span {
+    background-color: #f1b1b7;
+}
+.dm-drawer .cart-change-quantity span:not(.disabled):hover {
+    background-color: #f16975;
+}
+.dmfilters-list input[type="checkbox"]:checked + span::before,
+.shorting_icon.active {
+    background-color: #f16975;
+    border-color: #f16975;
+}
+
+.contact_style3 .contact_icon {
+    border-color: #f16975;
+}
+
+.dm-drawer-inner #drawer-items-list a.dm-item-delete {
+    color: #e64141;
 }
 
 /* ===--- Drawer ---=== */
