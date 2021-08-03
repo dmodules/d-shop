@@ -52,14 +52,16 @@
             <link rel="stylesheet" type="text/css" href="{% static 'admin/css/responsive.css' %}" />
         {% endblock styles %}
         {% block extrastyle %}{% endblock %}
-        {% block extrahead %}{% endblock %}
         {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
         <link rel="stylesheet" type="text/css" href="{% static 'dshop/shopwise/css/style.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'dmAdminTheme/css/admin.css' %}" />
-        <script src="{% static 'dshop/shopwise/js/jquery-1.12.4.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'dshop/shopwise/js/jquery-1.12.4.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'admin/js/jquery.init.js' %}"></script>
+        <script type="text/javascript" src="{% static 'admin/js/popup_response.js' %}"></script>
+        <script type="text/javascript" src="{% static 'dmAdminTheme/js/admin.js' %}"></script>
+        {% block extrahead %}{% endblock %}
     </head>
-    <body id="dm-admin" class="dm-show-sidebar {% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}" data-admin-utc-offset="{% now 'Z' %}">
-        <script src="{% static 'dmAdminTheme/js/admin.js' %}"></script>
+    <body id="dm-admin" class="dm-show-sidebar {% if is_popup or deleted_objects %}popup {% endif %}{% block bodyclass %}{% endblock %}" data-admin-utc-offset="{% now 'Z' %}">
         <!-- Container -->
         <div id="container">
             {% block messages %}
@@ -75,7 +77,7 @@
             <div>
                 <div class="container-fluid pl-0">
                     <div class="row">
-                        {% if not is_popup %}
+                        {% if not is_popup and not deleted_objects %}
                             <div id="dm-admin-sidebar" class="col-12 col-md-2 dm-admin-sidebar">
                                 <h1 id="site-name">
                                     <a href="{% url 'admin:index' %}">
@@ -95,8 +97,8 @@
                                 </div>
                             </div>
                         {% endif %}
-                        <div class="col-12 {% if not is_popup %}col-md-10{% endif %} dm-admin-main">
-                            {% if not is_popup %}
+                        <div class="col-12 {% if not is_popup and not deleted_objects %}col-md-10{% endif %} dm-admin-main">
+                            {% if not is_popup and not deleted_objects %}
                                 <div class="container-fluid dm-admin-header">
                                     <div class="row">
                                         {% if request.user.is_authenticated %}
@@ -132,7 +134,7 @@
                             {% endif %}
                             <div class="container-fluid">
                                 <div class="row">
-                                    {% if not is_popup %}
+                                    {% if not is_popup and not deleted_objects %}
                                         <div class="col-12 py-0">
                                             {% block breadcrumbs %}
                                                 <div class="dm-admin-breadcrumbs">
