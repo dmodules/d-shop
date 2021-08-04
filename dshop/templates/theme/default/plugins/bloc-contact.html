@@ -1,66 +1,39 @@
 {% load static cms_tags i18n dshop_tags %}
 
-<!-- CONTACT SECTION START -->
-  <section class="contact-section">
-    <div class="container contact-container">
-      <div class="row">
-        <div class="contact-item col-xl-3 col-lg-6 col-md-6 col-sm-12 br-1-w">
-          <div class="d-table h-100 w-100">
-            <div class="contact-col column-1 d-table-row">
-              <div class="column-icon d-table-cell valign-middle">
-                <i class="fa fa-clock-o" aria-hidden="true"></i>
-              </div>
-              <div class="column-info d-table-cell valign-middle">
-                <div class="top-text">
-                  {{instance.horaire_top}}
+<!-- BEGIN: dmplugin: bloc-contact -->
+<div class="dmplugin-contact">
+    <div class="container" style="background-color:{% if instance.bg_color %}{{ instance.bg_color }}{% else %}transparent{% endif %};color:{% if instance.text_color %}{{ instance.text_color }}{% else %}inherit{% endif %};">
+        <div class="row align-items-center py-2">
+            <div class="col-12 col-md-4 col-lg-4 py-2">
+                <i class="dmplugin-contact-icon ti-alarm-clock"></i>
+                <div>{{ instance.horaire_top }}</div>
+                <div>
+                    <strong>{{ instance.horaire_bot }}</strong>
                 </div>
-                <div class="shedule">
-                  {{instance.horaire_bot}}
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-        <div class="contact-item col-xl-3 col-lg-6 col-md-6 col-sm-12 br-1-w">
-          <div class="d-table h-100 w-100">
-            <div class="contact-col column-2 d-table-row">
-              <div class="column-icon d-table-cell valign-middle">
-                <i class="fa fa-phone" aria-hidden="true"></i>
-              </div>
-              <div class="column-info d-table-cell valign-middle">
-                <div class="top-text">
-                  <a href="tel:{{instance.phone_top|makephone}}">{{instance.phone_top}}</a>
+            <div class="col-12 col-md-4 col-lg-3 py-2">
+                <i class="dmplugin-contact-icon ti-mobile"></i>
+                <div>
+                    <a href="tel:{{ instance.phone_top|phone_canadian }}">{{ instance.phone_top }}</a>
                 </div>
-                <div class="shedule">
-                  {{instance.phone_bot}}
+                <div>
+                    <strong>{{ instance.phone_bot }}</strong>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
-        <div class="contact-item col-xl-3 col-lg-6 col-md-6 col-sm-12 br-1-w">
-          <div class="d-table h-100 w-100">
-            <div class="contact-col column-3 d-table-row">
-              <div class="column-icon d-table-cell valign-middle">
-                <i class="fa fa-map-marker" aria-hidden="true"></i>
-              </div>
-              <div class="column-info d-table-cell valign-middle">
-                <div class="top-text">
-                  {{instance.where_top}}
+            <div class="col-12 col-md-4 col-lg-3 py-2">
+                <i class="dmplugin-contact-icon ti-location-pin"></i>
+                <div>{{ instance.where_top }}</div>
+                <div>
+                    <strong>{{ instance.where_bot }}</strong>
                 </div>
-                <div class="shedule">
-                  {{instance.where_bot}}
-                </div>
-              </div>
             </div>
-          </div>
+            <div class="col-12 col-lg-2 py-2">
+                {% page_url "contact" as page_contact %}
+                <a href="{% if page_contact %}{{ page_contact }}{% else %}/contact{% endif %}" class="btn btn-fill-out d-block rounded-0">
+                    {{ instance.link_label }}
+                </a>
+            </div>
         </div>
-        <div class="contact-item col-xl-3 col-lg-6 col-md-6 col-sm-12 br-1-w">
-          <div class="contact-col column-4">
-            <a href="{% page_url 'contact' %}" class="btn blue d-block">{{instance.link_label}}</a>
-          </div>
-        </div>
-      </div>
     </div>
-  </section>
-<!-- CONTACT SECTION START -->
+</div>
+<!-- END: dmplugin: bloc-contact -->

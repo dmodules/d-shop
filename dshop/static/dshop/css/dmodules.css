@@ -1280,6 +1280,23 @@ main > .container > .row {
     align-items: flex-start;
 }
 
+/* ===--- Plugin: BlocContact ---=== */
+.dmplugin-contact {
+    margin: 15px 0;
+}
+.dmplugin-contact-icon {
+    font-size: 3em;
+    float: left;
+    margin: 0 15px 0 0;
+}
+@media (min-width: 991px) {
+    .dmplugin-slider + .dmplugin-contact {
+        transform: translateY(-50%);
+        position: relative;
+        z-index: 1;
+    }
+}
+
 /* ===--- Fixes ---=== */
 fieldset.module.collapse:not(.show) {
     display: block;

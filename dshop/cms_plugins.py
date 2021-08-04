@@ -353,9 +353,9 @@ class dmBlocContactPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "theme/{}/plugins/bloc-infolettre.html".format(
+            "theme/{}/plugins/bloc-contact.html".format(
                 settings.THEME_SLUG
-            ), "plugins/bloc-infolettre.html"
+            ), "plugins/bloc-contact.html"
         ])
 
 
