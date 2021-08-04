@@ -54,12 +54,12 @@
         {% block extrastyle %}{% endblock %}
         {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
         <link rel="stylesheet" type="text/css" href="{% static 'dshop/shopwise/css/style.css' %}" />
-        <link rel="stylesheet" type="text/css" href="{% static 'dmAdminTheme/css/admin.css' %}" />
         <script type="text/javascript" src="{% static 'dshop/shopwise/js/jquery-1.12.4.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'admin/js/jquery.init.js' %}"></script>
         <script type="text/javascript" src="{% static 'admin/js/popup_response.js' %}"></script>
         <script type="text/javascript" src="{% static 'dmAdminTheme/js/admin.js' %}"></script>
         {% block extrahead %}{% endblock %}
+        <link rel="stylesheet" type="text/css" href="{% static 'dmAdminTheme/css/admin.css' %}" />
     </head>
     <body id="dm-admin" class="dm-show-sidebar {% if is_popup or deleted_objects %}popup {% endif %}{% block bodyclass %}{% endblock %}" data-admin-utc-offset="{% now 'Z' %}">
         <!-- Container -->

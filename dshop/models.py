@@ -349,9 +349,10 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel, TranslatableModel):
 
     name = models.CharField(
         verbose_name=_("Category's Name"),
-        max_length=100,
+        max_length=255,
         null=False,
-        blank=False
+        blank=False,
+        help_text=_("Maximum 255 characters.")
     )
     name_trans = TranslatedField()
     parent = TreeForeignKey(
@@ -406,14 +407,13 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel, TranslatableModel):
         related_name="category_image",
         null=True,
         blank=True,
-        help_text=_(
-            "An image that will be shown on the top of \
-            the page of the Products of this category."
-        )
+        help_text=_("Size: 2000x900. An image that will be shown on the top of the page of the Products of this category.")
     )
 
-    active = models.BooleanField(default=True,
-                                 verbose_name=_("Active"),)
+    active = models.BooleanField(
+        verbose_name=_("Active"),
+        default=True
+    )
 
     objects = CategoryManager()
 
@@ -463,7 +463,8 @@ class ProductCategoryTranslation(TranslatedFieldsModel):
     )
     name_trans = models.CharField(
         verbose_name=_("Translated Category Name"),
-        max_length=100,
+        max_length=255,
+        help_text=_("Maximum 255 characters.")
     )
 
     class Meta:
@@ -474,9 +475,10 @@ class ProductFilterGroup(TranslatableModel):
 
     name = models.CharField(
         verbose_name=_("Filter's Group Name"),
-        max_length=100,
+        max_length=255,
         null=False,
-        blank=False
+        blank=False,
+        help_text=_("Maximum 255 characters.")
     )
     name_trans = TranslatedField()
     order = models.PositiveSmallIntegerField(
@@ -508,9 +510,10 @@ class ProductFilterGroupTranslation(TranslatedFieldsModel):
     )
     name_trans = models.CharField(
         verbose_name=_("Translated Filter's Group Name"),
-        max_length=100,
+        max_length=255,
         null=True,
-        blank=True
+        blank=True,
+        help_text=_("Maximum 255 characters.")
     )
 
     class Meta:
@@ -532,16 +535,19 @@ class ProductFilter(TranslatableModel):
     )
     name = models.CharField(
         verbose_name=_("Filter's Name"),
-        max_length=100,
+        max_length=255,
         null=False,
-        blank=False
+        blank=False,
+        help_text=_("Maximum 255 characters.")
     )
     name_trans = TranslatedField()
     image = image.FilerImageField(
         verbose_name=_("image"),
         related_name="filter_image",
         on_delete=models.SET_NULL,
-        null=True, blank=True
+        null=True,
+        blank=True,
+        help_text=_("Size: 2000x900. An image that will be shown on the top of the page of the Products of this filter.")
     )
     order = models.PositiveSmallIntegerField(
         verbose_name=_("Sort by"),
@@ -574,9 +580,10 @@ class ProductFilterTranslation(TranslatedFieldsModel):
     )
     name_trans = models.CharField(
         verbose_name=_("Translated Filter's Name"),
-        max_length=100,
+        max_length=255,
         null=True,
-        blank=True
+        blank=True,
+        help_text=_("Maximum 255 characters.")
     )
     description = models.TextField(
         null=True, blank=True
@@ -594,14 +601,16 @@ class ProductBrand(models.Model):
 
     name = models.CharField(
         verbose_name=_("Brand's Name"),
-        max_length=100,
+        max_length=255,
         null=False,
-        blank=False
+        blank=False,
+        help_text=_("Maximum 255 characters.")
     )
     logo = image.FilerImageField(
         verbose_name=_("Logo"),
         related_name="brand_logo",
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        help_text=_("Size: 300x300.")
     )
     order = models.PositiveSmallIntegerField(
         verbose_name=_("Sort by"),
@@ -694,7 +703,8 @@ class Product(CMSPageReferenceMixin, TranslatableModelMixin, BaseProduct):
     """
     product_name = models.CharField(
         _("Product's Name"),
-        max_length=255
+        max_length=255,
+        help_text=_("Maximum 255 characters.")
     )
     product_name_trans = TranslatedField()
     slug = AutoSlugField(
@@ -727,13 +737,13 @@ class Product(CMSPageReferenceMixin, TranslatableModelMixin, BaseProduct):
         help_text=_("Add a custom label to the product.")
     )
     is_vedette = models.BooleanField(
-        _("Featured"),
+        verbose_name=_("Featured"),
         default=False
     )
     caption = TranslatedField()
     description = TranslatedField()
     order = models.PositiveIntegerField(
-        _("Sort by"),
+        verbose_name=_("Sort by"),
         db_index=True
     )
     cms_pages = models.ManyToManyField(
@@ -792,7 +802,8 @@ class ProductTranslation(TranslatedFieldsModel):
     product_name_trans = models.CharField(
         _("Product's Name"),
         max_length=255,
-        null=True
+        null=True,
+        help_text=_("Maximum 255 characters.")
     )
     caption = HTMLField(
         verbose_name=_("Caption"),
@@ -825,7 +836,7 @@ class ProductDefault(AvailableProductMixin, Product):
         _("Product's Code"),
         max_length=255,
         unique=True,
-        help_text=_("A unique code.")
+        help_text=_("A unique code. Maximum 255 characters. Prioritize creating a new product instead of updating this code.")
     )
     unit_price = MoneyField(
         _("Unit Price"),
@@ -1012,7 +1023,8 @@ class ProductVariable(Product):
         verbose_name=_("Square ID"),
         max_length=30,
         null=True,
-        blank=True
+        blank=True,
+        help_text=_("Facultative. Maximum 30 characters.")
     )
     multilingual = TranslatedFields(
         description=HTMLField(
@@ -1110,16 +1122,17 @@ class ProductVariable(Product):
 
 class Attribute(TranslatableModel):
     name = models.CharField(
-        _("Attribute Name"),
-        max_length=250,
-        help_text=_("Attribute Name")
+        verbose_name=_("Attribute Name"),
+        max_length=255,
+        help_text=_("Maximum 255 characters.")
     )
     name_trans = TranslatedField()
     square_id = models.CharField(
         verbose_name=_("Square ID"),
         max_length=30,
         null=True,
-        blank=True
+        blank=True,
+        help_text=_("Facultative. Maximum 30 characters.")
     )
 
     class Meta:
@@ -1141,12 +1154,13 @@ class AttributeValue(TranslatableModel):
         verbose_name=_("Square ID"),
         max_length=30,
         null=True,
-        blank=True
+        blank=True,
+        help_text=_("Facultative. Maximum 30 characters.")
     )
     value = models.CharField(
-        _("Attribute Value"),
-        max_length=250,
-        help_text=_("Attribute Value")
+        verbose_name=_("Attribute Value"),
+        max_length=255,
+        help_text=_("Maximum 255 characters.")
     )
     value_trans = TranslatedField()
 
@@ -1167,7 +1181,8 @@ class AttributeTranslation(TranslatedFieldsModel):
     )
     name_trans = models.CharField(
         verbose_name=_("Translated Attribute Name"),
-        max_length=250,
+        max_length=255,
+        help_text=_("Maximum 255 characters.")
     )
 
     class Meta:
@@ -1187,7 +1202,8 @@ class AttributeValueTranslation(TranslatedFieldsModel):
     )
     value_trans = models.CharField(
         verbose_name=_("Translated Attribute Name"),
-        max_length=250,
+        max_length=255,
+        help_text=_("Maximum 255 characters.")
     )
 
     class Meta:
@@ -1209,7 +1225,8 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
     product_code = models.CharField(
         _("Product's Code"),
         max_length=255,
-        unique=True
+        unique=True,
+        help_text=_("A unique code. Maximum 255 characters. Prioritize creating a new product instead of updating this code.")
     )
     attribute = models.ManyToManyField(
         AttributeValue,
@@ -1252,7 +1269,8 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         on_delete=models.SET_NULL,
         related_name="variant_image",
         null=True,
-        blank=True
+        blank=True,
+        help_text=_("Recommended size: 810x900.")
     )
 
     class Meta:
@@ -1376,8 +1394,9 @@ class ProductDocument(models.Model):
         related_name="product_document"
     )
     name = models.CharField(
-        _("Document's Name"),
-        max_length=50,
+        verbose_name=_("Document's Name"),
+        max_length=255,
+        help_text=_("Maximum 255 characters.")
     )
     document = FilerFileField(
         verbose_name=_("Document"),
@@ -1512,7 +1531,8 @@ class dmSiteContact(TranslatableModel):
         verbose_name=_("Secondary Phone"),
         max_length=20,
         blank=True,
-        null=True
+        null=True,
+        help_text=_("Facultative.")
     )
     email = models.CharField(
         verbose_name=_("Email"),
@@ -1677,10 +1697,10 @@ class FeatureList(models.Model):
 class dmProductsCategories(CMSPlugin):
     title = models.CharField(
         verbose_name=_("Title"),
-        max_length=100,
+        max_length=255,
         null=True,
         blank=True,
-        help_text=_("Maximum 100 characters.")
+        help_text=_("Maximum 255 characters.")
     )
     text = HTMLField(
         verbose_name=_("Text"),
@@ -1690,43 +1710,45 @@ class dmProductsCategories(CMSPlugin):
     )
     label = models.CharField(
         verbose_name=_("Button's Label"),
-        max_length=200,
+        max_length=255,
         default="See all",
         null=True,
         blank=True,
-        help_text=_("Leave blank to hide button.")
+        help_text=_("Facultative. Maximum 255 characters. Leave blank to hide button.")
     )
 
 
 class dmProductsVedette(CMSPlugin):
     title = models.CharField(
         verbose_name=_("Title"),
-        max_length=100,
+        max_length=255,
         null=True,
         blank=True,
-        help_text=_("Maximum 100 characters.")
+        help_text=_("Facultative. Maximum 255 characters.")
     )
     text = HTMLField(
         verbose_name=_("Text"),
         configuration="CKEDITOR_SETTINGS_DMPLUGIN",
         null=True,
-        blank=True
+        blank=True,
+        help_text=_("Facultative.")
     )
 
 
 class dmProductsByCategory(CMSPlugin):
     title = models.CharField(
         verbose_name=_("Title"),
-        max_length=100,
+        max_length=255,
         null=True,
         blank=True,
-        help_text=_("Maximum 100 characters.")
+        help_text=_("Facultative. Maximum 255 characters.")
     )
     text = HTMLField(
         verbose_name=_("Text"),
         configuration="CKEDITOR_SETTINGS_DMPLUGIN",
         null=True,
-        blank=True
+        blank=True,
+        help_text=_("Facultative.")
     )
     text_color = ColorField(
         verbose_name=_("Text's Colour"),
@@ -1743,17 +1765,18 @@ class dmProductsByCategory(CMSPlugin):
         on_delete=models.SET_NULL,
         related_name="bg_image",
         null=True,
-        blank=True
+        blank=True,
+        help_text=_("Facultative. Size: 2000x900.")
     )
 
 
 class dmProductsBrands(CMSPlugin):
     title = models.CharField(
         verbose_name=_("Title"),
-        max_length=100,
+        max_length=255,
         null=True,
         blank=True,
-        help_text=_("Maximum 100 characters.")
+        help_text=_("Maximum 255 characters.")
     )
     text = HTMLField(
         verbose_name=_("Text"),
@@ -1792,17 +1815,17 @@ class dmBlocTextMedia(CMSPlugin):
     ]
     title = models.CharField(
         verbose_name=_("Title"),
-        max_length=100,
+        max_length=255,
         null=True,
         blank=True,
-        help_text=_("Maximum 100 characters.")
+        help_text=_("Maximum 255 characters.")
     )
     subtitle = models.CharField(
         verbose_name=_("Subtitle"),
-        max_length=200,
+        max_length=255,
         null=True,
         blank=True,
-        help_text=_("Maximum 200 characters.")
+        help_text=_("Maximum 255 characters.")
     )
     text = HTMLField(
         verbose_name=_("Text"),
@@ -1843,17 +1866,17 @@ class dmBlocTextCarrousel(CMSPlugin):
     ]
     title = models.CharField(
         verbose_name=_("Title"),
-        max_length=100,
+        max_length=255,
         null=True,
         blank=True,
-        help_text=_("Maximum 100 characters.")
+        help_text=_("Maximum 255 characters.")
     )
     subtitle = models.CharField(
         verbose_name=_("Subtitle"),
-        max_length=200,
+        max_length=255,
         null=True,
         blank=True,
-        help_text=_("Maximum 200 characters.")
+        help_text=_("Maximum 255 characters.")
     )
     text = HTMLField(
         verbose_name=_("Text"),
@@ -1914,17 +1937,17 @@ class dmBlocTextCarrouselImage(CMSPlugin):
 class dmBlocText2Column(CMSPlugin):
     title = models.CharField(
         verbose_name=_("Title"),
-        max_length=100,
+        max_length=255,
         null=True,
         blank=True,
-        help_text=_("Maximum 100 characters.")
+        help_text=_("Maximum 255 characters.")
     )
     subtitle = models.CharField(
         verbose_name=_("Subtitle"),
-        max_length=200,
+        max_length=255,
         null=True,
         blank=True,
-        help_text=_("Maximum 200 characters.")
+        help_text=_("Maximum 255 characters.")
     )
     text_left = HTMLField(
         verbose_name=_("Left Text"),
@@ -1949,7 +1972,8 @@ class dmBlocEnteteVideo(CMSPlugin):
         verbose_name=_("Video File"),
         on_delete=models.CASCADE,
         null=False,
-        blank=False
+        blank=False,
+        help_text=_("Prioritize .mp4 format.")
     )
 
 
@@ -1972,24 +1996,24 @@ class dmBlocSliderChild(CMSPlugin):
     ]
     title = models.CharField(
         verbose_name=_("Title"),
-        max_length=100,
+        max_length=255,
         null=True,
         blank=True,
-        help_text=_("Maximum 100 characters.")
+        help_text=_("Maximum 255 characters.")
     )
     suptitle = models.CharField(
         verbose_name=_("Suptitle"),
-        max_length=200,
+        max_length=255,
         null=True,
         blank=True,
-        help_text=_("Maximum 200 characters.")
+        help_text=_("Maximum 255 characters.")
     )
     subtitle = models.CharField(
         verbose_name=_("Subtitle"),
-        max_length=200,
+        max_length=255,
         null=True,
         blank=True,
-        help_text=_("Maximum 200 characters.")
+        help_text=_("Maximum 255 characters.")
     )
     title_color = ColorField(
         verbose_name=_("Title's Colour"),
@@ -2013,17 +2037,17 @@ class dmBlocSliderChild(CMSPlugin):
     )
     btn_label = models.CharField(
         verbose_name=_("Link's Label"),
-        max_length=30,
+        max_length=255,
         null=True,
         blank=True,
-        help_text=_("Maximum 30 characters.")
+        help_text=_("Facultative. Maximum 255 characters.")
     )
     btn_url = models.CharField(
         verbose_name=_("URL"),
         max_length=1000,
         blank=True,
         null=True,
-        help_text=_("Maximum 1 000 characters.")
+        help_text=_("Facultative. Maximum 1 000 characters.")
     )
     btn_blank = models.BooleanField(
         verbose_name=_("Open on new tab?"),
@@ -2038,7 +2062,7 @@ class dmBlocSliderChild(CMSPlugin):
         verbose_name=_("Image"),
         null=True,
         blank=True,
-        help_text=_("Leave blank to hide image.")
+        help_text=_("Maximum size: 1920x900. Leave blank to hide image.")
     )
 
 

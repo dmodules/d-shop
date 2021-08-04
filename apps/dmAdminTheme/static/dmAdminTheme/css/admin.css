@@ -183,6 +183,9 @@ input[type=button].language_button.selected {
 
 /* ===--- ---=== */
 
+html.dm-admin-dashboard {
+    height: auto!important;
+}
 #dm-admin-dashboard {
     padding: 0;
 }
