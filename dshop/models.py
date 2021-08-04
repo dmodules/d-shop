@@ -407,7 +407,11 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel, TranslatableModel):
         related_name="category_image",
         null=True,
         blank=True,
-        help_text=_("Size: 2000x900. An image that will be shown on the top of the page of the Products of this category.")
+        help_text=_(
+            "Size: 2000x900.\
+                 An image that will be shown on the top of the page of\
+                      the Products of this category."
+        )
     )
 
     active = models.BooleanField(
@@ -547,7 +551,9 @@ class ProductFilter(TranslatableModel):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        help_text=_("Size: 2000x900. An image that will be shown on the top of the page of the Products of this filter.")
+        help_text=_("Size: 2000x900.\
+             An image that will be shown on the top of the page of\
+                  the Products of this filter.")
     )
     order = models.PositiveSmallIntegerField(
         verbose_name=_("Sort by"),
@@ -836,7 +842,10 @@ class ProductDefault(AvailableProductMixin, Product):
         _("Product's Code"),
         max_length=255,
         unique=True,
-        help_text=_("A unique code. Maximum 255 characters. Prioritize creating a new product instead of updating this code.")
+        help_text=_("A unique code.\
+             Maximum 255 characters.\
+                  Prioritize creating a new product instead of\
+                       updating this code.")
     )
     unit_price = MoneyField(
         _("Unit Price"),
@@ -1226,7 +1235,10 @@ class ProductVariableVariant(AvailableProductMixin, models.Model):
         _("Product's Code"),
         max_length=255,
         unique=True,
-        help_text=_("A unique code. Maximum 255 characters. Prioritize creating a new product instead of updating this code.")
+        help_text=_("A unique code.\
+             Maximum 255 characters.\
+                  Prioritize creating a new product instead of\
+                       updating this code.")
     )
     attribute = models.ManyToManyField(
         AttributeValue,
@@ -1714,7 +1726,9 @@ class dmProductsCategories(CMSPlugin):
         default="See all",
         null=True,
         blank=True,
-        help_text=_("Facultative. Maximum 255 characters. Leave blank to hide button.")
+        help_text=_("Facultative.\
+             Maximum 255 characters.\
+                  Leave blank to hide button.")
     )
 
 
