@@ -72,63 +72,38 @@
                         </div>
                     </div>
                     <div class="row dmalign-start">
-                        <div class="col-md-2 mb-5">
-                            <div class="dmfilters-list">
-                                {% if filter_data.brands|length > 0 %}
-                                    <h5>{% trans "Brands" %}</h5>
-                                    <ul id="brands">
-                                        {% for brand in filter_data.brands %}
-                                            <li>
-                                                <label for="brand_{{ brand.id }}">
-                                                    <input type="checkbox" id="brand_{{brand.id}}" name="{{brand.id}}" value="{{brand.id}}" />
-                                                    <span>{{ brand.name }}</span>
-                                                </label>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                                {% if filter_data.categories|length > 0 %}
-                                    <h5>{% trans "Categories" %}</h5>
-                                    <ul id="categories">
-                                        {% for cat in filter_data.categories %}
-                                            <li>
-                                                <label for="category_{{cat.id}}">
-                                                    <input type="checkbox" id="category_{{cat.id}}" name="{{cat.id}}" value="{{cat.id}}">
-                                                    <span>{{ cat.name }}</span>
-                                                </label>
-                                                {% if cat.child|length > 0 %}
-                                                    <span class="toggle" onclick="toggleMenuFiltering(this)">+</span>
-                                                    <ul class="dmfilters-list-submenu">
-                                                        {% for val in cat.child %}
-                                                            <li>
-                                                                <label for="category_{{val.id}}">
-                                                                    <input type="checkbox" id="category_{{val.id}}" name="{{val.id}}" value="{{val.id}}">
-                                                                    <span>{{val.name}}</span>
-                                                                </label>
-                                                            </li>
-                                                        {% endfor %}
-                                                    </ul>
-                                                {% endif %}
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                                {% if filter_data.filter.items|length > 1 or filter_data.filter.default.filter|length > 0 %}
-                                    <h5>{% trans "Filters" %}</h5>
-                                    <ul id="filters">
-                                        {% for filt, value in filter_data.filter.items %}
-                                            {% if value.id %}
+                        {% if filter_data.brands|length > 0 or filter_data.categories|length > 0 or filter_data.filter.items|length > 1 or filter_data.filter.default.filter|length > 0 or filter_data.attribute|length > 0 %}
+                            <div class="col-md-2 mb-5">
+                                <div class="dmfilters-list">
+                                    {% if filter_data.brands|length > 0 %}
+                                        <h5>{% trans "Brands" %}</h5>
+                                        <ul id="brands">
+                                            {% for brand in filter_data.brands %}
                                                 <li>
-                                                    <label>
-                                                        <span>{{ filt }}</span>
+                                                    <label for="brand_{{ brand.id }}">
+                                                        <input type="checkbox" id="brand_{{brand.id}}" name="{{brand.id}}" value="{{brand.id}}" />
+                                                        <span>{{ brand.name }}</span>
                                                     </label>
-                                                    {% if value.filter|length > 0 %}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                    {% if filter_data.categories|length > 0 %}
+                                        <h5>{% trans "Categories" %}</h5>
+                                        <ul id="categories">
+                                            {% for cat in filter_data.categories %}
+                                                <li>
+                                                    <label for="category_{{cat.id}}">
+                                                        <input type="checkbox" id="category_{{cat.id}}" name="{{cat.id}}" value="{{cat.id}}">
+                                                        <span>{{ cat.name }}</span>
+                                                    </label>
+                                                    {% if cat.child|length > 0 %}
                                                         <span class="toggle" onclick="toggleMenuFiltering(this)">+</span>
                                                         <ul class="dmfilters-list-submenu">
-                                                            {% for val in value.filter %}
+                                                            {% for val in cat.child %}
                                                                 <li>
-                                                                    <label for="filter_{{val.id}}">
-                                                                        <input type="checkbox" id="filter_{{val.id}}" name="{{val.id}}" value="{{val.name}}" />
+                                                                    <label for="category_{{val.id}}">
+                                                                        <input type="checkbox" id="category_{{val.id}}" name="{{val.id}}" value="{{val.id}}">
                                                                         <span>{{val.name}}</span>
                                                                     </label>
                                                                 </li>
@@ -136,52 +111,79 @@
                                                         </ul>
                                                     {% endif %}
                                                 </li>
-                                            {% else %}
-                                                {% if value.filter|length > 0 %}
-                                                    {% for val in value.filter %}
-                                                        <li>
-                                                            <label for="filter_{{val.id}}">
-                                                                <input type="checkbox" id="filter_{{val.id}}" name="{{val.id}}" value="{{val.name}}" />
-                                                                <span>{{val.name}}</span>
-                                                            </label>
-                                                        </li>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            {% endif %}
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                                {% if filter_data.attribute|length > 0 %}
-                                    <h5>{% trans "Attributes" %}</h5>
-                                    <ul id="attribute">
-                                        {% for attr, value in filter_data.attribute.items %}
-                                            <li>
-                                                <label>
-                                                    <span>{{ attr }}</span>
-                                                </label>
-                                                {% if value.values|length > 0 %}
-                                                    <span class="toggle" onclick="toggleMenuFiltering(this)">+</span>
-                                                    <ul class="dmfilters-list-submenu">
-                                                        {% for val in value.values %}
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                    {% if filter_data.filter.items|length > 1 or filter_data.filter.default.filter|length > 0 %}
+                                        <h5>{% trans "Filters" %}</h5>
+                                        <ul id="filters">
+                                            {% for filt, value in filter_data.filter.items %}
+                                                {% if value.id %}
+                                                    <li>
+                                                        <label>
+                                                            <span>{{ filt }}</span>
+                                                        </label>
+                                                        {% if value.filter|length > 0 %}
+                                                            <span class="toggle" onclick="toggleMenuFiltering(this)">+</span>
+                                                            <ul class="dmfilters-list-submenu">
+                                                                {% for val in value.filter %}
+                                                                    <li>
+                                                                        <label for="filter_{{val.id}}">
+                                                                            <input type="checkbox" id="filter_{{val.id}}" name="{{val.id}}" value="{{val.name}}" />
+                                                                            <span>{{val.name}}</span>
+                                                                        </label>
+                                                                    </li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        {% endif %}
+                                                    </li>
+                                                {% else %}
+                                                    {% if value.filter|length > 0 %}
+                                                        {% for val in value.filter %}
                                                             <li>
-                                                                <label for="attribute_{{val.id}}">
-                                                                    <input type="checkbox" id="attribute_{{val.id}}" name="{{val.id}}" value="{{val.name}}" />
+                                                                <label for="filter_{{val.id}}">
+                                                                    <input type="checkbox" id="filter_{{val.id}}" name="{{val.id}}" value="{{val.name}}" />
                                                                     <span>{{val.name}}</span>
                                                                 </label>
                                                             </li>
                                                         {% endfor %}
-                                                    </ul>
+                                                    {% endif %}
                                                 {% endif %}
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                                <div class="dmfilters-list-submit text-center text-md-left">
-                                    <button class="btn btn-fill-out btn-block" type="button" onclick="dmApplyFilter()">{% trans "Apply" %}</button>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                    {% if filter_data.attribute|length > 0 %}
+                                        <h5>{% trans "Attributes" %}</h5>
+                                        <ul id="attribute">
+                                            {% for attr, value in filter_data.attribute.items %}
+                                                <li>
+                                                    <label>
+                                                        <span>{{ attr }}</span>
+                                                    </label>
+                                                    {% if value.values|length > 0 %}
+                                                        <span class="toggle" onclick="toggleMenuFiltering(this)">+</span>
+                                                        <ul class="dmfilters-list-submenu">
+                                                            {% for val in value.values %}
+                                                                <li>
+                                                                    <label for="attribute_{{val.id}}">
+                                                                        <input type="checkbox" id="attribute_{{val.id}}" name="{{val.id}}" value="{{val.name}}" />
+                                                                        <span>{{val.name}}</span>
+                                                                    </label>
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    {% endif %}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                    <div class="dmfilters-list-submit text-center text-md-left">
+                                        <button class="btn btn-fill-out btn-block" type="button" onclick="dmApplyFilter()">{% trans "Apply" %}</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-10 row shop_container grid produits">
+                        {% endif %}
+                        <div class="{% if filter_data.brands|length > 0 or filter_data.categories|length > 0 or filter_data.filter.items|length > 1 or filter_data.filter.default.filter|length > 0 or filter_data.attribute|length > 0 %}col-md-10{% else %}col-12{% endif %} row shop_container grid produits">
                             {% for product in products %}
                                 <div class="produit col-md-4 col-6" data-filters="tous{% for filter in product.filters.all %} {{filter.name|slugify}}{% endfor %}">
                                     <div class="product">
@@ -285,7 +287,7 @@
                             <div class="col-12">
                                 <div class="product">
                                     <div class="product_info">
-                                        <h6 class="product_title mb-0">{% trans 'Empty' %}</h6>
+                                        <h6 class="product_title text-center my-5">{% trans 'No product found' %} <i class="far fa-frown-open"></i></h6>
                                     </div>
                                 </div>
                             </div>
