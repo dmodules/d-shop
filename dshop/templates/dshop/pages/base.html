@@ -173,13 +173,17 @@
                 <div class="widget">
                   <h6 class="widget_title">{% trans "My Account" %}</h6>
                   <ul class="widget_links">
-                    <li><a href="/commande/profil/">{% trans 'Profile' %}</a></li>
-                    {% if is_quotation %}
-                        <li><a href="/commande/mes-devis/">{% trans 'My Quotations' %}</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li><a href="/commande/profil/">{% trans 'Profile' %}</a></li>
+                        {% if is_quotation %}
+                            <li><a href="/commande/mes-devis/">{% trans 'My Quotations' %}</a></li>
+                        {% else %}
+                            <li><a href="{% page_url 'orders' %}">{% trans 'My Orders' %}</a></li>
+                        {% endif %}
+                        <!--<li><a href="/commande/promocodes/">{% trans 'Promo Codes' %}</a></li>-->
                     {% else %}
-                        <li><a href="{% page_url 'orders' %}">{% trans 'My Orders' %}</a></li>
+                        <li><a href="/commande/profil/">{% trans 'Login' %}</a></li>
                     {% endif %}
-                    <!--<li><a href="/commande/promocodes/">{% trans 'Promo Codes' %}</a></li>-->
                     {% page_url "terms-and-conditions" as tos %}
                     {% if tos %}
                         <li class="child sibling">
