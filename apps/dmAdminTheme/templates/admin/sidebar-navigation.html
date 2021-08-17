@@ -78,8 +78,8 @@
                 <span>{{ extended.name }}</span>
                 <ul>
                     {% for app in extended.apps %}
-                        <li class="child {% if cl.opts.object_name == 'dmRabaisPerCategory' %}active{% endif %}">
-                            <a href="/{{ LANGUAGE_CODE }}/admin/{{ extended.label }}/{{ app.link }}/"><i class="fas fa-percent"></i></i> {{ app.name }}</a>
+                        <li class="child {% if cl.opts.object_name == app.label %}active{% endif %}">
+                            <a href="/{{ LANGUAGE_CODE }}/admin/{{ extended.label }}/{{ app.link }}/"><i class="fas fa-angle-double-right"></i></i> {{ app.name }}</a>
                         </li>
                     {% endfor %}
                 </ul>
