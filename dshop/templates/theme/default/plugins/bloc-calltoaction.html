@@ -1,28 +1,28 @@
 {% load static cms_tags thumbnail %}
 
 <div class="section dm-solobanner pb-0 pt-md-0 mt-5{% if instance.bg_color %}" style="background-color:{{instance.bg_color}}"{% else %} bg_gray"{% endif %}>
-  <div class="container">
-    <div class="row align-items-center flex-row-reverse">
-      <div class="col-md-6 offset-md-1">
-        <div class="medium_divider d-none d-md-block clearfix"></div>
-        <div class="trand_banner_text text-center text-md-left">
-          <div class="heading_s1 mb-3">
-            {% if instance.subtitle %}<span class="sub_heading" style="color:{{instance.subtitle_color}}">{{instance.subtitle}}</span>{% endif %}
-            {% if instance.title %}<h2 style="color:{{instance.title_color}}">{{instance.title}}</h2>{% endif %}
-          </div>
-          {% if instance.text %}<h5 class="mb-4" style="color:{{instance.text_color}}">{{instance.text}}</h5>{% endif %}
-          {% if instance.btn_label %}<a href="{% if instance.btn_url %}{{instance.btn_url}}{% else %}#{% endif %}" class="btn btn-fill-out rounded-0">{{instance.btn_label}}</a>{% endif %}
+    <div class="container">
+        <div class="row align-items-center flex-row-reverse">
+            <div class="{% if instance.image %}col-md-6 offset-md-1{% else %}col-12 text-center{% endif %}">
+                <div class="medium_divider d-none d-md-block clearfix"></div>
+                <div class="trand_banner_text text-center{% if instance.image %} text-md-left{% endif %}">
+                    <div class="heading_s1 mb-3">
+                        {% if instance.subtitle %}<span class="sub_heading" style="color:{{instance.subtitle_color}}">{{instance.subtitle}}</span>{% endif %}
+                        {% if instance.title %}<h2 style="color:{{instance.title_color}}">{{instance.title}}</h2>{% endif %}
+                    </div>
+                    {% if instance.text %}<h5 class="mb-4" style="color:{{instance.text_color}}">{{instance.text}}</h5>{% endif %}
+                    {% if instance.btn_label %}<a href="{% if instance.btn_url %}{{instance.btn_url}}{% else %}#{% endif %}" class="btn btn-fill-out rounded-0">{{instance.btn_label}}</a>{% endif %}
+                </div>
+                <div class="medium_divider clearfix"></div>
+            </div>
+            {% if instance.image %}
+                <div class="col-md-5">
+                    <div class="text-center trading_img">
+                        {% thumbnail instance.image "420x460" crop="scale" as thumb %}
+                        <img src="{{thumb.url}}" alt="" />
+                    </div>
+                </div>
+            {% endif %}
         </div>
-        <div class="medium_divider clearfix"></div>
-      </div>
-      <div class="col-md-5">
-        <div class="text-center trading_img">
-          {% if instance.image %}
-            {% thumbnail instance.image "420x460" crop="scale" as thumb %}
-            <img src="{{thumb.url}}" alt="" />
-          {% endif %}
-        </div>
-      </div>
     </div>
-  </div>
 </div>
