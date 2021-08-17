@@ -113,7 +113,7 @@
                                         {% endfor %}
                                     </ul>
                                 {% endif %}
-                                {% if filter_data.filter|length > 0 %}
+                                {% if filter_data.filter.items|length > 1 or filter_data.filter.default.filter|length > 0 %}
                                     <h5>{% trans "Filters" %}</h5>
                                     <ul id="filters">
                                         {% for filt, value in filter_data.filter.items %}
