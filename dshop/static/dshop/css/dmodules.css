@@ -911,9 +911,22 @@ main > .container > .row {
     display:inline-block;
     width:100%;
 }
-.search-name span + span {
+.dmpage-search-text span + span {
     font-size:0.8rem;
     opacity:0.5;
+}
+.dmpage-search-categories {
+    margin: 0;
+}
+.dmpage-search-categories span {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    font-size:0.7rem;
+    display: inline-block;
+    width: auto;
+    opacity:0.5;
+    padding: 1px 5px;
+    margin: 10px 4px 0 0;
 }
 .search-btn {
     text-align:right;
