@@ -366,7 +366,10 @@ class LoadFilters(APIView):
                     if filt.image:
                         url = filt.image.url
                     try:
-                        name = filt.name_trans if filt.name_trans else filt.name
+                        if filt.name_trans:
+                            name = filt.name_trans
+                        else:
+                            name = filt.name
                     except Exception:
                         name = filt.name
                     # ===---
@@ -378,7 +381,10 @@ class LoadFilters(APIView):
                         'description': ''
                     })
                 temp['filter'] = filters
-                group_name = group.name_trans if group.name_trans else group.name
+                if group.name_trans:
+                    group_name = group.name_trans
+                else:
+                    group_name = group.name
                 data[group_name] = temp
         temp = {}
         # ===--- Filters without group
