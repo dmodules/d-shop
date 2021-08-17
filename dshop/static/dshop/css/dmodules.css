@@ -1115,6 +1115,12 @@ main > .container > .row {
     margin: 0 50px 25px;
 }
 
+/* ===--- PAGE: Contact ---=== */
+.dmpage-contact-map {
+    font-size: 0;
+    line-height: 0;
+}
+
 /* ===--- Vos commandes ---=== */
 .service-content-box pre{
   border-left:2px solid #f16975;
