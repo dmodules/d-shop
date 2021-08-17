@@ -2,7 +2,6 @@ import os
 
 from django import template
 from django.apps import apps
-from django.urls import reverse
 
 from datetime import datetime
 
