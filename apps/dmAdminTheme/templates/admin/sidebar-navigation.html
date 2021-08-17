@@ -1,4 +1,4 @@
-{% load i18n dshop_tags %}
+{% load i18n dshop_tags dshopadmintheme_tags %}
 
 {% dm_quotation_feature as is_quotation %}
 
@@ -72,6 +72,19 @@
                 </li>
             </ul>
         </li>
+        {% dm_get_extended_apps as extendeds %}
+        {% for extended in extendeds %}
+            <li class="parent">
+                <span>{{ extended.name }}</span>
+                <ul>
+                    {% for app in extended.apps %}
+                        <li class="child {% if cl.opts.object_name == 'dmRabaisPerCategory' %}active{% endif %}">
+                            <a href="/{{ LANGUAGE_CODE }}/admin/{{ extended.label }}/{{ app.link }}/"><i class="fas fa-percent"></i></i> {{ app.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
         <li class="parent">
             <span>{% trans "Settings" %}</span>
             <ul>
