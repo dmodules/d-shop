@@ -5453,10 +5453,6 @@ footer .widget_title {
 .pr_detail .pr_desc p {
     margin-bottom: 15px;
 }
-.pr_detail .pr_desc ul,
-.pr_detail .pr_desc ol {
-    margin: 15px 2rem;
-}
 .pr_detail .rating_wrap {
   float: right;
 	margin-top: 7px;

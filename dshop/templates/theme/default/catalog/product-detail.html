@@ -126,7 +126,7 @@
                                         {% endif %}
                                     {% endif %}
                                 </div>
-                                <div class="pr_desc">
+                                <div class="dmproductdetail-caption pr_desc">
                                     {% if product.caption %}
                                         {{product.caption|safe}}
                                     {% elif product.description %}
@@ -229,7 +229,7 @@
                             </ul>
                             <div class="tab-content shop_info_tab">
                                 {% if product.description %}
-                                    <div class="tab-pane fade show active" id="Description" role="tabpanel" aria-labelledby="Description-tab">
+                                    <div class="dmproductdetail-description tab-pane fade show active" id="Description" role="tabpanel" aria-labelledby="Description-tab">
                                         {{ product.description|safe }}
                                     </div>
                                 {% endif %}

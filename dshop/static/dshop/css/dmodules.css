@@ -1096,6 +1096,25 @@ main > .container > .row {
     font-size: 1rem;
 }
 
+.dmproductdetail-caption,
+.dmproductdetail-description {
+    font-size: 1rem;
+    line-height: 200%;
+}
+.dmproductdetail-caption p,
+.dmproductdetail-caption span,
+.dmproductdetail-description p,
+.dmproductdetail-description span {
+    line-height: 200%;
+}
+.dmproductdetail-caption ul,
+.dmproductdetail-caption ol,
+.dmproductdetail-description ul,
+.dmproductdetail-description ol {
+    padding: 0;
+    margin: 0 50px 25px;
+}
+
 /* ===--- Vos commandes ---=== */
 .service-content-box pre{
   border-left:2px solid #f16975;
