@@ -1426,3 +1426,12 @@ main > .container > .row {
     font-weight: 300;
     font-style: italic;
 }
+/* ===--- PLUGIN: equipe ---=== */
+.dmplugin-team .social_icons.social_style1 li a {
+	background-color: #fff;
+	color: #f16975;
+}
+.dmplugin-team .social_icons.social_style1 li a:hover {
+	background-color: #f16975;
+	color: #fff !important;
+}

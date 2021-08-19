@@ -7,7 +7,7 @@
         {% thumbnail instance.photo "255x355" crop="scale" as thumb %}
         <img src="{{thumb.url}}" alt="{% if instance.name %}{{instance.name}}{% endif %}">
       {% else %}
-        <img src="{% static 'boutique/shopwise/images/team_img1.jpg' %}" alt="{% if instance.name %}{{instance.name}}{% endif %}">
+        <img src="{% static 'dshop/shopwise/images/team_img1.jpg' %}" alt="{% if instance.name %}{{instance.name}}{% endif %}">
       {% endif %}
       <ul class="social_icons social_style1">
         {% if instance.email %}<li><a href="mailto:{{instance.email}}"><i class="ion-email"></i></a></li>{% endif %}
