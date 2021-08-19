@@ -105,7 +105,6 @@ INSTALLED_APPS.extend([  # noqa: F821
     "cmsplugin_cascade.sharable",
     "cmsplugin_cascade.extra_fields",
     "cmsplugin_cascade.icon",
-    "cmsplugin_cascade.segmentation",
     # ===---
     "cities_light",
     "fsm_admin",
@@ -526,7 +525,6 @@ REST_AUTH_SERIALIZERS = {
 
 CMSPLUGIN_CASCADE_PLUGINS = [
     'cmsplugin_cascade.bootstrap4',
-    'cmsplugin_cascade.segmentation',
     'cmsplugin_cascade.generic',
     'cmsplugin_cascade.icon',
     'cmsplugin_cascade.leaflet',
@@ -583,10 +581,6 @@ CMSPLUGIN_CASCADE = {
     },
     'bookmark_prefix':
     '/',
-    'segmentation_mixins': [
-        ('shop.cascade.segmentation.EmulateCustomerModelMixin',
-         'shop.cascade.segmentation.EmulateCustomerAdminMixin'),
-    ],
     'allow_plugin_hiding':
     True,
 }
