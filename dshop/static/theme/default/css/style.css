@@ -140,42 +140,6 @@ a:hover {
 }
 
 /* ===--- Plugins ---=== */
-.section-testimonials {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    text-align: center;
-}
-.section-testimonials .testionial-text {
-    font-size: 1rem;
-    line-height: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-@media (max-width: 967px) {
-    .section-testimonials .testionial-text {
-        font-size: 0.9rem;
-    }
-}
-.section-testimonials .testionial-text::before {
-    content: "\201C";
-    color: #f16975;
-    font-size: 3rem;
-    line-height: 100%;
-    opacity: 0.5;
-}
-.section-testimonials .testionial-photo img {
-    border-radius: 100%;
-    box-shadow: 0 0 7px rgba(0,0,0,0.1);
-    width: 120px;
-    height: 120px;
-    margin: 1rem auto;
-}
-.section-testimonials .testionial-name {
-    font-size: 0.8rem;
-    font-weight: 600;
-    line-height: 120%;
-}
 /**/
 .section-parcategorie {
     background-position: center;

@@ -1335,6 +1335,81 @@ main > .container > .row {
     }
 }
 
+/* ===--- Plugin: Testimonials ---=== */
+.dmplugin-testimonials {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+}
+.dmplugin-testimonials .owl-stage-outer {
+    padding: 15px 0;
+}
+.dmplugin-testimonials .item .testimonial {
+    max-width: 800px;
+    position: relative;
+    padding: 0;
+    margin: 0 auto;
+}
+.dmplugin-testimonials-top {
+    display: inline-block;
+    position: relative;
+    padding: 0;
+    margin: 0 auto;
+}
+.dmplugin-testimonials-top .dmplugin-testimonials-icotop,
+.dmplugin-testimonials-top .dmplugin-testimonials-icobot {
+    color: #f16975;
+    font-size: 48px;
+    line-height: 100%;
+    position: absolute;
+}
+.dmplugin-testimonials-top .dmplugin-testimonials-icotop {
+    top: 0;
+    right: -45px;
+}
+.dmplugin-testimonials-top .dmplugin-testimonials-icobot {
+    left: -45px;
+    bottom: 5px;
+}
+.dmplugin-testimonials-text {
+    font-size: 1.1rem;
+    line-height: 150%;
+    text-align: left;
+    padding: 0;
+}
+.dmplugin-testimonials-text-wrapper {
+    padding: 10px 20px 10px;
+}
+.dmplugin-testimonials-text p {
+    font-size: 1.1rem;
+    line-height: 150%;
+}
+.dmplugin-testimonials-bottom {
+    text-align: center;
+    padding: 15px 7%;
+}
+.dmplugin-testimonials-bottom .testionial-photo {
+    border-radius: 100%;
+    vertical-align: middle;
+    overflow: hidden;
+    display: inline-block;
+    width: 90px;
+    height: 90px;
+    margin: 0 15px 0 0;
+}
+.dmplugin-testimonials-bottom-content {
+    vertical-align: middle;
+    display: inline-block;
+}
+.dmplugin-testimonials-bottom .testionial-name {
+    font-weight: 600;
+}
+.dmplugin-testimonials-bottom .testionial-job {
+    font-weight: 300;
+    font-style: italic;
+}
+
 /* ===--- Fixes ---=== */
 fieldset.module.collapse:not(.show) {
     display: block;
