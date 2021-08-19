@@ -546,6 +546,7 @@ class dmTestimonialChildPlugin(BoutiquePlugin):
         (None, {
             "fields": [
                 ("name", "name_color"),
+                "job",
                 "photo",
                 "text"
             ]

@@ -1414,6 +1414,7 @@ main > .container > .row {
     margin: 0 15px 0 0;
 }
 .dmplugin-testimonials-bottom-content {
+    text-align: left;
     vertical-align: middle;
     display: inline-block;
 }
@@ -1421,6 +1422,7 @@ main > .container > .row {
     font-weight: 600;
 }
 .dmplugin-testimonials-bottom .testionial-job {
+    font-size: 0.9rem;
     font-weight: 300;
     font-style: italic;
 }
