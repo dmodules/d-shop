@@ -615,7 +615,9 @@ class ProductBrand(models.Model):
     logo = image.FilerImageField(
         verbose_name=_("Logo"),
         related_name="brand_logo",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
         help_text=_("Size: 300x300.")
     )
     order = models.PositiveSmallIntegerField(
@@ -1849,7 +1851,7 @@ class dmBlocTextMedia(CMSPlugin):
     )
     image = image.FilerImageField(
         verbose_name=_("Image"),
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="dmplugin_textmedia_image",
         null=True,
         blank=True,
@@ -1857,7 +1859,7 @@ class dmBlocTextMedia(CMSPlugin):
     )
     video = FilerFileField(
         verbose_name=_("Video"),
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="dmplugin_textmedia_video",
         null=True,
         blank=True,
@@ -2079,7 +2081,7 @@ class dmBlocSliderChild(CMSPlugin):
     )
     image = image.FilerImageField(
         verbose_name=_("Image"),
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="dmplugin_sliderchild_image",
         null=True,
         blank=True,
@@ -2199,7 +2201,7 @@ class dmInfolettre(CMSPlugin):
     )
     image = image.FilerImageField(
         verbose_name=_("Image"),
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="dmplugin_infolettre_image",
         null=True,
         blank=True,
@@ -2245,7 +2247,7 @@ class dmBlocEtapesChild(CMSPlugin):
     )
     image = image.FilerImageField(
         verbose_name=_("Image"),
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="dmplugin_etapeschild_image",
         null=True,
         blank=True,
@@ -2346,7 +2348,7 @@ class dmBlockSalesChild(CMSPlugin):
     )
     image = image.FilerImageField(
         verbose_name=_("Image"),
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="dmplugin_saleschild_image",
         null=True,
         blank=True,
@@ -2408,7 +2410,7 @@ class dmBlockCalltoaction(CMSPlugin):
     )
     image = image.FilerImageField(
         verbose_name=_("Image"),
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="dmplugin_calltoaction_image",
         null=True,
         blank=True,
@@ -2504,7 +2506,7 @@ class dmTestimonialParent(CMSPlugin):
     )
     bg_image = image.FilerImageField(
         verbose_name=_("Background's Image"),
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="dmplugin_testimonialparent_bgimage",
         null=True,
         blank=True,
@@ -2537,7 +2539,7 @@ class dmTestimonialChild(CMSPlugin):
     )
     photo = image.FilerImageField(
         verbose_name=_("Photo"),
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="dmplugin_testimonialchild_photo",
         null=True,
         blank=True,
