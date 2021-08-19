@@ -202,8 +202,7 @@ class dmBlocSliderChildPlugin(BoutiquePlugin):
                 "image"
             ]
         }),
-        (_("Link"), {
-            "classes": ("collapse", ),
+        (_("Button"), {
             "fields": [
                 "btn_label",
                 "btn_url",

@@ -1409,8 +1409,3 @@ main > .container > .row {
     font-weight: 300;
     font-style: italic;
 }
-
-/* ===--- Fixes ---=== */
-fieldset.module.collapse:not(.show) {
-    display: block;
-}

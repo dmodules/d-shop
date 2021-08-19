@@ -763,3 +763,10 @@ form .form-row.dynamic-variants .field-variant_image .filer-dropzone .filerFile 
         width: 100%;
     }
 }
+
+
+/* ===--- Fixes ---=== */
+fieldset.module.collapse.collapsed,
+fieldset.module.collapse:not(.show) {
+    display: block;
+}
