@@ -1304,6 +1304,21 @@ main > .container > .row {
     display: block;
     padding: 1rem;
 }
+/* ===--- Plugin: Texts plugins ---=== */
+.about-section .title-bl {
+    margin: 0 0 15px;
+}
+.about-section .title-bl .title {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 120%;
+    margin: 0 0 4px;
+}
+.about-section .title-bl .subtitle {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 120%;
+}
 /* ===--- Plugin: TextCarrousel ---=== */
 .dmplugin-textcarrousel {
     margin: 0 50px;
