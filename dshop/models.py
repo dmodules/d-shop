@@ -1847,8 +1847,10 @@ class dmBlocTextMedia(CMSPlugin):
         null=True,
         blank=True
     )
-    image = models.ImageField(
+    image = image.FilerImageField(
         verbose_name=_("Image"),
+        on_delete=models.CASCADE,
+        related_name="dmplugin_textmedia_image",
         null=True,
         blank=True,
         help_text=_("Sizes : 398x531. Leave blank to hide image.")
@@ -1856,6 +1858,7 @@ class dmBlocTextMedia(CMSPlugin):
     video = FilerFileField(
         verbose_name=_("Video"),
         on_delete=models.CASCADE,
+        related_name="dmplugin_textmedia_video",
         null=True,
         blank=True,
         help_text=_("Leave blank to hide or use image instead.")
@@ -1937,8 +1940,10 @@ class dmBlocTextCarrousel(CMSPlugin):
 
 
 class dmBlocTextCarrouselImage(CMSPlugin):
-    image = models.ImageField(
+    image = image.FilerImageField(
         verbose_name=_("Image"),
+        on_delete=models.CASCADE,
+        related_name="dmplugin_textcarrousel_image",
         null=False,
         blank=False,
         help_text=_(
@@ -2072,8 +2077,10 @@ class dmBlocSliderChild(CMSPlugin):
         null=True,
         blank=True
     )
-    image = models.ImageField(
+    image = image.FilerImageField(
         verbose_name=_("Image"),
+        on_delete=models.CASCADE,
+        related_name="dmplugin_sliderchild_image",
         null=True,
         blank=True,
         help_text=_("Maximum size: 1920x900. Leave blank to hide image.")
@@ -2190,8 +2197,10 @@ class dmInfolettre(CMSPlugin):
         blank=False,
         help_text=_("Maximum 255 characters.")
     )
-    image = models.ImageField(
+    image = image.FilerImageField(
         verbose_name=_("Image"),
+        on_delete=models.CASCADE,
+        related_name="dmplugin_infolettre_image",
         null=True,
         blank=True,
         help_text=_("Facultative. Size: 2000x900. Leave blank to hide image.")
@@ -2234,8 +2243,10 @@ class dmBlocEtapesChild(CMSPlugin):
         blank=True,
         help_text=_("Maximum 255 characters.")
     )
-    image = models.ImageField(
+    image = image.FilerImageField(
         verbose_name=_("Image"),
+        on_delete=models.CASCADE,
+        related_name="dmplugin_etapeschild_image",
         null=True,
         blank=True,
         help_text=_("Facultative. Size: 160x160.")
@@ -2333,8 +2344,10 @@ class dmBlockSalesChild(CMSPlugin):
         verbose_name=_("Background's Colour"),
         default="#f2f2f3"
     )
-    image = models.ImageField(
+    image = image.FilerImageField(
         verbose_name=_("Image"),
+        on_delete=models.CASCADE,
+        related_name="dmplugin_saleschild_image",
         null=True,
         blank=True,
         help_text=_("Facultative. Size: 540x300.")
@@ -2393,8 +2406,10 @@ class dmBlockCalltoaction(CMSPlugin):
         null=True,
         blank=True
     )
-    image = models.ImageField(
+    image = image.FilerImageField(
         verbose_name=_("Image"),
+        on_delete=models.CASCADE,
+        related_name="dmplugin_calltoaction_image",
         null=True,
         blank=True,
         help_text=_("Facultative. Size: 420x460.")
@@ -2487,8 +2502,10 @@ class dmTestimonialParent(CMSPlugin):
         null=True,
         blank=True
     )
-    bg_image = models.ImageField(
+    bg_image = image.FilerImageField(
         verbose_name=_("Background's Image"),
+        on_delete=models.CASCADE,
+        related_name="dmplugin_testimonialparent_bgimage",
         null=True,
         blank=True,
         help_text=_("Facultative. Size: 2000x900.")
@@ -2507,8 +2524,21 @@ class dmTestimonialChild(CMSPlugin):
         verbose_name=_("Name's Colour"),
         default="#292b2c"
     )
-    photo = models.ImageField(
+    job = models.CharField(
+        verbose_name=_("Job"),
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 255 characters.")
+    )
+    job_color = ColorField(
+        verbose_name=_("Job's Colour"),
+        default="#292b2c"
+    )
+    photo = image.FilerImageField(
         verbose_name=_("Photo"),
+        on_delete=models.CASCADE,
+        related_name="dmplugin_testimonialchild_photo",
         null=True,
         blank=True,
         help_text=_("Facultative. Size: 120x120.")
