@@ -1133,6 +1133,9 @@ main > .container > .row {
     font-size: 0;
     line-height: 0;
 }
+.contact_text a:hover {
+	color: #f16975;
+}
 
 /* ===--- Vos commandes ---=== */
 .service-content-box pre{
