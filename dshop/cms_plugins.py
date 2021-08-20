@@ -21,6 +21,37 @@ from .models import dmProductsVedette, dmProductsByCategory
 from .models import dmProductsBrands
 
 
+#######################################################################
+# Unregistration useless plugins
+#######################################################################
+
+from shop.cascade.checkout import AcceptConditionPlugin, ValidateSetOfFormsPlugin
+
+from cmsplugin_cascade.generic.custom_snippet import CustomSnippetPlugin
+from cmsplugin_cascade.clipboard.cms_plugins import CascadeClipboardPlugin
+from cmsplugin_cascade.icon.simpleicon import SimpleIconPlugin
+from cmsplugin_cascade.icon.texticon import TextIconPlugin
+from cmsplugin_cascade.bootstrap4.icon import FramedIconPlugin
+from cmsplugin_cascade.link.cms_plugins import TextLinkPlugin
+from djangocms_style.cms_plugins import StylePlugin
+
+
+plugin_pool.unregister_plugin(CustomSnippetPlugin)
+plugin_pool.unregister_plugin(AcceptConditionPlugin)
+plugin_pool.unregister_plugin(ValidateSetOfFormsPlugin)
+plugin_pool.unregister_plugin(CascadeClipboardPlugin)
+plugin_pool.unregister_plugin(SimpleIconPlugin)
+plugin_pool.unregister_plugin(TextIconPlugin)
+plugin_pool.unregister_plugin(FramedIconPlugin)
+plugin_pool.unregister_plugin(TextLinkPlugin)
+plugin_pool.unregister_plugin(StylePlugin)
+
+
+#######################################################################
+# Plugin: Boutique
+#######################################################################
+
+
 class BoutiquePlugin(CMSPluginBase):
     module = 'A Boutique Plugin'
 
