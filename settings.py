@@ -527,7 +527,6 @@ CMSPLUGIN_CASCADE_PLUGINS = [
     'cmsplugin_cascade.bootstrap4',
     'cmsplugin_cascade.generic',
     'cmsplugin_cascade.icon',
-    'cmsplugin_cascade.leaflet',
     'cmsplugin_cascade.link',
     'shop.cascade',
 ]
@@ -538,9 +537,6 @@ CMSPLUGIN_CASCADE = {
         'shop.cascade.plugin_base.CatalogLinkForm',
     ],
     'alien_plugins': ['TextPlugin', 'TextLinkPlugin', 'AcceptConditionPlugin'],
-    'bootstrap4': {
-        'template_basedir': 'angular-ui/',
-    },
     'plugins_with_extra_render_templates': {
         'CustomSnippetPlugin': [
             ('shop/catalog/product-heading.html', _("Product Heading")),
@@ -571,13 +567,6 @@ CMSPLUGIN_CASCADE = {
         'BootstrapYoutubePlugin':
         BootstrapUtilities(BootstrapUtilities.margins),
         'BootstrapButtonPlugin': BootstrapUtilities(BootstrapUtilities.floats),
-    },
-    'leaflet': {
-        'tilesURL':
-        'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', # noqa
-        'accessToken':
-        'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', # noqa
-        'apiKey': 'AIzaSyD71sHrtkZMnLqTbgRmY_NsO0A9l9BQmv4',
     },
     'bookmark_prefix':
     '/',
