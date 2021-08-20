@@ -2109,7 +2109,7 @@ msgstr "Call To Action"
 
 #: dshop/cms_plugins.py:343
 msgid "Contact Card"
-msgstr "Card de contact"
+msgstr "Carte de contact"
 
 #: dshop/cms_plugins.py:364
 msgid "Newsletter"
