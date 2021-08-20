@@ -32,6 +32,7 @@ from cmsplugin_cascade.clipboard.cms_plugins import CascadeClipboardPlugin
 from cmsplugin_cascade.icon.simpleicon import SimpleIconPlugin
 from cmsplugin_cascade.icon.texticon import TextIconPlugin
 from cmsplugin_cascade.bootstrap4.icon import FramedIconPlugin
+from cmsplugin_cascade.bootstrap4.accordion import BootstrapAccordionPlugin
 from cmsplugin_cascade.link.cms_plugins import TextLinkPlugin
 from djangocms_style.cms_plugins import StylePlugin
 
@@ -43,6 +44,7 @@ plugin_pool.unregister_plugin(CascadeClipboardPlugin)
 plugin_pool.unregister_plugin(SimpleIconPlugin)
 plugin_pool.unregister_plugin(TextIconPlugin)
 plugin_pool.unregister_plugin(FramedIconPlugin)
+plugin_pool.unregister_plugin(BootstrapAccordionPlugin)
 plugin_pool.unregister_plugin(TextLinkPlugin)
 plugin_pool.unregister_plugin(StylePlugin)
 
