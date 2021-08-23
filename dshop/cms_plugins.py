@@ -129,7 +129,7 @@ class dmBlocTextCarrouselPlugin(BoutiquePlugin):
 
 @plugin_pool.register_plugin
 class dmBlocTextCarrouselImagePlugin(BoutiquePlugin):
-    name = _("Text With Carrousel")
+    name = _("Image")
     model = dmBlocTextCarrouselImage
     allow_children = False
     require_parent = True

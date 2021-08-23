@@ -1334,6 +1334,13 @@ main > .container > .row {
 .dmplugin-textcarrousel {
     margin: 0 50px;
 }
+.owl-theme .owl-dots .owl-dot span {
+    border-color: #f16975;
+}
+.owl-theme .owl-dots .owl-dot.active span,
+.owl-theme .owl-dots .owl-dot:hover span {
+    background-color: #f16975;
+}
 @media (max-width: 1199px) {
     .dmplugin-textcarrousel {
         margin: 0;
