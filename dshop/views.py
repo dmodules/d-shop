@@ -301,7 +301,8 @@ class DshopProductListView(APIView):
                 data['image'] = None
             if produit.filters.all():
                 data['filters'] = " ".join(
-                    [slugify(d.name) for d in produit.filters.all()])
+                    [slugify(d.name) for d in produit.filters.all()]
+                )
             else:
                 data['filters'] = None
             if produit.label:
@@ -356,27 +357,35 @@ class LoadFilters(APIView):
         for group in groups:
             temp = {}
             filters = []
-            temp['id'] = group.id
-            temp['order'] = group.order
-            for filt in ProductFilter.objects.filter(group=group):
-                url = ''
-                if filt.image:
-                    url = filt.image.url
-                try:
-                    name = filt.name_trans if filt.name_trans else filt.name
-                except Exception:
-                    name = filt.name
-                # ===---
-                filters.append({
-                    'id': filt.id,
-                    'name': name,
-                    'order': filt.order,
-                    'image': url,
-                    'description': ''
-                })
-            temp['filter'] = filters
-            group_name = group.name_trans if group.name_trans else group.name
-            data[group_name] = temp
+            subfilt = ProductFilter.objects.filter(group=group)
+            if subfilt.count() > 0:
+                temp['id'] = group.id
+                temp['order'] = group.order
+                for filt in subfilt:
+                    url = ''
+                    if filt.image:
+                        url = filt.image.url
+                    try:
+                        if filt.name_trans:
+                            name = filt.name_trans
+                        else:
+                            name = filt.name
+                    except Exception:
+                        name = filt.name
+                    # ===---
+                    filters.append({
+                        'id': filt.id,
+                        'name': name,
+                        'order': filt.order,
+                        'image': url,
+                        'description': ''
+                    })
+                temp['filter'] = filters
+                if group.name_trans:
+                    group_name = group.name_trans
+                else:
+                    group_name = group.name
+                data[group_name] = temp
         temp = {}
         # ===--- Filters without group
         filters = []

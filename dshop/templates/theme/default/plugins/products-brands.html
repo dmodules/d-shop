@@ -1,45 +1,57 @@
 {% load static thumbnail cms_tags i18n dshop_tags %}
 
 <!-- BEGIN: products-brands -->
-  <section class="section-products-brands text-center py-5">
+<section class="section-products-brands text-center py-5">
     <div class="container">
-      {% if instance.title or instance.text %}
-        <div class="row pb-3">
-          <div class="col-12">
-            {% if instance.title %}
-              <h2 class="title">
-                {{instance.title}}
-              </h2>
-            {% endif %}
-            {% if instance.text %}
-              <div class="subtitle">
-                {{instance.text|safe}}
-              </div>
-            {% endif %}
-          </div>
-        </div>
-      {% endif %}
-      <div class="carousel-brands">
-        <div class="product_slider carousel_slider owl-carousel owl-theme nav_style1" data-loop="true" data-dots="false" data-nav="true" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "1199":{"items": "{{instance.howmany}}"}}'>
-          {% dm_get_brands_all as brands %}
-          {% for brand in brands %}
-            <div class="item" id="brandno{{forloop.counter}}">
-              <div class="brand">
-                <a href="/produits/brand/{{brand.id}}-{{brand.name|slugify}}">
-                    {% if brand.logo %}
-                        {% thumbnail brand.logo "300x300" upscale as brandthumb %}
-                        <img src="{{brandthumb.url}}" alt="{{brand.name}}" />
+        {% if instance.title or instance.text %}
+            <div class="row pb-3">
+                <div class="col-12">
+                    {% if instance.title %}
+                        <h2 class="title">
+                            {{instance.title}}
+                        </h2>
                     {% endif %}
-                </a>
-              </div>
+                    {% if instance.text %}
+                        <div class="subtitle">
+                            {{instance.text|safe}}
+                        </div>
+                    {% endif %}
+                </div>
             </div>
-          {% empty %}
-            <div class="text-center">
-              <p>{% trans 'Empty' %}</p>
-            </div>
-          {% endfor %}
+        {% endif %}
+        {% dm_get_brands_all as brands %}
+        <div class="carousel-brands">
+            {% if brands %}
+                <div class="product_slider carousel_slider owl-carousel owl-theme nav_style1" data-loop="true" data-dots="false" data-nav="true" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "1199":{"items": "{{instance.howmany}}"}}'>
+                    {% for brand in brands %}
+                        <div class="item" id="brandno{{forloop.counter}}">
+                            <div class="brand">
+                                <a href="/produits/brand/{{brand.id}}-{{brand.name|slugify}}">
+                                    {% if brand.logo %}
+                                        {% thumbnail brand.logo "300x300" upscale as brandthumb %}
+                                        <img src="{{brandthumb.url}}" alt="{{brand.name}}" />
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="text-center">
+                            <p>{% trans 'Empty' %}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="product">
+                            <div class="product_info">
+                                <h6 class="product_title text-center my-5">{% trans 'No brand found' %} <i class="far fa-frown-open"></i></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
-      </div>
     </div>
-  </section>
+</section>
   <!-- END: en vedette -->

@@ -139,4 +139,7 @@
         min-width: 30px;
         height: 30px;
     }
+    #app .cursor-pointer {
+        cursor: pointer;
+    }
 </style>

@@ -21,6 +21,39 @@ from .models import dmProductsVedette, dmProductsByCategory
 from .models import dmProductsBrands
 
 
+#######################################################################
+# Unregistration useless plugins
+#######################################################################
+
+from shop.cascade.checkout import AcceptConditionPlugin
+from shop.cascade.checkout import ValidateSetOfFormsPlugin
+from cmsplugin_cascade.generic.custom_snippet import CustomSnippetPlugin
+from cmsplugin_cascade.clipboard.cms_plugins import CascadeClipboardPlugin
+from cmsplugin_cascade.icon.simpleicon import SimpleIconPlugin
+from cmsplugin_cascade.icon.texticon import TextIconPlugin
+from cmsplugin_cascade.bootstrap4.icon import FramedIconPlugin
+from cmsplugin_cascade.bootstrap4.accordion import BootstrapAccordionPlugin
+from cmsplugin_cascade.link.cms_plugins import TextLinkPlugin
+from djangocms_style.cms_plugins import StylePlugin
+
+
+plugin_pool.unregister_plugin(CustomSnippetPlugin)
+plugin_pool.unregister_plugin(AcceptConditionPlugin)
+plugin_pool.unregister_plugin(ValidateSetOfFormsPlugin)
+plugin_pool.unregister_plugin(CascadeClipboardPlugin)
+plugin_pool.unregister_plugin(SimpleIconPlugin)
+plugin_pool.unregister_plugin(TextIconPlugin)
+plugin_pool.unregister_plugin(FramedIconPlugin)
+plugin_pool.unregister_plugin(BootstrapAccordionPlugin)
+plugin_pool.unregister_plugin(TextLinkPlugin)
+plugin_pool.unregister_plugin(StylePlugin)
+
+
+#######################################################################
+# Plugin: Boutique
+#######################################################################
+
+
 class BoutiquePlugin(CMSPluginBase):
     module = 'A Boutique Plugin'
 
@@ -96,7 +129,7 @@ class dmBlocTextCarrouselPlugin(BoutiquePlugin):
 
 @plugin_pool.register_plugin
 class dmBlocTextCarrouselImagePlugin(BoutiquePlugin):
-    name = _("Text With Carrousel")
+    name = _("Image")
     model = dmBlocTextCarrouselImage
     allow_children = False
     require_parent = True
@@ -202,8 +235,7 @@ class dmBlocSliderChildPlugin(BoutiquePlugin):
                 "image"
             ]
         }),
-        (_("Link"), {
-            "classes": ("collapse", ),
+        (_("Button"), {
             "fields": [
                 "btn_label",
                 "btn_url",
@@ -353,9 +385,9 @@ class dmBlocContactPlugin(BoutiquePlugin):
 
     def get_render_template(self, context, instance, placeholder):
         return select_template([
-            "theme/{}/plugins/bloc-infolettre.html".format(
+            "theme/{}/plugins/bloc-contact.html".format(
                 settings.THEME_SLUG
-            ), "plugins/bloc-infolettre.html"
+            ), "plugins/bloc-contact.html"
         ])
 
 
@@ -547,6 +579,7 @@ class dmTestimonialChildPlugin(BoutiquePlugin):
         (None, {
             "fields": [
                 ("name", "name_color"),
+                "job",
                 "photo",
                 "text"
             ]

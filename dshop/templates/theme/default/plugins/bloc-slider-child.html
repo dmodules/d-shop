@@ -10,7 +10,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div class="banner_content overflow-hidden" style="text-align:{% if instance.position_text == 1 %}left{% elif instance.position_text == 2 %}center{% elif instance.position_text == 2 %}right{% endif %};">
+                    <div class="banner_content overflow-hidden" style="text-align:{% if instance.position_text == 1 %}left{% elif instance.position_text == 2 %}center{% elif instance.position_text == 3 %}right{% endif %};">
                     <h5 class="mb-3 staggered-animation" data-animation="slideInLeft" data-animation-delay="0.5s" style="{% if instance.suptitle_color %}color:{{instance.suptitle_color}};{% endif %}">
                         {% if instance.suptitle %}
                             {{instance.suptitle}}

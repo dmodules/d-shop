@@ -37,12 +37,17 @@
                         {% endif %}
                     </div>
                     <div class="col-6 col-md-7 search-name">
-                        <div>
-                            <span>{{p.product_name_trans}}</span>
+                        <div class="dmpage-search-text">
+                            <span><a href="{{p.get_absolute_url}}">{{p.product_name_trans}}</a></span>
                             <span>{{p.caption|striptags}}</span>
                         </div>
+                        {% if p.categories.all %}
+                            <div class="dmpage-search-categories">
+                                {% for c in p.categories.all %}<span>{{ c }}</span>{% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
-                    <div class="col-4 search-btn">
+                    <div class="col-4 align-self-center search-btn">
                         <a href="{{p.get_absolute_url}}" class="btn btn-fill-out">{% trans 'See product' %}</a>
                     </div>
                 </div>

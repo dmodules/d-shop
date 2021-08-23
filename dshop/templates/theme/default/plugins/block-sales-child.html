@@ -6,7 +6,7 @@
             {% thumbnail instance.image "540x300" crop upscale as thumb %}
             <img src="{{thumb.url}}" alt="" />
         {% else %}
-        <img src="{% static 'dshop/shopwise/images/shop_banner_img1.jpg' %}" alt="" />
+            <div style="display:block;width:100%;height:300px;"></div>
         {% endif %}
         <div class="single_banner_info" style="color:{{instance.txt_color}};{% if instance.text_position == 0 %}left:10px;right:auto;{% else %}left:auto;right:0;{% endif %}">
             <h5 class="single_bn_title1" style="color:{{instance.txt_color}}">{% if instance.text %}{{instance.text}}{% endif %}</h5>

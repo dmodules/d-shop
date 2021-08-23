@@ -33,7 +33,7 @@
                                 {{ $i18n.t('LastUpdate') }}
                             </template>
                             <template v-slot:[`item.number`]="{ item }">
-                                <div class="py-2" @click="getQuotationsDetail(item.id+'-'+item.number)">
+                                <div class="cursor-pointer py-2" @click="getQuotationsDetail(item.id+'-'+item.number)">
                                     <span v-text="item.number"></span>
                                 </div>
                             </template>
@@ -57,7 +57,12 @@
             <div v-else-if="isAuth && hasDetail" class="container">
                 <v-row v-if="hasAccess">
                     <v-col cols="12" md="6" class="text-left">
-                        <h2>{{ $i18n.t("YourQuotation") }} #{{ quotationsDetail.number }}</h2>
+                        <h2>
+                            <v-btn tile color="primary" class="dmbtn-nowidth mr-3" @click="hasDetail = false">
+                                <v-icon>mdi-chevron-left</v-icon>
+                            </v-btn>
+                            <span>{{ $i18n.t("YourQuotation") }} #{{ quotationsDetail.number }}</span>
+                        </h2>
                     </v-col>
                     <v-col cols="12" md="6" class="text-left text-md-right">
                         <div class="py-2">
@@ -73,11 +78,14 @@
                         <v-list>
                             <v-list-item>
                                 <v-row class="align-items-center">
-                                    <v-col cols="10" md="9" class="text-left">
+                                    <v-col cols="8" class="text-left">
                                         {{ $i18n.t("Product") }}
                                     </v-col>
-                                    <v-col cols="2" md="3" class="text-center">
+                                    <v-col cols="2" class="text-center">
                                         {{ $i18n.t("Quantity") }}
+                                    </v-col>
+                                    <v-col cols="2" class="text-center">
+                                        {{ $i18n.t("Price") }}
                                     </v-col>
                                 </v-row>
                             </v-list-item>
@@ -85,18 +93,25 @@
                                 <v-divider v-if="n > 0" :key="'divider-'+item.product_code+'-' + n" />
                                 <v-list-item :key="'product-' + n">
                                     <v-row class="align-items-center">
-                                        <v-col cols="2" md="1" class="text-center">
+                                        <v-col cols="2" class="text-center">
                                             <a :href="item.product_url">
                                                 <v-img :src="item.product_image" :alt="item.product_name" />
                                             </a>
                                         </v-col>
-                                        <v-col cols="8" md="8" class="text-left">
+                                        <v-col cols="6" class="text-left">
                                             <a :href="item.product_url">
                                                 <span v-text="item.product_name"></span>
                                             </a>
+                                            <div v-if="item.variant_attribute">
+                                                <span class="secondary--text" v-text="item.variant_attribute"></span>
+                                            </div>
                                         </v-col>
-                                        <v-col cols="2" md="3" class="text-center">
+                                        <v-col cols="2" class="text-center">
                                             <span v-text="item.quantity"></span>
+                                        </v-col>
+                                        <v-col cols="2" class="text-center">
+                                            <span v-if="item.price" v-text="item.price"></span>
+                                            <span v-else>- -</span>
                                         </v-col>
                                     </v-row>
                                 </v-list-item>

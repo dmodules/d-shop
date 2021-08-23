@@ -73,6 +73,9 @@
                                                                 <a :href="item.product_url">
                                                                     <span v-text="item.product_name"></span>
                                                                 </a>
+                                                                <div v-if="item.variant_attribute">
+                                                                    <span class="secondary--text" v-text="item.variant_attribute"></span>
+                                                                </div>
                                                             </v-col>
                                                             <v-col cols="10" md="3" class="text-center">
                                                                 <v-text-field
@@ -414,6 +417,9 @@
                                                                             <a :href="item.product_url">
                                                                                 <span v-text="item.product_name"></span>
                                                                             </a>
+                                                                            <div v-if="item.variant_attribute">
+                                                                                <span class="secondary--text" v-text="item.variant_attribute"></span>
+                                                                            </div>
                                                                         </v-col>
                                                                         <v-col cols="3" class="text-center">
                                                                             <span v-text="item.quantity"></span>

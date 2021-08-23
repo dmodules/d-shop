@@ -80,6 +80,10 @@ const i18n = {
   xofx: {
       fr: "de",
       en: "of"
+  },
+  noproductfound: {
+      fr: "Aucun produit trouvé",
+      en: "No product found"
   }
 }
 
@@ -1164,7 +1168,7 @@ function loadMoreByCategory(cat, tab) {
                 $('#tab'+tab+' .shop_container').append(r)
             })
         } else {
-            $('#tab'+tab+' .shop_container').append(i18n.empty[lang])
+            $('#tab'+tab+' .shop_container').append('<div class="col-12"><div class="product py-5"><div class="product_info"><h6 class="product_title text-center my-5">'+i18n.noproductfound[lang]+' <i class="far fa-frown-open"></i></h6></div></div></div>')
         }
     })
     .then()

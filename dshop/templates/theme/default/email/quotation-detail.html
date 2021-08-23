@@ -25,7 +25,7 @@
 		<tr>
 			<th scope="col" style="text-align: center; padding: 10px; border-bottom: 2px solid #eee;">{% trans "Quantity" %}</th>
 			<th scope="col" colspan="2" style="text-align: center; padding: 10px; border-bottom: 2px solid #eee;">{% trans "Product" %}</th>
-			<th scope="col" style="text-align: center; padding: 10px; border-bottom: 2px solid #eee;">{% trans "Price" %}</th>
+			<th scope="col" style="text-align: center; padding: 10px; border-bottom: 2px solid #eee;">{% trans "Code" %}</th>
 		</tr>
 	</thead>
 {% endblock email-order-head %}
@@ -37,11 +37,13 @@
 			<td style="text-align: center; vertical-align: middle; padding: 20px 10px; border-bottom: 2px solid #eee;">
 				{{ item.quantity }} &times;
 			</td>
-			<td style="text-align: center; vertical-align: middle; padding: 20px 10px; border-bottom: 2px solid #eee;">
-				{{ item.code}};
 			<td colspan="2" style="padding: 20px 10px; border-bottom: 2px solid #eee;">
-				<div style="font-size: 120%; font-weight: bold;">{{ item.name }} {{ item.attributes }} </div>
+				<div style="font-size: 120%; font-weight: bold;">{{ item.name }}</div>
+				<div style="font-size: 90%;">{{ item.attributes }} </div>
 			</td>
+			<td style="text-align: center; vertical-align: middle; padding: 20px 10px; border-bottom: 2px solid #eee;">
+				{{ item.code}}
+            </td>
 		</tr>
 	{% endfor %}
 	</tbody>

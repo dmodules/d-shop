@@ -1,6 +1,11 @@
+import os
+
 from django import template
+from django.apps import apps
 
 from datetime import datetime
+
+from settings import path_to_extended
 
 from shop.money import Money
 from shop.models.defaults.order import Order
@@ -14,6 +19,30 @@ register = template.Library()
 #######################################################################
 
 # Admin
+
+
+@register.simple_tag
+def dm_get_extended_apps():
+    result = []
+    if os.path.exists(path_to_extended):
+        for item in os.listdir(path_to_extended):
+            for a in apps.get_app_configs():
+                if a.name == "extended_apps."+item:
+                    aa = []
+                    for m in a.get_models():
+                        aa.append({
+                            "name": str(m._meta.verbose_name.title()),
+                            "label": str(m.__name__),
+                            "link": m._meta.model_name
+                        })
+                    result.append(
+                        {
+                            "name": str(a.verbose_name),
+                            "label": str(item),
+                            "apps": aa
+                        }
+                    )
+    return result
 
 
 @register.simple_tag

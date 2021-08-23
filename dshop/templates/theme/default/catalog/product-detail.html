@@ -126,7 +126,7 @@
                                         {% endif %}
                                     {% endif %}
                                 </div>
-                                <div class="pr_desc">
+                                <div class="dmproductdetail-caption pr_desc">
                                     {% if product.caption %}
                                         {{product.caption|safe}}
                                     {% elif product.description %}
@@ -168,9 +168,15 @@
                                         </div>
                                     </div>
                                     <div class="cart_btn" style="display:{% if product.variants.first and product.variants.first.quantity == 0 %}none{% else %}block{% endif %};">
-                                        <a href="#" class="btn btn-fill-out btn-add2cart dm-add2cart-variant{% if not product.variants.first %}disabled{% endif %}" data-product="{{product.slug}}" data-quantity="1" data-variant="{{product.variants.first.product_code}}">
-                                            <i class="icon-basket-loaded"></i>{% trans "Add to cart" %}
-                                        </a>
+                                        {% if is_quotation %}
+                                            <a href="#" class="btn btn-fill-out btn-add2cart dm-add2quotation-variant{% if not product.variants.first %}disabled{% endif %}" data-product="{{product.product_code}}" data-quantity="1" data-variant="{{product.variants.first.product_code}}">
+                                                <i class="icon-basket-loaded"></i>{% trans "Add to quotation" %}
+                                            </a>
+                                        {% else %}
+                                            <a href="#" class="btn btn-fill-out btn-add2cart dm-add2cart-variant{% if not product.variants.first %}disabled{% endif %}" data-product="{{product.slug}}" data-quantity="1" data-variant="{{product.variants.first.product_code}}">
+                                                <i class="icon-basket-loaded"></i>{% trans "Add to cart" %}
+                                            </a>
+                                        {% endif %}
                                     </div>
                                     <div class="product-detail-unavailable" style="display:{% if product.variants.first and product.variants.first.quantity == 0 %}block{% else %}none{% endif %};">
                                         <p>{% trans 'Out of stock' %}</p>
@@ -185,9 +191,15 @@
                                             </div>
                                         </div>
                                         <div class="cart_btn">
-                                            <a href="#" class="btn btn-fill-out btn-add2cart dm-add2cart" data-product="{{product.slug}}" data-quantity="1">
-                                                <i class="icon-basket-loaded"></i>{% trans "Add to cart" %}
-                                            </a>
+                                            {% if is_quotation %}
+                                                <a href="#" class="btn btn-fill-out btn-add2cart dm-add2quotation" data-product="{{product.product_code}}" data-quantity="1">
+                                                    <i class="icon-basket-loaded"></i>{% trans "Add to cart" %}
+                                                </a>
+                                            {% else %}
+                                                <a href="#" class="btn btn-fill-out btn-add2cart dm-add2cart" data-product="{{product.slug}}" data-quantity="1">
+                                                    <i class="icon-basket-loaded"></i>{% trans "Add to cart" %}
+                                                </a>
+                                            {% endif %}
                                         </div>
                                     {% else %}
                                         <div class="product-detail-unavailable">
@@ -217,7 +229,7 @@
                             </ul>
                             <div class="tab-content shop_info_tab">
                                 {% if product.description %}
-                                    <div class="tab-pane fade show active" id="Description" role="tabpanel" aria-labelledby="Description-tab">
+                                    <div class="dmproductdetail-description tab-pane fade show active" id="Description" role="tabpanel" aria-labelledby="Description-tab">
                                         {{ product.description|safe }}
                                     </div>
                                 {% endif %}
@@ -258,11 +270,19 @@
                                         <li><a href="{{related.get_absolute_url}}"><i class="ti-info-alt"></i></a></li>
                                         {% if not related.variants and related.quantity > 0 %}
                                             <li>
-                                                <a href="/" onclick="dm_add2cart($(this)); return false" data-product="{{related.slug}}"><i class="icon-basket-loaded"></i></a>
+                                                {% if is_quotation %}
+                                                    <a href="/" onclick="dm_add2quotation($(this)); return false" data-product="{{related.product_code}}"><i class="icon-basket-loaded"></i></a>
+                                                {% else %}
+                                                    <a href="/" onclick="dm_add2cart($(this)); return false" data-product="{{related.slug}}"><i class="icon-basket-loaded"></i></a>
+                                                {% endif %}
                                             </li>
                                         {% elif related.variants and related.variants.count == 1 %}
                                             <li>
-                                                <a href="/" onclick="dm_add2cart_variant($(this)); return false" data-product="{{related.slug}}" data-variant="{{related.variants.first.product_code}}"><i class="icon-basket-loaded"></i></a>
+                                                {% if is_quotation %}
+                                                    <a href="/" onclick="dm_add2quotation_variant($(this)); return false" data-product="{{product.product_code}}" data-variant="{{product.variants.first.product_code}}"><i class="icon-basket-loaded"></i></a>
+                                                {% else %}
+                                                    <a href="/" onclick="dm_add2cart_variant($(this)); return false" data-product="{{related.slug}}" data-variant="{{related.variants.first.product_code}}"><i class="icon-basket-loaded"></i></a>
+                                                {% endif %}
                                             </li>
                                         {% endif %}
                                         </ul>

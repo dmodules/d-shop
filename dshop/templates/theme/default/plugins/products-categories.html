@@ -1,0 +1,71 @@
+{% load cms_tags thumbnail dshop_tags %}
+
+<!-- BEGIN: Plugin: ProductsCategories -->
+<div class="dmplugin-productscategories section py-5">
+    <div class="container">
+        {% if instance.title or instance.text %}
+            <div class="row text-center">
+                <div class="col-12">
+                    {% if instance.title %}
+                        <h2 class="title">
+                            {{instance.title}}
+                        </h2>
+                    {% endif %}
+                    {% if instance.text %}
+                        <div class="subtitle">
+                            {{instance.text|safe}}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+        <div class="row justify-content-evenly">
+            <div class="col-12 py-3 py-lg-0 wow fadeInLeft animated">
+                <div class="dmplugin-textcarrousel">
+                    <div class="product_slider carousel_slider owl-carousel owl-theme nav_style1" data-loop="true" data-dots="true" data-nav="true" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "1"}, "768":{"items": "1"}, "1199":{"items": "4"}}'>
+                        {% dm_get_categories_parents as categories %}
+                        {% for category in categories %}
+                            <div class="product">
+                                {% if LANGUAGE_CODE == "fr" %}
+                                    <a href="/{{ LANGUAGE_CODE }}/produits/category/{{category.id}}-{{category.name|slugify}}">
+                                {% else %}
+                                    <a href="/{{ LANGUAGE_CODE }}/products/category/{{category.id}}-{{category.name|slugify}}">
+                                {% endif %}
+                                    <div class="product_img">
+                                        {% if category.bg_image %}
+                                            <img src="{% thumbnail product.main_image 540x600 background='#ffffff' upscale %}" alt="" />
+                                        {% elif category.product_set.first and category.product_set.first.main_image %}
+                                            <img src="{% thumbnail category.product_set.first.main_image 540x600 background='#ffffff' upscale %}" alt="" />
+                                        {% elif category.product_set.first and category.product_set.first.images.first %}
+                                            <img src="{% thumbnail category.product_set.first.images.first 540x600 background='#ffffff' upscale %}" alt="" />
+                                        {% else %}
+                                            <img src="https://via.placeholder.com/540x600/f7f8fb/f7f8fb" alt="" />
+                                        {% endif %}
+                                    </div>
+                                </a>
+                                <div class="product_info text-left">
+                                    <h6 class="product_title">
+                                        {% if LANGUAGE_CODE == "fr" %}
+                                            <a href="/{{ LANGUAGE_CODE }}/produits/category/{{category.id}}-{{category.name|slugify}}">
+                                        {% else %}
+                                            <a href="/{{ LANGUAGE_CODE }}/products/category/{{category.id}}-{{category.name|slugify}}">
+                                        {% endif %}
+                                            {{category.name_trans}}
+                                        </a>
+                                    </h6>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% if instance.label %}
+                {% page_url "produits" as page_products %}
+                <div class="col-12 text-center pt-5">
+                    <a href="{% if page_products %}{{ page_products }}{% else %}/produits{% endif %}" class="btn btn-fill-out rounded-0">{{ instance.label }}</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<!-- END: Plugin: ProductsCategories -->
