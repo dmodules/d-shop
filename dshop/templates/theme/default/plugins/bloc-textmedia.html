@@ -53,7 +53,7 @@
             {% elif instance.image and instance.colposition == 1 %}
                 <div class="{% if instance.title or instance.subtitle or instance.text %}col-xl-6 col-lg-6 col-md-12{% else %}col-12{% endif %} py-3 py-lg-0 wow fadeInRight animated{% if instance.text_align %} align-self-center{% endif %}">
                     <div class="about-image text-center">
-                        <img src="{% thumbnail instance.image '398x531' crop='scale' as thumb %}" alt="" class="img-fluid" />
+                        <img src="{% thumbnail instance.image '398x531' crop='scale' %}" alt="" class="img-fluid" />
                     </div>
                 </div>
             {% endif %}
