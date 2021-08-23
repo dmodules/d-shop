@@ -1307,6 +1307,14 @@ main > .container > .row {
     display: block;
     padding: 1rem;
 }
+/* ===--- Plugin: Slider ---=== */
+.carousel-control-next:hover,
+.carousel-control-prev:hover,
+.light_arrow .carousel-control-next:hover,
+.light_arrow .carousel-control-prev:hover{
+	background-color: #f16975;
+	color: #fff;
+}
 /* ===--- Plugin: Texts plugins ---=== */
 .about-section .title-bl {
     margin: 0 0 15px;
