@@ -1345,6 +1345,9 @@ main > .container > .row {
     float: left;
     margin: 0 15px 0 0;
 }
+.dmplugin-contact strong {
+    margin: 0 0 0 63px;
+}
 @media (min-width: 991px) {
     .dmplugin-slider + .dmplugin-contact {
         transform: translateY(-50%);
