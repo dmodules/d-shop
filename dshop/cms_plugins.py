@@ -25,8 +25,8 @@ from .models import dmProductsBrands
 # Unregistration useless plugins
 #######################################################################
 
-from shop.cascade.checkout import AcceptConditionPlugin, ValidateSetOfFormsPlugin
-
+from shop.cascade.checkout import AcceptConditionPlugin
+from shop.cascade.checkout import ValidateSetOfFormsPlugin
 from cmsplugin_cascade.generic.custom_snippet import CustomSnippetPlugin
 from cmsplugin_cascade.clipboard.cms_plugins import CascadeClipboardPlugin
 from cmsplugin_cascade.icon.simpleicon import SimpleIconPlugin
