@@ -58,8 +58,9 @@
                                         </select>
                                     </div>
                                     <div class="products_view">
-                                        <a href="javascript:Void(0);" class="shorting_icon grid active"><i class="ti-view-grid"></i></a>
-                                        <a href="javascript:Void(0);" class="shorting_icon list"><i class="ti-layout-list-thumb"></i></a>
+                                        {% dm_get_cookie "dm_products_view" as product_view %}
+                                        <a href="#" onclick="dmSetCookie('dm_products_view', 'grid', 30);" class="shorting_icon grid{% if product_view is None or product_view == 'grid' %} active{% endif %}"><i class="ti-view-grid"></i></a>
+                                        <a href="#" onclick="dmSetCookie('dm_products_view', 'list', 30);" class="shorting_icon list{% if product_view == 'list' %} active{% endif %}"><i class="ti-layout-list-thumb"></i></a>
                                     </div>
                                     <div class="dmfilters-mobile d-md-none">
                                         <a href="#" onclick="toggleMenuFilteringMobile();return false;"><i class="ti-check-box"></i></a>
@@ -183,7 +184,7 @@
                                 </div>
                             </div>
                         {% endif %}
-                        <div class="{% if filter_data.brands|length > 0 or filter_data.categories|length > 0 or filter_data.filter.items|length > 1 or filter_data.filter.default.filter|length > 0 or filter_data.attribute|length > 0 %}col-md-10{% else %}col-12{% endif %} row shop_container grid produits">
+                        <div class="{% if filter_data.brands|length > 0 or filter_data.categories|length > 0 or filter_data.filter.items|length > 1 or filter_data.filter.default.filter|length > 0 or filter_data.attribute|length > 0 %}col-md-10{% else %}col-12{% endif %} row shop_container {% if product_view is None %}grid{% else %}{{ product_view }}{% endif %} produits">
                             {% for product in products %}
                                 <div class="produit col-md-4 col-6" data-filters="tous{% for filter in product.filters.all %} {{filter.name|slugify}}{% endfor %}">
                                     <div class="product">
