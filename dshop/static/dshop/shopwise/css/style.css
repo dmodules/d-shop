@@ -5644,7 +5644,7 @@ footer .widget_title {
 	position: absolute;
 	top: 20px;
 	right: 20px;
-	z-index: 999;
+	z-index: 108;
 	font-size: 18px;
 	background-color: #FAFAFA;
 	width: 40px;
