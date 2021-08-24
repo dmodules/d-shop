@@ -951,8 +951,11 @@ function toggleSubmenu(e) {
 
 function stickyMenu() {
     if ($(window).scrollTop() >= 500) {
+        let h = $(".tophead-botnav").height()
+        $(".tophead-topnav").css("margin-top", h+"px")
         $(".tophead-botnav").addClass("sticky")
     } else {
+        $(".tophead-topnav").css("margin-top", "0")
         $(".tophead-botnav").removeClass("sticky")
     }
 }
