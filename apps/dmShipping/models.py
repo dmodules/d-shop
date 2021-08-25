@@ -39,14 +39,7 @@ class ShippingManagement(TranslatableModel):
         ),
     ]
 
-    name = models.CharField(
-        verbose_name=_("Name"),
-        max_length=255,
-        blank=False,
-        null=False,
-        help_text=_("Maximum 255 characters.")
-    )
-    name_trans = TranslatedField()
+    name = TranslatedField()
     identifier = models.CharField(
         verbose_name=_("Identifier"),
         max_length=100,
@@ -91,7 +84,7 @@ class ShippingManagement(TranslatableModel):
     class Meta:
         verbose_name = _("Shipping Method")
         verbose_name_plural = _("Shipping Methods")
-        ordering = ["name", "-pk"]
+        ordering = ["-pk"]
 
     def get_price(self):
         return str(self.price)
@@ -110,7 +103,7 @@ class ShippingManagementTranslation(TranslatedFieldsModel):
         related_name="translations",
         null=True
     )
-    name_trans = models.CharField(
+    name = models.CharField(
         verbose_name=_("Translated Attribute Name"),
         max_length=255,
     )

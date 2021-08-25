@@ -1,6 +1,10 @@
 import json
 from django.db.models import Q
 from django.http import HttpResponse
+from django.urls import reverse
+
+from shop.money import Money
+
 from .models import ShippingManagement, ShippingAllowed
 from cities_light.models import Country, Region, City
 from dal import autocomplete
@@ -153,10 +157,31 @@ def get_data(request):  # noqa: C901
                     temp[c.id] = c.name
             if temp:
                 temp_ct[state[1]] = temp
-
+    # ===---
+    separator = None
+    if sm.separator:
+        currency = str(Money(sm.separator)).split(" ")[0]
+        if sm.price_after:
+            after_txt = str(Money(sm.price_after))
+        else:
+            after_txt = currency + " 0"
+        try:
+            link = reverse("produits")
+        except Exception:
+            link = "/"
+        separator = {
+            "currency": currency,
+            "goal": float(sm.separator),
+            "goal_txt": str(Money(sm.separator)),
+            "after": float(sm.price_after) if sm.price_after else 0,
+            "after_txt": after_txt,
+            "link": link
+        }
+    # ===---
     data = {
         'countries': temp_co,
         'states': temp_st,
         'cities': temp_ct,
+        "separator": separator
     }
     return HttpResponse(json.dumps({"valid": True, "datas": data}))

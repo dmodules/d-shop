@@ -36,7 +36,7 @@ class ShippingManagementAdmin(TranslatableAdmin):
     fieldsets = ((None, {
         "fields": [
             "identifier",
-            "name_trans",
+            "name",
             "price",
             "taxed_shipping"
         ],

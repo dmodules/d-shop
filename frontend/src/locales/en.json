@@ -61,6 +61,10 @@
 
   "Methodedelivraison": "Shipping's Method",
   "Methodedepaiement": "Billing's Method",
+  "Youonlyneedxtotakeadvantageofadeliverydiscount": "You're only missing {need} to take advantage of a {price} delivery!",
+  "freedelivery": "free",
+  "discountdelivery": "{price}",
+  "ContinueShopping": "Continue your shopping",
   "Resumedevotrecommande": "Order's Details",
   "Quantite": "Quantity",
   "Produit": "Product",

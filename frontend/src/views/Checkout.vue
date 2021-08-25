@@ -162,6 +162,14 @@
                               {{ $i18n.t("Nomethodesdexpedition") }}
                             </v-alert>
                           </v-col>
+                          <v-col v-if="deliveryDiscount" cols="12">
+                            <v-alert text color="info" class="pa-5">
+                              <div v-text="$i18n.t('Youonlyneedxtotakeadvantageofadeliverydiscount', {need: deliveryDiscount.need, price: deliveryDiscount.price})" class="mb-5"></div>
+                              <v-btn color="primary" :href="deliveryDiscount.link">
+                                  <span v-text="$i18n.t('ContinueShopping')"></span>
+                              </v-btn>
+                            </v-alert>
+                          </v-col>
                         </v-row>
                       </v-form>
                     </v-card-text>
@@ -1023,6 +1031,7 @@ export default {
     tagShippingMethod: "",
     tagBillingMethod: "",
     tagNote: "",
+    deliveryDiscount: null,
     listPromoCodes: [],
     tosLink: "/"
   }),
@@ -1169,6 +1178,7 @@ export default {
     setShippingMethod () {
         let self = this
         let modifier = this.formShippingMethod.shipping_method.shipping_modifier
+        this.$set(this, "deliveryDiscount", null)
         // ===--- BEGIN: axios
         this.$axios.get(this.$web_url + "/shipping/get-data/?identifier="+modifier, {
             headers: {
@@ -1185,6 +1195,22 @@ export default {
                 }
                 if (apiSuccess.data.datas.cities) {
                     self.$set(self.formChoix, "shippingCities", apiSuccess.data.datas.cities)
+                }
+                if (apiSuccess.data.datas.separator && self.formPayment.subtotal) {
+                    let need = apiSuccess.data.datas.separator.goal - parseFloat(self.formPayment.subtotal.replace(apiSuccess.data.datas.separator.currency, ""))
+                    if (need > 0) {
+                        let deliveryprice = apiSuccess.data.datas.separator.after_txt
+                        if (apiSuccess.data.datas.separator.after <= 0) {
+                            deliveryprice = self.$i18n.t("freedelivery")
+                        } else {
+                            deliveryprice = self.$i18n.t("discountdelivery", {price: apiSuccess.data.datas.separator.after_txt})
+                        }
+                        self.$set(self, "deliveryDiscount", {
+                            need: apiSuccess.data.datas.separator.currency + " " + String(need),
+                            price: deliveryprice,
+                            link: apiSuccess.data.datas.separator.link
+                        })
+                    }
                 }
                 self.setCountriesList()
             }
@@ -1351,6 +1377,9 @@ export default {
                 self.$set(self.formError.customer, 'email', self.$i18n.t("Anerroroccured"))
             })
             // ===--- END: axios
+        } else if (this.stepCheckout === 1) {
+            this.setShippingMethod()
+            this.doUpload(next, datas)
         } else {
             this.doUpload(next, datas)
         }

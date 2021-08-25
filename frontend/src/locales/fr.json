@@ -61,6 +61,10 @@
 
   "Methodedelivraison": "Méthode de livraison",
   "Methodedepaiement": "Méthode de paiement",
+  "Youonlyneedxtotakeadvantageofadeliverydiscount": "Il vous manque seulement {need} pour profiter d'une livraison {price} !",
+  "freedelivery": "gratuite",
+  "discountdelivery": "à {price}",
+  "ContinueShopping": "Continuez vos achats",
   "Resumedevotrecommande": "Résumé de votre commande",
   "Quantite": "Quantité",
   "Produit": "Produit",
