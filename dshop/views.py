@@ -365,13 +365,7 @@ class LoadFilters(APIView):
                     url = ''
                     if filt.image:
                         url = filt.image.url
-                    try:
-                        if filt.name_trans:
-                            name = filt.name_trans
-                        else:
-                            name = filt.name
-                    except Exception:
-                        name = filt.name
+                    name = filt.name
                     # ===---
                     filters.append({
                         'id': filt.id,
@@ -381,29 +375,20 @@ class LoadFilters(APIView):
                         'description': ''
                     })
                 temp['filter'] = filters
-                if group.name_trans:
-                    group_name = group.name_trans
-                else:
-                    group_name = group.name
+                group_name = group.name
                 data[group_name] = temp
         temp = {}
         # ===--- Filters without group
         filters = []
         for filt in ProductFilter.objects.filter(group=None):
-            try:
-                name = filt.name_trans if filt.name_trans else filt.name
-            except Exception:
-                name = filt.name
+            name = filt.name
             filters.append({'id': filt.id, 'name': name, 'order': filt.order})
         data['default'] = {'filter': filters}
         # ===---
 
         a_data = {}
         for attr in Attribute.objects.all():
-            try:
-                name = attr.name_trans if attr.name_trans else attr.name
-            except Exception:
-                name = attr.name
+            name = attr.name
             a_data[name] = {}
             a_data[name]["id"] = attr.id
             a_data[name]["values"] = []
@@ -420,23 +405,14 @@ class LoadFilters(APIView):
         categories = ProductCategory.objects.filter(parent=None, active=True)
         cat_data = []
         for cat in categories:
-            try:
-                name = cat.name_trans if cat.name_trans else cat.name
-            except Exception:
-                name = cat.name
+            name = cat.name
             cat_d = {'id': cat.id, 'name': name}
             child_c = []
             categories = ProductCategory.objects.filter(
                 parent=cat, active=True
             )
             for child in categories:
-                try:
-                    if child.name_trans:
-                        child_name = child.name_trans
-                    else:
-                        child_name = child.name
-                except Exception:
-                    child_name = child.name
+                child_name = child.name
                 child_c.append({'id': child.id, 'name': child_name})
             cat_d['child'] = child_c
             cat_data.append(cat_d)

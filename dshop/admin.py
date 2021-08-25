@@ -507,7 +507,6 @@ class ProductCategoryAdmin(TranslatableAdmin, DraggableMPTTAdmin):
         (None, {
             "fields": [
                 ("name"),
-                ("name_trans"),
                 ("parent"),
                 ("order"),
                 ("active")
@@ -540,14 +539,9 @@ class ProductFilterGroupAdmin(TranslatableAdmin):
     list_display = ["name", "order"]
     list_editable = ["order"]
     fieldsets = (
-        (None, {
-            "fields": [
-                ("name")
-            ]
-        }),
         (_("Translatable Fields"), {
             "fields": [
-                "name_trans"
+                "name"
             ]
         }),
         (None, {
@@ -568,11 +562,6 @@ class ProductFilterAdmin(TranslatableAdmin):
             "fields": [
                 ("group"),
                 ("name")
-            ]
-        }),
-        (_("Translatable Fields"), {
-            "fields": [
-                "name_trans",
             ]
         }),
         (None, {
@@ -623,7 +612,6 @@ class ProductDefaultAdmin(
         (None, {
             "fields": [
                 ("product_name", "slug"),
-                ("product_name_trans",),
                 ("product_code", "unit_price", "discounted_price"),
                 ("start_date", "end_date"),
                 "quantity",
@@ -633,6 +621,7 @@ class ProductDefaultAdmin(
         }),
         (_("Translatable Fields"), {
             "fields": [
+                ("product_name_trans",),
                 "caption",
                 "description"
             ]
@@ -752,13 +741,13 @@ class ProductVariableAdmin(
         (None, {
             "fields": [
                 ("product_name", "slug"),
-                ("product_name_trans",),
                 "active",
                 "is_vedette"
             ]
         }),
         (_("Translatable Fields"), {
             "fields": [
+                ("product_name_trans",),
                 "caption",
                 "description"
             ]
@@ -925,8 +914,11 @@ class ProductAdmin(PolymorphicParentModelAdmin):
     list_display_links = ["product_name"]
     search_fields = ["product_name"]
     list_filter = [
-        "categories", "brand",
-        "label", GetProductOutOrLow, PolymorphicChildModelFilter
+        GetProductOutOrLow,
+        "categories",
+        "brand",
+        "label",
+        PolymorphicChildModelFilter
     ]
     list_per_page = 100
     list_max_show_all = 1000

@@ -347,14 +347,7 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel, TranslatableModel):
         (3, _("Right"))
     ]
 
-    name = models.CharField(
-        verbose_name=_("Category's Name"),
-        max_length=255,
-        null=False,
-        blank=False,
-        help_text=_("Maximum 255 characters.")
-    )
-    name_trans = TranslatedField()
+    name = TranslatedField()
     parent = TreeForeignKey(
         "self",
         on_delete=models.CASCADE,
@@ -427,7 +420,7 @@ class ProductCategory(CMSPageReferenceMixin, MPTTModel, TranslatableModel):
 
     class MPTTMeta:
         level_attr = 'mptt_level'
-        order_insertion_by = ['name']
+        order_insertion_by = ['order']
 
     def __str__(self):
         if self.parent is not None:
@@ -465,8 +458,8 @@ class ProductCategoryTranslation(TranslatedFieldsModel):
         related_name="translations",
         null=True
     )
-    name_trans = models.CharField(
-        verbose_name=_("Translated Category Name"),
+    name = models.CharField(
+        verbose_name=_("Category Name"),
         max_length=255,
         help_text=_("Maximum 255 characters.")
     )
@@ -477,14 +470,7 @@ class ProductCategoryTranslation(TranslatedFieldsModel):
 
 class ProductFilterGroup(TranslatableModel):
 
-    name = models.CharField(
-        verbose_name=_("Filter's Group Name"),
-        max_length=255,
-        null=False,
-        blank=False,
-        help_text=_("Maximum 255 characters.")
-    )
-    name_trans = TranslatedField()
+    name = TranslatedField()
     order = models.PositiveSmallIntegerField(
         verbose_name=_("Sort by"),
         default=0,
@@ -495,10 +481,13 @@ class ProductFilterGroup(TranslatableModel):
     class Meta:
         verbose_name = _("Product's Filter Group")
         verbose_name_plural = _("Product's Filter Groups")
-        ordering = ["order", "name"]
+        ordering = ["order", "-pk"]
 
     def __str__(self):
-        return self.name
+        if self.name:
+            return self.name
+        else:
+            return str(_("Filter Group"))
 
 
 class ProductFilterGroupTranslation(TranslatedFieldsModel):
@@ -512,8 +501,8 @@ class ProductFilterGroupTranslation(TranslatedFieldsModel):
         related_name="translations",
         null=True
     )
-    name_trans = models.CharField(
-        verbose_name=_("Translated Filter's Group Name"),
+    name = models.CharField(
+        verbose_name=_("Filter's Group Name"),
         max_length=255,
         null=True,
         blank=True,
@@ -537,14 +526,7 @@ class ProductFilter(TranslatableModel):
         null=True,
         help_text=_("Add a group to Filter.")
     )
-    name = models.CharField(
-        verbose_name=_("Filter's Name"),
-        max_length=255,
-        null=False,
-        blank=False,
-        help_text=_("Maximum 255 characters.")
-    )
-    name_trans = TranslatedField()
+    name = TranslatedField()
     image = image.FilerImageField(
         verbose_name=_("image"),
         related_name="filter_image",
@@ -569,8 +551,11 @@ class ProductFilter(TranslatableModel):
 
     def __str__(self):
         if self.group:
-            return self.group.name + " : " + self.name
-        return self.name
+            return str(self.group) + " : " + str(self.name)
+        elif self.name:
+            return str(self.name)
+        else:
+            return str(_("Filter"))
 
 
 class ProductFilterTranslation(TranslatedFieldsModel):
@@ -584,8 +569,8 @@ class ProductFilterTranslation(TranslatedFieldsModel):
         related_name="translations",
         null=True
     )
-    name_trans = models.CharField(
-        verbose_name=_("Translated Filter's Name"),
+    name = models.CharField(
+        verbose_name=_("Filter's Name"),
         max_length=255,
         null=True,
         blank=True,

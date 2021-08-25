@@ -163,7 +163,7 @@
                     <h6 class="widget_title">{% trans "Categories" %}</h6>
                     <ul class="widget_links">
                         {% for category in categories %}
-                        <li><a href="/produits/{{category.id}}-{{category.name_trans|slugify}}">{{category.name_trans}}</a></li>
+                            <li><a href="/produits/{{category.id}}-{{category.name|slugify}}">{{category.name}}</a></li>
                         {% endfor %}
                     </ul>
                     </div>

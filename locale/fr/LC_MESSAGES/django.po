@@ -2021,7 +2021,7 @@ msgstr "Convertir en variable"
 
 #: dshop/admin.py:873
 msgid "Low or Out of Stock"
-msgstr "Faible ou épuisé"
+msgstr "Inventaire faible ou épuisé"
 
 #: dshop/admin.py:878
 #: dshop/templates/theme/default/catalog/product-detail.html:182

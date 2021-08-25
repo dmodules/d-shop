@@ -24,7 +24,7 @@
                         {% if product.categories.count > 0 %}
                             <div class="breadcrumbs-item">
                                 {% for category in product.categories.all %}
-                                    <a href="{% if produits_url %}{{ url_produits }}{% else %}/produits/{% endif %}category/{{category.id}}-{{category.name|slugify}}">{{category.name_trans}}</a>
+                                    <a href="{% if produits_url %}{{ url_produits }}{% else %}/produits/{% endif %}category/{{category.id}}-{{category.name|slugify}}">{{category.name}}</a>
                                 {% endfor %}
                             </div>
                         {% endif %}
@@ -33,7 +33,7 @@
                                 <small>
                                     {% for f in product.filters.all %}
                                         <a href="{% if produits_url %}{{ url_produits }}{% else %}/produits/{% endif %}?filter={{f.id}}">
-                                            {% if f.group and f.group.name_trans %}{{ f.group.name_trans }} :{% elif f.group %}{{ f.group.name }} :{% endif %} {% if f.name_trans %}{{ f.name_trans }}{% else %}{{ f.name }}{% endif %}
+                                            {% if f.group %}{{ f.group.name }} :{% endif %} {{ f.name }}
                                         </a>
                                     {% endfor %}
                                 </small>
