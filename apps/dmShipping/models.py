@@ -116,10 +116,10 @@ class ShippingCountry(models.Model):
 
     name = models.CharField(
         verbose_name=_("Country Name"),
-        max_length=50,
+        max_length=255,
         blank=False,
         null=False,
-        help_text=_("Maximum 50 characters.")
+        help_text=_("Maximum 255 characters.")
     )
     code = models.CharField(
         verbose_name=_("Country Code"),
@@ -151,10 +151,10 @@ class ShippingState(models.Model):
     )
     name = models.CharField(
         verbose_name=_("State Name"),
-        max_length=100,
+        max_length=255,
         blank=False,
         null=False,
-        help_text=_("Maximum 50 characters.")
+        help_text=_("Maximum 255 characters.")
     )
     code = models.CharField(
         verbose_name=_("State Code"),
@@ -185,17 +185,17 @@ class ShippingCity(models.Model):
     )
     name = models.CharField(
         verbose_name=_("City Name"),
-        max_length=50,
+        max_length=255,
         blank=False,
         null=False,
-        help_text=_("Maximum 50 characters.")
+        help_text=_("Maximum 255 characters.")
     )
     code = models.CharField(
         verbose_name=_("City Code"),
         max_length=10,
         blank=False,
         null=False,
-        help_text=_("Maximum 2 characters.")
+        help_text=_("Maximum 10 characters.")
     )
 
     class Meta:

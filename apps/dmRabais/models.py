@@ -21,8 +21,8 @@ class dmRabaisPerCategory(models.Model):
     ]
     name = models.CharField(
         verbose_name=_("Name"),
-        max_length=100,
-        help_text=_("Maximum 100 characters.")
+        max_length=255,
+        help_text=_("Maximum 255 characters.")
     )
     amount = models.DecimalField(
         verbose_name=_("Amount"),
@@ -82,14 +82,14 @@ class dmPromoCode(models.Model):
     ]
     name = models.CharField(
         verbose_name=_("Name"),
-        max_length=100,
+        max_length=255,
         blank=False,
         null=False,
-        help_text=_("Maximum 100 characters.")
+        help_text=_("Maximum 255 characters.")
     )
     code = models.CharField(
         verbose_name=_("Code"),
-        max_length=120,
+        max_length=255,
         blank=True,
         null=False,
         help_text=_("Leave blank to auto-generate a random code.")

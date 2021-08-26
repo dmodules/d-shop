@@ -12,15 +12,15 @@ class dmStockLog(models.Model):
     ]
     product_name = models.CharField(
         verbose_name=_("Product Name"),
-        max_length=100,
+        max_length=255,
     )
     product_square_code = models.CharField(
         verbose_name=_("Product Square Code"),
-        max_length=100,
+        max_length=255,
     )
     variant_square_code = models.CharField(
         verbose_name=_("Variant Square Code"),
-        max_length=100,
+        max_length=255,
     )
     old_quantity = models.IntegerField(
         _("Old Quantity"),

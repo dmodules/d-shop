@@ -25,26 +25,82 @@ from .models import dmProductsBrands
 # Unregistration useless plugins
 #######################################################################
 
+from shop.cascade.auth import ShopAuthenticationPlugin
+from shop.cascade.cart import ShopCartPlugin
+from shop.cascade.catalog import ShopCatalogPlugin
+from shop.cascade.catalog import ShopProductGallery
+from shop.cascade.catalog import ShopAddToCartPlugin
 from shop.cascade.checkout import AcceptConditionPlugin
 from shop.cascade.checkout import ValidateSetOfFormsPlugin
+from shop.cascade.checkout import ShippingMethodFormPlugin
+from shop.cascade.checkout import PaymentMethodFormPlugin
+from shop.cascade.checkout import ExtraAnnotationFormPlugin
+from shop.cascade.checkout import ShopProceedButton
+from shop.cascade.checkout import CheckoutAddressPlugin
+from shop.cascade.checkout import GuestFormPlugin
+from shop.cascade.checkout import CustomerFormPlugin
+from shop.cascade.checkout import RequiredFormFieldsPlugin
+from shop.cascade.order import ShopOrderAddendumFormPlugin
+from shop.cascade.order import ShopReorderButtonPlugin
+from shop.cascade.processbar import ProcessBarPlugin
+from shop.cascade.search import ShopSearchResultsPlugin
 from cmsplugin_cascade.generic.custom_snippet import CustomSnippetPlugin
 from cmsplugin_cascade.clipboard.cms_plugins import CascadeClipboardPlugin
 from cmsplugin_cascade.icon.simpleicon import SimpleIconPlugin
 from cmsplugin_cascade.icon.texticon import TextIconPlugin
 from cmsplugin_cascade.bootstrap4.icon import FramedIconPlugin
 from cmsplugin_cascade.bootstrap4.accordion import BootstrapAccordionPlugin
+from cmsplugin_cascade.bootstrap4.card import BootstrapCardHeaderPlugin
+from cmsplugin_cascade.bootstrap4.card import BootstrapCardBodyPlugin
+from cmsplugin_cascade.bootstrap4.card import BootstrapCardFooterPlugin
+from cmsplugin_cascade.bootstrap4.card import BootstrapCardPlugin
+from cmsplugin_cascade.bootstrap4.carousel import BootstrapCarouselPlugin
+from cmsplugin_cascade.bootstrap4.embeds import BootstrapYoutubePlugin
+from cmsplugin_cascade.bootstrap4.image import BootstrapImagePlugin
+from cmsplugin_cascade.bootstrap4.picture import BootstrapPicturePlugin
+from cmsplugin_cascade.bootstrap4.jumbotron import BootstrapJumbotronPlugin
+from cmsplugin_cascade.bootstrap4.tabs import BootstrapTabSetPlugin
+from cmsplugin_cascade.bootstrap4.tabs import BootstrapTabPanePlugin
 from cmsplugin_cascade.link.cms_plugins import TextLinkPlugin
 from djangocms_style.cms_plugins import StylePlugin
 
 
+plugin_pool.unregister_plugin(ShopAuthenticationPlugin)
+plugin_pool.unregister_plugin(ShopCartPlugin)
+plugin_pool.unregister_plugin(ShopCatalogPlugin)
+plugin_pool.unregister_plugin(ShopProductGallery)
+plugin_pool.unregister_plugin(ShopAddToCartPlugin)
 plugin_pool.unregister_plugin(CustomSnippetPlugin)
 plugin_pool.unregister_plugin(AcceptConditionPlugin)
 plugin_pool.unregister_plugin(ValidateSetOfFormsPlugin)
+plugin_pool.unregister_plugin(ShippingMethodFormPlugin)
+plugin_pool.unregister_plugin(PaymentMethodFormPlugin)
+plugin_pool.unregister_plugin(ExtraAnnotationFormPlugin)
+plugin_pool.unregister_plugin(ShopProceedButton)
+plugin_pool.unregister_plugin(CheckoutAddressPlugin)
+plugin_pool.unregister_plugin(GuestFormPlugin)
+plugin_pool.unregister_plugin(CustomerFormPlugin)
+plugin_pool.unregister_plugin(RequiredFormFieldsPlugin)
+plugin_pool.unregister_plugin(ShopOrderAddendumFormPlugin)
+plugin_pool.unregister_plugin(ShopReorderButtonPlugin)
+plugin_pool.unregister_plugin(ProcessBarPlugin)
+plugin_pool.unregister_plugin(ShopSearchResultsPlugin)
 plugin_pool.unregister_plugin(CascadeClipboardPlugin)
 plugin_pool.unregister_plugin(SimpleIconPlugin)
 plugin_pool.unregister_plugin(TextIconPlugin)
 plugin_pool.unregister_plugin(FramedIconPlugin)
 plugin_pool.unregister_plugin(BootstrapAccordionPlugin)
+plugin_pool.unregister_plugin(BootstrapCardHeaderPlugin)
+plugin_pool.unregister_plugin(BootstrapCardBodyPlugin)
+plugin_pool.unregister_plugin(BootstrapCardFooterPlugin)
+plugin_pool.unregister_plugin(BootstrapCardPlugin)
+plugin_pool.unregister_plugin(BootstrapCarouselPlugin)
+plugin_pool.unregister_plugin(BootstrapYoutubePlugin)
+plugin_pool.unregister_plugin(BootstrapImagePlugin)
+plugin_pool.unregister_plugin(BootstrapPicturePlugin)
+plugin_pool.unregister_plugin(BootstrapJumbotronPlugin)
+plugin_pool.unregister_plugin(BootstrapTabSetPlugin)
+plugin_pool.unregister_plugin(BootstrapTabPanePlugin)
 plugin_pool.unregister_plugin(TextLinkPlugin)
 plugin_pool.unregister_plugin(StylePlugin)
 

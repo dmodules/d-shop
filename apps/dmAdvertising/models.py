@@ -83,8 +83,8 @@ class dmAdvertisingPopup(TranslatableModel):
     """Model for Advertising Alert on a popup"""
     title = models.CharField(
         verbose_name=_("Title"),
-        max_length=75,
-        help_text=_("Maximum 75 characters.")
+        max_length=255,
+        help_text=_("Maximum 255 characters.")
     )
     image = TranslatedField()
     link = TranslatedField()
