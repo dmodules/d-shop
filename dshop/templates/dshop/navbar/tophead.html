@@ -42,10 +42,8 @@
             <a class="dm-logo" href="/">
                 {% dm_get_logos as logos %}
                 {% if logos %}
-                    {% thumbnail logos.logolight "100x20" upscale as thumb_light %}
-                    {% thumbnail logos.logodark "100x20" upscale as thumb_dark %}
-                    <img class="light-logo" src="{{thumb_light.url}}" alt="logo" />
-                    <img class="dark-logo" src="{{thumb_dark.url}}" alt="logo" />
+                    <img class="light-logo" src="{% thumbnail logos.logolight '214x34' upscale %}" alt="logo" />
+                    <img class="dark-logo" src="{% thumbnail logos.logodark '214x34' upscale %}" alt="logo" />
                 {% endif %}
             </a>
         </div>

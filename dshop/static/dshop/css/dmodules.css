@@ -200,9 +200,27 @@ main > .container > .row {
     display: none;
 }
 
+#tophead .tophead-topnav .tophead-icon.dm-cart.dmico-sticky {
+    color: #fff;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    margin: 5px 12px;
+}
+html.cms-ready #tophead .tophead-topnav .tophead-icon.dm-cart.dmico-sticky {
+    top: 46px;
+}
+#tophead .tophead-topnav .tophead-icon.dm-cart.dmico-sticky:hover {
+    color: #f16975;
+}
+
 @media (max-width: 767px) {
     #tophead .tophead-topnav .dm-logo img {
         max-height: 30px;
+    }
+    #tophead .tophead-topnav .tophead-icon.dm-cart.dmico-sticky {
+        display: none;
     }
 }
 
@@ -227,8 +245,9 @@ main > .container > .row {
     }
     #tophead .tophead-botnav.sticky .botnav-logo {
         display: inline-block;
+        float: left;
         padding: 4px;
-        margin-right: 10vw;
+        margin: 0 0 0 4px;
     }
 }
 .dm-main-menu {
@@ -239,15 +258,6 @@ main > .container > .row {
     position: relative;
     padding: 0;
     margin: 0;
-}
-@media (min-width: 768px) and (max-width: 1023px) {
-    #tophead .tophead-botnav.sticky .botnav-logo {
-        float: left;
-        margin-left: 1rem;
-    }
-    #tophead .tophead-botnav.sticky .dm-main-menu {
-        float: right;
-    }
 }
 #tophead .tophead-topnav .tophead-icon.dm-main-menu-mobile {
     font-size: 13px;

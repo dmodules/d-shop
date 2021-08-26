@@ -954,9 +954,11 @@ function stickyMenu() {
         let h = $(".tophead-botnav").height()
         $(".tophead-topnav").css("margin-top", h+"px")
         $(".tophead-botnav").addClass("sticky")
+        $("#dshop-toggle-cart").addClass("dmico-sticky")
     } else {
         $(".tophead-topnav").css("margin-top", "0")
         $(".tophead-botnav").removeClass("sticky")
+        $("#dshop-toggle-cart").removeClass("dmico-sticky")
     }
 }
 
