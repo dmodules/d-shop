@@ -64,7 +64,10 @@ from cmsplugin_cascade.bootstrap4.tabs import BootstrapTabSetPlugin
 from cmsplugin_cascade.bootstrap4.tabs import BootstrapTabPanePlugin
 from cmsplugin_cascade.link.cms_plugins import TextLinkPlugin
 from djangocms_style.cms_plugins import StylePlugin
-from shop.cascade.checkout import PaymentMethodFormPlugin
+
+if cart_modifiers_pool.get_payment_modifiers():
+    from shop.cascade.checkout import PaymentMethodFormPlugin
+    plugin_pool.unregister_plugin(PaymentMethodFormPlugin)
 
 
 plugin_pool.unregister_plugin(ShopAuthenticationPlugin)
@@ -104,9 +107,6 @@ plugin_pool.unregister_plugin(BootstrapTabSetPlugin)
 plugin_pool.unregister_plugin(BootstrapTabPanePlugin)
 plugin_pool.unregister_plugin(TextLinkPlugin)
 plugin_pool.unregister_plugin(StylePlugin)
-
-if cart_modifiers_pool.get_payment_modifiers():
-    plugin_pool.unregister_plugin(PaymentMethodFormPlugin)
 
 
 #######################################################################
