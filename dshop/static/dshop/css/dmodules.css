@@ -3,6 +3,11 @@ html{
   max-width: 100vw;
   overflow-x: hidden;
 }
+
+html.cms-ready div.cms .cms-sideframe {
+    margin-top: 46px;
+}
+
 body{
   background-color:#fbfbfb;
   color:#202325;
