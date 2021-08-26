@@ -16,19 +16,15 @@ class dmAlertPublicitaireAdmin(TranslatableAdmin):
     list_filter = ["is_active"]
     search_fields = ["text", "link"]
     fieldsets = [
-        (None, {
+        (_("Translatable Fields"), {
             "fields": [
                 ("text"),
-                ("link", "open_blank"),
-                ("is_active")
+                ("link", "open_blank")
             ]
         }),
         (None, {
             "fields": [
-            ]
-        }),
-        (None, {
-            "fields": [
+                ("is_active"),
                 ("valid_from", "valid_until")
             ]
         })
@@ -46,11 +42,32 @@ class dmAlertPublicitaireAdmin(TranslatableAdmin):
 
 
 @admin.register(dmAdvertisingPopup)
-class dmAdvertisingPopupAdmin(admin.ModelAdmin):
+class dmAdvertisingPopupAdmin(TranslatableAdmin):
     list_display = ["__str__", "shown", "get_debut", "get_fin", "is_active"]
     list_filter = ["is_active"]
     search_fields = ["title", "link"]
     readonly_fields = ["shown"]
+    fieldsets = [
+        (None, {
+            "fields": [
+                ("title"),
+                ("close_30days"),
+                ("is_active"),
+                ("valid_from", "valid_until")
+            ]
+        }),
+        (_("Translatable Fields"), {
+            "fields": [
+                "image",
+                "link"
+            ]
+        }),
+        (None, {
+            "fields": [
+                ("shown")
+            ]
+        })
+    ]
 
     def get_debut(self, obj):
         return obj.valid_from

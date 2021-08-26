@@ -752,6 +752,18 @@ form .form-row.dynamic-variants .field-variant_image .filer-dropzone .filerFile 
     display: inline-block;
     width: calc(100% - 160px);
 }
+.dm-admin-main .aligned .checkbox-row label {
+    width: 90%;
+}
+.dm-admin-main .aligned .selector-filter label {
+    width: auto;
+}
+.dm-admin-main .aligned .selector-filter label + input {
+    width: calc(100% - 32px);
+}
+.dm-admin-main .related-widget-wrapper {
+    width: calc(100% - 160px);
+}
 @media (max-width: 767px) {
     .dm-admin-main .aligned label:not(.vCheckboxLabel) {
         display: block;

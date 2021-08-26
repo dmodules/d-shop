@@ -79,33 +79,15 @@ class dmAdvertisingTopBannerTranslation(TranslatedFieldsModel):
         unique_together = [("language_code", "master")]
 
 
-class dmAdvertisingPopup(models.Model):
+class dmAdvertisingPopup(TranslatableModel):
     """Model for Advertising Alert on a popup"""
     title = models.CharField(
         verbose_name=_("Title"),
         max_length=75,
         help_text=_("Maximum 75 characters.")
     )
-    image_fr = FilerImageField(
-        verbose_name=_("Image FR"),
-        on_delete=models.CASCADE,
-        related_name="advertisingpopup_image",
-        help_text=_("Recommended size: 800x600.")
-    )
-    image_en = FilerImageField(
-        verbose_name=_("Image EN"),
-        on_delete=models.CASCADE,
-        related_name="advertisingpopup_image_en",
-        null=True, blank=True,
-        help_text=_("Recommended size: 800x600.")
-    )
-    link = models.CharField(
-        verbose_name=_("URL Link"),
-        max_length=1000,
-        null=True,
-        blank=True,
-        help_text=_("Optional.")
-    )
+    image = TranslatedField()
+    link = TranslatedField()
     close_30days = models.BooleanField(
         verbose_name=_("Hide for 30 days"),
         default=True,
@@ -144,3 +126,33 @@ class dmAdvertisingPopup(models.Model):
                 self.is_active = False
                 self.save()
         return self.title
+
+
+class dmAdvertisingPopupTranslation(TranslatedFieldsModel):
+    """
+    A model to handle translations of dmAdvertisingPopup
+    """
+
+    master = models.ForeignKey(
+        dmAdvertisingPopup,
+        on_delete=models.CASCADE,
+        related_name="translations",
+        null=True
+    )
+    image = FilerImageField(
+        verbose_name=_("Image"),
+        on_delete=models.CASCADE,
+        related_name="advertisingpopup_image_en",
+        null=True, blank=True,
+        help_text=_("Recommended size: 800x600.")
+    )
+    link = models.CharField(
+        verbose_name=_("URL Link"),
+        max_length=1000,
+        null=True,
+        blank=True,
+        help_text=_("Optional.")
+    )
+
+    class Meta:
+        unique_together = [("language_code", "master")]

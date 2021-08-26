@@ -1139,6 +1139,27 @@ class Attribute(TranslatableModel):
         return self.name
 
 
+class AttributeTranslation(TranslatedFieldsModel):
+    """
+    A model to handle translations of Attribute
+    """
+
+    master = models.ForeignKey(
+        Attribute,
+        on_delete=models.CASCADE,
+        related_name="translations",
+        null=True
+    )
+    name_trans = models.CharField(
+        verbose_name=_("Displayed Text"),
+        max_length=255,
+        help_text=_("Maximum 255 characters.")
+    )
+
+    class Meta:
+        unique_together = [("language_code", "master")]
+
+
 class AttributeValue(TranslatableModel):
     attribute = models.ForeignKey(
         Attribute,
@@ -1164,27 +1185,6 @@ class AttributeValue(TranslatableModel):
         return self.attribute.name + ' - ' + self.value
 
 
-class AttributeTranslation(TranslatedFieldsModel):
-    """
-    A model to handle translations of Attribute
-    """
-
-    master = models.ForeignKey(
-        Attribute,
-        on_delete=models.CASCADE,
-        related_name="translations",
-        null=True
-    )
-    name_trans = models.CharField(
-        verbose_name=_("Translated Attribute Name"),
-        max_length=255,
-        help_text=_("Maximum 255 characters.")
-    )
-
-    class Meta:
-        unique_together = [("language_code", "master")]
-
-
 class AttributeValueTranslation(TranslatedFieldsModel):
     """
     A model to handle translations of Attribute Value
@@ -1197,7 +1197,7 @@ class AttributeValueTranslation(TranslatedFieldsModel):
         null=True
     )
     value_trans = models.CharField(
-        verbose_name=_("Translated Attribute Name"),
+        verbose_name=_("Displayed Text"),
         max_length=255,
         help_text=_("Maximum 255 characters.")
     )

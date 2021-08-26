@@ -504,9 +504,13 @@ class CategoryAdminForm(MPTTAdminForm, TranslatableModelForm):
 class ProductCategoryAdmin(TranslatableAdmin, DraggableMPTTAdmin):
     form = CategoryAdminForm
     fieldsets = (
+        (_("Translatable Fields"), {
+            "fields": [
+                ("name")
+            ]
+        }),
         (None, {
             "fields": [
-                ("name"),
                 ("parent"),
                 ("order"),
                 ("active")
@@ -558,14 +562,15 @@ class ProductFilterAdmin(TranslatableAdmin):
     list_display = ["name", "group", "order"]
     list_editable = ["order"]
     fieldsets = (
-        (None, {
+        (_("Translatable Fields"), {
             "fields": [
-                ("group"),
-                ("name")
+                ("name"),
+                ("description")
             ]
         }),
         (None, {
             "fields": [
+                ("group"),
                 ("image"),
                 ("order")
             ]
@@ -580,7 +585,20 @@ class ProductBrandAdmin(admin.ModelAdmin):
 
 @admin.register(ProductLabel)
 class ProductLabelAdmin(TranslatableAdmin):
-    list_display = ["pk"]
+    list_display = ["name"]
+    fieldsets = (
+        (_("Translatable Fields"), {
+            "fields": [
+                ("name")
+            ]
+        }),
+        (None, {
+            "fields": [
+                ("colour"),
+                ("bg_colour")
+            ]
+        }),
+    )
 
 
 #######################################################################
@@ -800,6 +818,13 @@ class AttributeAdmin(TranslatableAdmin):
     list_display = ['name', 'value_display']
     inlines = [AttributeValueInline]
     exclude = ['square_id']
+    fieldsets = [
+        (None, {
+            "fields": [
+                ("name", "name_trans"),
+            ]
+        }),
+    ]
 
     def value_display(self, obj):
         return ", ".join([

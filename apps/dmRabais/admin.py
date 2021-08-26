@@ -24,7 +24,8 @@ class dmRabaisPerCategoryAdmin(admin.ModelAdmin):
             "name",
             "amount",
             "percent",
-            ("is_active", "can_apply_on_discounted"),
+            ("is_active"),
+            ("can_apply_on_discounted"),
             ("valid_from", "valid_until"),
             "categories"
         ]
