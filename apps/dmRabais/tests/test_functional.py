@@ -2,7 +2,6 @@
 import pytz
 from django.test import TestCase
 from datetime import datetime, timedelta
-from decimal import Decimal
 
 from .utils import \
     create_discount
@@ -45,9 +44,10 @@ class CategoryDiscountTestProduct(TestCase):
     def test_category_discount(self):
         prod = Product.objects.all().first()
         old_price = prod.get_price()
-        amount = Decimal("10")
+        amount = float(10.00)
         # Create discount
-        create_discount()
+        cat = create_discount()
+        prod.categories.add(cat)
         # Get new Price
         new_price = prod.get_price()
         self.assertEqual(
@@ -65,9 +65,10 @@ class CategoryDiscountTestProduct(TestCase):
         }
         prod = Product.objects.all().first()
         old_price = prod.get_price()
-        amount = Decimal("10")
+        amount = float(10.00)
         # Create discount
-        create_discount(data)
+        cat = create_discount(data)
+        prod.categories.add(cat)
         # Get new Price
         new_price = prod.get_price()
         self.assertEqual(

@@ -20,10 +20,11 @@ def create_discount(data=None):
         drpc = dmRabaisPerCategory.objects.create(**data)
         cat = category()
         drpc.categories.add(cat)
+        drpc.save()
     except Exception as e:
         print(e)
         return False
-    return True
+    return cat
 
 
 def create_promo(data=None):
@@ -40,6 +41,7 @@ def create_promo(data=None):
         dmpc = dmPromoCode.objects.create(**data)
         cat = category()
         dmpc.categories.add(cat)
+        dmpc.save()
     except Exception as e:
         print(e)
         return False
