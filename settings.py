@@ -532,41 +532,15 @@ CMSPLUGIN_CASCADE_PLUGINS = [
 ]
 
 CMSPLUGIN_CASCADE = {
-    'link_plugin_classes': [
-        'shop.cascade.plugin_base.CatalogLinkPluginBase',
-        'shop.cascade.plugin_base.CatalogLinkForm',
-    ],
     'alien_plugins': ['TextPlugin', 'TextLinkPlugin', 'AcceptConditionPlugin'],
     'plugins_with_extra_render_templates': {
         'CustomSnippetPlugin': [
             ('shop/catalog/product-heading.html', _("Product Heading")),
         ],
-        # required to purchase real estate
-        'ShopAddToCartPlugin': [(None, _("Default"))],
-    },
-    'plugins_with_sharables': {
-        'BootstrapImagePlugin': [
-            'image_shapes', 'image_width_responsive', 'image_width_fixed',
-            'image_height', 'resize_options'
-        ],
-        'BootstrapPicturePlugin': [
-            'image_shapes', 'responsive_heights', 'responsive_zoom',
-            'resize_options'
-        ],
-    },
-    'plugins_with_extra_fields': {
-        'BootstrapCardPlugin': PluginExtraFieldsConfig(),
-        'BootstrapCardHeaderPlugin': PluginExtraFieldsConfig(),
-        'BootstrapCardBodyPlugin': PluginExtraFieldsConfig(),
-        'BootstrapCardFooterPlugin': PluginExtraFieldsConfig(),
-        'SimpleIconPlugin': PluginExtraFieldsConfig(),
     },
     'plugins_with_extra_mixins': {
         'BootstrapContainerPlugin': BootstrapUtilities(),
         'BootstrapRowPlugin': BootstrapUtilities(BootstrapUtilities.paddings),
-        'BootstrapYoutubePlugin':
-        BootstrapUtilities(BootstrapUtilities.margins),
-        'BootstrapButtonPlugin': BootstrapUtilities(BootstrapUtilities.floats),
     },
     'bookmark_prefix':
     '/',
