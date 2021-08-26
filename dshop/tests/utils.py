@@ -52,8 +52,11 @@ def product_brand(data=None):
 
 def category(data=None):
     if not data:
-        data = {'name': 'Vegetable'}
-    cat, created = ProductCategory.objects.get_or_create(**data)
+        cat = ProductCategory.objects.language('fr').create(
+            name='Vegetable',
+        )
+    else:
+        cat = ProductCategory.objects.get_or_create(**data)
     return cat
 
 
