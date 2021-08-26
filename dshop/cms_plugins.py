@@ -33,7 +33,7 @@ from shop.cascade.catalog import ShopAddToCartPlugin
 from shop.cascade.checkout import AcceptConditionPlugin
 from shop.cascade.checkout import ValidateSetOfFormsPlugin
 from shop.cascade.checkout import ShippingMethodFormPlugin
-from shop.cascade.checkout import PaymentMethodFormPlugin
+# from shop.cascade.checkout import PaymentMethodFormPlugin
 from shop.cascade.checkout import ExtraAnnotationFormPlugin
 from shop.cascade.checkout import ShopProceedButton
 from shop.cascade.checkout import CheckoutAddressPlugin
@@ -74,7 +74,7 @@ plugin_pool.unregister_plugin(CustomSnippetPlugin)
 plugin_pool.unregister_plugin(AcceptConditionPlugin)
 plugin_pool.unregister_plugin(ValidateSetOfFormsPlugin)
 plugin_pool.unregister_plugin(ShippingMethodFormPlugin)
-plugin_pool.unregister_plugin(PaymentMethodFormPlugin)
+# plugin_pool.unregister_plugin(PaymentMethodFormPlugin)
 plugin_pool.unregister_plugin(ExtraAnnotationFormPlugin)
 plugin_pool.unregister_plugin(ShopProceedButton)
 plugin_pool.unregister_plugin(CheckoutAddressPlugin)
