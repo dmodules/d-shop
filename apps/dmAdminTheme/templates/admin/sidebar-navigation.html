@@ -91,6 +91,9 @@
                 <li class="child {% if cl.opts.object_name == 'dmSite' %}active{% endif %}">
                     <a href="/{{ LANGUAGE_CODE }}/admin/dshop/dmsite/"><i class="fas fa-globe"></i></i> {% trans "Site" %}</a>
                 </li>
+                <li class="child {% if cl.opts.object_name == 'dmTheme' %}active{% endif %}">
+                    <a href="/{{ LANGUAGE_CODE }}/admin/dmTheme/dmtheme/"><i class="fas fa-brush"></i></i> {% trans "Themes" %}</a>
+                </li>
                 <li class="child {% if cl.opts.object_name == 'CanadaTaxManagement' %}active{% endif %}">
                     <a href="/{{ LANGUAGE_CODE }}/admin/dmTaxes/canadataxmanagement/"><i class="fas fa-dollar-sign"></i></i> {% trans "Canadian Taxes" %}</a>
                 </li>

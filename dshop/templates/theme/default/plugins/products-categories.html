@@ -62,7 +62,7 @@
             {% if instance.label %}
                 {% page_url "produits" as page_products %}
                 <div class="col-12 text-center pt-5">
-                    <a href="{% if page_products %}{{ page_products }}{% else %}/produits{% endif %}" class="btn btn-fill-out rounded-0">{{ instance.label }}</a>
+                    <a href="{% if page_products %}{{ page_products }}{% else %}/produits{% endif %}" class="btn btn-fill-out">{{ instance.label }}</a>
                 </div>
             {% endif %}
         </div>

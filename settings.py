@@ -132,6 +132,7 @@ INSTALLED_APPS.extend([  # noqa: F821
     "apps.dmTaxes",
     "apps.dmSearch",
     "apps.dmQuotation",
+    "apps.dmTheme",
     # ===---
     "shop",
     "dshop",

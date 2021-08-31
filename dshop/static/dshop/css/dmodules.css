@@ -842,7 +842,6 @@ html.cms-ready #tophead .tophead-topnav .tophead-icon.dm-cart.dmico-sticky {
   text-align:center;
 }
 .section-vedette h2{
-  color:#292b2c;
   font-size:2rem;
   font-weight:700;
 }
@@ -1072,7 +1071,7 @@ html.cms-ready #tophead .tophead-topnav .tophead-icon.dm-cart.dmico-sticky {
     display: none;
 }
 .dmfilters-list input[type="checkbox"] + span::before {
-    content: ".";
+    content: "\00A0";
     background: transparent;
     border: 1px solid #CED4DA;
     border-radius: 4px;
@@ -1375,7 +1374,7 @@ html.cms-ready #tophead .tophead-topnav .tophead-icon.dm-cart.dmico-sticky {
     float: left;
     margin: 0 15px 0 0;
 }
-.dmplugin-contact strong {
+.dmplugin-contact-icon ~ div {
     margin: 0 0 0 63px;
 }
 @media (min-width: 991px) {

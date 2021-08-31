@@ -1,4 +1,4 @@
-{% load static cms_tags menu_tags sekizai_tags i18n thumbnail dshop_tags %}
+{% load static cms_tags menu_tags sekizai_tags i18n thumbnail dshop_tags dmtheme_tags %}
 
 {% dm_quotation_feature as is_quotation %}
 {% dm_get_google_analytics as google_analytics %}
@@ -76,6 +76,10 @@
     <!-- Head -->
     {% block vue-head %}{% endblock vue-head %}
     {% block head %}{% endblock head %}
+    {% dm_get_theme as THEME %}
+    {% if THEME %}
+        {% include "theme.html" %}
+    {% endif %}
   </head>
   <body class="drawer drawer--right">
     {% cms_toolbar %}

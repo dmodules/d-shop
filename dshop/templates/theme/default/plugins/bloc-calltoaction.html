@@ -11,7 +11,7 @@
                         {% if instance.title %}<h2 style="color:{{instance.title_color}}">{{instance.title}}</h2>{% endif %}
                     </div>
                     {% if instance.text %}<h5 class="mb-4" style="color:{{instance.text_color}}">{{instance.text}}</h5>{% endif %}
-                    {% if instance.btn_label %}<a href="{% if instance.btn_url %}{{instance.btn_url}}{% else %}#{% endif %}" class="btn btn-fill-out rounded-0">{{instance.btn_label}}</a>{% endif %}
+                    {% if instance.btn_label %}<a href="{% if instance.btn_url %}{{instance.btn_url}}{% else %}#{% endif %}" class="btn btn-fill-out">{{instance.btn_label}}</a>{% endif %}
                 </div>
                 <div class="medium_divider clearfix"></div>
             </div>

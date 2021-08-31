@@ -27,7 +27,7 @@
                         {% endif %}
                     </h5>
                     {% if instance.btn_label %}
-                        <a class="btn btn-fill-out rounded-0 staggered-animation text-uppercase" href="{% if instance.btn_url %}{{instance.btn_url}}{% else %}#{% endif %}"{% if instance.btn_blank %} target="_blank"{% endif %} data-animation="slideInLeft" data-animation-delay="{% if instance.subtitle %}2s{% else %}1.5s{% endif %}">
+                        <a class="btn btn-fill-out staggered-animation text-uppercase" href="{% if instance.btn_url %}{{instance.btn_url}}{% else %}#{% endif %}"{% if instance.btn_blank %} target="_blank"{% endif %} data-animation="slideInLeft" data-animation-delay="{% if instance.subtitle %}2s{% else %}1.5s{% endif %}">
                             {{instance.btn_label}}
                         </a>
                     {% endif %}

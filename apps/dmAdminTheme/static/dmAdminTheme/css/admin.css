@@ -220,6 +220,17 @@ html.dm-admin-dashboard {
 .module h2, .module caption, .inline-group h2 {
     background-color: var(--v-primary-admin);
 }
+fieldset.module.collapsed h2 a.collapse-toggle {
+    color: var(--v-primary-admin);
+}
+.module h2 a {
+    color: #efeeed;
+}
+.module h2 a.collapse-toggle {
+    font-weight: 600;
+    line-height: 120%;
+    text-transform: uppercase;
+}
 
 .module .cms-pagetree h2 {
     background-color: transparent;

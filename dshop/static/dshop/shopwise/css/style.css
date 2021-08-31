@@ -51,10 +51,6 @@ body {
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
 }
-h1,h2,h3,h4,h5,h6 {
-	color: #292b2c;
-	font-family: 'Roboto';
-}
 p {
 	line-height: 28px;
 	margin-bottom: 25px;
@@ -4916,6 +4912,7 @@ footer .widget_title {
 	line-height: 45px;
 	border: 1px solid #CED4DA;
 	border-radius: 4px;
+    transition: all 0.3s;
 }
 .shorting_icon .ti-layout-list-thumb {
 	font-size: 24px;
@@ -5726,7 +5723,7 @@ footer .widget_title {
 	right: 0;
 	top: 0;
 	bottom: 0;
-	background-color: #fff;
+	background-color: #fbfbfb;
 	z-index: 9;
 }
 .shop_container .loading_pr {
@@ -5785,7 +5782,7 @@ footer .widget_title {
 	overflow: hidden;
 	margin-bottom: 10px;
 	min-height: 58px;
-	max-height: 84px;
+	max-height: 140px;
 }
 .shop_container.list .pr_desc p {
 	margin-bottom: 0px;
