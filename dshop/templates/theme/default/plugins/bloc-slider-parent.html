@@ -1,6 +1,6 @@
 {% load static cms_tags %}
 
-<div class="dmplugin-slider banner_section slide_medium shop_banner_slider staggered-animation-wrap" style="height:{{ instance.height }}px;">
+<div class="dmplugin-slider banner_section slide_medium shop_banner_slider staggered-animation-wrap" style="height:{{ instance.height }}px;max-height:{{ instance.height }}px;">
     <div id="mainslider" class="carousel slide carousel-fade light_arrow" data-ride="carousel">
         <div class="carousel-inner">
             {% for plugin in instance.child_plugin_instances %}
