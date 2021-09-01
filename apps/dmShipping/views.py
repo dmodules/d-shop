@@ -170,6 +170,7 @@ def get_data(request):  # noqa: C901
         except Exception:
             link = "/"
         separator = {
+            "before": float(sm.price) if sm.price else 0,
             "currency": currency,
             "goal": float(sm.separator),
             "goal_txt": str(Money(sm.separator)),

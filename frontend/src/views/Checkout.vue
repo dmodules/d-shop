@@ -43,6 +43,12 @@
                   {{ $i18n.t("Paiement") }}
                 </v-stepper-step>
               </v-stepper-header>
+                <v-alert v-if="deliveryDiscount" text color="info" icon="mdi-truck-fast-outline" prominent class="dmapp-alert-delivery pa-5">
+                    <div v-html="$i18n.t(deliveryDiscount.phrase, {need: deliveryDiscount.need, price: deliveryDiscount.price})" class="mb-5"></div>
+                    <v-btn depressed tile color="primary" :href="shoppinglink">
+                        <span v-text="$i18n.t('ContinueShopping')"></span>
+                    </v-btn>
+                </v-alert>
               <v-stepper-items>
                 <v-stepper-content :step="1">
                   <v-card>
@@ -115,17 +121,17 @@
                     </v-card-text>
                     <v-card-actions>
                       <v-row>
-                        <v-col cols="12" class="text-right">
-                          <v-btn
-                            tile
-                            color="primary"
-                            :disabled="!formCustomer.valid"
-                            @click="nextStep()"
-                            >
+                        <v-col cols="6" class="text-left">
+                          <v-btn tile color="primary" :href="shoppinglink">
+                                <v-icon>mdi-cart</v-icon>
+                                <span v-if="$vuetify.breakpoint.name != 'sm' && $vuetify.breakpoint.name != 'xs'" class="pl-2">{{ $i18n.t("Continuetoshop") }}</span>
+                          </v-btn>
+                        </v-col>
+                        <v-col cols="6" class="text-right">
+                          <v-btn tile color="primary" :disabled="!formCustomer.valid" @click="nextStep()">
                                 <v-icon v-if="$vuetify.breakpoint.name == 'sm' || $vuetify.breakpoint.name == 'xs'">mdi-chevron-right</v-icon>
                                 <span v-else>{{ $i18n.t("Suivant") }}</span>
-                            </v-btn
-                          >
+                          </v-btn>
                         </v-col>
                       </v-row>
                     </v-card-actions>
@@ -160,14 +166,6 @@
                           <v-col v-else cols="12">
                             <v-alert text color="error">
                               {{ $i18n.t("Nomethodesdexpedition") }}
-                            </v-alert>
-                          </v-col>
-                          <v-col v-if="deliveryDiscount" cols="12">
-                            <v-alert text color="info" class="pa-5">
-                              <div v-text="$i18n.t('Youonlyneedxtotakeadvantageofadeliverydiscount', {need: deliveryDiscount.need, price: deliveryDiscount.price})" class="mb-5"></div>
-                              <v-btn color="primary" :href="deliveryDiscount.link">
-                                  <span v-text="$i18n.t('ContinueShopping')"></span>
-                              </v-btn>
                             </v-alert>
                           </v-col>
                         </v-row>
@@ -1032,6 +1030,7 @@ export default {
     tagBillingMethod: "",
     tagNote: "",
     deliveryDiscount: null,
+    shoppinglink: "/",
     listPromoCodes: [],
     tosLink: "/"
   }),
@@ -1067,14 +1066,14 @@ export default {
     setAuth() {
         this.$set(this, "isAuth", true);
         // ===---
-        this.getCustomer();
+        this.getCustomer(true);
         this.getShippingMethods();
         this.getBillingMethods();
     },
     /* =========================================================== //
     // ===---   getCustomer                                 ---=== //
     // =========================================================== */
-    getCustomer() {
+    getCustomer(first = false) {
       let self = this;
       // ===--- BEGIN: axios
       this.$axios.get(this.$web_url + "/api/fe/customer/", {
@@ -1137,7 +1136,7 @@ export default {
               apiSuccess.data.address_billing
             );
           }
-          self.getDigest();
+          self.getDigest(first);
         })
         .catch(() => {});
       // ===--- END: axios
@@ -1196,22 +1195,33 @@ export default {
                 if (apiSuccess.data.datas.cities) {
                     self.$set(self.formChoix, "shippingCities", apiSuccess.data.datas.cities)
                 }
-                if (apiSuccess.data.datas.separator && self.formPayment.subtotal) {
+                if (apiSuccess.data.datas.separator && self.formPayment.subtotal && self.formPayment.subtotal != "C$ 0.00") {
                     let need = apiSuccess.data.datas.separator.goal - parseFloat(self.formPayment.subtotal.replace(apiSuccess.data.datas.separator.currency, ""))
+                    let shipcost = apiSuccess.data.datas.separator.before
                     if (need > 0) {
+                        let deliveryphrase = ""
                         let deliveryprice = apiSuccess.data.datas.separator.after_txt
+                        console.log(shipcost)
+                        console.log(need)
+                        if (shipcost > need) {
+                            deliveryphrase = "Youonlyneedxtotakeadvantageofadeliverydiscount"
+                        } else {
+                            deliveryphrase = "Youneedxtotakeadvantageofadeliverydiscount"
+                        }
                         if (apiSuccess.data.datas.separator.after <= 0) {
                             deliveryprice = self.$i18n.t("freedelivery")
                         } else {
                             deliveryprice = self.$i18n.t("discountdelivery", {price: apiSuccess.data.datas.separator.after_txt})
                         }
                         self.$set(self, "deliveryDiscount", {
+                            phrase: deliveryphrase,
                             need: apiSuccess.data.datas.separator.currency + " " + String(need),
                             price: deliveryprice,
                             link: apiSuccess.data.datas.separator.link
                         })
                     }
                 }
+                self.$set(self, "shoppinglink", apiSuccess.data.datas.separator.link)
                 self.setCountriesList()
             }
         }).catch(() => {
@@ -1418,7 +1428,7 @@ export default {
     /* =========================================================== //
     // ===---   getDigest                                   ---=== //
     // =========================================================== */
-    getDigest() {
+    getDigest(first = false) {
       let self = this;
       if (!this.isVisitor) {
         // ===--- BEGIN: axios
@@ -1498,6 +1508,9 @@ export default {
                     "tagNote",
                     apiSuccess.data.checkout_digest.extra_annotation_tag
                 );
+            }
+            if (first) {
+               self.getShippingMethods(); 
             }
         })
         .catch(() => {});
@@ -1725,6 +1738,30 @@ export default {
     }
     #app.v-application--is-ltr .v-stepper__label {
         text-align: center;
+    }
+    #app .dmapp-alert-delivery {
+        border: 1px solid var(--v-primary-base);
+        border-left: 6px solid var(--v-primary-base);
+        border-radius: 0;
+        color: #000!important;
+        font-size: 1.5rem;
+        line-height: 120%;
+        text-align: left;
+        margin: 0 40px;
+    }
+    #app .dmapp-alert-delivery::before {
+        background: var(--v-primary-base)!important;
+        opacity: 0.1;
+    }
+    #app .dmapp-alert-delivery .v-alert__icon {
+        color: var(--v-primary-base)!important;
+        font-size: 5rem;
+        line-height: 100%;
+        height: 5rem;
+        margin: 1rem 2.5rem 1rem 1rem;
+    }
+    #app .dmapp-alert-delivery .v-alert__icon::after {
+        background: var(--v-primary-base)!important;
     }
     @media (max-width: 1263px) {
         #app .dm-payment-products .v-list-item:not(.dm-payment-footer),

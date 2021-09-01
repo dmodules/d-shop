@@ -61,7 +61,8 @@
 
   "Methodedelivraison": "Méthode de livraison",
   "Methodedepaiement": "Méthode de paiement",
-  "Youonlyneedxtotakeadvantageofadeliverydiscount": "Il vous manque seulement {need} pour profiter d'une livraison {price} !",
+  "Youneedxtotakeadvantageofadeliverydiscount": "Il vous manque {need} pour profiter d'une <strong>livraison {price}</strong> !",
+  "Youonlyneedxtotakeadvantageofadeliverydiscount": "Il vous manque seulement {need} pour profiter d'une <strong>livraison {price}</strong> !",
   "freedelivery": "gratuite",
   "discountdelivery": "à {price}",
   "ContinueShopping": "Continuez vos achats",
@@ -84,6 +85,7 @@
 
   "Votrepanierestvide": "Votre panier est vide",
   "Retourneralaccueil": "Retourner à l'accueil",
+  "Continuetoshop": "Continuer à magasiner",
 
   "PromoCodes": "Codes promotionnels",
   "AppliedPromoCodes": "Codes promotionnels appliqués",

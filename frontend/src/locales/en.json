@@ -61,7 +61,8 @@
 
   "Methodedelivraison": "Shipping's Method",
   "Methodedepaiement": "Billing's Method",
-  "Youonlyneedxtotakeadvantageofadeliverydiscount": "You're only missing {need} to take advantage of a {price} delivery!",
+  "Youneedxtotakeadvantageofadeliverydiscount": "You're missing {need} to take advantage of a <strong>{price} delivery</strong>!",
+  "Youonlyneedxtotakeadvantageofadeliverydiscount": "You're only missing {need} to take advantage of a <strong>{price} delivery</strong>!",
   "freedelivery": "free",
   "discountdelivery": "{price}",
   "ContinueShopping": "Continue your shopping",
@@ -84,6 +85,7 @@
 
   "Votrepanierestvide": "Your cart is empty",
   "Retourneralaccueil": "Return to home",
+  "Continuetoshop": "Continue to shop",
 
   "PromoCodes": "Promo Codes",
   "AppliedPromoCodes": "Applied Promo Codes",
