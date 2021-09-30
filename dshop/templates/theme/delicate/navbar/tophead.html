@@ -1,0 +1,29 @@
+{% load static i18n thumbnail cms_tags menu_tags dshop_tags %}
+
+<div id="delicate-tophead">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col col-3 text-left dmtophead-logos">
+                {% block logo %}
+                    <a class="dmtophead-logourl" href="/">
+                        {% dm_get_logos as logos %}
+                        {% if logos %}
+                            {% thumbnail logos.logolight "300x80" upscale as thumb_light %}
+                            <img class="light-logo" src="{{thumb_light.url}}" alt="logo" />
+                        {% endif %}
+                    </a>
+                {% endblock logo %}
+            </div>
+            <div class="col col-9 text-right dmtophead-menu">
+                <nav class="dmtop-main-menu">
+                    {% show_menu 0 100 100 100 'theme/delicate/navbar/menu-main-parent.html' %}
+                </nav>
+                <span class="dmtop-main-menu-mtoggle">
+                    <span class="dmtop-main-menu-mtoggle-1"></span>
+                    <span class="dmtop-main-menu-mtoggle-2"></span>
+                    <span class="dmtop-main-menu-mtoggle-3"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

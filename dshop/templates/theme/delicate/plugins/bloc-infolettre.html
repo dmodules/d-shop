@@ -1,0 +1,33 @@
+{% load static thumbnail cms_tags i18n dshop_tags %}
+
+{% if instance.image %}
+    {% thumbnail instance.image "2000x900" as thumb %}
+{% endif %}
+
+<!-- BEGIN: plugin: infolettre -->
+<section class="dmplugin-infolettre py-5" style="{% if instance.bg_color %}background-color:{{instance.bg_color}}!important;{% endif %}{% if instance.image %}background-image:url('{{thumb.url}}');{% endif %}">
+    <div class="container py-5">
+        <div class="row justify-content-center text-center py-5">
+            {% if instance.title or instance.subtitle or instance.text %}
+            <div class="col-12">
+                <div class="dmplugin-infolettre-content">
+                    {% if instance.subtitle %}<h5{% if instance.subtitle_color %} style="color:{{instance.subtitle_color}}";{% endif %}>{{instance.subtitle}}</h5>{% endif %}
+                    {% if instance.title %}<h3{% if instance.title_color %} style="color:{{instance.title_color}}";{% endif %}>{{instance.title}}</h3>{% endif %}
+                    {% if instance.text %}<div{% if instance.text_color %} style="color:{{instance.text_color}}";{% endif %}>{{instance.text}}</div>{% endif %}
+                </div>
+            </div>
+            {% endif %}
+            <div class="col-12 col-md-8 mt-4">
+                <div class="dmplugin-infolettre-form">
+                    <form method="post" name="infolettre" action="/contact/infolettre/mailchimp/">
+                        {% csrf_token %}
+                        <input type="text" required="" id="email_infolettre" name="email_infolettre" class="form-control rounded-0" placeholder="{% trans 'Your email' %}" />
+                        <input type="text" required="" id="calcul_infolettre" name="calcul_infolettre" class="form-control rounded-0" placeholder="4 + 2 = ?" />
+                        <button type="submit" class="dmplugin-infolettre-btn" name="submit" value="Submit">{{instance.label}}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- END: plugin: infolettre -->

@@ -1,0 +1,119 @@
+{# include this template to list all items of the given order #}
+{% load i18n post_office dshop_tags %}{% spaceless %}
+
+{% if latest_delivery and latest_delivery.shipping_method and latest_delivery.shipping_id %}
+    <table style="width: 100%; background-color: #fff; border-collapse: collapse; margin-bottom: 20px;">
+        <tbody style="font-size: 130%; text-align: center;">
+            <tr>
+                <td style="padding:10px;">
+                    <div style="margin-bottom:10px;">{% trans 'Shipping Method' %} : {{latest_delivery.shipping_method.label}}</div>
+                    <div>{% trans 'Shipping ID' %} : {{latest_delivery.shipping_id}}</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endif %}
+
+<table style="width: 100%; background-color: #fff; border-collapse: collapse; margin-bottom: 20px;">
+{% block email-order-head %}
+    <caption style="font-weight: bold; font-size: 130%; padding: 20px 0 10px; text-align: center;">
+        {% block email-order-caption %}
+            {% blocktrans with order_number=order.number %}Summary of Order {{ order_number }}{% endblocktrans %}
+        {% endblock %}
+	</caption>
+	<thead>
+		<tr>
+			<th scope="col" style="text-align: center; padding: 10px; border-bottom: 2px solid #eee;">{% trans "Quantity" %}</th>
+			<th scope="col" colspan="2" style="text-align: center; padding: 10px; border-bottom: 2px solid #eee;">{% trans "Product" %}</th>
+			<th scope="col" style="text-align: center; padding: 10px; border-bottom: 2px solid #eee;">{% trans "Price" %}</th>
+		</tr>
+	</thead>
+{% endblock email-order-head %}
+
+{% block email-order-body %}
+	<tbody>
+	{% for item in order.items %}
+		<tr>
+			<td style="text-align: center; vertical-align: middle; padding: 20px 10px; border-bottom: 2px solid #eee;">
+				{{ item.quantity }} &times;
+			</td>
+			<td colspan="2" style="padding: 20px 10px; border-bottom: 2px solid #eee;">
+				<div style="font-size: 120%; font-weight: bold;">{{ item.summary.product_name }}</div>
+                {% if item.extra.variables and item.extra.variables.attributes %}
+                    <div style="font-size:80%;font-weight:lighter;">
+                        {% for attribute in item.extra.variables.attributes %}
+                            <div>{{attribute}}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+			</td>
+			<td style=" border-bottom: 2px solid #eee; font-size: 120%; text-align: right; vertical-align: middle; padding: 20px 10px; white-space: nowrap;">
+                <div>{{ item.line_total }}</div>
+                {% for key, extra_row in item.extra.rows %}
+                    {% if key == "price-before-discounts" %}
+                        <del style="font-size:90%;color:#777;font-style:italic;">{{ extra_row.amount }}</del>
+                    {% endif %}
+                {% endfor %}
+			</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+{% endblock email-order-body %}
+
+{% block email-order-foot %}
+	<tfoot>
+        {% for key, extra_row in order.extra.rows %}
+        {% if key == "subtotal-before-discounts" or key == "discounts" %}
+          <tr>
+              <td colspan="2"></td>
+              <td style="font-size: 120%; text-align: right; padding: 10px 15px; border-bottom: 2px solid #eee;">{{ extra_row.label }}:</td>
+              <td style="font-size: 120%; text-align: right; padding: 10px 15px; white-space: nowrap; border-bottom: 2px solid #eee;">{{ extra_row.amount }}</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+		<tr>
+			<td colspan="2"></td>
+			<td style="font-size: 120%; text-align: right; padding: 10px 15px; border-bottom: 2px solid #eee;">{% trans "Subtotal" %}:</td>
+			<td style="font-size: 120%; text-align: right; padding: 10px 15px; white-space: nowrap; border-bottom: 2px solid #eee;">{{ order.subtotal }}</td>
+		</tr>
+        {% dm_check_shipping_taxed order.extra.rows as shippingistaxed %}
+        {% if shippingistaxed %}
+            {% for key, extra_row in order.extra.rows %}
+                {% if key == "pickup-in-store" or key == "free-shipping" or key == "standard-shipping" or key == "express-shipping" or key == "standard-separator-shipping" or key == "express-separator-shipping" %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td style="font-size: 120%; text-align: right; padding: 10px 15px; border-bottom: 2px solid #eee;">{{ extra_row.label }}:</td>
+                        <td style="font-size: 120%; text-align: right; padding: 10px 15px; white-space: nowrap; border-bottom: 2px solid #eee;">{{ extra_row.amount }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% for key, extra_row in order.extra.rows %}
+            {% if key != "subtotal-before-discounts" and key != "discounts" and key != "applied-promocodes" and key != "canadiantaxes" and key != "cart-discounts" and key != "shipping-is-taxed" and key != "pickup-in-store" and key != "free-shipping" and key != "standard-shipping" and key != "express-shipping" and key != "standard-separator-shipping" and key != "express-separator-shipping" %}
+                <tr>
+                    <td colspan="2"></td>
+                    <td style="font-size: 120%; text-align: right; padding: 10px 15px; border-bottom: 2px solid #eee;">{{ extra_row.label }}:</td>
+                    <td style="font-size: 120%; text-align: right; padding: 10px 15px; white-space: nowrap; border-bottom: 2px solid #eee;">{{ extra_row.amount }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        {% if not shippingistaxed %}
+            {% for key, extra_row in order.extra.rows %}
+                {% if key == "pickup-in-store" or key == "free-shipping" or key == "standard-shipping" or key == "express-shipping" or key == "standard-separator-shipping" or key == "express-separator-shipping" %}
+                <tr>
+                    <td colspan="2"></td>
+                    <td style="font-size: 120%; text-align: right; padding: 10px 15px; border-bottom: 2px solid #eee;">{{ extra_row.label }}:</td>
+                    <td style="font-size: 120%; text-align: right; padding: 10px 15px; white-space: nowrap; border-bottom: 2px solid #eee;">{{ extra_row.amount }}</td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+		<tr>
+			<td colspan="2"></td>
+			<td style="font-size: 120%; text-align: right; padding: 10px 15px; font-weight: bold">{% trans "Total" %}:</td>
+			<td style="font-size: 120%; text-align: right; padding: 10px 15px; white-space: nowrap; font-weight: bold;">{{ order.total }}</td>
+		</tr>
+	</tfoot>
+{% endblock email-order-foot %}
+</table>
+{% endspaceless %}

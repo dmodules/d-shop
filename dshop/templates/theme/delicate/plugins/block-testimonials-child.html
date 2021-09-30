@@ -1,0 +1,38 @@
+{% load thumbnail cms_tags %}
+
+{% if instance.photo %}
+    {% thumbnail instance.photo "120x120" as thumb %}
+{% endif %}
+
+<div class="item" id="testimonialno{{count}}">
+    <div class="testimonial">
+        <div class="dmplugin-testimonials-top">
+            <i class="dmplugin-testimonials-icotop fa fa-quote-right"></i>
+            {% if instance.text %}
+                <div class="dmplugin-testimonials-text testionial-text">
+                    <div class="dmplugin-testimonials-text-wrapper">{{instance.text|safe}}</div>
+                </div>
+            {% endif %}
+            <i class="dmplugin-testimonials-icobot fa fa-quote-left"></i>
+        </div>
+        <div class="dmplugin-testimonials-bottom">
+            {% if thumb %}
+                <div class="testionial-photo">
+                    <img src="{{thumb.url}}" alt="{% if instance.name %}{{instance.name}}{% endif %}" />
+                </div>
+            {% endif %}
+            <div class="dmplugin-testimonials-bottom-content">
+                {% if instance.name %}
+                    <div class="testionial-name">
+                        {{instance.name}}
+                    </div>
+                {% endif %}
+                {% if instance.job %}
+                    <div class="testionial-job">
+                        {{instance.job}}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

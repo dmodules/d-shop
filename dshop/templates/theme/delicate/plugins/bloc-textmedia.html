@@ -1,0 +1,70 @@
+{% load static thumbnail cms_tags i18n %}
+
+<!-- ABOUT SECTION START -->
+<section class="dmplugin-textmedia about-section section-textmedia{% if instance.hide_paddingtop or instance.hide_paddingbot %}{% if instance.hide_paddingtop and instance.hide_paddingbot %} py-0{% elif instance.hide_paddingtop %} mt-0 pt-0 pb-5{% elif instance.hide_paddingbot %} mb-0 pb-0 pt-5{% endif %}{% else %} py-5{% endif %}" style="{% if instance.bg_color %}background-color:{{ instance.bg_color }}{% endif %}">
+    <div class="container">
+        <div class="row">
+            {% if instance.video and instance.colposition == 0 %}
+                <div class="{% if instance.title or instance.subtitle or instance.text %}col-xl-6 col-lg-6 col-md-12{% else %}col-12{% endif %} py-3 py-lg-0 wow fadeInLeft animated{% if instance.text_align %} align-self-center{% endif %}">
+                    <video controls preload width="585" height="300">
+                        {% with instance.video.extension as ext %}
+                            <source src="{{instance.video.url}}" type="video/{{ext}}" />
+                        {% endwith %}
+                    </video>
+                </div>
+            {% elif instance.image and instance.colposition == 0 %}
+                <div class="{% if instance.title or instance.subtitle or instance.text %}col-xl-6 col-lg-6 col-md-12{% else %}col-12{% endif %} py-3 py-lg-0 wow fadeInLeft animated{% if instance.text_align %} align-self-center{% endif %}">
+                    <div class="about-image text-center">
+                        <img src="{% thumbnail instance.image '398x531' crop='scale' %}" alt="" class="img-fluid" />
+                    </div>
+                </div>
+            {% endif %}
+            {% if instance.title or instance.subtitle or instance.text %}
+                <div class="{% if instance.image or instance.video %}col-xl-6 col-lg-6 col-md-12{% else %}col-12{% endif %} mb-md-75 mb-sm-50 wow {% if instance.colposition == 0 %}fadeInRight{% else %}fadeInLeft{% endif %} animated{% if instance.text_align %} align-self-center{% endif %}">
+                    {% if instance.title or instance.subtitle %}
+                        <div class="title-bl">
+                            {% if instance.title %}
+                                <div class="title">
+                                    {{instance.title}}
+                                </div>
+                            {% endif %}
+                            {% if instance.subtitle %}
+                                <div class="subtitle">
+                                    {{instance.subtitle}}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    <div class="dmplugin-textmedia-text mt50">
+                        {% if instance.text %}
+                            {{instance.text}}
+                        {% endif %}
+                    </div>
+                    {% if instance.btn_label and instance.btn_url %}
+                        <div class="dmplugin-textmedia-link">
+                            <a class="btn btn-fill-out" href="{{ instance.btn_url }}"{% if instance.btn_blank %} target="_blank"{% endif %}>
+                                {{ instance.btn_label }}
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if instance.video and instance.colposition == 1 %}
+                <div class="{% if instance.title or instance.subtitle or instance.text %}col-xl-6 col-lg-6 col-md-12{% else %}col-12{% endif %} py-3 py-lg-0 wow fadeInRight animated{% if instance.text_align %} align-self-center{% endif %}">
+                    <video controls preload width="585" height="300">
+                        {% with instance.video.extension as ext %}
+                            <source src="{{instance.video.url}}" type="video/{{ext}}" />
+                        {% endwith %}
+                    </video>
+                </div>
+            {% elif instance.image and instance.colposition == 1 %}
+                <div class="{% if instance.title or instance.subtitle or instance.text %}col-xl-6 col-lg-6 col-md-12{% else %}col-12{% endif %} py-3 py-lg-0 wow fadeInRight animated{% if instance.text_align %} align-self-center{% endif %}">
+                    <div class="about-image text-center">
+                        <img src="{% thumbnail instance.image '398x531' crop='scale' %}" alt="" class="img-fluid" />
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+<!-- ABOUT SECTION END -->

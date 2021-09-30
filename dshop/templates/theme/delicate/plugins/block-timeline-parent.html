@@ -1,0 +1,11 @@
+{% load static cms_tags i18n dshop_tags %}
+
+<!-- BEGIN: dmplugin: timeline -->
+<div class="dmplugin-timeline{% if instance.hide_paddingtop or instance.hide_paddingbot %}{% if instance.hide_paddingtop and instance.hide_paddingbot %} py-0{% elif instance.hide_paddingtop %} mt-0 pt-0 pb-5{% elif instance.hide_paddingbot %} mb-0 pb-0 pt-5{% endif %}{% else %} py-5{% endif %}" style="{% if instance.bg_color %}background-color:{{ instance.bg_color }}{% endif %}">
+    <div class="container">
+        {% for plugin in instance.child_plugin_instances %}
+          {% render_plugin plugin %}
+        {% endfor %}
+    </div>
+</div>
+<!-- END: dmplugin: timeline -->

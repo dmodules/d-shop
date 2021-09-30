@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+{% load staticfiles %}
+
+<html>
+<head>
+    <title>Shipping Confirmation</title>
+</head>
+
+<body>
+
+<table>
+
+    <h3> Order Number : {{ order_number }} </h3>
+    <h3> Shipping Number : {{ shipping_number }} </h3>
+
+    <h4>Product Details</h4>
+    <tr>
+         <td>Product Name</td>
+         <td>Price</td>
+         <td>Quantity</td>
+    </tr>
+    {% for item in items %}
+        <tr>
+             <td>{{ item.name }}</td>
+             <td>{{ item.price }}</td>
+             <td>{{ item.quantity}}</td>
+        </tr>
+    {% endfor %}
+
+</table>
+<br><br>
+    <h4>Tax Details</h4>
+<table>
+    {% for data in tax %}
+        <tr>
+            <td>{{ data.label }}</td>   
+            <td>{{ data.amount }}</td>   
+        </tr>
+    {% endfor %}
+</table>
+<br><br>
+    <h4>Shipping Details</h4>
+<table>
+    {% for data in tax %}
+        <tr>
+            <td>{{ data.label }}</td>   
+            <td>{{ data.amount }}</td>   
+        </tr>
+    {% endfor %}
+</table>
+
+<h3>Total Cost: {{total_cost }} </h3>
+
+</body>
+
+</html>

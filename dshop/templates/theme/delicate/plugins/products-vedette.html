@@ -23,7 +23,7 @@
       {% endif %}
       <div class="row carousel-vedette justify-content-center">
         {% dm_get_products_vedette as products %}
-        <div class="product_slider{% if products.count > 0 %} carousel_slider owl-carousel owl-theme{% endif %} nav_style1"{% if products.count > 0 %} data-loop="true" data-dots="false" data-nav="true" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "1199":{"items": "4"}}'{% endif %}>
+        <div class="product_slider{% if products.count > 0 %} carousel_slider owl-carousel owl-theme{% endif %} nav_style1"{% if products.count > 0 %} data-loop="true" data-dots="false" data-nav="true" data-margin="20" data-responsive='{"0":{"items": "2"}, "481":{"items": "2"}, "768":{"items": "3"}, "1199":{"items": "3"}}'{% endif %}>
           {% for product in products %}
             <div class="item" id="produitvedetteno{{forloop.counter}}">
               <div class="product">
@@ -36,7 +36,7 @@
                       {% thumbnail product.images.first 540x600 background="#ffffff" upscale as thumb %}
                       <img src="{{thumb.url}}" alt="{{product.product_name_trans}}">
                     {% else %}
-                      <img src="https://via.placeholder.com/540x600/f7f8fb/f7f8fb" alt="{{product.product_name_trans}}">
+                      <img src="https://via.placeholder.com/540x600/f7f7f7/f7f7f7" alt="{{product.product_name_trans}}">
                     {% endif %}
                   </a>
                   <div class="product_action_box">

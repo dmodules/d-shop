@@ -1,0 +1,49 @@
+{% load thumbnail %}
+
+<div class="row text-center align-items-center">
+    <div class="col-12 col-md-5 order-3 text-left {% if instance.position_text == 1 %}order-md-1 text-md-right{% else %}order-md-3 text-md-left{% endif %}">
+        <div class="dmplugin-timeline-content">
+            {% if instance.suptitle or instance.title or instance.subtitle %}
+                <div class="dmplugin-timeline-heading">
+                    {% if instance.suptitle %}
+                        <h5 class="dmplugin-timeline-suptitle" style="{% if instance.suptitle_color %}color: {{ instance.suptitle_color }};{% endif %}">
+                            {{ instance.suptitle }}
+                        </h5>
+                    {% endif %}
+                    {% if instance.title %}
+                        <h3 class="dmplugin-timeline-title" style="{% if instance.title_color %}color: {{ instance.title_color }};{% endif %}">
+                            {{ instance.title }}
+                        </h3>
+                    {% endif %}
+                    {% if instance.subtitle %}
+                        <h4 class="dmplugin-timeline-subtitle" style="{% if instance.subtitle_color %}color: {{ instance.subtitle_color }};{% endif %}">
+                            {{ instance.subtitle }}
+                        </h4>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if instance.text %}
+                {% if instance.suptitle or instance.title or instance.subtitle %}
+                    <div class="dmplugin-timeline-divider"></div>
+                {% endif %}
+                <div class="dmplugin-timeline-text">
+                    {{ instance.text }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-12 col-md-2 order-1 order-md-2 align-self-stretch d-none d-md-block">
+        <div class="dmplugin-timeline-label">
+            {% if instance.timeline_label %}
+                <span>{{ instance.timeline_label }}</span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-12 col-md-5 order-2 {% if instance.position_text == 1 %}order-md-3{% else %}order-md-1{% endif %}">
+        {% if instance.image %}
+            <div class="dmplugin-timeline-image mb-4">
+                <img src="{% thumbnail instance.image '800x800' %}" alt="" />
+            </div>
+        {% endif %}
+    </div>
+</div>

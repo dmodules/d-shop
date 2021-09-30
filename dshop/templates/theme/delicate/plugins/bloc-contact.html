@@ -1,0 +1,39 @@
+{% load static cms_tags i18n dshop_tags %}
+
+<!-- BEGIN: dmplugin: bloc-contact -->
+<div class="dmplugin-contact">
+    <div class="container" style="background-color:{% if instance.bg_color %}{{ instance.bg_color }}{% else %}transparent{% endif %};color:{% if instance.text_color %}{{ instance.text_color }}{% else %}inherit{% endif %};">
+        <div class="row align-items-center py-2">
+            <div class="col-12 col-md-4 col-xl-4 py-2">
+                <i class="dmplugin-contact-icon ti-alarm-clock"></i>
+                <div>{{ instance.horaire_top }}</div>
+                <div>
+                    <strong>{{ instance.horaire_bot }}</strong>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 col-xl-3 py-2">
+                <i class="dmplugin-contact-icon ti-mobile"></i>
+                <div>
+                    <a href="tel:{{ instance.phone_top|phone_canadian }}" style="{% if instance.text_color %}color:{{ instance.text_color }};{% endif %}">{{ instance.phone_top }}</a>
+                </div>
+                <div>
+                    <strong>{{ instance.phone_bot }}</strong>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 col-xl-3 py-2">
+                <i class="dmplugin-contact-icon ti-location-pin"></i>
+                <div>{{ instance.where_top }}</div>
+                <div>
+                    <strong>{{ instance.where_bot }}</strong>
+                </div>
+            </div>
+            <div class="col-12 col-xl-2 py-2 px-2 px-xl-0">
+                {% page_url "contact" as page_contact %}
+                <a href="{% if page_contact %}{{ page_contact }}{% else %}/contact{% endif %}" class="btn btn-fill-out d-block" style="{% if instance.text_color %}border-color:{{ instance.text_color }};color:{{ instance.text_color }};{% endif %}">
+                    {{ instance.link_label }}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: dmplugin: bloc-contact -->

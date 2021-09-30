@@ -1,0 +1,26 @@
+{% load menu_tags %}
+
+<ul>
+    {% for child in children %}
+        <li>
+            <a href="{{ child.attr.redirect_url|default:child.get_absolute_url }}" class="menu-link{% if child.selected %} selected{% endif %}{% if child.children or child.attr.reverse_id == 'produits' %} parent{% endif %}">{{child.get_menu_title}}</a>
+            {% if child.children or child.attr.reverse_id == 'produits' %}
+                <i class="dmtop-main-menu-toggle ion-ios-arrow-right" onclick="dmTopToggleSubmenu($(this))"></i>
+            {% endif %}
+            {% if child.children or child.attr.reverse_id == 'produits' %}
+                {% show_menu from_level to_level extra_inactive extra_active 'theme/delicate/navbar/menu-main-child.html' "" "" child %}
+            {% endif %}
+        </li>
+    {% endfor %}
+    <li class="dmtop-menu-icon">
+        <span id="dshop-toggle-search" class="tophead-icon" onclick="toggleSearch()">
+            <i class="icon-magnifier"></i>
+        </span>
+    </li>
+    <li class="dmtop-menu-icon">
+        <span id="dshop-toggle-cart" class="tophead-icon drawer-toggle dm-cart" data-dm="cart">
+            <i class="icon-basket-loaded"></i>
+            <span id="dm-cart-items">0</span>
+        </span>
+    </li>
+</ul>

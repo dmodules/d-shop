@@ -1,0 +1,39 @@
+{% load static cms_tags thumbnail %}
+
+{% if instance.image %}
+{% thumbnail instance.image "1920x900" crop as thumb %}
+  <div class="carousel-item background_bg{% if loop %} active{% endif %}" data-img-src="{{thumb.url}}" style="{% if instance.bg_color %}background-color:{{instance.bg_color}};{% endif %}{% if height %}height:{{ height }}px;{% endif %}">
+{% else %}
+  <div class="carousel-item background_bg{% if loop %} active{% endif %}" style="{% if instance.bg_color %}background-color:{{instance.bg_color}};{% endif %}{% if height %}height:{{ height }}px;{% endif %}">
+{% endif %}
+    <div class="banner_slide_content">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="banner_content overflow-hidden" style="text-align:{% if instance.position_text == 1 %}left{% elif instance.position_text == 2 %}center{% elif instance.position_text == 3 %}right{% endif %};">
+                    <h5 class="mb-3 staggered-animation" data-animation="slideInLeft" data-animation-delay="0.5s" style="{% if instance.suptitle_color %}color:{{instance.suptitle_color}};{% endif %}">
+                        {% if instance.suptitle %}
+                            {{instance.suptitle}}
+                        {% endif %}
+                    </h5>
+                    <h2 class="staggered-animation" data-animation="slideInLeft" data-animation-delay="1s" style="{% if instance.title_color %}color:{{instance.title_color}};{% endif %}">
+                        {% if instance.title %}
+                            {{instance.title}}
+                        {% endif %}
+                    </h2>
+                    <h5 class="mb-3 staggered-animation" data-animation="slideInLeft" data-animation-delay="1.5s" style="{% if instance.subtitle_color %}color:{{instance.subtitle_color}};{% endif %}">
+                        {% if instance.subtitle %}
+                            {{instance.subtitle}}
+                        {% endif %}
+                    </h5>
+                    {% if instance.btn_label %}
+                        <a class="btn btn-fill-out rounded-0 staggered-animation text-uppercase" href="{% if instance.btn_url %}{{instance.btn_url}}{% else %}#{% endif %}"{% if instance.btn_blank %} target="_blank"{% endif %} data-animation="slideInLeft" data-animation-delay="{% if instance.subtitle %}2s{% else %}1.5s{% endif %}">
+                            {{instance.btn_label}}
+                        </a>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

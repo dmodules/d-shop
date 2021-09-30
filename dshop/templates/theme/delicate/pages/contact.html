@@ -1,0 +1,121 @@
+{% extends "theme/delicate/pages/base.html" %}
+{% load static cms_tags i18n sekizai_tags dshop_tags %}
+
+{% block title %}{% page_attribute "page_title" %}{% endblock %}
+
+{% block main-content %}
+{% dm_get_site_contact as c %}
+<div class="dmpage-contact-top section py-3 mb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            {% if c.result.address %}
+                <div class="col-12 {% if c.count == 2 %}col-xl-6{% elif c.count == 3 %}col-xl-4{% elif c.count == 4 %}col-xl-3{% endif %}">
+                    <div class="contact_wrap contact_style3 contact-same-height">
+                        <div class="contact_icon">
+                            <i class="linearicons-map2"></i>
+                        </div>
+                        <div class="contact_text">
+                            <span>{% trans "Address" %}</span>
+                            <p>{{c.result.address}}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if c.result.email %}
+                <div class="col-12 {% if c.count == 2 %}col-xl-6{% elif c.count == 3 %}col-md-6 col-xl-4{% elif c.count == 4 %}col-xl-3{% endif %}">
+                    <div class="contact_wrap contact_style3 contact-same-height">
+                        <div class="contact_icon">
+                            <i class="linearicons-envelope-open"></i>
+                        </div>
+                        <div class="contact_text">
+                            <span>{% trans "Email" %}</span>
+                            <p>
+                            <br />
+                            <a href="mailto:{{c.result.email}}">{{c.result.email}}</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if c.result.phone %}
+                <div class="col-12 {% if c.count == 2 %}col-xl-6{% elif c.count == 3 %}col-md-6 col-xl-4{% elif c.count == 4 %}col-xl-3{% endif %}">
+                    <div class="contact_wrap contact_style3 contact-same-height">
+                        <div class="contact_icon">
+                            <i class="linearicons-tablet2"></i>
+                        </div>
+                        <div class="contact_text">
+                            <span>{% trans "Phone" %}</span>
+                            <p>
+                                {% if not c.result.phone_secondary %}<br />{% endif %}
+                                <a href="tel:{{c.result.phone|phone_canadian}}">{{c.result.phone}}</a>
+                                {% if c.result.phone_secondary %}<br /><a href="tel:{{c.result.phone_secondary|phone_canadian}}">{{c.result.phone_secondary}}</a>{% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="dmpage-contact-form section pt-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="heading_s1">
+          <h2>{% trans "Contact us" %}</h2>
+        </div>
+        <p class="leads">{% trans "Fill out this form to contact us." %}</p>
+        <div class="field_form dm-contact">
+          <form method="post" name="enq" action="/contact/formulaire/">
+            {% csrf_token %}
+            <div class="row">
+              <div class="form-group col-md-6">
+                <input required placeholder="{% trans 'Name' %}" id="name" class="form-control" name="name" type="text" />
+              </div>
+              <div class="form-group col-md-6">
+                <input required placeholder="{% trans 'Email' %}" id="email" class="form-control" name="email" type="email" />
+              </div>
+              <div class="form-group col-md-6">
+                <input required placeholder="{% trans 'Phone' %}" id="phone" class="form-control" name="phone" />
+              </div>
+              <div class="form-group col-md-6">
+                <input placeholder="{% trans 'Subject' %}" id="subject" class="form-control" name="subject" />
+              </div>
+              <div class="form-group col-md-12">
+                <textarea required placeholder="Message" id="description" class="form-control" name="message" rows="4"></textarea>
+              </div>
+              <div class="form-group col col-12">
+                  <div class="g-recaptcha" data-sitekey="{% get_setting 'RECAPTCHA_PUBLIC_KEY' %}" data-callback="dmCaptcha"></div>
+              </div>
+              <div class="col-md-12">
+                <button type="submit" title="Envoyer" class="btn btn-fill-out" id="submitButton" name="submit" value="Submit">{% trans "Send" %}</button>
+              </div>
+              <div class="col-md-12">
+                <div id="alert-msg" class="alert-msg text-center"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="dmpage-contact-map col-lg-6 pt-2 pt-lg-0 mt-4 mt-lg-0">
+        {% if not c.result.map_latitude %}
+            {% dm_get_site_coord as coords %}
+        {% endif %}
+        <iframe width="300" height="170" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q={% if c.result.map_latitude %}{{ c.result.map_latitude }}{% elif coords.lat %}{{coords.lat}}{% else %}48.6525144{% endif %},{% if c.result.map_longitude %}{{ c.result.map_longitude }}{% elif coords.lon %}{{coords.lon}}{% else %}-72.445567{% endif %}&hl=fr&z=15&output=embed" style="width:100%;height:100%;"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock main-content %}
+
+{% block foot %}
+    {{ block.super }}
+    <script type="text/javascript">
+        var onloadCallback = function() {};
+        var dmCaptcha = function() {
+            $('#btn-contact-submit').prop('disabled', false)
+        }
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock foot %}

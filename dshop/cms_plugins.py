@@ -17,6 +17,8 @@ from .models import dmBlockSalesParent, dmBlockSalesChild
 from .models import dmBlockCalltoaction
 from .models import dmTeamParent, dmTeamChild
 from .models import dmTestimonialParent, dmTestimonialChild
+from .models import dmTilesParent, dmTilesChild
+from .models import dmTimelineParent, dmTimelineChild
 
 from .models import dmProductsCategories
 from .models import dmProductsVedette, dmProductsByCategory
@@ -658,4 +660,66 @@ class dmTestimonialChildPlugin(BoutiquePlugin):
             "theme/{}/plugins/block-testimonials-child.html".format(
                 settings.THEME_SLUG
             ), "plugins/block-testimonials-child.html"
+        ])
+
+
+@plugin_pool.register_plugin
+class dmTilesParentPlugin(BoutiquePlugin):
+    name = _("Tiles")
+    model = dmTilesParent
+    allow_children = True
+    child_classes = ["dmTilesChildPlugin"]
+
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            "theme/{}/plugins/block-tiles-parent.html".format(
+                settings.THEME_SLUG
+            ), "plugins/block-tiles-parent.html"
+        ])
+
+
+@plugin_pool.register_plugin
+class dmTilesChildPlugin(BoutiquePlugin):
+    name = _("Tile")
+    model = dmTilesChild
+    allow_children = False
+    require_parent = True
+    parent_classes = ["dmTilesParentPlugin"]
+
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            "theme/{}/plugins/block-tiles-child.html".format(
+                settings.THEME_SLUG
+            ), "plugins/block-tiles-child.html"
+        ])
+
+
+@plugin_pool.register_plugin
+class dmTimelineParentPlugin(BoutiquePlugin):
+    name = _("Timeline")
+    model = dmTimelineParent
+    allow_children = True
+    child_classes = ["dmTimelineChildPlugin"]
+
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            "theme/{}/plugins/block-timeline-parent.html".format(
+                settings.THEME_SLUG
+            ), "plugins/block-timeline-parent.html"
+        ])
+
+
+@plugin_pool.register_plugin
+class dmTimelineChildPlugin(BoutiquePlugin):
+    name = _("Timeline's Element")
+    model = dmTimelineChild
+    allow_children = False
+    require_parent = True
+    parent_classes = ["dmTimelineParentPlugin"]
+
+    def get_render_template(self, context, instance, placeholder):
+        return select_template([
+            "theme/{}/plugins/block-timeline-child.html".format(
+                settings.THEME_SLUG
+            ), "plugins/block-timeline-child.html"
         ])
