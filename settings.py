@@ -558,13 +558,15 @@ CKEDITOR_SETTINGS = {
     'toolbar_CMS':
     [['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
      ['Format', 'Styles', 'FontSize'],
-     ['TextColor', 'BGColor', '-', 'Link', 'FilerImage', '-', 'PasteText', 'PasteFromWord'],
+     ['TextColor', 'BGColor', '-', 'Link', 'FilerImage', '-',
+     'PasteText', 'PasteFromWord'],
      ['Maximize', ''], '/',
      [
          'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
          'Superscript', '-', 'RemoveFormat'
      ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-     ['HorizontalRule', 'Table'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+     ['HorizontalRule', 'Table'], ['NumberedList', 'BulletedList',
+     'Outdent', 'Indent'],
      ['Source']],
     'stylesSet':
     format_lazy('default:{}', reverse_lazy('admin:cascade_texteditor_config')),
@@ -581,13 +583,15 @@ CKEDITOR_SETTINGS_CAPTION = {
     'toolbar_HTMLField':
     [['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
      ['Format', 'Styles', 'FontSize'],
-     ['TextColor', 'BGColor', '-', 'Link', 'FilerImage', '-', 'PasteText', 'PasteFromWord'],
+     ['TextColor', 'BGColor', '-', 'Link', 'FilerImage', '-',
+     'PasteText', 'PasteFromWord'],
      ['Maximize', ''], '/',
      [
          'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
          'Superscript', '-', 'RemoveFormat'
      ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-     ['HorizontalRule', 'Table'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+     ['HorizontalRule', 'Table'], ['NumberedList', 'BulletedList',
+     'Outdent', 'Indent'],
      ['Source']],
     'extraPlugins': 'filerimage'
 }
@@ -602,13 +606,15 @@ CKEDITOR_SETTINGS_DESCRIPTION = {
     'toolbar_HTMLField':
     [['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
      ['Format', 'Styles', 'FontSize'],
-     ['TextColor', 'BGColor', '-', 'Link', 'FilerImage', '-', 'PasteText', 'PasteFromWord'],
+     ['TextColor', 'BGColor', '-', 'Link', 'FilerImage', '-',
+     'PasteText', 'PasteFromWord'],
      ['Maximize', ''], '/',
      [
          'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
          'Superscript', '-', 'RemoveFormat'
      ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-     ['HorizontalRule', 'Table'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+     ['HorizontalRule', 'Table'], ['NumberedList', 'BulletedList',
+     'Outdent', 'Indent'],
      ['Source']],
     'extraPlugins': 'filerimage'
 }
@@ -623,13 +629,15 @@ CKEDITOR_SETTINGS_DMPLUGIN = {
     'toolbar_HTMLField':
     [['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
      ['Format', 'Styles', 'FontSize'],
-     ['TextColor', 'BGColor', '-', 'Link', 'FilerImage', '-', 'PasteText', 'PasteFromWord'],
+     ['TextColor', 'BGColor', '-', 'Link', 'FilerImage', '-', 'PasteText',
+     'PasteFromWord'],
      ['Maximize', ''], '/',
      [
          'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
          'Superscript', '-', 'RemoveFormat'
      ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-     ['HorizontalRule', 'Table'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+     ['HorizontalRule', 'Table'], ['NumberedList', 'BulletedList',
+     'Outdent', 'Indent'],
      ['Source']],
     'extraPlugins': 'filerimage'
 }
@@ -641,16 +649,23 @@ CKEDITOR_SETTINGS_DMBLOCKPLUGIN = {
     'moono-lisa',
     'height':
     250,
-    'toolbar_HTMLField': [['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
-     ['Format', 'Styles', 'FontSize'],
-     ['TextColor', 'BGColor', '-', 'Link', 'FilerImage', '-', 'PasteText', 'PasteFromWord'],
-     ['Maximize', ''], '/',
-     [
-         'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
-         'Superscript', '-', 'RemoveFormat'
-     ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-     ['HorizontalRule', 'Table'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
-     ['Source']],
+    'toolbar_HTMLField': [
+        ['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
+        ['Format', 'Styles', 'FontSize'],
+        [
+            'TextColor', 'BGColor', '-',
+            'Link', 'FilerImage', '-',
+            'PasteText', 'PasteFromWord'
+        ],
+        ['Maximize', ''], '/',
+        [
+            'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
+            'Superscript', '-', 'RemoveFormat'
+        ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+        ['HorizontalRule', 'Table'],
+        ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+        ['Source']
+     ],
     'extraPlugins': 'filerimage'
 }
 

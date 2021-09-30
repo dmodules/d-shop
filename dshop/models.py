@@ -2720,7 +2720,8 @@ class dmTimelineChild(CMSPlugin):
         max_length=8,
         null=True,
         blank=True,
-        help_text=_("Maximum 8 characters. Will be displayed on the line of the middle.")
+        help_text=_("Maximum 8 characters. \
+            Will be displayed on the line of the middle.")
     )
     suptitle = models.CharField(
         verbose_name=_("Suptitle"),
