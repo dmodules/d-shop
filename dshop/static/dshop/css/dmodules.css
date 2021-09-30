@@ -838,10 +838,10 @@ html.cms-ready #tophead .tophead-topnav .tophead-icon.dm-cart.dmico-sticky {
 }
 
 /* ===--- Section Vedette ---=== */
-.section-vedette{
+.dmplugin-productsvedette{
   text-align:center;
 }
-.section-vedette h2{
+.dmplugin-productsvedette h2{
   color:#292b2c;
   font-size:2rem;
   font-weight:700;
@@ -1141,6 +1141,10 @@ html.cms-ready #tophead .tophead-topnav .tophead-icon.dm-cart.dmico-sticky {
 .dmproductdetail-description ol {
     padding: 0;
     margin: 0 50px 25px;
+}
+
+.cart_extra .dm-variants-select {
+    flex: 100%;
 }
 
 /* ===--- PAGE: Contact ---=== */
@@ -1470,4 +1474,50 @@ html.cms-ready #tophead .tophead-topnav .tophead-icon.dm-cart.dmico-sticky {
 .dmplugin-team .social_icons.social_style1 li a:hover {
 	background-color: #f16975;
 	color: #fff !important;
+}
+/* ===--- PLUGIN: tiles ---=== */
+.dmplugin-tiles {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.dmplugin-tiles-tile {
+    font-size: 0;
+    line-height: 0;
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+}
+.dmplugin-tiles-tile a {
+    display: block;
+}
+.dmplugin-tiles-image img {
+    width: 100%;
+}
+.dmplugin-tiles-content {
+    position: absolute;
+    top: auto;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+}
+.dmplugin-tiles-title,
+.dmplugin-tiles-link {
+    display: inline-block;
+    width: 50%;
+}
+.dmplugin-tiles-title {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 120%;
+}
+.dmplugin-tiles-link {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+    text-align: right;
+}
+.dmplugin-tiles-link i {
+    font-size: 12px;
+    line-height: 120%;
 }

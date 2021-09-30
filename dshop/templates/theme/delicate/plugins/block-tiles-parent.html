@@ -1,0 +1,15 @@
+{% load cms_tags thumbnail %}
+
+<!-- BEGIN: plugin: tiles -->
+<section class="dmplugin-tiles about-section{% if instance.hide_paddingtop or instance.hide_paddingbot %}{% if instance.hide_paddingtop and instance.hide_paddingbot %} py-0{% elif instance.hide_paddingtop %} mt-0 pt-0 pb-5{% elif instance.hide_paddingbot %} mb-0 pb-0 pt-5{% endif %}{% else %} py-5{% endif %}" style="{% if instance.bg_color %}background-color:{{ instance.bg_color }};{% endif %}{% if instance.bg_image %}background-image: url: ('{% thumbnail instance.bg_image '2000x900' %}');{% endif %}">
+    <div class="container{% if instance.fullwide %}-fluid{% endif %}">
+        <div class="row">
+            {% for plugin in instance.child_plugin_instances %}
+                {% with instance.perline as perline %}
+                    {% render_plugin plugin %}
+                {% endwith %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- END: plugin: tiles -->

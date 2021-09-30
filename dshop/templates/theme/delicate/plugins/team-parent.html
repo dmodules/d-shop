@@ -1,0 +1,30 @@
+{% load static cms_tags %}
+
+
+<!-- BEGIN: team -->
+<div class="dmplugin-team section py-5">
+  <div class="container">
+    {% if instance.title or instance.text %}
+      <div class="row text-center">
+        <div class="col-12">
+          {% if instance.title %}
+            <h2 class="title">
+              {{instance.title}}
+            </h2>
+          {% endif %}
+          {% if instance.text %}
+            <div class="subtitle">
+              {{instance.text|safe}}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+    <div class="row justify-content-center">
+      {% for plugin in instance.child_plugin_instances %}
+        {% render_plugin plugin %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<!-- END: team -->

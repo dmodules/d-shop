@@ -15,6 +15,7 @@ djangocms-picture==3.0.0
 djangocms-snippet==3.0.0
 djangocms-style==3.0.0
 djangocms-text-ckeditor==3.9.0
+django-ckeditor-filebrowser-filer==0.3.0
 djangocms-video==3.0.0
 django-filer==2.0.2
 django-parler==2.2
@@ -50,4 +51,3 @@ bs4==0.0.1
 django-cities-light==3.8.1
 sentry-sdk
 lxml
-

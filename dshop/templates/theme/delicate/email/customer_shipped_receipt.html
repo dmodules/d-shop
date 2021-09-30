@@ -1,0 +1,17 @@
+{% extends "theme/delicate/email/base.html" %}
+{% load static i18n sekizai_tags %}
+
+{% block email-title %}{% trans "Hello, your order"%} #{{ order.number }} {% trans "has been shipped. We look forward to seeing you again in our online store very soon" %} {% endblock %}
+
+{% block email-order-caption %}
+  {{ block.super }}
+  {% if delivery %}
+    <p>Méthode de livraison : {{ delivery.method }}</p>
+    <p>ID de livraison : {{ delivery.shipping_id }}</p>
+  {% endif %}
+{% endblock %}
+
+{% block email-body %}
+  {% include "theme/delicate/email/order-detail.html" %}
+  {% include "theme/delicate/email/customer-information.html" %}
+{% endblock %}

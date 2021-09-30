@@ -104,6 +104,7 @@ INSTALLED_APPS.extend([  # noqa: F821
     "cmsplugin_cascade.sharable",
     "cmsplugin_cascade.extra_fields",
     "cmsplugin_cascade.icon",
+    "ckeditor_filebrowser_filer",
     # ===---
     "cities_light",
     "fsm_admin",
@@ -241,17 +242,17 @@ SHOP_PRODUCT_SUMMARY_SERIALIZER = "dshop.serializers.dmProductSummarySerializer"
 ############################################
 # Templates Settings
 
-THEME_SLUG = "default"
+THEME_SLUG = os.getenv("THEME_SLUG", "default")
 
-TEMPLATE_DIR = "theme/default/pages/"
+TEMPLATE_DIR = "theme/{}/pages/".format(THEME_SLUG)
 
 CMS_TEMPLATES = [
-    ("theme/default/pages/default.html", "Par défaut"),
-    ("theme/default/pages/accueil.html", "Page: Accueil"),
-    ("theme/default/pages/produits.html", "Page: Produits"),
-    ("theme/default/pages/terms-and-conditions.html",
+    ("theme/{}/pages/default.html".format(THEME_SLUG), "Par défaut"),
+    ("theme/{}/pages/accueil.html".format(THEME_SLUG), "Page: Accueil"),
+    ("theme/{}/pages/produits.html".format(THEME_SLUG), "Page: Produits"),
+    ("theme/{}/pages/terms-and-conditions.html".format(THEME_SLUG),
      "Page: Terms and Conditions"),
-    ("theme/default/pages/contact.html", "Page: Contact"),
+    ("theme/{}/pages/contact.html".format(THEME_SLUG), "Page: Contact"),
 ]
 
 #######################################################################
@@ -390,9 +391,11 @@ THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.autocrop',
     # 'easy_thumbnails.processors.scale_and_crop',
     'easy_thumbnails.processors.filters',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
     'easy_thumbnails.processors.background',
-    'filer.thumbnail_processors.scale_and_crop_with_subject_location'
 )
+
+THUMBNAIL_PRESERVE_FORMAT = True
 
 AUTH_PASSWORD_VALIDATORS = [{
     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
@@ -555,16 +558,17 @@ CKEDITOR_SETTINGS = {
     'toolbar_CMS':
     [['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
      ['Format', 'Styles', 'FontSize'],
-     ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
+     ['TextColor', 'BGColor', '-', 'Link', 'FilerImage', '-', 'PasteText', 'PasteFromWord'],
      ['Maximize', ''], '/',
      [
          'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
          'Superscript', '-', 'RemoveFormat'
      ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-     ['HorizontalRule'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+     ['HorizontalRule', 'Table'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
      ['Source']],
     'stylesSet':
     format_lazy('default:{}', reverse_lazy('admin:cascade_texteditor_config')),
+    'extraPlugins': 'filerimage'
 }
 
 CKEDITOR_SETTINGS_CAPTION = {
@@ -577,14 +581,15 @@ CKEDITOR_SETTINGS_CAPTION = {
     'toolbar_HTMLField':
     [['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
      ['Format', 'Styles', 'FontSize'],
-     ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
+     ['TextColor', 'BGColor', '-', 'Link', 'FilerImage', '-', 'PasteText', 'PasteFromWord'],
      ['Maximize', ''], '/',
      [
          'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
          'Superscript', '-', 'RemoveFormat'
      ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-     ['HorizontalRule'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
-     ['Source']]
+     ['HorizontalRule', 'Table'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+     ['Source']],
+    'extraPlugins': 'filerimage'
 }
 
 CKEDITOR_SETTINGS_DESCRIPTION = {
@@ -597,14 +602,15 @@ CKEDITOR_SETTINGS_DESCRIPTION = {
     'toolbar_HTMLField':
     [['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
      ['Format', 'Styles', 'FontSize'],
-     ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
+     ['TextColor', 'BGColor', '-', 'Link', 'FilerImage', '-', 'PasteText', 'PasteFromWord'],
      ['Maximize', ''], '/',
      [
          'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
          'Superscript', '-', 'RemoveFormat'
      ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-     ['HorizontalRule'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
-     ['Source']]
+     ['HorizontalRule', 'Table'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+     ['Source']],
+    'extraPlugins': 'filerimage'
 }
 
 CKEDITOR_SETTINGS_DMPLUGIN = {
@@ -617,14 +623,15 @@ CKEDITOR_SETTINGS_DMPLUGIN = {
     'toolbar_HTMLField':
     [['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
      ['Format', 'Styles', 'FontSize'],
-     ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
+     ['TextColor', 'BGColor', '-', 'Link', 'FilerImage', '-', 'PasteText', 'PasteFromWord'],
      ['Maximize', ''], '/',
      [
          'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
          'Superscript', '-', 'RemoveFormat'
      ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-     ['HorizontalRule'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
-     ['Source']]
+     ['HorizontalRule', 'Table'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+     ['Source']],
+    'extraPlugins': 'filerimage'
 }
 
 CKEDITOR_SETTINGS_DMBLOCKPLUGIN = {
@@ -634,17 +641,17 @@ CKEDITOR_SETTINGS_DMBLOCKPLUGIN = {
     'moono-lisa',
     'height':
     250,
-    'toolbar_HTMLField':
-    [['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
+    'toolbar_HTMLField': [['Undo', 'Redo'], ['cmsplugins', 'ShowBlocks'],
      ['Format', 'Styles', 'FontSize'],
-     ['TextColor', 'BGColor', '-', 'Link', '-', 'PasteText', 'PasteFromWord'],
+     ['TextColor', 'BGColor', '-', 'Link', 'FilerImage', '-', 'PasteText', 'PasteFromWord'],
      ['Maximize', ''], '/',
      [
          'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
          'Superscript', '-', 'RemoveFormat'
      ], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-     ['HorizontalRule'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
-     ['Source']]
+     ['HorizontalRule', 'Table'], ['NumberedList', 'BulletedList', 'Outdent', 'Indent'],
+     ['Source']],
+    'extraPlugins': 'filerimage'
 }
 
 # SELECT2_CSS = 'node_modules/select2/dist/css/select2.min.css'

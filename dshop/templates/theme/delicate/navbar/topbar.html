@@ -1,0 +1,62 @@
+{% load i18n menu_tags cms_tags dshop_tags dmadvertising_tags %}
+
+<div id="delicate-topbar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-2 col-md-4 text-left dmtopbar-socials">
+                {% dm_get_site_socials as socials %}
+                {% for social in socials %}
+                    <span class="d-none d-md-inline">
+                        <a href="{{social.url}}" target="_blank">
+                        <i class="{% if social.social == 1 %}fab fa-facebook-square{% elif social.social == 2 %}fab fa-instagram{% elif social.social == 3 %}icon-social-youtube{% endif %}" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                {% endfor %}
+                {% dm_get_site_contacts as contacts %}
+                {% if contacts.phone %}
+                    <span class="d-none d-md-inline">
+                        <a href="tel:{{contacts.phone|phone_canadian}}">{{contacts.phone}}</a>
+                    </span>
+                {% endif %}
+                {% if contacts.phone_secondary %}
+                    <span class="d-none d-md-inline">
+                        <a href="tel:{{contacts.phone_secondary|phone_canadian}}">{{contacts.phone_secondary}}</a>
+                    </span>
+                {% endif %}
+            </div>
+            <div class="col-8 col-md-4 text-center dmtopbar-advertising">
+                {% get_advertisingtopbanner as alerts %}
+                {% for alert in alerts %}
+                    <span class="notif">
+                        {% if alert.link %}<a href="{{alert.link}}"{% if alert.open_blank %} target="_blank"{% endif %}>{% endif %}{{alert.text}}{% if alert.link %}</a>{% endif %}
+                    </span>
+                {% endfor %}
+            </div>
+            <div class="col-2 col-md-4 text-right dmtopbar-user">
+                <span class="tophead-icon drawer-toggle dm-user" data-dm="user">
+                    {% if customer.is_authenticated %}
+                        <span class="d-none d-md-inline mr-2">{% trans "My Account" %}</span>
+                    {% else %}
+                        <span class="d-none d-md-inline mr-2">{% trans "Log in" %}</span>
+                    {% endif %}
+                    <i class="icon-user"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="topsearch">
+    <div class="topsearch-wrapper">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col col-12 col-md-9">
+                    <input placeholder="{% trans 'Type your search here' %}" name="q" id="q" />
+                </div>
+                <div class="col col-12 col-md-3">
+                    <button class="btn btn-primary" onclick="doSearch('#q')">{% trans 'Search' %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

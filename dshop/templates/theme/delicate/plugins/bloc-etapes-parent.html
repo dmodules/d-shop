@@ -1,0 +1,29 @@
+{% load static thumbnail cms_tags i18n %}
+
+<div class="dmplugin-steps section{% if instance.hide_paddingtop or instance.hide_paddingbot %}{% if instance.hide_paddingtop and instance.hide_paddingbot %} py-0{% elif instance.hide_paddingtop %} mt-0 pt-0 pb-5{% elif instance.hide_paddingbot %} mb-0 pb-0 pt-5{% endif %}{% else %} py-5{% endif %}">
+    <div class="container">
+        {% if instance.title or instance.text %}
+            <div class="row text-center">
+                <div class="col-12">
+                    {% if instance.title %}
+                        <h2 class="title">
+                            {{instance.title}}
+                        </h2>
+                    {% endif %}
+                    {% if instance.subtitle %}
+                        <div class="subtitle">
+                            {{instance.subtitle|safe}}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+        <div class="row justify-content-evenly">
+            {% for plugin in instance.child_plugin_instances %}
+                {% with instance.perline as perline %}
+                    {% render_plugin plugin %}
+                {% endwith %}
+            {% endfor %}
+        </div>
+    </div>
+</div>

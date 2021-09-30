@@ -1794,6 +1794,12 @@ class dmProductsBrands(CMSPlugin):
             "How many brand's logo to be show at the same time."
         )
     )
+    bg_color = ColorField(
+        verbose_name=_("Background's Colour"),
+        null=True,
+        blank=True,
+        help_text=_("Leave blank to use transparent.")
+    )
 
 
 # ===---
@@ -1861,6 +1867,38 @@ class dmBlocTextMedia(CMSPlugin):
         null=False,
         blank=False
     )
+    btn_label = models.CharField(
+        verbose_name=_("Link's Label"),
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text=_("Facultative. Maximum 255 characters.")
+    )
+    btn_url = models.CharField(
+        verbose_name=_("URL"),
+        max_length=1000,
+        blank=True,
+        null=True,
+        help_text=_("Facultative. Maximum 1 000 characters.")
+    )
+    btn_blank = models.BooleanField(
+        verbose_name=_("Open on new tab?"),
+        default=False
+    )
+    bg_color = ColorField(
+        verbose_name=_("Background's Colour"),
+        null=True,
+        blank=True,
+        help_text=_("Leave blank to use transparent.")
+    )
+    hide_paddingtop = models.BooleanField(
+        verbose_name=_("Hide Top Margin"),
+        default=False
+    )
+    hide_paddingbot = models.BooleanField(
+        verbose_name=_("Hide Bottom Margin"),
+        default=False
+    )
 
 
 class dmBlocTextCarrousel(CMSPlugin):
@@ -1924,6 +1962,38 @@ class dmBlocTextCarrousel(CMSPlugin):
             arrows both sides of the carrousel."
         )
     )
+    btn_label = models.CharField(
+        verbose_name=_("Link's Label"),
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text=_("Facultative. Maximum 255 characters.")
+    )
+    btn_url = models.CharField(
+        verbose_name=_("URL"),
+        max_length=1000,
+        blank=True,
+        null=True,
+        help_text=_("Facultative. Maximum 1 000 characters.")
+    )
+    btn_blank = models.BooleanField(
+        verbose_name=_("Open on new tab?"),
+        default=False
+    )
+    bg_color = ColorField(
+        verbose_name=_("Background's Colour"),
+        null=True,
+        blank=True,
+        help_text=_("Leave blank to use transparent.")
+    )
+    hide_paddingtop = models.BooleanField(
+        verbose_name=_("Hide Top Margin"),
+        default=False
+    )
+    hide_paddingbot = models.BooleanField(
+        verbose_name=_("Hide Bottom Margin"),
+        default=False
+    )
 
 
 class dmBlocTextCarrouselImage(CMSPlugin):
@@ -1969,6 +2039,14 @@ class dmBlocText2Column(CMSPlugin):
     )
     text_align = models.BooleanField(
         verbose_name=_("Align texts vertically?"),
+        default=False
+    )
+    hide_paddingtop = models.BooleanField(
+        verbose_name=_("Hide Top Margin"),
+        default=False
+    )
+    hide_paddingbot = models.BooleanField(
+        verbose_name=_("Hide Bottom Margin"),
         default=False
     )
 
@@ -2271,7 +2349,8 @@ class dmBlockSalesParent(CMSPlugin):
 class dmBlockSalesChild(CMSPlugin):
     CHOIX_POSITION = [
         (0, _("Left")),
-        (1, _("Right"))
+        (1, _("Right")),
+        (2, _("Center"))
     ]
     title = models.CharField(
         verbose_name=_("Title"),
@@ -2535,4 +2614,165 @@ class dmTestimonialChild(CMSPlugin):
         configuration="CKEDITOR_SETTINGS_DMPLUGIN",
         null=True,
         blank=True
+    )
+
+
+class dmTilesParent(CMSPlugin):
+    CHOIX_PERLINE = [
+        ("12", _("1")),
+        ("6", _("2")),
+        ("4", _("3")),
+        ("3", _("4"))
+    ]
+    fullwide = models.BooleanField(
+        verbose_name=_("Fullwide"),
+        default=True
+    )
+    bg_color = ColorField(
+        verbose_name=_("Background's Colour"),
+        null=True,
+        blank=True
+    )
+    bg_image = image.FilerImageField(
+        verbose_name=_("Background's Image"),
+        on_delete=models.SET_NULL,
+        related_name="dmplugin_tilesparent_bgimage",
+        null=True,
+        blank=True,
+        help_text=_("Facultative. Size: 2000x900.")
+    )
+    perline = models.CharField(
+        verbose_name=_("Tile Per Line"),
+        max_length=2,
+        choices=CHOIX_PERLINE,
+        default="6"
+    )
+    hide_paddingtop = models.BooleanField(
+        verbose_name=_("Hide Top Margin"),
+        default=False
+    )
+    hide_paddingbot = models.BooleanField(
+        verbose_name=_("Hide Bottom Margin"),
+        default=False
+    )
+
+
+class dmTilesChild(CMSPlugin):
+    image = image.FilerImageField(
+        verbose_name=_("Image"),
+        on_delete=models.SET_NULL,
+        related_name="dmplugin_tileschild_image",
+        null=True,
+        blank=True,
+        help_text=_("Facultative. Max size: 1000x1000.")
+    )
+    title = models.CharField(
+        verbose_name=_("Title"),
+        max_length=1000,
+        null=True,
+        blank=True
+    )
+    label = models.CharField(
+        verbose_name=_("Label"),
+        max_length=1000,
+        default=_("Voir"),
+        null=True,
+        blank=True,
+        help_text=_("Facultative.")
+    )
+    link = models.CharField(
+        verbose_name=_("URL"),
+        max_length=1000,
+        null=True,
+        blank=True,
+        help_text=_("Facultative.")
+    )
+    blank = models.BooleanField(
+        verbose_name=_("Open on new tab?"),
+        default=False
+    )
+    text_color = ColorField(
+        verbose_name=_("Text's Colour"),
+        default="#000000",
+        null=False,
+        blank=False
+    )
+
+
+class dmTimelineParent(CMSPlugin):
+    hide_paddingtop = models.BooleanField(
+        verbose_name=_("Hide Top Margin"),
+        default=False
+    )
+    hide_paddingbot = models.BooleanField(
+        verbose_name=_("Hide Bottom Margin"),
+        default=False
+    )
+
+
+class dmTimelineChild(CMSPlugin):
+    CHOICE_POS_TEXT = [
+        (1, _("Left")),
+        (2, _("Right"))
+    ]
+    timeline_label = models.CharField(
+        verbose_name=_("Timeline's Label"),
+        max_length=8,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 8 characters. Will be displayed on the line of the middle.")
+    )
+    suptitle = models.CharField(
+        verbose_name=_("Suptitle"),
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 255 characters.")
+    )
+    title = models.CharField(
+        verbose_name=_("Title"),
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 255 characters.")
+    )
+    subtitle = models.CharField(
+        verbose_name=_("Subtitle"),
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text=_("Maximum 255 characters.")
+    )
+    suptitle_color = ColorField(
+        verbose_name=_("Suptitle's Colour"),
+        null=True,
+        blank=True
+    )
+    title_color = ColorField(
+        verbose_name=_("Title's Colour"),
+        null=True,
+        blank=True
+    )
+    subtitle_color = ColorField(
+        verbose_name=_("Subtitle's Colour"),
+        null=True,
+        blank=True
+    )
+    text = HTMLField(
+        verbose_name=_("Text"),
+        null=True,
+        blank=True
+    )
+    position_text = models.PositiveSmallIntegerField(
+        verbose_name=_("Text's Position"),
+        choices=CHOICE_POS_TEXT,
+        default=1
+    )
+    image = image.FilerImageField(
+        verbose_name=_("Image"),
+        on_delete=models.SET_NULL,
+        related_name="dmplugin_timeline_image",
+        null=True,
+        blank=True,
+        help_text=_("Maximum size: 800x800. Leave blank to hide image.")
     )

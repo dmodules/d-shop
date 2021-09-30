@@ -1,0 +1,52 @@
+{% extends "theme/delicate/pages/base.html" %}
+{% load cms_tags i18n thumbnail %}
+
+{% block title %}{% trans 'Payment Error' %}{% endblock %}
+
+{% block content %}
+
+    <div class="section">
+        <div class="error_wrap">
+            <div class="container">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-lg-6 col-md-10 order-lg-first">
+                        <div class="text-center">
+                            <div class="error_txt">{% trans "Error" %}</div>
+                            <h5 class="mb-2 mb-sm-3">{% trans "Oops! An error occurred during payment..." %}</h5> 
+                            <p>
+                                {% if error_code == "incorrect_number" %}
+                                    {% trans "The card number is incorrect." %}
+                                {% elif error_code == "invalid_number" %}
+                                    {% trans "The card number is not a valid credit card number." %}
+                                {% elif error_code == "invalid_expiry_month" %}
+                                    {% trans "The card's expiration month is invalid." %}
+                                {% elif error_code == "invalid_expiry_year" %}
+                                    {% trans "The card's expiration year is invalid." %}
+                                {% elif error_code == "invalid_cvc" %}
+                                    {% trans "The card's security code is invalid." %}
+                                {% elif error_code == "expired_card" %}
+                                    {% trans "The card has expired." %}
+                                {% elif error_code == "incorrect_cvc" %}
+                                    {% trans "The card's security code is incorrect." %}
+                                {% elif error_code == "incorrect_zip" %}
+                                    {% trans "The card's zip code failed validation." %}
+                                {% elif error_code == "card_declined" %}
+                                    {% trans "The card was declined." %}
+                                {% elif error_code == "missing" %}
+                                    {% trans "There is no card on a customer that is being charged." %}
+                                {% elif error_code == "processing_error" %}
+                                    {% trans "An error occurred while processing the card." %}
+                                {% elif error_code == "rate_limit" %}
+                                    {% trans "An error occurred due to requests hitting the API too quickly." %}
+                                {% endif %}
+                            </p>
+                            <a href="/" class="btn btn-fill-out">{% trans 'Back to Home' %}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+

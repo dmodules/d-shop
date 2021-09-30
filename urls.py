@@ -54,6 +54,7 @@ if os.path.exists(path_to_extended):
 
 
 urlpatterns = [
+    url(r'^filebrowser_filer/', include('ckeditor_filebrowser_filer.urls')),
 
     url(
         r'^attribute-autocomplete/$',

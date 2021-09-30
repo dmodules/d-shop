@@ -1,0 +1,190 @@
+{% load i18n static cascade_tags sekizai_tags dshop_tags %}
+{% load render_plugin from cascade_tags %}
+
+<div class="container py-5">
+  <div class="row py-1">
+    <div class="col py-1">
+
+      {% block shop-order-title %}
+      <div class="d-flex align-items-center flex-wrap">
+        <h4 class="text-nowrap">{% trans "Order" %} {{ data.number }}</h4>
+        <div class="text-nowrap ml-3">{% trans "from" context "order-detail" %}
+          <span>{{ data.created_at|ts_to_str }}</span>
+        </div>
+        {% if data.status == 'Payment confirmed' or data.status == 'Paiement confirmé' %}
+            <div class="w-auto ml-auto lead badge badge-primary">
+                {{ data.status }}
+            </div>
+        {% elif data.status == 'Ready for delivery' or data.status == 'Picking goods' or data.status == 'Packing goods' or data.status == 'Livraison des marchandises' or data.status == 'Pick the goods' or data.status == 'Livrer les marchandises' or data.status == 'Pack the goods' or data.status == 'Emballer les produits' or data.status == 'Ship goods' or data.status == 'Ship the goods'  or data.status == 'Tranport des marchandises' or data.status == 'Tranport les marchandises' %}
+            <div class="w-auto ml-auto lead badge badge-primary">
+                {% trans "Shipped" %}
+            </div>
+        {% else %}
+        <div class="w-auto ml-auto lead badge badge-secondary">
+            {% trans "Order Canceled" %}
+        </div>
+        {% endif %}
+      </div>
+      {% endblock %}
+
+      {% block shop-order-delivery %}
+        <div class="row mb-3">
+            <div class="col-12 col-lg-6 my-2">
+                <div class="service-item item-content">
+                    <div class="service-content-box text-left py-3 px-4">
+                        <h5 class="service-title">{% trans "Shipping Address" %}</h5>
+                        <div class="py-2 pl-1 pr-4">
+                            <pre class="text-left">{{ data.shipping_address_text }}</pre>
+                        </div>
+                        <div class="text-primary">
+                            {% trans "Shipping Method" %}: {% if data.active_shipping_method.label %}{{ data.active_shipping_method.label }}{% else %}-{% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 my-2">
+                <div class="service-item item-content">
+                    <div class="service-content-box text-left py-3 px-4">
+                        <h5 class="service-title">{% trans "Billing Address" %}</h5>
+                        <div class="py-2 pl-1 pr-4">
+                            <pre class="text-left pa-2">{{ data.billing_address_text }}</pre>
+                        </div>
+                        <div class="text-primary">
+                            {% trans "Payment Method" %}: {% if data.active_payment_method.label %}{{ data.active_payment_method.label }}{% else %}-{% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      {% endblock %}
+
+      {% block shop-order-head %}
+        <h4>{% trans "Ordered Items" %}</h4>
+      {% endblock shop-order-head %}
+
+      {% block shop-order-body %}
+      {% for item in data.items %}
+      <div class="shop-list-item order-detail-items-list row border-top py-2">
+        <div class="col-12 col-md-6">
+          <div class="row align-items-center flex-nowrap">
+            <div class="col-2 text-right">
+              {{ item.quantity }}<span class="px-1">&times;</span>
+            </div>
+            <div class="col-10 pb-3 pb-md-0">
+                <div class="item-media">
+                    {{ item.summary.media }}
+                </div>
+                <div class="item-detail">
+                    <h5><a href="{{item.summary.product_url}}">{{item.summary.product_name_trans}}</a></h5>
+                    {% if item.extra.variables and item.extra.variables.attributes %}
+                        <div class="item-attributes">
+                            {% for attribute in item.extra.variables.attributes %}
+                                <div>{{attribute}}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="row text-nowrap flex-nowrap lead">
+            <div class="col-6 text-right">{{ item.unit_price }}</div>
+            <div class="col-4 col-md-6 text-right">{{ item.line_total }}</div>
+          </div>
+          {% for key, extra_row in item.extra.rows %}
+            {% if key == "unit-price-before-discounts" %}
+                <div class="row text-muted text-nowrap flex-nowrap">
+                    <div class="col-6 text-right"><del>{{ extra_row.amount }}</del></div>
+            {% endif %}
+        {% endfor %}
+        {% for key, extra_row in item.extra.rows %}
+            {% if key == "price-before-discounts" %}
+                    <div class="col-4 col-md-6 text-right"><del>{{ extra_row.amount }}</del></div>
+                </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+      {% endblock shop-order-body %}
+
+      {% block shop-order-foot %}
+      <div class="row mb-3">
+        <div class="col-12 col-md-6 border-top order-md-last">
+          {% for key, extra_row in data.extra.rows %}
+            {% if key == "subtotal-before-discounts" or key == "discounts" %}
+              <div class="row py-2">
+                  <div class="col-6 text-right text-nowrap">{{ extra_row.label }}</div>
+                  <div class="col-4 col-md-6 text-right text-nowrap">{{ extra_row.amount }}</div>
+              </div>
+            {% endif %}
+          {% endfor %}
+          <div class="row py-2 lead">
+            <div class="col-6 text-right text-nowrap">
+              {% trans "Subtotal" %}
+            </div>
+            <div class="col-4 col-md-6 text-right text-nowrap">
+              {{ data.subtotal }}
+            </div>
+          </div>
+          {% dm_check_shipping_taxed data.extra.rows as shippingistaxed %}
+          {% if shippingistaxed %}
+            {% for key, extra_row in data.extra.rows %}
+                {% if key == "pickup-in-store" or key == "free-shipping" or key == "standard-shipping" or key == "express-shipping" or key == "standard-separator-shipping" or key == "express-separator-shipping" %}
+                    <div class="row py-2">
+                        <div class="col-6 text-right text-nowrap">{% trans "Shipping Cost" %}</div>
+                        <div class="col-4 col-md-6 text-right text-nowrap">{{ extra_row.amount }}</div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+          {% endif %}
+          {% for key, extra_row in data.extra.rows %}
+            {% if key != "subtotal-before-discounts" and key != "discounts" and key != "applied-promocodes" and key != "canadiantaxes" and key != "cart-discounts" and key != "shipping-is-taxed" and key != "pickup-in-store" and key != "free-shipping" and key != "standard-shipping" and key != "express-shipping" and key != "standard-separator-shipping" and key != "express-separator-shipping" %}
+                <div class="row py-2">
+                    <div class="col-6 text-right text-nowrap">{{ extra_row.label }}</div>
+                    <div class="col-4 col-md-6 text-right text-nowrap">{{ extra_row.amount }}</div>
+                </div>
+            {% endif %}
+          {% endfor %}
+          {% if not shippingistaxed %}
+            {% for key, extra_row in data.extra.rows %}
+                {% if key == "pickup-in-store" or key == "free-shipping" or key == "standard-shipping" or key == "express-shipping" or key == "standard-separator-shipping" or key == "express-separator-shipping" %}
+                    <div class="row py-2">
+                        <div class="col-6 text-right text-nowrap">{% trans "Shipping Cost" %}</div>
+                        <div class="col-4 col-md-6 text-right text-nowrap">{{ extra_row.amount }}</div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+          {% endif %}
+          <div class="row py-2 shop-double-border lead font-weight-bold">
+            <div class="col-6 text-right text-nowrap">{% trans "Total" %}</div>
+            <div class="col-4 col-md-6 text-right text-nowrap">{{ data.total }}</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+            {% for key, extra_row in data.extra.rows %}
+              {% if key == "applied-promocodes" %}
+                <div class="row border-top pt-3 pb-2">
+                    <div class="col-12">
+                        <h4 class="mb-3">{% trans "Applied Promocodes" %}</h4>
+                        {{ extra_row.content }}
+                    </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-12 col-md-6">
+          {% if instance.left_extension %}{% render_plugin instance.left_extension %}{% endif %}
+        </div>
+        <div class="col-12 col-md-6">
+          {% if instance.right_extension %}{% render_plugin instance.right_extension %}{% endif %}
+        </div>
+      </div>
+
+      {% endblock shop-order-foot %}
+    </div>
+  </div>
+</div>

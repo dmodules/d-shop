@@ -1,0 +1,27 @@
+{% extends 'theme/delicate/pages/base.html' %}
+{% load render_bundle from webpack_loader %}
+{% load i18n static sekizai_tags %}
+
+{% block title %}{% trans "Checkout" %}{% endblock %}
+{% block meta-description %}{% trans "Checkout and order." %}{% endblock %}
+
+{% block head %}
+    {% render_bundle 'chunk-vendors' %}
+    {{ block.super }}
+{% endblock head %}
+
+{% block main-content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <noscript>
+                    <strong>Une erreur est survenue.</strong>
+                </noscript>
+                <div id="app">
+                    <app></app>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% render_bundle 'app' %}
+{% endblock %}

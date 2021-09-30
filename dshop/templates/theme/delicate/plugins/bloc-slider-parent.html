@@ -1,0 +1,25 @@
+{% load static cms_tags %}
+
+<div class="dmplugin-slider banner_section slide_medium shop_banner_slider staggered-animation-wrap" style="height:{{ instance.height }}px;max-height:{{ instance.height }}px;">
+    <div id="mainslider" class="carousel slide carousel-fade light_arrow" data-ride="carousel">
+        <div class="carousel-inner">
+            {% for plugin in instance.child_plugin_instances %}
+                {% with height=instance.height %}
+                    {% if forloop.first %}
+                        {% with loop='first' %}
+                            {% render_plugin plugin %}
+                        {% endwith %}
+                    {% else %}
+                        {% render_plugin plugin %}
+                    {% endif %}
+                {% endwith %}
+            {% endfor %}
+        </div>
+    {% for plugin in instance.child_plugin_instances %}
+        {% if forloop.counter == 2 %}
+        <a class="carousel-control-prev" href="#mainslider" role="button" data-slide="prev"><i class="ion-chevron-left"></i></a>
+        <a class="carousel-control-next" href="#mainslider" role="button" data-slide="next"><i class="ion-chevron-right"></i></a>
+        {% endif %}
+    {% endfor %}
+    </div>
+</div>

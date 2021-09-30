@@ -1,0 +1,267 @@
+{% load static thumbnail cms_tags i18n dshop_tags dmrabais_tags %}
+
+{% dm_quotation_feature as is_quotation %}
+
+{% if instance.bg_image %}
+    {% thumbnail instance.bg_image "2000x900" as thumb %}
+{% endif %}
+
+<!-- BEGIN: par catégorie -->
+<section class="dmplugin-productsbycategory section-parcategorie py-5" style="{% if instance.bg_color %}background-color:{{instance.bg_color}};{% endif %}{% if instance.bg_image %}background-image:url({{thumb.url}});{% endif %}">
+    <div class="container text-center">
+    {% if instance.title or instance.text %}
+        <div class="row">
+            <div class="col-12">
+                {% if instance.title %}
+                    <h2 class="title" style="{% if instance.text_color %}color:{{instance.text_color}};{% endif %}">
+                        {{instance.title}}
+                    </h2>
+                {% endif %}
+                {% if instance.text %}
+                    <div class="subtitle" style="{% if instance.text_color %}color:{{instance.text_color}};{% endif %}">
+                        {{instance.text|safe}}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-12">
+                <div class="tab-style1">
+                    <ul class="nav nav-tabs justify-content-center" role="tablist" style="{% if instance.text_color %}color:{{instance.text_color}};{% endif %}">
+                        {% dm_get_categories_parents as categories %}
+                        {% for category in categories %}
+                            <li class="nav-item">
+                                <a class="nav-link pbc-tab{% if forloop.first %} active{% endif %}" id="tab{{forloop.counter}}-tab" data-toggle="tab" href="#tab{{forloop.counter}}" role="tab" aria-controls="tab{{forloop.counter}}" onclick="loadMoreByCategory({{category.pk}}, {{forloop.counter}});" aria-selected="true">{{category.name}}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% if categories %}
+                    <div class="tab-content">
+                        {% for category in categories %}
+                            <div class="tab-pane fade{% if forloop.first %} show active{% endif %}" id="tab{{forloop.counter}}" role="tabpanel" aria-labelledby="tab{{forloop.counter}}-tab">
+                                <div class="row shop_container justify-content-center">
+                                    {% if forloop.first %}
+                                        {% dm_get_products_by_category category.id 0 8 as products %}
+                                        {% for product in products.products %}
+                                            <div class="col-md-4 col-6" id="produitno{{forloop.counter}}">
+                                                <div class="product">
+                                                    <div class="product_img">
+                                                        <a href="{{product.get_absolute_url}}">
+                                                        {% if product.main_image %}
+                                                            {% thumbnail product.main_image 540x600 background="#ffffff" upscale as thumb %}
+                                                            <img src="{{thumb.url}}" alt="{{product.product_name_trans}}">
+                                                        {% elif product.images.first %}
+                                                            {% thumbnail product.images.first 540x600 background="#ffffff" upscale as thumb %}
+                                                            <img src="{{thumb.url}}" alt="{{product.product_name_trans}}">
+                                                        {% else %}
+                                                            <img src="https://via.placeholder.com/540x600/f7f8fb/f7f8fb" alt="{{product.product_name_trans}}">
+                                                        {% endif %}
+                                                        </a>
+                                                        <div class="product_action_box">
+                                                            <ul class="list_none pr_action_btn">
+                                                                <li>
+                                                                    <a href="{{product.get_absolute_url}}"><i class="ti-info-alt"></i></a>
+                                                                </li>
+                                                                {% if not product.variants and product.quantity > 0 %}
+                                                                    <li>
+                                                                        {% if is_quotation %}
+                                                                            <a href="#" onclick="dm_add2quotation($(this)); return false" data-product="{{product.product_code}}">
+                                                                                <i class="icon-basket-loaded"></i>
+                                                                            </a>
+                                                                        {% else %}
+                                                                            <a href="#" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}">
+                                                                                <i class="icon-basket-loaded"></i>
+                                                                            </a>
+                                                                        {% endif %}
+                                                                    </li>
+                                                                {% elif product.variants and product.variants.count == 1 %}
+                                                                    <li>
+                                                                        {% if is_quotation %}
+                                                                            <a href="#" onclick="dm_add2quotation_variant($(this)); return false" data-product="{{product.product_code}}" data-variant="{{product.variants.first.product_code}}">
+                                                                                <i class="icon-basket-loaded"></i>
+                                                                            </a>
+                                                                        {% else %}
+                                                                            <a href="#" onclick="dm_add2cart_variant($(this)); return false" data-product="{{product.slug}}" data-variant="{{product.variants.first.product_code}}">
+                                                                                <i class="icon-basket-loaded"></i>
+                                                                            </a>
+                                                                        {% endif %}
+                                                                    </li>
+                                                                {% endif %}
+                                                            </ul>
+                                                        </div>
+                                                        {% if product.label %}
+                                                            <span class="product_sale_customlabel" style="background-color:{{ product.label.bg_colour }};border-color:{{ product.label.colour }};color:{{ product.label.colour }};">{{ product.label.name }}</span>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="product_info text-left">
+                                                        <h6 class="product_title"><a href="{{product.get_absolute_url}}">{{product.product_name_trans}}</a></h6>
+                                                        {% if not is_quotation %}
+                                                            <div class="product_price">
+                                                                {% if product.variants %}
+                                                                    {% if product.variants.first %}
+                                                                        {% product_variant_discount_price product.variants.first.id as real_price %}
+                                                                        <span class="price">{{real_price}}</span>
+                                                                        {% if real_price != product.variants.first.unit_price %}
+                                                                            <del>{{product.variants.first.unit_price}}</del>
+                                                                        {% endif %}
+                                                                    {% else %}
+                                                                        <span class="price">-</span>
+                                                                    {% endif %}
+                                                                    {% dm_variants_is_outofstock product.variants as variants_outofstock %}
+                                                                    {% dm_variants_is_discounted product.variants as variants_isdiscounted %}
+                                                                    {% if variants_outofstock %}
+                                                                        <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
+                                                                    {% elif variants_isdiscounted or real_price != product.variants.first.unit_price %}
+                                                                        <span class="product_sale_discounted">{% trans "Discounted" %}</span>
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                    {% product_discount_price product.id as real_price %}
+                                                                    <span class="price">{{real_price}}</span>
+                                                                    {% if real_price != product.unit_price %}
+                                                                        <del>{{product.unit_price}}</del>
+                                                                    {% endif %}
+                                                                    {% if product.quantity == 0 %}
+                                                                        <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
+                                                                    {% elif product.is_discounted or real_price != product.unit_price %}
+                                                                        <span class="product_sale_discounted">{% trans "Discounted" %}</span>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% empty %}
+                                            <div class="col-12">
+                                                <div class="product py-5">
+                                                    <div class="product_info">
+                                                        <h6 class="product_title text-center my-5">{% trans 'No product found' %} <i class="far fa-frown-open"></i></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                            <div class="pbc-loading">{% trans 'Loading' %}<span>.</span><span>.</span><span>.</span></div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {% dm_get_all_products 0 8 as products %}
+                    {% if products %}
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                                <div class="row shop_container justify-content-center">
+                                    {% for product in products.products %}
+                                        <div class="col-lg-3 col-md-4 col-6" id="produitno1">
+                                            <div class="product">
+                                                <div class="product_img">
+                                                    <a href="{{product.get_absolute_url}}">
+                                                    {% if product.main_image %}
+                                                        {% thumbnail product.main_image 540x600 background="#ffffff" upscale as thumb %}
+                                                        <img src="{{thumb.url}}" alt="{{product.product_name_trans}}">
+                                                    {% elif product.images.first %}
+                                                        {% thumbnail product.images.first 540x600 background="#ffffff" upscale as thumb %}
+                                                        <img src="{{thumb.url}}" alt="{{product.product_name_trans}}">
+                                                    {% else %}
+                                                        <img src="https://via.placeholder.com/540x600/f7f8fb/f7f8fb" alt="{{product.product_name_trans}}">
+                                                    {% endif %}
+                                                    </a>
+                                                    <div class="product_action_box">
+                                                        <ul class="list_none pr_action_btn">
+                                                            <li>
+                                                                <a href="{{product.get_absolute_url}}"><i class="ti-info-alt"></i></a>
+                                                            </li>
+                                                            {% if not product.variants and product.quantity > 0 %}
+                                                                <li>
+                                                                    {% if is_quotation %}
+                                                                        <a href="#" onclick="dm_add2quotation($(this)); return false" data-product="{{product.product_code}}">
+                                                                            <i class="icon-basket-loaded"></i>
+                                                                        </a>
+                                                                    {% else %}
+                                                                        <a href="#" onclick="dm_add2cart($(this)); return false" data-product="{{product.slug}}">
+                                                                            <i class="icon-basket-loaded"></i>
+                                                                        </a>
+                                                                    {% endif %}
+                                                                </li>
+                                                            {% elif product.variants and product.variants.count == 1 %}
+                                                                <li>
+                                                                    {% if is_quotation %}
+                                                                        <a href="#" onclick="dm_add2quotation_variant($(this)); return false" data-product="{{product.product_code}}" data-variant="{{product.variants.first.product_code}}">
+                                                                            <i class="icon-basket-loaded"></i>
+                                                                        </a>
+                                                                    {% else %}
+                                                                        <a href="#" onclick="dm_add2cart_variant($(this)); return false" data-product="{{product.slug}}" data-variant="{{product.variants.first.product_code}}">
+                                                                            <i class="icon-basket-loaded"></i>
+                                                                        </a>
+                                                                    {% endif %}
+                                                                </li>
+                                                            {% endif %}
+                                                        </ul>
+                                                    </div>
+                                                    {% if product.label %}
+                                                        <span class="product_sale_customlabel" style="background-color:{{ product.label.bg_colour }};border-color:{{ product.label.colour }};color:{{ product.label.colour }};">{{ product.label.name }}</span>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="product_info text-left">
+                                                    <h6 class="product_title"><a href="{{product.get_absolute_url}}">{{product.product_name_trans}}</a></h6>
+                                                    {% if not is_quotation %}
+                                                        <div class="product_price">
+                                                            {% if product.variants %}
+                                                                {% if product.variants.first %}
+                                                                    {% product_variant_discount_price product.variants.first.id as real_price %}
+                                                                    <span class="price">{{real_price}}</span>
+                                                                    {% if real_price != product.variants.first.unit_price %}
+                                                                        <del>{{product.variants.first.unit_price}}</del>
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                    <span class="price">-</span>
+                                                                {% endif %}
+                                                                {% dm_variants_is_outofstock product.variants as variants_outofstock %}
+                                                                {% dm_variants_is_discounted product.variants as variants_isdiscounted %}
+                                                                {% if variants_outofstock %}
+                                                                    <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
+                                                                {% elif variants_isdiscounted or real_price != product.variants.first.unit_price %}
+                                                                    <span class="product_sale_discounted">{% trans "Discounted" %}</span>
+                                                                {% endif %}
+                                                            {% else %}
+                                                                {% product_discount_price product.id as real_price %}
+                                                                <span class="price">{{real_price}}</span>
+                                                                {% if real_price != product.unit_price %}
+                                                                    <del>{{product.unit_price}}</del>
+                                                                {% endif %}
+                                                                {% if product.quantity == 0 %}
+                                                                    <span class="product_sale_outofstock">{% trans "Out of stock" %}</span>
+                                                                {% elif product.is_discounted or real_price != product.unit_price %}
+                                                                    <span class="product_sale_discounted">{% trans "Discounted" %}</span>
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="product">
+                                    <div class="product_info">
+                                        <h6 class="product_title text-center my-5">{% trans 'No product found' %} <i class="far fa-frown-open"></i></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+<!-- END: par catégorie -->

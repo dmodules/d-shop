@@ -2,6 +2,7 @@ from django.dispatch import receiver
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from settings import THEME_SLUG
 
 from cms.models import Page, Title
 from cms.api import create_page, create_title, publish_page
@@ -20,7 +21,7 @@ def handle_termsandconditions(sender, instance, **kwargs):
     if pages.count() == 0:
         data = {
             "title": str(trans_title),
-            "template": "theme/default/pages/terms-and-conditions.html",
+            "template": "theme/"+THEME_SLUG+"/pages/terms-and-conditions.html",
             "language": instance.language_code,
             "reverse_id": "terms-and-conditions",
             "published": True,
