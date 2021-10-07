@@ -19,51 +19,63 @@
         {% endif %}
       {% endblock shop-order-head %}
 
-      {% block shop-order-body %}
-        {% for order in data.results %}
-          <div class="shop-list-item row border-top py-2">
-            <div class="col-12 col-lg-6">
-              <div class="row flex-nowrap lead">
-                <div class="col-8">
-                  <a class="mr-lg-5 mr-3" href="{{ order.url }}">{{ order.number }}</a>
-                  <small class="text-nowrap text-muted" shop-timestamp="{{ order.created_at }}" time-format="d. MMM yyyy"></small>
-                </div>
-                <div class="col-4 text-nowrap text-right">{{ order.total }}</div>
-              </div>
-            </div>
-            <div class="col-12 col-lg-6">
-              <div class="row flex-nowrap">
-                <div class="col-8">{{ order.shipping_address_text }}</div>
-                <div class="col-4 text-right">
-                  {% if order.status == 'Payment confirmed' or order.status == 'Paiement confirmé' %}
-                    <div class="badge badge-primary">
-                        {{ order.status }}
-                    </div>
-                  {% elif order.status == 'Ready for delivery' or order.status == 'Picking goods' or order.status == 'Packing goods' or order.status == 'Livraison des marchandises' or order.status == 'Pick the goods' or order.status == 'Livrer les marchandises' or order.status == 'Pack the goods' or order.status == 'Emballer les produits' or order.status == 'Ship goods' or order.status == 'Ship the goods'  or order.status == 'Tranport des marchandises' or order.status == 'Tranport les marchandises' %}
-                    <div class="badge badge-primary">
-                        {% trans "Shipped" %}
-                    </div>
-                  {% else %}
-                    <div class="badge badge-secondary">
-                        {% trans "Order Canceled" %}
-                    </div>
-                  {% endif %}
-                </div>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-      {% endblock shop-order-body %}
+      {% if user.is_authenticated %}
 
-      {% block shop-order-foot %}
-        {% if paginator.display_page_controls %}
-          <div class="row border-top py-3">
-            <div class="col text-center" aria-label="{% trans 'Page navigation' %}">
-              <ul class="pagination justify-content-center">{{ paginator.to_html }}</ul>
+        {% block shop-order-body %}
+            {% for order in data.results %}
+                <div class="shop-list-item row border-top py-2">
+                    <div class="col-12 col-lg-6">
+                        <div class="row flex-nowrap lead">
+                            <div class="col-8">
+                                <a class="mr-lg-5 mr-3" href="{{ order.url }}">{{ order.number }}</a>
+                                <small class="text-nowrap text-muted" shop-timestamp="{{ order.created_at }}" time-format="d. MMM yyyy"></small>
+                            </div>
+                            <div class="col-4 text-nowrap text-right">{{ order.total }}</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="row flex-nowrap">
+                            <div class="col-8">{{ order.shipping_address_text }}</div>
+                            <div class="col-4 text-right">
+                                {% if order.status == 'Payment confirmed' or order.status == 'Paiement confirmé' %}
+                                    <div class="badge badge-primary">
+                                        {{ order.status }}
+                                    </div>
+                                {% elif order.status == 'Ready for delivery' or order.status == 'Picking goods' or order.status == 'Packing goods' or order.status == 'Livraison des marchandises' or order.status == 'Pick the goods' or order.status == 'Livrer les marchandises' or order.status == 'Pack the goods' or order.status == 'Emballer les produits' or order.status == 'Ship goods' or order.status == 'Ship the goods'  or order.status == 'Tranport des marchandises' or order.status == 'Tranport les marchandises' %}
+                                    <div class="badge badge-primary">
+                                        {% trans "Shipped" %}
+                                    </div>
+                                {% else %}
+                                    <div class="badge badge-secondary">
+                                        {% trans "Order Canceled" %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endblock shop-order-body %}
+
+        {% block shop-order-foot %}
+            {% if paginator.display_page_controls %}
+                <div class="row border-top py-3">
+                    <div class="col text-center" aria-label="{% trans 'Page navigation' %}">
+                        <ul class="pagination justify-content-center">{{ paginator.to_html }}</ul>
+                    </div>
+                </div>
+            {% endif %}
+        {% endblock shop-order-foot %}
+
+        {% else %}
+  
+            <div class="row lead text-muted py-1">
+                <div class="col">
+                    {% trans "You need to be logged in to see your orders." %}
+                </div>
             </div>
-          </div>
+  
         {% endif %}
-      {% endblock shop-order-foot %}
 
     </div>
   </div>

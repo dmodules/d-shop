@@ -3798,3 +3798,6 @@ msgstr "Personnalisations"
 
 msgid "Discount Type"
 msgstr "Type de rabais"
+
+msgid "You need to be logged in to see your orders."
+msgstr "Vous devez être connecté pour voir vos commandes."
