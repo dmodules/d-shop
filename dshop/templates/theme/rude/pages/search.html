@@ -1,0 +1,79 @@
+{% extends "theme/rude/pages/base.html" %}
+{% load cms_tags i18n thumbnail %}
+
+{% block title %}{% trans 'Search' %}{% endblock %}
+
+{% block content %}
+    <div class="dmpage-search container py-5 mb-5 section-search">
+        <div class="row">
+            <div class="col-12 pb-4">
+                <h1 class="mb-1">{% trans 'Search' %}</h1>
+                {% if count >= 0 %}
+                    <p>{% trans 'Products found:' %} {{count}}</p>
+                {% endif %}
+            </div>
+        </div>
+        <form>
+            <div class="row pb-5">
+                <div class="col col-12 col-md-8 col-xl-10 search-input">
+                    <div class="form-group">
+                        <input placeholder="{% trans 'Search' %}" name="q" id="qs" class="form-control rounded-0"{% if query %} value="{{query}}"{% endif %} required />
+                    </div>
+                </div>
+                <div class="col col-12 col-md-4 col-xl-2 search-send">
+                    <button class="btn btn-fill-line d-block w-100 dmpage-search-btn-query" onclick="doSearch()">{% trans 'Search' %}</button>
+                </div>
+            </div>
+        </form>
+        {% if count >= 0 %}
+            {% for p in products %}
+                <div class="row search-product">
+                    <div class="col-2 col-md-1 search-img">
+                        {% if p.sample_image %}
+                            {% thumbnail p.sample_image 80x80 background="#ffffff" upscale as thumb %}
+                            <img src="{{ thumb.url }}" alt="" class="mr-3" />
+                        {% else %}
+                            <img src="https://via.placeholder.com/80x80/f7f8fb/f7f8fb" alt="" class="mr-3" />
+                        {% endif %}
+                    </div>
+                    <div class="col-6 col-md-7 search-name">
+                        <div class="dmpage-search-text">
+                            <span><a href="{{p.get_absolute_url}}">{{p.product_name_trans}}</a></span>
+                            <span>{{p.caption|striptags}}</span>
+                        </div>
+                        {% if p.categories.all %}
+                            <div class="dmpage-search-categories">
+                                {% for c in p.categories.all %}<span>{{ c }}</span>{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-4 align-self-center search-btn">
+                        <a href="{{p.get_absolute_url}}" class="btn btn-fill-out">{% trans 'See product' %}</a>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="row pb-5">
+                    <div class="col-12 pb-5 text-center">
+                        {% trans 'No product found' %}
+                    </div>
+                </div>
+            {% endfor %}
+            {% if pages > 1 %}
+                <div class="row">
+                    <div class="col-12 text-center pt-5">
+                        <nav aria-label="pagination">
+                            <ul class="pagination justify-content-center flex-wrap">
+                                {% for p in "p"|rjust:pages %}
+                                    <li class="page-item{% if page and page == forloop.counter %} active{% endif %}">
+                                        <a href="?q={{query}}&page={{forloop.counter}}" class="page-link">{{forloop.counter}}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock content %}
+

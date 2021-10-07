@@ -1,0 +1,33 @@
+{% load static thumbnail cms_tags i18n %}
+
+{% if instance.bg_image %}
+    {% thumbnail instance.bg_image "2000x900" as bgthumb %}
+{% endif %}
+
+<div class="dmplugin-steps section{% if instance.hide_paddingtop or instance.hide_paddingbot %}{% if instance.hide_paddingtop and instance.hide_paddingbot %} py-0{% elif instance.hide_paddingtop %} mt-0 pt-0 pb-5{% elif instance.hide_paddingbot %} mb-0 pb-0 pt-5{% endif %}{% else %} py-5{% endif %}" style="{% if instance.bg_color %}background-color:{{instance.bg_color}};{% endif %}{% if bgthumb %}background-image:url('{{bgthumb.url}}');{% endif %}{% if instance.text_color %}color:{{ instance.text_color }};{% endif %}">
+    <div class="container">
+        {% if instance.title or instance.text %}
+            <div class="row text-center pb-3 mb-5">
+                <div class="col-12">
+                    {% if instance.title %}
+                        <h2 class="title" style="{% if instance.text_color %}color:{{ instance.text_color }};{% endif %}">
+                            {{instance.title}}
+                        </h2>
+                    {% endif %}
+                    {% if instance.text %}
+                        <div class="text" style="{% if instance.text_color %}color:{{ instance.text_color }};{% endif %}">
+                            {{instance.text|safe}}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+        <div class="row justify-content-evenly">
+            {% for plugin in instance.child_plugin_instances %}
+                {% with perline=instance.perline loop=forloop.counter %}
+                    {% render_plugin plugin %}
+                {% endwith %}
+            {% endfor %}
+        </div>
+    </div>
+</div>

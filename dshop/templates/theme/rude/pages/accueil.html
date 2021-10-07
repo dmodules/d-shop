@@ -1,0 +1,32 @@
+{% extends "theme/rude/pages/base.html" %}
+{% load static thumbnail cms_tags i18n sekizai_tags dshop_tags dmadvertising_tags %}
+
+{% block title %}{% page_attribute "page_title" %}{% endblock %}
+{% block meta-description %}{% page_attribute "meta_description" %}{% endblock %}
+
+{% block content %}
+
+    {% placeholder 'Contenu' %}
+
+    {% get_advertisingpopup as popups %}
+    {% for popup in popups %}
+        {% if LANGUAGE_CODE == "en" %}
+            {% thumbnail popup.image_en "800x600" as thumb %}
+        {% else %}
+            {% thumbnail popup.image_fr "800x600" as thumb %}
+        {% endif %}
+        <div id="dmadvertising-popup">
+            {% if popup.link %}
+                <a href="{{ popup.link }}">
+            {% endif %}
+            <div class="dm-wrapper" style="background-image:url('{{ thumb.url }}')">
+                {{ popup.title }}
+            </div>
+            {% if popup.link %}
+                </a>
+            {% endif %}
+            <a href="#" class="dm-close" onclick="dmClosePopup({{ popup.id }}, {% if popup.close_30days %}1{% else %}0{% endif %})">{% trans "Close" %}</a>
+        </div>
+    {% endfor %}
+
+{% endblock content %}

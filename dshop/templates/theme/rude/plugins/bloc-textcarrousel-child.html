@@ -1,0 +1,14 @@
+{% load thumbnail cms_tags %}
+
+<div class="item" id="image-{{instance.parent.pk}}-{{instance.pk}}no{{forloop.counter}}">
+    <div class="dmplugin-textcarrousel-item">
+        <a href="{{ instance.image.url }}" data-title=" " data-description=" " data-lightbox="gallery-dmplugin-textcarrousel-{{instance.parent.pk}}">
+            {% if crop_image %}
+                {% thumbnail instance.image "600x400" crop upscale as thumb %}
+            {% else %}
+                {% thumbnail instance.image "600x600" upscale as thumb %}
+            {% endif %}
+            <img src="{{thumb.url}}" alt="" />
+        </a>
+    </div>
+</div>

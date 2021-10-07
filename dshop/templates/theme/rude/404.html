@@ -1,0 +1,14 @@
+{% extends "theme/rude/pages/default.html" %}
+{% load i18n cms_tags %}
+
+{% block main-content %}
+  <div class="container py-5">
+    <div class="row py-5">
+      <div class="col text-center py-5">
+        <h1>{% trans 'Page not found' %}</h1>
+        <p>{% trans 'This page doesnt exist' %}</p>
+        <p><a href="/">{% trans 'Back to home' %}</a></p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "theme/rude/email/base.html" %}
+{% load static i18n sekizai_tags %}
+
+
+{% block email-title %}{% trans "Thank you for your order at D-Shop" %}{% endblock %}
+
+{% block email-head %}
+  {{ block.super }}
+{% endblock %}
+
+{% block email-body %}
+  {% include "theme/rude/email/order-detail.html" %}
+  {% include "theme/rude/email/customer-information.html" %}
+{% endblock %}

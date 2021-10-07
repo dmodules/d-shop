@@ -1,0 +1,84 @@
+{% load menu_tags dshop_tags %}
+
+{% if child.attr.reverse_id == 'produits' %}
+    {% dm_get_categories_parents as children %}
+{% endif %}
+
+{% if children %}
+    <ul class="dmtop-main-menu-submenu">
+        {% for c in children %}
+            <li>
+                {% if LANGUAGE_CODE == "fr" %}
+                    <a href="{% if c.attr %}{{ c.attr.redirect_url|default:c.get_absolute_url }}{% else %}/{{ LANGUAGE_CODE }}/produits/category/{{c.id}}-{{c.name|slugify}}{% endif %}" class="menu-link{% if c.selected %} selected{% endif %}{% if c.children %} parent{% endif %}">
+                {% else %}
+                    <a href="{% if c.attr %}{{ c.attr.redirect_url|default:c.get_absolute_url }}{% else %}/{{ LANGUAGE_CODE }}/products/category/{{c.id}}-{{c.name|slugify}}{% endif %}" class="menu-link{% if c.selected %} selected{% endif %}{% if c.children %} parent{% endif %}">
+                {% endif %}
+                    {% if c.attr %}
+                        {{c.get_menu_title}}
+                    {% elif c.name %}
+                        {{c.name}}
+                    {% endif %}
+                </a>
+                {% if child.attr.reverse_id == 'produits' %}
+                    {% dm_get_category_by_category c.id as child_categories %}
+                    {% if child_categories %}
+                        <i class="dmtop-main-menu-toggle ion-ios-arrow-right" onclick="dmTopToggleSubmenu($(this))"></i>
+                        <ul class="dmtop-main-menu-submenu sub">
+                            {% for subchild in child_categories %}
+                                {% dm_get_category_by_category subchild.id as subchild_categories %}
+                                <li>
+                                    {% if LANGUAGE_CODE == "fr" %}
+                                        <a href="/{{ LANGUAGE_CODE }}/produits/category/{{subchild.id}}-{{subchild.name|slugify}}" class="menu-link">
+                                    {% else %}
+                                        <a href="/{{ LANGUAGE_CODE }}/products/category/{{subchild.id}}-{{subchild.name|slugify}}" class="menu-link">
+                                    {% endif %}
+                                        {{subchild.name}}
+                                    </a>
+                                    {% if subchild_categories %}
+                                        <i class="dmtop-main-menu-toggle ion-ios-arrow-right" onclick="dmTopToggleSubmenu($(this))"></i>
+                                        <ul class="dmtop-main-menu-submenu sub">
+                                            {% for subsubchild in subchild_categories %}
+                                                <li>
+                                                    {% if LANGUAGE_CODE == "fr" %}
+                                                    <a href="/{{ LANGUAGE_CODE }}/produits/category/{{subsubchild.id}}-{{subsubchild.name|slugify}}" class="menu-link">
+                                                    {% else %}
+                                                    <a href="/{{ LANGUAGE_CODE }}/products/category/{{subsubchild.id}}-{{subsubchild.name|slugify}}" class="menu-link">
+                                                    {% endif %}
+                                                        {{subsubchild.name}}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% elif c.children %}
+                    <i class="dmtop-main-menu-toggle ion-ios-arrow-right" onclick="dmTopToggleSubmenu($(this))"></i>
+                    <ul class="dmtop-main-menu-submenu sub">
+                        {% for subchild in c.children %}
+                            <li>
+                                <a href="{% if subchild.attr %}{{ subchild.attr.redirect_url|default:subchild.get_absolute_url }}{% endif %}" class="menu-link{% if subchild.selected %} selected{% endif %}{% if subchild.children %} parent{% endif %}">
+                                    {{subchild.get_menu_title}}
+                                </a>
+                                {% if subchild.children %}
+                                    <i class="dmtop-main-menu-toggle ion-ios-arrow-right" onclick="dmTopToggleSubmenu($(this))"></i>
+                                    <ul class="dmtop-main-menu-submenu sub">
+                                        {% for subsubchild in subchild.children %}
+                                            <li>
+                                                <a href="{% if subsubchild.attr %}{{ subsubchild.attr.redirect_url|default:subsubchild.get_absolute_url }}{% endif %}" class="menu-link{% if subsubchild.selected %} selected{% endif %}{% if subsubchild.children %} parent{% endif %}">
+                                                    {{subsubchild.get_menu_title}}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

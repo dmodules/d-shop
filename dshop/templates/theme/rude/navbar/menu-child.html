@@ -1,0 +1,29 @@
+{% load menu_tags %}
+
+<a href="#" class="dm-menu-split dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="sr-only">Toggle Dropdown</span>
+</a>
+<div class="dropdown-menu dropdown 1">
+    <ul>
+        {% for child in children %}
+        <li>
+            <a class="dropdown-item nav-link nav_item" href="{{ child.attr.redirect_url|default:child.get_absolute_url }}">{{ child.get_menu_title }}</a>
+            {% if child.children %}
+            <a href="#" class="dm-menu-split dropdown-toggler dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+            </a>
+            <div class="dropdown-menu 2">
+                <ul>
+                    {% for child in child.children %}
+                    <li>
+                        <a class="dropdown-item nav-link nav_item" href="{{ child.attr.redirect_url|default:child.get_absolute_url }}">{{ child.get_menu_title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</div>

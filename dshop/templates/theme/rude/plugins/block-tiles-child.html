@@ -1,0 +1,21 @@
+{% load thumbnail cms_tags %}
+
+<div class="col-12 col-md-{{ perline }} dmplugin-tiles-tile">
+    {% if instance.link %}<a href="{{ instance.link }}"{% if instance.blank %} target="_blank"{% endif %}>{% endif %}
+    <div class="dmplugin-tiles-image">
+        <img src="{% thumbnail instance.image '1024x1024' %}" alt="" />
+    </div>
+    <div class="dmplugin-tiles-content" style="color:{{ instance.text_color }};">
+        <div class="dmplugin-tiles-title">
+            {% if instance.title %}
+                {{ instance.title }}
+            {% endif %}
+        </div>
+        <div class="dmplugin-tiles-link">
+            {% if instance.label %}
+                {{ instance.label }} <i class="fas fa-arrow-right ml-1"></i>
+            {% endif %}
+        </div>
+    </div>
+    {% if instance.link %}</a>{% endif %}
+</div>

@@ -1,0 +1,55 @@
+{% load i18n menu_tags cms_tags dshop_tags dmadvertising_tags %}
+
+{% dm_get_site_contacts as contacts %}
+
+<div id="rude-topbar">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-12 col-md-3 py-2">
+                {% if contacts.address %}
+                    <div class="dmtopbar-info">
+                        <i class="fa fa-map-marker-alt"></i>
+                        <span class="wrap">{{ contacts.address }}</span>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-12 col-md-4 py-2" style="display:none;">
+                {% if contacts.email %}
+                    <div class="dmtopbar-info">
+                        <i class="linearicons-envelope"></i>
+                        <span><a href="mailto:{{contacts.email}}">{{contacts.email}}</a></span>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-12 col-md-4 col-lg-2 text-center py-2" style="display:none;">
+                {% dm_get_site_socials as socials %}
+                <ul class="dmtopbar-socials">
+                    {% for social in socials %}
+                        <li>
+                            <a href="{{social.url}}" target="_blank">
+                                <i class="{% if social.social == 1 %}fab fa-facebook-square{% elif social.social == 2 %}fab fa-instagram{% elif social.social == 3 %}icon-social-youtube{% endif %}" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-12 col-md-4 py-2">
+                {% if contacts.schedule %}
+                    <div class="dmtopbar-info">
+                        <i class="fa fa-clock"></i>
+                        <span class="wrap">{{ contacts.schedule }}</span>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-12 col-md-3"></div>
+            <div class="col-12 col-lg-2 text-right py-2">
+                <div class="dmtopbar-contact">
+                    {% page_url "contact" as page_contact %}
+                    <a href="{% if page_contact %}{{ page_contact }}{% else %}/contact{% endif %}" class="btn btn-fill-out d-block">
+                        <span>{% trans "Contact" %}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

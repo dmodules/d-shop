@@ -1,0 +1,136 @@
+{% extends "dshop/pages/base.html" %}
+{% load static thumbnail cms_tags menu_tags i18n sekizai_tags dshop_tags %}
+
+{% block head %}
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,700,900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Cormorant:100,300,400,500,700,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{% static 'theme/rude/css/style.css' %}" />
+{% endblock head %}
+
+{% block navbar %}
+  {% include "theme/rude/navbar/navbar.html" %}
+{% endblock navbar %}
+
+{% block main-header %}{% endblock main-header %}
+
+{% block main-content %}
+
+  {% block content %}{% endblock content %}
+
+{% endblock main-content %}
+
+{% block main-footer %}
+    <footer class="dmmain-footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-md-4 col-lg-3">
+                    <div class="dmmain-footer-col1">
+                        <div class="dmmain-footer-logo">
+                            <a href="/">
+                                {% dm_get_logos as logos %}
+                                {% if logos %}
+                                    {% thumbnail logos.logodark "270x270" upscale as thumb %}
+                                    <img src="{{thumb.url}}" alt="logo" />
+                                {% else %}
+                                    <img src="{% static 'dshop/img/logo-dshop.png' %}" alt="logo" />
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div class="dmmain-footer-text">
+                            {% static_placeholder "Footer" %}
+                        </div>
+                        <div class="dmmain-footer-socials">
+                            <ul>
+                                {% dm_get_site_socials as socials %}
+                                {% for social in socials %}
+                                    <li>
+                                        <a href="{{social.url}}" target="_blank">
+                                            <i class="{% if social.social == 1 %}fab fa-facebook-square{% elif social.social == 2 %}fab fa-instagram{% elif social.social == 3 %}ion-social-youtube{% endif %}"></i>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 col-lg-3">
+                    <div class="dmmain-footer-col2">
+                        <div class="dmmain-footer-links">
+                            <h6>{% trans "Useful Links" %}</h6>
+                            {% show_menu 0 0 100 0 %}
+                        </div>
+                    </div>
+                </div>
+                {% dm_get_categories_parents as categories %}
+                {% if categories.count > 0 %}
+                    <div class="col-12 col-md-4 col-lg-3">
+                        <div class="dmmain-footer-col2">
+                            <div class="dmmain-footer-links">
+                                <h6>{% trans "Categories" %}</h6>
+                                <ul>
+                                    {% for category in categories %}
+                                        <li><a href="/produits/{{category.id}}-{{category.name|slugify}}">{{category.name}}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% dm_get_site_contacts as contacts %}
+                {% if contacts.address or contacts.email or contacts.phone %}
+                    <div class="col-12 col-md-12 col-lg-3">
+                        <div class="dmmain-footer-col2">
+                            <div class="dmmain-footer-contact">
+                                <h6>{% trans "Contact" %}</h6>
+                                <ul>
+                                    {% if contacts.address %}
+                                        <li>
+                                            <i class="ti-location-pin"></i>
+                                            <p>{{contacts.address}}</p>
+                                        </li>
+                                    {% endif %}
+                                    {% if contacts.email %}
+                                        <li>
+                                            <i class="ti-email"></i>
+                                            <p>
+                                                <a href="mailto:{{contacts.email}}">{{contacts.email}}</a>
+                                            </p>
+                                        </li>
+                                    {% endif %}
+                                    {% if contacts.phone or contacts.phone_secondary %}
+                                        <li>
+                                            <i class="ti-mobile"></i>
+                                            <p><a href="tel:{{contacts.phone|phone_canadian}}">{{contacts.phone}}</a>{% if contacts.phone_secondary %}<br /><a href="tel:{{contacts.phone_secondary|phone_canadian}}">{{contacts.phone_secondary}}</a>{% endif %}</p>
+                                        </li>
+                                    {% endif %}
+                                    {% if contacts.schedule %}
+                                        <li>
+                                            <i class="ti-alarm-clock"></i>
+                                            {{contacts.schedule|linebreaks}}
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <hr class="dmmain-footer-divider" />
+                    <ul class="dmmain-footer-cards">
+                        <li><img src="{% static 'dshop/img/visa.png' %}" alt="visa" /></li>
+                        <li><img src="{% static 'dshop/img/master_card.png' %}" alt="master_card" /></li>
+                    </ul>
+                </div>
+                <div class="col-12 text-center">
+                    <p class="dmmain-footer-copyright">&copy; 2021 {% get_setting 'CLIENT_TITLE' %}. {% trans "All rights reserved" %}. {% trans "Site created by" %} <a href="https://www.d-modules.com" target="_blank">D-Modules</a>.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock main-footer %}
+
+{% block foot %}
+    <script src="{% static 'theme/rude/js/scripts.js' %}"></script>
+{% endblock foot %}

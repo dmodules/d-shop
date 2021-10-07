@@ -1,0 +1,24 @@
+{% load static thumbnail cms_tags i18n %}
+
+<!-- Plugin: text2column -->
+<section class="dmplugin-text2column about-section section-textmedia{% if instance.hide_paddingtop or instance.hide_paddingbot %}{% if instance.hide_paddingtop and instance.hide_paddingbot %} py-0{% elif instance.hide_paddingtop %} mt-0 pt-0 pb-5{% elif instance.hide_paddingbot %} mb-0 pb-0 pt-5{% endif %}{% else %} py-5{% endif %}">
+    <div class="container">
+        <div class="row">
+            {% if instance.text_left %}
+                <div class="{% if instance.text_right %}col-xl-6 col-lg-6 col-md-12{% else %}col-12{% endif %} mb-md-75 mb-sm-50 wow fadeInLeft animated{% if instance.text_align %} align-self-center{% endif %}">
+                    <div class="dmplugin-text2column-text mt50">
+                        {{instance.text_left}}
+                    </div>
+                </div>
+            {% endif %}
+            {% if instance.text_right %}
+                <div class="{% if instance.text_left %}col-xl-6 col-lg-6 col-md-12{% else %}col-12{% endif %} mb-md-75 mb-sm-50 wow fadeInLeft animated{% if instance.text_align %} align-self-center{% endif %}">
+                    <div class="dmplugin-text2column-text mt50">
+                        {{instance.text_right}}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+<!-- Plugin: text2column -->

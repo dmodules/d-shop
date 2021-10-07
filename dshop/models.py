@@ -1856,6 +1856,13 @@ class dmBlocTextMedia(CMSPlugin):
         blank=True,
         help_text=_("Leave blank to hide or use image instead.")
     )
+    video_youtube = models.CharField(
+        verbose_name=_("Youtube Video ID"),
+        max_length=1000,
+        null=True,
+        blank=True,
+        help_text=_("Use only ID (example: '2Vv-BfVoq4g' for 'https://www.youtube.com/watch?v=2Vv-BfVoq4g'). Leave blank to hide or use image instead.")
+    )
     text_align = models.BooleanField(
         verbose_name=_("Align text and media vertically?"),
         default=True
@@ -2285,11 +2292,29 @@ class dmBlocEtapesParent(CMSPlugin):
         blank=True,
         help_text=_("Maximum 255 characters.")
     )
-    subtitle = HTMLField(
+    text = HTMLField(
         verbose_name=_("Text"),
         configuration="CKEDITOR_SETTINGS_DMPLUGIN",
         null=True,
         blank=True
+    )
+    text_color = ColorField(
+        verbose_name=_("Default text's Colour"),
+        null=True,
+        blank=True
+    )
+    bg_color = ColorField(
+        verbose_name=_("Background's Colour"),
+        null=True,
+        blank=True
+    )
+    bg_image = image.FilerImageField(
+        verbose_name=_("Background's Image"),
+        on_delete=models.SET_NULL,
+        related_name="dmplugin_etapesparent_bgimage",
+        null=True,
+        blank=True,
+        help_text=_("Facultative. Size: 2000x900.")
     )
 
 

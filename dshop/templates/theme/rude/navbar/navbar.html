@@ -1,0 +1,13 @@
+{% load static i18n thumbnail menu_tags dshop_tags dmadvertising_tags %}
+
+{% spaceless %}
+    <div class="dmtop-sticky-holder"></div>
+    <div class="dmtop-navbar{% if current_page.is_home %} dmtop-homepage{% endif %}">
+        {% block topbar %}
+            {% include 'theme/rude/navbar/topbar.html' %}
+        {% endblock topbar %}
+        {% block tophead %}
+            {% include 'theme/rude/navbar/tophead.html' %}
+        {% endblock tophead %}
+    </div>
+{% endspaceless %}
